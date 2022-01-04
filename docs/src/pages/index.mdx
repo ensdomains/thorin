@@ -1,0 +1,61 @@
+import { Header, Link } from '~/components'
+
+import * as styles from '../styles/utils.css'
+
+<Header
+  description={
+    <>
+      Design system for{' '}
+      <Link className={styles.link} href="https://mirror.xyz">
+        Mirror.xyz
+      </Link>{' '}
+      built with{' '}
+      <Link className={styles.link} href="https://reactjs.org/">
+        React
+      </Link>{' '}
+      and{' '}
+      <Link className={styles.link} href="https://vanilla-extract.style/">
+        vanilla-extract
+      </Link>
+      .
+    </>
+  }
+  title="Mirror Design System"
+/>
+
+## Install
+
+```bash
+yarn add degen
+```
+
+## Set Up
+
+Wrap the root of your app in a [`ThemeProvider`](/components/ThemeProvider), import the external stylesheet, and add [Inter](https://rsms.me/inter/) and [iA Writer Mono](https://github.com/iaolo/iA-Fonts/tree/master/iA%20Writer%20Mono) to your font stack. (Tip: Both fonts are available on [Fontsource](https://fontsource.org).)
+
+```tsx
+import { ThemeProvider } from 'degen'
+import 'degen/styles'
+
+const App = () => {
+  return <ThemeProvider>{children}</ThemeProvider>
+}
+```
+
+## Use Components
+
+```tsx
+import { Button, IconLockClosed, Stack } from 'degen'
+```
+
+```tsx live=true expand=true
+<Stack align="center">
+  <Button
+    prefix={<IconLockClosed />}
+    variant="primary"
+    width={{ xs: 'full', md: 'max' }}
+  >
+    Connect Wallet
+  </Button>
+</Stack>
+```

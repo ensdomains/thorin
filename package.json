@@ -1,0 +1,67 @@
+{
+  "name": "mirror",
+  "private": true,
+  "license": "MIT",
+  "workspaces": [
+    "components",
+    "docs",
+    "playroom"
+  ],
+  "scripts": {
+    "build": "yarn setup && yarn workspaces foreach -pi run build",
+    "build:components": "yarn setup && yarn workspace degen build",
+    "clean": "yarn workspaces foreach -p run clean",
+    "dev": "yarn setup && yarn workspaces foreach -pi run dev",
+    "gen:icons": "yarn node scripts/generateIcons.js",
+    "gen:component": "yarn node scripts/generateComponent.js",
+    "lint": "yarn setup && eslint . --cache",
+    "lint:fix": "yarn lint --fix",
+    "lint:format": "prettier --write .",
+    "lint:types": "yarn setup && yarn workspaces foreach -p run lint:types",
+    "postinstall": "husky install",
+    "prepublish": "yarn clean && yarn build:components",
+    "setup": "yarn gen:icons",
+    "size": "yarn build:components && yarn size-limit",
+    "test": "yarn setup && yarn workspaces foreach -p run test"
+  },
+  "lint-staged": {
+    "*.{js,mdx,ts,tsx}": [
+      "yarn lint:fix"
+    ],
+    "*.{json,md,yml}": [
+      "yarn lint:format"
+    ]
+  },
+  "devDependencies": {
+    "@size-limit/preset-big-lib": "^6.0.3",
+    "@svgr/babel-plugin-remove-jsx-attribute": "^6.0.0",
+    "@svgr/cli": "^5.5.0",
+    "@svgr/core": "^5.5.0",
+    "@types/dedent": "^0.7.0",
+    "@types/fs-extra": "^9.0.13",
+    "@types/glob": "^7.2.0",
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
+    "@typescript-eslint/parser": "^4.33.0",
+    "change-case": "^4.1.2",
+    "dedent": "^0.7.0",
+    "eslint": "^7.32.0",
+    "eslint-config-next": "12.0.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-import-resolver-typescript": "^2.5.0",
+    "eslint-plugin-eslint-comments": "^3.2.0",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-jest": "^24.5.2",
+    "eslint-plugin-mdx": "^1.15.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.26.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "fs-extra": "^10.0.0",
+    "glob": "^7.2.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^11.2.6",
+    "prettier": "^2.4.1",
+    "prompt": "^1.2.0",
+    "size-limit": "^6.0.3",
+    "typescript": "4.4.4"
+  }
+}

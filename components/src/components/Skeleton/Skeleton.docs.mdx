@@ -1,0 +1,47 @@
+---
+title: Skeleton
+description: Loading placeholder
+---
+
+```tsx
+import { Skeleton } from 'degen'
+```
+
+```tsx expand=true live=true
+<Skeleton loading>Hello World</Skeleton>
+```
+
+## Props
+
+<PropsTable sourceLink={sourceLink} types={types} />
+
+## Wrap content
+
+Can wrap content and the container will automatically resize. Check out [`SkeletonGroup`](/components/SkeletonGroup) if you want to manage multiple skeletons with a single `loading` prop.
+
+```tsx live=true
+<Stack>
+  <Skeleton loading={getState('loading')}>
+    <Heading level="1">Foo Bar Baz</Heading>
+  </Skeleton>
+  <Skeleton loading={getState('loading')}>
+    <Text>The quick brown fox jumped over the lazy dogs.</Text>
+  </Skeleton>
+
+  <Button size="small" onClick={() => toggleState('loading')}>
+    Toggle Skeletons
+  </Button>
+</Stack>
+```
+
+## Custom
+
+```tsx live=true
+<Skeleton
+  backgroundColor="accentSecondary"
+  height="16"
+  loading
+  radius="extraLarge"
+  width="16"
+/>
+```

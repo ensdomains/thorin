@@ -1,0 +1,81 @@
+---
+title: Text
+description: Primitive typographic component
+---
+
+```tsx
+import { Text } from 'degen'
+```
+
+```tsx expand=true live=true
+<Text>Hello World</Text>
+```
+
+## Props
+
+<PropsTable sourceLink={sourceLink} types={types} />
+
+## Variants
+
+```tsx live=true
+<Stack>
+  <Text variant="extraLarge">Extra Large</Text>
+  <Text variant="large">Large</Text>
+  <Text variant="base">Base</Text>
+  <Text variant="small">Small</Text>
+  <Text variant="label">Label</Text>
+</Stack>
+```
+
+## Weights
+
+```tsx live=true
+<Stack>
+  <Text weight="bold">Bold (650)</Text>
+  <Text weight="semiBold">Semi Bold (550)</Text>
+  <Text weight="medium">Medium (500)</Text>
+  <Text weight="normal">Normal (400)</Text>
+  <Text weight="light">Light (300)</Text>
+</Stack>
+```
+
+## Fonts
+
+```tsx live=true
+<Stack>
+  <Text font="sans">Sans</Text>
+  <Text font="mono">Mono</Text>
+</Stack>
+```
+
+## Align
+
+```tsx live=true
+<Stack>
+  <Text align="left">Left</Text>
+  <Text align="center">Center</Text>
+  <Text align="right">Right</Text>
+</Stack>
+```
+
+## Color
+
+```tsx live=true
+<Stack>
+  <Text color="foreground">Foreground</Text>
+  <Text color="text">Text</Text>
+  <Text color="textSecondary">Text Secondary</Text>
+  <Text color="textTertiary">Text Tertiary</Text>
+  <Text color="accent">Accent</Text>
+  <Text color="red">Red</Text>
+  <Text color="green">Green</Text>
+</Stack>
+```
+
+## Ellipsis
+
+```tsx live=true
+<Box width="64">
+  <Text ellipsis>The quick brown fox jumped over the lazy dogs.</Text>
+</Box>
+```

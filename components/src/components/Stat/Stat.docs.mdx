@@ -1,0 +1,48 @@
+---
+title: Stat
+description: Display a label, value, and sub-value
+---
+
+```tsx
+import { Stat } from 'degen'
+```
+
+```tsx live=true expand=true
+<Stat
+  label="Current time"
+  meta={Intl.DateTimeFormat().resolvedOptions().timeZone}
+  value={new Date().toLocaleTimeString([], {
+    hour: '2-digit',
+    minute: '2-digit',
+  })}
+/>
+```
+
+## Props
+
+<PropsTable sourceLink={sourceLink} types={types} />
+
+## Sizes
+
+```tsx live=true expand=true
+<Stack>
+  <Stat
+    label="Current time"
+    meta={Intl.DateTimeFormat().resolvedOptions().timeZone}
+    size="medium"
+    value={new Date().toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit',
+    })}
+  />
+  <Stat
+    label="Current time"
+    meta={Intl.DateTimeFormat().resolvedOptions().timeZone}
+    size="small"
+    value={new Date().toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit',
+    })}
+  />
+</Stack>
+```

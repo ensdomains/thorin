@@ -1,0 +1,37 @@
+---
+title: SkeletonGroup
+description: Manages loading state for multiple skeletons
+---
+
+```tsx
+import { SkeletonGroup } from 'degen'
+```
+
+```tsx expand=true live=true
+<SkeletonGroup loading>
+  <Skeleton>Hello World</Skeleton>
+</SkeletonGroup>
+```
+
+## Props
+
+<PropsTable sourceLink={sourceLink} types={types} />
+
+## Wrap content
+
+```tsx live=true
+<SkeletonGroup loading={getState('loading')}>
+  <Stack>
+    <Skeleton>
+      <Heading level="1">Foo Bar Baz</Heading>
+    </Skeleton>
+    <Skeleton>
+      <Text>The quick brown fox jumped over the lazy dogs.</Text>
+    </Skeleton>
+
+    <Button size="small" onClick={() => toggleState('loading')}>
+      Toggle Skeletons
+    </Button>
+  </Stack>
+</SkeletonGroup>
+```

@@ -1,0 +1,49 @@
+---
+title: Tag
+description: Indicator with optional label.
+---
+
+```tsx
+import { Tag } from 'degen'
+```
+
+```tsx live=true expand=true
+<Tag>100 $WRITE</Tag>
+```
+
+## Props
+
+<PropsTable sourceLink={sourceLink} types={types} />
+
+## Sizes
+
+```tsx live=true
+<Stack align="center" direction="horizontal">
+  <Tag size="medium">Medium</Tag>
+  <Tag size="small">Small</Tag>
+</Stack>
+```
+
+## Tones
+
+```tsx live=true
+<Stack direction="horizontal" wrap>
+  <Tag tone="accent">Accent</Tag>
+  <Tag tone="secondary">Secondary</Tag>
+  <Tag tone="blue">Blue</Tag>
+  <Tag tone="green">Green</Tag>
+  <Tag tone="red">Red</Tag>
+</Stack>
+```
+
+## Label
+
+```tsx live=true
+<Tag label="Sold Out">100/100</Tag>
+```
+
+## Hover
+
+```tsx live=true
+<Tag hover>Hover Me</Tag>
+```
