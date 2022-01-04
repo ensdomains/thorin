@@ -26,7 +26,7 @@ const Layout: NextLayout<Props> = ({ children, meta }) => {
     <>
       <Head>
         <title>
-          {meta?.title ? `${meta.title} — Mirror Design` : 'Mirror Design'}
+          {meta?.title ? `${meta.title} — ENS Design` : 'ENS Design'}
         </title>
         <meta
           content={
