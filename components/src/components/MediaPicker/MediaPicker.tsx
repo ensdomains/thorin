@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import { Box, BoxProps } from '../Box'
-import { Button } from '../Button'
+import { Button } from '../atoms/Button'
 import { FileInput, FileInputProps } from '../FileInput'
 import { Spinner } from '../Spinner'
 import { Tag } from '../Tag'

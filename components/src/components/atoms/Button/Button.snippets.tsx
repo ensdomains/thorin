@@ -5,7 +5,7 @@ import { Button } from './Button'
 
 export const snippets: Snippet[] = [
   {
-    name: 'Basic',
+    name: 'Atoms',
     code: <Button>Button</Button>,
   },
 ]

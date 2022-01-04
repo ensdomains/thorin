@@ -1,9 +1,9 @@
 import * as React from 'react'
 
-import { ReactNodeNoStrings } from '../../types'
-import { Box, BoxProps } from '../Box'
-import { Spinner } from '../Spinner'
-import { Text } from '../Text'
+import { ReactNodeNoStrings } from '../../../types'
+import { Box, BoxProps } from '../../Box'
+import { Spinner } from '../../Spinner'
+import { Text } from '../../Text'
 import { getCenterProps } from './utils'
 import * as styles from './styles.css'
 

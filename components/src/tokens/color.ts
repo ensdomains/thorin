@@ -10,29 +10,43 @@ export type Accent =
   | 'red'
   | 'teal'
   | 'yellow'
+  | 'grey'
+
+export type Gradients = 'blue'
 
 const accents: { [key in Mode]: { [key in Accent]: string } } = {
   light: {
-    blue: '0, 122, 255',
-    green: '52, 199, 89',
+    blue: '82, 152, 255',
+    green: '73, 179, 147',
     indigo: '88, 84, 214',
     orange: '255, 149, 0',
     pink: '255, 45, 85',
     purple: '175, 82, 222',
-    red: '255, 59, 48',
+    red: '213, 85, 85',
     teal: '90, 200, 250',
     yellow: '255, 204, 0',
+    grey: '228, 231, 235',
   },
   dark: {
-    blue: '10, 132, 255',
-    green: '48, 209, 88',
+    blue: '82, 152, 255',
+    green: '73, 179, 147',
     indigo: '94, 92, 230',
     orange: '255, 159, 10',
     pink: '255, 55, 95',
     purple: '191, 90, 242',
-    red: '255, 69, 58',
+    red: '213, 85, 85',
     teal: '100, 210, 255',
     yellow: '255, 214, 10',
+    grey: '228, 231, 235',
+  },
+}
+
+const gradients: { [key in Mode]: { [key in Gradients]: string } } = {
+  light: {
+    blue: 'linear-gradient(330.4deg, #44BCF0 4.54%, #7298F8 59.2%, #A099FF 148.85%)',
+  },
+  dark: {
+    blue: 'linear-gradient(330.4deg, #44BCF0 4.54%, #7298F8 59.2%, #A099FF 148.85%)',
   },
 }
 
@@ -45,12 +59,13 @@ export const colors = {
     transparent: 'transparent',
   },
   light: {
-    background: '255, 255, 255',
+    background: '246, 246, 246',
     backgroundSecondary: '247, 247, 247',
     backgroundTertiary: '247, 247, 247',
     foreground: '0, 0, 0',
     groupBackground: '255, 255, 255',
     groupBorder: '0, 0, 0',
+    gradients: gradients.light,
     ...accents.light,
   },
   dark: {
@@ -60,6 +75,7 @@ export const colors = {
     foreground: '255, 255, 255',
     groupBackground: '10, 10, 10',
     groupBorder: '255, 255, 255',
+    gradients: gradients.dark,
     ...accents.dark,
   },
 }
@@ -69,7 +85,7 @@ export const shades = {
     accent: '0.7',
     accentSecondary: '0.15',
     accentSecondaryHover: '0.2',
-    foregroundSecondary: '0.075',
+    foregroundSecondary: '0.04',
     foregroundSecondaryHover: '0.125',
     foregroundTertiary: '0.033',
     groupBorder: '0.075',

@@ -1,13 +1,13 @@
 export const fonts = {
   mono: `"iAWriter Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace`,
-  sans: `"Inter var", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"`,
+  sans: `"JakartaSans", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif`,
 }
 
 export const fontSizes = {
   headingOne: '3rem',
   headingTwo: '1.875rem',
   extraLarge: '1.3125rem',
-  large: '1.1875rem',
+  large: '1.125rem',
   small: '0.9375rem',
   label: '0.8125rem',
   base: '1.0625rem',

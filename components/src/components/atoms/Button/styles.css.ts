@@ -1,8 +1,8 @@
-import { createVar, style } from '@vanilla-extract/css'
+import { style } from '@vanilla-extract/css'
 import { CSSVarFunction } from '@vanilla-extract/private'
 import { RecipeVariants, recipe } from '@vanilla-extract/recipes'
 
-import { atoms, rgb, vars } from '../../css'
+import { atoms, rgb, vars } from '../../../css'
 
 const shape = {
   circle: atoms({
@@ -21,10 +21,10 @@ const size = {
     paddingX: '4',
   }),
   medium: atoms({
-    borderRadius: '2xLarge',
-    fontSize: 'base',
-    height: '14',
-    paddingX: '5',
+    borderRadius: 'extraLarge',
+    fontSize: 'large',
+    paddingY: '3.5',
+    paddingX: '4',
   }),
 }
 
@@ -58,72 +58,35 @@ const tone = {
 
 export type Tone = keyof typeof tone
 
-const boxShadowColorVar = createVar()
-
 const variant = {
   primary: style([
     atoms({
       color: 'accentText',
       backgroundColor: 'accent',
     }),
-    style({
-      vars: {
-        [boxShadowColorVar]: vars.colors.accent,
-      },
-    }),
   ]),
   secondary: style([
     atoms({
-      color: 'accent',
-      backgroundColor: {
-        base: 'accentSecondary',
-        hover: 'accentSecondaryHover',
-        active: 'accentSecondaryHover',
-      },
-    }),
-    style({
-      vars: {
-        [boxShadowColorVar]: vars.colors.accentSecondary,
-      },
-      selectors: {
-        '&:hover': {
-          vars: {
-            [boxShadowColorVar]: vars.colors.accentSecondaryHover,
-          },
-        },
-        '&:active': {
-          vars: {
-            [boxShadowColorVar]: vars.colors.accentSecondaryHover,
-          },
-        },
-      },
+      color: 'text',
+      backgroundColor: 'accentSecondary',
     }),
   ]),
-  tertiary: style([
+  action: style([
     atoms({
-      color: 'text',
-      backgroundColor: {
-        base: 'foregroundSecondary',
-        hover: 'foregroundSecondaryHover',
-        active: 'foregroundSecondaryHover',
-      },
+      color: 'accentText',
+      background: 'accentGradient',
     }),
-    style({
-      vars: {
-        [boxShadowColorVar]: vars.colors.foregroundSecondary,
-      },
-      selectors: {
-        '&:hover': {
-          vars: {
-            [boxShadowColorVar]: vars.colors.foregroundSecondaryHover,
-          },
-        },
-        '&:active': {
-          vars: {
-            [boxShadowColorVar]: vars.colors.foregroundSecondaryHover,
-          },
-        },
-      },
+  ]),
+  success: style([
+    atoms({
+      color: 'accentText',
+      backgroundColor: 'accentSuccess',
+    }),
+  ]),
+  danger: style([
+    atoms({
+      color: 'accentText',
+      backgroundColor: 'accentDanger',
     }),
   ]),
   transparent: style([
@@ -132,23 +95,6 @@ const variant = {
       backgroundColor: {
         hover: 'foregroundTertiary',
         active: 'foregroundTertiary',
-      },
-    }),
-    style({
-      vars: {
-        [boxShadowColorVar]: vars.colors.transparent,
-      },
-      selectors: {
-        '&:hover': {
-          vars: {
-            [boxShadowColorVar]: vars.colors.foregroundTertiary,
-          },
-        },
-        '&:active': {
-          vars: {
-            [boxShadowColorVar]: vars.colors.foregroundTertiary,
-          },
-        },
       },
     }),
   ]),
@@ -186,20 +132,23 @@ export const variants = recipe({
       gap: '4',
       justifyContent: 'center',
       transitionDuration: '150',
-      transitionProperty: 'default',
+      transitionProperty: 'all',
       transitionTimingFunction: 'inOut',
     }),
     style({
-      boxShadow: `${vars.shadows['0']} ${boxShadowColorVar}`,
+      letterSpacing: '-0.01em',
+      boxShadow: `${vars.shadows['0.25']} ${vars.colors.black}`,
       selectors: {
         '&:hover': {
-          boxShadow: `${vars.shadows['1']} ${boxShadowColorVar}`,
+          transform: 'translateY(-1px)',
+          filter: 'brightness(1.05)',
         },
         '&:active': {
-          boxShadow: `${vars.shadows['0.5']} ${boxShadowColorVar}`,
+          transform: 'translateY(0px)',
+          filter: 'brightness(1)',
         },
         '&:disabled': {
-          backgroundColor: vars.colors.foregroundSecondary,
+          backgroundColor: vars.colors.accentSecondary,
           color: vars.colors.textTertiary,
           boxShadow: 'none',
         },

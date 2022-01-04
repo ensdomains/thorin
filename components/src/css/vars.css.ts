@@ -47,14 +47,20 @@ const makeColorScheme = (mode: Mode = 'light') => {
       red: rgb(colors.red),
       teal: rgb(colors.teal),
       yellow: rgb(colors.yellow),
+      grey: rgb(colors.grey),
     },
+    gradients: colors.gradients,
     mode: {
       colors: {
         ...colors,
         accent: colors.blue,
         accentText: colors.foreground,
+        accentSuccess: colors.green,
+        accentDanger: colors.red,
+        accentSecondary: colors.grey,
       },
       shades,
+      gradients: { ...colors.gradients, accent: colors.gradients.blue },
     },
   }
 }
@@ -69,7 +75,10 @@ const accentTokens = {
   colors: {
     accent: rgb(mode.colors.accent),
     accentText: rgb(mode.colors.accentText),
-    accentSecondary: rgb(mode.colors.accent, mode.shades.accentSecondary),
+    accentGradient: mode.gradients.accent,
+    accentSuccess: rgb(mode.colors.accentSuccess),
+    accentDanger: rgb(mode.colors.accentDanger),
+    accentSecondary: rgb(mode.colors.accentSecondary),
     accentSecondaryHover: rgb(
       mode.colors.accent,
       mode.shades.accentSecondaryHover,
