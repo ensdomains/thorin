@@ -1,7 +1,13 @@
 import * as React from 'react'
 
-import { Box, IconSearch, Input, Stack, Text } from 'degen/components'
-import * as Components from 'degen/components'
+import {
+  Box,
+  IconSearch,
+  Input,
+  Stack,
+  Text,
+} from '@ensdomains/thorin/components'
+import * as Components from '@ensdomains/thorin/components'
 
 import { Link } from '~/components'
 

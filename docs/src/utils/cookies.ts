@@ -1,6 +1,6 @@
 import { parseCookies, setCookie } from 'nookies'
 
-import { Accent, Mode } from 'degen/tokens'
+import { Accent, Mode } from '@ensdomains/thorin/tokens'
 
 export const accentKey = 'accent'
 export const modeKey = 'mode'

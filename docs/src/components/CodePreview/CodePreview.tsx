@@ -5,9 +5,15 @@ import { LiveEditor, LiveError, LivePreview, LiveProvider } from 'react-live'
 import { mdx } from '@mdx-js/react'
 import { PrismTheme } from 'prism-react-renderer'
 
-import * as Components from 'degen/components'
-import { Box, Button, Stack, Text, useTheme } from 'degen/components'
-import { vars } from 'degen/css'
+import * as Components from '@ensdomains/thorin/components'
+import {
+  Box,
+  Button,
+  Stack,
+  Text,
+  useTheme,
+} from '@ensdomains/thorin/components'
+import { vars } from '@ensdomains/thorin/css'
 
 import { createPlayroomLink } from '~/utils/playroom'
 import { usePlayroomStore } from '../../../../playroom/src/PlayroomState'

@@ -6,6 +6,7 @@ on:
 
 jobs:
   publish:
+    if: ${{ false }}
     name: Publish
     runs-on: ubuntu-latest
     strategy:
@@ -38,7 +39,7 @@ jobs:
       - name: Publish
         run: |
           yarn config set npmAuthToken ${{ secrets.NPM_TOKEN }}
-          yarn workspace degen run publish
+          yarn workspace @ensdomains/thorin run publish
       - name: Push changes
         run: git push
         env:

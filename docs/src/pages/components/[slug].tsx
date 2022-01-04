@@ -10,7 +10,7 @@ import { serialize } from 'next-mdx-remote/serialize'
 import matter from 'gray-matter'
 import { PropItem } from 'react-docgen-typescript'
 
-import { Box, Text } from 'degen/components'
+import { Box, Text } from '@ensdomains/thorin/components'
 
 import { Props as LayoutProps, getLayout } from '~/layouts/docs'
 import { getComponentName, getComponentPaths } from '~/utils/fs'
@@ -50,9 +50,9 @@ export const getStaticProps: GetStaticProps<StaticProps> = async (context) => {
   const componentPathname = pathname.replace('docs.mdx', 'tsx')
   const staticTypes = getStaticTypes(componentPathname)[slug] ?? null
 
-  const docsLink = createGitHubLink(pathname.replace(/^\/.*degen/i, ''))
+  const docsLink = createGitHubLink(pathname.replace(/^\/.*thorin/i, ''))
   const sourceLink = createGitHubLink(
-    componentPathname.replace(/^\/.*degen/i, ''),
+    componentPathname.replace(/^\/.*thorin/i, ''),
   )
 
   return {

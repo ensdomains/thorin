@@ -2,7 +2,7 @@ import { useRouter } from 'next/dist/client/router'
 import * as React from 'react'
 import NextImage from 'next/image'
 
-import { Box, Button, Stack, Text } from 'degen/components'
+import { Box, Button, Stack, Text } from '@ensdomains/thorin/components'
 
 import { createGitHubLink } from '~/utils/github'
 import { createPlayroomLink } from '~/utils/playroom'

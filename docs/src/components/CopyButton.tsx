@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { default as copy } from 'copy-to-clipboard'
 
-import { Button, IconCheck, IconDuplicate } from 'degen/components'
+import { Button, IconCheck, IconDuplicate } from '@ensdomains/thorin/components'
 
 type Props = {
   content: string

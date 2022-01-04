@@ -9,7 +9,7 @@ import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { serialize } from 'next-mdx-remote/serialize'
 import matter from 'gray-matter'
 
-import { Box, Text } from 'degen/components'
+import { Box, Text } from '@ensdomains/thorin/components'
 
 import { Props as LayoutProps, getLayout } from '~/layouts/docs'
 import { getGuideName, getGuidePaths } from '~/utils/fs'
@@ -43,7 +43,7 @@ export const getStaticProps: GetStaticProps<StaticProps> = async (context) => {
     scope: data,
   })
 
-  const docsLink = createGitHubLink(pathname.replace(/^\/.*degen/i, ''))
+  const docsLink = createGitHubLink(pathname.replace(/^\/.*thorin/i, ''))
 
   return {
     props: {

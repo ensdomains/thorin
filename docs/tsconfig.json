@@ -6,7 +6,7 @@
     "jsx": "preserve",
     "paths": {
       "~/*": ["./src/*"],
-      "degen/*": ["../components/src/*"]
+      "@ensdomains/thorin/*": ["../components/src/*"]
     },
     "target": "es5",
     "incremental": true

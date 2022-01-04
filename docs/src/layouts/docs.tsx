@@ -2,7 +2,7 @@ import * as React from 'react'
 import { GetLayout, NextLayout } from 'next'
 import Head from 'next/head'
 
-import { Box } from 'degen/components'
+import { Box } from '@ensdomains/thorin/components'
 
 import {
   Header,

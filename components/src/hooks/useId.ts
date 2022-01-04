@@ -3,7 +3,7 @@ import * as React from 'react'
 import { useIsoMorphicEffect } from './useIsoMorphicEffect'
 import { useServerHandoffComplete } from './useServerHandoffComplete'
 
-const idPrefix = 'degen'
+const idPrefix = 'thorin'
 
 let id = 0
 function generateId() {

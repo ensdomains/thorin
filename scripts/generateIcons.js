@@ -143,7 +143,7 @@ const iconComponentsDir = path.join(
           ---
 
           \`\`\`tsx
-          import { ${svgName} } from 'degen'
+          import { ${svgName} } from '@ensdomains/thorin'
           \`\`\`
 
           \`\`\`tsx live=true expand=true

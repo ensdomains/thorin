@@ -1,7 +1,7 @@
 {
-  "name": "degen",
-  "version": "0.0.49",
-  "description": "Design system for Mirror.xyz",
+  "name": "@ensdomains/thorin",
+  "version": "0.1.0",
+  "description": "A web3 native design system",
   "main": "./dist/index.cjs.js",
   "module": "./dist/index.es.js",
   "types": "./dist/types/index.d.ts",
@@ -23,7 +23,7 @@
   "files": [
     "dist/**"
   ],
-  "repository": "mirror-xyz/degen",
+  "repository": "ensdomains/thorin",
   "license": "MIT",
   "scripts": {
     "build": "vite build",

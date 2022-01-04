@@ -1,5 +1,5 @@
-import { useTheme } from 'degen/components'
-import { vars } from 'degen/css'
+import { useTheme } from '@ensdomains/thorin/components'
+import { vars } from '@ensdomains/thorin/css'
 
 import { usePlayroomStore } from './PlayroomState'
 

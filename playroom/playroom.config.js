@@ -58,7 +58,7 @@ module.exports = {
     },
     resolve: {
       alias: {
-        degen: path.resolve(__dirname, '../components/src'),
+        '@ensdomains/thorin': path.resolve(__dirname, '../components/src'),
       },
       extensions: ['.js', '.ts', '.tsx'],
     },

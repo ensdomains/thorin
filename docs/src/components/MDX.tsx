@@ -1,7 +1,7 @@
 import { MDXProviderProps } from '@mdx-js/react'
 import slugify from '@sindresorhus/slugify'
 
-import { Box, Heading, Text } from 'degen/components'
+import { Box, Heading, Text } from '@ensdomains/thorin/components'
 
 import * as styles from '~/styles/utils.css'
 import { CodeBlock } from './CodeBlock'

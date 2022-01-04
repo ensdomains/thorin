@@ -26,7 +26,7 @@ import * as styles from '../styles/utils.css'
 ## Install
 
 ```bash
-yarn add degen
+yarn add @ensdomains/thorin
 ```
 
 ## Set Up
@@ -34,8 +34,8 @@ yarn add degen
 Wrap the root of your app in a [`ThemeProvider`](/components/ThemeProvider), import the external stylesheet, and add [Inter](https://rsms.me/inter/) and [iA Writer Mono](https://github.com/iaolo/iA-Fonts/tree/master/iA%20Writer%20Mono) to your font stack. (Tip: Both fonts are available on [Fontsource](https://fontsource.org).)
 
 ```tsx
-import { ThemeProvider } from 'degen'
-import 'degen/styles'
+import { ThemeProvider } from '@ensdomains/thorin'
+import '@ensdomains/thorin/styles'
 
 const App = () => {
   return <ThemeProvider>{children}</ThemeProvider>
@@ -45,7 +45,7 @@ const App = () => {
 ## Use Components
 
 ```tsx
-import { Button, IconLockClosed, Stack } from 'degen'
+import { Button, IconLockClosed, Stack } from '@ensdomains/thorin'
 ```
 
 ```tsx live=true expand=true

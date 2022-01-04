@@ -3,7 +3,7 @@ import { AppProps } from 'next'
 import { MDXProvider } from '@mdx-js/react'
 import Head from 'next/head'
 
-import { ThemeProvider } from 'degen/components'
+import { ThemeProvider } from '@ensdomains/thorin/components'
 
 import { MDX } from '~/components'
 import { getLayout as getDocsLayout } from '~/layouts/docs'

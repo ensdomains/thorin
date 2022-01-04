@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { Accent } from 'degen/tokens'
+import { Accent } from '@ensdomains/thorin/tokens'
 import {
   Box,
   Button,
@@ -8,7 +8,7 @@ import {
   SkeletonGroup,
   Stack,
   useTheme,
-} from 'degen/components'
+} from '@ensdomains/thorin/components'
 
 import { setThemeAccent, setThemeMode } from '~/utils/cookies'
 import { useIsMounted } from '~/utils/isMounted'

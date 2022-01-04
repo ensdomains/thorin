@@ -7,6 +7,7 @@ on:
 
 jobs:
   build:
+    if: ${{ false }}
     name: Build
     runs-on: ubuntu-latest
     needs: lint
@@ -23,9 +24,10 @@ jobs:
       - name: Install dependencies
         run: yarn install
       - name: Build
-        run: yarn setup && yarn workspace degen build
+        run: yarn setup && yarn workspace @ensdomains/thorin build
 
   lint:
+    if: ${{ false }}
     name: Lint
     runs-on: ubuntu-latest
     strategy:
@@ -46,6 +48,7 @@ jobs:
         run: yarn lint:types
 
   test:
+    if: ${{ false }}
     name: Test
     runs-on: ubuntu-latest
     needs: lint

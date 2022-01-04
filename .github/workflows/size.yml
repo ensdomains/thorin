@@ -11,6 +11,7 @@ concurrency:
 
 jobs:
   size:
+    if: ${{ false }}
     name: Size
     runs-on: ubuntu-latest
     env:

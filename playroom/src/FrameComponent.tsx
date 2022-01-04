@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { ThemeProvider } from 'degen/components'
+import { ThemeProvider } from '@ensdomains/thorin/components'
 
 import { PlayroomStateProvider } from './PlayroomState'
 import './styles.css'

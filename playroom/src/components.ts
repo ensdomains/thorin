@@ -1,1 +1,1 @@
-export * from 'degen/components'
+export * from '@ensdomains/thorin/components'

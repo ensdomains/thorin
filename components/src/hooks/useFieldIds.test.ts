@@ -5,78 +5,78 @@ import { useFieldIds } from './useFieldIds'
 const noArgs = {
   content: {
     'aria-describedby': undefined,
-    'aria-labelledby': 'degen1-label',
-    id: 'degen1',
+    'aria-labelledby': 'thorin1-label',
+    id: 'thorin1',
   },
   description: undefined,
   error: undefined,
   label: {
-    htmlFor: 'degen1',
-    id: 'degen1-label',
+    htmlFor: 'thorin1',
+    id: 'thorin1-label',
   },
 }
 
 const withId = {
   content: {
     'aria-describedby': undefined,
-    'aria-labelledby': 'degen2-address-label',
-    id: 'degen2-address',
+    'aria-labelledby': 'thorin2-address-label',
+    id: 'thorin2-address',
   },
   description: undefined,
   error: undefined,
   label: {
-    htmlFor: 'degen2-address',
-    id: 'degen2-address-label',
+    htmlFor: 'thorin2-address',
+    id: 'thorin2-address-label',
   },
 }
 
 const withDescription = {
   content: {
-    'aria-describedby': 'degen3-description',
-    'aria-labelledby': 'degen3-label',
-    id: 'degen3',
+    'aria-describedby': 'thorin3-description',
+    'aria-labelledby': 'thorin3-label',
+    id: 'thorin3',
   },
   description: {
-    id: 'degen3-description',
+    id: 'thorin3-description',
   },
   error: undefined,
   label: {
-    htmlFor: 'degen3',
-    id: 'degen3-label',
+    htmlFor: 'thorin3',
+    id: 'thorin3-label',
   },
 }
 
 const withError = {
   content: {
-    'aria-describedby': 'degen4-error',
-    'aria-labelledby': 'degen4-label',
-    id: 'degen4',
+    'aria-describedby': 'thorin4-error',
+    'aria-labelledby': 'thorin4-label',
+    id: 'thorin4',
   },
   description: undefined,
   error: {
-    id: 'degen4-error',
+    id: 'thorin4-error',
   },
   label: {
-    htmlFor: 'degen4',
-    id: 'degen4-label',
+    htmlFor: 'thorin4',
+    id: 'thorin4-label',
   },
 }
 
 const withDescriptionAndError = {
   content: {
-    'aria-describedby': 'degen5-description degen5-error',
-    'aria-labelledby': 'degen5-label',
-    id: 'degen5',
+    'aria-describedby': 'thorin5-description thorin5-error',
+    'aria-labelledby': 'thorin5-label',
+    id: 'thorin5',
   },
   description: {
-    id: 'degen5-description',
+    id: 'thorin5-description',
   },
   error: {
-    id: 'degen5-error',
+    id: 'thorin5-error',
   },
   label: {
-    htmlFor: 'degen5',
-    id: 'degen5-label',
+    htmlFor: 'thorin5',
+    id: 'thorin5-label',
   },
 }
 

@@ -1,6 +1,6 @@
 import { globalStyle } from '@vanilla-extract/css'
 
-import { vars } from 'degen/css'
+import { vars } from '@ensdomains/thorin/css'
 
 globalStyle('*, ::before, ::after', {
   boxSizing: 'border-box',

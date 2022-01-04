@@ -7,8 +7,8 @@ describe('useId', () => {
 
   it('generates id', () => {
     const { result: resultA } = renderHook(() => useId())
-    expect(resultA.current).toStrictEqual('degen1')
+    expect(resultA.current).toStrictEqual('thorin1')
     const { result: resultB } = renderHook(() => useId())
-    expect(resultB.current).toStrictEqual('degen2')
+    expect(resultB.current).toStrictEqual('thorin2')
   })
 })

@@ -1,7 +1,13 @@
 import * as React from 'react'
 import { PropItem } from 'react-docgen-typescript'
 
-import { Box, Button, Stack, Text, VisuallyHidden } from 'degen/components'
+import {
+  Box,
+  Button,
+  Stack,
+  Text,
+  VisuallyHidden,
+} from '@ensdomains/thorin/components'
 
 import { Link } from './Link'
 

@@ -4,7 +4,7 @@
     "baseUrl": "./",
     "jsx": "react",
     "paths": {
-      "degen/*": ["../components/src/*"]
+      "@ensdomains/thorin/*": ["../components/src/*"]
     },
     "types": ["@types/webpack-env"]
   },
