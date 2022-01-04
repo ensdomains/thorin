@@ -20,14 +20,12 @@ Visit [insert a link here](https://example.com) to view the full documentation.
 ## Usage
 
 ```
-yarn add thorin
+yarn add @ensdomains/thorin
 ```
 
 ## Development
 
 ```
-brew bundle
-fnm install
 yarn
 yarn dev
 ```
