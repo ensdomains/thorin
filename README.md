@@ -15,6 +15,8 @@
 
 ## Documentation
 
+Forked from [degen](https://github.com/mirror-xyz/degen).
+
 Visit [insert a link here](https://example.com) to view the full documentation.
 
 ## Usage
