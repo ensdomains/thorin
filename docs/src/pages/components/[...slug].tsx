@@ -36,9 +36,9 @@ type StaticProps = {
 }
 
 export const getStaticProps: GetStaticProps<StaticProps> = async (context) => {
-  const slug = context.params?.slug?.toString() as string
+  const slug = context.params?.slug as string[]
   const pathname = getComponentPaths().find(
-    (x) => getComponentName(x) === slug,
+    (x) => getComponentName(x).join('/') === slug.join('/'),
   ) as string
   const source = fs.readFileSync(pathname)
   const { content, data } = matter(source)
@@ -48,7 +48,8 @@ export const getStaticProps: GetStaticProps<StaticProps> = async (context) => {
   })
 
   const componentPathname = pathname.replace('docs.mdx', 'tsx')
-  const staticTypes = getStaticTypes(componentPathname)[slug] ?? null
+  const staticTypes =
+    getStaticTypes(componentPathname)[slug[slug.length - 1]] ?? null
 
   const docsLink = createGitHubLink(pathname.replace(/^\/.*thorin/i, ''))
   const sourceLink = createGitHubLink(

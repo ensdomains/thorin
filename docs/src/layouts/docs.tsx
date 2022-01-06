@@ -31,7 +31,7 @@ const Layout: NextLayout<Props> = ({ children, meta }) => {
         <meta
           content={
             meta?.description ??
-            'Design system for Mirror.xyz built with React and vanilla-extract.'
+            'Design system for ENS built with React and vanilla-extract.'
           }
           key="description"
           name="description"

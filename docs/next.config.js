@@ -9,6 +9,21 @@ const withMDX = require('@next/mdx')({
 
 const path = require('path')
 
+const getComponentPaths = (category) =>
+  glob
+    .sync(
+      `../components/src/components/${category}/**/!(Icons[A-Z])*.docs.mdx`,
+      {
+        cwd: process.cwd(),
+        absolute: true,
+      },
+    )
+    .map((x) => {
+      const name = path.basename(x, '.docs.mdx')
+      const route = `/components/${category}/${name}`
+      return { name, route }
+    })
+
 const componentPaths = glob
   .sync('../components/src/components/!(Icons)**/*.docs.mdx', {
     cwd: process.cwd(),
@@ -26,6 +41,14 @@ const config = {
   },
   env: {
     navLinks: [
+      {
+        name: 'atoms',
+        links: getComponentPaths('atoms'),
+      },
+      {
+        name: 'molecules',
+        links: getComponentPaths('molecules'),
+      },
       {
         name: 'components',
         links: componentPaths,

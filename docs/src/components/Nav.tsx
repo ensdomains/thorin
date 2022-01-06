@@ -52,17 +52,15 @@ export const Nav = ({ links }: Props) => {
         >
           <Stack align="center" direction="horizontal">
             <NavLink active={router.asPath === '/'} href="/">
-              <Button shape="circle" variant="tertiary">
-                <Stack align="center" direction="horizontal">
-                  <NextImage height={32} src="/logo.svg" width={32} />
-                </Stack>
-              </Button>
+              <Stack align="center" direction="horizontal">
+                <NextImage height={64} src="/logo.svg" width={64} />
+              </Stack>
             </NavLink>
 
             <Box display={{ md: 'none' }}>
               <Button
                 size="small"
-                variant="tertiary"
+                variant="transparent"
                 onClick={() => setState((x) => ({ ...x, open: !x.open }))}
               >
                 <Box aria-label={state.open ? 'Close menu' : 'Open menu'}>
@@ -97,25 +95,28 @@ export const Nav = ({ links }: Props) => {
             </Stack>
           </Stack>
 
-          {links.map((x) => (
-            <Stack key={x.name}>
-              <Text variant="label">{x.name}</Text>
+          <Stack>
+            <Text variant="label">COMPONENTS</Text>
+            {links.map((x) => (
+              <Stack key={x.name}>
+                <Text variant="label">{x.name}</Text>
 
-              <Stack space="3">
-                {x.links.map((y) => (
-                  <NavLink
-                    active={
-                      isMounted && router.asPath.split('#')[0] === y.route
-                    }
-                    href={y.route}
-                    key={y.route}
-                  >
-                    {y.name}
-                  </NavLink>
-                ))}
+                <Stack space="3">
+                  {x.links.map((y) => (
+                    <NavLink
+                      active={
+                        isMounted && router.asPath.split('#')[0] === y.route
+                      }
+                      href={y.route}
+                      key={y.route}
+                    >
+                      {y.name}
+                    </NavLink>
+                  ))}
+                </Stack>
               </Stack>
-            </Stack>
-          ))}
+            ))}
+          </Stack>
         </Stack>
       </Box>
     </Box>

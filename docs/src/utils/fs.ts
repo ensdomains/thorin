@@ -10,8 +10,13 @@ export const getComponentPaths = () => {
 }
 
 export const getComponentName = (pathname: string) => {
+  const componentParentFolder = path.basename(path.join(pathname, '../../'))
+  const onlyFileName = componentParentFolder.match(
+    /^(generated|icons|components)$/,
+  )
   const componentName = path.basename(pathname, '.mdx')
-  return componentName.replace(path.extname(componentName), '')
+  const finalisedName = componentName.replace(path.extname(componentName), '')
+  return onlyFileName ? [finalisedName] : [componentParentFolder, finalisedName]
 }
 
 export const getGuidePaths = () => {
