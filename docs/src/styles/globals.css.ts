@@ -17,7 +17,7 @@ globalFontFace('iAWriter Mono', {
 })
 
 globalFontFace('JakartaSans', {
-  fontDisplay: 'optional',
+  fontDisplay: 'block',
   fontStyle: 'normal',
   fontWeight: '400',
   src: "url('/fonts/sans/PlusJakartaSans-Regular.woff2') format('woff2')",

@@ -37,7 +37,7 @@ const accents: { [key in Mode]: { [key in Accent]: string } } = {
     red: '213, 85, 85',
     teal: '100, 210, 255',
     yellow: '255, 214, 10',
-    grey: '228, 231, 235',
+    grey: '59, 60, 61',
   },
 }
 
