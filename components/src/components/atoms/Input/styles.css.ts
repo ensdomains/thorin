@@ -1,7 +1,7 @@
 import { style } from '@vanilla-extract/css'
 import { recipe } from '@vanilla-extract/recipes'
 
-import { atoms, vars } from '../../css'
+import { atoms, vars } from '../../../css'
 
 export const inputParent = style({})
 
@@ -9,7 +9,7 @@ export const root = recipe({
   base: [
     atoms({
       backgroundColor: 'background',
-      borderWidth: '0.5',
+      borderWidth: '0.375',
       borderColor: 'foregroundSecondary',
       borderRadius: '2xLarge',
       color: 'text',
