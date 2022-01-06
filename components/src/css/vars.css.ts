@@ -55,8 +55,6 @@ const makeColorScheme = (mode: Mode = 'light') => {
         ...colors,
         accent: colors.blue,
         accentText: colors.foreground,
-        accentSuccess: colors.green,
-        accentDanger: colors.red,
         accentSecondary: colors.grey,
       },
       shades,
@@ -76,8 +74,6 @@ const accentTokens = {
     accent: rgb(mode.colors.accent),
     accentText: rgb(mode.colors.accentText),
     accentGradient: mode.gradients.accent,
-    accentSuccess: rgb(mode.colors.accentSuccess),
-    accentDanger: rgb(mode.colors.accentDanger),
     accentSecondary: rgb(mode.colors.accentSecondary),
     accentSecondaryHover: rgb(
       mode.colors.accent,

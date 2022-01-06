@@ -2,6 +2,8 @@ import { style } from '@vanilla-extract/css'
 import { CSSVarFunction } from '@vanilla-extract/private'
 import { RecipeVariants, recipe } from '@vanilla-extract/recipes'
 
+import { Gradients } from '@/src/tokens/color'
+
 import { atoms, rgb, vars } from '../../../css'
 
 const shape = {
@@ -30,9 +32,10 @@ const size = {
 
 export type Size = keyof typeof size
 
-const getAccentVars = (colorVar: CSSVarFunction) => ({
+const getAccentVars = (colorVar: CSSVarFunction, colorName: Gradients) => ({
   [vars.colors.accent]: rgb(colorVar),
   [vars.colors.accentText]: vars.colors.white,
+  [vars.colors.accentGradient]: vars.mode.gradients[colorName],
   [vars.colors.accentSecondary]: rgb(
     colorVar,
     vars.mode.shades.accentSecondary,
@@ -46,13 +49,13 @@ const getAccentVars = (colorVar: CSSVarFunction) => ({
 const tone = {
   accent: {},
   blue: style({
-    vars: getAccentVars(vars.mode.colors.blue),
+    vars: getAccentVars(vars.mode.colors.blue, 'blue'),
   }),
   green: style({
-    vars: getAccentVars(vars.mode.colors.green),
+    vars: getAccentVars(vars.mode.colors.green, 'green'),
   }),
   red: style({
-    vars: getAccentVars(vars.mode.colors.red),
+    vars: getAccentVars(vars.mode.colors.red, 'red'),
   }),
 }
 
@@ -75,18 +78,6 @@ const variant = {
     atoms({
       color: 'accentText',
       background: 'accentGradient',
-    }),
-  ]),
-  success: style([
-    atoms({
-      color: 'accentText',
-      backgroundColor: 'accentSuccess',
-    }),
-  ]),
-  danger: style([
-    atoms({
-      color: 'accentText',
-      backgroundColor: 'accentDanger',
     }),
   ]),
   transparent: style([
@@ -137,7 +128,7 @@ export const variants = recipe({
     }),
     style({
       letterSpacing: '-0.01em',
-      boxShadow: `${vars.shadows['0.25']} ${vars.colors.black}`,
+      boxShadow: `${vars.shadows['0.25']} ${vars.colors.accentSecondary}`,
       selectors: {
         '&:hover': {
           transform: 'translateY(-1px)',
