@@ -1,8 +1,9 @@
 {
-  "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
+    "source.fixAll.eslint": true,
+    "source.organizeImports": false
   },
+  "editor.formatOnSave": true,
   "eslint.options": {
     "extensions": [".js", ".json", ".mdx", ".ts", ".tsx"]
   },
@@ -13,5 +14,8 @@
     "typescript",
     "typescriptreact"
   ],
-  "eslint.packageManager": "yarn"
+  "eslint.packageManager": "yarn",
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  }
 }
