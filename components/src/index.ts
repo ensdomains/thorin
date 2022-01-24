@@ -9,6 +9,7 @@ export {
   FileInput,
   Heading,
   IconNFT,
+  Input,
   MediaPicker,
   Skeleton,
   SkeletonGroup,
@@ -18,16 +19,16 @@ export {
   Tag,
   Text,
   Textarea,
-  Input,
   ThemeProvider,
+  Typography,
   useTheme,
+  Profile,
+  Dropdown,
   VisuallyHidden,
 } from './components'
 export type { BoxProps } from './components'
-
 // Export generated icons
 export * from './components/icons/generated'
-
 export {
   atoms,
   breakpoints,

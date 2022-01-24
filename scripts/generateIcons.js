@@ -36,6 +36,7 @@ const svgrConfig = {
   },
   svgoConfig: {
     multipass: true,
+    removeDimensions: true,
   },
   template: componentTemplate,
   titleProp: true,

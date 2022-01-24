@@ -1,7 +1,6 @@
 import * as React from 'react'
 
 import { Box, BoxProps } from '../Box'
-import { IconUserSolid } from '../icons'
 import * as styles from './styles.css'
 
 export type Props = {
@@ -36,14 +35,11 @@ export const Avatar = ({
         <Box
           alignItems="center"
           aria-label={label}
+          background="accentGradient"
           display="flex"
           height="full"
           justifyContent="center"
-        >
-          <Box maxWidth="3/4">
-            <IconUserSolid color="textSecondary" size="full" />
-          </Box>
-        </Box>
+        />
       ) : (
         <>
           <Box
