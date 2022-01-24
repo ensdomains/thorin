@@ -36,6 +36,13 @@ class Document extends NextDocument {
             rel="preload"
             type="font/woff2"
           />
+          <link
+            as="font"
+            crossOrigin="anonymous"
+            href="/fonts/sans/PlusJakartaSans-Bold.woff2"
+            rel="preload"
+            type="font/woff2"
+          />
 
           {/* Favicons */}
           <link
