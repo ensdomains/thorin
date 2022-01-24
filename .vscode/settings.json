@@ -17,5 +17,6 @@
   "eslint.packageManager": "yarn",
   "[typescriptreact]": {
     "editor.defaultFormatter": "vscode.typescript-language-features"
-  }
+  },
+  "svg.preview.background": "black"
 }
