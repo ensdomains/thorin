@@ -10,6 +10,7 @@ import { useIsMounted } from '~/utils/isMounted'
 import * as styles from '~/styles/utils.css'
 import { Link } from './Link'
 import { ThemeSwitcher } from './ThemeSwitcher'
+import Logo from '~/assets/Logo.svg'
 
 type Link = { name: string; route: string }
 
@@ -53,7 +54,7 @@ export const Nav = ({ links }: Props) => {
           <Stack align="center" direction="horizontal">
             <NavLink active={router.asPath === '/'} href="/">
               <Stack align="center" direction="horizontal">
-                <NextImage height={64} src="/logo.svg" width={64} />
+                <NextImage height={64} src={Logo} width={64} />
               </Stack>
             </NavLink>
 
