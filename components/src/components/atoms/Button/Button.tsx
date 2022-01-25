@@ -30,6 +30,7 @@ type BaseProps = {
   type?: NativeButtonProps['type']
   variant?: styles.Variant
   width?: BoxProps['width']
+  zIndex?: BoxProps['zIndex']
   onClick?: React.MouseEventHandler<HTMLElement> | undefined
 }
 
@@ -81,6 +82,7 @@ export const Button = React.forwardRef(
       type,
       variant = 'primary',
       width,
+      zIndex,
       onClick,
     }: Props,
     ref: React.Ref<HTMLButtonElement>,
@@ -124,12 +126,14 @@ export const Button = React.forwardRef(
         })}
         disabled={disabled}
         href={href}
+        position={zIndex && 'relative'}
         ref={ref}
         rel={rel}
         tabIndex={tabIndex}
         target={target}
         type={type}
         width={width ?? 'max'}
+        zIndex={zIndex}
         onClick={onClick}
       >
         {childContent}

@@ -24,6 +24,8 @@ export {
   useTheme,
   Profile,
   Dropdown,
+  Backdrop,
+  BackdropSurface,
   VisuallyHidden,
 } from './components'
 export type { BoxProps } from './components'

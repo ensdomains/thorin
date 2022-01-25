@@ -1,0 +1,32 @@
+---
+title: Dropdown
+description: Attaches a button menu to an element
+---
+
+```tsx
+import { Dropdown } from '@ensdomains/thorin'
+```
+
+```tsx live=true
+;() => {
+  const [isOpen, setIsOpen] = React.useState(false)
+
+  return (
+    <Dropdown
+      items={[
+        { label: 'Dashboard', onClick: () => null },
+        { label: 'Disconnect', onClick: () => null, color: 'red' },
+      ]}
+      {...{ isOpen, setIsOpen }}
+    >
+      <Button zIndex="10" onClick={() => setIsOpen(!isOpen)}>
+        Menu
+      </Button>
+    </Dropdown>
+  )
+}
+```
+
+## Props
+
+<PropsTable sourceLink={sourceLink} types={types} />

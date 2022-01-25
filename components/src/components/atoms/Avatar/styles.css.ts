@@ -1,7 +1,7 @@
 import { style } from '@vanilla-extract/css'
 import { RecipeVariants, recipe } from '@vanilla-extract/recipes'
 
-import { atoms, vars } from '../../css'
+import { atoms, vars } from '../../../css'
 
 export const variants = recipe({
   variants: {

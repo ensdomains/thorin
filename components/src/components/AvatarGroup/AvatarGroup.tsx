@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { Avatar, Props as AvatarProps } from '../Avatar'
+import { Avatar, Props as AvatarProps } from '../atoms/Avatar'
 import { Box, BoxProps } from '../Box'
 import * as styles from './styles.css'
 

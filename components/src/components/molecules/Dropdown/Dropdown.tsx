@@ -34,7 +34,7 @@ const DropdownMenu = ({
 }: DropdownMenuProps) => (
   <Box
     className={styles.variants({ opened: isOpen })}
-    style={{ width: width && parseInt(width) > 100 ? width : '100px' }}
+    style={{ width: width && parseInt(width) > 100 ? width : '150px' }}
   >
     {items.map(({ label, color, disabled, onClick }: DropdownItem) => (
       <Box

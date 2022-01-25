@@ -4,7 +4,7 @@ import * as styles from './styles.css'
 import { shortenAddress } from '../../../utils'
 
 import { Box, IconProfileArrow, Typography } from '../..'
-import { Avatar, Props as AvatarProps } from '../../Avatar'
+import { Avatar, Props as AvatarProps } from '../../atoms/Avatar'
 import { Dropdown, DropdownItem } from '../Dropdown/Dropdown'
 
 type BaseProps = {

@@ -1,9 +1,16 @@
 export * from './icons'
 export type { BoxProps } from './Box'
-export { Avatar } from './Avatar'
 export { AvatarGroup } from './AvatarGroup'
-export { Box, Button, Input, Typography } from './atoms'
-export { Profile, Dropdown } from './molecules'
+export {
+  Box,
+  Button,
+  Input,
+  Typography,
+  Avatar,
+  Portal,
+  BackdropSurface,
+} from './atoms'
+export { Profile, Dropdown, Backdrop } from './molecules'
 export { Card } from './Card'
 export { Field } from './Field'
 export { FieldSet } from './FieldSet'
