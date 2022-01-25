@@ -59,7 +59,7 @@ export const CodeBlock = ({
       }
     : undefined
 
-  const code = children.trim()
+  const code = children.trim().replace(RegExp('^;'), '')
   if (live)
     return (
       <PlayroomStateProvider>
