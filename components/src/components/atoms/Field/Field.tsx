@@ -49,7 +49,7 @@ export const Field = ({
       justifyContent="space-between"
       paddingX="4"
     >
-      <Box as="label" color="text" fontWeight="medium" {...ids.label}>
+      <Box as="label" color="textTertiary" fontWeight="semiBold" {...ids.label}>
         {label} {required && <VisuallyHidden>(required)</VisuallyHidden>}
       </Box>
       {labelSecondary && labelSecondary}

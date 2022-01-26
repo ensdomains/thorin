@@ -66,7 +66,7 @@ export const colors = {
   },
   light: {
     background: '246, 246, 246',
-    backgroundSecondary: '247, 247, 247',
+    backgroundSecondary: '246, 246, 248',
     backgroundTertiary: '247, 247, 247',
     foreground: '0, 0, 0',
     groupBackground: '255, 255, 255',
@@ -97,10 +97,11 @@ export const shades = {
     foregroundTertiary: '0.033',
     groupBorder: '0.075',
     text: '0.8',
-    textSecondary: '0.6',
+    textSecondary: '0.65',
     textSecondaryHover: '0.7',
     textTertiary: '0.4',
     textTertiaryHover: '0.5',
+    textPlaceholder: '0.25',
   },
   dark: {
     accent: '0.66',
@@ -113,8 +114,9 @@ export const shades = {
     groupBorder: '0',
     text: '0.7',
     textSecondary: '0.5',
-    textSecondaryHover: '0.6',
+    textSecondaryHover: '0.65',
     textTertiary: '0.35',
     textTertiaryHover: '0.4',
+    textPlaceholder: '0.25',
   },
 }

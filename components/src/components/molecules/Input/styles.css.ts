@@ -8,9 +8,9 @@ export const inputParent = style({})
 export const root = recipe({
   base: [
     atoms({
-      backgroundColor: 'background',
-      borderWidth: '0.375',
-      borderColor: 'foregroundSecondary',
+      backgroundColor: 'backgroundSecondary',
+      borderWidth: '0.75',
+      borderColor: 'transparent',
       borderRadius: '2xLarge',
       color: 'text',
       display: 'flex',
@@ -22,7 +22,7 @@ export const root = recipe({
     style({
       selectors: {
         '&:focus-within': {
-          borderColor: vars.colors.accent,
+          borderColor: vars.colors.accentSecondary,
         },
       },
     }),
@@ -49,6 +49,11 @@ export const root = recipe({
         }),
       ]),
     },
+    suffix: {
+      true: atoms({
+        height: '16',
+      }),
+    },
   },
 })
 
@@ -73,15 +78,25 @@ export const prefix = style([
 ])
 export const suffix = style([
   affix,
-  atoms({ paddingRight: '4', paddingLeft: '2' }),
+  atoms({ paddingRight: '2', paddingLeft: '2' }),
 ])
 
 export const input = recipe({
-  base: atoms({
-    backgroundColor: 'transparent',
-    position: 'relative',
-    width: 'full',
-  }),
+  base: style([
+    atoms({
+      backgroundColor: 'transparent',
+      position: 'relative',
+      width: 'full',
+    }),
+    style({
+      selectors: {
+        '&::placeholder': {
+          color: vars.colors.textPlaceholder,
+          fontWeight: vars.fontWeights.bold,
+        },
+      },
+    }),
+  ]),
   variants: {
     disabled: {
       true: atoms({

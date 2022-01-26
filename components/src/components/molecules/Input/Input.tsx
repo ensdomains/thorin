@@ -156,6 +156,7 @@ export const Input = React.forwardRef(
               styles.root({
                 disabled,
                 error: hasError,
+                suffix: suffix !== undefined,
               }),
               styles.inputParent,
             ]}

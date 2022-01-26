@@ -70,8 +70,8 @@ const variant = {
   ]),
   secondary: style([
     atoms({
-      color: 'text',
-      backgroundColor: 'accentSecondary',
+      color: 'textSecondary',
+      backgroundColor: 'grey',
     }),
   ]),
   action: style([
@@ -128,7 +128,7 @@ export const variants = recipe({
     }),
     style({
       letterSpacing: '-0.01em',
-      boxShadow: `${vars.shadows['0.25']} ${vars.colors.accentSecondary}`,
+      boxShadow: `${vars.shadows['0.25']} ${vars.colors.grey}`,
       selectors: {
         '&:hover': {
           transform: 'translateY(-1px)',
@@ -139,7 +139,7 @@ export const variants = recipe({
           filter: 'brightness(1)',
         },
         '&:disabled': {
-          backgroundColor: vars.colors.accentSecondary,
+          backgroundColor: vars.colors.grey,
           color: vars.colors.textTertiary,
           boxShadow: 'none',
         },

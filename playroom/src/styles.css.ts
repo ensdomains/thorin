@@ -30,6 +30,20 @@ globalFontFace('JakartaSans', {
   src: "url('/fonts/sans/PlusJakartaSans-BoldItalic.woff2') format('woff2')",
 })
 
+globalFontFace('JakartaSans', {
+  fontDisplay: 'optional',
+  fontStyle: 'normal',
+  fontWeight: '500',
+  src: "url('/fonts/sans/PlusJakartaSans-Medium.woff2') format('woff2')",
+})
+
+globalFontFace('JakartaSans', {
+  fontDisplay: 'optional',
+  fontStyle: 'italic',
+  fontWeight: '500',
+  src: "url('/fonts/sans/PlusJakartaSans-MediumItalic.woff2') format('woff2')",
+})
+
 globalStyle('*, ::before, ::after', {
   boxSizing: 'border-box',
 })
