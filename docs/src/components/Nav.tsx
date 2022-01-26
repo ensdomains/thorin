@@ -9,7 +9,6 @@ import { createPlayroomLink } from '~/utils/playroom'
 import { useIsMounted } from '~/utils/isMounted'
 import * as styles from '~/styles/utils.css'
 import { Link } from './Link'
-import { ThemeSwitcher } from './ThemeSwitcher'
 import Logo from '~/assets/Logo.svg'
 
 type Link = { name: string; route: string }
@@ -46,7 +45,7 @@ export const Nav = ({ links }: Props) => {
     <Box flexDirection="column" height="full">
       <Box paddingBottom={{ md: '5' }}>
         <Stack
-          align={{ xs: 'center', md: 'flex-start' }}
+          align="center"
           direction={{ xs: 'horizontal', md: 'vertical' }}
           justify={{ xs: 'space-between', md: 'flex-start' }}
           space="5"
@@ -54,7 +53,10 @@ export const Nav = ({ links }: Props) => {
           <Stack align="center" direction="horizontal">
             <NavLink active={router.asPath === '/'} href="/">
               <Stack align="center" direction="horizontal">
-                <NextImage height={64} src={Logo} width={64} />
+                <NextImage height={48} src={Logo} width={48} />
+                <Typography color="blue" size="headingThree" weight="semiBold">
+                  ENS
+                </Typography>
               </Stack>
             </NavLink>
 
@@ -70,8 +72,6 @@ export const Nav = ({ links }: Props) => {
               </Button>
             </Box>
           </Stack>
-
-          <ThemeSwitcher />
         </Stack>
       </Box>
 
@@ -82,28 +82,41 @@ export const Nav = ({ links }: Props) => {
         paddingBottom={{ md: '48' }}
         paddingTop={{ xs: '10', md: '5' }}
       >
-        <Stack space="10">
+        <Stack space="6">
           <Stack space="3">
             <NavLink href={createGitHubLink()}>GitHub</NavLink>
             <NavLink href={createPlayroomLink()}>Playroom</NavLink>
           </Stack>
 
           <Stack>
-            <Typography variant="label">Guides</Typography>
+            <Typography variant="labelHeading">Guides</Typography>
             <Stack space="3">
-              <NavLink href="/guides/development">Development</NavLink>
-              <NavLink href="/guides/playroom">Playroom</NavLink>
+              <NavLink
+                active={
+                  isMounted &&
+                  router.asPath.split('#')[0] === '/guides/development'
+                }
+                href="/guides/development"
+              >
+                Development
+              </NavLink>
+              <NavLink
+                active={
+                  isMounted &&
+                  router.asPath.split('#')[0] === '/guides/playroom'
+                }
+                href="/guides/playroom"
+              >
+                Playroom
+              </NavLink>
             </Stack>
           </Stack>
 
           <Stack>
-            <Typography variant="label">COMPONENTS</Typography>
+            <Typography variant="labelHeading">Components</Typography>
             {links.map((x) => (
-              <Stack key={x.name}>
-                {x.name !== 'icons' && (
-                  <Typography variant="label">{x.name}</Typography>
-                )}
-
+              <Stack key={x.name} space="3">
+                <Typography variant="label">{x.name}</Typography>
                 <Stack space="3">
                   {x.links.map((y) => (
                     <NavLink
@@ -135,11 +148,11 @@ const NavLink = ({
   href: string
 }>) => {
   return (
-    <Box width="max">
+    <Box className={styles.headerLink} width="max">
       <Link href={href}>
         <Typography
-          color={active ? 'accent' : 'text'}
-          weight={active ? 'medium' : 'normal'}
+          color={active ? 'accent' : 'textTertiary'}
+          weight="semiBold"
         >
           {children}
         </Typography>

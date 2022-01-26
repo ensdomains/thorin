@@ -22,6 +22,16 @@ export const iconGrid = style({
   },
 })
 
+export const headerLink = style({
+  transition: 'all 0.15s ease-in-out',
+  selectors: {
+    '&:hover': {
+      transform: 'translateY(-1px)',
+      filter: 'brightness(1.05)',
+    },
+  },
+})
+
 export const link = style([
   atoms({
     color: 'accent',

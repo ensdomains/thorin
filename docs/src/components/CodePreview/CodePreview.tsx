@@ -110,7 +110,7 @@ export const CodePreview = ({
         <Stack direction="horizontal" justify="flex-end" space="2">
           <Button
             size="small"
-            variant="transparent"
+            variant="secondary"
             onClick={() => setState((x) => ({ ...x, expand: !x.expand }))}
           >
             {state.expand ? 'Hide Code' : 'View Code'}
@@ -121,7 +121,7 @@ export const CodePreview = ({
             href={createPlayroomLink({ code })}
             size="small"
             target="_blank"
-            variant="transparent"
+            variant="secondary"
           >
             Open in Playroom
           </Button>

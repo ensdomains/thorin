@@ -50,7 +50,7 @@ const config = {
         links: getComponentPaths('molecules'),
       },
       {
-        name: 'icons',
+        name: 'miscellaneous',
         links: componentPaths,
       },
     ],

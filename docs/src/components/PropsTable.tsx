@@ -123,7 +123,7 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
           {!!props.length && (
             <Button
               size="small"
-              variant="transparent"
+              variant="secondary"
               onClick={() =>
                 setState((x) => ({
                   ...x,
@@ -137,7 +137,7 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
 
           {sourceLink && (
             <Link href={sourceLink}>
-              <Button size="small" variant="transparent">
+              <Button size="small" variant="secondary">
                 View Source on GitHub
               </Button>
             </Link>
