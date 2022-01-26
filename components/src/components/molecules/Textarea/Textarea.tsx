@@ -1,7 +1,7 @@
 import * as React from 'react'
 
-import { Box } from '../../atoms'
-import { Field, FieldBaseProps } from '../../atoms/Field'
+import { Box, Field } from '../..'
+import { FieldBaseProps } from '../../atoms/Field'
 import * as styles from './styles.css'
 
 type NativeTextareaProps = React.AllHTMLAttributes<HTMLTextAreaElement>

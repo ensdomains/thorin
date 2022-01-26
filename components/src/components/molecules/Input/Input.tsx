@@ -1,7 +1,7 @@
 import * as React from 'react'
 
-import { Box, BoxProps } from '../../atoms/Box'
-import { Field, FieldBaseProps } from '../../atoms/Field'
+import { Box, BoxProps, Field } from '../..'
+import { FieldBaseProps } from '../../atoms/Field'
 import * as styles from './styles.css'
 
 type NativeInputProps = React.AllHTMLAttributes<HTMLInputElement>

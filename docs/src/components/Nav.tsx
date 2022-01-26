@@ -100,7 +100,9 @@ export const Nav = ({ links }: Props) => {
             <Typography variant="label">COMPONENTS</Typography>
             {links.map((x) => (
               <Stack key={x.name}>
-                <Typography variant="label">{x.name}</Typography>
+                {x.name !== 'icons' && (
+                  <Typography variant="label">{x.name}</Typography>
+                )}
 
                 <Stack space="3">
                   {x.links.map((y) => (

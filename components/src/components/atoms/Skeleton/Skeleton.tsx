@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { Box, BoxProps } from '../../Box'
+import { Box, BoxProps } from '../Box'
 import { Context } from '../../molecules/SkeletonGroup'
 import * as styles from './styles.css'
 

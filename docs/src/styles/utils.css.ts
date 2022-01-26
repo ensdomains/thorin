@@ -1,6 +1,6 @@
 import { style } from '@vanilla-extract/css'
 
-import { atoms, vars } from '@ensdomains/thorin/css'
+import { atoms, breakpoints, vars } from '@ensdomains/thorin/css'
 
 export const hoverParent = style({})
 
@@ -9,6 +9,15 @@ export const hoverChild = style({
   selectors: {
     [`${hoverParent}:hover &`]: {
       visibility: 'visible',
+    },
+  },
+})
+
+export const iconGrid = style({
+  gridTemplateColumns: `repeat(auto-fit, minmax(${vars.space[18]}, 1fr))`,
+  '@media': {
+    [`screen and (min-width: ${breakpoints.md}px)`]: {
+      gridTemplateColumns: `repeat(auto-fit, minmax(${vars.space[20]}, 1fr))`,
     },
   },
 })

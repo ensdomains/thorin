@@ -3,7 +3,7 @@ import * as React from 'react'
 import * as styles from './styles.css'
 import { shortenAddress } from '../../../utils'
 
-import { Box, IconProfileArrow, Typography } from '../..'
+import { Box, IconDownIndicator, Typography } from '../..'
 import { Avatar, Props as AvatarProps } from '../../atoms/Avatar'
 import { Dropdown, DropdownItem } from '../Dropdown/Dropdown'
 
@@ -35,7 +35,7 @@ export const Profile = ({
           onClick={() => setIsOpen(!isOpen)}
         >
           <ProfileInner {...{ size, avatar, avatarAs, address, ensName }} />
-          <IconProfileArrow
+          <IconDownIndicator
             className={styles.chevron({ open: isOpen })}
             size="3"
           />

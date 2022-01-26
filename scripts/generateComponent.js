@@ -43,7 +43,7 @@ const componentsDir = path.join(baseDir, 'components/src/components')
     const componentImports = dedent`
       import * as React from 'react'
 
-      import { Box } from '../Box'
+      import { Box } from '../..'
 
       type Props = {}
     `

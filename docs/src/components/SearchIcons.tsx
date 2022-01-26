@@ -10,6 +10,7 @@ import {
 import * as Components from '@ensdomains/thorin/components'
 
 import { Link } from '~/components'
+import { iconGrid } from '~/styles/utils.css'
 
 const icons = Object.entries(Components)
   .filter(([k]) => k.includes('Icon'))
@@ -47,10 +48,10 @@ export const SearchIcons = () => {
         }
       />
 
-      <Stack direction="horizontal" space={{ xs: '4', md: '6' }} wrap>
+      <Box as="ul" className={iconGrid} display="grid" gap="4">
         {filteredIcons.map((x) => (
           <Link href={`/components/${x.name}`} key={x.name}>
-            <Box>
+            <Box maxWidth={{ xs: '18', md: '20' }}>
               <Stack align="center" space="2">
                 <Box
                   backgroundColor="foregroundTertiary"
@@ -70,14 +71,16 @@ export const SearchIcons = () => {
                     size: { xs: '10', md: '12' },
                   })}
                 </Box>
-                <Typography align="center" color="text" size="label">
-                  {x.name.replace('Icon', '')}
-                </Typography>
+                <Box width={{ xs: '14', md: '18' }}>
+                  <Typography align="center" color="text" ellipsis size="label">
+                    {x.name.replace('Icon', '')}
+                  </Typography>
+                </Box>
               </Stack>
             </Box>
           </Link>
         ))}
-      </Stack>
+      </Box>
     </Stack>
   )
 }

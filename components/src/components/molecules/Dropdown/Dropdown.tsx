@@ -2,8 +2,7 @@ import * as React from 'react'
 
 import * as styles from './styles.css'
 
-import { Box, Typography } from '../..'
-import { BoxProps } from '../../atoms/Box'
+import { Box, BoxProps, Typography } from '../..'
 
 export type DropdownItem = {
   label: string

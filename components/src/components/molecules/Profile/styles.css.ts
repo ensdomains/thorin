@@ -109,7 +109,7 @@ export const chevron = recipe({
     }),
     style({
       opacity: '0.3',
-      transform: 'rotate(180deg)',
+      transform: 'rotate(0deg)',
     }),
   ],
   variants: {
@@ -117,7 +117,7 @@ export const chevron = recipe({
       true: style([
         style({
           opacity: '1',
-          transform: 'rotate(0deg)',
+          transform: 'rotate(180deg)',
         }),
       ]),
     },

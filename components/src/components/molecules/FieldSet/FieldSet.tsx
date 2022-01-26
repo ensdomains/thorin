@@ -1,8 +1,8 @@
 import * as React from 'react'
 
 import { ReactNodeNoStrings } from '../../../types'
-import { Box, Heading, Stack } from '../../atoms'
-import { Tag, TagProps } from '../../atoms/Tag'
+import { Box, Heading, Stack, Tag } from '../..'
+import { TagProps } from '../../atoms/Tag'
 
 type NativeFieldSetProps = React.AllHTMLAttributes<HTMLFieldSetElement>
 
