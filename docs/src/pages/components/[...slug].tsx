@@ -10,7 +10,7 @@ import { serialize } from 'next-mdx-remote/serialize'
 import matter from 'gray-matter'
 import { PropItem } from 'react-docgen-typescript'
 
-import { Box, Text } from '@ensdomains/thorin/components'
+import { Box, Typography } from '@ensdomains/thorin/components'
 
 import { Props as LayoutProps, getLayout } from '~/layouts/docs'
 import { getComponentName, getComponentPaths } from '~/utils/fs'
@@ -89,9 +89,9 @@ const Page: NextPageWithLayout<Props> = ({
       {!docsLink.includes('generated') && (
         <Box marginTop="20">
           <Link href={docsLink}>
-            <Text color="textSecondary" size="small">
+            <Typography color="textSecondary" size="small">
               Edit on GitHub
-            </Text>
+            </Typography>
           </Link>
         </Box>
       )}

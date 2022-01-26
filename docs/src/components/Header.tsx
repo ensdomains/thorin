@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { Box, Heading, Stack, Text } from '@ensdomains/thorin/components'
+import { Box, Heading, Stack, Typography } from '@ensdomains/thorin/components'
 
 type Props = {
   description?: React.ReactNode
@@ -16,9 +16,9 @@ export const Header = ({ description, title }: Props) => {
         </Heading>
 
         {description && (
-          <Text color="textSecondary" size="extraLarge">
+          <Typography color="textSecondary" size="extraLarge">
             {description}
-          </Text>
+          </Typography>
         )}
       </Stack>
     </Box>

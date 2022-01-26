@@ -1,9 +1,9 @@
 import * as React from 'react'
 
 import { ReactNodeNoStrings } from '../../../types'
-import { Box, BoxProps } from '../../Box'
-import { Spinner } from '../../Spinner'
-import { Text } from '../../Text'
+import { Box, BoxProps } from '../Box'
+import { Spinner } from '../Spinner'
+import { Typography } from '../Typography'
 import { getCenterProps } from './utils'
 import * as styles from './styles.css'
 
@@ -88,9 +88,9 @@ export const Button = React.forwardRef(
     ref: React.Ref<HTMLButtonElement>,
   ) => {
     const labelContent = (
-      <Text color="inherit" ellipsis size="inherit" weight="semiBold">
+      <Typography color="inherit" ellipsis size="inherit" weight="semiBold">
         {children}
-      </Text>
+      </Typography>
     )
 
     let childContent: ReactNodeNoStrings

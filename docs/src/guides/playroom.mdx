@@ -49,9 +49,9 @@ vars
 
 ```tsx live=true
 <Stack>
-  <Text size="extraLarge">
+  <Typography size="extraLarge">
     {getState('counter') != null ? getState('counter') : 2}
-  </Text>
+  </Typography>
   <Stack align="center" direction="horizontal">
     <Button
       disabled={getState('locked')}

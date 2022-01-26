@@ -2,7 +2,7 @@ import { useRouter } from 'next/dist/client/router'
 import * as React from 'react'
 import NextImage from 'next/image'
 
-import { Box, Button, Stack, Text } from '@ensdomains/thorin/components'
+import { Box, Button, Stack, Typography } from '@ensdomains/thorin/components'
 
 import { createGitHubLink } from '~/utils/github'
 import { createPlayroomLink } from '~/utils/playroom'
@@ -89,7 +89,7 @@ export const Nav = ({ links }: Props) => {
           </Stack>
 
           <Stack>
-            <Text variant="label">Guides</Text>
+            <Typography variant="label">Guides</Typography>
             <Stack space="3">
               <NavLink href="/guides/development">Development</NavLink>
               <NavLink href="/guides/playroom">Playroom</NavLink>
@@ -97,10 +97,10 @@ export const Nav = ({ links }: Props) => {
           </Stack>
 
           <Stack>
-            <Text variant="label">COMPONENTS</Text>
+            <Typography variant="label">COMPONENTS</Typography>
             {links.map((x) => (
               <Stack key={x.name}>
-                <Text variant="label">{x.name}</Text>
+                <Typography variant="label">{x.name}</Typography>
 
                 <Stack space="3">
                   {x.links.map((y) => (
@@ -135,12 +135,12 @@ const NavLink = ({
   return (
     <Box width="max">
       <Link href={href}>
-        <Text
+        <Typography
           color={active ? 'accent' : 'text'}
           weight={active ? 'medium' : 'normal'}
         >
           {children}
-        </Text>
+        </Typography>
       </Link>
     </Box>
   )

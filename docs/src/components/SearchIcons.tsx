@@ -5,7 +5,7 @@ import {
   IconSearch,
   Input,
   Stack,
-  Text,
+  Typography,
 } from '@ensdomains/thorin/components'
 import * as Components from '@ensdomains/thorin/components'
 
@@ -70,9 +70,9 @@ export const SearchIcons = () => {
                     size: { xs: '10', md: '12' },
                   })}
                 </Box>
-                <Text align="center" color="text" size="label">
+                <Typography align="center" color="text" size="label">
                   {x.name.replace('Icon', '')}
-                </Text>
+                </Typography>
               </Stack>
             </Box>
           </Link>

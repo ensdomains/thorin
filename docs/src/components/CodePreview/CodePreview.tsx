@@ -10,7 +10,7 @@ import {
   Box,
   Button,
   Stack,
-  Text,
+  Typography,
   useTheme,
 } from '@ensdomains/thorin/components'
 import { vars } from '@ensdomains/thorin/css'
@@ -85,14 +85,14 @@ export const CodePreview = ({
         >
           <LivePreview />
 
-          <Text color="red" font="mono">
+          <Typography color="red" font="mono">
             <LiveError
               style={{
                 fontFamily: 'inherit',
                 margin: 0,
               }}
             />
-          </Text>
+          </Typography>
         </Box>
 
         {state.expand && (
