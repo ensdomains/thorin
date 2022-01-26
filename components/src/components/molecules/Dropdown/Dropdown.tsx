@@ -11,7 +11,7 @@ export type DropdownItem = {
   disabled?: boolean
 }
 
-type BaseProps = {
+export type BaseProps = {
   items: DropdownItem[]
   isOpen: boolean
   setIsOpen: (isOpen: boolean) => void

@@ -2,7 +2,13 @@ import { useRouter } from 'next/dist/client/router'
 import * as React from 'react'
 import NextImage from 'next/image'
 
-import { Box, Button, Stack, Typography } from '@ensdomains/thorin/components'
+import {
+  Box,
+  Button,
+  IconMenu,
+  Stack,
+  Typography,
+} from '@ensdomains/thorin/components'
 
 import { createGitHubLink } from '~/utils/github'
 import { createPlayroomLink } from '~/utils/playroom'
@@ -43,44 +49,45 @@ export const Nav = ({ links }: Props) => {
 
   return (
     <Box flexDirection="column" height="full">
-      <Box paddingBottom={{ md: '5' }}>
+      <Box paddingBottom={{ lg: '5' }}>
         <Stack
           align="center"
-          direction={{ xs: 'horizontal', md: 'vertical' }}
-          justify={{ xs: 'space-between', md: 'flex-start' }}
+          direction={{ xs: 'horizontal', lg: 'vertical' }}
+          justify={{ xs: 'space-between', lg: 'flex-start' }}
           space="5"
         >
-          <Stack align="center" direction="horizontal">
-            <NavLink active={router.asPath === '/'} href="/">
-              <Stack align="center" direction="horizontal">
-                <NextImage height={48} src={Logo} width={48} />
-                <Typography color="blue" size="headingThree" weight="semiBold">
-                  ENS
-                </Typography>
-              </Stack>
-            </NavLink>
+          <NavLink active={router.asPath === '/'} href="/">
+            <Stack align="center" direction="horizontal">
+              <NextImage height={48} src={Logo} width={48} />
+              <Typography color="blue" size="headingThree" weight="semiBold">
+                ENS
+              </Typography>
+            </Stack>
+          </NavLink>
 
-            <Box display={{ md: 'none' }}>
-              <Button
-                size="small"
-                variant="transparent"
-                onClick={() => setState((x) => ({ ...x, open: !x.open }))}
-              >
-                <Box aria-label={state.open ? 'Close menu' : 'Open menu'}>
-                  Menu
-                </Box>
-              </Button>
-            </Box>
-          </Stack>
+          <Box display={{ lg: 'none' }}>
+            <Button
+              pressed={state.open}
+              shadowless
+              size="extraSmall"
+              variant="transparent"
+              onClick={() => setState((x) => ({ ...x, open: !x.open }))}
+            >
+              <Box aria-label={state.open ? 'Close menu' : 'Open menu'}>
+                <IconMenu color="textPlaceholder" strokeWidth="0.75" />
+              </Box>
+            </Button>
+          </Box>
         </Stack>
       </Box>
 
       <Box
         className={styles.list}
-        display={{ xs: state.open ? 'block' : 'none', md: 'block' }}
+        display={{ xs: state.open ? 'block' : 'none', lg: 'block' }}
         height="full"
-        paddingBottom={{ md: '48' }}
-        paddingTop={{ xs: '10', md: '5' }}
+        marginBottom={{ lg: '24' }}
+        paddingBottom={{ lg: '24' }}
+        paddingTop={{ xs: '10', lg: '5' }}
       >
         <Stack space="6">
           <Stack space="3">

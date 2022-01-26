@@ -26,16 +26,26 @@ export const variants = recipe({
     opened: {
       true: style([
         atoms({
+          zIndex: '20',
           visibility: 'visible',
           marginTop: '1.5',
           opacity: '100',
         }),
+        style({
+          transition:
+            'all 0.3s cubic-bezier(1, 0, 0.22, 1.6), width 0s linear, z-index 0s linear 0.3s',
+        }),
       ]),
       false: style([
         atoms({
+          zIndex: '0',
           visibility: 'hidden',
           marginTop: '-12',
           opacity: '0',
+        }),
+        style({
+          transition:
+            'all 0.3s cubic-bezier(1, 0, 0.22, 1.6), width 0s linear, z-index 0s linear 0s',
         }),
       ]),
     },

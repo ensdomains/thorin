@@ -31,6 +31,8 @@ type BaseProps = {
   variant?: styles.Variant
   width?: BoxProps['width']
   zIndex?: BoxProps['zIndex']
+  pressed?: boolean
+  shadowless?: boolean
   onClick?: React.MouseEventHandler<HTMLElement> | undefined
 }
 
@@ -84,6 +86,8 @@ export const Button = React.forwardRef(
       width,
       zIndex,
       onClick,
+      pressed = false,
+      shadowless = false,
     }: Props,
     ref: React.Ref<HTMLButtonElement>,
   ) => {
@@ -123,6 +127,8 @@ export const Button = React.forwardRef(
           size,
           tone,
           variant,
+          pressed,
+          shadowless,
         })}
         disabled={disabled}
         href={href}

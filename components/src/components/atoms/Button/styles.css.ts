@@ -16,6 +16,11 @@ const shape = {
 export type Shape = keyof typeof shape
 
 const size = {
+  extraSmall: atoms({
+    borderRadius: 'large',
+    fontSize: 'small',
+    padding: '2',
+  }),
   small: atoms({
     borderRadius: 'large',
     fontSize: 'small',
@@ -159,6 +164,18 @@ export const variants = recipe({
       }),
       false: {},
     },
+    pressed: {
+      true: style({
+        filter: 'brightness(0.95)',
+      }),
+      false: {},
+    },
+    shadowless: {
+      true: style({
+        boxShadow: 'none !important',
+      }),
+      false: {},
+    },
     shape,
     size,
     tone,
@@ -187,6 +204,16 @@ export const variants = recipe({
       },
       style: atoms({
         paddingX: '15',
+      }),
+    },
+    {
+      variants: {
+        shadowless: true,
+        pressed: true,
+        variant: 'transparent',
+      },
+      style: atoms({
+        backgroundColor: 'backgroundSecondary',
       }),
     },
   ],

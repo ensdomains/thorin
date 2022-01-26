@@ -25,7 +25,7 @@ const accents: { [key in Mode]: { [key in Accent]: string } } = {
     red: '213, 85, 85',
     teal: '90, 200, 250',
     yellow: '255, 204, 0',
-    grey: '228, 231, 235',
+    grey: '232, 232, 235',
   },
   dark: {
     blue: '82, 152, 255',
@@ -37,7 +37,7 @@ const accents: { [key in Mode]: { [key in Accent]: string } } = {
     red: '213, 85, 85',
     teal: '100, 210, 255',
     yellow: '255, 214, 10',
-    grey: '59, 60, 61',
+    grey: '59, 59, 61',
   },
 }
 
@@ -65,11 +65,11 @@ export const colors = {
     transparent: 'transparent',
   },
   light: {
-    background: '246, 246, 246',
+    background: '246, 246, 248',
     backgroundSecondary: '246, 246, 248',
-    backgroundTertiary: '247, 247, 247',
+    backgroundTertiary: '246, 246, 248',
     foreground: '0, 0, 0',
-    groupBackground: '255, 255, 255',
+    groupBackground: '253, 253, 255',
     groupBorder: '0, 0, 0',
     gradients: gradients.light,
     ...accents.light,

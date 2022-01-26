@@ -64,7 +64,8 @@ globalStyle('*, ::before, ::after', {
 
 globalStyle('html', {
   fontSize: vars.fontSizes.root,
-  background: vars.colors.background,
+  background:
+    'radial-gradient(40.48% 67.6% at 50% 32.4%,#ecf4ff 0%,#f7f7ff 52.77%,#f7f7f7 100%),#ffffff',
   color: vars.colors.foreground,
   textRendering: 'optimizeLegibility',
 })
