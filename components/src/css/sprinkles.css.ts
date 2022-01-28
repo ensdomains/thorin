@@ -30,6 +30,7 @@ const negativeSpace = {
   ['-3']: `${calc(space['3']).negate()}`,
   ['-3.5']: `${calc(space['3.5']).negate()}`,
   ['-4']: `${calc(space['4']).negate()}`,
+  ['-6']: `${calc(space['6']).negate()}`,
   ['-12']: `${calc(space['12']).negate()}`,
   ['-24']: `${calc(space['24']).negate()}`,
 }
@@ -92,6 +93,7 @@ const responsiveProperties = defineProperties({
     },
     flexDirection: ['column', 'row'],
     flexWrap: ['wrap', 'nowrap'],
+    flexGrow: [0, 1, 2],
     fontSize: {
       ...vars.fontSizes,
       inherit: 'inherit',

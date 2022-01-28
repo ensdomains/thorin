@@ -4,7 +4,7 @@ import { Box, BoxProps } from '../Box'
 import { useTheme } from '../ThemeProvider'
 import * as styles from './styles.css'
 
-type Props = {
+export type Props = {
   as?: BoxProps['as']
   shadow?: boolean
   padding?: BoxProps['padding']

@@ -26,6 +26,10 @@ const makeColorScheme = (mode: Mode = 'light') => {
       backgroundSecondary: rgb(colors.backgroundSecondary),
       backgroundTertiary: rgb(colors.backgroundTertiary),
       backgroundHide: rgb(colors.foreground, shades.backgroundHide),
+      backgroundHideFallback: rgb(
+        colors.foreground,
+        shades.backgroundHideFallback,
+      ),
       foreground: rgb(colors.foreground),
       foregroundSecondary: rgb(colors.foreground, shades.foregroundSecondary),
       foregroundSecondaryHover: rgb(

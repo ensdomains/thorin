@@ -50,6 +50,10 @@ const config = {
         links: getComponentPaths('molecules'),
       },
       {
+        name: 'organisms',
+        links: getComponentPaths('organisms'),
+      },
+      {
         name: 'miscellaneous',
         links: componentPaths,
       },

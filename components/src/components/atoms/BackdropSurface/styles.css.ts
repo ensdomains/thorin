@@ -8,13 +8,13 @@ export const backdrop = style([
     height: 'viewHeight',
     position: 'fixed',
     overflow: 'hidden',
-    backgroundColor: 'backgroundHide',
+    backgroundColor: 'backgroundHideFallback',
   }),
   style({
     '@supports': {
       '(-webkit-backdrop-filter: none) or (backdrop-filter: none)': {
-        backdropFilter: `blur(2px)`,
-        WebkitBackdropFilter: 'blur(2px)',
+        backdropFilter: `blur(30px)`,
+        WebkitBackdropFilter: 'blur(30px)',
         backgroundColor: vars.colors.backgroundHide,
       },
     },

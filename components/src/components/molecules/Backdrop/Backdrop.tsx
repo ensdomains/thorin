@@ -7,21 +7,18 @@ import { BackdropSurface } from '../../atoms/BackdropSurface'
 type Props = {
   children: React.ReactNode
   surface?: React.ElementType
-  allowDismiss?: boolean
   onDismiss?: () => void
+  open: boolean
 }
 
-export const Backdrop = ({
-  children,
-  surface,
-  allowDismiss,
-  onDismiss,
-}: Props) => {
+export const Backdrop = ({ children, surface, onDismiss, open }: Props) => {
+  const boxRef = React.useRef<HTMLDivElement | null>(null)
   const Background = surface || BackdropSurface
 
-  const dismissClick = () => allowDismiss && onDismiss && onDismiss()
+  const dismissClick = (e: React.MouseEvent<HTMLElement>) =>
+    e.target === boxRef.current && onDismiss && onDismiss()
 
-  return (
+  return open ? (
     <Portal className="modal">
       <Background onClick={dismissClick}>
         <Box
@@ -29,11 +26,12 @@ export const Backdrop = ({
           display="flex"
           height="full"
           justifyContent="center"
+          ref={boxRef}
           width="full"
         >
           {children}
         </Box>
       </Background>
     </Portal>
-  )
+  ) : null
 }
