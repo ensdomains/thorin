@@ -12,7 +12,7 @@ export const variants = recipe({
     style({
       stroke: vars.colors.current,
       ...motionSafe({
-        animation: `1.4s linear infinite ${rotate}`,
+        animation: `1.1s linear infinite ${rotate}`,
       }),
     }),
   ],
@@ -20,12 +20,12 @@ export const variants = recipe({
     size: {
       small: atoms({
         height: '6',
-        strokeWidth: '0.5',
+        strokeWidth: '1.25',
         width: '6',
       }),
       large: atoms({
         height: '16',
-        strokeWidth: '0.375',
+        strokeWidth: '1.25',
         width: '16',
       }),
     },

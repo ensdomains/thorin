@@ -31,6 +31,7 @@ export const root = recipe({
     disabled: {
       true: atoms({
         borderColor: 'foregroundSecondary',
+        backgroundColor: 'background',
       }),
       false: {},
     },
@@ -100,6 +101,7 @@ export const input = recipe({
   variants: {
     disabled: {
       true: atoms({
+        opacity: '50',
         cursor: 'not-allowed',
       }),
       false: {},

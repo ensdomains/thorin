@@ -65,7 +65,7 @@ export const colors = {
     transparent: 'transparent',
   },
   light: {
-    background: '246, 246, 248',
+    background: '255, 255, 255',
     backgroundSecondary: '246, 246, 248',
     backgroundTertiary: '246, 246, 248',
     foreground: '0, 0, 0',

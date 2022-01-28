@@ -24,7 +24,7 @@ export const Spinner = React.forwardRef(
             cx="12"
             cy="12"
             fill="none"
-            r="10"
+            r="9"
             strokeDasharray="42"
             strokeLinecap="round"
           />
@@ -33,7 +33,7 @@ export const Spinner = React.forwardRef(
             cy="12"
             fill="none"
             opacity="0.25"
-            r="10"
+            r="9"
             strokeLinecap="round"
           />
         </svg>
