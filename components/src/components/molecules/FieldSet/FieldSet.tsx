@@ -6,7 +6,7 @@ import { TagProps } from '../../atoms/Tag'
 
 type NativeFieldSetProps = React.AllHTMLAttributes<HTMLFieldSetElement>
 
-type Props = {
+export type Props = {
   children: ReactNodeNoStrings
   description?: string | React.ReactNode
   disabled?: NativeFieldSetProps['disabled']

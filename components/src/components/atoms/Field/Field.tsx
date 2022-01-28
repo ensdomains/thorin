@@ -17,6 +17,7 @@ export type FieldBaseProps = {
   label: React.ReactNode
   labelSecondary?: React.ReactNode
   required?: NativeFormProps['required']
+  inline?: boolean
   width?: BoxProps['width']
 }
 
@@ -34,6 +35,7 @@ export const Field = ({
   label,
   labelSecondary,
   required,
+  inline,
   width = 'full',
 }: Props) => {
   const ids = useFieldIds({
@@ -44,12 +46,19 @@ export const Field = ({
 
   const labelContent = (
     <Box
-      alignItems="flex-end"
+      alignItems={inline ? 'center' : 'flex-end'}
       display="flex"
       justifyContent="space-between"
       paddingX="4"
+      paddingY={inline ? '1' : '0'}
     >
-      <Box as="label" color="textTertiary" fontWeight="semiBold" {...ids.label}>
+      <Box
+        as="label"
+        color="textTertiary"
+        fontWeight="semiBold"
+        marginRight={inline ? '4' : '0'}
+        {...ids.label}
+      >
         {label} {required && <VisuallyHidden>(required)</VisuallyHidden>}
       </Box>
       {labelSecondary && labelSecondary}
@@ -67,14 +76,42 @@ export const Field = ({
   else if (children) content = React.cloneElement(children, ids.content)
   else content = children
 
-  return (
+  return inline ? (
+    <Box
+      alignItems="center"
+      display="flex"
+      flexDirection="row"
+      gap="2"
+      width={width}
+    >
+      <Box alignSelf="flex-start" id="test123">
+        {content}
+      </Box>
+      <Box display="flex" flexDirection="column" gap="2">
+        {hideLabel ? (
+          <VisuallyHidden>{labelContent}</VisuallyHidden>
+        ) : (
+          labelContent
+        )}
+        {description && (
+          <Box color="textSecondary" paddingX="4" {...ids.description}>
+            {description}
+          </Box>
+        )}
+        {error && (
+          <Box aria-live="polite" color="red" paddingX="4" {...ids.error}>
+            {error}
+          </Box>
+        )}
+      </Box>
+    </Box>
+  ) : (
     <Box display="flex" flexDirection="column" gap="2" width={width}>
       {hideLabel ? (
         <VisuallyHidden>{labelContent}</VisuallyHidden>
       ) : (
         labelContent
       )}
-
       {content}
 
       {description && (
