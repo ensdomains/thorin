@@ -4,18 +4,28 @@ import { recipe } from '@vanilla-extract/recipes'
 
 import { atoms, vars } from '../../../css'
 
+const color = {
+  grey: atoms({
+    backgroundColor: 'backgroundHide',
+  }),
+  white: atoms({
+    backgroundColor: 'white',
+  }),
+}
+
+export type Color = keyof typeof color
+
 export const input = recipe({
   base: [
     atoms({
-      width: '6',
-      height: '6',
-      marginY: '2',
+      width: '7',
+      height: '7',
+      marginY: '1',
       cursor: 'pointer',
     }),
     style({
       font: 'inherit',
-      backgroundColor: vars.colors.backgroundHide,
-      borderRadius: '50%',
+      borderRadius: vars.space['2'],
       display: 'grid',
       placeContent: 'center',
       transition: 'transform 150ms ease-in-out, filter 150ms ease-in-out',
@@ -30,14 +40,12 @@ export const input = recipe({
         },
         '&::before': {
           content: '',
-          width: vars.space['4.5'],
-          height: vars.space['4.5'],
-          borderRadius: '50%',
+          backgroundColor: vars.colors.accent,
+          maskImage: `url('data:image/svg+xml; utf8, <svg width="${vars.space['4']}" height="${vars.space['4']}" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 12.625L10.125 20.125L22 3.875" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" /></svg>')`,
+          width: vars.space['4'],
+          height: vars.space['4'],
           transform: 'scale(0)',
           transition: 'transform 90ms ease-in-out',
-          backgroundImage: vars.colors.accentGradient,
-          backgroundSize: '100% 100%',
-          backgroundPosition: 'center',
         },
         '&:checked::before': {
           transform: 'scale(1)',
@@ -46,6 +54,7 @@ export const input = recipe({
     }),
   ],
   variants: {
+    color,
     disabled: {
       true: {},
     },

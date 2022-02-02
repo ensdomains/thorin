@@ -49,7 +49,8 @@ export const Field = ({
       alignItems={inline ? 'center' : 'flex-end'}
       display="flex"
       justifyContent="space-between"
-      paddingX="4"
+      paddingLeft={inline ? '2' : '4'}
+      paddingRight="4"
       paddingY={inline ? '1' : '0'}
     >
       <Box
