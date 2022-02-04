@@ -32,11 +32,11 @@ export const input = recipe({
       selectors: {
         '&:hover': {
           transform: 'translateY(-1px)',
-          filter: 'brightness(1.05)',
+          filter: 'contrast(0.7)',
         },
         '&:active': {
           transform: 'translateY(0px)',
-          filter: 'brightness(1)',
+          filter: 'contrast(1)',
         },
         '&::before': {
           content: '',

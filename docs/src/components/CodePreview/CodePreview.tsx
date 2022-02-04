@@ -26,6 +26,7 @@ export type Props = {
   code: string
   expand?: boolean
   theme?: PrismTheme
+  minHeight?: string
 }
 
 type State = {
@@ -41,6 +42,7 @@ export const CodePreview = ({
   code,
   expand = false,
   theme,
+  minHeight,
 }: Props) => {
   const previewRef = React.useRef<HTMLElement>(null)
   const [state, setState] = React.useState<State>({
@@ -82,6 +84,9 @@ export const CodePreview = ({
           overflow="scroll"
           padding="6"
           ref={previewRef}
+          style={{
+            minHeight: minHeight || 'none',
+          }}
         >
           <LivePreview />
 
