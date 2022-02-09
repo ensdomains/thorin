@@ -17,7 +17,9 @@ type Props = Exclude<FieldBaseProps, 'inline'> & {
   tabIndex?: NativeInputProps['tabIndex']
   onFocus?: NativeInputProps['onFocus']
   onBlur?: NativeInputProps['onBlur']
+  variant?: styles.Variant
   color?: styles.Color
+  size?: styles.Size
 }
 
 export const Checkbox = React.forwardRef(
@@ -39,7 +41,9 @@ export const Checkbox = React.forwardRef(
       onBlur,
       onChange,
       onFocus,
+      variant = 'regular',
       color = 'grey',
+      size = 'small',
       ...props
     }: Props,
     ref: React.Ref<HTMLInputElement>,
@@ -66,6 +70,8 @@ export const Checkbox = React.forwardRef(
             styles.input({
               disabled,
               color,
+              variant,
+              size,
             }),
           ]}
           ref={inputRef}

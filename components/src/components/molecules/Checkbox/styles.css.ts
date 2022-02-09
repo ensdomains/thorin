@@ -15,13 +15,47 @@ const color = {
 
 export type Color = keyof typeof color
 
-export const input = recipe({
-  base: [
+const getSwitchSizeVariant = (size: Size) => {
+  const sizeToSpace = {
+    small: 7,
+    medium: 10,
+    large: 14,
+  }
+  const sizeSpace = sizeToSpace[size]
+  const generateSpace = (space: number) => `${space / 4}rem`
+
+  return {
+    variants: {
+      variant: 'switch' as Variant,
+      size,
+    },
+    style: style({
+      width: generateSpace(sizeSpace * 2 - 1),
+      height: generateSpace(sizeSpace),
+      borderRadius: generateSpace(sizeSpace / 2),
+      selectors: {
+        '&::before': {
+          width: generateSpace(sizeSpace - 2),
+          height: generateSpace(sizeSpace - 2),
+        },
+      },
+    }),
+  }
+}
+
+const size = {
+  small: style({}),
+  medium: style({}),
+  large: style({}),
+}
+
+export type Size = keyof typeof size
+
+const variant = {
+  regular: style([
     atoms({
       width: '7',
       height: '7',
-      marginY: '1',
-      cursor: 'pointer',
     }),
     style({
       font: 'inherit',
@@ -52,11 +86,65 @@ export const input = recipe({
         },
       },
     }),
+  ]),
+  switch: style({
+    display: 'grid',
+    placeContent: 'center',
+    transition: 'transform 150ms ease-in-out, filter 150ms ease-in-out',
+    backgroundColor: vars.colors.accent,
+    filter: 'grayscale(1) brightness(1.5)',
+    selectors: {
+      '&:hover': {
+        transform: 'translateY(-1px)',
+        filter: 'grayscale(1) brightness(1.55)',
+      },
+      '&:active': {
+        transform: 'translateY(0px)',
+        filter: 'grayscale(1) brightness(1.5)',
+      },
+      '&:checked:hover': {
+        filter: 'grayscale(0) brightness(1.05)',
+      },
+      '&:checked:active': {
+        filter: 'grayscale(0) brightness(1)',
+      },
+      '&::before': {
+        content: '',
+        backgroundColor: vars.colors.white,
+        borderRadius: vars.radii['full'],
+        transform: 'translateX(-50%)',
+        transition: 'transform 90ms ease-in-out',
+      },
+      '&:checked::before': {
+        transform: 'translateX(50%)',
+      },
+      '&:checked': {
+        filter: 'grayscale(0) brightness(1)',
+      },
+    },
+  }),
+}
+
+export type Variant = keyof typeof variant
+
+export const input = recipe({
+  base: [
+    atoms({
+      cursor: 'pointer',
+      marginY: '1',
+    }),
   ],
   variants: {
+    variant,
     color,
+    size,
     disabled: {
       true: {},
     },
   },
+  compoundVariants: [
+    getSwitchSizeVariant('small'),
+    getSwitchSizeVariant('medium'),
+    getSwitchSizeVariant('large'),
+  ],
 })
