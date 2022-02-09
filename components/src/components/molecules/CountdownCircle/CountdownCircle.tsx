@@ -8,6 +8,7 @@ type Props = {
   countdownAmount: number
   color?: BoxProps['color']
   disabled?: boolean
+  callback?: () => void
 } & styles.Variants
 
 export const CountdownCircle = React.forwardRef(
@@ -18,6 +19,7 @@ export const CountdownCircle = React.forwardRef(
       size = 'small',
       countdownAmount,
       disabled,
+      callback,
     }: Props,
     ref: React.Ref<HTMLElement>,
   ) => {
@@ -30,13 +32,16 @@ export const CountdownCircle = React.forwardRef(
         setCurrentCount(countdownAmount)
         const countInterval = setInterval(() => {
           setCurrentCount((prevCount) => {
-            if (prevCount === 1) clearInterval(countInterval)
+            if (prevCount === 1) {
+              clearInterval(countInterval)
+              callback && callback()
+            }
             return prevCount - 1 ? prevCount - 1 : 0
           })
         }, 1000)
         return () => clearInterval(countInterval)
       }
-    }, [countdownAmount, disabled])
+    }, [callback, countdownAmount, disabled])
 
     return (
       <Box position="relative">
