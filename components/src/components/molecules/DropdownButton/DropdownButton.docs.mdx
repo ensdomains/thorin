@@ -18,6 +18,22 @@ import { DropdownButton } from '@ensdomains/thorin'
 </DropdownButton>
 ```
 
+## Inner Dropdown
+
+```tsx live=true expand=true minHeight=300px
+<DropdownButton
+  dropdownItems={[
+    { label: 'English', onClick: () => null },
+    { label: '简体中文', onClick: () => null },
+    { label: 'Français', onClick: () => null },
+    { label: 'Español', onClick: () => null },
+  ]}
+  inner
+>
+  Open Menu
+</DropdownButton>
+```
+
 ## Props
 
 <PropsTable sourceLink={sourceLink} types={types} />

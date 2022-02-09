@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import * as styles from './styles.css'
 
-import { Box, BoxProps, Typography } from '../..'
+import { Box, BoxProps } from '../..'
 
 export type DropdownItem = {
   label: string
@@ -16,6 +16,7 @@ export type BaseProps = {
   isOpen: boolean
   setIsOpen: (isOpen: boolean) => void
   children: React.ReactNode
+  inner?: boolean
 }
 
 type DropdownMenuProps = {
@@ -23,6 +24,7 @@ type DropdownMenuProps = {
   isOpen: boolean
   setIsOpen: (isOpen: boolean) => void
   width?: string
+  inner: boolean
 }
 
 const DropdownMenu = ({
@@ -30,28 +32,41 @@ const DropdownMenu = ({
   setIsOpen,
   isOpen,
   width,
+  inner,
 }: DropdownMenuProps) => (
   <Box
-    className={styles.variants({ opened: isOpen })}
-    style={{ width: width && parseInt(width) > 100 ? width : '150px' }}
+    className={styles.variants({ opened: isOpen, inner })}
+    style={{
+      width:
+        width && parseInt(width) > 100
+          ? inner
+            ? `${parseInt(width) + 0}px`
+            : width
+          : '150px',
+    }}
   >
     {items.map(({ label, color, disabled, onClick }: DropdownItem) => (
       <Box
         as="button"
-        className={styles.menuButton}
+        className={styles.menuButton({ inner, hasColor: !!color })}
+        color={color}
         disabled={disabled}
         key={label}
         onClick={() => Promise.resolve(setIsOpen(false)).then(onClick)}
       >
-        <Typography align="left" color={color} size="inherit" weight="semiBold">
-          {label}
-        </Typography>
+        {label}
       </Box>
     ))}
   </Box>
 )
 
-export const Dropdown = ({ items, isOpen, setIsOpen, children }: BaseProps) => {
+export const Dropdown = ({
+  items,
+  isOpen,
+  setIsOpen,
+  children,
+  inner = false,
+}: BaseProps) => {
   const dropdownRef = React.useRef<any>()
 
   const handleClickOutside = (e: any) => {
@@ -76,6 +91,7 @@ export const Dropdown = ({ items, isOpen, setIsOpen, children }: BaseProps) => {
     <Box maxWidth="max" position="relative" ref={dropdownRef}>
       {children}
       <DropdownMenu
+        inner={inner}
         isOpen={isOpen}
         items={items}
         setIsOpen={setIsOpen}
