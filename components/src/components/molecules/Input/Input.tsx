@@ -29,6 +29,8 @@ type BaseProps = FieldBaseProps & {
   onChange?: React.EventHandler<React.ChangeEvent<HTMLInputElement>>
   onFocus?: NativeInputProps['onFocus']
   onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>
+  size?: styles.Size
+  backgroundColor?: BoxProps['backgroundColor']
 }
 
 type WithTypeEmail = {
@@ -80,6 +82,8 @@ export const Input = React.forwardRef(
       onChange,
       onFocus,
       onKeyDown,
+      size = 'medium',
+      backgroundColor = 'backgroundSecondary',
       ...props
     }: Props,
     ref: React.Ref<HTMLInputElement>,
@@ -152,11 +156,13 @@ export const Input = React.forwardRef(
       >
         {(ids) => (
           <Box
+            backgroundColor={backgroundColor}
             className={[
               styles.root({
                 disabled,
                 error: hasError,
                 suffix: suffix !== undefined,
+                size,
               }),
               styles.inputParent,
             ]}
@@ -184,6 +190,7 @@ export const Input = React.forwardRef(
                   styles.input({
                     disabled,
                     type: inputType,
+                    size,
                   }),
                 ]}
                 defaultValue={defaultValue}

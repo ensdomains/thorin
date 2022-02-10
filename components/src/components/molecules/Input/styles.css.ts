@@ -3,18 +3,30 @@ import { recipe } from '@vanilla-extract/recipes'
 
 import { atoms, vars } from '../../../css'
 
+const size = {
+  medium: atoms({
+    height: '14',
+  }),
+  large: atoms({
+    height: '16',
+  }),
+  extraLarge: atoms({
+    height: '18',
+  }),
+}
+
+export type Size = keyof typeof size
+
 export const inputParent = style({})
 
 export const root = recipe({
   base: [
     atoms({
-      backgroundColor: 'backgroundSecondary',
       borderWidth: '0.75',
       borderColor: 'transparent',
       borderRadius: '2xLarge',
       color: 'text',
       display: 'flex',
-      height: '14',
       transitionDuration: '150',
       transitionProperty: 'colors',
       transitionTimingFunction: 'inOut',
@@ -28,6 +40,7 @@ export const root = recipe({
     }),
   ],
   variants: {
+    size,
     disabled: {
       true: atoms({
         borderColor: 'foregroundSecondary',
@@ -68,7 +81,6 @@ const container = atoms({
 const text = atoms({
   color: 'inherit',
   fontFamily: 'sans',
-  fontSize: 'base',
   fontWeight: 'medium',
 })
 
@@ -99,6 +111,18 @@ export const input = recipe({
     }),
   ]),
   variants: {
+    size: {
+      medium: atoms({
+        fontSize: 'base',
+      }),
+      large: atoms({
+        fontSize: 'large',
+      }),
+      extraLarge: atoms({
+        fontSize: 'headingThree',
+        paddingX: '6',
+      }),
+    },
     disabled: {
       true: atoms({
         opacity: '50',
