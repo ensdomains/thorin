@@ -8,12 +8,11 @@ import * as styles from './styles.css'
 
 type Props = {
   children: React.ReactNode
-  buttonProps?: Exclude<
-    ButtonProps,
-    'suffix' | 'zIndex' | 'onClick' | 'children'
-  >
+  buttonProps?: Omit<ButtonProps, 'suffix' | 'zIndex' | 'onClick' | 'children'>
   dropdownItems: DropdownProps['items']
   inner?: boolean
+  chevron?: boolean
+  align?: 'left' | 'right'
 }
 
 export const DropdownButton = ({
@@ -21,11 +20,13 @@ export const DropdownButton = ({
   buttonProps,
   dropdownItems,
   inner = false,
+  chevron = true,
+  align,
 }: Props) => {
   const [isOpen, setIsOpen] = React.useState(false)
 
   return (
-    <Dropdown {...{ isOpen, setIsOpen, items: dropdownItems, inner }}>
+    <Dropdown {...{ isOpen, setIsOpen, items: dropdownItems, inner, align }}>
       {inner ? (
         <Box
           as="button"
@@ -40,10 +41,12 @@ export const DropdownButton = ({
           {...buttonProps}
           pressed={isOpen}
           suffix={
-            <IconDownIndicator
-              className={styles.chevron({ open: isOpen })}
-              size="3"
-            />
+            chevron && (
+              <IconDownIndicator
+                className={styles.chevron({ open: isOpen })}
+                size="3"
+              />
+            )
           }
           zIndex="10"
           onClick={() => setIsOpen(!isOpen)}

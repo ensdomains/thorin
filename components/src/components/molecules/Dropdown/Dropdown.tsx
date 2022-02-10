@@ -17,6 +17,7 @@ export type BaseProps = {
   setIsOpen: (isOpen: boolean) => void
   children: React.ReactNode
   inner?: boolean
+  align?: 'left' | 'right'
 }
 
 type DropdownMenuProps = {
@@ -25,6 +26,7 @@ type DropdownMenuProps = {
   setIsOpen: (isOpen: boolean) => void
   width?: string
   inner: boolean
+  align: 'left' | 'right'
 }
 
 const DropdownMenu = ({
@@ -33,10 +35,11 @@ const DropdownMenu = ({
   isOpen,
   width,
   inner,
+  align,
 }: DropdownMenuProps) => {
   return (
     <Box
-      className={styles.variants({ opened: isOpen, inner })}
+      className={styles.variants({ opened: isOpen, inner, align })}
       style={{
         width: inner
           ? `${width}px`
@@ -67,6 +70,7 @@ export const Dropdown = ({
   setIsOpen,
   children,
   inner = false,
+  align = 'left',
 }: BaseProps) => {
   const dropdownRef = React.useRef<any>()
 
@@ -92,6 +96,7 @@ export const Dropdown = ({
     <Box maxWidth="max" position="relative" ref={dropdownRef}>
       {children}
       <DropdownMenu
+        align={align}
         inner={inner}
         isOpen={isOpen}
         items={items}

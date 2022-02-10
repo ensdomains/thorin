@@ -59,6 +59,14 @@ export const variants = recipe({
         }),
       ]),
     },
+    align: {
+      left: style({
+        left: '0',
+      }),
+      right: style({
+        right: '0',
+      }),
+    },
   },
   compoundVariants: [
     {
