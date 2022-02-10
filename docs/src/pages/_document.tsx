@@ -32,21 +32,28 @@ class Document extends NextDocument {
           <link
             as="font"
             crossOrigin="anonymous"
-            href="/fonts/sans/PlusJakartaSans-Regular.woff2"
+            href="/fonts/sans/Satoshi-Regular.woff2"
             rel="preload"
             type="font/woff2"
           />
           <link
             as="font"
             crossOrigin="anonymous"
-            href="/fonts/sans/PlusJakartaSans-Bold.woff2"
+            href="/fonts/sans/Satoshi-Bold.woff2"
             rel="preload"
             type="font/woff2"
           />
           <link
             as="font"
             crossOrigin="anonymous"
-            href="/fonts/sans/PlusJakartaSans-Medium.woff2"
+            href="/fonts/sans/Satoshi-Medium.woff2"
+            rel="preload"
+            type="font/woff2"
+          />
+          <link
+            as="font"
+            crossOrigin="anonymous"
+            href="/fonts/sans/Satoshi-Black.woff2"
             rel="preload"
             type="font/woff2"
           />
