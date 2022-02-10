@@ -23,7 +23,7 @@
     "setup": "yarn gen:icons",
     "size": "yarn build:components && yarn size-limit",
     "test": "yarn setup && yarn workspaces foreach -p run test",
-    "publish:local": "yalc publish components/ --no-scripts"
+    "publish:local": "yarn prepublish && yalc publish components/ --no-scripts"
   },
   "lint-staged": {
     "*.{js,mdx,ts,tsx}": [
