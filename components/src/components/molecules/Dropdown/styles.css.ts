@@ -18,7 +18,6 @@ export const variants = recipe({
     opened: {
       true: style([
         atoms({
-          zIndex: '20',
           visibility: 'visible',
           opacity: '100',
         }),
@@ -36,16 +35,16 @@ export const variants = recipe({
       true: style([
         atoms({
           backgroundColor: 'grey',
-          borderRadius: 'large',
+          borderRadius: 'almostExtraLarge',
           borderTopRadius: 'none',
           boxShadow: '0',
           borderWidth: 'px',
           borderTopWidth: '0',
           borderColor: 'borderSecondary',
-          paddingTop: '3',
+          paddingTop: '2.5',
           paddingX: '1.5',
           paddingBottom: '1.5',
-          marginTop: '-3',
+          marginTop: '-2.5',
         }),
         style({
           transition: '0.35s all cubic-bezier(1, 0, 0.22, 1.6)',
@@ -69,6 +68,7 @@ export const variants = recipe({
       },
       style: style([
         atoms({
+          zIndex: '20',
           marginTop: '1.5',
         }),
         style({
@@ -120,7 +120,6 @@ export const menuButton = recipe({
       width: 'full',
       height: '12',
       padding: '3',
-      justifyContent: 'flex-start',
       fontWeight: 'semiBold',
     }),
     style({
@@ -148,6 +147,7 @@ export const menuButton = recipe({
         },
       }),
       false: style({
+        justifyContent: 'flex-start',
         selectors: {
           '&:hover': {
             transform: 'translateY(-1px)',

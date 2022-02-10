@@ -33,32 +33,33 @@ const DropdownMenu = ({
   isOpen,
   width,
   inner,
-}: DropdownMenuProps) => (
-  <Box
-    className={styles.variants({ opened: isOpen, inner })}
-    style={{
-      width:
-        width && parseInt(width) > 100
-          ? inner
-            ? `${parseInt(width) + 0}px`
-            : width
+}: DropdownMenuProps) => {
+  return (
+    <Box
+      className={styles.variants({ opened: isOpen, inner })}
+      style={{
+        width: inner
+          ? `${width}px`
+          : width && parseInt(width) > 100
+          ? width
           : '150px',
-    }}
-  >
-    {items.map(({ label, color, disabled, onClick }: DropdownItem) => (
-      <Box
-        as="button"
-        className={styles.menuButton({ inner, hasColor: !!color })}
-        color={color}
-        disabled={disabled}
-        key={label}
-        onClick={() => Promise.resolve(setIsOpen(false)).then(onClick)}
-      >
-        {label}
-      </Box>
-    ))}
-  </Box>
-)
+      }}
+    >
+      {items.map(({ label, color, disabled, onClick }: DropdownItem) => (
+        <Box
+          as="button"
+          className={styles.menuButton({ inner, hasColor: !!color })}
+          color={color}
+          disabled={disabled}
+          key={label}
+          onClick={() => Promise.resolve(setIsOpen(false)).then(onClick)}
+        >
+          {label}
+        </Box>
+      ))}
+    </Box>
+  )
+}
 
 export const Dropdown = ({
   items,
@@ -95,7 +96,10 @@ export const Dropdown = ({
         isOpen={isOpen}
         items={items}
         setIsOpen={setIsOpen}
-        width={dropdownRef.current && dropdownRef.current.offsetWidth}
+        width={
+          dropdownRef.current &&
+          dropdownRef.current.getBoundingClientRect().width.toFixed(2)
+        }
       />
     </Box>
   )

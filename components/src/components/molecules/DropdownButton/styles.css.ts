@@ -36,8 +36,8 @@ export const innerMenuButton = recipe({
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      paddingY: '3.5',
-      paddingX: '4',
+      paddingY: '2.5',
+      paddingX: '4.5',
       borderWidth: 'px',
       borderColor: 'borderSecondary',
       fontWeight: 'semiBold',
@@ -49,7 +49,7 @@ export const innerMenuButton = recipe({
     open: {
       true: style([
         atoms({
-          borderTopRadius: 'large',
+          borderTopRadius: 'almostExtraLarge',
           borderBottomRadius: 'none',
           borderBottomWidth: '0',
           backgroundColor: 'grey',
@@ -57,7 +57,7 @@ export const innerMenuButton = recipe({
         }),
         style({
           transition:
-            '0.35s all cubic-bezier(1, 0, 0.22, 1.6), 0.15s color ease-in-out, 0s border-width 0.1s',
+            '0.35s all cubic-bezier(1, 0, 0.22, 1.6), 0.3s color ease-in-out, 0.2s border-radius ease-in-out, 0s border-width 0.1s',
           selectors: {
             '&:hover': {
               color: vars.colors.accent,
@@ -69,11 +69,17 @@ export const innerMenuButton = recipe({
         atoms({
           backgroundColor: 'background',
           color: 'textSecondary',
-          borderRadius: 'large',
+          borderRadius: 'almostExtraLarge',
+          boxShadow: '0.02',
         }),
         style({
           transition:
-            '0.35s all cubic-bezier(1, 0, 0.22, 1.6), 0.15s color ease-in-out, 0s border-width 0.25s',
+            '0.35s all cubic-bezier(1, 0, 0.22, 1.6), 0.15s color ease-in-out, 0s border-width 0.15s, 0.15s border-color ease-in-out',
+          selectors: {
+            '&:hover': {
+              borderColor: vars.colors.border,
+            },
+          },
         }),
       ]),
     },
