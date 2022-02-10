@@ -18,6 +18,7 @@ export type BaseProps = {
   children: React.ReactNode
   inner?: boolean
   align?: 'left' | 'right'
+  shortThrow?: boolean
 }
 
 type DropdownMenuProps = {
@@ -27,6 +28,7 @@ type DropdownMenuProps = {
   width?: string
   inner: boolean
   align: 'left' | 'right'
+  shortThrow: boolean
 }
 
 const DropdownMenu = ({
@@ -36,10 +38,11 @@ const DropdownMenu = ({
   width,
   inner,
   align,
+  shortThrow,
 }: DropdownMenuProps) => {
   return (
     <Box
-      className={styles.variants({ opened: isOpen, inner, align })}
+      className={styles.variants({ opened: isOpen, inner, align, shortThrow })}
       style={{
         width: inner
           ? `${width}px`
@@ -71,6 +74,7 @@ export const Dropdown = ({
   children,
   inner = false,
   align = 'left',
+  shortThrow = false,
 }: BaseProps) => {
   const dropdownRef = React.useRef<any>()
 
@@ -96,15 +100,18 @@ export const Dropdown = ({
     <Box maxWidth="max" position="relative" ref={dropdownRef}>
       {children}
       <DropdownMenu
-        align={align}
-        inner={inner}
-        isOpen={isOpen}
-        items={items}
-        setIsOpen={setIsOpen}
         width={
           dropdownRef.current &&
           dropdownRef.current.getBoundingClientRect().width.toFixed(2)
         }
+        {...{
+          align,
+          inner,
+          isOpen,
+          items,
+          setIsOpen,
+          shortThrow,
+        }}
       />
     </Box>
   )

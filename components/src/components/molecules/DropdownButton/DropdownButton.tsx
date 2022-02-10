@@ -13,6 +13,7 @@ type Props = {
   inner?: boolean
   chevron?: boolean
   align?: 'left' | 'right'
+  shortThrow?: boolean
 }
 
 export const DropdownButton = ({
@@ -22,11 +23,14 @@ export const DropdownButton = ({
   inner = false,
   chevron = true,
   align,
+  shortThrow,
 }: Props) => {
   const [isOpen, setIsOpen] = React.useState(false)
 
   return (
-    <Dropdown {...{ isOpen, setIsOpen, items: dropdownItems, inner, align }}>
+    <Dropdown
+      {...{ isOpen, setIsOpen, items: dropdownItems, inner, align, shortThrow }}
+    >
       {inner ? (
         <Box
           as="button"

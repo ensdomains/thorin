@@ -26,7 +26,6 @@ export const variants = recipe({
         atoms({
           zIndex: '0',
           visibility: 'hidden',
-          marginTop: '-12',
           opacity: '0',
         }),
       ]),
@@ -66,6 +65,10 @@ export const variants = recipe({
       right: style({
         right: '0',
       }),
+    },
+    shortThrow: {
+      true: style({}),
+      false: style({}),
     },
   },
   compoundVariants: [
@@ -113,6 +116,24 @@ export const variants = recipe({
       style: style({
         transition:
           'all 0.35s cubic-bezier(1, 0, 0.22, 1.6), width 0s linear, z-index 0s linear 0s',
+      }),
+    },
+    {
+      variants: {
+        opened: false,
+        shortThrow: true,
+      },
+      style: atoms({
+        marginTop: '-2.5',
+      }),
+    },
+    {
+      variants: {
+        opened: false,
+        shortThrow: false,
+      },
+      style: atoms({
+        marginTop: '-12',
       }),
     },
   ],
