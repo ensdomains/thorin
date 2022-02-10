@@ -31,6 +31,7 @@ type BaseProps = FieldBaseProps & {
   onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>
   size?: styles.Size
   backgroundColor?: BoxProps['backgroundColor']
+  borderRadius?: BoxProps['borderRadius']
 }
 
 type WithTypeEmail = {
@@ -84,6 +85,7 @@ export const Input = React.forwardRef(
       onKeyDown,
       size = 'medium',
       backgroundColor = 'backgroundSecondary',
+      borderRadius = '2xLarge',
       ...props
     }: Props,
     ref: React.Ref<HTMLInputElement>,
@@ -157,6 +159,7 @@ export const Input = React.forwardRef(
         {(ids) => (
           <Box
             backgroundColor={backgroundColor}
+            borderRadius={borderRadius}
             className={[
               styles.root({
                 disabled,

@@ -23,6 +23,7 @@ export const radii = {
   almostExtraLarge: '0.625rem',
   extraLarge: '0.75rem',
   '2xLarge': '1rem',
+  '2.5xLarge': '1.25rem',
   '3xLarge': '1.5rem',
   '4xLarge': '2.5rem',
   full: '9999px',

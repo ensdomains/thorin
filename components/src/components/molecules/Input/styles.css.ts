@@ -24,7 +24,6 @@ export const root = recipe({
     atoms({
       borderWidth: '0.75',
       borderColor: 'transparent',
-      borderRadius: '2xLarge',
       color: 'text',
       display: 'flex',
       transitionDuration: '150',
