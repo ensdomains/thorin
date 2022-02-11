@@ -53,7 +53,12 @@ export const Profile = ({
 
 const ProfileInner = ({ size, avatar, avatarAs, address, ensName }: Props) => (
   <React.Fragment>
-    <Avatar as={avatarAs} label="profile-avatar" placeholder src={avatar} />
+    <Avatar
+      as={avatarAs}
+      label="profile-avatar"
+      placeholder={!avatar}
+      src={avatar}
+    />
     <Box marginX="1.5" minWidth="none">
       <Typography
         as="h3"
