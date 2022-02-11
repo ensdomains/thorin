@@ -14,6 +14,7 @@ type Props = {
   chevron?: boolean
   align?: 'left' | 'right'
   shortThrow?: boolean
+  keepMenuOnTop?: boolean
 }
 
 export const DropdownButton = ({
@@ -24,12 +25,21 @@ export const DropdownButton = ({
   chevron = true,
   align,
   shortThrow,
+  keepMenuOnTop = false,
 }: Props) => {
   const [isOpen, setIsOpen] = React.useState(false)
 
   return (
     <Dropdown
-      {...{ isOpen, setIsOpen, items: dropdownItems, inner, align, shortThrow }}
+      {...{
+        isOpen,
+        setIsOpen,
+        items: dropdownItems,
+        inner,
+        align,
+        shortThrow,
+        keepOnTop: keepMenuOnTop,
+      }}
     >
       {inner ? (
         <Box

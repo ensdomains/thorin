@@ -19,6 +19,7 @@ export type BaseProps = {
   inner?: boolean
   align?: 'left' | 'right'
   shortThrow?: boolean
+  keepOnTop?: boolean
 }
 
 type DropdownMenuProps = {
@@ -29,6 +30,7 @@ type DropdownMenuProps = {
   inner: boolean
   align: 'left' | 'right'
   shortThrow: boolean
+  keepOnTop: boolean
 }
 
 const DropdownMenu = ({
@@ -39,6 +41,7 @@ const DropdownMenu = ({
   inner,
   align,
   shortThrow,
+  keepOnTop,
 }: DropdownMenuProps) => {
   return (
     <Box
@@ -49,6 +52,7 @@ const DropdownMenu = ({
           : width && parseInt(width) > 100
           ? width
           : '150px',
+        zIndex: keepOnTop ? 100 : undefined,
       }}
     >
       {items.map(({ label, color, disabled, onClick }: DropdownItem) => (
@@ -75,6 +79,7 @@ export const Dropdown = ({
   inner = false,
   align = 'left',
   shortThrow = false,
+  keepOnTop = false,
 }: BaseProps) => {
   const dropdownRef = React.useRef<any>()
 
@@ -111,6 +116,7 @@ export const Dropdown = ({
           items,
           setIsOpen,
           shortThrow,
+          keepOnTop,
         }}
       />
     </Box>
