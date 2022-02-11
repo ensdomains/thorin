@@ -3,6 +3,19 @@ import { recipe } from '@vanilla-extract/recipes'
 
 import { atoms, vars } from '../../../css'
 
+const size = {
+  small: atoms({
+    paddingX: '0.25',
+    paddingY: '0.5',
+  }),
+  medium: atoms({
+    paddingY: '2.5',
+    paddingX: '3.5',
+  }),
+}
+
+export type Size = keyof typeof size
+
 export const chevron = recipe({
   base: [
     atoms({
@@ -36,8 +49,6 @@ export const innerMenuButton = recipe({
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
-      paddingY: '2.5',
-      paddingX: '3.5',
       gap: '4',
       borderWidth: 'px',
       borderColor: 'borderSecondary',
@@ -47,6 +58,7 @@ export const innerMenuButton = recipe({
     }),
   ],
   variants: {
+    size,
     open: {
       true: style([
         atoms({

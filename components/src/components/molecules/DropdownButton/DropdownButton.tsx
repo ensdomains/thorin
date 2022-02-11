@@ -15,6 +15,7 @@ type Props = {
   align?: 'left' | 'right'
   shortThrow?: boolean
   keepMenuOnTop?: boolean
+  size?: styles.Size
 }
 
 export const DropdownButton = ({
@@ -26,6 +27,7 @@ export const DropdownButton = ({
   align,
   shortThrow,
   keepMenuOnTop = false,
+  size = 'medium',
 }: Props) => {
   const [isOpen, setIsOpen] = React.useState(false)
 
@@ -44,7 +46,7 @@ export const DropdownButton = ({
       {inner ? (
         <Box
           as="button"
-          className={styles.innerMenuButton({ open: isOpen })}
+          className={styles.innerMenuButton({ open: isOpen, size })}
           zIndex="10"
           onClick={() => setIsOpen(!isOpen)}
         >
