@@ -35,9 +35,10 @@ export const innerMenuButton = recipe({
     atoms({
       display: 'flex',
       alignItems: 'center',
-      justifyContent: 'center',
+      justifyContent: 'space-between',
       paddingY: '2.5',
-      paddingX: '4.5',
+      paddingX: '3.5',
+      gap: '4',
       borderWidth: 'px',
       borderColor: 'borderSecondary',
       fontWeight: 'semiBold',

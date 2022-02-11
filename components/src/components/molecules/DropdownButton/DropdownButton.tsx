@@ -39,6 +39,12 @@ export const DropdownButton = ({
           onClick={() => setIsOpen(!isOpen)}
         >
           {children}
+          {chevron && (
+            <IconDownIndicator
+              className={styles.chevron({ open: isOpen })}
+              size="3"
+            />
+          )}
         </Box>
       ) : (
         <Button
