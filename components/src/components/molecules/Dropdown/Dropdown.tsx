@@ -47,11 +47,8 @@ const DropdownMenu = ({
     <Box
       className={styles.variants({ opened: isOpen, inner, align, shortThrow })}
       style={{
-        width: inner
-          ? `${width}px`
-          : width && parseInt(width) > 100
-          ? width
-          : '150px',
+        width:
+          inner || (width && parseInt(width) > 100) ? `${width}px` : '150px',
         zIndex: keepOnTop ? 100 : undefined,
       }}
     >
