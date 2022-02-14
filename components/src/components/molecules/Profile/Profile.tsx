@@ -13,6 +13,7 @@ type BaseProps = {
   dropdownItems?: DropdownItem[]
   address: string
   ensName?: string
+  alignDropdown?: 'left' | 'right'
 } & styles.Variants
 
 type Props = BaseProps
@@ -24,12 +25,15 @@ export const Profile = ({
   dropdownItems,
   address,
   ensName,
+  alignDropdown = 'left',
 }: Props) => {
   const [isOpen, setIsOpen] = React.useState(false)
 
   if (dropdownItems) {
     return (
-      <Dropdown {...{ items: dropdownItems, isOpen, setIsOpen }}>
+      <Dropdown
+        {...{ items: dropdownItems, isOpen, setIsOpen, align: alignDropdown }}
+      >
         <Box
           className={styles.variants({ size, hasChevron: true, open: isOpen })}
           onClick={() => setIsOpen(!isOpen)}
@@ -59,7 +63,11 @@ const ProfileInner = ({ size, avatar, avatarAs, address, ensName }: Props) => (
       placeholder={!avatar}
       src={avatar}
     />
-    <Box marginX="1.5" minWidth="none">
+    <Box
+      display={size === 'small' ? 'none' : 'block'}
+      marginX="1.5"
+      minWidth="none"
+    >
       <Typography
         as="h3"
         color={ensName ? 'text' : 'textTertiary'}
