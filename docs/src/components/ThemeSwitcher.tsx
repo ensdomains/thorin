@@ -74,5 +74,7 @@ const getNextAccent = (
       return 'foreground'
     case 'foreground':
       return 'blue'
+    default:
+      return 'blue'
   }
 }

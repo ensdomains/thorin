@@ -9,6 +9,7 @@ yarn-debug.log*
 yarn-error.log*
 
 docs/.next/
+docs/out/
 docs/public/playroom/
 
 components/dist/

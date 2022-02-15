@@ -2,7 +2,7 @@ import { style } from '@vanilla-extract/css'
 import { CSSVarFunction } from '@vanilla-extract/private'
 import { RecipeVariants, recipe } from '@vanilla-extract/recipes'
 
-import { Gradients } from '@/src/tokens/color'
+import { Gradients } from '../../../tokens/color'
 
 import { atoms, rgb, vars } from '../../../css'
 
