@@ -8,7 +8,7 @@ import * as styles from './styles.css'
 
 type Props = {
   children: React.ReactNode
-  buttonProps?: Exclude<ButtonProps, 'children'>
+  buttonProps?: Partial<ButtonProps>
   dropdownItems: DropdownProps['items']
   inner?: boolean
   chevron?: boolean
