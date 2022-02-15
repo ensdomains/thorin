@@ -1,4 +1,5 @@
 docs/.next/
+docs/out/
 docs/public/playroom/
 
 components/dist/
