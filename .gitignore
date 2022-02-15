@@ -21,3 +21,5 @@ components/src/components/icons/generated/
 !.yarn/plugins
 !.yarn/sdks
 !.yarn/versions
+
+.idea
