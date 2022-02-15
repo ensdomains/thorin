@@ -36,6 +36,7 @@ type Props = {
   className: string
   live?: boolean
   expand?: boolean
+  minHeight?: string
 }
 
 export const CodeBlock = ({
@@ -44,6 +45,7 @@ export const CodeBlock = ({
   className,
   live,
   expand,
+  minHeight,
 }: Props) => {
   const isMounted = useIsMounted()
   const { mode } = useTheme()
@@ -59,7 +61,7 @@ export const CodeBlock = ({
       }
     : undefined
 
-  const code = children.trim()
+  const code = children.trim().replace(RegExp('^;'), '')
   if (live)
     return (
       <PlayroomStateProvider>
@@ -67,6 +69,7 @@ export const CodeBlock = ({
           backgroundColor={backgroundColor}
           code={code}
           expand={expand}
+          minHeight={minHeight}
           theme={modifiedTheme}
         />
       </PlayroomStateProvider>

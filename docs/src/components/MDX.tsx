@@ -1,7 +1,7 @@
 import { MDXProviderProps } from '@mdx-js/react'
 import slugify from '@sindresorhus/slugify'
 
-import { Box, Heading, Text } from '@ensdomains/thorin/components'
+import { Box, Heading, Typography } from '@ensdomains/thorin/components'
 
 import * as styles from '~/styles/utils.css'
 import { CodeBlock } from './CodeBlock'
@@ -42,15 +42,15 @@ export const MDX: MDXProviderProps['components'] = {
     )
   },
   inlineCode: ({ children }) => (
-    <Text as="code" color="accent" font="mono">
+    <Typography as="code" color="accent" font="mono">
       {children}
-    </Text>
+    </Typography>
   ),
   p: ({ children }) => (
     <Box marginY="6">
-      <Text as="p" color="text" lineHeight="1.625" variant="base">
+      <Typography as="p" color="text" lineHeight="1.625" variant="base">
         {children}
-      </Text>
+      </Typography>
     </Box>
   ),
   pre: (props) => <Box marginY="6" {...props} />,

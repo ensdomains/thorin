@@ -41,11 +41,18 @@ const variant = {
     }),
   ]),
   label: atoms({
-    color: 'textTertiary',
+    color: 'text',
     fontSize: 'label',
     fontWeight: 'semiBold',
-    letterSpacing: '0.03',
-    textTransform: 'uppercase',
+    letterSpacing: '-0.01',
+    textTransform: 'capitalize',
+  }),
+  labelHeading: atoms({
+    color: 'text',
+    fontSize: 'small',
+    fontWeight: 'semiBold',
+    letterSpacing: '-0.01',
+    textTransform: 'capitalize',
   }),
 }
 

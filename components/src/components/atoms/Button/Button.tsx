@@ -1,9 +1,9 @@
 import * as React from 'react'
 
 import { ReactNodeNoStrings } from '../../../types'
-import { Box, BoxProps } from '../../Box'
-import { Spinner } from '../../Spinner'
-import { Text } from '../../Text'
+import { Box, BoxProps } from '../Box'
+import { Spinner } from '../Spinner'
+import { Typography } from '../Typography'
 import { getCenterProps } from './utils'
 import * as styles from './styles.css'
 
@@ -30,6 +30,9 @@ type BaseProps = {
   type?: NativeButtonProps['type']
   variant?: styles.Variant
   width?: BoxProps['width']
+  zIndex?: BoxProps['zIndex']
+  pressed?: boolean
+  shadowless?: boolean
   onClick?: React.MouseEventHandler<HTMLElement> | undefined
 }
 
@@ -81,14 +84,17 @@ export const Button = React.forwardRef(
       type,
       variant = 'primary',
       width,
+      zIndex,
       onClick,
+      pressed = false,
+      shadowless = false,
     }: Props,
     ref: React.Ref<HTMLButtonElement>,
   ) => {
     const labelContent = (
-      <Text color="inherit" ellipsis size="inherit" weight="semiBold">
+      <Typography color="inherit" ellipsis size="inherit" weight="semiBold">
         {children}
-      </Text>
+      </Typography>
     )
 
     let childContent: ReactNodeNoStrings
@@ -121,15 +127,19 @@ export const Button = React.forwardRef(
           size,
           tone,
           variant,
+          pressed,
+          shadowless,
         })}
         disabled={disabled}
         href={href}
+        position={zIndex && 'relative'}
         ref={ref}
         rel={rel}
         tabIndex={tabIndex}
         target={target}
         type={type}
         width={width ?? 'max'}
+        zIndex={zIndex}
         onClick={onClick}
       >
         {childContent}

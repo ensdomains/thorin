@@ -30,6 +30,9 @@ const negativeSpace = {
   ['-3']: `${calc(space['3']).negate()}`,
   ['-3.5']: `${calc(space['3.5']).negate()}`,
   ['-4']: `${calc(space['4']).negate()}`,
+  ['-6']: `${calc(space['6']).negate()}`,
+  ['-12']: `${calc(space['12']).negate()}`,
+  ['-24']: `${calc(space['24']).negate()}`,
 }
 
 const margins = {
@@ -88,8 +91,9 @@ const responsiveProperties = defineProperties({
       initial: '0 1 auto',
       none: 'none',
     },
-    flexDirection: ['column', 'row'],
+    flexDirection: ['column', 'row', 'column-reverse', 'row-reverse'],
     flexWrap: ['wrap', 'nowrap'],
+    flexGrow: [0, 1, 2],
     fontSize: {
       ...vars.fontSizes,
       inherit: 'inherit',
@@ -228,6 +232,10 @@ const selectorProperties = defineProperties({
       '0.25': {
         vars: { [boxShadowColorVar]: vars.colors.foregroundSecondary },
         boxShadow: `${vars.shadows['0.25']} ${boxShadowColorVar}`,
+      },
+      '0.02': {
+        vars: { [boxShadowColorVar]: vars.colors.foregroundSecondary },
+        boxShadow: `${vars.shadows['0.02']} ${boxShadowColorVar}`,
       },
       '0': {
         vars: { [boxShadowColorVar]: vars.colors.foregroundSecondary },

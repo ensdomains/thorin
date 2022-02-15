@@ -16,6 +16,11 @@ const shape = {
 export type Shape = keyof typeof shape
 
 const size = {
+  extraSmall: atoms({
+    borderRadius: 'large',
+    fontSize: 'small',
+    padding: '2',
+  }),
   small: atoms({
     borderRadius: 'large',
     fontSize: 'small',
@@ -70,8 +75,8 @@ const variant = {
   ]),
   secondary: style([
     atoms({
-      color: 'text',
-      backgroundColor: 'accentSecondary',
+      color: 'textSecondary',
+      backgroundColor: 'grey',
     }),
   ]),
   action: style([
@@ -128,7 +133,7 @@ export const variants = recipe({
     }),
     style({
       letterSpacing: '-0.01em',
-      boxShadow: `${vars.shadows['0.25']} ${vars.colors.accentSecondary}`,
+      boxShadow: `${vars.shadows['0.25']} ${vars.colors.grey}`,
       selectors: {
         '&:hover': {
           transform: 'translateY(-1px)',
@@ -139,7 +144,7 @@ export const variants = recipe({
           filter: 'brightness(1)',
         },
         '&:disabled': {
-          backgroundColor: vars.colors.accentSecondary,
+          backgroundColor: vars.colors.grey,
           color: vars.colors.textTertiary,
           boxShadow: 'none',
         },
@@ -156,6 +161,18 @@ export const variants = recipe({
     center: {
       true: atoms({
         position: 'relative',
+      }),
+      false: {},
+    },
+    pressed: {
+      true: style({
+        filter: 'brightness(0.95)',
+      }),
+      false: {},
+    },
+    shadowless: {
+      true: style({
+        boxShadow: 'none !important',
       }),
       false: {},
     },
@@ -187,6 +204,16 @@ export const variants = recipe({
       },
       style: atoms({
         paddingX: '15',
+      }),
+    },
+    {
+      variants: {
+        shadowless: true,
+        pressed: true,
+        variant: 'transparent',
+      },
+      style: atoms({
+        backgroundColor: 'backgroundSecondary',
       }),
     },
   ],

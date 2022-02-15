@@ -9,7 +9,7 @@ import {
 import {
   ThemeProvider,
   ThemeProviderProps,
-} from '../src/components/ThemeProvider'
+} from '../src/components/atoms/ThemeProvider'
 
 import '@testing-library/jest-dom/extend-expect'
 import './mocks/URL.js'

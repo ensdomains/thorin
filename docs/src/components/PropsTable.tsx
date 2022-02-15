@@ -5,7 +5,7 @@ import {
   Box,
   Button,
   Stack,
-  Text,
+  Typography,
   VisuallyHidden,
 } from '@ensdomains/thorin/components'
 
@@ -67,7 +67,7 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
                       paddingX="4"
                       paddingY="2.5"
                     >
-                      <Text variant="label">{x}</Text>
+                      <Typography variant="label">{x}</Typography>
                     </Box>
                   </Box>
                 ))}
@@ -78,33 +78,33 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
               {props.map((x) => (
                 <Box as="tr" borderBottomWidth="px" key={x.name}>
                   <Box {...dataProps}>
-                    <Text color="text" size="small">
+                    <Typography color="text" size="small">
                       {x.name}
                       {x.required && (
-                        <Text as="span" color="red" size="small">
+                        <Typography as="span" color="red" size="small">
                           *<VisuallyHidden>Required</VisuallyHidden>
-                        </Text>
+                        </Typography>
                       )}
-                    </Text>
+                    </Typography>
                   </Box>
 
                   <Box {...dataProps}>
-                    <Text color="accent" font="mono" size="small">
+                    <Typography color="accent" font="mono" size="small">
                       {x.type.raw ?? x.type.name}
-                    </Text>
+                    </Typography>
                   </Box>
 
                   <Box {...dataProps}>
-                    <Text color="textSecondary" size="small">
+                    <Typography color="textSecondary" size="small">
                       {x.defaultValue?.value.toString() ?? '-'}
-                    </Text>
+                    </Typography>
                   </Box>
 
                   {state.showDescriptions && (
                     <Box {...dataProps}>
-                      <Text color="textSecondary" size="small">
+                      <Typography color="textSecondary" size="small">
                         {x.description || '-'}
-                      </Text>
+                      </Typography>
                     </Box>
                   )}
                 </Box>
@@ -114,7 +114,7 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
         </Box>
       ) : (
         <Box>
-          <Text color="textSecondary">No props</Text>
+          <Typography color="textSecondary">No props</Typography>
         </Box>
       )}
 
@@ -123,7 +123,7 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
           {!!props.length && (
             <Button
               size="small"
-              variant="transparent"
+              variant="secondary"
               onClick={() =>
                 setState((x) => ({
                   ...x,
@@ -137,7 +137,7 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
 
           {sourceLink && (
             <Link href={sourceLink}>
-              <Button size="small" variant="transparent">
+              <Button size="small" variant="secondary">
                 View Source on GitHub
               </Button>
             </Link>

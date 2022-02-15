@@ -1,11 +1,12 @@
 export const fonts = {
   mono: `"iAWriter Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace`,
-  sans: `"JakartaSans", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif`,
+  sans: `"Satoshi", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif`,
 }
 
 export const fontSizes = {
   headingOne: '3rem',
   headingTwo: '1.875rem',
+  headingThree: '1.625rem',
   extraLarge: '1.3125rem',
   large: '1.125rem',
   small: '0.9375rem',

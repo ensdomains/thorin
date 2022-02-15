@@ -36,6 +36,7 @@ const svgrConfig = {
   },
   svgoConfig: {
     multipass: true,
+    removeDimensions: true,
   },
   template: componentTemplate,
   titleProp: true,
@@ -102,7 +103,7 @@ const iconComponentsDir = path.join(
       dedent`
           import * as React from 'react'
 
-          import { Box, BoxProps } from '../../../Box'
+          import { Box, BoxProps } from '../../..'
           import { OptionalTitle } from '../../types'
           import { ${componentName} } from './${componentName}'
 

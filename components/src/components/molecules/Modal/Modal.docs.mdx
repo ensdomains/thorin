@@ -1,0 +1,25 @@
+---
+title: Modal
+description: Modal for displaying content in a seperated window
+---
+
+```tsx
+import { Modal } from '@ensdomains/thorin'
+```
+
+```tsx live=true
+<>
+  <Button onClick={() => toggleState('modal')}>Open Modal</Button>
+  <Modal
+    open={getState('modal')}
+    padding="4"
+    onDismiss={() => toggleState('modal')}
+  >
+    <Typography>This is a modal popup.</Typography>
+  </Modal>
+</>
+```
+
+## Props
+
+<PropsTable sourceLink={sourceLink} types={types} />

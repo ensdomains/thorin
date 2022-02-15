@@ -17,6 +17,7 @@ type Props = {
     | 'label'
     | 'p'
     | 'span'
+    | 'i'
   children?: React.ReactNode
   color?: BoxProps['color']
   font?: BoxProps['fontFamily']

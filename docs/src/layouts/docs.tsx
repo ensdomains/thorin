@@ -40,23 +40,30 @@ const Layout: NextLayout<Props> = ({ children, meta }) => {
 
       <SkipNavLink>Skip to content</SkipNavLink>
 
-      <Box marginX="auto" maxWidth="320" minHeight="viewHeight" paddingX="6">
+      <Box
+        display={{ xs: 'block', lg: 'flex' }}
+        justifyContent={{ xs: 'center', md: 'flex-end', xl: 'center' }}
+        marginX="auto"
+        maxWidth="320"
+        minHeight="viewHeight"
+        paddingX="6"
+      >
         <Box
           as="aside"
-          height={{ md: 'viewHeight' }}
-          paddingRight={{ md: '12' }}
-          paddingTop="12"
-          position={{ md: 'fixed' }}
-          width={{ md: '64' }}
+          height={{ lg: 'viewHeight' }}
+          left={{ md: '4' }}
+          paddingTop="6"
+          position={{ lg: 'fixed' }}
+          width={{ md: 'full', lg: '48', xl: '56' }}
         >
           <Nav links={links} />
         </Box>
 
-        <Box as="main" marginLeft={{ md: '64' }}>
+        <Box as="main">
           <SkipNavContent />
           <Box
             as="article"
-            maxWidth="224"
+            maxWidth={{ xs: '224', lg: '192', xl: '224' }}
             paddingBottom="20"
             paddingTop="20"
             paddingX={{ lg: '10' }}

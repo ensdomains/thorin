@@ -10,7 +10,7 @@ import {
   Box,
   Button,
   Stack,
-  Text,
+  Typography,
   useTheme,
 } from '@ensdomains/thorin/components'
 import { vars } from '@ensdomains/thorin/css'
@@ -26,6 +26,7 @@ export type Props = {
   code: string
   expand?: boolean
   theme?: PrismTheme
+  minHeight?: string
 }
 
 type State = {
@@ -41,6 +42,7 @@ export const CodePreview = ({
   code,
   expand = false,
   theme,
+  minHeight,
 }: Props) => {
   const previewRef = React.useRef<HTMLElement>(null)
   const [state, setState] = React.useState<State>({
@@ -82,17 +84,20 @@ export const CodePreview = ({
           overflow="scroll"
           padding="6"
           ref={previewRef}
+          style={{
+            minHeight: minHeight || 'none',
+          }}
         >
           <LivePreview />
 
-          <Text color="red" font="mono">
+          <Typography color="red" font="mono">
             <LiveError
               style={{
                 fontFamily: 'inherit',
                 margin: 0,
               }}
             />
-          </Text>
+          </Typography>
         </Box>
 
         {state.expand && (
@@ -110,7 +115,7 @@ export const CodePreview = ({
         <Stack direction="horizontal" justify="flex-end" space="2">
           <Button
             size="small"
-            variant="transparent"
+            variant="secondary"
             onClick={() => setState((x) => ({ ...x, expand: !x.expand }))}
           >
             {state.expand ? 'Hide Code' : 'View Code'}
@@ -121,7 +126,7 @@ export const CodePreview = ({
             href={createPlayroomLink({ code })}
             size="small"
             target="_blank"
-            variant="transparent"
+            variant="secondary"
           >
             Open in Playroom
           </Button>

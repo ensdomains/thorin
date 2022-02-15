@@ -6,6 +6,12 @@ import { Accent, Mode, tokens } from '../tokens'
 export const rgb = (partial: string, alpha?: CSSVarFunction | string) =>
   alpha ? `rgba(${partial}, ${alpha})` : `rgb(${partial})`
 
+export const solidFromShadeRgb = (partial: string, alpha?: string) => {
+  const rgb = partial.split(',').map((x) => parseInt(x, 10))
+  const alphaNum = alpha ? parseFloat(alpha) : 1
+  return `rgb(${rgb[0] * alphaNum}, ${rgb[1] * alphaNum}, ${rgb[2] * alphaNum})`
+}
+
 export const getAccentText = (mode: Mode, accent: Accent | 'foreground') =>
   ['foreground', 'yellow'].includes(accent) && mode === 'dark'
     ? tokens.colors.light.foreground

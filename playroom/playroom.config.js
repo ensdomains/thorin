@@ -7,7 +7,7 @@ module.exports = {
   components: './src/components.ts',
   baseUrl: '/playroom/',
   outputPath: '../docs/public/playroom',
-  title: 'Mirror',
+  title: 'ENS',
   snippets: './src/snippets.ts',
   themes: './src/themes.ts',
   frameComponent: './src/FrameComponent.tsx',
