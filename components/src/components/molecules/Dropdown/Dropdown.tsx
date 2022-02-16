@@ -99,7 +99,12 @@ export const Dropdown = ({
   }, [dropdownRef, isOpen])
 
   return (
-    <Box maxWidth="max" position="relative" ref={dropdownRef}>
+    <Box
+      data-testid="dropdown"
+      maxWidth="max"
+      position="relative"
+      ref={dropdownRef}
+    >
       {children}
       <DropdownMenu
         width={
