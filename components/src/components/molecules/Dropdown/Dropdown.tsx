@@ -2,24 +2,14 @@ import * as React from 'react'
 
 import * as styles from './styles.css'
 
-import { Box, BoxProps } from '../..'
+import { Box, BoxProps, Button, IconDownIndicator } from '../..'
+import { Props as ButtonProps } from '@/src/components/atoms/Button'
 
 export type DropdownItem = {
   label: string
   onClick(): void
   color?: BoxProps['color']
   disabled?: boolean
-}
-
-export type BaseProps = {
-  items: DropdownItem[]
-  isOpen: boolean
-  setIsOpen: (isOpen: boolean) => void
-  children: React.ReactNode
-  inner?: boolean
-  align?: 'left' | 'right'
-  shortThrow?: boolean
-  keepOnTop?: boolean
 }
 
 type DropdownMenuProps = {
@@ -30,7 +20,7 @@ type DropdownMenuProps = {
   inner: boolean
   align: 'left' | 'right'
   shortThrow: boolean
-  keepOnTop: boolean
+  keepMenuOnTop: boolean
 }
 
 const DropdownMenu = ({
@@ -41,7 +31,7 @@ const DropdownMenu = ({
   inner,
   align,
   shortThrow,
-  keepOnTop,
+  keepMenuOnTop,
 }: DropdownMenuProps) => {
   return (
     <Box
@@ -49,7 +39,7 @@ const DropdownMenu = ({
       style={{
         width:
           inner || (width && parseInt(width) > 100) ? `${width}px` : '150px',
-        zIndex: keepOnTop ? 100 : undefined,
+        zIndex: keepMenuOnTop ? 100 : undefined,
       }}
     >
       {items.map(({ label, color, disabled, onClick }: DropdownItem) => (
@@ -68,17 +58,34 @@ const DropdownMenu = ({
   )
 }
 
+type Props = {
+  children?: React.ReactNode
+  buttonProps?: ButtonProps
+  inner?: boolean
+  chevron?: boolean
+  align?: 'left' | 'right'
+  shortThrow?: boolean
+  keepMenuOnTop?: boolean
+  items: DropdownItem[]
+  size?: styles.Size
+  label?: string
+}
+
 export const Dropdown = ({
-  items,
-  isOpen,
-  setIsOpen,
   children,
+  buttonProps,
+  items = [],
   inner = false,
+  chevron = true,
   align = 'left',
   shortThrow = false,
-  keepOnTop = false,
-}: BaseProps) => {
+  keepMenuOnTop = false,
+  size = 'medium',
+  label,
+}: Props) => {
   const dropdownRef = React.useRef<any>()
+
+  const [isOpen, setIsOpen] = React.useState(false)
 
   const handleClickOutside = (e: any) => {
     if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -95,7 +102,6 @@ export const Dropdown = ({
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dropdownRef, isOpen])
 
   return (
@@ -105,7 +111,52 @@ export const Dropdown = ({
       position="relative"
       ref={dropdownRef}
     >
-      {children}
+      {!children && inner && (
+        <Box
+          as="button"
+          className={styles.innerMenuButton({ open: isOpen, size })}
+          zIndex="10"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          {label}
+          {chevron && (
+            <IconDownIndicator
+              className={styles.chevron({ open: isOpen })}
+              size="3"
+            />
+          )}
+        </Box>
+      )}
+
+      {!children && !inner && (
+        <Button
+          {...buttonProps}
+          pressed={isOpen}
+          suffix={
+            chevron && (
+              <IconDownIndicator
+                className={styles.chevron({ open: isOpen })}
+                size="3"
+              />
+            )
+          }
+          zIndex="10"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          {label}
+        </Button>
+      )}
+
+      {React.Children.map(children, (child) => {
+        if (React.isValidElement(child)) {
+          return React.cloneElement(child, {
+            ...buttonProps,
+            zindex: 10,
+            onClick: () => setIsOpen(!isOpen),
+          })
+        }
+      })}
+
       <DropdownMenu
         width={
           dropdownRef.current &&
@@ -118,7 +169,7 @@ export const Dropdown = ({
           items,
           setIsOpen,
           shortThrow,
-          keepOnTop,
+          keepMenuOnTop,
         }}
       />
     </Box>
