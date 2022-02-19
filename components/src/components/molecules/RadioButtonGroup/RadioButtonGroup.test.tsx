@@ -4,8 +4,8 @@ import { useState } from 'react'
 import { cleanup, render, screen, userEvent } from '@/test'
 
 import { RadioButtonGroup } from './RadioButtonGroup'
-import { FieldSet } from '@/src'
-import { RadioButton } from '!/components'
+import { FieldSet, RadioButton } from '@/src'
+// import { RadioButton } from '@/src/components'
 
 const RadioButtonGroupWithState = () => {
   const [state, setState] = useState<boolean>(false)
@@ -23,12 +23,14 @@ const RadioButtonGroupWithState = () => {
   )
 }
 
-describe('<Radio />', () => {
+describe('<RadioButtonGroup />', () => {
   afterEach(cleanup)
 
   it('renders', async () => {
     render(<RadioButtonGroupWithState />)
-    expect(screen.getByTestId('radio-group')).toBeInTheDocument()
+    expect(
+      screen.getByText('Radio Buttons - Current Value: 30'),
+    ).toBeInTheDocument()
   })
 
   it('should update which radio button is checked correctly', () => {

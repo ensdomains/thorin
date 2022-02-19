@@ -7,7 +7,6 @@ import { Checkbox } from './Checkbox'
 
 const CheckboxWithState = (props: any) => {
   const [checked, setChecked] = useState<boolean>(false)
-  // console.log('checked: ', checked)
   return (
     <div>
       hello there
@@ -45,7 +44,7 @@ describe('<Checkbox />', () => {
   })
 
   it('should not be clickable when disabled', async () => {
-    render(<CheckboxWithState />)
+    render(<CheckboxWithState disabled />)
     userEvent.click(screen.getByTestId('checkbox'))
     await waitFor(() => {
       expect(screen.queryByText('unchecked')).toBeInTheDocument()
