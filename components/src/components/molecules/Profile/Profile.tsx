@@ -49,7 +49,10 @@ export const Profile = ({
   }
 
   return (
-    <Box className={styles.variants({ size, open: false })}>
+    <Box
+      className={styles.variants({ size, open: false })}
+      data-testid="profile"
+    >
       <ProfileInner {...{ size, avatar, avatarAs, address, ensName }} />
     </Box>
   )

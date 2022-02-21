@@ -44,7 +44,7 @@ export const CountdownCircle = React.forwardRef(
     }, [callback, countdownAmount, disabled])
 
     return (
-      <Box position="relative">
+      <Box data-testid="countdown-circle" position="relative">
         <Box className={styles.numberBox({ size, disabled })}>
           {disabled ? totalCount : currentCount}
         </Box>

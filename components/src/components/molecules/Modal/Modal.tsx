@@ -26,6 +26,7 @@ export const Modal = ({
         <Box
           as={IconClose}
           className={styles.closeButton}
+          data-testid="close-icon"
           onClick={onDismiss}
         />
       )}

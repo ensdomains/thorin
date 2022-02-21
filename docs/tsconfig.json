@@ -2,10 +2,11 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "allowJs": true,
-    "baseUrl": "./",
+    "baseUrl": ".",
     "jsx": "preserve",
     "paths": {
       "~/*": ["./src/*"],
+      "@/*": ["../components/*"],
       "@ensdomains/thorin/*": ["../components/src/*"]
     },
     "target": "es5",
