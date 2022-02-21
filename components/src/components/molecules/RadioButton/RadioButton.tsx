@@ -65,6 +65,7 @@ export const RadioButton = React.forwardRef(
               disabled,
             }),
           ]}
+          data-testid="radio"
           ref={inputRef}
           type="radio"
           {...{

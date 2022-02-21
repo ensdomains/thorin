@@ -74,6 +74,7 @@ export const Checkbox = React.forwardRef(
               size,
             }),
           ]}
+          data-testid="checkbox"
           ref={inputRef}
           type="checkbox"
           {...{

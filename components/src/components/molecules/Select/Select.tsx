@@ -118,6 +118,7 @@ export const Select = React.forwardRef(
 
     return (
       <Field
+        data-testid="select"
         description={description}
         error={error}
         hideLabel={hideLabel}
@@ -141,6 +142,7 @@ export const Select = React.forwardRef(
           >
             <Box
               alignItems="center"
+              data-testid="selected"
               display="flex"
               flexDirection="row"
               flexGrow={1}

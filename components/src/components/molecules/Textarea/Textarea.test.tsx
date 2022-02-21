@@ -21,7 +21,7 @@ describe('<Textarea />', () => {
     )
   })
 
-  it('maxLength', () => {
+  it('respects the maxLength parameter', () => {
     render(
       <Textarea label="Why are you entering $WRITE Race?" maxLength={14} />,
     )
@@ -29,5 +29,25 @@ describe('<Textarea />', () => {
     const element = screen.getByLabelText(/why/i)
     userEvent.type(element, 'I love writing and crypto.')
     expect(element).toHaveValue('I love writing')
+  })
+
+  it('does not allow typing when disabled', () => {
+    render(
+      <Textarea
+        disabled
+        label="Why are you entering $WRITE Race?"
+        maxLength={14}
+      />,
+    )
+
+    const element = screen.getByLabelText(/why/i)
+    userEvent.type(element, 'I love writing and crypto.')
+    expect(element).toHaveValue('')
+  })
+
+  it('shows error message', () => {
+    render(<Textarea error="error" label="Why are you entering $WRITE Race?" />)
+
+    expect(screen.getByText('error')).toBeInTheDocument()
   })
 })

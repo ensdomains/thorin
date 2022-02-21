@@ -7,24 +7,45 @@ description: Attaches a button menu to an element
 import { Dropdown } from '@ensdomains/thorin'
 ```
 
-```tsx live=true minHeight=300px
-;() => {
-  const [isOpen, setIsOpen] = React.useState(false)
+```tsx live=true  expand=ture minHeight=300px
+<Dropdown
+  items={[
+    { label: 'Dashboard', onClick: () => null },
+    { label: 'Disconnect', onClick: () => null, color: 'red' },
+  ]}
+  label="Language"
+/>
+```
 
-  return (
-    <Dropdown
-      items={[
-        { label: 'Dashboard', onClick: () => null },
-        { label: 'Disconnect', onClick: () => null, color: 'red' },
-      ]}
-      {...{ isOpen, setIsOpen }}
-    >
-      <Button zIndex="10" onClick={() => setIsOpen(!isOpen)}>
-        Menu
-      </Button>
-    </Dropdown>
-  )
-}
+## Inner Dropdown
+
+```tsx live=true expand=true minHeight=300px
+<Dropdown
+  inner
+  items={[
+    { label: 'English', onClick: () => null },
+    { label: '简体中文', onClick: () => null },
+    { label: 'Français', onClick: () => null },
+    { label: 'Español', onClick: () => null },
+  ]}
+  label="Language"
+/>
+```
+
+## Custom button
+
+```tsx live=true expand=true minHeight=300px
+<Dropdown
+  items={[
+    { label: 'English', onClick: () => null },
+    { label: '简体中文', onClick: () => null },
+    { label: 'Français', onClick: () => null },
+    { label: 'Español', onClick: () => null },
+  ]}
+  label="Language"
+>
+  <button>Custom button</button>
+</Dropdown>
 ```
 
 ## Props
