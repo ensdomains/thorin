@@ -8,7 +8,7 @@ export const snippets: Snippet[] = [
   {
     name: 'Basic',
     code: (
-      <Backdrop>
+      <Backdrop open>
         <Card padding="4">
           <Typography>This is a modal popup</Typography>
         </Card>

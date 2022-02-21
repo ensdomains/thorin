@@ -3,6 +3,7 @@
     "allowJs": false,
     "allowSyntheticDefaultImports": true,
     "alwaysStrict": true,
+    "baseUrl": ".",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
@@ -10,6 +11,9 @@
     "module": "esnext",
     "moduleResolution": "node",
     "noEmit": true,
+    "paths": {
+      "@/*": ["./components/*"]
+    },
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
