@@ -1,7 +1,7 @@
 import * as React from 'react'
+import { useTheme } from 'styled-components'
 
 import { Box, BoxProps } from '../Box'
-import { useTheme } from '../ThemeProvider'
 import * as styles from './styles.css'
 
 export type Props = {

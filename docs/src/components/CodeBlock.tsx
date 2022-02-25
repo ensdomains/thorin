@@ -7,9 +7,10 @@ import Highlight, {
 import dynamic from 'next/dynamic'
 import vsLight from 'prism-react-renderer/themes/vsLight'
 import vsDark from 'prism-react-renderer/themes/vsDark'
+import { useTheme } from 'styled-components'
 
 import { vars } from '@ensdomains/thorin/css'
-import { Box, BoxProps, useTheme } from '@ensdomains/thorin/components'
+import { Box, BoxProps } from '@ensdomains/thorin/components'
 
 import { useIsMounted } from '~/utils/isMounted'
 import { PlayroomStateProvider } from '../../../playroom/src/PlayroomState'

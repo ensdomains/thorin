@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useTheme } from 'styled-components'
 import { default as NextImage } from 'next/image'
 import { default as NextLink } from 'next/link'
 import { LiveEditor, LiveError, LivePreview, LiveProvider } from 'react-live'
@@ -6,13 +7,7 @@ import { mdx } from '@mdx-js/react'
 import { PrismTheme } from 'prism-react-renderer'
 
 import * as Components from '@ensdomains/thorin/components'
-import {
-  Box,
-  Button,
-  Stack,
-  Typography,
-  useTheme,
-} from '@ensdomains/thorin/components'
+import { Box, Button, Stack, Typography } from '@ensdomains/thorin/components'
 import { vars } from '@ensdomains/thorin/css'
 
 import { createPlayroomLink } from '~/utils/playroom'

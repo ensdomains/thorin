@@ -1,5 +1,8 @@
 import * as React from 'react'
 
+import 'styled-components'
+import { Mode, Accent as TokenAccent } from '@/src/tokens'
+
 export type AllOrNone<T> = T | { [K in keyof T]?: never }
 
 /*
@@ -16,3 +19,33 @@ export type ReactNodeNoStrings =
  * https://github.com/typescript-eslint/typescript-eslint/issues/2063#issuecomment-675156492
  */
 export type EmptyObject = { [k: string]: unknown }
+
+type Accent = TokenAccent | 'foreground'
+
+export interface DefaultTheme {
+  mode: 'light' | 'dark'
+  defaultAccent?: Accent
+  /** Default mode name. */
+  defaultMode?: Mode
+  /** Element to bind theme */
+  element?: string | HTMLElement
+  /** Forced accent name */
+  forcedAccent?: Accent
+  /** Forced mode name */
+  forcedMode?: Mode
+}
+
+declare module 'styled-components' {
+  interface DefaultTheme {
+    mode: 'light' | 'dark'
+    defaultAccent?: Accent
+    /** Default mode name. */
+    defaultMode?: Mode
+    /** Element to bind theme */
+    element?: string | HTMLElement
+    /** Forced accent name */
+    forcedAccent?: Accent
+    /** Forced mode name */
+    forcedMode?: Mode
+  }
+}

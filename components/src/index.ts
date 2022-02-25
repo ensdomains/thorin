@@ -19,3 +19,4 @@ export type {
   Sprinkles,
   Theme,
 } from './css'
+export type { DefaultTheme } from './types'
