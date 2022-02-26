@@ -1,19 +1,88 @@
 import * as React from 'react'
+import styled from 'styled-components'
 
-import { Box, BoxProps } from '../Box'
-import * as styles from './styles.css'
+import { tokens } from '@/src/tokens'
+
+type Shape = 'circle' | 'square'
+
+interface Container {
+  shape: Shape
+  noBorder?: boolean
+  size: string
+}
+
+const Container = styled.div<Container>`
+  ${(p) => {
+    switch (p.shape) {
+      case 'circle':
+        return `
+          borderRaduis: ${tokens.radii.full};
+          &:after {
+            borderRaduis: ${tokens.radii.full};
+          }
+        `
+      case 'square':
+        return `
+          borderRaduis: ${tokens.radii['2xLarge']}
+          &:after {
+            borderRaduis: ${tokens.radii['2xLarge']}
+          }
+        `
+      default:
+        return ``
+    }
+  }}
+
+  ${(p) =>
+    !p.noBorder &&
+    `
+      &:after {
+        box-shadow: ${tokens.shadows['-px']} ${
+      tokens.shades[p.theme.mode].foregroundTertiary
+    };
+      }      
+  `}
+
+  ${(p) =>
+    `
+      height: ${p.size}px;
+      width: ${p.size}px;
+      minWidth: ${p.size}px;
+      background-color: ${tokens.shades[p.theme.mode].foregroundSecondary};
+  `}
+  
+  overflow: hidden;
+  position: relative;
+  height: 100%;
+`
+
+const Placeholder = styled.div`
+  ${(p) => `
+    background: ${tokens.colors[p.theme.mode].gradients.blue};
+  `}
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+
+const Img = styled.img`
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+`
 
 export type Props = {
   as?: 'img' | React.ComponentType
   label: string
   placeholder?: boolean
   noBorder?: boolean
-  size?: BoxProps['height']
+  size?: string
   src?: string
-} & styles.Variants
+  shape?: Shape
+}
 
 export const Avatar = ({
-  as = 'img',
   label,
   placeholder,
   noBorder,
@@ -22,40 +91,18 @@ export const Avatar = ({
   src,
 }: Props) => {
   return (
-    <Box
-      backgroundColor="foregroundSecondary"
-      className={styles.variants({ shape, noBorder: placeholder || noBorder })}
-      height={size}
-      minWidth={size}
-      overflow="hidden"
-      position="relative"
-      width={size}
-    >
+    <Container {...{ shape, size, noBorder: placeholder || noBorder }}>
       {placeholder ? (
-        <Box
-          alignItems="center"
-          aria-label={label}
-          background="accentGradient"
-          display="flex"
-          height="full"
-          justifyContent="center"
-        />
+        <Placeholder aria-label={label} />
       ) : (
-        <>
-          <Box
-            alt={label}
-            as={as}
-            height="full"
-            objectFit="cover"
-            src={src}
-            width="full"
-            {...{
-              decoding: 'async',
-              layout: typeof as === 'string' ? undefined : 'fill',
-            }}
-          />
-        </>
+        <Img
+          {...{
+            decoding: 'async',
+            src: src,
+            alt: label,
+          }}
+        />
       )}
-    </Box>
+    </Container>
   )
 }
