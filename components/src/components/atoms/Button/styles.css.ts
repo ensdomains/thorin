@@ -6,37 +6,6 @@ import { Gradients } from '../../../tokens/color'
 
 import { atoms, rgb, vars } from '../../../css'
 
-const shape = {
-  circle: atoms({
-    borderRadius: 'full',
-  }),
-  square: {},
-}
-
-export type Shape = keyof typeof shape
-
-const size = {
-  extraSmall: atoms({
-    borderRadius: 'large',
-    fontSize: 'small',
-    padding: '2',
-  }),
-  small: atoms({
-    borderRadius: 'large',
-    fontSize: 'small',
-    height: '10',
-    paddingX: '4',
-  }),
-  medium: atoms({
-    borderRadius: 'extraLarge',
-    fontSize: 'large',
-    paddingY: '3.5',
-    paddingX: '4',
-  }),
-}
-
-export type Size = keyof typeof size
-
 const getAccentVars = (colorVar: CSSVarFunction, colorName: Gradients) => ({
   [vars.colors.accent]: rgb(colorVar),
   [vars.colors.accentText]: vars.colors.white,
@@ -152,30 +121,6 @@ export const variants = recipe({
     }),
   ]),
   variants: {
-    disabled: {
-      true: atoms({
-        cursor: 'not-allowed',
-      }),
-      false: {},
-    },
-    center: {
-      true: atoms({
-        position: 'relative',
-      }),
-      false: {},
-    },
-    pressed: {
-      true: style({
-        filter: 'brightness(0.95)',
-      }),
-      false: {},
-    },
-    shadowless: {
-      true: style({
-        boxShadow: 'none !important',
-      }),
-      false: {},
-    },
     shape,
     size,
     tone,

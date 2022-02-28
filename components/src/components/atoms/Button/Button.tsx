@@ -1,13 +1,27 @@
 import * as React from 'react'
+import styled from 'styled-components'
 
 import { ReactNodeNoStrings } from '../../../types'
-import { Box, BoxProps } from '../Box'
 import { Spinner } from '../Spinner'
 import { Typography } from '../Typography'
-import { getCenterProps } from './utils'
+import { GetCenterProps, getCenterProps } from './utils'
 import * as styles from './styles.css'
+import { tokens } from '@/dist/types/tokens'
+import { atoms } from '@/src'
 
-type NativeButtonProps = React.AllHTMLAttributes<HTMLButtonElement>
+const size = {
+  small: atoms({
+    paddingX: '0.25',
+    paddingY: '0.5',
+  }),
+  medium: atoms({
+    paddingY: '2.5',
+    paddingX: '3.5',
+  }),
+}
+export type Size = keyof typeof size
+
+type NativeButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement>
 type NativeAnchorProps = React.AllHTMLAttributes<HTMLAnchorElement>
 
 type BaseProps = {
@@ -21,16 +35,16 @@ type BaseProps = {
   /** Shows loading spinner inside button */
   loading?: boolean
   /** Constrains button to specific shape */
-  shape?: styles.Shape
+  shape?: 'square' | 'circle'
   /** Sets dimensions and layout  */
-  size?: styles.Size
+  size?: Size
   /** Adds ReactNode after children */
   suffix?: ReactNodeNoStrings
   tabIndex?: NativeButtonProps['tabIndex']
   type?: NativeButtonProps['type']
   variant?: styles.Variant
-  width?: BoxProps['width']
-  zIndex?: BoxProps['zIndex']
+  width?: string
+  zIndex?: string
   pressed?: boolean
   shadowless?: boolean
   onClick?: React.MouseEventHandler<HTMLElement> | undefined
@@ -60,6 +74,104 @@ type WithoutAnchor = {
   target?: never
 }
 
+interface ButtonElement {
+  pressed: boolean
+  shadowless: boolean
+  shape?: 'circle' | 'square'
+  size?: 'extraSmall' | 'small' | 'medium'
+  variant: 'primary' | 'secondary' | 'action' | 'transparent'
+  type?: NativeButtonProps['type']
+  center: boolean | undefined
+}
+
+const ButtonElement = styled.button<ButtonElement>`
+  ${(p) => {
+    switch (p.shape) {
+      case 'circle':
+        return `
+          border-radius: ${tokens.radii.full};
+        `
+      default:
+        return ``
+    }
+  }}
+  ${(p) => {
+    switch (p.size) {
+      case 'extraSmall':
+        return `
+          border-radius: ${tokens.radii.large};
+          font-size: ${tokens.fontSizes.small};
+          padding: ${tokens.space['2']};
+        `
+      case 'small':
+        return `
+          border-radius: ${tokens.radii.large};
+          font-size: ${tokens.fontSizes.small};
+          height: ${tokens.space['10']};
+          padding: ${tokens.space['4']};
+        `
+      case 'medium':
+        return `
+          border-radius: ${tokens.radii.extraLarge};
+          font-size: ${tokens.fontSizes.large};
+          height: ${tokens.space['10']};
+          padding: ${tokens.space['4']};
+        `
+      default:
+        return ``
+    }
+  }}
+  ${(p) => {
+    switch (p.variant) {
+      case 'primary':
+        return `
+          color: rgb(${tokens.colors[p.theme.mode].foreground});
+          background: rgb(${tokens.shades[p.theme.mode].accent});
+        `
+      case 'secondary':
+        return `
+          color: rgb(${tokens.shades[p.theme.mode].textSecondary});
+          background: rgb(${tokens.colors[p.theme.mode].grey});
+        `
+      case 'action':
+        return `
+          color: rgb(${tokens.colors[p.theme.mode].foreground});
+          background: rgb(${tokens.colors[p.theme.mode].foreground});
+        `
+      case 'transparent':
+        return `
+          color: rgb(${tokens.shades[p.theme.mode].textTertiary});
+          
+          &:hover {
+              background-color: rgb(${
+                tokens.shades[p.theme.mode].foregroundTertiary
+              });
+          }
+          
+          &:active {
+              background-color: rgb(${
+                tokens.shades[p.theme.mode].foregroundTertiary
+              });
+          }
+        `
+      default:
+        return ``
+    }
+  }}
+  ${(p) => `
+    ${p.disabled && `cursor: not-allowed`};
+    ${p.center && `position: relative`};
+    ${p.pressed && `brightness(0.95)`};
+    ${p.shadowless && `box-shadow: none !important`};
+  `}
+`
+
+const PrefixContainer = styled.div<GetCenterProps>`
+  ${getCenterProps}
+`
+
+const LoadingContainer = styled.div``
+
 export type Props = BaseProps &
   (WithTone | WithoutTone) &
   (WithAnchor | WithoutAnchor)
@@ -67,7 +179,6 @@ export type Props = BaseProps &
 export const Button = React.forwardRef(
   (
     {
-      as = 'button',
       center,
       children,
       disabled,
@@ -104,46 +215,46 @@ export const Button = React.forwardRef(
       childContent = (
         <>
           {prefix && (
-            <Box {...getCenterProps(center, size, 'left')}>{prefix}</Box>
+            <PrefixContainer {...{ center, size, side: 'left' }}>
+              {prefix}
+            </PrefixContainer>
           )}
           {labelContent}
 
           {(loading || suffix) && (
-            <Box {...getCenterProps(center, size, 'right')}>
+            <LoadingContainer {...{ center, size, side: 'right' }}>
               {loading ? <Spinner color="current" /> : suffix}
-            </Box>
+            </LoadingContainer>
           )}
         </>
       )
     }
 
     return (
-      <Box
-        as={as}
-        className={styles.variants({
+      <ButtonElement
+        {...{
+          variant,
+          tone,
+          size,
+          shape,
+          shadowless,
+          pressed,
           center,
           disabled,
-          shape,
-          size,
-          tone,
-          variant,
-          pressed,
-          shadowless,
-        })}
-        disabled={disabled}
-        href={href}
-        position={zIndex && 'relative'}
-        ref={ref}
-        rel={rel}
-        tabIndex={tabIndex}
-        target={target}
-        type={type}
-        width={width ?? 'max'}
-        zIndex={zIndex}
-        onClick={onClick}
+          href,
+          ref,
+          rel,
+          tabIndex,
+          target,
+          type,
+          onClick,
+          zIndex,
+          position: zIndex && 'relative',
+          width: width ?? '100%',
+        }}
       >
         {childContent}
-      </Box>
+      </ButtonElement>
     )
   },
 )

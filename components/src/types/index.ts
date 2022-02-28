@@ -35,6 +35,8 @@ export interface DefaultTheme {
   forcedMode?: Mode
 }
 
+export type Size = 'small' | 'medium' | 'extraSmall' | undefined
+
 declare module 'styled-components' {
   interface DefaultTheme {
     mode: 'light' | 'dark'
