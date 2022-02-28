@@ -23,9 +23,9 @@ const Container = styled.div<Container>`
         `
       case 'square':
         return `
-          borderRaduis: ${tokens.radii['2xLarge']}
+          border-radius: ${tokens.radii['2xLarge']}
           &:after {
-            borderRaduis: ${tokens.radii['2xLarge']}
+            border-radius: ${tokens.radii['2xLarge']}
           }
         `
       default:
