@@ -1,7 +1,5 @@
 export { Avatar } from './Avatar'
 export { BackdropSurface } from './BackdropSurface'
-export { Box } from './Box'
-export type { BoxProps } from './Box'
 export { Button } from './Button'
 export { Card } from './Card'
 export { Field } from './Field'

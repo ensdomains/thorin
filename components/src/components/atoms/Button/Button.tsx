@@ -5,7 +5,6 @@ import { ReactNodeNoStrings } from '../../../types'
 import { Spinner } from '../Spinner'
 import { Typography } from '../Typography'
 import { GetCenterProps, getCenterProps } from './utils'
-import * as styles from './styles.css'
 import { tokens } from '@/dist/types/tokens'
 import { atoms } from '@/src'
 
@@ -23,6 +22,10 @@ export type Size = keyof typeof size
 
 type NativeButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement>
 type NativeAnchorProps = React.AllHTMLAttributes<HTMLAnchorElement>
+
+type Variant = 'primary' | 'secondary' | 'action' | 'transparent'
+
+type Tone = 'accent' | 'bule' | 'green' | 'red'
 
 type BaseProps = {
   /** Centers text and reserves space for icon and spinner */
@@ -42,7 +45,7 @@ type BaseProps = {
   suffix?: ReactNodeNoStrings
   tabIndex?: NativeButtonProps['tabIndex']
   type?: NativeButtonProps['type']
-  variant?: styles.Variant
+  variant?: Variant
   width?: string
   zIndex?: string
   pressed?: boolean
@@ -51,13 +54,13 @@ type BaseProps = {
 }
 
 type WithTone = {
-  tone?: styles.Tone
+  tone?: Tone
   variant?: 'primary' | 'secondary'
 }
 
 type WithoutTone = {
   tone?: never
-  variant?: styles.Variant
+  variant?: Variant
 }
 
 type WithAnchor = {

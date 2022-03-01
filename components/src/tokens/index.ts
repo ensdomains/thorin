@@ -11,6 +11,13 @@ import {
   lineHeights,
 } from './typography'
 
+export const breakpoints = {
+  sm: 640,
+  md: 768,
+  lg: 1024,
+  xl: 1280,
+}
+
 export const tokens = {
   borderStyles,
   borderWidths,
@@ -25,7 +32,9 @@ export const tokens = {
   shades,
   shadows,
   space,
+  breakpoints,
 }
 
 export type { Accent, Mode } from './color'
 export type Tokens = typeof tokens
+export type Breakpoints = keyof typeof breakpoints

@@ -1,35 +1,38 @@
 import * as React from 'react'
-import { useTheme } from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 
-import { Box, BoxProps } from '../Box'
-import * as styles from './styles.css'
+import { largerThan } from '@/src/utils/responsiveHelpers'
+import { tokens } from '@/dist/types/tokens'
+
+const Container = styled.div<{ dark: boolean; shadow?: boolean }>`
+  ${(p) => `background-color: ${p.dark ? `black` : `white`}`};
+  ${(p) =>
+    !p.dark &&
+    p.shadow &&
+    `
+        boxShadow: 0px 0px ${tokens.radii['2xLarge']} rgb('0,0,0', '0.1');
+        border-radius: ${tokens.radii['2xLarge']};
+        ${largerThan.lg`
+            boxShadow: 0px 0px ${tokens.radii['3xLarge']} rgb('0,0,0', '0.1');
+            border-radius: ${tokens.radii['3xLarge']};
+        `}
+    `}
+`
 
 export type Props = {
-  as?: BoxProps['as']
   shadow?: boolean
-  padding?: BoxProps['padding']
-  width?: BoxProps['width']
 }
 
-export const Card = ({
-  as = 'div',
-  children,
-  padding,
-  shadow,
-  width,
-}: React.PropsWithChildren<Props>) => {
+export const Card = ({ children, shadow }: React.PropsWithChildren<Props>) => {
   const { mode, forcedMode } = useTheme()
   return (
-    <Box
-      as={as}
-      className={styles.variants({
+    <Container
+      {...{
         dark: (forcedMode ?? mode) === 'dark',
         shadow,
-      })}
-      padding={padding}
-      width={width}
+      }}
     >
       {children}
-    </Box>
+    </Container>
   )
 }

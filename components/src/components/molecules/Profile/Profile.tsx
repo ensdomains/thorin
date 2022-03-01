@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import * as styles from './styles.css'
-import { shortenAddress } from '../../../utils'
+import { shortenAddress } from '../../../utils/utils'
 
 import { Box, IconDownIndicator, Typography } from '../..'
 import { Avatar, Props as AvatarProps } from '../../atoms/Avatar'
