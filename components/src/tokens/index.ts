@@ -38,3 +38,4 @@ export const tokens = {
 export type { Accent, Mode } from './color'
 export type Tokens = typeof tokens
 export type Breakpoints = keyof typeof breakpoints
+export type Space = keyof typeof space

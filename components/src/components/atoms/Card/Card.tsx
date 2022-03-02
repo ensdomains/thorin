@@ -12,6 +12,7 @@ const Container = styled.div<{ dark: boolean; shadow?: boolean }>`
     `
         boxShadow: 0px 0px ${tokens.radii['2xLarge']} rgb('0,0,0', '0.1');
         border-radius: ${tokens.radii['2xLarge']};
+        
         ${largerThan.lg`
             boxShadow: 0px 0px ${tokens.radii['3xLarge']} rgb('0,0,0', '0.1');
             border-radius: ${tokens.radii['3xLarge']};
