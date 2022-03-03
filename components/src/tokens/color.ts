@@ -108,7 +108,9 @@ export const colors = {
     transparent: 'transparent',
   },
   light: {
+    accent: `rgb(${accents.light.blue})`,
     background: '255, 255, 255',
+    backgroundHide: `rgba(0,0,0, ${shades.light.backgroundHide})`,
     backgroundSecondary: '246, 246, 248',
     backgroundTertiary: '246, 246, 248',
     foreground: 'rgb(0, 0, 0)',
@@ -120,7 +122,9 @@ export const colors = {
     ...accents.light,
   },
   dark: {
+    accent: `rgb(${accents.light.blue})`,
     background: '20, 20, 20',
+    backgroundHide: `rgba(0,0,0, ${shades.dark.backgroundHide})`,
     backgroundSecondary: '10, 10, 10',
     backgroundTertiary: '20, 20, 20',
     foreground: '255, 255, 255',
