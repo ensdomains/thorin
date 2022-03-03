@@ -39,3 +39,5 @@ export type { Accent, Mode } from './color'
 export type Tokens = typeof tokens
 export type Breakpoints = keyof typeof breakpoints
 export type Space = keyof typeof space
+export type Colors = keyof typeof colors.light
+export type Radii = keyof typeof radii

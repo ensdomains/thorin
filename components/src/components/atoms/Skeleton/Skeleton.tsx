@@ -1,49 +1,51 @@
 import * as React from 'react'
+import styled from 'styled-components'
 
-import { Box, BoxProps } from '../Box'
 import { Context } from '../../molecules/SkeletonGroup'
-import * as styles from './styles.css'
+import { Colors, Radii, tokens } from '@/src/tokens'
+
+interface ContainerProps {
+  active?: boolean
+}
+
+const Container = styled.div<ContainerProps>`
+  ${(p) =>
+    p.active &&
+    `
+     background-color: ${tokens.colors[p.theme.mode].foregroundSecondary};
+     border-radius: ${tokens.radii.medium};
+     width: ${tokens.space.fit};
+  `}
+`
+
+const ContainerInner = styled.span<{ active?: boolean }>`
+  display: block;
+  ${(p) => (p.active ? 'visibility: hidden;' : '')}
+`
 
 type Props = {
   as?: 'div' | 'span'
-  backgroundColor?: BoxProps['backgroundColor']
-  radius?: BoxProps['borderRadius']
-  height?: BoxProps['height']
+  backgroundColor?: Colors
+  radius?: Radii
   loading?: boolean
-  maxWidth?: BoxProps['maxWidth']
-  width?: BoxProps['width']
 }
 
 export const Skeleton = ({
   as,
-  backgroundColor = 'foregroundSecondary',
-  radius = 'medium',
   children,
-  height,
   loading,
-  maxWidth,
-  width = 'fit',
 }: React.PropsWithChildren<Props>) => {
   const groupLoading = React.useContext(Context)
   const active = loading ?? groupLoading
-  const containerProps = active
-    ? {
-        backgroundColor,
-        borderRadius: radius,
-        height,
-        maxWidth,
-        width,
-      }
-    : {}
   return (
-    <Box as={as} {...containerProps}>
-      <Box
-        as="span"
-        className={active ? styles.root : undefined}
-        display="block"
+    <Container {...{ active, as }}>
+      <ContainerInner
+        {...{
+          active,
+        }}
       >
         {children}
-      </Box>
-    </Box>
+      </ContainerInner>
+    </Container>
   )
 }

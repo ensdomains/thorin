@@ -56,36 +56,6 @@ const gradients: { [key in Mode]: { [key in Gradients]: string } } = {
   },
 }
 
-export const colors = {
-  base: {
-    black: 'rgb(0, 0, 0)',
-    white: 'rgb(255, 255, 255)',
-    current: 'currentColor',
-    inherit: 'inherit',
-    transparent: 'transparent',
-  },
-  light: {
-    background: '255, 255, 255',
-    backgroundSecondary: '246, 246, 248',
-    backgroundTertiary: '246, 246, 248',
-    foreground: '0, 0, 0',
-    groupBackground: '253, 253, 255',
-    groupBorder: '0, 0, 0',
-    gradients: gradients.light,
-    ...accents.light,
-  },
-  dark: {
-    background: '20, 20, 20',
-    backgroundSecondary: '10, 10, 10',
-    backgroundTertiary: '20, 20, 20',
-    foreground: '255, 255, 255',
-    groupBackground: '10, 10, 10',
-    groupBorder: '255, 255, 255',
-    gradients: gradients.dark,
-    ...accents.dark,
-  },
-}
-
 export const shades = {
   light: {
     accent: '0.7',
@@ -126,5 +96,37 @@ export const shades = {
     textTertiary: '0.35',
     textTertiaryHover: '0.4',
     textPlaceholder: '0.25',
+  },
+}
+
+export const colors = {
+  base: {
+    black: 'rgb(0, 0, 0)',
+    white: 'rgb(255, 255, 255)',
+    current: 'currentColor',
+    inherit: 'inherit',
+    transparent: 'transparent',
+  },
+  light: {
+    background: '255, 255, 255',
+    backgroundSecondary: '246, 246, 248',
+    backgroundTertiary: '246, 246, 248',
+    foreground: 'rgb(0, 0, 0)',
+    foregroundSecondary: `rgba(0,0,0, ${shades.light.foregroundSecondary})`,
+    groupBackground: '253, 253, 255',
+    groupBorder: '0, 0, 0',
+    gradients: gradients.light,
+    ...accents.light,
+  },
+  dark: {
+    background: '20, 20, 20',
+    backgroundSecondary: '10, 10, 10',
+    backgroundTertiary: '20, 20, 20',
+    foreground: '255, 255, 255',
+    foregroundSecondary: `rgba(0,0,0, ${shades.dark.foregroundSecondary})`,
+    groupBackground: '10, 10, 10',
+    groupBorder: '255, 255, 255',
+    gradients: gradients.dark,
+    ...accents.dark,
   },
 }
