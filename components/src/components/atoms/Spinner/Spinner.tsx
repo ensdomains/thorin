@@ -2,7 +2,6 @@ import * as React from 'react'
 import styled from 'styled-components'
 
 import { VisuallyHidden } from '../VisuallyHidden'
-import * as styles from './styles.css'
 import { Colors, tokens } from '@/src/tokens'
 
 const Container = styled.div<{ size: 'small' | 'large' }>`
@@ -32,7 +31,8 @@ const Container = styled.div<{ size: 'small' | 'large' }>`
 type Props = {
   accessibilityLabel?: string
   color?: Colors
-} & styles.Variants
+  size?: 'small' | 'large'
+}
 
 export const Spinner = React.forwardRef(
   (
