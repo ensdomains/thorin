@@ -1,21 +1,46 @@
 import * as React from 'react'
+import styled from 'styled-components'
 
-import { Box, BoxProps } from '../Box'
 import { VisuallyHidden } from '../VisuallyHidden'
 import * as styles from './styles.css'
+import { Colors, tokens } from '@/src/tokens'
+
+const Container = styled.div<{ size: 'small' | 'large' }>`
+  color: ${tokens.colors.base.current};
+  stroke: ${tokens.colors.base.current};
+
+  ${(p) => {
+    switch (p.size) {
+      case 'small':
+        return `
+          height: ${tokens.space['6']};
+          stroke-width: ${tokens.space['1.25']};
+          width: ${tokens.space['6']};
+        `
+      case 'large':
+        return `
+          height: ${tokens.space['16']};
+          stroke-width: ${tokens.space['1.25']};
+          width: ${tokens.space['16']};
+        `
+      default:
+        return ``
+    }
+  }}
+`
 
 type Props = {
   accessibilityLabel?: string
-  color?: BoxProps['color']
+  color?: Colors
 } & styles.Variants
 
 export const Spinner = React.forwardRef(
   (
-    { accessibilityLabel, color = 'textSecondary', size = 'small' }: Props,
+    { accessibilityLabel, size = 'small' }: Props,
     ref: React.Ref<HTMLElement>,
   ) => {
     return (
-      <Box className={styles.variants({ size })} color={color} ref={ref}>
+      <Container ref={ref as any} size={size}>
         {accessibilityLabel && (
           <VisuallyHidden>{accessibilityLabel}</VisuallyHidden>
         )}
@@ -37,7 +62,7 @@ export const Spinner = React.forwardRef(
             strokeLinecap="round"
           />
         </svg>
-      </Box>
+      </Container>
     )
   },
 )

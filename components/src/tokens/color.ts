@@ -116,6 +116,7 @@ export const colors = {
     groupBackground: '253, 253, 255',
     groupBorder: '0, 0, 0',
     gradients: gradients.light,
+    textSecondary: `rgb(0, 0, 0, ${shades.light.textSecondary})`,
     ...accents.light,
   },
   dark: {
@@ -127,6 +128,7 @@ export const colors = {
     groupBackground: '10, 10, 10',
     groupBorder: '255, 255, 255',
     gradients: gradients.dark,
+    textSecondary: `rgb(0, 0, 0, ${shades.dark.textSecondary})`,
     ...accents.dark,
   },
 }

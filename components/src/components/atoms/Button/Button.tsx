@@ -213,7 +213,7 @@ export const Button = React.forwardRef(
 
     let childContent: ReactNodeNoStrings
     if (shape) {
-      childContent = loading ? <Spinner color="current" /> : labelContent
+      childContent = loading ? <Spinner /> : labelContent
     } else {
       childContent = (
         <>
@@ -226,7 +226,7 @@ export const Button = React.forwardRef(
 
           {(loading || suffix) && (
             <LoadingContainer {...{ center, size, side: 'right' }}>
-              {loading ? <Spinner color="current" /> : suffix}
+              {loading ? <Spinner /> : suffix}
             </LoadingContainer>
           )}
         </>
