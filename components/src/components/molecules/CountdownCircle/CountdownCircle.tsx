@@ -1,15 +1,111 @@
 import * as React from 'react'
+import styled from 'styled-components'
 
-import { Box, BoxProps, VisuallyHidden } from '../..'
-import * as styles from './styles.css'
+import { VisuallyHidden } from '../..'
+import { Colors, tokens } from '@/src/tokens'
+
+interface NumberBox {
+  disabled?: boolean
+  size: 'small' | 'large'
+}
+
+const NumberBox = styled.div<NumberBox>`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+
+  ${(p) => `
+    color: ${tokens.colors[p.theme.mode].accent};
+  `}
+
+  ${(p) =>
+    p.disabled &&
+    `
+    color: ${tokens.colors[p.theme.mode].textPlaceholder};
+  `}
+
+  ${(p) => {
+    switch (p.size) {
+      case 'small':
+        return `
+          height: ${tokens.space['16']};
+          width: ${tokens.space['16']};
+        `
+      case 'large':
+        return `
+          font-size: ${tokens.fontSizes.extraLarge};
+          margin-top: -${tokens.space['0.5']};
+          height: ${tokens.space['24']};
+          width: ${tokens.space['24']};
+        `
+      default:
+        return ``
+    }
+  }}
+`
+
+interface ContainerProps {
+  disabled?: boolean
+  size: 'small' | 'large'
+  color: Colors
+  ref: any
+}
+
+const Container = styled.div<ContainerProps>`
+  ${(p) => `
+    stroke: ${tokens.colors[p.theme.mode].accent};
+  `}
+
+  ${(p) => `
+    color: ${tokens.colors[p.theme.mode][p.color]};
+  `}
+
+  ${(p) =>
+    p.disabled &&
+    `
+    color: ${tokens.colors[p.theme.mode].foregroundSecondary};
+  `}
+
+  ${(p) => {
+    switch (p.size) {
+      case 'small':
+        return `
+          height: ${tokens.space['16']};
+          width: ${tokens.space['16']};
+          stroke-width: ${tokens.space['1']};
+        `
+      case 'large':
+        return `
+          height: ${tokens.space['24']};
+          width: ${tokens.space['24']};
+          stroke-width: ${tokens.space['1']};
+        `
+      default:
+        return ``
+    }
+  }}
+`
+
+interface CircleProps {
+  finished: boolean
+}
+
+const Circle = styled.circle<CircleProps>`
+  transition: all 1s linear, stroke-width 0.2s ease-in-out 1s;
+
+  ${(p) => p.finished && `stroke-width: 0;`}
+`
 
 type Props = {
   accessibilityLabel?: string
   countdownAmount: number
-  color?: BoxProps['color']
+  color?: Colors
   disabled?: boolean
   callback?: () => void
-} & styles.Variants
+  size?: 'small' | 'large'
+}
 
 export const CountdownCircle = React.forwardRef(
   (
@@ -44,24 +140,27 @@ export const CountdownCircle = React.forwardRef(
     }, [callback, countdownAmount, disabled])
 
     return (
-      <Box data-testid="countdown-circle" position="relative">
-        <Box className={styles.numberBox({ size, disabled })}>
+      <div data-testid="countdown-circle" style={{ position: 'relative' }}>
+        <NumberBox {...{ size, disabled }}>
           {disabled ? totalCount : currentCount}
-        </Box>
-        <Box
-          className={styles.variants({ size, disabled })}
-          color={color}
-          ref={ref}
+        </NumberBox>
+        <Container
+          {...{
+            size,
+            disabled,
+            color,
+            ref,
+          }}
         >
           {accessibilityLabel && (
             <VisuallyHidden>{accessibilityLabel}</VisuallyHidden>
           )}
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <circle
-              className={styles.circle({ finished: currentCount === 0 })}
+            <Circle
               cx="12"
               cy="12"
               fill="none"
+              finished={currentCount === 0}
               r="9"
               strokeDasharray={`${48 * (currentCount / totalCount)}, 56`}
               strokeLinecap="round"
@@ -75,8 +174,8 @@ export const CountdownCircle = React.forwardRef(
               strokeLinecap="round"
             />
           </svg>
-        </Box>
-      </Box>
+        </Container>
+      </div>
     )
   },
 )
