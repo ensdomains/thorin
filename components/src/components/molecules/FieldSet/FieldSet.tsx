@@ -1,10 +1,45 @@
 import * as React from 'react'
+import styled from 'styled-components'
 
 import { ReactNodeNoStrings } from '../../../types'
-import { Box, Heading, Stack, Tag } from '../..'
+import { Heading, Tag } from '../..'
 import { TagProps } from '../../atoms/Tag'
+import { tokens } from '@/src/tokens'
 
 type NativeFieldSetProps = React.AllHTMLAttributes<HTMLFieldSetElement>
+
+const Container = styled.fieldset`
+  display: flex;
+  flex-direction: column;
+  gap: ${tokens.space['4']};
+`
+
+const ContainerInner = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${tokens.space['1']};
+  padding: 0 ${tokens.space['4']};
+`
+
+const Row = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: ${tokens.space['3']};
+`
+
+const Description = styled.div`
+  ${(p) => `
+    color: ${tokens.colors[p.theme.mode].textSecondary};
+    font-size: ${tokens.fontSizes.base};
+  `}
+`
+
+const ChildrenContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${tokens.space['4']};
+`
 
 export type Props = {
   children: ReactNodeNoStrings
@@ -59,31 +94,21 @@ export const FieldSet = ({
   }
 
   return (
-    <Box
-      as="fieldset"
-      disabled={disabled}
-      display="flex"
-      flexDirection="column"
-      form={form}
-      gap="4"
-      name={name}
-    >
-      <Box display="flex" flexDirection="column" gap="1" paddingX="4">
-        <Stack align="center" direction="horizontal" space="3">
+    <Container disabled={disabled} form={form} name={name}>
+      <ContainerInner>
+        <Row>
           <Heading as="legend" level="2" responsive>
             {legend}
           </Heading>
           {statusTone && statusText && (
             <Tag tone={statusTone}>{statusText}</Tag>
           )}
-        </Stack>
+        </Row>
 
-        <Box color="textSecondary" fontSize="base">
-          {description}
-        </Box>
-      </Box>
+        <Description>{description}</Description>
+      </ContainerInner>
 
-      <Stack>{children}</Stack>
-    </Box>
+      <ChildrenContainer>{children}</ChildrenContainer>
+    </Container>
   )
 }
