@@ -113,6 +113,8 @@ export const colors = {
     backgroundHide: `rgba(0,0,0, ${shades.light.backgroundHide})`,
     backgroundSecondary: '246, 246, 248',
     backgroundTertiary: '246, 246, 248',
+    border: `rgb(0,0,0, ${shades.light.border})`,
+    borderSecondary: `rgb(0,0,0, ${shades.light.borderSecondary})`,
     foreground: 'rgb(0, 0, 0)',
     foregroundSecondary: `rgba(0,0,0, ${shades.light.foregroundSecondary})`,
     groupBackground: '253, 253, 255',
@@ -120,6 +122,7 @@ export const colors = {
     gradients: gradients.light,
     textPlaceholder: `rgb(0, 0, 0, ${shades.light.textPlaceholder})`,
     textSecondary: `rgb(0, 0, 0, ${shades.light.textSecondary})`,
+    textTertiary: `rgb(0, 0, 0, ${shades.light.textTertiary})`,
     ...accents.light,
   },
   dark: {
@@ -128,6 +131,8 @@ export const colors = {
     backgroundHide: `rgba(0,0,0, ${shades.dark.backgroundHide})`,
     backgroundSecondary: '10, 10, 10',
     backgroundTertiary: '20, 20, 20',
+    border: `rgb(0,0,0, ${shades.dark.border})`,
+    borderSecondary: `rgb(0,0,0, ${shades.dark.borderSecondary})`,
     foreground: '255, 255, 255',
     foregroundSecondary: `rgba(0,0,0, ${shades.dark.foregroundSecondary})`,
     groupBackground: '10, 10, 10',
@@ -135,6 +140,7 @@ export const colors = {
     gradients: gradients.dark,
     textPlaceholder: `rgb(0, 0, 0, ${shades.dark.textPlaceholder})`,
     textSecondary: `rgb(0, 0, 0, ${shades.dark.textSecondary})`,
+    textTertiary: `rgb(0, 0, 0, ${shades.light.textTertiary})`,
     ...accents.dark,
   },
 }

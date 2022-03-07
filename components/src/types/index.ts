@@ -51,3 +51,9 @@ declare module 'styled-components' {
     forcedMode?: Mode
   }
 }
+
+export type OptionalTitle = AllOrNone<{
+  title: string
+  titleId: string
+}>
+export type IconProps = React.SVGProps<SVGSVGElement> & OptionalTitle
