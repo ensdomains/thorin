@@ -1,8 +1,11 @@
 import * as React from 'react'
+import styled from 'styled-components'
 
-import { Box, BoxProps, Field } from '../..'
+import { ReactNode } from 'react'
+
+import { Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
-import * as styles from './styles.css'
+import { tokens } from '@/src/tokens'
 
 type NativeInputProps = React.AllHTMLAttributes<HTMLInputElement>
 
@@ -21,7 +24,6 @@ type BaseProps = FieldBaseProps & {
   spellCheck?: NativeInputProps['spellCheck']
   suffix?: React.ReactNode
   tabIndex?: NativeInputProps['tabIndex']
-  textTransform?: BoxProps['textTransform']
   type?: 'email' | 'number' | 'text'
   units?: string
   value?: string | number
@@ -29,9 +31,7 @@ type BaseProps = FieldBaseProps & {
   onChange?: React.EventHandler<React.ChangeEvent<HTMLInputElement>>
   onFocus?: NativeInputProps['onFocus']
   onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>
-  size?: styles.Size
-  backgroundColor?: BoxProps['backgroundColor']
-  borderRadius?: BoxProps['borderRadius']
+  size?: any
 }
 
 type WithTypeEmail = {
@@ -48,6 +48,214 @@ type WithTypeNumber = {
   max?: NativeInputProps['max']
   min?: NativeInputProps['min']
 }
+
+interface InputParentProps {
+  size: 'medium' | 'large' | 'extraLarge'
+  disabled?: boolean
+  error?: boolean
+  suffix: boolean
+}
+
+const InputParent = styled.div<InputParentProps>`
+  ${(p) => `
+    background-color: ${tokens.colors[p.theme.mode].grey};
+    border-radius: ${tokens.radii['2xLarge']};
+    border-width: ${tokens.space['0.75']};
+    border-color: ${tokens.colors.base.transparent};
+    color: ${tokens.colors[p.theme.mode].text};
+    display: flex;
+    transition-duration: ${tokens.transitionDuration['150']};
+    transition-property: colors;
+    transition-timing-function: ${tokens.transitionTimingFunction['inOut']};
+    
+    &:focus-within {
+      border-color: ${tokens.colors[p.theme.mode].accentSecondary};
+    }
+  `}
+
+  ${(p) =>
+    p.disabled &&
+    `
+      border-color: ${tokens.colors[p.theme.mode].foregroundSecondary};
+      background-color: ${tokens.colors[p.theme.mode].background};
+  `}
+
+  ${(p) =>
+    p.error &&
+    `
+      border-color: ${tokens.colors[p.theme.mode].red};
+      cursor: default;
+      
+      &:focus-within {
+        border-color: ${tokens.colors[p.theme.mode].red};
+      }
+  `}
+
+  ${(p) =>
+    p.suffix &&
+    `
+      height: ${tokens.space['16']};
+  `}
+
+  ${(p) => {
+    switch (p.size) {
+      case 'medium':
+        return `
+          height: ${tokens.space['14']};
+        `
+      case 'large':
+        return `
+          height: ${tokens.space['16']};
+        `
+      case 'extraLarge':
+        return `
+          height: ${tokens.space['18']};
+        `
+      default:
+        return ``
+    }
+  }}
+`
+
+const Prefix = styled.label`
+  align-items: center;
+  display: flex;
+  height: ${tokens.space['full']};
+  line-height: normal;
+  color: inherit;
+  font-family: ${tokens.fonts['sans']};
+  font-weight: ${tokens.fontWeights['medium']};
+  padding-left: ${tokens.space['4']};
+  padding-right: ${tokens.space['2']};
+`
+
+const Suffix = styled.label`
+  align-items: center;
+  display: flex;
+  height: ${tokens.space['full']};
+  line-height: normal;
+  color: inherit;
+  font-family: ${tokens.fonts['sans']};
+  font-weight: ${tokens.fontWeights['medium']};
+  padding-left: ${tokens.space['2']};
+  padding-right: ${tokens.space['2']};
+`
+
+const InputContainer = styled.div`
+  overflow: hidden;
+  position: relative;
+  width: ${tokens.space['full']};
+`
+
+interface InputComponentProps {
+  size: any
+}
+
+const InputComponent = styled.input<InputComponentProps>`
+  ${(p) => `
+    border-color: ${tokens.colors.base.transparent};
+    position: relative;
+    width: ${tokens.space['full']};
+    
+    &::placeholder {
+        color: ${tokens.colors[p.theme.mode].textPlaceholder};
+        font-weight: ${tokens.fontWeights['bold']};
+    }
+  `}
+
+  ${(p) =>
+    p.disabled &&
+    `
+        opacity ${tokens.opacity['50']};
+        cursor: not-allowed;
+  `}
+
+  ${(p) =>
+    p.type === 'number' &&
+    `
+        font-feature-settings: 'kern' 1,  'tnum' 1, 'calt' 0;
+        font-variant-numeric: tabular-nums;
+  `}
+
+  ${(p) => {
+    switch (p.size) {
+      case 'medium':
+        return `
+          font-size: ${tokens.fontSizes['base']};
+        `
+      case 'large':
+        return `
+          font-size: ${tokens.fontSizes['large']};
+        `
+      case 'extraLarge':
+        return `
+          font-size: ${tokens.fontSizes['headingThree']};
+          padding: 0 ${tokens.space['6']};
+        `
+      default:
+        return ``
+    }
+  }}
+`
+
+const Ghost = styled.div<{ type: HTMLInputElement['type'] }>`
+  border-color: ${tokens.colors.base.transparent};
+  inset: 0;
+  position: absolute;
+  pointer-events: none;
+  white-space: pre;
+  line-height: normal;
+
+  ${(p) =>
+    p.type === 'number' &&
+    `
+        font-feature-settings: 'kern' 1,  'tnum' 1, 'calt' 0;
+        font-variant-numeric: tabular-nums;
+  `}
+`
+
+const Units = styled.span`
+  ${(p) => `
+    color: ${tokens.colors[p.theme.mode].text};
+  `}
+`
+
+const MaxContainer = styled.div<{ suffix: ReactNode }>`
+  display: flex;
+  align-items: center;
+  ${(p) => p.suffix && `padding-right: ${tokens.space['4']};`}
+`
+
+const MaxButton = styled.button`
+  ${(p) => `
+      background-color: ${tokens.colors[p.theme.mode].foregroundSecondary};
+      border-radius: ${tokens.radii['medium']};
+      color: ${tokens.colors[p.theme.mode].textSecondary};
+      cursor: pointer;
+      font-size: ${tokens.fontSizes['label']};
+      font-weight: ${tokens.fontWeights['semiBold']};
+      height: ${tokens.space['max']};
+      line-height: none;
+      padding: ${tokens.space['2']};
+      text-transform: uppercase;
+      transition-duration: ${tokens.transitionDuration['150']};
+      transition-property: colors;
+      transition-timing-function: ${tokens.transitionTimingFunction['inOut']};
+      visibility: hidden;
+      
+      &:hover {
+        color: ${tokens.colors[p.theme.mode].text};
+      }
+      
+      ${InputParent}:hover & {
+        visibility: visible;
+      }
+      
+      ${InputParent}:focus-within & {
+        visibility: visible;
+      }
+  `}
+`
 
 type Props = BaseProps & (WithTypeEmail | WithTypeText | WithTypeNumber)
 
@@ -74,7 +282,6 @@ export const Input = React.forwardRef(
       spellCheck,
       suffix,
       tabIndex,
-      textTransform,
       type = 'text',
       units,
       value,
@@ -84,8 +291,6 @@ export const Input = React.forwardRef(
       onFocus,
       onKeyDown,
       size = 'medium',
-      backgroundColor = 'backgroundSecondary',
-      borderRadius = '2xLarge',
       ...props
     }: Props,
     ref: React.Ref<HTMLInputElement>,
@@ -101,10 +306,7 @@ export const Input = React.forwardRef(
       ? `${placeholder ?? ''}${units ? ` ${units}` : ''}`
       : undefined
     const hasError = error ? true : undefined
-    const className = styles.variants({
-      prefix: prefix ? true : undefined,
-      suffix: suffix ? true : undefined,
-    })
+
     const max = (props as WithTypeNumber).max
     const inputType = type === 'number' ? 'number' : 'text'
 
@@ -157,45 +359,26 @@ export const Input = React.forwardRef(
         width={width}
       >
         {(ids) => (
-          <Box
-            backgroundColor={backgroundColor}
-            borderRadius={borderRadius}
-            className={[
-              styles.root({
-                disabled,
-                error: hasError,
-                suffix: suffix !== undefined,
-                size,
-              }),
-              styles.inputParent,
-            ]}
+          <InputParent
+            {...{
+              disabled,
+              error: hasError,
+              suffix: suffix !== undefined,
+              size,
+            }}
           >
             {prefix && (
-              <Box
-                aria-hidden="true"
-                as="label"
-                className={styles.prefix}
-                {...ids?.label}
-              >
+              <Prefix aria-hidden="true" {...ids?.label}>
                 {prefix}
-              </Box>
+              </Prefix>
             )}
 
-            <Box overflow="hidden" position="relative" width="full">
-              <Box
+            <InputContainer>
+              <InputComponent
                 aria-invalid={hasError}
-                as="input"
                 autoComplete={autoComplete}
                 autoCorrect={autoCorrect}
                 autoFocus={autoFocus}
-                className={[
-                  className,
-                  styles.input({
-                    disabled,
-                    type: inputType,
-                    size,
-                  }),
-                ]}
                 defaultValue={defaultValue}
                 disabled={disabled}
                 inputMode={inputMode}
@@ -203,10 +386,10 @@ export const Input = React.forwardRef(
                 placeholder={placeholderText}
                 readOnly={readOnly}
                 ref={inputRef}
+                size={size}
                 spellCheck={spellCheck}
                 tabIndex={tabIndex}
-                textTransform={textTransform}
-                type={type}
+                type={inputType}
                 value={value}
                 onBlur={onBlur}
                 onChange={onChange}
@@ -219,53 +402,27 @@ export const Input = React.forwardRef(
               />
 
               {units && state.ghostValue && (
-                <Box
-                  aria-hidden="true"
-                  className={[
-                    className,
-                    styles.ghost({
-                      type: inputType,
-                    }),
-                  ]}
-                  data-testid="ghost"
-                >
-                  <Box
-                    as="span"
-                    textTransform={textTransform}
-                    visibility="hidden"
-                  >
+                <Ghost aria-hidden="true" data-testid="ghost" type={inputType}>
+                  <span style={{ visibility: 'hidden' }}>
                     {state.ghostValue}{' '}
-                  </Box>
-                  <Box as="span" color="text">
-                    {units}
-                  </Box>
-                </Box>
+                  </span>
+                  <Units>{units}</Units>
+                </Ghost>
               )}
-            </Box>
+            </InputContainer>
 
             {max && (
-              <Box
-                alignItems="center"
-                display="flex"
-                paddingRight={suffix ? undefined : '4'}
-              >
-                <Box as="button" className={styles.max} onClick={handleMax}>
-                  Max
-                </Box>
-              </Box>
+              <MaxContainer suffix={suffix}>
+                <MaxButton onClick={handleMax}>Max</MaxButton>
+              </MaxContainer>
             )}
 
             {suffix && (
-              <Box
-                aria-hidden="true"
-                as="label"
-                className={styles.suffix}
-                {...ids?.label}
-              >
+              <Suffix aria-hidden="true" {...ids?.label}>
                 {suffix}
-              </Box>
+              </Suffix>
             )}
-          </Box>
+          </InputParent>
         )}
       </Field>
     )
