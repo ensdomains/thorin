@@ -26,6 +26,7 @@ type Props = {
   strokeWidth?: Space
   svg: FunctionComponent
   className?: string
+  onClick: () => void
 }
 
 export default ({
@@ -34,4 +35,7 @@ export default ({
   strokeWidth = '0.5',
   svg,
   className,
-}: Props) => <Container as={svg} {...{ color, size, strokeWidth, className }} />
+  ...props
+}: Props) => (
+  <Container as={svg} {...{ color, size, strokeWidth, className, ...props }} />
+)
