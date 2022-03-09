@@ -1,11 +1,16 @@
 import * as React from 'react'
+import styled from 'styled-components'
 
-import * as styles from './styles.css'
+import { tokens } from '@/src/tokens'
 import { shortenAddress } from '../../../utils/utils'
 
-import { Box, IconDownIndicator, Typography } from '../..'
+import { Typography } from '../..'
 import { Avatar, Props as AvatarProps } from '../../atoms/Avatar'
 import { Dropdown, DropdownItem } from '../Dropdown/Dropdown'
+import { IconDownIndicatorSvg } from '@/src/components/icons/generated/IconDownIndicator/IconDownIndicatorSvg'
+import Svg from '@/src/components/atoms/Svg/Svg'
+
+type Size = 'small' | 'medium' | 'large'
 
 type BaseProps = {
   avatar?: AvatarProps['src']
@@ -14,7 +19,113 @@ type BaseProps = {
   address: string
   ensName?: string
   alignDropdown?: 'left' | 'right'
-} & styles.Variants
+  size: Size
+}
+
+interface ContainerProps {
+  size: Size
+  hasChevron?: boolean
+  open: boolean
+}
+
+const Container = styled.div<ContainerProps>`
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-radius: ${tokens.radii['full']};
+  transition-duration: ${tokens.transitionDuration['150']};
+  transition-property: colors;
+  transition-timing-function: ${tokens.transitionTimingFunction['inOut']};
+  position: relative;
+  z-index: 10;
+  padding: ${tokens.space['2']} ${tokens.space['4']} ${tokens.space['2']}
+    ${tokens.space['2.5']};
+
+  ${(p) =>
+    p.hasChevron &&
+    `
+      cursor: pointer;
+      &:hover {
+        transform: translateY(-1px);s
+        filter: brightness(1.05);
+      }
+  `}
+
+  ${(p) =>
+    p.open
+      ? `
+      box-shadow: ${tokens.shadows['0']};
+      background-color: ${tokens.colors[p.theme.mode].foregroundSecondary};
+  `
+      : `
+      box-shadow: ${tokens.shadows['0.25']};
+      color: ${tokens.colors[p.theme.mode].foregroundSecondary};
+      background-color: ${tokens.colors[p.theme.mode].groupBackground};
+  `}
+
+  ${(p) => {
+    switch (p.size) {
+      case 'small':
+        return `
+          max-width: ${tokens.space['48']};
+        `
+      case 'medium':
+        return `
+          max-width: ${tokens.space['52']};
+        `
+      case 'large':
+        return `
+          max-width: ${tokens.space['80']};
+        `
+      default:
+        return ``
+    }
+  }}
+
+  ${({ size, hasChevron }) => {
+    if (size === 'small' && hasChevron)
+      return `
+      max-width: ${tokens.space['52']};
+    `
+
+    if (size === 'medium' && hasChevron)
+      return `
+      max-width: ${tokens.space['56']};
+    `
+
+    if (size === 'large' && hasChevron)
+      return `
+      max-width: calc(${tokens.space['80']} + ${tokens.space['4']});
+    `
+  }}
+`
+
+const Chevron = styled(Svg)<{ open: boolean }>`
+  margin-left: ${tokens.space['1']};
+  width: ${tokens.space['3']};
+  margin-right: ${tokens.space['0.5']};
+  transition-duration: ${tokens.transitionDuration['200']};
+  transition-property: all;
+  transition-timing-function: ${tokens.transitionTimingFunction['inOut']};
+  opacity: 0.3;
+  transform: rotate(0deg);
+
+  ${(p) =>
+    p.open &&
+    `
+      opacity: 1;
+      transform: rotate(180deg);
+  `}
+`
+
+const ProfileInnerContainer = styled.div<{
+  size?: 'small' | 'medium' | 'large'
+}>`
+  display: ${(p) => (p.size === 'small' ? 'none' : 'block')};
+  margin-left: 0 ${tokens.space['1.5']};
+  min-width: ${tokens.space['none']};
+`
 
 type Props = BaseProps
 
@@ -34,27 +145,31 @@ export const Profile = ({
       <Dropdown
         {...{ items: dropdownItems, isOpen, setIsOpen, align: alignDropdown }}
       >
-        <Box
-          className={styles.variants({ size, hasChevron: true, open: isOpen })}
+        <Container
+          {...{
+            size,
+            hasChevron: true,
+            open: isOpen,
+          }}
           onClick={() => setIsOpen(!isOpen)}
         >
           <ProfileInner {...{ size, avatar, avatarAs, address, ensName }} />
-          <IconDownIndicator
-            className={styles.chevron({ open: isOpen })}
-            size="3"
-          />
-        </Box>
+          <Chevron open={isOpen} size="3" svg={IconDownIndicatorSvg} />
+        </Container>
       </Dropdown>
     )
   }
 
   return (
-    <Box
-      className={styles.variants({ size, open: false })}
+    <Container
+      {...{
+        size,
+        open: isOpen,
+      }}
       data-testid="profile"
     >
       <ProfileInner {...{ size, avatar, avatarAs, address, ensName }} />
-    </Box>
+    </Container>
   )
 }
 
@@ -66,11 +181,7 @@ const ProfileInner = ({ size, avatar, avatarAs, address, ensName }: Props) => (
       placeholder={!avatar}
       src={avatar}
     />
-    <Box
-      display={size === 'small' ? 'none' : 'block'}
-      marginX="1.5"
-      minWidth="none"
-    >
+    <ProfileInnerContainer size={size}>
       <Typography
         as="h3"
         color={ensName ? 'text' : 'textTertiary'}
@@ -91,6 +202,6 @@ const ProfileInner = ({ size, avatar, avatarAs, address, ensName }: Props) => (
           size === 'large' ? 10 : 5,
         )}
       </Typography>
-    </Box>
+    </ProfileInnerContainer>
   </React.Fragment>
 )

@@ -26,7 +26,7 @@ type Props = {
   strokeWidth?: Space
   svg: FunctionComponent
   className?: string
-  onClick: () => void
+  onClick?: () => void
 }
 
 export default ({
