@@ -2,7 +2,7 @@ import * as React from 'react'
 import styled, { useTheme } from 'styled-components'
 
 import { largerThan } from '@/src/utils/responsiveHelpers'
-import { tokens } from '@/dist/types/tokens'
+import { tokens } from '@/src/tokens'
 
 const Container = styled.div<{ dark: boolean; shadow?: boolean }>`
   ${(p) => `background-color: ${p.dark ? `black` : `white`}`};

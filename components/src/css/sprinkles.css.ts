@@ -10,7 +10,6 @@ import { calc } from '@vanilla-extract/css-utils'
 import { createVar } from '@vanilla-extract/css'
 
 import { vars } from './vars.css'
-import { Breakpoint, breakpointNames, breakpoints } from './breakpoints'
 
 // Ensure reset has lowest specificity
 /* DO NOT MOVE THIS LINE */
@@ -55,20 +54,12 @@ const extendedSpace = {
   '1/2': '50%',
   '2/3': '66.666667%',
   '3/4': '75%',
-  screenSm: breakpoints.sm,
-  screenMd: breakpoints.md,
-  screenLg: breakpoints.lg,
-  screenXl: breakpoints.xl,
 }
 
 const responsiveProperties = defineProperties({
   defaultCondition: 'xs',
   conditions: {
     xs: {},
-    sm: { '@media': `(min-width: ${breakpoints.sm}px)` },
-    md: { '@media': `(min-width: ${breakpoints.md}px)` },
-    lg: { '@media': `(min-width: ${breakpoints.lg}px)` },
-    xl: { '@media': `(min-width: ${breakpoints.xl}px)` },
   },
   properties: {
     alignItems: [...flexAlignment, 'baseline'],
@@ -286,14 +277,6 @@ export type OptionalResponsiveValue<Value extends string | number> =
   ConditionalValue<typeof responsiveProperties, Value>
 export type RequiredResponsiveValue<Value extends string | number> =
   RequiredConditionalValue<typeof responsiveProperties, Value>
-
-export type OptionalResponsiveObject<Value> =
-  | Value
-  | Partial<Record<Breakpoint, Value>>
-export type RequiredResponsiveObject<Value> = Partial<
-  Record<Breakpoint, Value>
-> &
-  Record<typeof breakpointNames[0], Value>
 
 export const normalizeResponsiveValue =
   createNormalizeValueFn(responsiveProperties)

@@ -5,7 +5,7 @@ import { ReactNodeNoStrings } from '../../../types'
 import { Spinner } from '../Spinner'
 import { Typography } from '../Typography'
 import { GetCenterProps, getCenterProps } from './utils'
-import { tokens } from '@/dist/types/tokens'
+import { tokens } from '@/src/tokens'
 import { atoms } from '@/src'
 
 const size = {

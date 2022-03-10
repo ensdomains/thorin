@@ -1,10 +1,82 @@
 import * as React from 'react'
+import styled from 'styled-components'
 
-import { Box, BoxProps } from '../Box'
-import * as styles from './styles.css'
+import { tokens } from '@/src/tokens'
+
+type Variants = 'small' | 'large' | 'extraLarge' | 'label' | 'labelHeading'
+
+interface ContainerProps {
+  ellipsis?: boolean
+  variant?: Variants
+  ref: any
+}
+
+const Container = styled.div<ContainerProps>`
+  ${({ theme }) => `
+      color: ${tokens.colors[theme.mode].text};
+      font-family: ${tokens.fonts['sans']};
+      letter-spacing: -0.01;
+      
+      font-size: ${tokens.fontSizes['base']};
+      font-weight: ${tokens.fontWeights['normal']};
+      letter-spacing: -0.015;
+      line-height: ${tokens.space['1.5']};
+  `}
+
+  ${({ ellipsis }) =>
+    ellipsis &&
+    `
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-sapce: nowrap;
+  `}
+
+  ${({ variant, theme }) => {
+    switch (variant) {
+      case 'small':
+        return `
+          font-size: ${tokens.fontSizes['small']};
+          font-weight: ${tokens.fontWeights['normal']};
+          letter-spacing: -0.01;
+          line-height: 1.5rem;
+        `
+      case 'large':
+        return `
+          font-size: ${tokens.fontSizes['large']};
+          font-weight: ${tokens.fontWeights['normal']};
+          letter-spacing: -0.02;
+          line-height: 2rem;
+        `
+      case 'extraLarge':
+        return `
+          font-size: ${tokens.fontSizes['extraLarge']};
+          font-weight: ${tokens.fontWeights['medium']};
+          letter-spacing: -0.02;
+          line-height: 2rem;
+        `
+      case 'label':
+        return `
+          color: ${tokens.colors[theme.mode].text};
+          font-size: ${tokens.fontSizes['label']};
+          font-weight: ${tokens.fontWeights['semiBold']};
+          letter-spacing: -0.01;
+          text-transform: capitalize;
+        `
+      case 'labelHeading':
+        return `
+          color: ${tokens.colors[theme.mode].text};
+          font-size: ${tokens.fontSizes['small']};
+          font-weight: ${tokens.fontWeights['semiBold']};
+          letter-spacing: -0.01;
+          text-transform: capitalize;
+        `
+      default:
+        return ``
+    }
+  }}
+`
 
 type Props = {
-  align?: BoxProps['textAlign']
   as?:
     | 'code'
     | 'div'
@@ -19,55 +91,26 @@ type Props = {
     | 'span'
     | 'i'
   children?: React.ReactNode
-  color?: BoxProps['color']
-  font?: BoxProps['fontFamily']
-  letterSpacing?: BoxProps['letterSpacing']
-  lineHeight?: BoxProps['lineHeight']
-  size?: BoxProps['fontSize']
-  transform?: BoxProps['textTransform']
-  weight?: BoxProps['fontWeight']
-  whiteSpace?: BoxProps['whiteSpace']
-} & styles.Variants
+  ellipsis: boolean
+  variant: Variants
+}
 
 export const Typography = React.forwardRef(
   (
-    {
-      align,
-      as = 'div',
-      children,
-      color = 'text',
-      ellipsis,
-      font = 'sans',
-      letterSpacing = '-0.01',
-      lineHeight,
-      size,
-      transform,
-      variant,
-      weight,
-      whiteSpace,
-    }: Props,
+    { as = 'div', children, ellipsis, variant }: Props,
     ref: React.Ref<HTMLElement>,
   ) => {
     return (
-      <Box
+      <Container
         as={as}
-        className={styles.variants({
+        {...{
           variant,
           ellipsis: ellipsis ? true : undefined,
-        })}
-        color={color}
-        fontFamily={font}
-        fontSize={size}
-        fontWeight={weight}
-        letterSpacing={letterSpacing}
-        lineHeight={lineHeight}
+        }}
         ref={ref}
-        textAlign={align}
-        textTransform={transform}
-        whiteSpace={whiteSpace}
       >
         {children}
-      </Box>
+      </Container>
     )
   },
 )

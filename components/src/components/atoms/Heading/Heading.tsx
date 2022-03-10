@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
-import { tokens } from '@/dist/types/tokens'
+import { tokens } from '@/src/tokens'
 import { largerThan } from '@/src/utils/responsiveHelpers'
 
 interface HeadingContainerProps {

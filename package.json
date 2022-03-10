@@ -8,21 +8,19 @@
     "playroom"
   ],
   "scripts": {
-    "build": "yarn setup && yarn workspaces foreach -pi run build",
-    "build:components": "yarn setup && yarn workspace @ensdomains/thorin build",
+    "build": "yarn workspaces foreach -pi run build",
+    "build:components": "yarn workspace @ensdomains/thorin build",
     "clean": "yarn workspaces foreach -p run clean",
-    "dev": "yarn setup && yarn workspaces foreach -pi run dev",
-    "gen:icons": "yarn node scripts/generateIcons.js",
+    "dev": "yarn workspaces foreach -pi run dev",
     "gen:component": "yarn node scripts/generateComponent.js",
-    "lint": "yarn setup && eslint . --cache",
+    "lint": "eslint . --cache",
     "lint:fix": "yarn lint --fix",
     "lint:format": "prettier --write .",
-    "lint:types": "yarn setup && yarn workspaces foreach -p run lint:types",
+    "lint:types": "yarn workspaces foreach -p run lint:types",
     "postinstall": "husky install",
     "prepublish": "yarn clean && yarn build:components",
-    "setup": "yarn gen:icons",
     "size": "yarn build:components && yarn size-limit",
-    "test": "yarn setup && yarn workspaces foreach -p run test",
+    "test": "yarn workspaces foreach -p run test",
     "publish:local": "yarn prepublish && yalc publish components/ --no-scripts --push --up"
   },
   "lint-staged": {
