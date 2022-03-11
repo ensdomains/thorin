@@ -1,8 +1,52 @@
 import * as React from 'react'
+import styled from 'styled-components'
 
-import { Box, Field } from '../..'
+import { Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
-import * as styles from './styles.css'
+import { tokens } from '@/src/tokens'
+
+const TextArea = styled.textarea<{ disabled?: boolean; error?: boolean }>`
+  ${({ theme }) => `
+      background-color: ${tokens.colors.base.transparent};
+      border-color: ${tokens.colors[theme.mode].foregroundSecondary};
+      border-radius: ${tokens.radii['2xLarge']};
+      border-width: ${tokens.space['0.5']};
+      color: ${tokens.colors[theme.mode].text};
+      display: flex;
+      font-family: ${tokens.fonts['sans']};
+      font-size: ${tokens.fontSizes['base']};
+      font-weight: ${tokens.fontWeights['medium']};
+      min-height: ${tokens.space['14']};
+      padding: ${tokens.space['4']};
+      transition-duration: ${tokens.transitionDuration['150']};
+      transition-property: colors;
+      transition-timing-function: ${tokens.transitionTimingFunction['inOut']};
+      width: ${tokens.space['full']};
+      resize: none;
+      
+      &:focus {
+        border-color: ${tokens.colors[theme.mode].accent};
+      }
+  `}
+
+  ${({ theme, disabled }) =>
+    disabled &&
+    `
+      border-color: ${tokens.colors[theme.mode].foregroundSecondary};
+      cursor: not-allowed;
+  `}
+
+  ${({ theme, error }) =>
+    error &&
+    `
+      border-color: ${tokens.colors[theme.mode].red};
+      cursor: default;
+      
+      &:focus-within {
+        border-color: ${tokens.colors[theme.mode].red};
+      }
+  `}
+`
 
 type NativeTextareaProps = React.AllHTMLAttributes<HTMLTextAreaElement>
 
@@ -52,10 +96,10 @@ export const Textarea = React.forwardRef(
       onBlur,
       onFocus,
     }: Props,
-    ref: React.Ref<HTMLElement>,
+    ref: React.Ref<HTMLTextAreaElement>,
   ) => {
     const defaultRef = React.useRef<HTMLInputElement>(null)
-    const inputRef = (ref as React.RefObject<HTMLInputElement>) || defaultRef
+    const inputRef = (ref as React.RefObject<HTMLTextAreaElement>) || defaultRef
 
     const hasError = error ? true : undefined
 
@@ -70,17 +114,11 @@ export const Textarea = React.forwardRef(
         required={required}
         width={width}
       >
-        <Box
+        <TextArea
           aria-invalid={hasError}
-          as="textarea"
           autoCorrect={autoCorrect}
           autoFocus={autoFocus}
-          className={styles.variants({
-            disabled,
-            error: hasError,
-          })}
           defaultValue={defaultValue}
-          disabled={disabled}
           maxLength={maxLength}
           name={name}
           placeholder={placeholder}
@@ -93,6 +131,10 @@ export const Textarea = React.forwardRef(
           onBlur={onBlur}
           onChange={onChange}
           onFocus={onFocus}
+          {...{
+            disabled,
+            error: hasError,
+          }}
         />
       </Field>
     )
