@@ -91,8 +91,8 @@ type Props = {
     | 'span'
     | 'i'
   children?: React.ReactNode
-  ellipsis: boolean
-  variant: Variants
+  ellipsis?: boolean
+  variant?: Variants
 }
 
 export const Typography = React.forwardRef(

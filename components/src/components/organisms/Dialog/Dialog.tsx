@@ -1,8 +1,30 @@
 import * as React from 'react'
+import styled from 'styled-components'
 
-import { Box, BoxProps, Modal, Stack, Typography } from '../..'
+import { Modal, Typography } from '../..'
 
 import { Props as CardProps } from '../../atoms/Card/Card'
+import { tokens } from '@/src/tokens'
+
+const Title = styled(Typography)`
+  font-size: ${tokens.fontSizes['headingTwo']};
+  font-weight: ${tokens.fontWeights['bold']};
+`
+
+const SubTitle = styled(Typography)`
+  font-size: ${tokens.fontSizes['headingThree']};
+  font-weight: ${tokens.fontWeights['normal']};
+`
+
+const Container = styled.div<{ center?: boolean }>`
+  ${({ center }) => `
+    flex-direction: ${center ? 'column' : 'row'};
+    gap: ${tokens.space['2']};
+  `}
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`
 
 type Props = {
   title?: string | React.ReactNode
@@ -11,7 +33,6 @@ type Props = {
   leading?: React.ReactNode
   center?: boolean
   children: React.ReactNode
-  boxProps?: BoxProps
   backdropSurface?: React.ElementType
   onDismiss?: () => void
   open: boolean
@@ -24,39 +45,27 @@ export const Dialog = ({
   leading,
   center,
   children,
-  boxProps,
   ...cardProps
 }: Props) => (
-  <Modal padding={cardProps.padding || '4'} {...cardProps}>
-    <Box minWidth={(boxProps && boxProps.minWidth) || '64'} {...boxProps}>
-      <Box marginBottom="4">
+  <Modal {...cardProps}>
+    <div style={{ minWidth: 64 }}>
+      <div style={{ marginBottom: 4 }}>
         {title &&
-          ((typeof title !== 'string' && title) || (
-            <Typography size="headingTwo" weight="bold">
-              {title}
-            </Typography>
-          ))}
+          ((typeof title !== 'string' && title) || <Title>{title}</Title>)}
         {subtitle &&
           ((typeof subtitle !== 'string' && subtitle) || (
-            <Typography size="headingThree" weight="normal">
-              {subtitle}
-            </Typography>
+            <SubTitle>{subtitle}</SubTitle>
           ))}
-      </Box>
+      </div>
       {children}
       {(leading || trailing) && (
-        <Box marginTop="4">
-          <Stack
-            align="center"
-            direction={center ? 'vertical' : 'horizontal'}
-            justify="space-between"
-            space="2"
-          >
-            {leading || (!center && <Box flexGrow={1} />)}
-            {trailing || (!center && <Box flexGrow={1} />)}
-          </Stack>
-        </Box>
+        <div style={{ marginTop: 4 }}>
+          <Container {...{ center }}>
+            {leading || (!center && <div style={{ flexGrow: 1 }} />)}
+            {trailing || (!center && <div style={{ flexGrow: 1 }} />)}
+          </Container>
+        </div>
       )}
-    </Box>
+    </div>
   </Modal>
 )
