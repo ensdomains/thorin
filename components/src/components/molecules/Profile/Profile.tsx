@@ -173,6 +173,18 @@ export const Profile = ({
   )
 }
 
+interface StyledTypographyProps {
+  color: 'text' | 'textTertiary'
+  ellipsis?: boolean
+  variant: 'small' | 'large' | 'extraLarge'
+}
+
+const StyledTypography = styled(Typography)<StyledTypographyProps>`
+  ${({ theme, color }) => `
+    color: ${tokens.colors[theme.mode][color]};
+  `}
+`
+
 const ProfileInner = ({ size, avatar, avatarAs, address, ensName }: Props) => (
   <React.Fragment>
     <Avatar
@@ -182,18 +194,18 @@ const ProfileInner = ({ size, avatar, avatarAs, address, ensName }: Props) => (
       src={avatar}
     />
     <ProfileInnerContainer size={size}>
-      <Typography
+      <StyledTypography
         as="h3"
         color={ensName ? 'text' : 'textTertiary'}
         ellipsis
-        size={ensName && size === 'large' ? 'extraLarge' : 'large'}
+        variant={ensName && size === 'large' ? 'extraLarge' : 'large'}
       >
         {ensName || 'No name set'}
-      </Typography>
-      <Typography
+      </StyledTypography>
+      <StyledTypography
         as="h4"
         color={ensName ? 'textTertiary' : 'text'}
-        size="small"
+        variant="small"
       >
         {shortenAddress(
           address,
@@ -201,7 +213,7 @@ const ProfileInner = ({ size, avatar, avatarAs, address, ensName }: Props) => (
           size === 'large' ? 10 : 5,
           size === 'large' ? 10 : 5,
         )}
-      </Typography>
+      </StyledTypography>
     </ProfileInnerContainer>
   </React.Fragment>
 )
