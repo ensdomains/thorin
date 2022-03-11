@@ -1,12 +1,155 @@
 import * as React from 'react'
+import styled from 'styled-components'
 
 import uniqueId from 'lodash/uniqueId'
 
-import { Box, Field, IconDownIndicator } from '../..'
+import { Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
-import * as styles from './styles.css'
+import IconDownIndicatorSvg from '@/src/components/atoms/icons/DownIndicator.svg'
+import { tokens } from '@/src/tokens'
+import Svg from '@/src/components/atoms/Svg/Svg'
 
-type NativeSelectProps = React.AllHTMLAttributes<HTMLSelectElement>
+const SelectContainer = styled.div<{ disabled?: boolean }>`
+  ${({ theme }) => `
+    background: ${tokens.colors[theme.mode].background};
+    background-color: ${tokens.colors[theme.mode].backgroundHide};
+    border-width: ${tokens.space['px']};
+    border-radius: ${tokens.radii['extraLarge']};
+    cursor: pointer;
+    position: relative;
+    padding: ${tokens.space['4']};
+    height: ${tokens.space['14']}
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 10;
+  `}
+
+  ${({ disabled, theme }) =>
+    disabled &&
+    `
+    cursor: not-allowed;
+    background: ${tokens.colors[theme.mode].backgroundTertiary};
+  `}
+`
+
+const OptionElementContainer = styled.div`
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  gap: ${tokens.space['4']};
+`
+
+const Chevron = styled(Svg)<{ open?: boolean; disabled?: boolean }>`
+  margin-left: ${tokens.space['1']};
+  width: ${tokens.space['3']};
+  margin-right: ${tokens.space['0.5']};
+  transition-duration: ${tokens.transitionDuration['200']};
+  transition-property: all;
+  transition-timing-function: ${tokens.transitionTimingFunction['inOut']};
+  opacity: 0.3;
+  transform: rotate(0deg);
+
+  ${(p) =>
+    p.open &&
+    `
+      opacity: 1;
+      transform: rotate(180deg);
+  `}
+
+  ${(p) =>
+    p.disabled &&
+    `
+      opacity: 0.1;
+  `}
+`
+
+const SelectOptionContainer = styled.div<{ open?: boolean }>`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-top: ${tokens.space['1.5']};
+  padding: ${tokens.space['1.5']};
+  position: absolute;
+  visibility: hidden;
+  opacity: 0;
+  width: ${tokens.space['full']};
+  height: ${tokens.space['fit']};
+  border-radius: ${tokens.radii['medium']};
+  box-shadow: ${tokens.shadows['0.02']};
+  overflow: hidden;
+
+  ${({ open }) =>
+    open
+      ? `
+      z-index: 20;
+      visibility: visible;
+      margin-top: ${tokens.space['1.5']};
+      opacity ${tokens.opacity['100']};
+      transition: all 0.3s cubic-bezier(1, 0, 0.22, 1.6), z-index 0s linear 0.3s;
+  `
+      : `
+      z-index: 0;
+      visibility: hidden;
+      margin-top: -${tokens.space['12']};
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(1, 0, 0.22, 1.6), z-index 0s linear 0s;
+  `}
+`
+
+const SelectOption = styled.div<{ selected?: boolean; disabled?: boolean }>`
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  gap: ${tokens.space['3']};
+  width: ${tokens.space['full']};
+  height: ${tokens.space['9']};
+  padding: 0 ${tokens.space['2']};
+  justify-content: flex-start;
+  transition-duration: ${tokens.transitionDuration['150']};
+  transition-property: all;
+  transition-timing-function: ${tokens.transitionTimingFunction['inOut']};
+  border-radius: ${tokens.radii['medium']};
+  margin: ${tokens.space['0.5']} 0;
+
+  ${({ theme }) => `
+    &:hover {
+      background-color: ${
+        tokens.colors[theme.mode].foregroundSecondaryHover
+      };    
+    }
+    
+    &::first-child {
+      margin-top: ${tokens.space['0']};
+    }
+    
+    &::last-child {
+      margin-bottom: ${tokens.space['0']};
+    }
+  `}
+
+  ${({ theme, selected }) =>
+    selected &&
+    `
+      background-color: ${tokens.colors[theme.mode].foregroundSecondary};
+  `}
+
+  ${({ theme, disabled }) =>
+    disabled &&
+    `
+      color: ${tokens.colors[theme.mode].textTertiary};
+      cursor: not-allowed;
+      
+      &:hover {
+        background-color: ${tokens.colors.base.transparent};
+      }
+  `}
+`
+
+type NativeSelectProps = React.AllHTMLAttributes<HTMLDivElement>
 
 type OptionProps = {
   value: string
@@ -111,7 +254,7 @@ export const Select = React.forwardRef(
     const OptionElement = ({ option }: { option: OptionProps | null }) =>
       option ? (
         <React.Fragment>
-          {option.prefix && <Box>{option.prefix}</Box>}
+          {option.prefix && <div>{option.prefix}</div>}
           {option.label || option.value}
         </React.Fragment>
       ) : null
@@ -128,55 +271,52 @@ export const Select = React.forwardRef(
         required={required}
         width={width}
       >
-        <Box className={styles.wrapper} ref={inputRef} {...{ onFocus, onBlur }}>
-          <Box
+        <div
+          ref={inputRef}
+          style={{ position: 'relative' }}
+          {...{ onFocus, onBlur }}
+        >
+          <SelectContainer
             aria-controls={`listbox-${id}`}
             aria-expanded="true"
             aria-haspopup="listbox"
             aria-invalid={error ? true : undefined}
-            className={styles.select({ disabled, open: menuOpen })}
             id={`combo-${id}`}
             role="combobox"
             onClick={(e) => handleInputEvent(e, 'mouse')}
-            {...{ disabled, tabIndex }}
+            {...{ disabled, tabIndex, open: menuOpen }}
           >
-            <Box
-              alignItems="center"
-              data-testid="selected"
-              display="flex"
-              flexDirection="row"
-              flexGrow={1}
-              gap="4"
-            >
-              {selected ? <OptionElement option={selected} /> : <Box />}
-            </Box>
-            <IconDownIndicator
-              className={styles.chevron({ open: menuOpen, disabled })}
+            <OptionElementContainer data-testid="selected">
+              {selected ? <OptionElement option={selected} /> : <div />}
+            </OptionElementContainer>
+            <Chevron
               size="3"
+              svg={IconDownIndicatorSvg}
+              {...{ open: menuOpen, disabled }}
             />
-          </Box>
-          <Box
-            className={styles.selectOptionContainer({ open: menuOpen })}
+          </SelectContainer>
+          <SelectOptionContainer
+            {...{ open: menuOpen }}
             id={`listbox-${id}`}
             role="listbox"
             tabIndex={-1}
           >
             {(Array.isArray(options) ? options : [options]).map((option) => (
-              <Box
-                className={styles.selectOption({
+              <SelectOption
+                {...{
                   selected: option === selected,
                   disabled: option.disabled,
-                })}
+                }}
                 key={option.value}
                 role="option"
                 onClick={(e) => handleInputEvent(e, 'mouse', option)}
                 onKeyPress={(e) => handleInputEvent(e, 'keyboard', option)}
               >
                 <OptionElement option={option} />
-              </Box>
+              </SelectOption>
             ))}
-          </Box>
-        </Box>
+          </SelectOptionContainer>
+        </div>
       </Field>
     )
   },
