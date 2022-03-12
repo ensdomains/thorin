@@ -6,19 +6,8 @@ import { Spinner } from '../Spinner'
 import { Typography } from '../Typography'
 import { GetCenterProps, getCenterProps } from './utils'
 import { tokens } from '@/src/tokens'
-import { atoms } from '@/src'
 
-const size = {
-  small: atoms({
-    paddingX: '0.25',
-    paddingY: '0.5',
-  }),
-  medium: atoms({
-    paddingY: '2.5',
-    paddingX: '3.5',
-  }),
-}
-export type Size = keyof typeof size
+export type Size = 'small' | 'medium'
 
 type NativeButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement>
 type NativeAnchorProps = React.AllHTMLAttributes<HTMLAnchorElement>
@@ -175,6 +164,12 @@ const PrefixContainer = styled.div<GetCenterProps>`
 
 const LoadingContainer = styled.div``
 
+const LabelContainer = styled(Typography)`
+  color: inherit;
+  font-size: inherit;
+  font-weight: ${tokens.fontWeights['semiBold']};
+`
+
 export type Props = BaseProps &
   (WithTone | WithoutTone) &
   (WithAnchor | WithoutAnchor)
@@ -205,11 +200,7 @@ export const Button = React.forwardRef(
     }: Props,
     ref: React.Ref<HTMLButtonElement>,
   ) => {
-    const labelContent = (
-      <Typography color="inherit" ellipsis size="inherit" weight="semiBold">
-        {children}
-      </Typography>
-    )
+    const labelContent = <LabelContainer ellipsis>{children}</LabelContainer>
 
     let childContent: ReactNodeNoStrings
     if (shape) {

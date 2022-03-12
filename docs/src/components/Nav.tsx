@@ -134,7 +134,7 @@ export const Nav = ({ links }: Props) => {
             >
               <div aria-label={state.open ? 'Close menu' : 'Open menu'}>
                 {/*<IconMenu color="textPlaceholder" strokeWidth="0.75" />*/}
-                <img src={MenuSVG as unknown as string} />
+                <NextImage alt="Menu" src={MenuSVG as unknown as string} />
               </div>
             </Button>
           </ButtonContainer>

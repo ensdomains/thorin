@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
-import Svg from '@/src/components/atoms/Svg'
+import { Svg } from '@/src/components/atoms/Svg'
 
 import { Backdrop, Card } from '../..'
 import { Props as CardProps } from '../../atoms/Card/Card'
