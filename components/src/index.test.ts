@@ -4,7 +4,7 @@ import path from 'path'
 
 import * as Exports from './'
 
-const generatedIconPaths = glob.sync('components/icons/generated/Icon*/', {
+const generatedIconPaths = glob.sync('components/Icons/generated/Icon*/', {
   cwd: __dirname,
   absolute: true,
 })
@@ -57,7 +57,7 @@ const expectedExportedKeys = [
   'normalizeResponsiveValue',
   'responsiveStyle',
   'vars',
-  // generated icons
+  // generated Icons
   ...generatedIcons,
 ]
 

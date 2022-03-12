@@ -6,7 +6,7 @@ import Svg from '@/src/components/atoms/Svg'
 import { Backdrop, Card } from '../..'
 import { Props as CardProps } from '../../atoms/Card/Card'
 import { tokens } from '@/src/tokens'
-import { IconCloseSvg } from '@/src/components/atoms/icons/Close.svg'
+import IconCloseSvg from '@/src/Icons/Close.svg'
 
 const Container = styled.div`
   display: flex;

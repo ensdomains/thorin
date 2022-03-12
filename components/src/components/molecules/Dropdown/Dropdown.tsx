@@ -5,7 +5,7 @@ import { Button } from '../..'
 import { Props as ButtonProps } from '@/src/components/atoms/Button'
 import { Colors, tokens } from '@/src/tokens'
 import Svg from '@/src/components/atoms/Svg'
-import IconDownIndicatorSvg from '@/src/components/atoms/icons/DownIndicator.svg'
+import IconDownIndicatorSvg from '@/src/Icons/DownIndicator.svg'
 
 export type DropdownItem = {
   label: string

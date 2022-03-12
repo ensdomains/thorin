@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import { tokens } from '@/src/tokens'
 import { Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
-import { vars } from '@/src'
 
 type NativeInputProps = React.AllHTMLAttributes<HTMLInputElement>
 
@@ -43,7 +42,7 @@ const Input = styled.input<InputProps>`
           &::before {
             content: '';
             background-color: ${tokens.colors[p.theme.mode].accent};
-            mask-image: ${`url('data:image/svg+xml; utf8, <svg width="${vars.space['4']}" height="${vars.space['4']}" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 12.625L10.125 20.125L22 3.875" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" /></svg>')`};
+            mask-image: ${`url('data:image/svg+xml; utf8, <svg width="${tokens.space['4']}" height="${tokens.space['4']}" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 12.625L10.125 20.125L22 3.875" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" /></svg>')`};
             width: ${tokens.space['4']};
             height: ${tokens.space['4']};
             transform: scale(0);

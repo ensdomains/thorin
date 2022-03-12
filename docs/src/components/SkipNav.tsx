@@ -1,3 +1,4 @@
+import styled from 'styled-components'
 import {
   SkipNavContent as ReachSkipNavContent,
   SkipNavLink as ReachSkipNavLink,
@@ -5,23 +6,18 @@ import {
 } from '@reach/skip-nav'
 import '@reach/skip-nav/styles.css'
 
-import { Box } from '@ensdomains/thorin/components'
-import { vars } from '@ensdomains/thorin/css'
+import { tokens } from '@ensdomains/thorin'
+
+const Container = styled(ReachSkipNavLink)`
+  ${({ theme }) => `
+    background: ${tokens.colors[theme.mode].accent};
+    color: ${tokens.colors[theme.mode].accentText};
+    font-family: ${tokens.fonts['sans']};
+  `}
+`
 
 export const SkipNavLink = ({ children, ...rest }: SkipNavLinkProps) => {
-  return (
-    <Box
-      as={ReachSkipNavLink}
-      {...rest}
-      style={{
-        background: vars.colors.accent,
-        color: vars.colors.accentText,
-        fontFamily: vars.fonts.sans,
-      }}
-    >
-      {children}
-    </Box>
-  )
+  return <Container {...rest}>{children}</Container>
 }
 
 export const SkipNavContent = ReachSkipNavContent

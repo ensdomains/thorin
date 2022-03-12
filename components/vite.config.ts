@@ -1,3 +1,4 @@
+import macrosPlugin from 'vite-plugin-babel-macros'
 import { defineConfig } from 'vite'
 import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin'
 import dts from 'vite-plugin-dts'
@@ -38,5 +39,6 @@ export default defineConfig({
       },
       outputDir: 'dist/types',
     }),
+    macrosPlugin(),
   ],
 })

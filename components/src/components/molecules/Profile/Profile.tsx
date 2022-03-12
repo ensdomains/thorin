@@ -7,7 +7,7 @@ import { shortenAddress } from '../../../utils/utils'
 import { Typography } from '../..'
 import { Avatar, Props as AvatarProps } from '../../atoms/Avatar'
 import { Dropdown, DropdownItem } from '../Dropdown/Dropdown'
-import IconDownIndicatorSvg from '@/src/components/atoms/icons/DownIndicator.svg'
+import IconDownIndicatorSvg from '@/src/Icons/DownIndicator.svg'
 import Svg from '@/src/components/atoms/Svg/Svg'
 
 type Size = 'small' | 'medium' | 'large'

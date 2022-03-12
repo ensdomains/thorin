@@ -9,7 +9,7 @@
       "!/*": ["../*"],
       "@/*": ["./*"]
     },
-    "types": ["@testing-library/jest-dom", "jest"]
+    "types": ["@testing-library/jest-dom", "jest", "vite/client"]
   },
   "include": ["src"]
 }

@@ -94,6 +94,20 @@ const config = {
   },
   pageExtensions: ['mdx', 'tsx'],
   reactStrictMode: true,
+  future: { webpack5: true },
+  webpack: (config) => {
+    // Unset client-side javascript that only works server-side
+    config.resolve.fallback = {
+      fs: false,
+      module: false,
+      process: false,
+      path: false,
+      os: false,
+      assert: false,
+      util: false,
+    }
+    return config
+  },
 }
 
 /** @type {import('next').NextConfig} */
