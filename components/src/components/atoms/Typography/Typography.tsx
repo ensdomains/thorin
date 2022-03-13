@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 
 import { tokens } from '@/src/tokens'
 
@@ -100,6 +100,8 @@ export const Typography = React.forwardRef(
     { as = 'div', children, ellipsis, variant }: Props,
     ref: React.Ref<HTMLElement>,
   ) => {
+    const theme = useTheme()
+    console.log('Current theme: ', theme)
     return (
       <Container
         as={as}

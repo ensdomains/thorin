@@ -1,8 +1,6 @@
 import * as React from 'react'
 import NextLink from 'next/link'
 
-import { Box } from '@ensdomains/thorin/components'
-
 type NextLinkProps = Parameters<typeof NextLink>[0]
 
 type Props = {
@@ -39,9 +37,7 @@ export const Link = ({
         passHref
         prefetch={canPrefetch(href) ? undefined : false}
       >
-        <Box as="a" className={className}>
-          {children}
-        </Box>
+        <a className={className}>{children}</a>
       </NextLink>
     </>
   )

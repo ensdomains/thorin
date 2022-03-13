@@ -20,7 +20,7 @@ const App = ({ Component, pageProps }: AppProps) => {
   const getLayout = Component.getLayout || getDocsLayout
 
   return (
-    <ThemeProvider theme={theme}>
+    <>
       <Head>
         {/* Prevent theme flash */}
         {/*<script*/}
@@ -31,9 +31,11 @@ const App = ({ Component, pageProps }: AppProps) => {
       </Head>
 
       <MDXProvider components={MDX}>
-        {getLayout(<Component {...pageProps} />)}
+        <ThemeProvider theme={theme}>
+          {getLayout(<Component {...pageProps} />)}
+        </ThemeProvider>
       </MDXProvider>
-    </ThemeProvider>
+    </>
   )
 }
 

@@ -1,8 +1,6 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
-import { Svg } from '@/src/components/atoms/Svg'
-
 import { Backdrop, Card } from '../..'
 import { Props as CardProps } from '../../atoms/Card/Card'
 import { tokens } from '@/src/tokens'
@@ -13,7 +11,7 @@ const Container = styled.div`
   flex-direction: row;
 `
 
-const IconCloseContainer = styled(Svg)`
+const IconCloseContainer = styled.img`
   height: ${tokens.space['6']};
   width: ${tokens.space['6']};
   margin-top: -${tokens.space['6']};
@@ -49,7 +47,7 @@ export const Modal = ({
       {onDismiss && (
         <IconCloseContainer
           data-testid="close-icon"
-          svg={IconCloseSvg}
+          src={IconCloseSvg}
           onClick={onDismiss}
         />
       )}

@@ -11,7 +11,7 @@ import styled, { useTheme } from 'styled-components'
 
 import { vars } from '@ensdomains/thorin/css'
 
-import { Colors, tokens } from '@ensdomains/thorin/'
+import { Colors, tokens } from '@ensdomains/thorin'
 
 import { useIsMounted } from '~/utils/isMounted'
 import { PlayroomStateProvider } from '../../../playroom/src/PlayroomState'

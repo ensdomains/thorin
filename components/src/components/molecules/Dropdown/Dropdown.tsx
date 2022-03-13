@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import { Button } from '../..'
 import { Props as ButtonProps } from '@/src/components/atoms/Button'
 import { Colors, tokens } from '@/src/tokens'
-import { Svg } from '@/src/components/atoms/Svg'
 import IconDownIndicatorSvg from '@/src/Icons/DownIndicator.svg'
 
 export type DropdownItem = {
@@ -264,7 +263,7 @@ const InnerMenuButton = styled.button<InnerMenuButton>`
   }}
 `
 
-const Chevron = styled(Svg)<{ open: boolean }>`
+const Chevron = styled.img<{ open: boolean }>`
   margin-left: ${tokens.space['1']};
   width: ${tokens.space['3']};
   margin-right: ${tokens.space['0.5']};
@@ -340,9 +339,7 @@ export const Dropdown = ({
           onClick={() => setIsOpen(!isOpen)}
         >
           {label}
-          {chevron && (
-            <Chevron open={isOpen} size="3" svg={IconDownIndicatorSvg} />
-          )}
+          {chevron && <Chevron open={isOpen} src={IconDownIndicatorSvg} />}
         </InnerMenuButton>
       )}
 
@@ -351,9 +348,7 @@ export const Dropdown = ({
           {...buttonProps}
           pressed={isOpen}
           suffix={
-            chevron && (
-              <Chevron open={isOpen} size="3" svg={IconDownIndicatorSvg} />
-            )
+            chevron && <Chevron open={isOpen} src={IconDownIndicatorSvg} />
           }
           zIndex="10"
           onClick={() => setIsOpen(!isOpen)}
