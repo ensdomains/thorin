@@ -76,7 +76,7 @@ type Props = {
   id?: string
   transform?: React.CSSProperties['textTransform']
   responsive?: boolean
-  level: '1' | '2'
+  level?: '1' | '2'
 }
 
 export const Heading = ({
