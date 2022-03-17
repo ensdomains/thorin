@@ -18,10 +18,9 @@ const Container = styled.div`
   display: block;
   justify-content: center;
   margin: 0 auto;
-  max-width: 320px;
+  max-width: ${tokens.space['320']};
   min-height: ${tokens.space['viewHeight']};
   padding: 0 ${tokens.space['6']};
-  min-width: 80rem;
 
   ${largerThan.md`
     display: flex;
