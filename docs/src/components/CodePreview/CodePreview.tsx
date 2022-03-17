@@ -6,19 +6,18 @@ import { LiveEditor, LiveError, LivePreview, LiveProvider } from 'react-live'
 import { mdx } from '@mdx-js/react'
 import { PrismTheme } from 'prism-react-renderer'
 
-import { tokens } from '@ensdomains/thorin'
-import * as Components from '@ensdomains/thorin/components'
-import { Button, Typography } from '@ensdomains/thorin/components'
-import { vars } from '@ensdomains/thorin/css'
-
-import { Colors } from '@/src/tokens'
+import {
+  Button,
+  Colors,
+  Components,
+  Typography,
+  tokens,
+} from '@ensdomains/thorin'
 
 import { createPlayroomLink } from '~/utils/playroom'
-import { usePlayroomStore } from '../../../../playroom/src/PlayroomState'
+// import { usePlayroomStore } from '../../../../playroom/src/PlayroomState'
 import { avatars } from '../../../../playroom/src/useScope'
 import { CopyButton } from '../CopyButton'
-
-import './styles.css'
 
 export type Props = {
   backgroundColor?: Colors
@@ -81,7 +80,7 @@ export const CodePreview = ({
     ...initialState,
     expand,
   })
-  const store = usePlayroomStore()
+  // const store = usePlayroomStore()
   const themeValue = useTheme()
 
   return (
@@ -91,10 +90,10 @@ export const CodePreview = ({
       scope={{
         mdx,
         ...Components,
-        ...store,
+        // ...store,
         ...themeValue,
         previewRef,
-        vars,
+        // vars,
         NextImage,
         NextLink,
         avatars,

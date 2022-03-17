@@ -1,7 +1,9 @@
-import { useTheme } from '@ensdomains/thorin/components'
-import { vars } from '@ensdomains/thorin/css'
+// import { useTheme } from '@ensdomains/thorin/components'
+// import { vars } from '@ensdomains/thorin/css'
 
-import { usePlayroomStore } from './PlayroomState'
+import { useTheme } from 'styled-components'
+
+// import { usePlayroomStore } from './PlayroomState'
 
 export const avatars = {
   noun2:
@@ -21,8 +23,8 @@ export const avatars = {
 const useScope = () => {
   return {
     ...useTheme(),
-    ...usePlayroomStore(),
-    vars,
+    // ...usePlayroomStore(),
+    // vars,
     avatars,
   }
 }

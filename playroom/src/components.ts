@@ -1,1 +1,1 @@
-export * from '@ensdomains/thorin/components'
+export { Components } from '@ensdomains/thorin'

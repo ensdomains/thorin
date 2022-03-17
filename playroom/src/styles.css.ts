@@ -1,6 +1,6 @@
 import { globalFontFace, globalStyle } from '@vanilla-extract/css'
 
-import { vars } from '@ensdomains/thorin/css'
+// import { vars } from '@ensdomains/thorin/css'
 
 globalFontFace('Satoshi', {
   fontDisplay: 'block',

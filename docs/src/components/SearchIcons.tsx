@@ -1,16 +1,10 @@
 import * as React from 'react'
+import styled from 'styled-components'
 
-import {
-  Box,
-  IconSearch,
-  Input,
-  Stack,
-  Typography,
-} from '@ensdomains/thorin/components'
-import * as Components from '@ensdomains/thorin/components'
+import { Input, Typography, largerThan, tokens } from '@ensdomains/thorin'
+import * as Components from '@ensdomains/thorin'
 
 import { Link } from '~/components'
-import { iconGrid } from '~/styles/utils.css'
 
 const icons = Object.entries(Components)
   .filter(([k]) => k.includes('Icon'))
@@ -25,6 +19,73 @@ const initialState: State = {
   query: '',
 }
 
+const FlexContainer = styled.div`
+  gap: ${tokens.space['8']};
+`
+
+const IconGrid = styled.div`
+  display: grid;
+  gap: ${tokens.space['4']};
+  grid-template-columns: repeat(auto-fit, minmax(${tokens.space['18']}, 1fr));
+  ${largerThan.md`
+        grid-template-columns: repeat(auto-fit, minmax(${tokens.space['20']}, 1fr));
+  `}
+`
+
+const IconGridInner = styled.div`
+  max-width: ${tokens.space['18']};
+
+  ${largerThan.md`
+      max-width: ${tokens.space['20']};
+  `}
+`
+
+const IconGridFlex = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${tokens.space['2']};
+`
+
+const ComponentContainer = styled.div`
+  ${({ theme }) => `
+    background-color: ${tokens.colors[theme.mode].foregroundTertiary};
+    border-radius: ${tokens.radii['large']};
+    box-shadow-color: ${tokens.colors.base.transparent};
+    color: ${tokens.colors[theme.mode].foreground};
+    padding: ${tokens.space['4']};
+    width: ${tokens.space['max']};
+    transition-duration: ${tokens.transitionDuration['150']};
+    transition-property: shadow;
+    transition-timing-function: ${tokens.transitionTimingFunction['inOut']};
+    
+    box-shadow: ${tokens.boxShadows[theme.mode]['1']}; 
+    
+    &:hover {
+      box-shadow: ${tokens.boxShadows[theme.mode]['1']};
+    }
+    
+    &:active {
+      box-shadow: ${tokens.boxShadows[theme.mode]['0.5']};
+    }
+  `}
+`
+
+const IconNameContainer = styled.div`
+  width: ${tokens.space['14']};
+
+  ${largerThan.md`
+    width: ${tokens.space['18']};
+  `}
+`
+
+const IconName = styled(Typography)`
+  ${({ theme }) => `
+    text-align: center;
+    size: ${tokens.fontSizes['label']};
+    color: ${tokens.colors[theme.mode].text};
+  `}
+`
+
 export const SearchIcons = () => {
   const [state, setState] = React.useState<State>(initialState)
 
@@ -36,51 +97,42 @@ export const SearchIcons = () => {
   }, [state.query])
 
   return (
-    <Stack space="8">
+    <FlexContainer>
       <Input
         hideLabel
         label="Search icons"
         placeholder="Search icons"
-        prefix={<IconSearch />}
+        // prefix={<IconSearch />}
+        prefix={<div>search icon</div>}
         value={state.query}
         onChange={(event) =>
           setState((x) => ({ ...x, query: event.target.value }))
         }
       />
 
-      <Box as="ul" className={iconGrid} display="grid" gap="4">
+      <IconGrid>
         {filteredIcons.map((x) => (
           <Link href={`/components/${x.name}`} key={x.name}>
-            <Box maxWidth={{ xs: '18', md: '20' }}>
-              <Stack align="center" space="2">
-                <Box
-                  backgroundColor="foregroundTertiary"
-                  borderRadius="large"
-                  boxShadow={{ base: '1', hover: '1', active: '0.5' }}
-                  boxShadowColor={{
-                    base: 'transparent',
-                  }}
-                  color="foreground"
-                  padding="4"
-                  transitionDuration="150"
-                  transitionProperty="shadow"
-                  transitionTimingFunction="inOut"
-                  width="max"
-                >
-                  {React.createElement(x.Component as any, {
-                    size: { xs: '10', md: '12' },
-                  })}
-                </Box>
-                <Box width={{ xs: '14', md: '18' }}>
-                  <Typography align="center" color="text" ellipsis size="label">
-                    {x.name.replace('Icon', '')}
-                  </Typography>
-                </Box>
-              </Stack>
-            </Box>
+            <IconGridInner>
+              <IconGridFlex>
+                <ComponentContainer>
+                  {React.createElement(x.Component as any)}
+                </ComponentContainer>
+                <IconNameContainer>
+                  <IconName ellipsis>{x.name.replace('Icon', '')}</IconName>
+                </IconNameContainer>
+              </IconGridFlex>
+            </IconGridInner>
           </Link>
         ))}
-      </Box>
-    </Stack>
+      </IconGrid>
+    </FlexContainer>
   )
 }
+
+/*
+{
+                    size: { xs: '10', md: '12' },
+                  }
+
+ */

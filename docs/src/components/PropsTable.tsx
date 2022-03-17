@@ -1,13 +1,14 @@
 import * as React from 'react'
+import styled from 'styled-components'
 import { PropItem } from 'react-docgen-typescript'
 
 import {
-  Box,
   Button,
-  Stack,
   Typography,
   VisuallyHidden,
-} from '@ensdomains/thorin/components'
+  largerThan,
+  tokens,
+} from '@ensdomains/thorin'
 
 import { Link } from './Link'
 
@@ -16,11 +17,93 @@ type Props = {
   types: Record<string, PropItem>
 }
 
-const dataProps: Parameters<typeof Box>[0] = {
+const dataProps = {
   as: 'td',
   paddingX: '4',
   paddingY: '3',
 }
+
+const Container = styled.div`
+  max-width: ${tokens.space['full']};
+  overflow: scroll;
+
+  ${largerThan.lg`
+    overflow: unset;
+  `}
+`
+
+const TableHead = styled.div`
+  ${({ theme }) => `
+      background-color: ${tokens.colors[theme.mode].background};
+      position: sticky;
+      top: 0;
+  `}
+`
+
+const TableHeadLabelContainer = styled.div<{
+  i: number
+  headers: Array<string>
+}>`
+  ${({ theme, i, headers }) => `
+      background-color: ${tokens.colors[theme.mode].foregroundTertiary};
+      border-color: ${tokens.colors[theme.mode].foregroundSecondary};
+      ${i === 0 && `border-left-radius: ${tokens.radii['large']};`}
+      ${
+        i === headers.length - 1 &&
+        `border-right-radius: ${tokens.radii['large']};`
+      }
+      padding: ${tokens.space['2.5']} ${tokens.space['4']};
+`}
+`
+
+const Name = styled(Typography)`
+  ${({ theme }) => `
+      color: ${tokens.colors[theme.mode].text};
+      font-size: ${tokens.fontSizes['small']};
+`}
+`
+
+const Required = styled(Typography)`
+  ${({ theme }) => `
+      color: ${tokens.colors[theme.mode].red};
+      font-size: ${tokens.fontSizes['small']};
+`}
+`
+
+const RawName = styled(Typography)`
+  ${({ theme }) => `
+      color: ${tokens.colors[theme.mode].accent};
+      font-size: ${tokens.fontSizes['small']};
+      font-family: ${tokens.fonts['mono']};
+`}
+`
+
+const DefaultValue = styled(Typography)`
+  ${({ theme }) => `
+      color: ${tokens.colors[theme.mode].textSecondary};
+      font-size: ${tokens.fontSizes['small']};
+`}
+`
+
+const Description = styled(Typography)`
+  ${({ theme }) => `
+      color: ${tokens.colors[theme.mode].textSecondary};
+      font-size: ${tokens.fontSizes['small']};
+`}
+`
+
+const NoProps = styled(Typography)`
+  ${({ theme }) => `
+      color: ${tokens.colors[theme.mode].textSecondary};
+`}
+`
+
+const FlexContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: ${tokens.space['2']};
+`
 
 export const PropsTable = ({ sourceLink, types }: Props) => {
   const [state, setState] = React.useState<{
@@ -45,81 +128,65 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
   return (
     <>
       {props.length ? (
-        <Box maxWidth="full" overflow={{ xs: 'scroll', lg: 'unset' }}>
-          <Box as="table" width="full">
-            <Box as="thead">
-              <Box as="tr" textAlign="left">
+        <Container>
+          <table style={{ width: tokens.space['full'] }}>
+            <thead>
+              <tr style={{ textAlign: 'left' }}>
                 {headers.map((x, i) => (
-                  <Box
-                    as="th"
-                    backgroundColor="background"
-                    key={x}
-                    position="sticky"
-                    top="0"
-                  >
-                    <Box
-                      backgroundColor="foregroundTertiary"
-                      borderColor="foregroundSecondary"
-                      borderLeftRadius={i === 0 ? 'large' : undefined}
-                      borderRightRadius={
-                        i === headers.length - 1 ? 'large' : undefined
-                      }
-                      paddingX="4"
-                      paddingY="2.5"
-                    >
+                  <TableHead key={x}>
+                    <TableHeadLabelContainer {...{ i, headers }}>
                       <Typography variant="label">{x}</Typography>
-                    </Box>
-                  </Box>
+                    </TableHeadLabelContainer>
+                  </TableHead>
                 ))}
-              </Box>
-            </Box>
+              </tr>
+            </thead>
 
-            <Box as="tbody">
+            <tbody>
               {props.map((x) => (
-                <Box as="tr" borderBottomWidth="px" key={x.name}>
-                  <Box {...dataProps}>
-                    <Typography color="text" size="small">
+                <tr
+                  key={x.name}
+                  style={{ borderBottomWidth: tokens.space['px'] }}
+                >
+                  <div {...dataProps}>
+                    <Name>
                       {x.name}
                       {x.required && (
-                        <Typography as="span" color="red" size="small">
+                        <Required as="span">
                           *<VisuallyHidden>Required</VisuallyHidden>
-                        </Typography>
+                        </Required>
                       )}
-                    </Typography>
-                  </Box>
+                    </Name>
+                  </div>
 
-                  <Box {...dataProps}>
-                    <Typography color="accent" font="mono" size="small">
-                      {x.type.raw ?? x.type.name}
-                    </Typography>
-                  </Box>
+                  <div {...dataProps}>
+                    <RawName>{x.type.raw ?? x.type.name}</RawName>
+                  </div>
 
-                  <Box {...dataProps}>
-                    <Typography color="textSecondary" size="small">
+                  <div {...dataProps}>
+                    <DefaultValue>
                       {x.defaultValue?.value.toString() ?? '-'}
-                    </Typography>
-                  </Box>
+                    </DefaultValue>
+                  </div>
 
                   {state.showDescriptions && (
-                    <Box {...dataProps}>
-                      <Typography color="textSecondary" size="small">
-                        {x.description || '-'}
-                      </Typography>
-                    </Box>
+                    <div {...dataProps}>
+                      <Description>{x.description || '-'}</Description>
+                    </div>
                   )}
-                </Box>
+                </tr>
               ))}
-            </Box>
-          </Box>
-        </Box>
+            </tbody>
+          </table>
+        </Container>
       ) : (
-        <Box>
-          <Typography color="textSecondary">No props</Typography>
-        </Box>
+        <div>
+          <NoProps>No props</NoProps>
+        </div>
       )}
 
-      <Box marginY="2">
-        <Stack direction="horizontal" justify="flex-end" space="2">
+      <div style={{ margin: `${tokens.space['2']} 0` }}>
+        <FlexContainer>
           {!!props.length && (
             <Button
               size="small"
@@ -142,8 +209,8 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
               </Button>
             </Link>
           )}
-        </Stack>
-      </Box>
+        </FlexContainer>
+      </div>
     </>
   )
 }

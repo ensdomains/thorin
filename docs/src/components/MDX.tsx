@@ -2,8 +2,7 @@ import { MDXProviderProps } from '@mdx-js/react'
 import slugify from '@sindresorhus/slugify'
 import styled from 'styled-components'
 
-import { Heading, Typography } from '@ensdomains/thorin/components'
-import { tokens } from '@ensdomains/thorin'
+import { Heading, Typography, tokens } from '@ensdomains/thorin'
 
 import { CodeBlock } from './CodeBlock'
 import { Link } from './Link'
@@ -17,7 +16,7 @@ const HoverParent = styled.a`
 const HoverChild = styled.div`
   ${({ theme }) => `
     visibility: hidden;
-    
+
     ${HoverParent}:hover & {
       visibilty: visible;
       display: inline-block;

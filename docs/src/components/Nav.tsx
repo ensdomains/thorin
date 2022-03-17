@@ -2,13 +2,18 @@ import { useRouter } from 'next/dist/client/router'
 import * as React from 'react'
 import styled from 'styled-components'
 
-import { Button, Typography, largerThan, tokens } from '@ensdomains/thorin'
+import {
+  Button,
+  Space,
+  Typography,
+  largerThan,
+  tokens,
+} from '@ensdomains/thorin'
 
 import { createGitHubLink } from '~/utils/github'
 import { createPlayroomLink } from '~/utils/playroom'
 import { useIsMounted } from '~/utils/isMounted'
 import { Link } from './Link'
-import { Space } from '@/dist/types/tokens'
 
 type Link = { name: string; route: string }
 

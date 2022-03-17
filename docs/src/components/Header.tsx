@@ -1,8 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
-import { Heading, Typography } from '@ensdomains/thorin/components'
-import { tokens } from '@ensdomains/thorin'
+import { Heading, Typography, tokens } from '@ensdomains/thorin'
 
 type Props = {
   description?: React.ReactNode

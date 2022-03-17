@@ -21,6 +21,7 @@ const Container = styled.div`
   max-width: 320px;
   min-height: ${tokens.space['viewHeight']};
   padding: 0 ${tokens.space['6']};
+  min-width: 80rem;
 
   ${largerThan.md`
     display: flex;
@@ -76,6 +77,7 @@ export type Props = {
 
 const Layout: NextLayout<Props> = ({ children, meta }) => {
   const links = (process.env.navLinks as unknown as NavProps['links']) ?? []
+  console.log('links: ', links)
   return (
     <>
       <Head>

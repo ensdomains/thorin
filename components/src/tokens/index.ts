@@ -36,6 +36,23 @@ export const breakpoints = {
   xl: 1280,
 }
 
+const boxShadows = {
+  light: {
+    '0': `${shadows['0']} ${colors.light.foregroundSecondary}`,
+    '0.02': `${shadows['0.02']} ${colors.light.foregroundSecondary}`,
+    '0.25': `${shadows['0.25']} ${colors.light.foregroundSecondary}`,
+    '0.5': `${shadows['0.5']} ${colors.light.foregroundSecondary}`,
+    '1': `${shadows['1']} ${colors.light.foregroundSecondary}`,
+  },
+  dark: {
+    '0': `${shadows['0']} ${colors.dark.foregroundSecondary}`,
+    '0.02': `${shadows['0.02']} ${colors.dark.foregroundSecondary}`,
+    '0.25': `${shadows['0.25']} ${colors.dark.foregroundSecondary}`,
+    '0.5': `${shadows['0.5']} ${colors.dark.foregroundSecondary}`,
+    '1': `${shadows['1']} ${colors.dark.foregroundSecondary}`,
+  },
+}
+
 export const tokens = {
   borderStyles,
   borderWidths,
@@ -53,6 +70,7 @@ export const tokens = {
   breakpoints,
   transitionDuration,
   transitionTimingFunction,
+  boxShadows,
 }
 
 export type { Accent, Mode } from './color'
