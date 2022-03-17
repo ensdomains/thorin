@@ -59,7 +59,7 @@ const NavLinkInner = styled.div`
 
 const ENSText = styled(Typography)`
   ${({ theme }) => `
-    color: ${tokens.colors[theme.mode].blue};
+    color: rgb(${tokens.colors[theme.mode].blue});
     font-size: ${tokens.fontSizes['headingThree']};
     font-weight: ${tokens.fontWeights['semiBold']};
   `}

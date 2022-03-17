@@ -59,9 +59,6 @@ const config = {
       },
     ],
   },
-  // experimental: {
-  //   externalDir: true,
-  // },
   // async rewrites() {
   //   // Rewrite playroom urls for production
   //   if (process.env.NODE_ENV === 'production')
