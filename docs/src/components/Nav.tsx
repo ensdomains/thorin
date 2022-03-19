@@ -2,8 +2,12 @@ import { useRouter } from 'next/dist/client/router'
 import * as React from 'react'
 import styled from 'styled-components'
 
+import NextImage from 'next/image'
+
 import {
   Button,
+  LogoSVG,
+  MenuSVG,
   Space,
   Typography,
   largerThan,
@@ -55,13 +59,14 @@ const NavLinkInner = styled.div`
   display: flex;
   align-items: center;
   flex-direction: row;
+  gap: ${tokens.space['4']};
 `
 
 const ENSText = styled(Typography)`
   ${({ theme }) => `
-    color: rgb(${tokens.colors[theme.mode].blue});
-    font-size: ${tokens.fontSizes['headingThree']};
-    font-weight: ${tokens.fontWeights['semiBold']};
+      color: ${tokens.colors[theme.mode].blue};
+      font-size: ${tokens.fontSizes['headingThree']};
+      font-weight: ${tokens.fontWeights['semiBold']};
   `}
 `
 
@@ -116,7 +121,7 @@ export const Nav = ({ links }: Props) => {
         <NavlinkContainer>
           <NavLink active={router.asPath === '/'} href="/">
             <NavLinkInner>
-              {/*<NextImage height={48} src={Logo} width={48} />*/}
+              <NextImage height={48} src={LogoSVG} width={48} />
               <ENSText>ENS</ENSText>
             </NavLinkInner>
           </NavLink>
@@ -130,8 +135,7 @@ export const Nav = ({ links }: Props) => {
               onClick={() => setState((x) => ({ ...x, open: !x.open }))}
             >
               <div aria-label={state.open ? 'Close menu' : 'Open menu'}>
-                {/*<IconMenu color="textPlaceholder" strokeWidth="0.75" />*/}
-                {/*<NextImage alt="Menu" src={MenuSVG as unknown as string} />*/}
+                <NextImage alt="Menu" height={24} src={MenuSVG} width={24} />
               </div>
             </Button>
           </ButtonContainer>

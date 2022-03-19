@@ -13,8 +13,8 @@ interface HeadingContainerProps {
 
 const HeadingContainer = styled.div<HeadingContainerProps>`
   ${(p) => `
-    ${p.textAlign && `text-align: ${p.textAlign};`}
-    ${p.textTransform && `text-transform: ${p.textTransform};`}
+    ${p.textAlign ? `text-align: ${p.textAlign};` : ``}
+    ${p.textTransform ? `text-transform: ${p.textTransform};` : ``}
   `}
 
   ${(p) => {
@@ -23,14 +23,14 @@ const HeadingContainer = styled.div<HeadingContainerProps>`
         return `
           font-size: ${tokens.fontSizes.headingOne};
           font-weight: ${tokens.fontWeights.semiBold};
-          letter-spacing: -0.02;
+          letter-spacing: ${tokens.letterSpacings['-0.02']};
           line-height: 4rem;
         `
       case '2':
         return `
           font-size: ${tokens.fontSizes.headingTwo};
           font-weight: ${tokens.fontWeights.semiBold};
-          letter-spacing: -0.02;
+          letter-spacing: ${tokens.letterSpacings['-0.02']};
           line-height: 2.5rem;
         `
       default:
@@ -65,7 +65,7 @@ const HeadingContainer = styled.div<HeadingContainerProps>`
     }
   }}
   
-  font-family: sans;
+  font-family: ${tokens.fonts['sans']};
 `
 
 type Props = {
@@ -83,7 +83,6 @@ export const Heading = ({
   align,
   children,
   as = 'h1',
-  color = 'foreground',
   id,
   level = '2',
   responsive,
@@ -92,7 +91,6 @@ export const Heading = ({
   return (
     <HeadingContainer
       as={as}
-      color={color}
       id={id}
       textAlign={align}
       textTransform={transform}

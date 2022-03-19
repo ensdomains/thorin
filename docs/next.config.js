@@ -105,9 +105,9 @@ const config = {
   //   return config
   // },
   reactStrictMode: true,
-  compiler: {
-    styledComponents: true,
-  },
+  // compiler: {
+  //   styledComponents: true,
+  // },
 }
 
 /** @type {import('next').NextConfig} */

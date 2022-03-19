@@ -53,17 +53,17 @@ const Aside = styled.aside`
 `
 
 const Article = styled.article`
-  max-width: 224px;
+  max-width: ${tokens.space['224']};
   padding-bottom: ${tokens.space['20']};
   padding-top: ${tokens.space['20']};
 
   ${largerThan.lg`
-    max-width: 192px;
+    max-width: ${tokens.space['192']};
     padding: ${tokens.space['20']} ${tokens.space['10']};
   `}
 
   ${largerThan.xl`
-    max-width: 224px;
+    max-width: ${tokens.space['224']};
   `}
 `
 
