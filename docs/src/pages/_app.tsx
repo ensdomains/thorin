@@ -6,6 +6,7 @@ import Head from 'next/head'
 import { ThemeProvider } from 'styled-components'
 
 import type { DefaultTheme } from '@ensdomains/thorin'
+import { ThorinGlobalStyles } from '@ensdomains/thorin'
 
 import { MDX } from '~/components'
 import { getLayout as getDocsLayout } from '~/layouts/docs'
@@ -28,9 +29,10 @@ const App = ({ Component, pageProps }: AppProps) => {
           }}
         />
       </Head>
-      <GlobalStyle />
       <MDXProvider components={MDX}>
         <ThemeProvider theme={theme}>
+          <ThorinGlobalStyles />
+          <GlobalStyle />
           {getLayout(<Component {...pageProps} />)}
         </ThemeProvider>
       </MDXProvider>

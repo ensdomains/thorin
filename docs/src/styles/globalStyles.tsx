@@ -3,23 +3,12 @@ import { createGlobalStyle } from 'styled-components'
 import { tokens } from '@ensdomains/thorin'
 
 const GlobalStyle = createGlobalStyle`
-  *, ::before, ::after {
-    box-sizing: border-box;
-  }
-  
   body {
     margin: 0;
   }
   
   a {
     text-decoration: none;
-  }
-  
-  html {
-    font-size: ${tokens.fontSizes['root']};
-    color: ${tokens.colors.light.foreground};
-    text-rendering: optimizeLegibility;
-    background: radial-gradient(40.48% 67.6% at 50% 32.4%,#ecf4ff 0%,#f7f7ff 52.77%,#f7f7f7 100%),#ffffff;  
   }
 
   .npm__react-simple-code-editor__textarea {

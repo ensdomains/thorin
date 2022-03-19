@@ -3,6 +3,7 @@ export * as Components from './components'
 export * from './Icons'
 export { tokens } from './tokens'
 export { largerThan } from './utils/responsiveHelpers'
+export { default as ThorinGlobalStyles } from './globalStyles'
 
 export type {
   Atoms,
