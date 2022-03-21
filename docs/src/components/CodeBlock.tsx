@@ -4,7 +4,7 @@ import Highlight, {
   PrismTheme,
   defaultProps,
 } from 'prism-react-renderer'
-// import dynamic from 'next/dynamic'
+import dynamic from 'next/dynamic'
 import vsLight from 'prism-react-renderer/themes/vsLight'
 import vsDark from 'prism-react-renderer/themes/vsDark'
 import styled, { useTheme } from 'styled-components'
@@ -12,25 +12,25 @@ import styled, { useTheme } from 'styled-components'
 import { Colors, tokens } from '@ensdomains/thorin'
 
 import { useIsMounted } from '~/utils/isMounted'
-// import { PlayroomStateProvider } from '../../../playroom/src/PlayroomState'
+import { PlayroomStateProvider } from '~/playroom/PlayroomState'
 import { CopyButton } from './CopyButton'
-// import type { Props as CodePreviewProps } from './CodePreview'
+import type { Props as CodePreviewProps } from './CodePreview'
 
-// const CodePreviewContainer = styled.div`
-//   ${({ theme }) => `
-//     background-color: ${tokens.colors[theme.mode].foregroundSecondary};
-//     border-radius: ${tokens.radii['large']};
-//     height: ${tokens.space['48']};
-//     width: ${tokens.space['full']};
-//   `}
-// `
+const CodePreviewContainer = styled.div`
+  ${({ theme }) => `
+    background-color: ${tokens.colors[theme.mode].foregroundSecondary};
+    border-radius: ${tokens.radii['large']};
+    height: ${tokens.space['48']};
+    width: ${tokens.space['full']};
+  `}
+`
 
-// const CodePreview = dynamic<CodePreviewProps>(
-//   () => import('./CodePreview').then((mod) => mod.CodePreview),
-//   {
-//     loading: () => <CodePreviewContainer />,
-//   },
-// )
+const CodePreview = dynamic<CodePreviewProps>(
+  () => import('./CodePreview').then((mod) => mod.CodePreview),
+  {
+    loading: () => <CodePreviewContainer />,
+  },
+)
 
 const Pre = styled.pre`
   border-radius: ${tokens.radii['2xLarge']};
@@ -67,13 +67,13 @@ type Props = {
 // export const CodeBlock = () => <div>code block</div>
 
 export const CodeBlock = ({
-  // backgroundColor,
+  backgroundColor,
   children,
   className,
   live,
-}: // expand,
-// minHeight,
-Props) => {
+  expand,
+  minHeight,
+}: Props) => {
   const isMounted = useIsMounted()
   const { mode } = useTheme()
   const theme = mode === 'light' ? vsLight : vsDark
@@ -89,18 +89,18 @@ Props) => {
     : undefined
 
   const code = children.trim().replace(RegExp('^;'), '')
-  if (live) return <div>Code preview</div>
-  // return (
-  //   <PlayroomStateProvider>
-  //     <CodePreview
-  //       backgroundColor={backgroundColor}
-  //       code={code}
-  //       expand={expand}
-  //       minHeight={minHeight}
-  //       theme={modifiedTheme}
-  //     />
-  //   </PlayroomStateProvider>
-  // )
+  if (live)
+    return (
+      <PlayroomStateProvider>
+        <CodePreview
+          backgroundColor={backgroundColor}
+          code={code}
+          expand={expand}
+          minHeight={minHeight}
+          theme={modifiedTheme}
+        />
+      </PlayroomStateProvider>
+    )
 
   const language = className?.replace(/language-/, '') as Language
   return (

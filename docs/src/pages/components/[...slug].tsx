@@ -10,8 +10,7 @@ import { serialize } from 'next-mdx-remote/serialize'
 import matter from 'gray-matter'
 import { PropItem } from 'react-docgen-typescript'
 
-import { Typography } from '@ensdomains/thorin/components'
-import { tokens } from '@ensdomains/thorin'
+import { Typography, tokens } from '@ensdomains/thorin'
 
 import { Props as LayoutProps, getLayout } from '~/layouts/docs'
 import { getComponentName, getComponentPaths } from '~/utils/fs'

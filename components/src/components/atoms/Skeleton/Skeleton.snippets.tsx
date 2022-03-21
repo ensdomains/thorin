@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { Snippet } from '!/playroom/src/types'
+import { Snippet } from '../../../types'
 import { Skeleton } from './Skeleton'
 
 export const snippets: Snippet[] = [

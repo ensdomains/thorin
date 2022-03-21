@@ -1,24 +1,24 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
-import { tokens } from '@/src/tokens'
+import { Space, tokens } from '@/src/tokens'
 
 type Shape = 'circle' | 'square'
 
 interface Container {
   shape: Shape
   noBorder?: boolean
-  size: string
+  size: Space
 }
 
 const Container = styled.div<Container>`
-  ${(p) => {
-    switch (p.shape) {
+  ${({ shape }) => {
+    switch (shape) {
       case 'circle':
         return `
-          borderRaduis: ${tokens.radii.full};
+          border-radius: ${tokens.radii.full};
           &:after {
-            borderRaduis: ${tokens.radii.full};
+            border-radius: ${tokens.radii.full};
           }
         `
       case 'square':
@@ -37,23 +37,28 @@ const Container = styled.div<Container>`
     !p.noBorder &&
     `
       &:after {
-        box-shadow: ${tokens.shadows['-px']} ${
-      tokens.shades[p.theme.mode].foregroundTertiary
+      box-shadow: ${tokens.shadows['-px']} ${
+      tokens.colors[p.theme.mode].foregroundTertiary
     };
+    content: '';
+    inset: 0;
+    position: absolute;
+      }   
       }      
   `}
 
-  ${(p) =>
+  ${({ theme, size }) =>
     `
-      height: ${p.size}px;
-      width: ${p.size}px;
-      minWidth: ${p.size}px;
-      background-color: ${tokens.shades[p.theme.mode].foregroundSecondary};
+      height: ${tokens.space[size]};
+      width: ${tokens.space[size]};
+      min-width: ${tokens.space[size]};
+      background-color: ${tokens.colors[theme.mode].foregroundSecondary};
+      
+       
   `}
   
   overflow: hidden;
   position: relative;
-  height: 100%;
 `
 
 const Placeholder = styled.div`
@@ -64,6 +69,8 @@ const Placeholder = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  height: 100%;
 `
 
 const Img = styled.img`
@@ -77,7 +84,7 @@ export type Props = {
   label: string
   placeholder?: boolean
   noBorder?: boolean
-  size?: string
+  size?: Space
   src?: string
   shape?: Shape
 }

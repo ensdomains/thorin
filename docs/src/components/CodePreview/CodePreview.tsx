@@ -15,8 +15,8 @@ import {
 } from '@ensdomains/thorin'
 
 import { createPlayroomLink } from '~/utils/playroom'
-// import { usePlayroomStore } from '../../../../playroom/src/PlayroomState'
-import { avatars } from '../../../../playroom/src/useScope'
+import { usePlayroomStore } from '~/playroom/PlayroomState'
+import { avatars } from '~/playroom/useScope'
 import { CopyButton } from '../CopyButton'
 
 export type Props = {
@@ -80,7 +80,7 @@ export const CodePreview = ({
     ...initialState,
     expand,
   })
-  // const store = usePlayroomStore()
+  const store = usePlayroomStore()
   const themeValue = useTheme()
 
   return (
@@ -90,7 +90,7 @@ export const CodePreview = ({
       scope={{
         mdx,
         ...Components,
-        // ...store,
+        ...store,
         ...themeValue,
         previewRef,
         // vars,

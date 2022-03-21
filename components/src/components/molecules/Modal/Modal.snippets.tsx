@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { Snippet } from '!/playroom/src/types'
+import { Snippet } from '../../../types'
 import { Modal } from './Modal'
 import { Typography } from '../..'
 

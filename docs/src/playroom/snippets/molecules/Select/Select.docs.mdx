@@ -1,0 +1,26 @@
+---
+title: Select
+description: Select element input
+---
+
+```tsx
+import { Select } from '@ensdomains/thorin'
+```
+
+```tsx live=true expand=true minHeight=350px
+<Card padding="4">
+  <Select
+    options={[
+      { value: '0', label: 'Zero' },
+      { value: '1', label: 'One', prefix: <IconEth /> },
+      { value: '2', label: 'Two', prefix: <IconFlag /> },
+      { value: '3', label: 'Three', prefix: <IconMoon /> },
+      { value: '4', label: 'Four', prefix: <IconDuplicate />, disabled: true },
+    ]}
+  />
+</Card>
+```
+
+## Props
+
+<PropsTable sourceLink={sourceLink} types={types} />

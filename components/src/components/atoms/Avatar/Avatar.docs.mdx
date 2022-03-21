@@ -5,6 +5,15 @@ description: Representation of entity
 
 ```tsx
 import { Avatar } from '@ensdomains/thorin'
+import styled from 'styled-components'
+
+export const Container = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+`
 ```
 
 ```tsx live=true expand=true
@@ -18,12 +27,12 @@ import { Avatar } from '@ensdomains/thorin'
 ## Sizes
 
 ```tsx live=true
-<Stack align="center" direction="horizontal" wrap>
+<div>
   <Avatar label="Noun 97" size="24" src={avatars.noun97} />
   <Avatar label="Noun 97" size="16" src={avatars.noun97} />
   <Avatar label="Noun 97" size="12" src={avatars.noun97} />
   <Avatar label="Noun 97" size="10" src={avatars.noun97} />
-</Stack>
+</div>
 ```
 
 ## Placeholder
@@ -35,7 +44,7 @@ import { Avatar } from '@ensdomains/thorin'
 ## Shapes
 
 ```tsx live=true
-<Stack align="center" direction="horizontal" wrap>
+<div>
   <Avatar
     label="Noun 97 circle"
     shape="circle"
@@ -48,7 +57,7 @@ import { Avatar } from '@ensdomains/thorin'
     size="24"
     src={avatars.noun97}
   />
-</Stack>
+</div>
 ```
 
 ## Border
@@ -56,7 +65,7 @@ import { Avatar } from '@ensdomains/thorin'
 By default, there is a light border around the edge to define image edges on similarly colored backgrounds. This can be disabled by using the `noBorder` prop.
 
 ```tsx live=true
-<Stack direction="horizontal">
+<div>
   <Avatar
     size="24"
     src={
@@ -74,7 +83,7 @@ By default, there is a light border around the edge to define image edges on sim
         : 'https://images.mirror-media.xyz/publication-images/5eaba6b2-b9ee-4bea-aeac-75796d53798f.jpg'
     }
   />
-</Stack>
+</div>
 ```
 
 ## next/image

@@ -142,7 +142,7 @@ export const Nav = ({ links }: Props) => {
         </NavlinkContainer>
       </ContainerInner>
 
-      <List style={{ overflow: 'scroll' }}>
+      <List open style={{ overflow: 'scroll' }}>
         <FlexContainer space="6">
           <FlexContainer space="3">
             <NavLink href={createGitHubLink()}>GitHub</NavLink>
