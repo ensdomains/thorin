@@ -1,3 +1,5 @@
+import { tokens } from '../../../tokens'
+
 export interface GetCenterProps {
   center: boolean | undefined
   size: 'small' | 'medium' | 'extraSmall' | undefined
@@ -8,5 +10,5 @@ export const getCenterProps = ({ center, size, side }: GetCenterProps) =>
   center &&
   `
   position: absolute;
-  ${side}: ${size === 'medium' ? 4 : 5};
+  ${side}: ${size === 'medium' ? tokens.space['4'] : tokens.space['5']};
 `

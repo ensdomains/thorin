@@ -234,7 +234,25 @@ const ButtonElement = styled.button<ButtonElement>`
         size === 'small' ? tokens.radii['large'] : tokens.radii['2xLarge']
       };`
     }
+    return ''
+  }}
 
+  ${({ size, center }) => {
+    if (size === 'medium' && center) {
+      return `
+        padding-left: ${tokens.space['14']};
+        padding-right: ${tokens.space['14']};
+      `
+    }
+    return ''
+  }}
+
+  ${({ theme, shadowless, pressed, variant }) => {
+    if (shadowless && pressed && variant === 'transparent') {
+      return `
+        background-color: ${tokens.colors[theme.mode].backgroundSecondary};
+      `
+    }
     return ''
   }}
 `
