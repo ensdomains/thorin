@@ -1,12 +1,22 @@
 import * as React from 'react'
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 
 import { VisuallyHidden } from '../VisuallyHidden'
 import { Colors, tokens } from '@/src/tokens'
 
-const Container = styled.div<{ size: 'small' | 'large' }>`
-  color: ${tokens.colors.base.current};
-  stroke: ${tokens.colors.base.current};
+const rotate = keyframes`
+  100% {
+    transform: rotate(1turn);
+  }
+`
+
+const Container = styled.div<{ size: 'small' | 'large'; color: Colors }>`
+  animation: ${rotate} 1.1s linear infinite;
+
+  ${({ theme, color }) => `
+    color: ${tokens.colors[theme.mode][color]};
+    stroke: ${tokens.colors[theme.mode][color]};
+  `}
 
   ${(p) => {
     switch (p.size) {
@@ -32,15 +42,16 @@ type Props = {
   accessibilityLabel?: string
   color?: Colors
   size?: 'small' | 'large'
+  style: any
 }
 
 export const Spinner = React.forwardRef(
   (
-    { accessibilityLabel, size = 'small' }: Props,
+    { accessibilityLabel, size = 'small', color = 'accent' }: Props,
     ref: React.Ref<HTMLElement>,
   ) => {
     return (
-      <Container ref={ref as any} size={size}>
+      <Container color={color} ref={ref as any} size={size}>
         {accessibilityLabel && (
           <VisuallyHidden>{accessibilityLabel}</VisuallyHidden>
         )}

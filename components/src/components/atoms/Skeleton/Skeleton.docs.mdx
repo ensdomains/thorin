@@ -20,7 +20,7 @@ import { Skeleton } from '@ensdomains/thorin'
 Can wrap content and the container will automatically resize. Check out [`SkeletonGroup`](/components/SkeletonGroup) if you want to manage multiple skeletons with a single `loading` prop.
 
 ```tsx live=true
-<Stack>
+<div>
   <Skeleton loading={getState('loading')}>
     <Heading level="1">Foo Bar Baz</Heading>
   </Skeleton>
@@ -31,17 +31,5 @@ Can wrap content and the container will automatically resize. Check out [`Skelet
   <Button size="small" onClick={() => toggleState('loading')}>
     Toggle Skeletons
   </Button>
-</Stack>
-```
-
-## Custom
-
-```tsx live=true
-<Skeleton
-  backgroundColor="accentSecondary"
-  height="16"
-  loading
-  radius="extraLarge"
-  width="16"
-/>
+</div>
 ```
