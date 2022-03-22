@@ -1,11 +1,12 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
+import { tokens } from '@/src/tokens'
+
 import { ReactNodeNoStrings } from '../../../types'
 import { Spinner } from '../Spinner'
 import { Typography } from '../Typography'
 import { GetCenterProps, getCenterProps } from './utils'
-import { tokens } from '@/src/tokens'
 
 export type Size = 'small' | 'medium'
 
@@ -14,7 +15,7 @@ type NativeAnchorProps = React.AllHTMLAttributes<HTMLAnchorElement>
 
 type Variant = 'primary' | 'secondary' | 'action' | 'transparent'
 
-type Tone = 'accent' | 'bule' | 'green' | 'red'
+type Tone = 'accent' | 'blue' | 'green' | 'red'
 
 type BaseProps = {
   /** Centers text and reserves space for icon and spinner */
@@ -74,9 +75,82 @@ interface ButtonElement {
   variant: 'primary' | 'secondary' | 'action' | 'transparent'
   type?: NativeButtonProps['type']
   center: boolean | undefined
+  tone: Tone
+}
+
+const getAccentColour = (
+  mode: 'light' | 'dark',
+  tone: Tone,
+  accent:
+    | 'accent'
+    | 'accentText'
+    | 'accentGradient'
+    | 'accentSecondary'
+    | 'accentSecondaryHover',
+) => {
+  if (tone === 'accent') {
+    return tokens.colors[mode][accent]
+  }
+
+  if (tone === 'blue') {
+    console.log('mode: ', mode)
+    console.log('tone: ', tone)
+    console.log('accent: ', accent)
+    console.log('result: ', tokens.colors[mode][tone])
+  }
+
+  switch (accent) {
+    case 'accent':
+      return tokens.colors[mode][tone]
+    case 'accentText':
+      return tokens.colors.base.white
+    case 'accentGradient':
+      return tokens.colors[mode].gradients[tone]
+    case 'accentSecondary':
+      return `rgba(${tokens.accentsRaw[mode][tone]}, ${tokens.shades[mode][accent]})`
+    case 'accentSecondaryHover':
+      return `rgba(${tokens.accentsRaw[mode][tone]}, ${tokens.shades[mode][accent]})`
+    default:
+      return ``
+  }
 }
 
 const ButtonElement = styled.button<ButtonElement>`
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  gap: ${tokens.space['4']};
+  justify-content: center;
+  transition-propery: all;
+  transition-duration: ${tokens.transitionDuration['150']};
+  transition-timing-function: ${tokens.transitionTimingFunction['inOut']};
+  letter-spacing: ${tokens.letterSpacings['-0.01']};
+
+  &:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.05);
+  }
+
+  &:active {
+    transform: translateY(0px);
+    filter: brightness(1);
+  }
+
+  ${(p) => `
+    ${p.disabled ? `cursor: not-allowed` : ``};
+    ${p.center ? `position: relative` : ``};
+    ${p.pressed ? `brightness(0.95)` : ``};
+    ${p.shadowless ? `box-shadow: none !important` : ``};
+    
+    box-shadow: ${tokens.shadows['0.25']} ${tokens.colors[p.theme.mode].grey};
+    
+    &:disabled {
+      background-color: ${tokens.colors[p.theme.mode].grey};
+      transform: translateY(0px);
+      filter: brightness(1);
+    }
+  `}
+
   ${(p) => {
     switch (p.shape) {
       case 'circle':
@@ -100,14 +174,13 @@ const ButtonElement = styled.button<ButtonElement>`
           border-radius: ${tokens.radii.large};
           font-size: ${tokens.fontSizes.small};
           height: ${tokens.space['10']};
-          padding: ${tokens.space['4']};
+          padding: 0 ${tokens.space['4']};
         `
       case 'medium':
         return `
           border-radius: ${tokens.radii.extraLarge};
           font-size: ${tokens.fontSizes.large};
-          height: ${tokens.space['10']};
-          padding: ${tokens.space['4']};
+          padding: ${tokens.space['3.5']} ${tokens.space['4']};
         `
       default:
         return ``
@@ -117,45 +190,53 @@ const ButtonElement = styled.button<ButtonElement>`
     switch (p.variant) {
       case 'primary':
         return `
-          color: rgb(${tokens.colors[p.theme.mode].foreground});
-          background: rgb(${tokens.shades[p.theme.mode].accent});
+          color: ${getAccentColour(p.theme.mode, p.tone, 'accentText')};
+          background: ${getAccentColour(p.theme.mode, p.tone, 'accent')};
         `
       case 'secondary':
         return `
-          color: rgb(${tokens.shades[p.theme.mode].textSecondary});
-          background: rgb(${tokens.colors[p.theme.mode].grey});
+          color: ${tokens.colors[p.theme.mode].textSecondary};
+          background: ${tokens.colors[p.theme.mode].grey};
         `
       case 'action':
         return `
-          color: rgb(${tokens.colors[p.theme.mode].foreground});
-          background: rgb(${tokens.colors[p.theme.mode].foreground});
+          color: ${getAccentColour(p.theme.mode, p.tone, 'accentText')};
+          background: ${getAccentColour(
+            p.theme.mode,
+            p.tone,
+            'accentGradient',
+          )};
         `
       case 'transparent':
         return `
-          color: rgb(${tokens.shades[p.theme.mode].textTertiary});
+          color: ${tokens.colors[p.theme.mode].textTertiary};
           
           &:hover {
-              background-color: rgb(${
-                tokens.shades[p.theme.mode].foregroundTertiary
-              });
+              background-color: ${
+                tokens.colors[p.theme.mode].foregroundTertiary
+              };
           }
           
           &:active {
-              background-color: rgb(${
-                tokens.shades[p.theme.mode].foregroundTertiary
-              });
+              background-color: ${
+                tokens.colors[p.theme.mode].foregroundTertiary
+              };
           }
         `
       default:
         return ``
     }
   }}
-  ${(p) => `
-    ${p.disabled && `cursor: not-allowed`};
-    ${p.center && `position: relative`};
-    ${p.pressed && `brightness(0.95)`};
-    ${p.shadowless && `box-shadow: none !important`};
-  `}
+  
+  ${({ size, shape }) => {
+    if (shape === 'square') {
+      return `border-radius: ${
+        size === 'small' ? tokens.radii['large'] : tokens.radii['2xLarge']
+      };`
+    }
+
+    return ''
+  }}
 `
 
 const PrefixContainer = styled.div<GetCenterProps>`

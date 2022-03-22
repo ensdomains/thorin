@@ -14,7 +14,34 @@ export type Accent =
 
 export type Gradients = 'blue' | 'green' | 'red'
 
-const accents: { [key in Mode]: { [key in Accent]: string } } = {
+export const accentsRaw: { [key in Mode]: { [key in Accent]: string } } = {
+  light: {
+    blue: '82, 152, 255',
+    green: '73, 179, 147',
+    indigo: '88, 84, 214',
+    orange: '255, 149, 0',
+    pink: '255, 45, 85',
+    purple: '175, 82, 222',
+    red: '213, 85, 85',
+    teal: '90, 200, 250',
+    yellow: '255, 204, 0',
+    grey: '232, 232, 235',
+  },
+  dark: {
+    blue: '82, 152, 255',
+    green: '73, 179, 147',
+    indigo: '94, 92, 230',
+    orange: '255, 159, 10',
+    pink: '255, 55, 95',
+    purple: '191, 90, 242',
+    red: '213, 85, 85',
+    teal: '100, 210, 255',
+    yellow: '255, 214, 10',
+    grey: '59, 59, 61',
+  },
+}
+
+export const accents: { [key in Mode]: { [key in Accent]: string } } = {
   light: {
     blue: 'rgb(82, 152, 255)',
     green: 'rgb(73, 179, 147)',
@@ -109,9 +136,10 @@ export const colors = {
   },
   light: {
     accent: `${accents.light.blue}`,
-    accentSecondary: `${accents.light.blue}, ${shades.light.accentSecondary}`,
-    accentTertiary: `${accents.light.blue}, calc(${shades.light.accentSecondary} * 0.5)`,
-    accentText: 'rgb(0, 0, 0)',
+    accentSecondary: `rgba(${accentsRaw.light.blue}, ${shades.light.accentSecondary})`,
+    accentTertiary: `rgba(${accentsRaw.light.blue}, calc(${shades.light.accentSecondary} * 0.5))`,
+    accentText: 'rgb(255, 255, 255)',
+    accentGradient: gradients.light.blue,
     background: 'rgb(255, 255, 255)',
     backgroundHide: `rgba(0,0,0, ${shades.light.backgroundHide})`,
     backgroundSecondary: 'rgb(246, 246, 248)',
@@ -133,8 +161,8 @@ export const colors = {
   },
   dark: {
     accent: `${accents.dark.blue}`,
-    accentSecondary: `${accents.dark.blue}, ${shades.dark.accentSecondary}`,
-    accentTertiary: `${accents.dark.blue}, calc(${shades.dark.accentSecondary} * 0.5)`,
+    accentSecondary: `rgba(${accentsRaw.dark.blue}, ${shades.dark.accentSecondary})`,
+    accentTertiary: `rgba(${accentsRaw.dark.blue}, calc(${shades.dark.accentSecondary} * 0.5))`,
     accentText: 'rgb(255, 255, 255)',
     background: 'rgb(20, 20, 20)',
     backgroundHide: `rgba(255,255,255, ${shades.dark.backgroundHide})`,

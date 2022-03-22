@@ -15,12 +15,12 @@ const Container = styled.div<ContainerProps>`
   ${({ theme }) => `
       color: ${tokens.colors[theme.mode].text};
       font-family: ${tokens.fonts['sans']};
-      letter-spacing: -0.01;
+      letter-spacing: ${tokens.letterSpacings['-0.01']};
       
       font-size: ${tokens.fontSizes['base']};
       font-weight: ${tokens.fontWeights['normal']};
-      letter-spacing: -0.015;
-      line-height: ${tokens.space['1.5']};
+      letter-spacing: ${tokens.letterSpacings['-0.015']};
+      line-height: ${tokens.lineHeights['1.5']};
   `}
 
   ${({ ellipsis }) =>
@@ -28,7 +28,7 @@ const Container = styled.div<ContainerProps>`
     `
       text-overflow: ellipsis;
       overflow: hidden;
-      white-sapce: nowrap;
+      white-space: nowrap;
   `}
 
   ${({ variant, theme }) => {
@@ -37,29 +37,29 @@ const Container = styled.div<ContainerProps>`
         return `
           font-size: ${tokens.fontSizes['small']};
           font-weight: ${tokens.fontWeights['normal']};
-          letter-spacing: -0.01;
-          line-height: 1.5rem;
+          letter-spacing: ${tokens.letterSpacings['-0.01']};
+          line-height: ${tokens.lineHeights['1.5']};
         `
       case 'large':
         return `
           font-size: ${tokens.fontSizes['large']};
           font-weight: ${tokens.fontWeights['normal']};
-          letter-spacing: -0.02;
-          line-height: 2rem;
+          letter-spacing: ${tokens.letterSpacings['-0.02']};
+          line-height: ${tokens.lineHeights['2']};
         `
       case 'extraLarge':
         return `
           font-size: ${tokens.fontSizes['extraLarge']};
           font-weight: ${tokens.fontWeights['medium']};
-          letter-spacing: -0.02;
-          line-height: 2rem;
+          letter-spacing: ${tokens.letterSpacings['-0.02']};
+          line-height: ${tokens.lineHeights['2']};
         `
       case 'label':
         return `
           color: ${tokens.colors[theme.mode].text};
           font-size: ${tokens.fontSizes['label']};
           font-weight: ${tokens.fontWeights['semiBold']};
-          letter-spacing: -0.01;
+          letter-spacing: ${tokens.letterSpacings['-0.01']};
           text-transform: capitalize;
         `
       case 'labelHeading':
@@ -67,7 +67,7 @@ const Container = styled.div<ContainerProps>`
           color: ${tokens.colors[theme.mode].text};
           font-size: ${tokens.fontSizes['small']};
           font-weight: ${tokens.fontWeights['semiBold']};
-          letter-spacing: -0.01;
+          letter-spacing: ${tokens.letterSpacings['-0.01']};
           text-transform: capitalize;
         `
       default:

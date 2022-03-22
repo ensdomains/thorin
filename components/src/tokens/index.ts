@@ -1,6 +1,6 @@
 import { borderStyles, borderWidths, radii } from './border'
 import { shadows } from './shadows'
-import { colors, shades } from './color'
+import { accentsRaw, colors, shades } from './color'
 import { opacity } from './opacity'
 import { space } from './space'
 import {
@@ -71,6 +71,7 @@ export const tokens = {
   transitionDuration,
   transitionTimingFunction,
   boxShadows,
+  accentsRaw,
 }
 
 export type { Accent, Mode } from './color'
