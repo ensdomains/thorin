@@ -5,6 +5,7 @@ description: Trigger for actions
 
 ```tsx
 import { Button } from '@ensdomains/thorin'
+import { default as NextImage } from 'next/image'
 ```
 
 ```tsx expand=true live=true
@@ -125,12 +126,12 @@ Optional `center` prop reserves space for affixes and loading spinner.
   <div>
     <Typography variant="label">Default</Typography>
     <div>
-      <Button prefix={<div>plus</div>}>Add Entry</Button>
-      <Button suffix={<div>plus</div>}>Add Entry</Button>
-      <Button prefix={<div>plus</div>} suffix={<IconPlusSmall />}>
+      <Button prefix={<div>prefix</div>}>Add Entry</Button>
+      <Button suffix={<div>suffix</div>}>Add Entry</Button>
+      <Button prefix={<div>prefix</div>} suffix={<div>suffix</div>}>
         Add Entry
       </Button>
-      <Button loading prefix={<IconPlusSmall />}>
+      <Button loading prefix={<div>prefsix</div>}>
         Add Entry
       </Button>
     </div>
@@ -139,16 +140,16 @@ Optional `center` prop reserves space for affixes and loading spinner.
   <div>
     <Typography variant="label">Center</Typography>
     <div>
-      <Button center prefix={<IconPlusSmall />}>
+      <Button center prefix={<div>prefix</div>}>
         Add Entry
       </Button>
-      <Button center suffix={<IconPlusSmall />}>
+      <Button center suffix={<div>suffix</div>}>
         Add Entry
       </Button>
-      <Button center prefix={<IconPlusSmall />} suffix={<IconPlusSmall />}>
+      <Button center prefix={<div>prefix</div>} suffix={<div>suffix</div>}>
         Add Entry
       </Button>
-      <Button center loading prefix={<IconPlusSmall />}>
+      <Button center loading prefix={<div>prefix</div>}>
         Add Entry
       </Button>
     </div>
@@ -163,10 +164,10 @@ Optional `center` prop reserves space for affixes and loading spinner.
   <Button width="64">Fixed Width</Button>
   <Button width="full">Full Width</Button>
   <Button width={{ xs: 'full', md: 'max' }}>Responsive Width</Button>
-  <Button loading prefix={<IconPlusSmall />} width="full">
+  <Button loading prefix={<div>prefix</div>} width="full">
     With Prefix & Loading
   </Button>
-  <Button center loading prefix={<IconPlusSmall />} width="full">
+  <Button center loading prefix={<div>prefix</div>} width="full">
     Centered With Prefix & Loading
   </Button>
 </div>
@@ -176,12 +177,8 @@ Optional `center` prop reserves space for affixes and loading spinner.
 
 ```tsx live=true
 <div>
-  <Button shape="square">
-    <IconPlusSmall />
-  </Button>
-  <Button shape="circle">
-    <IconPlusSmall />
-  </Button>
+  <Button shape="square">Square</Button>
+  <Button shape="circle">Circle</Button>
 </div>
 ```
 
