@@ -4,21 +4,33 @@ import styled from 'styled-components'
 import { tokens } from '@/src/tokens'
 
 type Variants = 'small' | 'large' | 'extraLarge' | 'label' | 'labelHeading'
+type Colors =
+  | 'foreground'
+  | 'text'
+  | 'textSecondary'
+  | 'textTertiary '
+  | 'accent'
+  | 'red'
+  | 'green'
+type Weights = 'bold' | 'semiBold' | 'medium' | 'normal' | 'light'
+type Fonts = 'sans' | 'mono'
 
 interface ContainerProps {
   ellipsis?: boolean
   variant?: Variants
   ref: any
+  color: Colors
+  weight: Weights
+  font: Fonts
 }
 
 const Container = styled.div<ContainerProps>`
-  ${({ theme }) => `
-      color: ${tokens.colors[theme.mode].text};
-      font-family: ${tokens.fonts['sans']};
+  ${({ theme, color, weight, font }) => `
+      color: ${tokens.colors[theme.mode][color]};
+      font-family: ${tokens.fonts[font]};
       letter-spacing: ${tokens.letterSpacings['-0.01']};
-      
       font-size: ${tokens.fontSizes['base']};
-      font-weight: ${tokens.fontWeights['normal']};
+      font-weight: ${tokens.fontWeights[weight]};
       letter-spacing: ${tokens.letterSpacings['-0.015']};
       line-height: ${tokens.lineHeights['1.5']};
   `}
@@ -94,11 +106,24 @@ type Props = {
   ellipsis?: boolean
   variant?: Variants
   className: string
+  weight: Weights
+  font: Fonts
+  align: Aligns
+  color: Colors
 }
 
 export const Typography = React.forwardRef(
   (
-    { as = 'div', children, ellipsis, variant, className }: Props,
+    {
+      as = 'div',
+      children,
+      ellipsis,
+      variant,
+      className,
+      weight = 'normal',
+      font = 'sans',
+      color = 'text',
+    }: Props,
     ref: React.Ref<HTMLElement>,
   ) => {
     return (
@@ -108,6 +133,9 @@ export const Typography = React.forwardRef(
           variant,
           ellipsis: ellipsis ? true : undefined,
           className,
+          weight,
+          font,
+          color,
         }}
         ref={ref}
       >

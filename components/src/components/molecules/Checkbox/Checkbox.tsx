@@ -104,7 +104,7 @@ const Input = styled.input<InputProps>`
     switch (p.color) {
       case 'grey':
         return `
-          background-color: ${tokens.radii.full};
+          background-color: ${tokens.colors[p.theme.mode].grey};
         `
       case 'white':
         return `
