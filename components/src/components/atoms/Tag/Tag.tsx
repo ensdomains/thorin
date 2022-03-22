@@ -58,21 +58,21 @@ const Container = styled.div<ContainerProps>`
       case 'blue':
         return `
           color: ${tokens.colors[p.theme.mode].blue};
-          background-color: rgba(${tokens.colors[p.theme.mode].blue}, calc(${
-          tokens.shades[p.theme.mode].accentSecondary
-        } * 0.5));
+          background-color: rgba(${
+            tokens.accentsRaw[p.theme.mode].blue
+          }, calc(${tokens.shades[p.theme.mode].accentSecondary} * 0.5));
         `
       case 'green':
         return `
           color: ${tokens.colors[p.theme.mode].green};
-          background-color: rgba(${tokens.colors[p.theme.mode].green}, calc(${
-          tokens.shades[p.theme.mode].accentSecondary
-        } * 0.5));
+          background-color: rgba(${
+            tokens.accentsRaw[p.theme.mode].green
+          }, calc(${tokens.shades[p.theme.mode].accentSecondary} * 0.5));
         `
       case 'red':
         return `
           color: ${tokens.colors[p.theme.mode].red};
-          background-color: rgba(${tokens.colors[p.theme.mode].red}, calc(${
+          background-color: rgba(${tokens.accentsRaw[p.theme.mode].red}, calc(${
           tokens.shades[p.theme.mode].accentSecondary
         } * 0.5));
         `
