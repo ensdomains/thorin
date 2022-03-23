@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { Button } from '../..'
 import { Props as ButtonProps } from '@/src/components/atoms/Button'
 import { Colors, tokens } from '@/src/tokens'
-import { ReactComponent as IconDownIndicatorSvg } from '@/src/Icons/DownIndicator.svg'
+import { ReactComponent as IconDownIndicatorSvg } from '@/src/icons/DownIndicator.svg'
 
 export type DropdownItem = {
   label: string

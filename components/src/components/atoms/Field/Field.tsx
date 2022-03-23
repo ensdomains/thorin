@@ -28,33 +28,53 @@ type Props = FieldBaseProps & {
   id?: NativeFormProps['id']
 }
 
+const Label = styled.label`
+  ${({ theme }) => `
+  color: ${tokens.colors[theme.mode].textTertiary};
+  font-weight: ${tokens.fontWeights['semiBold']};
+  margin-right: ${tokens.space['4']};
+`}
+`
+
 interface LabelContentProps {
   ids: any
   label: React.ReactNode
   labelSecondary: React.ReactNode
   required: boolean | undefined
 }
+
+const LabelContentContainer = styled.div`
+  display: flex;
+  align-items: flex-end;
+  justify-conetn: space-between;
+  padding-left: ${tokens.space['4']};
+  padding-right: ${tokens.space['4']};
+  padding-top: 0;
+  padding-bottom: 0;
+`
+
 const LabelContent = ({
   ids,
   label,
   labelSecondary,
   required,
 }: LabelContentProps) => (
-  <div>
-    <label {...ids.label}>
+  <LabelContentContainer>
+    <Label {...ids.label}>
       {label} {required && <VisuallyHidden>(required)</VisuallyHidden>}
-    </label>
+    </Label>
     {labelSecondary && labelSecondary}
-  </div>
+  </LabelContentContainer>
 )
 
 interface ContainerProps {
   width: Space
+  inline?: boolean
 }
 const Container = styled.div<ContainerProps>`
-  align-items: center;
+  ${(p) => (p.inline ? 'align-items: center' : '')};
   display: flex;
-  flex-direction: row;
+  flex-direction: ${(p) => (p.inline ? 'row' : 'column')};
   gap: ${tokens.space[2]};
   width: ${(p) => tokens.space[p.width]};
 `
@@ -66,13 +86,13 @@ const ContainerInner = styled.div`
 `
 
 const Description = styled.div<{ mode: Mode }>`
-  padding: 0 4px;
+  padding: 0 ${tokens.space['4']};
   color: ${(p) => tokens.shades[p.mode].textSecondary};
 `
 
 const Error = styled.div`
-  color: red;
-  padding: ${tokens.space[4]};
+  color: ${(p) => tokens.colors[p.theme.mode].red};
+  padding: 0 ${tokens.space[4]};
 `
 
 export const Field = ({
@@ -107,7 +127,7 @@ export const Field = ({
   else content = children
 
   return inline ? (
-    <Container width={width}>
+    <Container inline={inline} width={width}>
       <div>{content}</div>
       <ContainerInner>
         {hideLabel ? (

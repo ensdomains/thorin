@@ -9,7 +9,7 @@ const config: Config.InitialOptions = {
     '!**/index.ts',
     '!**/*.snippets.tsx',
     '!**/*.css.ts',
-    '!**/Icons/**',
+    '!**/icons/**',
     '!**/tokens/**',
   ],
   globals: {

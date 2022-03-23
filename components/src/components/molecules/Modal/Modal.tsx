@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { Backdrop, Card } from '../..'
 import { Props as CardProps } from '../../atoms/Card/Card'
 import { tokens } from '@/src/tokens'
-import IconCloseSvg from '@/src/Icons/Close.svg'
+import IconCloseSvg from '@/src/icons/Close.svg'
 
 const Container = styled.div`
   display: flex;

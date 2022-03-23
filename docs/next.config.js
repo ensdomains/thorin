@@ -25,7 +25,7 @@ const getComponentPaths = (category) =>
     })
 
 const componentPaths = glob
-  .sync('../components/src/components/!(Icons)**/*.docs.mdx', {
+  .sync('../components/src/components/**/*.docs.mdx', {
     cwd: process.cwd(),
     absolute: true,
   })

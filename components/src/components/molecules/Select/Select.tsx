@@ -5,7 +5,7 @@ import uniqueId from 'lodash/uniqueId'
 
 import { Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
-import IconDownIndicatorSvg from '@/src/Icons/DownIndicator.svg'
+import IconDownIndicatorSvg from '@/src/icons/DownIndicator.svg'
 import { tokens } from '@/src/tokens'
 import Svg from '@/src/components/atoms/Svg/Svg'
 

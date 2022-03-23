@@ -4,7 +4,7 @@ description: Surface for accepting user input
 ---
 
 ```tsx
-import { Input } from '@ensdomains/thorin'
+import { Input, SearchSVG } from '@ensdomains/thorin'
 ```
 
 ```tsx live=true expand=true
@@ -44,11 +44,11 @@ import { Input } from '@ensdomains/thorin'
 ## Affixes
 
 ```tsx live=true
-<Stack>
+<div>
   <Input
     label="Search"
     placeholder="Name or wallet address"
-    prefix={<IconSearch />}
+    prefix={<SearchSVG />}
   />
   <Input label="Funding Goal" placeholder="10" prefix="Ξ" type="number" />
   <Input
@@ -57,7 +57,7 @@ import { Input } from '@ensdomains/thorin'
     suffix=".mirror.xyz"
     type="text"
   />
-</Stack>
+</div>
 ```
 
 ## Units
@@ -69,7 +69,7 @@ import { Input } from '@ensdomains/thorin'
 ## Types
 
 ```tsx live=true
-<Stack>
+<div>
   <Input label="Text" maxLength={140} placeholder="Foo bar baz" type="text" />
 
   <Input
@@ -81,7 +81,7 @@ import { Input } from '@ensdomains/thorin'
     type="number"
     units="ETH"
   />
-</Stack>
+</div>
 ```
 
 ## Hide Label

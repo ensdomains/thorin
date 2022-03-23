@@ -58,7 +58,7 @@ interface InputParentProps {
 
 const InputParent = styled.div<InputParentProps>`
   ${(p) => `
-    background-color: ${tokens.colors[p.theme.mode].grey};
+    background-color: ${tokens.colors[p.theme.mode].backgroundSecondary};
     border-radius: ${tokens.radii['2xLarge']};
     border-width: ${tokens.space['0.75']};
     border-color: ${tokens.colors.base.transparent};
@@ -153,9 +153,12 @@ interface InputComponentProps {
 
 const InputComponent = styled.input<InputComponentProps>`
   ${(p) => `
-    border-color: ${tokens.colors.base.transparent};
+    background-color: ${tokens.colors.base.transparent};
     position: relative;
     width: ${tokens.space['full']};
+    height: ${tokens.space['full']};
+    padding: 0 ${tokens.space['4']};
+    font-weight: ${tokens.fontWeights['medium']};
     
     &::placeholder {
         color: ${tokens.colors[p.theme.mode].textPlaceholder};
