@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { Button } from '../..'
 import { Props as ButtonProps } from '@/src/components/atoms/Button'
 import { Colors, tokens } from '@/src/tokens'
-import IconDownIndicatorSvg from '@/src/Icons/DownIndicator.svg'
+import { ReactComponent as IconDownIndicatorSvg } from '@/src/Icons/DownIndicator.svg'
 
 export type DropdownItem = {
   label: string
@@ -21,10 +21,10 @@ interface DropdownMenuContainer {
 
 const DropdownMenuContainer = styled.div<DropdownMenuContainer>`
   display: flex;
-  flexdirection: column;
-  justifycontent: center;
-  alignitems: center;
-  borderradius: medium;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: ${tokens.radii['medium']};
   position: absolute;
 
   ${(p) =>
@@ -58,7 +58,7 @@ const DropdownMenuContainer = styled.div<DropdownMenuContainer>`
       : `
     padding: ${tokens.space['1.5']};
     background-color: ${tokens.colors[p.theme.mode].groupBackground};
-    box-shadow: 0.02;
+    box-shadow: ${tokens.boxShadows[p.theme.mode]['0.02']};
     border-radius: ${tokens.radii['2xLarge']};
   `}
 
@@ -102,6 +102,7 @@ const DropdownMenuContainer = styled.div<DropdownMenuContainer>`
 interface MenuButtonProps {
   inner: boolean
   hasColor: boolean
+  color: Colors
 }
 
 const MenuButton = styled.button<MenuButtonProps>`
@@ -122,6 +123,8 @@ const MenuButton = styled.button<MenuButtonProps>`
   }
 
   ${(p) => `
+    color: ${tokens.colors[p.theme.mode][p.color]};
+  
     &:disabled {
       color: ${tokens.colors[p.theme.mode].textTertiary}
     }
@@ -237,10 +240,12 @@ const InnerMenuButton = styled.button<InnerMenuButton>`
   ${(p) => {
     if (p.open)
       return `
-      border-top-radius: ${tokens.radii['almostExtraLarge']};
-      border-bottom-radius: none;
+      border-top-left-radius: ${tokens.radii['almostExtraLarge']};
+      border-top-right-radius: ${tokens.radii['almostExtraLarge']};
+      border-bottom-left-radius: none;
+      border-bottom-right-radius: none;
       border-bottom-width: 0;
-      background-color: grey;
+      background-color: ${tokens.colors[p.theme.mode].grey};
       color: ${tokens.colors[p.theme.mode].textTertiary};
       transition: 0.35s all cubic-bezier(1, 0, 0.22, 1.6), 0.3s color ease-in-out, 0.2s border-radius ease-in-out, 0s border-width 0.1s;
       
@@ -253,7 +258,7 @@ const InnerMenuButton = styled.button<InnerMenuButton>`
       background-color: ${tokens.colors[p.theme.mode].background};
       color: ${tokens.colors[p.theme.mode].textSecondary};
       border-radius: ${tokens.radii['almostExtraLarge']};
-      box-shadow: 0.02;
+      box-shadow: ${tokens.boxShadows[p.theme.mode]['0.02']};
       transition: 0.35s all cubic-bezier(1, 0, 0.22, 1.6), 0.15s color ease-in-out, 0s border-width 0.15s, 0.15s border-color ease-in-out;
       
       &:hover {
@@ -263,7 +268,7 @@ const InnerMenuButton = styled.button<InnerMenuButton>`
   }}
 `
 
-const Chevron = styled.img<{ open: boolean }>`
+const Chevron = styled(IconDownIndicatorSvg)<{ open: boolean }>`
   margin-left: ${tokens.space['1']};
   width: ${tokens.space['3']};
   margin-right: ${tokens.space['0.5']};
@@ -272,6 +277,12 @@ const Chevron = styled.img<{ open: boolean }>`
   transition-timing-function: ${tokens.transitionTimingFunction['inOut']};
   opacity: 0.3;
   transform: rotate(0deg);
+  display: flex;
+
+  & > svg {
+    fill: currentColor;
+  }
+  fill: currentColor;
 
   ${(p) =>
     p.open &&
@@ -293,6 +304,8 @@ type Props = {
   size?: 'small' | 'medium'
   label?: string
 }
+
+// export const Dropdown = () => <div>Dropddown</div>
 
 export const Dropdown = ({
   children,
@@ -339,7 +352,7 @@ export const Dropdown = ({
           onClick={() => setIsOpen(!isOpen)}
         >
           {label}
-          {chevron && <Chevron open={isOpen} src={IconDownIndicatorSvg} />}
+          {chevron && <Chevron open={isOpen} />}
         </InnerMenuButton>
       )}
 
@@ -347,9 +360,7 @@ export const Dropdown = ({
         <Button
           {...buttonProps}
           pressed={isOpen}
-          suffix={
-            chevron && <Chevron open={isOpen} src={IconDownIndicatorSvg} />
-          }
+          suffix={chevron && <Chevron open={isOpen} />}
           zIndex="10"
           onClick={() => setIsOpen(!isOpen)}
         >

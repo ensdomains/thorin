@@ -2,8 +2,6 @@ import { useRouter } from 'next/dist/client/router'
 import * as React from 'react'
 import styled from 'styled-components'
 
-import NextImage from 'next/image'
-
 import {
   Button,
   LogoSVG,
@@ -121,7 +119,7 @@ export const Nav = ({ links }: Props) => {
         <NavlinkContainer>
           <NavLink active={router.asPath === '/'} href="/">
             <NavLinkInner>
-              <NextImage height={48} src={LogoSVG} width={48} />
+              <LogoSVG height={48} width={48} />
               <ENSText>ENS</ENSText>
             </NavLinkInner>
           </NavLink>
@@ -135,7 +133,7 @@ export const Nav = ({ links }: Props) => {
               onClick={() => setState((x) => ({ ...x, open: !x.open }))}
             >
               <div aria-label={state.open ? 'Close menu' : 'Open menu'}>
-                <NextImage alt="Menu" height={24} src={MenuSVG} width={24} />
+                <MenuSVG alt="Menu" height={24} width={24} />
               </div>
             </Button>
           </ButtonContainer>

@@ -3,6 +3,7 @@ import { defineConfig } from 'vite'
 import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin'
 import dts from 'vite-plugin-dts'
 import tsconfigPaths from 'vite-tsconfig-paths'
+import svgrPlugin from 'vite-plugin-svgr'
 
 import pkg from './package.json'
 
@@ -18,6 +19,12 @@ export default defineConfig({
     },
   },
   plugins: [
+    svgrPlugin({
+      svgrOptions: {
+        icon: true,
+        // ...svgr options (https://react-svgr.com/docs/options/)
+      },
+    }),
     vanillaExtractPlugin({
       identifiers: 'short',
     }),
