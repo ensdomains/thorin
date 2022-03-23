@@ -25,16 +25,6 @@ interface ContainerProps {
 }
 
 const Container = styled.div<ContainerProps>`
-  ${({ theme, color, weight, font }) => `
-      color: ${tokens.colors[theme.mode][color]};
-      font-family: ${tokens.fonts[font]};
-      letter-spacing: ${tokens.letterSpacings['-0.01']};
-      font-size: ${tokens.fontSizes['base']};
-      font-weight: ${tokens.fontWeights[weight]};
-      letter-spacing: ${tokens.letterSpacings['-0.015']};
-      line-height: ${tokens.lineHeights['1.5']};
-  `}
-
   ${({ ellipsis }) =>
     ellipsis &&
     `
@@ -86,6 +76,16 @@ const Container = styled.div<ContainerProps>`
         return ``
     }
   }}
+
+  ${({ theme, color, weight, font }) => `
+      color: ${tokens.colors[theme.mode][color]};
+      font-family: ${tokens.fonts[font]};
+      letter-spacing: ${tokens.letterSpacings['-0.01']};
+      font-size: ${tokens.fontSizes['base']};
+      font-weight: ${tokens.fontWeights[weight]};
+      letter-spacing: ${tokens.letterSpacings['-0.015']};
+      line-height: ${tokens.lineHeights['1.5']};
+  `}
 `
 
 type Props = {
@@ -126,6 +126,8 @@ export const Typography = React.forwardRef(
     }: Props,
     ref: React.Ref<HTMLElement>,
   ) => {
+    console.log('variant: ', variant)
+    console.log('as: ', as)
     return (
       <Container
         as={as}

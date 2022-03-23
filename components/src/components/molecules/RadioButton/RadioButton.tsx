@@ -26,24 +26,24 @@ const Input = styled.input`
     filter: contrast(1);
   }
 
-  &::before {
-    content: '';
-  }
-
   &:checked::before {
     transform: scale(1);
   }
 
   ${({ theme }) => `
-    background-color: ${tokens.colors[theme.mode].foregroundSecondary};
-    width: ${tokens.space['4.5']};
-    height: ${tokens.space['4.5']};
-    border-radius: 50%;
-    transform: scale(0);
-    transition: transform 90ms ease-in-out;
-    background-image: ${tokens.colors[theme.mode].gradients.blue};
-    background-size: 100% 100%;
-    background-position: center;
+    background-color: ${tokens.colors[theme.mode].backgroundHide};
+  
+    &::before {
+        content: '';
+        width: ${tokens.space['4.5']};
+        height: ${tokens.space['4.5']};
+        border-radius: 50%;
+        transform: scale(0);
+        transition: transform 90ms ease-in-out;
+        background-image: ${tokens.colors[theme.mode].gradients.blue};
+        background-size: 100% 100%;
+        background-position: center;
+      }
   `}
 `
 

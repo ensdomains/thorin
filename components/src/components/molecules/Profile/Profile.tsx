@@ -7,8 +7,7 @@ import { shortenAddress } from '../../../utils/utils'
 import { Typography } from '../..'
 import { Avatar, Props as AvatarProps } from '../../atoms/Avatar'
 import { Dropdown, DropdownItem } from '../Dropdown/Dropdown'
-import IconDownIndicatorSvg from '@/src/icons/DownIndicator.svg'
-import Svg from '@/src/components/atoms/Svg/Svg'
+import { ReactComponent as IconDownIndicatorSvg } from '@/src/icons/DownIndicator.svg'
 
 type Size = 'small' | 'medium' | 'large'
 
@@ -101,7 +100,7 @@ const Container = styled.div<ContainerProps>`
   }}
 `
 
-const Chevron = styled(Svg)<{ open: boolean }>`
+const Chevron = styled(IconDownIndicatorSvg)<{ open: boolean }>`
   margin-left: ${tokens.space['1']};
   width: ${tokens.space['3']};
   margin-right: ${tokens.space['0.5']};
@@ -110,6 +109,12 @@ const Chevron = styled(Svg)<{ open: boolean }>`
   transition-timing-function: ${tokens.transitionTimingFunction['inOut']};
   opacity: 0.3;
   transform: rotate(0deg);
+  display: flex;
+
+  & > svg {
+    fill: currentColor;
+  }
+  fill: currentColor;
 
   ${(p) =>
     p.open &&
@@ -126,6 +131,40 @@ const ProfileInnerContainer = styled.div<{
   margin-left: 0 ${tokens.space['1.5']};
   min-width: ${tokens.space['none']};
 `
+
+const ProfileInner = ({ size, avatar, avatarAs, address, ensName }: Props) => (
+  <React.Fragment>
+    <Avatar
+      as={avatarAs}
+      label="profile-avatar"
+      placeholder={!avatar}
+      src={avatar}
+    />
+    <ProfileInnerContainer size={size}>
+      <Typography
+        as="h3"
+        color={ensName ? 'text' : 'textTertiary'}
+        ellipsis
+        variant={ensName && size === 'large' ? 'extraLarge' : 'large'}
+        weight="bold"
+      >
+        {ensName || 'No name set'}
+      </Typography>
+      <Typography
+        as="h4"
+        color={ensName ? 'textTertiary' : 'text'}
+        variant="small"
+      >
+        {shortenAddress(
+          address,
+          size === 'large' ? 30 : 10,
+          size === 'large' ? 10 : 5,
+          size === 'large' ? 10 : 5,
+        )}
+      </Typography>
+    </ProfileInnerContainer>
+  </React.Fragment>
+)
 
 type Props = BaseProps
 
@@ -154,7 +193,7 @@ export const Profile = ({
           onClick={() => setIsOpen(!isOpen)}
         >
           <ProfileInner {...{ size, avatar, avatarAs, address, ensName }} />
-          <Chevron open={isOpen} size="3" svg={IconDownIndicatorSvg} />
+          <Chevron open={isOpen} size="3" />
         </Container>
       </Dropdown>
     )
@@ -172,48 +211,3 @@ export const Profile = ({
     </Container>
   )
 }
-
-interface StyledTypographyProps {
-  color: 'text' | 'textTertiary'
-  ellipsis?: boolean
-  variant: 'small' | 'large' | 'extraLarge'
-}
-
-const StyledTypography = styled(Typography)<StyledTypographyProps>`
-  ${({ theme, color }) => `
-    color: ${tokens.colors[theme.mode][color]};
-  `}
-`
-
-const ProfileInner = ({ size, avatar, avatarAs, address, ensName }: Props) => (
-  <React.Fragment>
-    <Avatar
-      as={avatarAs}
-      label="profile-avatar"
-      placeholder={!avatar}
-      src={avatar}
-    />
-    <ProfileInnerContainer size={size}>
-      <StyledTypography
-        as="h3"
-        color={ensName ? 'text' : 'textTertiary'}
-        ellipsis
-        variant={ensName && size === 'large' ? 'extraLarge' : 'large'}
-      >
-        {ensName || 'No name set'}
-      </StyledTypography>
-      <StyledTypography
-        as="h4"
-        color={ensName ? 'textTertiary' : 'text'}
-        variant="small"
-      >
-        {shortenAddress(
-          address,
-          size === 'large' ? 30 : 10,
-          size === 'large' ? 10 : 5,
-          size === 'large' ? 10 : 5,
-        )}
-      </StyledTypography>
-    </ProfileInnerContainer>
-  </React.Fragment>
-)
