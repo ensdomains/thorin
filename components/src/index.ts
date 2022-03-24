@@ -4,5 +4,5 @@ export { tokens } from './tokens'
 export { largerThan } from './utils/responsiveHelpers'
 export { default as ThorinGlobalStyles } from './globalStyles'
 
-export type { DefaultTheme } from './types'
+export type { DefaultTheme, EmptyObject, Accent, Mode } from './types'
 export type { Colors, Space } from './tokens'

@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import 'styled-components'
-import { Mode, Accent as TokenAccent } from '@/src/tokens'
+import { Accent as TokenAccent, Mode as TokenMode } from '@/src/tokens'
 
 export type AllOrNone<T> = T | { [K in keyof T]?: never }
 
@@ -20,19 +20,21 @@ export type ReactNodeNoStrings =
  */
 export type EmptyObject = { [k: string]: unknown }
 
-type Accent = TokenAccent | 'foreground'
+export type Accent = TokenAccent | 'foreground'
+
+export type Mode = TokenMode
 
 export interface DefaultTheme {
   mode: 'light' | 'dark'
   defaultAccent?: Accent
   /** Default mode name. */
-  defaultMode?: Mode
+  defaultMode?: TokenMode
   /** Element to bind theme */
   element?: string | HTMLElement
   /** Forced accent name */
   forcedAccent?: Accent
   /** Forced mode name */
-  forcedMode?: Mode
+  forcedMode?: TokenMode
 }
 
 export type Size = 'small' | 'medium' | 'extraSmall' | undefined
@@ -42,13 +44,13 @@ declare module 'styled-components' {
     mode: 'light' | 'dark'
     defaultAccent?: Accent
     /** Default mode name. */
-    defaultMode?: Mode
+    defaultMode?: TokenMode
     /** Element to bind theme */
     element?: string | HTMLElement
     /** Forced accent name */
     forcedAccent?: Accent
     /** Forced mode name */
-    forcedMode?: Mode
+    forcedMode?: TokenMode
   }
 }
 
