@@ -164,6 +164,7 @@ export const colors = {
     accentSecondary: `rgba(${accentsRaw.dark.blue}, ${shades.dark.accentSecondary})`,
     accentTertiary: `rgba(${accentsRaw.dark.blue}, calc(${shades.dark.accentSecondary} * 0.5))`,
     accentText: 'rgb(255, 255, 255)',
+    accentGradient: gradients.dark.blue,
     background: 'rgb(20, 20, 20)',
     backgroundHide: `rgba(255,255,255, ${shades.dark.backgroundHide})`,
     backgroundSecondary: 'rgb(10, 10, 10)',

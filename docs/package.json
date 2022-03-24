@@ -11,6 +11,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@ensdomains/thorin": "workspace:components",
     "@reach/skip-nav": "^0.16.0",
     "@sindresorhus/slugify": "^2.1.0",
     "@vanilla-extract/css-utils": "^0.1.2",

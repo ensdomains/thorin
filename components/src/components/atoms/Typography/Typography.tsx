@@ -14,6 +14,7 @@ type Colors =
   | 'green'
 type Weights = 'bold' | 'semiBold' | 'medium' | 'normal' | 'light'
 type Fonts = 'sans' | 'mono'
+type Aligns = 'left' | 'right' | 'center'
 
 interface ContainerProps {
   ellipsis?: boolean

@@ -102,7 +102,7 @@ const DropdownMenuContainer = styled.div<DropdownMenuContainer>`
 interface MenuButtonProps {
   inner: boolean
   hasColor: boolean
-  color: Colors
+  color?: Colors
 }
 
 const MenuButton = styled.button<MenuButtonProps>`
@@ -123,7 +123,7 @@ const MenuButton = styled.button<MenuButtonProps>`
   }
 
   ${(p) => `
-    color: ${tokens.colors[p.theme.mode][p.color]};
+    color: ${tokens.colors[p.theme.mode][p.color || 'accent']};
   
     &:disabled {
       color: ${tokens.colors[p.theme.mode].textTertiary}
