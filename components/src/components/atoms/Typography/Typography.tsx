@@ -131,8 +131,6 @@ export const Typography = React.forwardRef(
     }: Props,
     ref: React.Ref<HTMLElement>,
   ) => {
-    console.log('variant: ', variant)
-    console.log('as: ', as)
     return (
       <Container
         as={as}
