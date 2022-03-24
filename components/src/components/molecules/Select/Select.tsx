@@ -5,20 +5,19 @@ import uniqueId from 'lodash/uniqueId'
 
 import { Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
-import IconDownIndicatorSvg from '@/src/icons/DownIndicator.svg'
+import { ReactComponent as IconDownIndicatorSvg } from '@/src/icons/DownIndicator.svg'
 import { tokens } from '@/src/tokens'
-import Svg from '@/src/components/atoms/Svg/Svg'
 
 const SelectContainer = styled.div<{ disabled?: boolean }>`
   ${({ theme }) => `
     background: ${tokens.colors[theme.mode].background};
-    background-color: ${tokens.colors[theme.mode].backgroundHide};
+    border-color: ${tokens.colors[theme.mode].backgroundHide};
     border-width: ${tokens.space['px']};
     border-radius: ${tokens.radii['extraLarge']};
     cursor: pointer;
     position: relative;
     padding: ${tokens.space['4']};
-    height: ${tokens.space['14']}
+    height: ${tokens.space['14']};
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -42,7 +41,7 @@ const OptionElementContainer = styled.div`
   gap: ${tokens.space['4']};
 `
 
-const Chevron = styled(Svg)<{ open?: boolean; disabled?: boolean }>`
+const Chevron = styled(IconDownIndicatorSvg)<{ open: boolean }>`
   margin-left: ${tokens.space['1']};
   width: ${tokens.space['3']};
   margin-right: ${tokens.space['0.5']};
@@ -51,6 +50,12 @@ const Chevron = styled(Svg)<{ open?: boolean; disabled?: boolean }>`
   transition-timing-function: ${tokens.transitionTimingFunction['inOut']};
   opacity: 0.3;
   transform: rotate(0deg);
+  display: flex;
+
+  & > svg {
+    fill: currentColor;
+  }
+  fill: currentColor;
 
   ${(p) =>
     p.open &&
@@ -79,8 +84,11 @@ const SelectOptionContainer = styled.div<{ open?: boolean }>`
   width: ${tokens.space['full']};
   height: ${tokens.space['fit']};
   border-radius: ${tokens.radii['medium']};
-  box-shadow: ${tokens.shadows['0.02']};
   overflow: hidden;
+
+  ${({ theme }) => `
+    box-shadow: ${tokens.boxShadows[theme.mode]['0.02']};
+  `}
 
   ${({ open }) =>
     open
@@ -289,11 +297,7 @@ export const Select = React.forwardRef(
             <OptionElementContainer data-testid="selected">
               {selected ? <OptionElement option={selected} /> : <div />}
             </OptionElementContainer>
-            <Chevron
-              size="3"
-              svg={IconDownIndicatorSvg}
-              {...{ open: menuOpen, disabled }}
-            />
+            <Chevron size="3" {...{ open: menuOpen, disabled }} />
           </SelectContainer>
           <SelectOptionContainer
             {...{ open: menuOpen }}
