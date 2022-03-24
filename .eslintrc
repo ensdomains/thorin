@@ -80,6 +80,9 @@
         "next": {
           "rootDir": "docs/"
         }
+      },
+      "rules": {
+        "import/no-unresolved": "off"
       }
     },
     {
