@@ -25,6 +25,16 @@ interface ContainerProps {
 }
 
 const Container = styled.div<ContainerProps>`
+  ${({ theme, color, weight, font }) => `
+      color: ${tokens.colors[theme.mode][color]};
+      font-family: ${tokens.fonts[font]};
+      letter-spacing: ${tokens.letterSpacings['-0.01']};
+      font-size: ${tokens.fontSizes['base']};
+      font-weight: ${tokens.fontWeights[weight]};
+      letter-spacing: ${tokens.letterSpacings['-0.015']};
+      line-height: ${tokens.lineHeights['1.5']};
+  `}
+
   ${({ ellipsis }) =>
     ellipsis &&
     `
@@ -77,14 +87,8 @@ const Container = styled.div<ContainerProps>`
     }
   }}
 
-  ${({ theme, color, weight, font }) => `
-      color: ${tokens.colors[theme.mode][color]};
-      font-family: ${tokens.fonts[font]};
-      letter-spacing: ${tokens.letterSpacings['-0.01']};
-      font-size: ${tokens.fontSizes['base']};
+  ${({ weight }) => `
       font-weight: ${tokens.fontWeights[weight]};
-      letter-spacing: ${tokens.letterSpacings['-0.015']};
-      line-height: ${tokens.lineHeights['1.5']};
   `}
 `
 

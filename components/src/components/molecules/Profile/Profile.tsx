@@ -128,7 +128,7 @@ const ProfileInnerContainer = styled.div<{
   size?: 'small' | 'medium' | 'large'
 }>`
   display: ${(p) => (p.size === 'small' ? 'none' : 'block')};
-  margin-left: 0 ${tokens.space['1.5']};
+  margin: 0 ${tokens.space['1.5']};
   min-width: ${tokens.space['none']};
 `
 
@@ -154,6 +154,7 @@ const ProfileInner = ({ size, avatar, avatarAs, address, ensName }: Props) => (
         as="h4"
         color={ensName ? 'textTertiary' : 'text'}
         variant="small"
+        weight="bold"
       >
         {shortenAddress(
           address,
