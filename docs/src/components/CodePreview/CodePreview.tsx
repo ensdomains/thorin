@@ -2,17 +2,11 @@ import * as React from 'react'
 import styled, { useTheme } from 'styled-components'
 import { default as NextImage } from 'next/image'
 import { default as NextLink } from 'next/link'
-import { LiveEditor, LiveError, LivePreview, LiveProvider } from 'react-live'
+import { LiveEditor, LivePreview, LiveProvider } from 'react-live'
 import { mdx } from '@mdx-js/react'
 import { PrismTheme } from 'prism-react-renderer'
 
-import {
-  Button,
-  Colors,
-  Components,
-  Typography,
-  tokens,
-} from '@ensdomains/thorin'
+import { Button, Colors, Components, tokens } from '@ensdomains/thorin'
 
 import { createPlayroomLink } from '~/utils/playroom'
 import { usePlayroomStore } from '~/playroom/PlayroomState'
@@ -55,12 +49,12 @@ const ContainerInner = styled.div<{ expand?: boolean; ref: any }>`
   `}
 `
 
-const LiveErrorTypography = styled(Typography)`
-  ${({ theme }) => `
-    color: ${tokens.colors[theme.mode].red};
-    font-family: ${tokens.fonts['mono']};
-  `}
-`
+// const LiveErrorTypography = styled(Typography)`
+//   ${({ theme }) => `
+//     color: ${tokens.colors[theme.mode].red};
+//     font-family: ${tokens.fonts['mono']};
+//   `}
+// `
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -111,14 +105,14 @@ export const CodePreview = ({
         >
           <LivePreview />
 
-          <LiveErrorTypography>
-            <LiveError
-              style={{
-                fontFamily: 'inherit',
-                margin: 0,
-              }}
-            />
-          </LiveErrorTypography>
+          {/*<LiveErrorTypography>*/}
+          {/*  <LiveError*/}
+          {/*    style={{*/}
+          {/*      fontFamily: 'inherit',*/}
+          {/*      margin: 0,*/}
+          {/*    }}*/}
+          {/*  />*/}
+          {/*</LiveErrorTypography>*/}
         </ContainerInner>
 
         {state.expand && (

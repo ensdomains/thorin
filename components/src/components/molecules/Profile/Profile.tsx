@@ -18,7 +18,7 @@ type BaseProps = {
   address: string
   ensName?: string
   alignDropdown?: 'left' | 'right'
-  size: Size
+  size?: Size
 }
 
 interface ContainerProps {
@@ -194,7 +194,7 @@ export const Profile = ({
           onClick={() => setIsOpen(!isOpen)}
         >
           <ProfileInner {...{ size, avatar, avatarAs, address, ensName }} />
-          <Chevron open={isOpen} size="3" />
+          <Chevron open={isOpen} />
         </Container>
       </Dropdown>
     )

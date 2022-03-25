@@ -42,7 +42,6 @@ type Props = {
   accessibilityLabel?: string
   color?: Colors
   size?: 'small' | 'large'
-  style: any
 }
 
 export const Spinner = React.forwardRef(

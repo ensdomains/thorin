@@ -19,7 +19,7 @@
     "strict": true,
     "strictNullChecks": true,
     "target": "esnext",
-    "types": ["node"]
+    "types": ["node", "webpack-env"]
   },
   "include": ["components/**/*", "docs/**/*", "playroom/**/*"],
   "exclude": ["node_modules"]

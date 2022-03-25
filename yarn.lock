@@ -2857,6 +2857,7 @@ __metadata:
     "@vanilla-extract/vite-plugin": ^3.1.2
     clsx: ^1.1.1
     deepmerge: ^4.2.2
+    esbuild-darwin-arm64: ^0.14.27
     focus-visible: ^5.2.0
     glob: ^7.2.0
     jest: ^27.3.1
@@ -4709,6 +4710,13 @@ __metadata:
   version: 2.0.6
   resolution: "@types/unist@npm:2.0.6"
   checksum: 25cb860ff10dde48b54622d58b23e66214211a61c84c0f15f88d38b61aa1b53d4d46e42b557924a93178c501c166aa37e28d7f6d994aba13d24685326272d5db
+  languageName: node
+  linkType: hard
+
+"@types/webpack-env@npm:^1.16.3":
+  version: 1.16.3
+  resolution: "@types/webpack-env@npm:1.16.3"
+  checksum: faefa7c0a75289fb469b9a5ae44059a00009de840e0e62d13b3f837d77647da76808e7839cdc414b8c585969cf6b6a7f290dc2cb437a9ccdf04cb214c68f3223
   languageName: node
   linkType: hard
 
@@ -8034,6 +8042,13 @@ __metadata:
   version: 0.13.6
   resolution: "esbuild-darwin-arm64@npm:0.13.6"
   checksum: e0e70160544f97016f1c2f9b48c1b9cf8a9b9f50aaa6ce250fb965029f690bd5ae1ee57100a97596c03b0c711afb0547ba30b21c6a609af02c00c11a3b33eceb
+  languageName: node
+  linkType: hard
+
+"esbuild-darwin-arm64@npm:^0.14.27":
+  version: 0.14.27
+  resolution: "esbuild-darwin-arm64@npm:0.14.27"
+  checksum: fd29e78cc5c8d6b91a20aed09eff1c4da73669eeae4abeaef64db52e6cd6773fdc3b997d294fef1fc1bea6db288f5b315cf444a45b039fa5ce8e27810184031d
   languageName: node
   linkType: hard
 
@@ -16131,6 +16146,7 @@ resolve@^2.0.0-next.3:
     "@types/fs-extra": ^9.0.13
     "@types/glob": ^7.2.0
     "@types/styled-components": ^5
+    "@types/webpack-env": ^1.16.3
     "@typescript-eslint/eslint-plugin": ^4.33.0
     "@typescript-eslint/parser": ^4.33.0
     change-case: ^4.1.2

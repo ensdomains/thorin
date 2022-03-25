@@ -8,7 +8,7 @@ type Colors =
   | 'foreground'
   | 'text'
   | 'textSecondary'
-  | 'textTertiary '
+  | 'textTertiary'
   | 'accent'
   | 'red'
   | 'green'
@@ -19,6 +19,7 @@ type Aligns = 'left' | 'right' | 'center'
 interface ContainerProps {
   ellipsis?: boolean
   variant?: Variants
+  size: 'small' | 'base'
   ref: any
   color: Colors
   weight: Weights
@@ -26,11 +27,11 @@ interface ContainerProps {
 }
 
 const Container = styled.div<ContainerProps>`
-  ${({ theme, color, weight, font }) => `
+  ${({ theme, color, weight, font, size }) => `
       color: ${tokens.colors[theme.mode][color]};
       font-family: ${tokens.fonts[font]};
       letter-spacing: ${tokens.letterSpacings['-0.01']};
-      font-size: ${tokens.fontSizes['base']};
+      font-size: ${tokens.fontSizes[size]};
       font-weight: ${tokens.fontWeights[weight]};
       letter-spacing: ${tokens.letterSpacings['-0.015']};
       line-height: ${tokens.lineHeights['1.5']};
@@ -110,14 +111,15 @@ type Props = {
   children?: React.ReactNode
   ellipsis?: boolean
   variant?: Variants
-  className: string
-  weight: Weights
-  font: Fonts
-  align: Aligns
-  color: Colors
+  className?: string
+  weight?: Weights
+  font?: Fonts
+  align?: Aligns
+  color?: Colors
+  size?: 'small' | 'base'
 }
 
-export const Typography = React.forwardRef(
+export const Typography = React.forwardRef<HTMLElement, Props>(
   (
     {
       as = 'div',
@@ -128,8 +130,9 @@ export const Typography = React.forwardRef(
       weight = 'normal',
       font = 'sans',
       color = 'text',
-    }: Props,
-    ref: React.Ref<HTMLElement>,
+      size = 'base',
+    },
+    ref,
   ) => {
     return (
       <Container
@@ -141,6 +144,7 @@ export const Typography = React.forwardRef(
           weight,
           font,
           color,
+          size,
         }}
         ref={ref}
       >

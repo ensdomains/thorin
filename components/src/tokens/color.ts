@@ -137,6 +137,7 @@ export const colors = {
   light: {
     accent: `${accents.light.blue}`,
     accentSecondary: `rgba(${accentsRaw.light.blue}, ${shades.light.accentSecondary})`,
+    accentSecondaryHover: `rgba(${accentsRaw.light.blue}, ${shades.light.accentSecondary})`,
     accentTertiary: `rgba(${accentsRaw.light.blue}, calc(${shades.light.accentSecondary} * 0.5))`,
     accentText: 'rgb(255, 255, 255)',
     accentGradient: gradients.light.blue,
@@ -162,6 +163,7 @@ export const colors = {
   dark: {
     accent: `${accents.dark.blue}`,
     accentSecondary: `rgba(${accentsRaw.dark.blue}, ${shades.dark.accentSecondary})`,
+    accentSecondaryHover: `rgba(${accentsRaw.dark.blue}, ${shades.dark.accentSecondary})`,
     accentTertiary: `rgba(${accentsRaw.dark.blue}, calc(${shades.dark.accentSecondary} * 0.5))`,
     accentText: 'rgb(255, 255, 255)',
     accentGradient: gradients.dark.blue,

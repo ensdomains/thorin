@@ -41,7 +41,10 @@ const OptionElementContainer = styled.div`
   gap: ${tokens.space['4']};
 `
 
-const Chevron = styled(IconDownIndicatorSvg)<{ open: boolean }>`
+const Chevron = styled(IconDownIndicatorSvg)<{
+  open: boolean
+  disabled?: boolean
+}>`
   margin-left: ${tokens.space['1']};
   width: ${tokens.space['3']};
   margin-right: ${tokens.space['0.5']};
@@ -207,13 +210,13 @@ export const Select = React.forwardRef(
     const [menuOpen, setMenuOpen] = React.useState(false)
 
     const handleInputEvent = (
-      e: React.MouseEvent | React.KeyboardEvent,
+      e: React.MouseEvent | React.KeyboardEvent<HTMLDivElement>,
       type: 'mouse' | 'keyboard',
       value?: OptionProps,
     ) => {
       if (disabled || (value && value.disabled)) return e.stopPropagation()
       if (type === 'keyboard') {
-        e = e as React.KeyboardEvent
+        e = e as React.KeyboardEvent<HTMLDivElement>
         if (!menuOpen && ['ArrowDown', 'ArrowUp', 'Enter', ' '].includes(e.key))
           return setMenuOpen(true)
         if (menuOpen && e.key === 'Enter') {
@@ -297,7 +300,7 @@ export const Select = React.forwardRef(
             <OptionElementContainer data-testid="selected">
               {selected ? <OptionElement option={selected} /> : <div />}
             </OptionElementContainer>
-            <Chevron size="3" {...{ open: menuOpen, disabled }} />
+            <Chevron {...{ open: menuOpen, disabled }} />
           </SelectContainer>
           <SelectOptionContainer
             {...{ open: menuOpen }}
@@ -314,7 +317,13 @@ export const Select = React.forwardRef(
                 key={option.value}
                 role="option"
                 onClick={(e) => handleInputEvent(e, 'mouse', option)}
-                onKeyPress={(e) => handleInputEvent(e, 'keyboard', option)}
+                onKeyPress={(e) =>
+                  handleInputEvent(
+                    e as React.KeyboardEvent<HTMLDivElement>,
+                    'keyboard',
+                    option,
+                  )
+                }
               >
                 <OptionElement option={option} />
               </SelectOption>
