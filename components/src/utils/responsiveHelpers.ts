@@ -1,4 +1,4 @@
-import { FlattenSimpleInterpolation, css } from 'styled-components/macro'
+import { FlattenSimpleInterpolation, css } from 'styled-components'
 
 import { breakpoints } from '@/src/tokens'
 

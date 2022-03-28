@@ -1,23 +1,14 @@
-import { glob } from 'glob'
-
-import path from 'path'
-
 import * as Exports from './'
-
-const generatedIconPaths = glob.sync('components/icons/generated/Icon*/', {
-  cwd: __dirname,
-  absolute: true,
-})
-
-const generatedIcons = generatedIconPaths.map((x) => path.basename(x))
 
 const exportedKeys = Object.keys(Exports)
 
 const expectedExportedKeys = [
+  'largerThan',
+  'tokens',
+  'Components',
   // atoms
   'Avatar',
   'BackdropSurface',
-  'Box',
   'Button',
   'Card',
   'Field',
@@ -26,10 +17,8 @@ const expectedExportedKeys = [
   'Portal',
   'Skeleton',
   'Spinner',
-  'Stack',
   'Tag',
-  'ThemeProvider',
-  'useTheme',
+  'ThorinGlobalStyles',
   'Typography',
   'VisuallyHidden',
   // molecules
@@ -48,17 +37,53 @@ const expectedExportedKeys = [
   'Textarea',
   // organisms
   'Dialog',
-  // css
-  'atoms',
-  'breakpoints',
-  'getAccentText',
-  'mapResponsiveValue',
-  'motionSafe',
-  'normalizeResponsiveValue',
-  'responsiveStyle',
-  'vars',
-  // generated icons
-  ...generatedIcons,
+  'ChevronLeftSVG',
+  'ArrowCircleSVG',
+  'ArrowRightSVG',
+  'ArrowUpSVG',
+  'BookOpenSVG',
+  'CancelCircleSVG',
+  'CheckSVG',
+  'ChevronDownSVG',
+  'ChevronRightSVG',
+  'ChevronUpSVG',
+  'CloseSVG',
+  'CodeSVG',
+  'CogSVG',
+  'CollectionSVG',
+  'CopySVG',
+  'DocumentsSVG',
+  'DotsVerticalSVG',
+  'DownIndicatorSVG',
+  'DuplicateSVG',
+  'EthSVG',
+  'EthTransparentSVG',
+  'EthTransparentInvertedSVG',
+  'ExclamationSVG',
+  'FlagSVG',
+  'GradientSVG',
+  'GridSVG',
+  'GridSolidSVG',
+  'HandSVG',
+  'LinkSVG',
+  'ListSVG',
+  'LockClosedSVG',
+  'LogoSVG',
+  'MenuSVG',
+  'MoonSVG',
+  'PencilSVG',
+  'PlusSVG',
+  'PlusSmallSVG',
+  'RefreshSVG',
+  'SearchSVG',
+  'SplitSVG',
+  'SunSVG',
+  'TokensSVG',
+  'TrendingUpSVG',
+  'UploadSVG',
+  'UserSolidSVG',
+  'UsersSolidSVG',
+  'WalletSVG',
 ]
 
 it('should expose correct exports', () => {

@@ -1,5 +1,7 @@
 import * as React from 'react'
 
+import { ThemeProvider } from 'styled-components'
+
 import { cleanup, render, screen } from '@/test'
 
 import { Avatar } from './Avatar'
@@ -9,10 +11,12 @@ describe('<Avatar />', () => {
 
   it('renders', () => {
     render(
-      <Avatar
-        label="Avatar"
-        src="https://images.mirror-media.xyz/publication-images/H-zIoEYWk4SpFkljJiwB9.png"
-      />,
+      <ThemeProvider theme={{ mode: 'light' }}>
+        <Avatar
+          label="Avatar"
+          src="https://images.mirror-media.xyz/publication-images/H-zIoEYWk4SpFkljJiwB9.png"
+        />
+      </ThemeProvider>,
     )
     expect(screen.getByRole(/img/i)).toBeInTheDocument()
   })

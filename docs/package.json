@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "yarn workspace playroom run build && next build",
+    "build": "next build",
     "clean": "rimraf .next public/playroom",
     "dev": "NODE_OPTIONS='--inspect' next dev",
     "lint": "next lint",

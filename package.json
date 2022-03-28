@@ -7,7 +7,7 @@
     "docs"
   ],
   "scripts": {
-    "build": "yarn workspaces foreach -pi run build",
+    "build": "yarn workspaces foreach -i run build",
     "build:components": "yarn workspace @ensdomains/thorin build",
     "clean": "yarn workspaces foreach -p run clean",
     "dev": "yarn workspaces foreach -pi run dev",
@@ -42,6 +42,7 @@
     "@types/webpack-env": "^1.16.3",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
+    "babel-jest": "^27.5.1",
     "change-case": "^4.1.2",
     "dedent": "^0.7.0",
     "eslint": "^7.32.0",
@@ -58,6 +59,7 @@
     "fs-extra": "^10.0.0",
     "glob": "^7.2.0",
     "husky": "^7.0.4",
+    "jest-styled-components": "^7.0.8",
     "lint-staged": "^11.2.6",
     "prettier": "^2.4.1",
     "prompt": "^1.2.0",

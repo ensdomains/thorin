@@ -1,25 +1,29 @@
 import * as React from 'react'
 
+import { ThemeProvider } from 'styled-components'
+
 import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 
 import { Dropdown } from './Dropdown'
 
 const DropdownHelper = ({ mockCallback, children, ...props }: any) => {
   return (
-    <div>
-      <div>outside</div>
-      <Dropdown
-        {...{
-          items: [
-            { label: 'Dashboard', onClick: mockCallback },
-            { label: 'Disconnect', onClick: () => null, color: 'red' },
-          ],
-          ...props,
-        }}
-      >
-        {children}
-      </Dropdown>
-    </div>
+    <ThemeProvider theme={{ mode: 'light' }}>
+      <div>
+        <div>outside</div>
+        <Dropdown
+          {...{
+            items: [
+              { label: 'Dashboard', onClick: mockCallback },
+              { label: 'Disconnect', onClick: () => null, color: 'red' },
+            ],
+            ...props,
+          }}
+        >
+          {children}
+        </Dropdown>
+      </div>
+    </ThemeProvider>
   )
 }
 
@@ -85,9 +89,13 @@ describe('<Dropdown />', () => {
   })
 
   it('sholud not error if no dropdown items are passed in', () => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    render(<Dropdown label="" />)
+    render(
+      <ThemeProvider theme={{ mode: 'light' }}>
+        {/*eslint-disable-next-line @typescript-eslint/ban-ts-comment*/}
+        {/*@ts-ignore*/}
+        <Dropdown label="" />
+      </ThemeProvider>,
+    )
     expect(screen.getByTestId('dropdown')).toBeInTheDocument()
   })
 })

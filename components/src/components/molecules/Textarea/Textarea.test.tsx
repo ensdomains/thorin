@@ -1,5 +1,7 @@
 import * as React from 'react'
 
+import { ThemeProvider } from 'styled-components'
+
 import { cleanup, render, screen, userEvent } from '@/test'
 
 import { Textarea } from './Textarea'
@@ -8,12 +10,20 @@ describe('<Textarea />', () => {
   afterEach(cleanup)
 
   it('renders', () => {
-    render(<Textarea label="Why are you entering $WRITE Race?" />)
+    render(
+      <ThemeProvider theme={{ mode: 'light' }}>
+        <Textarea label="Why are you entering $WRITE Race?" />
+      </ThemeProvider>,
+    )
     expect(screen.getByRole('textbox')).toBeInTheDocument()
   })
 
   it('receives user input', () => {
-    render(<Textarea label="Why are you entering $WRITE Race?" />)
+    render(
+      <ThemeProvider theme={{ mode: 'light' }}>
+        <Textarea label="Why are you entering $WRITE Race?" />
+      </ThemeProvider>,
+    )
 
     userEvent.type(screen.getByRole('textbox'), 'I love writing and crypto.')
     expect(screen.getByRole('textbox')).toHaveValue(
@@ -23,7 +33,9 @@ describe('<Textarea />', () => {
 
   it('respects the maxLength parameter', () => {
     render(
-      <Textarea label="Why are you entering $WRITE Race?" maxLength={14} />,
+      <ThemeProvider theme={{ mode: 'light' }}>
+        <Textarea label="Why are you entering $WRITE Race?" maxLength={14} />
+      </ThemeProvider>,
     )
 
     const element = screen.getByLabelText(/why/i)
@@ -33,11 +45,13 @@ describe('<Textarea />', () => {
 
   it('does not allow typing when disabled', () => {
     render(
-      <Textarea
-        disabled
-        label="Why are you entering $WRITE Race?"
-        maxLength={14}
-      />,
+      <ThemeProvider theme={{ mode: 'light' }}>
+        <Textarea
+          disabled
+          label="Why are you entering $WRITE Race?"
+          maxLength={14}
+        />
+      </ThemeProvider>,
     )
 
     const element = screen.getByLabelText(/why/i)
@@ -46,7 +60,11 @@ describe('<Textarea />', () => {
   })
 
   it('shows error message', () => {
-    render(<Textarea error="error" label="Why are you entering $WRITE Race?" />)
+    render(
+      <ThemeProvider theme={{ mode: 'light' }}>
+        <Textarea error="error" label="Why are you entering $WRITE Race?" />
+      </ThemeProvider>,
+    )
 
     expect(screen.getByText('error')).toBeInTheDocument()
   })

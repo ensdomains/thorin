@@ -15,11 +15,12 @@ const config: Config.InitialOptions = {
   globals: {
     'ts-jest': {
       babelConfig: {
-        plugins: ['@vanilla-extract/babel-plugin'],
+        plugins: ['babel-plugin-styled-components'],
       },
     },
   },
   moduleNameMapper: {
+    '\\.svg$': '<rootDir>/__mocks__/svg.js',
     ...pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>/' }),
   },
   preset: 'ts-jest',

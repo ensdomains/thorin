@@ -1,6 +1,8 @@
 import * as React from 'react'
 import { useState } from 'react'
 
+import { ThemeProvider } from 'styled-components'
+
 import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 
 import { Checkbox } from './Checkbox'
@@ -8,18 +10,20 @@ import { Checkbox } from './Checkbox'
 const CheckboxWithState = (props: any) => {
   const [checked, setChecked] = useState<boolean>(false)
   return (
-    <div>
-      hello there
-      {checked ? <div>checked</div> : <div>unchecked</div>}
-      <Checkbox
-        id="checkbox-id"
-        label="checkbox-label"
-        onChange={(e) => {
-          setChecked(e.target.checked)
-        }}
-        {...props}
-      />
-    </div>
+    <ThemeProvider theme={{ mode: 'light' }}>
+      <div>
+        hello there
+        {checked ? <div>checked</div> : <div>unchecked</div>}
+        <Checkbox
+          id="checkbox-id"
+          label="checkbox-label"
+          onChange={(e) => {
+            setChecked(e.target.checked)
+          }}
+          {...props}
+        />
+      </div>
+    </ThemeProvider>
   )
 }
 
@@ -27,7 +31,11 @@ describe('<Checkbox />', () => {
   afterEach(cleanup)
 
   it('renders', async () => {
-    render(<Checkbox label="Checkbox" />)
+    render(
+      <ThemeProvider theme={{ mode: 'light' }}>
+        <Checkbox label="Checkbox" />
+      </ThemeProvider>,
+    )
     expect(screen.getByRole('checkbox')).toBeInTheDocument()
   })
 

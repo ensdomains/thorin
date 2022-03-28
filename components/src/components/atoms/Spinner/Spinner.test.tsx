@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { ThemeProvider } from 'styled-components'
 
 import { cleanup, render, screen } from '@/test'
 
@@ -8,7 +9,11 @@ describe('<Spinner />', () => {
   afterEach(cleanup)
 
   it('renders', () => {
-    render(<Spinner accessibilityLabel="Loading…" />)
+    render(
+      <ThemeProvider theme={{ mode: 'light' }}>
+        <Spinner accessibilityLabel="Loading…" />
+      </ThemeProvider>,
+    )
     expect(screen.getByText(/loading/i)).toBeInTheDocument()
   })
 })
