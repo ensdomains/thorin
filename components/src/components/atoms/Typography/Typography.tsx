@@ -1,17 +1,10 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
-import { tokens } from '@/src/tokens'
+import { Colors, tokens } from '@/src/tokens'
 
 type Variants = 'small' | 'large' | 'extraLarge' | 'label' | 'labelHeading'
-type Colors =
-  | 'foreground'
-  | 'text'
-  | 'textSecondary'
-  | 'textTertiary'
-  | 'accent'
-  | 'red'
-  | 'green'
+
 type Weights = 'bold' | 'semiBold' | 'medium' | 'normal' | 'light'
 type Fonts = 'sans' | 'mono'
 type Aligns = 'left' | 'right' | 'center'

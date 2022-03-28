@@ -92,13 +92,6 @@ const getAccentColour = (
     return tokens.colors[mode][accent]
   }
 
-  if (tone === 'blue') {
-    console.log('mode: ', mode)
-    console.log('tone: ', tone)
-    console.log('accent: ', accent)
-    console.log('result: ', tokens.colors[mode][tone])
-  }
-
   switch (accent) {
     case 'accent':
       return tokens.colors[mode][tone]

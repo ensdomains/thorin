@@ -1,8 +1,5 @@
 const { glob } = require('glob')
-// const { createVanillaExtractPlugin } = require('@vanilla-extract/next-plugin')
-// const withVanillaExtract = createVanillaExtractPlugin({
-//   identifiers: 'short',
-// })
+
 const withMDX = require('@next/mdx')({
   extension: /\.mdx?$/,
 })
@@ -90,20 +87,6 @@ const config = {
   //   ]
   // },
   pageExtensions: ['mdx', 'tsx'],
-  // future: { webpack5: true },
-  // webpack: (config) => {
-  //   // Unset client-side javascript that only works server-side
-  //   config.resolve.fallback = {
-  //     fs: false,
-  //     module: false,
-  //     process: false,
-  //     path: false,
-  //     os: false,
-  //     assert: false,
-  //     util: false,
-  //   }
-  //   return config
-  // },
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,
@@ -113,9 +96,6 @@ const config = {
     return config
   },
   reactStrictMode: true,
-  // compiler: {
-  //   styledComponents: true,
-  // },
 }
 
 /** @type {import('next').NextConfig} */

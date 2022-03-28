@@ -86,11 +86,7 @@ const Container = styled.div<ContainerProps>`
       return `
         background-color: ${tokens.colors[theme.mode].accentTertiary};
       
-        &:hover {
-        background-color: ${tokens.colors[theme.mode].accentSecondary};
-        }
-      
-        &:active {
+        &:hover:active {
         background-color: ${tokens.colors[theme.mode].accentSecondary};
         }
         `
@@ -100,12 +96,7 @@ const Container = styled.div<ContainerProps>`
         color: ${tokens.colors[theme.mode].textSecondary};
         background-color: ${tokens.colors[theme.mode].foregroundTertiary};
       
-        &:hover {
-          color: ${tokens.colors[theme.mode].text};
-          background-color: ${tokens.colors[theme.mode].foregroundSecondary};
-        }
-      
-        &:active {
+        &:hover:active {
           color: ${tokens.colors[theme.mode].text};
           background-color: ${tokens.colors[theme.mode].foregroundSecondary};
         }
@@ -113,33 +104,21 @@ const Container = styled.div<ContainerProps>`
 
     if (hover && tone === 'blue')
       return `
-        &:hover {
-          background-color: rgb(${tokens.colors[theme.mode].blue});
-        }
-      
-        &:active {
+        &:hover:active {
           background-color: rgb(${tokens.colors[theme.mode].blue});
         }
         `
 
     if (hover && tone === 'green')
       return `
-        &:hover {
-          background-color: rgb(${tokens.colors[theme.mode].green});
-        }
-      
-        &:active {
+        &:hover:active {
           background-color: rgb(${tokens.colors[theme.mode].green});
         }
         `
 
     if (hover && tone === 'red')
       return `
-        &:hover {
-          background-color: rgb(${tokens.colors[theme.mode].red});
-        }
-      
-        &:active {
+        &:hover:active {
           background-color: rgb(${tokens.colors[theme.mode].red});
         }
         `

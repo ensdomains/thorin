@@ -76,7 +76,6 @@ export type Props = {
 
 const Layout: NextLayout<Props> = ({ children, meta }) => {
   const links = (process.env.navLinks as unknown as NavProps['links']) ?? []
-  console.log('links: ', links)
   return (
     <>
       <Head>

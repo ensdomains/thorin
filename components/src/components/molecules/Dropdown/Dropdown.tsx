@@ -305,8 +305,6 @@ type Props = {
   label?: string
 }
 
-// export const Dropdown = () => <div>Dropddown</div>
-
 export const Dropdown = ({
   children,
   buttonProps,

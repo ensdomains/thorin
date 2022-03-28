@@ -31,7 +31,7 @@ type BaseProps = FieldBaseProps & {
   onChange?: React.EventHandler<React.ChangeEvent<HTMLInputElement>>
   onFocus?: NativeInputProps['onFocus']
   onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>
-  size?: any
+  size?: 'medium' | 'large' | 'extraLarge'
 }
 
 type WithTypeEmail = {

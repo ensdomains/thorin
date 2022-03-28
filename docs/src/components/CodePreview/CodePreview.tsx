@@ -87,7 +87,6 @@ export const CodePreview = ({
         ...store,
         ...themeValue,
         previewRef,
-        // vars,
         NextImage,
         NextLink,
         avatars,

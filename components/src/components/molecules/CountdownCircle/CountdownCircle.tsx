@@ -50,7 +50,7 @@ interface ContainerProps {
   disabled?: boolean
   size: 'small' | 'large'
   color: Colors
-  ref: any
+  ref: React.Ref<HTMLDivElement>
 }
 
 const Container = styled.div<ContainerProps>`
@@ -117,7 +117,7 @@ export const CountdownCircle = React.forwardRef(
       disabled,
       callback,
     }: Props,
-    ref: React.Ref<HTMLElement>,
+    ref: React.Ref<HTMLDivElement>,
   ) => {
     const [totalCount, setTotalCount] = React.useState(0)
     const [currentCount, setCurrentCount] = React.useState(0)

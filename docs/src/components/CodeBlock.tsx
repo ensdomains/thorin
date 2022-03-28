@@ -64,8 +64,6 @@ type Props = {
   minHeight?: string
 }
 
-// export const CodeBlock = () => <div>code block</div>
-
 export const CodeBlock = ({
   backgroundColor,
   children,

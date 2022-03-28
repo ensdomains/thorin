@@ -133,7 +133,7 @@ const ProfileInnerContainer = styled.div<{
 `
 
 const ProfileInner = ({ size, avatar, avatarAs, address, ensName }: Props) => (
-  <React.Fragment>
+  <>
     <Avatar
       as={avatarAs}
       label="profile-avatar"
@@ -164,7 +164,7 @@ const ProfileInner = ({ size, avatar, avatarAs, address, ensName }: Props) => (
         )}
       </Typography>
     </ProfileInnerContainer>
-  </React.Fragment>
+  </>
 )
 
 type Props = BaseProps

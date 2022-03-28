@@ -1,7 +1,13 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
-import { Input, Typography, largerThan, tokens } from '@ensdomains/thorin'
+import {
+  Input,
+  SearchSVG,
+  Typography,
+  largerThan,
+  tokens,
+} from '@ensdomains/thorin'
 import * as Components from '@ensdomains/thorin'
 
 import { Link } from '~/components'
@@ -102,8 +108,7 @@ export const SearchIcons = () => {
         hideLabel
         label="Search icons"
         placeholder="Search icons"
-        // prefix={<IconSearch />}
-        prefix={<div>search icon</div>}
+        prefix={<SearchSVG />}
         value={state.query}
         onChange={(event) =>
           setState((x) => ({ ...x, query: event.target.value }))
@@ -129,10 +134,3 @@ export const SearchIcons = () => {
     </FlexContainer>
   )
 }
-
-/*
-{
-                    size: { xs: '10', md: '12' },
-                  }
-
- */
