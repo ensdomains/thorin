@@ -16389,6 +16389,7 @@ resolve@^2.0.0-next.3:
     lint-staged: ^11.2.6
     prettier: ^2.4.1
     prompt: ^1.2.0
+    react-docgen-typescript: ^2.1.1
     size-limit: ^6.0.3
     styled-components: ^5.3.3
     typescript: 4.4.4
