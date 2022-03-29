@@ -60,15 +60,15 @@ const Chevron = styled(IconDownIndicatorSvg)<{
   }
   fill: currentColor;
 
-  ${(p) =>
-    p.open &&
+  ${({ open }) =>
+    open &&
     `
       opacity: 1;
       transform: rotate(180deg);
   `}
 
-  ${(p) =>
-    p.disabled &&
+  ${({ disabled }) =>
+    disabled &&
     `
       opacity: 0.1;
   `}

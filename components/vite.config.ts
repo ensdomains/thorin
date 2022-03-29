@@ -1,6 +1,5 @@
 import macrosPlugin from 'vite-plugin-babel-macros'
 import { defineConfig } from 'vite'
-import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin'
 import dts from 'vite-plugin-dts'
 import tsconfigPaths from 'vite-tsconfig-paths'
 import svgrPlugin from 'vite-plugin-svgr'
@@ -24,9 +23,6 @@ export default defineConfig({
         icon: true,
         // ...svgr options (https://react-svgr.com/docs/options/)
       },
-    }),
-    vanillaExtractPlugin({
-      identifiers: 'short',
     }),
     tsconfigPaths(),
     dts({

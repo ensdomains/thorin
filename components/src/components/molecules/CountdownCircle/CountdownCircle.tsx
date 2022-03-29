@@ -16,18 +16,18 @@ const NumberBox = styled.div<NumberBox>`
   justify-content: center;
   font-weight: bold;
 
-  ${(p) => `
-    color: ${tokens.colors[p.theme.mode].accent};
+  ${({ theme }) => `
+    color: ${tokens.colors[theme.mode].accent};
   `}
 
-  ${(p) =>
-    p.disabled &&
+  ${({ theme, disabled }) =>
+    disabled &&
     `
-    color: ${tokens.colors[p.theme.mode].textPlaceholder};
+    color: ${tokens.colors[theme.mode].textPlaceholder};
   `}
 
-  ${(p) => {
-    switch (p.size) {
+  ${({ size }) => {
+    switch (size) {
       case 'small':
         return `
           height: ${tokens.space['16']};
@@ -54,22 +54,22 @@ interface ContainerProps {
 }
 
 const Container = styled.div<ContainerProps>`
-  ${(p) => `
-    stroke: ${tokens.colors[p.theme.mode].accent};
+  ${({ theme }) => `
+    stroke: ${tokens.colors[theme.mode].accent};
   `}
 
-  ${(p) => `
-    color: ${tokens.colors[p.theme.mode][p.color]};
+  ${({ theme, color }) => `
+    color: ${tokens.colors[theme.mode][color]};
   `}
 
-  ${(p) =>
-    p.disabled &&
+  ${({ theme, disabled }) =>
+    disabled &&
     `
-    color: ${tokens.colors[p.theme.mode].foregroundSecondary};
+    color: ${tokens.colors[theme.mode].foregroundSecondary};
   `}
 
-  ${(p) => {
-    switch (p.size) {
+  ${({ size }) => {
+    switch (size) {
       case 'small':
         return `
           height: ${tokens.space['16']};
@@ -95,7 +95,7 @@ interface CircleProps {
 const Circle = styled.circle<CircleProps>`
   transition: all 1s linear, stroke-width 0.2s ease-in-out 1s;
 
-  ${(p) => p.finished && `stroke-width: 0;`}
+  ${({ finished }) => finished && `stroke-width: 0;`}
 `
 
 type Props = {

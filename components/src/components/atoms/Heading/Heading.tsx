@@ -12,13 +12,13 @@ interface HeadingContainerProps {
 }
 
 const HeadingContainer = styled.div<HeadingContainerProps>`
-  ${(p) => `
-    ${p.textAlign ? `text-align: ${p.textAlign};` : ``}
-    ${p.textTransform ? `text-transform: ${p.textTransform};` : ``}
+  ${({ textAlign, textTransform }) => `
+    ${textAlign ? `text-align: ${textAlign};` : ``}
+    ${textTransform ? `text-transform: ${textTransform};` : ``}
   `}
 
-  ${(p) => {
-    switch (p.level) {
+  ${({ level }) => {
+    switch (level) {
       case '1':
         return `
           font-size: ${tokens.fontSizes.headingOne};
@@ -38,9 +38,9 @@ const HeadingContainer = styled.div<HeadingContainerProps>`
     }
   }}
   
-  ${(p) => {
-    if (p.responsive) {
-      switch (p.level) {
+  ${({ responsive, level }) => {
+    if (responsive) {
+      switch (level) {
         case '1':
           return `
           font-size: ${tokens.fontSizes.headingTwo};

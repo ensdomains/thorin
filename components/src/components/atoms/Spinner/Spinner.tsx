@@ -18,8 +18,8 @@ const Container = styled.div<{ size: 'small' | 'large'; color: Colors }>`
     stroke: ${tokens.colors[theme.mode][color]};
   `}
 
-  ${(p) => {
-    switch (p.size) {
+  ${({ size }) => {
+    switch (size) {
       case 'small':
         return `
           height: ${tokens.space['6']};

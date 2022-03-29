@@ -9,10 +9,10 @@ interface ContainerProps {
 }
 
 const Container = styled.div<ContainerProps>`
-  ${(p) =>
-    p.active &&
+  ${({ theme, active }) =>
+    active &&
     `
-     background-color: ${tokens.colors[p.theme.mode].foregroundSecondary};
+     background-color: ${tokens.colors[theme.mode].foregroundSecondary};
      border-radius: ${tokens.radii.medium};
      width: ${tokens.space.fit};
   `}
@@ -20,7 +20,7 @@ const Container = styled.div<ContainerProps>`
 
 const ContainerInner = styled.span<{ active?: boolean }>`
   display: block;
-  ${(p) => (p.active ? 'visibility: hidden;' : '')}
+  ${({ active }) => (active ? 'visibility: hidden;' : '')}
 `
 
 type Props = {

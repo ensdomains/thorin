@@ -17,8 +17,8 @@ const Input = styled.input<InputProps>`
   cursor: pointer;
   margin: ${tokens.space['1']} 0;
 
-  ${(p) => {
-    switch (p.variant) {
+  ${({ theme, variant }) => {
+    switch (variant) {
       case 'regular':
         return `
           width: ${tokens.space['7']};
@@ -41,7 +41,7 @@ const Input = styled.input<InputProps>`
           
           &::before {
             content: '';
-            background-color: ${tokens.colors[p.theme.mode].accent};
+            background-color: ${tokens.colors[theme.mode].accent};
             mask-image: ${`url('data:image/svg+xml; utf8, <svg width="${tokens.space['4']}" height="${tokens.space['4']}" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 12.625L10.125 20.125L22 3.875" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" /></svg>')`};
             width: ${tokens.space['4']};
             height: ${tokens.space['4']};
@@ -58,7 +58,7 @@ const Input = styled.input<InputProps>`
           display: grid;
           place-content: center;
           transition: transform 150ms ease-in-out, filter 150ms ease-in-out;
-          background-color: ${tokens.colors[p.theme.mode].accent};
+          background-color: ${tokens.colors[theme.mode].accent};
           filter: grayscale(1) brightness(1.5);
           
           &:hover {
@@ -100,11 +100,11 @@ const Input = styled.input<InputProps>`
     }
   }}
 
-  ${(p) => {
-    switch (p.color) {
+  ${({ theme, color }) => {
+    switch (color) {
       case 'grey':
         return `
-          background-color: ${tokens.colors[p.theme.mode].grey};
+          background-color: ${tokens.colors[theme.mode].grey};
         `
       case 'white':
         return `
@@ -115,9 +115,9 @@ const Input = styled.input<InputProps>`
     }
   }}
 
-  ${(p) => {
-    if (p.variant === 'switch' && p.size) {
-      switch (p.size) {
+  ${({ variant, size }) => {
+    if (variant === 'switch' && size) {
+      switch (size) {
         case 'small':
           return `
             width: ${tokens.space['7']};

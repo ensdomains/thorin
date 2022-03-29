@@ -57,48 +57,48 @@ interface InputParentProps {
 }
 
 const InputParent = styled.div<InputParentProps>`
-  ${(p) => `
-    background-color: ${tokens.colors[p.theme.mode].backgroundSecondary};
+  ${({ theme }) => `
+    background-color: ${tokens.colors[theme.mode].backgroundSecondary};
     border-radius: ${tokens.radii['2xLarge']};
     border-width: ${tokens.space['0.75']};
     border-color: ${tokens.colors.base.transparent};
-    color: ${tokens.colors[p.theme.mode].text};
+    color: ${tokens.colors[theme.mode].text};
     display: flex;
     transition-duration: ${tokens.transitionDuration['150']};
     transition-property: colors;
     transition-timing-function: ${tokens.transitionTimingFunction['inOut']};
     
     &:focus-within {
-      border-color: ${tokens.colors[p.theme.mode].accentSecondary};
+      border-color: ${tokens.colors[theme.mode].accentSecondary};
     }
   `}
 
-  ${(p) =>
-    p.disabled &&
+  ${({ theme, disabled }) =>
+    disabled &&
     `
-      border-color: ${tokens.colors[p.theme.mode].foregroundSecondary};
-      background-color: ${tokens.colors[p.theme.mode].background};
+      border-color: ${tokens.colors[theme.mode].foregroundSecondary};
+      background-color: ${tokens.colors[theme.mode].background};
   `}
 
-  ${(p) =>
-    p.error &&
+  ${({ theme, error }) =>
+    error &&
     `
-      border-color: ${tokens.colors[p.theme.mode].red};
+      border-color: ${tokens.colors[theme.mode].red};
       cursor: default;
       
       &:focus-within {
-        border-color: ${tokens.colors[p.theme.mode].red};
+        border-color: ${tokens.colors[theme.mode].red};
       }
   `}
 
-  ${(p) =>
-    p.suffix &&
+  ${({ suffix }) =>
+    suffix &&
     `
       height: ${tokens.space['16']};
   `}
 
-  ${(p) => {
-    switch (p.size) {
+  ${({ size }) => {
+    switch (size) {
       case 'medium':
         return `
           height: ${tokens.space['14']};
@@ -152,7 +152,7 @@ interface InputComponentProps {
 }
 
 const InputComponent = styled.input<InputComponentProps>`
-  ${(p) => `
+  ${({ theme }) => `
     background-color: ${tokens.colors.base.transparent};
     position: relative;
     width: ${tokens.space['full']};
@@ -161,27 +161,27 @@ const InputComponent = styled.input<InputComponentProps>`
     font-weight: ${tokens.fontWeights['medium']};
     
     &::placeholder {
-        color: ${tokens.colors[p.theme.mode].textPlaceholder};
+        color: ${tokens.colors[theme.mode].textPlaceholder};
         font-weight: ${tokens.fontWeights['bold']};
     }
   `}
 
-  ${(p) =>
-    p.disabled &&
+  ${({ disabled }) =>
+    disabled &&
     `
         opacity ${tokens.opacity['50']};
         cursor: not-allowed;
   `}
 
-  ${(p) =>
-    p.type === 'number' &&
+  ${({ type }) =>
+    type === 'number' &&
     `
         font-feature-settings: 'kern' 1,  'tnum' 1, 'calt' 0;
         font-variant-numeric: tabular-nums;
   `}
 
-  ${(p) => {
-    switch (p.size) {
+  ${({ size }) => {
+    switch (size) {
       case 'medium':
         return `
           font-size: ${tokens.fontSizes['base']};
@@ -209,8 +209,8 @@ const Ghost = styled.div<{ type: HTMLInputElement['type'] }>`
   white-space: pre;
   line-height: normal;
 
-  ${(p) =>
-    p.type === 'number' &&
+  ${({ type }) =>
+    type === 'number' &&
     `
         font-feature-settings: 'kern' 1,  'tnum' 1, 'calt' 0;
         font-variant-numeric: tabular-nums;
@@ -218,22 +218,22 @@ const Ghost = styled.div<{ type: HTMLInputElement['type'] }>`
 `
 
 const Units = styled.span`
-  ${(p) => `
-    color: ${tokens.colors[p.theme.mode].text};
+  ${({ theme }) => `
+    color: ${tokens.colors[theme.mode].text};
   `}
 `
 
 const MaxContainer = styled.div<{ suffix: ReactNode }>`
   display: flex;
   align-items: center;
-  ${(p) => p.suffix && `padding-right: ${tokens.space['4']};`}
+  ${({ suffix }) => suffix && `padding-right: ${tokens.space['4']};`}
 `
 
 const MaxButton = styled.button`
-  ${(p) => `
-      background-color: ${tokens.colors[p.theme.mode].foregroundSecondary};
+  ${({ theme }) => `
+      background-color: ${tokens.colors[theme.mode].foregroundSecondary};
       border-radius: ${tokens.radii['medium']};
-      color: ${tokens.colors[p.theme.mode].textSecondary};
+      color: ${tokens.colors[theme.mode].textSecondary};
       cursor: pointer;
       font-size: ${tokens.fontSizes['label']};
       font-weight: ${tokens.fontWeights['semiBold']};
@@ -247,7 +247,7 @@ const MaxButton = styled.button`
       visibility: hidden;
       
       &:hover {
-        color: ${tokens.colors[p.theme.mode].text};
+        color: ${tokens.colors[theme.mode].text};
       }
       
       ${InputParent}:hover & {

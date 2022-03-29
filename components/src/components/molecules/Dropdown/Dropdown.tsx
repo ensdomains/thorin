@@ -27,8 +27,8 @@ const DropdownMenuContainer = styled.div<DropdownMenuContainer>`
   border-radius: ${tokens.radii['medium']};
   position: absolute;
 
-  ${(p) =>
-    p.opened
+  ${({ opened }) =>
+    opened
       ? `
     visibility: visible;
     opacity: 100;
@@ -39,16 +39,16 @@ const DropdownMenuContainer = styled.div<DropdownMenuContainer>`
     opacity: 0;
   `}
 
-  ${(p) =>
-    p.inner
+  ${({ theme, inner }) =>
+    inner
       ? `
-    background-color: ${tokens.colors[p.theme.mode].grey};
+    background-color: ${tokens.colors[theme.mode].grey};
     border-radius: ${tokens.radii.almostExtraLarge};
     border-top-radius: none;
     box-shadow: 0;
     border-width: ${tokens.space['px']};
     border-top-width: 0;
-    border-color: ${tokens.colors[p.theme.mode].borderSecondary};
+    border-color: ${tokens.colors[theme.mode].borderSecondary};
     padding-top: ${tokens.space['2.5']};
     padding: 0 ${tokens.space['1.5']};
     padding-bottom: ${tokens.space['1.5']};
@@ -57,8 +57,8 @@ const DropdownMenuContainer = styled.div<DropdownMenuContainer>`
   `
       : `
     padding: ${tokens.space['1.5']};
-    background-color: ${tokens.colors[p.theme.mode].groupBackground};
-    box-shadow: ${tokens.boxShadows[p.theme.mode]['0.02']};
+    background-color: ${tokens.colors[theme.mode].groupBackground};
+    box-shadow: ${tokens.boxShadows[theme.mode]['0.02']};
     border-radius: ${tokens.radii['2xLarge']};
   `}
 
@@ -122,25 +122,25 @@ const MenuButton = styled.button<MenuButtonProps>`
     filter: brightness(1);
   }
 
-  ${(p) => `
-    color: ${tokens.colors[p.theme.mode][p.color || 'accent']};
+  ${({ theme, color }) => `
+    color: ${tokens.colors[theme.mode][color || 'accent']};
   
     &:disabled {
-      color: ${tokens.colors[p.theme.mode].textTertiary}
+      color: ${tokens.colors[theme.mode].textTertiary}
     }
   `}
 
-  ${(p) => {
-    if (p.inner)
+  ${({ theme, inner }) => {
+    if (inner)
       return `
       justify-content: center;
     
       &:hover {
-        color: ${tokens.colors[p.theme.mode].accent};
+        color: ${tokens.colors[theme.mode].accent};
       }
     `
 
-    if (!p.inner)
+    if (!inner)
       return `
       justify-content: flex-start;
       
@@ -151,10 +151,10 @@ const MenuButton = styled.button<MenuButtonProps>`
     `
   }}
 
-  ${(p) => {
-    if (p.inner && !p.hasColor)
+  ${({ theme, inner, hasColor }) => {
+    if (inner && !hasColor)
       return `
-      color: ${tokens.colors[p.theme.mode].textSecondary};  
+      color: ${tokens.colors[theme.mode].textSecondary};  
     `
   }}
 `
@@ -218,12 +218,12 @@ const InnerMenuButton = styled.button<InnerMenuButton>`
   cursor: pointer;
   position: relative;
 
-  ${(p) => `
-    border-color: ${tokens.colors[p.theme.mode].borderSecondary};
+  ${({ theme }) => `
+    border-color: ${tokens.colors[theme.mode].borderSecondary};
   `}
 
-  ${(p) => {
-    switch (p.size) {
+  ${({ size }) => {
+    switch (size) {
       case 'small':
         return `
           padding: ${tokens.space['0.5']} ${tokens.space['0.25']};
@@ -237,32 +237,32 @@ const InnerMenuButton = styled.button<InnerMenuButton>`
     }
   }}
 
-  ${(p) => {
-    if (p.open)
+  ${({ theme, open }) => {
+    if (open)
       return `
       border-top-left-radius: ${tokens.radii['almostExtraLarge']};
       border-top-right-radius: ${tokens.radii['almostExtraLarge']};
       border-bottom-left-radius: none;
       border-bottom-right-radius: none;
       border-bottom-width: 0;
-      background-color: ${tokens.colors[p.theme.mode].grey};
-      color: ${tokens.colors[p.theme.mode].textTertiary};
+      background-color: ${tokens.colors[theme.mode].grey};
+      color: ${tokens.colors[theme.mode].textTertiary};
       transition: 0.35s all cubic-bezier(1, 0, 0.22, 1.6), 0.3s color ease-in-out, 0.2s border-radius ease-in-out, 0s border-width 0.1s;
       
       &:hover {
-        color: ${tokens.colors[p.theme.mode].accent};
+        color: ${tokens.colors[theme.mode].accent};
       }
       `
-    if (!p.open)
+    if (!open)
       return `
-      background-color: ${tokens.colors[p.theme.mode].background};
-      color: ${tokens.colors[p.theme.mode].textSecondary};
+      background-color: ${tokens.colors[theme.mode].background};
+      color: ${tokens.colors[theme.mode].textSecondary};
       border-radius: ${tokens.radii['almostExtraLarge']};
-      box-shadow: ${tokens.boxShadows[p.theme.mode]['0.02']};
+      box-shadow: ${tokens.boxShadows[theme.mode]['0.02']};
       transition: 0.35s all cubic-bezier(1, 0, 0.22, 1.6), 0.15s color ease-in-out, 0s border-width 0.15s, 0.15s border-color ease-in-out;
       
       &:hover {
-        border-color: ${tokens.colors[p.theme.mode].border};
+        border-color: ${tokens.colors[theme.mode].border};
       }
       `
   }}
@@ -284,8 +284,8 @@ const Chevron = styled(IconDownIndicatorSvg)<{ open: boolean }>`
   }
   fill: currentColor;
 
-  ${(p) =>
-    p.open &&
+  ${({ open }) =>
+    open &&
     `
       opacity: 1;
       transform: rotate(180deg);

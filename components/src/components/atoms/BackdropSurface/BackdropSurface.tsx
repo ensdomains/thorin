@@ -9,12 +9,12 @@ const Container = styled.div`
   position: fixed;
   overflow: hidden;
   top: 0;
-  ${(p) => `
-    backgroundColor: ${tokens.shades[p.theme.mode].backgroundHideFallback};
+  ${({ theme }) => `
+    backgroundColor: ${tokens.shades[theme.mode].backgroundHideFallback};
     
     @supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
     backdrop-filter: blur(30px);
-    background-color: ${tokens.shades[p.theme.mode].backgroundHide};
+    background-color: ${tokens.shades[theme.mode].backgroundHide};
   }
   `}
 `

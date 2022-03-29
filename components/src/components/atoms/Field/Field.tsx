@@ -72,11 +72,11 @@ interface ContainerProps {
   inline?: boolean
 }
 const Container = styled.div<ContainerProps>`
-  ${(p) => (p.inline ? 'align-items: center' : '')};
+  ${({ inline }) => (inline ? 'align-items: center' : '')};
   display: flex;
-  flex-direction: ${(p) => (p.inline ? 'row' : 'column')};
+  flex-direction: ${({ inline }) => (inline ? 'row' : 'column')};
   gap: ${tokens.space[2]};
-  width: ${(p) => tokens.space[p.width]};
+  width: ${({ width }) => tokens.space[width]};
 `
 
 const ContainerInner = styled.div`
@@ -87,11 +87,11 @@ const ContainerInner = styled.div`
 
 const Description = styled.div<{ mode: Mode }>`
   padding: 0 ${tokens.space['4']};
-  color: ${(p) => tokens.shades[p.mode].textSecondary};
+  color: ${({ mode }) => tokens.shades[mode].textSecondary};
 `
 
 const Error = styled.div`
-  color: ${(p) => tokens.colors[p.theme.mode].red};
+  color: ${({ theme }) => tokens.colors[theme.mode].red};
   padding: 0 ${tokens.space[4]};
 `
 

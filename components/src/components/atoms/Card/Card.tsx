@@ -17,10 +17,9 @@ const Container = styled.div<{ dark: boolean; shadow?: boolean }>`
       ? `background-color: ${tokens.colors.base.black};`
       : `background-color: ${tokens.colors.base.white};`}
 
-  ${(p) => `background-color: ${p.dark ? `black` : `white`}`};
-  ${(p) =>
-    !p.dark &&
-    p.shadow &&
+  ${({ dark, shadow }) =>
+    !dark &&
+    shadow &&
     `
         box-shadow: 0px 0px ${tokens.radii['2xLarge']} rgba(0,0,0,0.1);
         border-radius: ${tokens.radii['2xLarge']};

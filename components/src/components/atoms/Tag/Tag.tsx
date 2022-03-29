@@ -18,16 +18,16 @@ const Container = styled.div<ContainerProps>`
   font-weight: ${tokens.fontWeights['medium']};
   width: ${tokens.space['max']};
 
-  ${(p) =>
-    p.hover &&
+  ${({ hover }) =>
+    hover &&
     `
       transition-duration: ${tokens.transitionDuration['150']};
       transition-property: colors;
       transition-timing-function: ${tokens.transitionTimingFunction['inOut']};
   `}
 
-  ${(p) => {
-    switch (p.size) {
+  ${({ size }) => {
+    switch (size) {
       case 'small':
         return `
           height: ${tokens.space['5']};
@@ -43,37 +43,37 @@ const Container = styled.div<ContainerProps>`
     }
   }}
 
-  ${(p) => {
-    switch (p.tone) {
+  ${({ tone, theme }) => {
+    switch (tone) {
       case 'accent':
         return `
-          color: ${tokens.colors[p.theme.mode].accent};
-          background-color: ${tokens.colors[p.theme.mode].accentTertiary};
+          color: ${tokens.colors[theme.mode].accent};
+          background-color: ${tokens.colors[theme.mode].accentTertiary};
         `
       case 'secondary':
         return `
-          color: ${tokens.colors[p.theme.mode].textTertiary};
-          background-color: ${tokens.colors[p.theme.mode].foregroundTertiary};
+          color: ${tokens.colors[theme.mode].textTertiary};
+          background-color: ${tokens.colors[theme.mode].foregroundTertiary};
         `
       case 'blue':
         return `
-          color: ${tokens.colors[p.theme.mode].blue};
-          background-color: rgba(${
-            tokens.accentsRaw[p.theme.mode].blue
-          }, calc(${tokens.shades[p.theme.mode].accentSecondary} * 0.5));
+          color: ${tokens.colors[theme.mode].blue};
+          background-color: rgba(${tokens.accentsRaw[theme.mode].blue}, calc(${
+          tokens.shades[theme.mode].accentSecondary
+        } * 0.5));
         `
       case 'green':
         return `
-          color: ${tokens.colors[p.theme.mode].green};
-          background-color: rgba(${
-            tokens.accentsRaw[p.theme.mode].green
-          }, calc(${tokens.shades[p.theme.mode].accentSecondary} * 0.5));
+          color: ${tokens.colors[theme.mode].green};
+          background-color: rgba(${tokens.accentsRaw[theme.mode].green}, calc(${
+          tokens.shades[theme.mode].accentSecondary
+        } * 0.5));
         `
       case 'red':
         return `
-          color: ${tokens.colors[p.theme.mode].red};
-          background-color: rgba(${tokens.accentsRaw[p.theme.mode].red}, calc(${
-          tokens.shades[p.theme.mode].accentSecondary
+          color: ${tokens.colors[theme.mode].red};
+          background-color: rgba(${tokens.accentsRaw[theme.mode].red}, calc(${
+          tokens.shades[theme.mode].accentSecondary
         } * 0.5));
         `
       default:

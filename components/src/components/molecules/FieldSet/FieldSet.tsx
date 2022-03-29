@@ -29,8 +29,8 @@ const Row = styled.div`
 `
 
 const Description = styled.div`
-  ${(p) => `
-    color: ${tokens.colors[p.theme.mode].textSecondary};
+  ${({ theme }) => `
+    color: ${tokens.colors[theme.mode].textSecondary};
     font-size: ${tokens.fontSizes.base};
   `}
 `

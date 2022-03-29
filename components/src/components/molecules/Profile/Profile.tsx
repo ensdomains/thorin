@@ -41,8 +41,8 @@ const Container = styled.div<ContainerProps>`
   padding: ${tokens.space['2']} ${tokens.space['4']} ${tokens.space['2']}
     ${tokens.space['2.5']};
 
-  ${(p) =>
-    p.hasChevron &&
+  ${({ hasChevron }) =>
+    hasChevron &&
     `
       cursor: pointer;
       &:hover {
@@ -51,20 +51,20 @@ const Container = styled.div<ContainerProps>`
       }
   `}
 
-  ${(p) =>
-    p.open
+  ${({ open, theme }) =>
+    open
       ? `
       box-shadow: ${tokens.shadows['0']};
-      background-color: ${tokens.colors[p.theme.mode].foregroundSecondary};
+      background-color: ${tokens.colors[theme.mode].foregroundSecondary};
   `
       : `
       box-shadow: ${tokens.shadows['0.25']};
-      color: ${tokens.colors[p.theme.mode].foregroundSecondary};
-      background-color: ${tokens.colors[p.theme.mode].groupBackground};
+      color: ${tokens.colors[theme.mode].foregroundSecondary};
+      background-color: ${tokens.colors[theme.mode].groupBackground};
   `}
 
-  ${(p) => {
-    switch (p.size) {
+  ${({ size }) => {
+    switch (size) {
       case 'small':
         return `
           max-width: ${tokens.space['48']};
@@ -116,8 +116,8 @@ const Chevron = styled(IconDownIndicatorSvg)<{ open: boolean }>`
   }
   fill: currentColor;
 
-  ${(p) =>
-    p.open &&
+  ${({ open }) =>
+    open &&
     `
       opacity: 1;
       transform: rotate(180deg);
@@ -127,7 +127,7 @@ const Chevron = styled(IconDownIndicatorSvg)<{ open: boolean }>`
 const ProfileInnerContainer = styled.div<{
   size?: 'small' | 'medium' | 'large'
 }>`
-  display: ${(p) => (p.size === 'small' ? 'none' : 'block')};
+  display: ${({ size }) => (size === 'small' ? 'none' : 'block')};
   margin: 0 ${tokens.space['1.5']};
   min-width: ${tokens.space['none']};
 `

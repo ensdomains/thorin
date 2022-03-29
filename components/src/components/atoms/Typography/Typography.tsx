@@ -7,7 +7,6 @@ type Variants = 'small' | 'large' | 'extraLarge' | 'label' | 'labelHeading'
 
 type Weights = 'bold' | 'semiBold' | 'medium' | 'normal' | 'light'
 type Fonts = 'sans' | 'mono'
-type Aligns = 'left' | 'right' | 'center'
 
 interface ContainerProps {
   ellipsis?: boolean
@@ -107,7 +106,6 @@ type Props = {
   className?: string
   weight?: Weights
   font?: Fonts
-  align?: Aligns
   color?: Colors
   size?: 'small' | 'base'
 }

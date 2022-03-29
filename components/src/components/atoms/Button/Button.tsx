@@ -129,23 +129,23 @@ const ButtonElement = styled.button<ButtonElement>`
     filter: brightness(1);
   }
 
-  ${(p) => `
-    ${p.disabled ? `cursor: not-allowed` : ``};
-    ${p.center ? `position: relative` : ``};
-    ${p.pressed ? `brightness(0.95)` : ``};
-    ${p.shadowless ? `box-shadow: none !important` : ``};
+  ${({ theme, disabled, center, pressed, shadowless }) => `
+    ${disabled ? `cursor: not-allowed` : ``};
+    ${center ? `position: relative` : ``};
+    ${pressed ? `brightness(0.95)` : ``};
+    ${shadowless ? `box-shadow: none !important` : ``};
     
-    box-shadow: ${tokens.shadows['0.25']} ${tokens.colors[p.theme.mode].grey};
+    box-shadow: ${tokens.shadows['0.25']} ${tokens.colors[theme.mode].grey};
     
     &:disabled {
-      background-color: ${tokens.colors[p.theme.mode].grey};
+      background-color: ${tokens.colors[theme.mode].grey};
       transform: translateY(0px);
       filter: brightness(1);
     }
   `}
 
-  ${(p) => {
-    switch (p.shape) {
+  ${({ shape }) => {
+    switch (shape) {
       case 'circle':
         return `
           border-radius: ${tokens.radii.full};
@@ -154,8 +154,8 @@ const ButtonElement = styled.button<ButtonElement>`
         return ``
     }
   }}
-  ${(p) => {
-    switch (p.size) {
+  ${({ size }) => {
+    switch (size) {
       case 'extraSmall':
         return `
           border-radius: ${tokens.radii.large};
@@ -179,41 +179,33 @@ const ButtonElement = styled.button<ButtonElement>`
         return ``
     }
   }}
-  ${(p) => {
-    switch (p.variant) {
+  ${({ theme, variant, tone }) => {
+    switch (variant) {
       case 'primary':
         return `
-          color: ${getAccentColour(p.theme.mode, p.tone, 'accentText')};
-          background: ${getAccentColour(p.theme.mode, p.tone, 'accent')};
+          color: ${getAccentColour(theme.mode, tone, 'accentText')};
+          background: ${getAccentColour(theme.mode, tone, 'accent')};
         `
       case 'secondary':
         return `
-          color: ${tokens.colors[p.theme.mode].textSecondary};
-          background: ${tokens.colors[p.theme.mode].grey};
+          color: ${tokens.colors[theme.mode].textSecondary};
+          background: ${tokens.colors[theme.mode].grey};
         `
       case 'action':
         return `
-          color: ${getAccentColour(p.theme.mode, p.tone, 'accentText')};
-          background: ${getAccentColour(
-            p.theme.mode,
-            p.tone,
-            'accentGradient',
-          )};
+          color: ${getAccentColour(theme.mode, tone, 'accentText')};
+          background: ${getAccentColour(theme.mode, tone, 'accentGradient')};
         `
       case 'transparent':
         return `
-          color: ${tokens.colors[p.theme.mode].textTertiary};
+          color: ${tokens.colors[theme.mode].textTertiary};
           
           &:hover {
-              background-color: ${
-                tokens.colors[p.theme.mode].foregroundTertiary
-              };
+              background-color: ${tokens.colors[theme.mode].foregroundTertiary};
           }
           
           &:active {
-              background-color: ${
-                tokens.colors[p.theme.mode].foregroundTertiary
-              };
+              background-color: ${tokens.colors[theme.mode].foregroundTertiary};
           }
         `
       default:

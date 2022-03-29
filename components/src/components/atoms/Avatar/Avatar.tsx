@@ -33,12 +33,12 @@ const Container = styled.div<Container>`
     }
   }}
 
-  ${(p) =>
-    !p.noBorder &&
+  ${({ theme, noBorder }) =>
+    !noBorder &&
     `
       &:after {
       box-shadow: ${tokens.shadows['-px']} ${
-      tokens.colors[p.theme.mode].foregroundTertiary
+      tokens.colors[theme.mode].foregroundTertiary
     };
     content: '';
     inset: 0;
@@ -62,8 +62,8 @@ const Container = styled.div<Container>`
 `
 
 const Placeholder = styled.div`
-  ${(p) => `
-    background: ${tokens.colors[p.theme.mode].gradients.blue};
+  ${({ theme }) => `
+    background: ${tokens.colors[theme.mode].gradients.blue};
   `}
 
   display: flex;
