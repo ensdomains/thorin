@@ -11,7 +11,7 @@ import { FileInput } from '@ensdomains/thorin'
 <FileInput onChange={(file) => alert(file)}>
   {(context) =>
     context.name ? (
-      <Stack align="center" direction="horizontal">
+      <div>
         {context.name}
         <Button
           shape="circle"
@@ -22,9 +22,9 @@ import { FileInput } from '@ensdomains/thorin'
           <VisuallyHidden>Remove</VisuallyHidden>
           <IconClose />
         </Button>
-      </Stack>
+      </div>
     ) : (
-      <Box>{context.droppable ? 'Drop file' : 'Attach file'}</Box>
+      <div>{context.droppable ? 'Drop file' : 'Attach file'}</div>
     )
   }
 </FileInput>
@@ -44,7 +44,7 @@ import { FileInput } from '@ensdomains/thorin'
 >
   {(context) =>
     context.name ? (
-      <Stack align="center" direction="horizontal">
+      <div>
         {context.name}
         <Button
           shape="circle"
@@ -55,9 +55,9 @@ import { FileInput } from '@ensdomains/thorin'
           <VisuallyHidden>Remove</VisuallyHidden>
           <IconClose />
         </Button>
-      </Stack>
+      </div>
     ) : (
-      <Box>{context.droppable ? 'Drop file' : 'Attach file (max 10kb)'}</Box>
+      <div>{context.droppable ? 'Drop file' : 'Attach file (max 10kb)'}</div>
     )
   }
 </FileInput>

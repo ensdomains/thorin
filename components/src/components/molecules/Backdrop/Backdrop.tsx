@@ -1,8 +1,18 @@
 import * as React from 'react'
+import styled from 'styled-components'
 
-import { Box, Portal } from '../..'
+import { Portal } from '../..'
 
 import { BackdropSurface } from '../../atoms/BackdropSurface'
+import { tokens } from '@/src/tokens'
+
+const Container = styled.div`
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  height: ${tokens.space.full};
+  width: ${tokens.space.full};
+`
 
 type Props = {
   children: React.ReactNode
@@ -21,16 +31,7 @@ export const Backdrop = ({ children, surface, onDismiss, open }: Props) => {
   return open ? (
     <Portal className="modal">
       <Background onClick={dismissClick}>
-        <Box
-          alignItems="center"
-          display="flex"
-          height="full"
-          justifyContent="center"
-          ref={boxRef}
-          width="full"
-        >
-          {children}
-        </Box>
+        <Container ref={boxRef}>{children}</Container>
       </Background>
     </Portal>
   ) : null

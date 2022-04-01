@@ -1,35 +1,50 @@
 import * as React from 'react'
+import styled, { useTheme } from 'styled-components'
 
-import { Box, BoxProps } from '../Box'
-import { useTheme } from '../ThemeProvider'
-import * as styles from './styles.css'
+import { largerThan } from '@/src/utils/responsiveHelpers'
+import { tokens } from '@/src/tokens'
+
+const Container = styled.div<{ dark: boolean; shadow?: boolean }>`
+  padding: ${tokens.space['6']};
+  border-radius: ${tokens.radii['2xLarge']};
+
+  ${largerThan.lg`
+    border-radius: ${tokens.radii['3xLarge']};
+  `}
+
+  ${({ dark }) =>
+    dark
+      ? `background-color: ${tokens.colors.base.black};`
+      : `background-color: ${tokens.colors.base.white};`}
+
+  ${({ dark, shadow }) =>
+    !dark &&
+    shadow &&
+    `
+        box-shadow: 0px 0px ${tokens.radii['2xLarge']} rgba(0,0,0,0.1);
+        border-radius: ${tokens.radii['2xLarge']};
+        
+        ${largerThan.lg`
+            box-shadow: 0px 0px ${tokens.radii['3xLarge']} rgba(0,0,0,0.1);
+            border-radius: ${tokens.radii['3xLarge']};
+        `}
+    `}
+`
 
 export type Props = {
-  as?: BoxProps['as']
   shadow?: boolean
-  padding?: BoxProps['padding']
-  width?: BoxProps['width']
 }
 
-export const Card = ({
-  as = 'div',
-  children,
-  padding,
-  shadow,
-  width,
-}: React.PropsWithChildren<Props>) => {
+export const Card = ({ children, shadow }: React.PropsWithChildren<Props>) => {
   const { mode, forcedMode } = useTheme()
   return (
-    <Box
-      as={as}
-      className={styles.variants({
+    <Container
+      {...{
         dark: (forcedMode ?? mode) === 'dark',
         shadow,
-      })}
-      padding={padding}
-      width={width}
+      }}
     >
       {children}
-    </Box>
+    </Container>
   )
 }

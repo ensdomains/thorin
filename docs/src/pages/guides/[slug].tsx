@@ -9,7 +9,7 @@ import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { serialize } from 'next-mdx-remote/serialize'
 import matter from 'gray-matter'
 
-import { Box, Typography } from '@ensdomains/thorin/components'
+import { Typography, tokens } from '@ensdomains/thorin'
 
 import { Props as LayoutProps, getLayout } from '~/layouts/docs'
 import { getGuideName, getGuidePaths } from '~/utils/fs'
@@ -61,13 +61,13 @@ const Page: NextPageWithLayout<Props> = ({ docsLink, source }: Props) => {
     <>
       <MDXRemote {...source} scope={source.scope} />
 
-      <Box marginTop="20">
+      <div style={{ marginTop: tokens.space['20'] }}>
         <Link href={docsLink}>
           <Typography color="textTertiary" size="small">
             Edit on GitHub
           </Typography>
         </Link>
-      </Box>
+      </div>
     </>
   )
 }

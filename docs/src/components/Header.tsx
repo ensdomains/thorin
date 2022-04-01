@@ -1,26 +1,36 @@
 import * as React from 'react'
+import styled from 'styled-components'
 
-import { Box, Heading, Stack, Typography } from '@ensdomains/thorin/components'
+import { Heading, Typography, tokens } from '@ensdomains/thorin'
 
 type Props = {
   description?: React.ReactNode
   title: React.ReactNode
 }
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${tokens.space['10']};
+`
+
+const Description = styled(Typography)`
+  ${({ theme }) => `
+      color: ${tokens.colors[theme.mode].textSecondary};
+      font-size: ${tokens.fontSizes['extraLarge']};
+  `}
+`
+
 export const Header = ({ description, title }: Props) => {
   return (
-    <Box as="header" marginBottom={description ? '16' : '10'}>
-      <Stack space="10">
+    <header style={{ marginBottom: description ? 16 : 10 }}>
+      <Container>
         <Heading color="foreground" level="1">
           {title}
         </Heading>
 
-        {description && (
-          <Typography color="textSecondary" size="extraLarge">
-            {description}
-          </Typography>
-        )}
-      </Stack>
-    </Box>
+        {description && <Description>{description}</Description>}
+      </Container>
+    </header>
   )
 }

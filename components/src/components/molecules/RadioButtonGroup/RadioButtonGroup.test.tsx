@@ -1,6 +1,8 @@
 import * as React from 'react'
 import { useState } from 'react'
 
+import { ThemeProvider } from 'styled-components'
+
 import { cleanup, render, screen, userEvent } from '@/test'
 
 import { RadioButtonGroup } from './RadioButtonGroup'
@@ -10,16 +12,18 @@ import { FieldSet, RadioButton } from '@/src'
 const RadioButtonGroupWithState = () => {
   const [state, setState] = useState<boolean>(false)
   return (
-    <FieldSet
-      data-testid="radio-group"
-      legend={`Radio Buttons - Current Value: ${state || '30'}`}
-    >
-      <RadioButtonGroup onChange={(val) => setState(val)}>
-        <RadioButton label="10" name="RadioButtonGroup" value="10" />
-        <RadioButton label="20" name="RadioButtonGroup" value="20" />
-        <RadioButton checked label="30" name="RadioButtonGroup" value="30" />
-      </RadioButtonGroup>
-    </FieldSet>
+    <ThemeProvider theme={{ mode: 'light' }}>
+      <FieldSet
+        data-testid="radio-group"
+        legend={`Radio Buttons - Current Value: ${state || '30'}`}
+      >
+        <RadioButtonGroup onChange={(val) => setState(val)}>
+          <RadioButton label="10" name="RadioButtonGroup" value="10" />
+          <RadioButton label="20" name="RadioButtonGroup" value="20" />
+          <RadioButton checked label="30" name="RadioButtonGroup" value="30" />
+        </RadioButtonGroup>
+      </FieldSet>
+    </ThemeProvider>
   )
 }
 
@@ -51,24 +55,26 @@ describe('<RadioButtonGroup />', () => {
     const PlainJaneRadios = () => {
       const [state, setState] = useState<boolean>(false)
       return (
-        <FieldSet
-          data-testid="radio-group"
-          legend={`Radio Buttons - Current Value: ${state || '30'}`}
-        >
-          <RadioButtonGroup onChange={(val) => setState(val)}>
-            <input id="html" name="fav_language" type="radio" value="HTML" />
-            <label htmlFor="html">HTML</label>
-            <input id="css" name="fav_language" type="radio" value="CSS" />
-            <label htmlFor="css">CSS</label>
-            <input
-              id="javascript"
-              name="fav_language"
-              type="radio"
-              value="JavaScript"
-            />
-            <label htmlFor="javascript">JavaScript</label>
-          </RadioButtonGroup>
-        </FieldSet>
+        <ThemeProvider theme={{ mode: 'light' }}>
+          <FieldSet
+            data-testid="radio-group"
+            legend={`Radio Buttons - Current Value: ${state || '30'}`}
+          >
+            <RadioButtonGroup onChange={(val) => setState(val)}>
+              <input id="html" name="fav_language" type="radio" value="HTML" />
+              <label htmlFor="html">HTML</label>
+              <input id="css" name="fav_language" type="radio" value="CSS" />
+              <label htmlFor="css">CSS</label>
+              <input
+                id="javascript"
+                name="fav_language"
+                type="radio"
+                value="JavaScript"
+              />
+              <label htmlFor="javascript">JavaScript</label>
+            </RadioButtonGroup>
+          </FieldSet>
+        </ThemeProvider>
       )
     }
 

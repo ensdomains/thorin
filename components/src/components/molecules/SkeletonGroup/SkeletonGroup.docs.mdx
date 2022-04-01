@@ -21,7 +21,7 @@ import { SkeletonGroup } from '@ensdomains/thorin'
 
 ```tsx live=true
 <SkeletonGroup loading={getState('loading')}>
-  <Stack>
+  <div>
     <Skeleton>
       <Heading level="1">Foo Bar Baz</Heading>
     </Skeleton>
@@ -32,6 +32,6 @@ import { SkeletonGroup } from '@ensdomains/thorin'
     <Button size="small" onClick={() => toggleState('loading')}>
       Toggle Skeletons
     </Button>
-  </Stack>
+  </div>
 </SkeletonGroup>
 ```

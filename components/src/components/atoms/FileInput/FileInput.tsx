@@ -2,7 +2,6 @@ import * as React from 'react'
 
 import { ReactNodeNoStrings } from '../../../types'
 import { useFieldIds } from '../../../hooks'
-import { Box } from '../Box'
 import { VisuallyHidden } from '../VisuallyHidden'
 import { validateAccept } from './utils'
 
@@ -62,7 +61,7 @@ export const FileInput = React.forwardRef(
       onFocus,
       onReset,
     }: Props,
-    ref: React.Ref<HTMLElement>,
+    ref: React.Ref<HTMLDivElement>,
   ) => {
     const defaultRef = React.useRef<HTMLInputElement>(null)
     const inputRef = (ref as React.RefObject<HTMLInputElement>) || defaultRef
@@ -108,7 +107,7 @@ export const FileInput = React.forwardRef(
     )
 
     const handleDragOver = React.useCallback(
-      (event: React.DragEvent<HTMLInputElement>) => {
+      (event: React.DragEvent<HTMLLabelElement>) => {
         event.preventDefault()
         setState((x) => ({ ...x, droppable: true }))
       },
@@ -116,7 +115,7 @@ export const FileInput = React.forwardRef(
     )
 
     const handleDragLeave = React.useCallback(
-      (event: React.DragEvent<HTMLInputElement>) => {
+      (event: React.DragEvent<HTMLLabelElement>) => {
         event.preventDefault()
         setState((x) => ({ ...x, droppable: false }))
       },
@@ -124,7 +123,7 @@ export const FileInput = React.forwardRef(
     )
 
     const handleDrop = React.useCallback(
-      (event: React.DragEvent<HTMLInputElement>) => {
+      (event: React.DragEvent<HTMLLabelElement>) => {
         event.preventDefault()
         setState((x) => ({ ...x, droppable: false }))
         let file: File | null
@@ -194,12 +193,11 @@ export const FileInput = React.forwardRef(
     }, [state.file])
 
     return (
-      <Box ref={ref}>
+      <div ref={ref}>
         <VisuallyHidden>
-          <Box
+          <input
             accept={accept}
             aria-invalid={hasError}
-            as="input"
             autoFocus={autoFocus}
             disabled={disabled}
             name={name}
@@ -214,16 +212,15 @@ export const FileInput = React.forwardRef(
           />
         </VisuallyHidden>
 
-        <Box
-          as="label"
+        <label
           {...ids.label}
           onDragLeave={handleDragLeave}
           onDragOver={handleDragOver}
           onDrop={handleDrop}
         >
           {children({ ...state, reset })}
-        </Box>
-      </Box>
+        </label>
+      </div>
     )
   },
 )

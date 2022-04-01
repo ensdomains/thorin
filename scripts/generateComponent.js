@@ -103,7 +103,7 @@ const componentsDir = path.join(baseDir, 'components/src/components')
       dedent`
           import * as React from 'react'
 
-          import { Snippet } from '!/playroom/src/types'
+          import { Snippet } from '../../../types'
           import { ${componentName} } from './${componentName}'
 
           export const snippets: Snippet[] = [

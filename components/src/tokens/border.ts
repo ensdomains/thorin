@@ -18,13 +18,13 @@ export const borderWidths = {
 
 export const radii = {
   none: '0',
-  medium: '0.375rem',
-  large: '0.5rem',
-  almostExtraLarge: '0.625rem',
-  extraLarge: '0.75rem',
-  '2xLarge': '1rem',
-  '2.5xLarge': '1.25rem',
-  '3xLarge': '1.5rem',
-  '4xLarge': '2.5rem',
+  medium: '6px',
+  large: '8px',
+  almostExtraLarge: '10px',
+  extraLarge: '12px',
+  '2xLarge': '16px',
+  '2.5xLarge': '20px',
+  '3xLarge': '24px',
+  '4xLarge': '40px',
   full: '9999px',
 }

@@ -22,7 +22,7 @@ jobs:
       - name: Install dependencies
         run: yarn install
       - name: Build
-        run: yarn setup && yarn workspace @ensdomains/thorin build
+        run: yarn workspace @ensdomains/thorin build
 
   lint:
     name: Lint
@@ -39,6 +39,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
         run: yarn install
+      - name: build
+        run: cd ./components && yarn build
       - name: Lint
         run: yarn lint
       - name: Check types

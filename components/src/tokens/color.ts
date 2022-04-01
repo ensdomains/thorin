@@ -14,7 +14,7 @@ export type Accent =
 
 export type Gradients = 'blue' | 'green' | 'red'
 
-const accents: { [key in Mode]: { [key in Accent]: string } } = {
+export const accentsRaw: { [key in Mode]: { [key in Accent]: string } } = {
   light: {
     blue: '82, 152, 255',
     green: '73, 179, 147',
@@ -41,6 +41,33 @@ const accents: { [key in Mode]: { [key in Accent]: string } } = {
   },
 }
 
+export const accents: { [key in Mode]: { [key in Accent]: string } } = {
+  light: {
+    blue: `rgb(${accentsRaw.light.blue})`,
+    green: `rgb(${accentsRaw.light.green})`,
+    indigo: `rgb(${accentsRaw.light.indigo})`,
+    orange: `rgb(${accentsRaw.light.orange})`,
+    pink: `rgb(${accentsRaw.light.pink})`,
+    purple: `rgb(${accentsRaw.light.purple})`,
+    red: `rgb(${accentsRaw.light.red})`,
+    teal: `rgb(${accentsRaw.light.teal})`,
+    yellow: `rgb(${accentsRaw.light.yellow})`,
+    grey: `rgb(${accentsRaw.light.grey})`,
+  },
+  dark: {
+    blue: `rgb(${accentsRaw.dark.blue})`,
+    green: `rgb(${accentsRaw.dark.green})`,
+    indigo: `rgb(${accentsRaw.dark.indigo})`,
+    orange: `rgb(${accentsRaw.dark.orange})`,
+    pink: `rgb(${accentsRaw.dark.pink})`,
+    purple: `rgb(${accentsRaw.dark.purple})`,
+    red: `rgb(${accentsRaw.dark.red})`,
+    teal: `rgb(${accentsRaw.dark.teal})`,
+    yellow: `rgb(${accentsRaw.dark.yellow})`,
+    grey: `rgb(${accentsRaw.dark.grey})`,
+  },
+}
+
 const gradients: { [key in Mode]: { [key in Gradients]: string } } = {
   light: {
     blue: 'linear-gradient(330.4deg, #44BCF0 4.54%, #7298F8 59.2%, #A099FF 148.85%)',
@@ -53,36 +80,6 @@ const gradients: { [key in Mode]: { [key in Gradients]: string } } = {
     green:
       'linear-gradient(90deg, rgba(68,240,127,1) 4.54%, rgba(114,248,176,1) 59.2%, rgba(153,202,255,1) 148.85%)',
     red: 'linear-gradient(90deg, rgba(240,68,87,1) 4.54%, rgba(248,114,149,1) 59.2%, rgba(212,153,255,1) 148.85%)',
-  },
-}
-
-export const colors = {
-  base: {
-    black: 'rgb(0, 0, 0)',
-    white: 'rgb(255, 255, 255)',
-    current: 'currentColor',
-    inherit: 'inherit',
-    transparent: 'transparent',
-  },
-  light: {
-    background: '255, 255, 255',
-    backgroundSecondary: '246, 246, 248',
-    backgroundTertiary: '246, 246, 248',
-    foreground: '0, 0, 0',
-    groupBackground: '253, 253, 255',
-    groupBorder: '0, 0, 0',
-    gradients: gradients.light,
-    ...accents.light,
-  },
-  dark: {
-    background: '20, 20, 20',
-    backgroundSecondary: '10, 10, 10',
-    backgroundTertiary: '20, 20, 20',
-    foreground: '255, 255, 255',
-    groupBackground: '10, 10, 10',
-    groupBorder: '255, 255, 255',
-    gradients: gradients.dark,
-    ...accents.dark,
   },
 }
 
@@ -126,5 +123,67 @@ export const shades = {
     textTertiary: '0.35',
     textTertiaryHover: '0.4',
     textPlaceholder: '0.25',
+  },
+}
+
+export const colors = {
+  base: {
+    black: 'rgb(0, 0, 0)',
+    white: 'rgb(255, 255, 255)',
+    current: 'currentColor',
+    inherit: 'inherit',
+    transparent: 'transparent',
+  },
+  light: {
+    accent: `${accents.light.blue}`,
+    accentSecondary: `rgba(${accentsRaw.light.blue}, ${shades.light.accentSecondary})`,
+    accentSecondaryHover: `rgba(${accentsRaw.light.blue}, ${shades.light.accentSecondary})`,
+    accentTertiary: `rgba(${accentsRaw.light.blue}, calc(${shades.light.accentSecondary} * 0.5))`,
+    accentText: 'rgb(255, 255, 255)',
+    accentGradient: gradients.light.blue,
+    background: 'rgb(255, 255, 255)',
+    backgroundHide: `rgba(0,0,0, ${shades.light.backgroundHide})`,
+    backgroundSecondary: 'rgb(246, 246, 248)',
+    backgroundTertiary: '246, 246, 248',
+    border: `rgb(0,0,0, ${shades.light.border})`,
+    borderSecondary: `rgb(0,0,0, ${shades.light.borderSecondary})`,
+    foreground: 'rgb(0, 0, 0)',
+    foregroundSecondary: `rgba(0,0,0, ${shades.light.foregroundSecondary})`,
+    foregroundSecondaryHover: `rgba(0,0,0, ${shades.light.foregroundSecondaryHover})`,
+    foregroundTertiary: `rgba(0,0,0, ${shades.light.foregroundTertiary})`,
+    groupBackground: 'rgb(253, 253, 255)',
+    groupBorder: 'rgb(0, 0, 0)',
+    gradients: gradients.light,
+    text: `rgb(0,0,0, ${shades.light.text})`,
+    textPlaceholder: `rgb(0, 0, 0, ${shades.light.textPlaceholder})`,
+    textSecondary: `rgb(0, 0, 0, ${shades.light.textSecondary})`,
+    textTertiary: `rgb(0, 0, 0, ${shades.light.textTertiary})`,
+    ...accents.light,
+  },
+  dark: {
+    accent: `${accents.dark.blue}`,
+    accentSecondary: `rgba(${accentsRaw.dark.blue}, ${shades.dark.accentSecondary})`,
+    accentSecondaryHover: `rgba(${accentsRaw.dark.blue}, ${shades.dark.accentSecondary})`,
+    accentTertiary: `rgba(${accentsRaw.dark.blue}, calc(${shades.dark.accentSecondary} * 0.5))`,
+    accentText: 'rgb(255, 255, 255)',
+    accentGradient: gradients.dark.blue,
+    background: 'rgb(20, 20, 20)',
+    backgroundHide: `rgba(255,255,255, ${shades.dark.backgroundHide})`,
+    backgroundSecondary: 'rgb(10, 10, 10)',
+    backgroundTertiary: 'rgb(20, 20, 20)',
+    border: `rgb(255,255,255, ${shades.dark.border})`,
+    borderSecondary: `rgb(255,255,255, ${shades.dark.borderSecondary})`,
+    foreground: 'rgb(255, 255, 255)',
+    foregroundSecondary: `rgba(255,255,255, ${shades.dark.foregroundSecondary})`,
+    foregroundSecondaryHover: `rgba(255,255,255, ${shades.dark.foregroundSecondaryHover})`,
+    foregroundTertiary: `rgba(255,255,255, ${shades.dark.foregroundTertiary})`,
+    groupBackground: 'rgb(10, 10, 10)',
+    groupBorder: 'rgb(255, 255, 255)',
+    gradients: gradients.dark,
+    text: `rgb(255,255,255, ${shades.dark.text})`,
+    textPlaceholder: `rgb(255, 255, 255, ${shades.dark.textPlaceholder})`,
+    textSecondary: `rgb(255, 255, 255, ${shades.dark.textSecondary})`,
+    textTertiary: `rgb(255, 255, 255, ${shades.light.textTertiary})`,
+    ...accents.dark,
   },
 }

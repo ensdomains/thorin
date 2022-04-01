@@ -1,47 +1,105 @@
 import * as React from 'react'
+import styled from 'styled-components'
 
-import { Box, BoxProps } from '../Box'
-import * as styles from './styles.css'
+import { tokens } from '@/src/tokens'
+import { largerThan } from '@/src/utils/responsiveHelpers'
 
-const resolveDefaultComponent = {
-  '1': 'h1',
-  '2': 'h2',
-} as const
+interface HeadingContainerProps {
+  textAlign: React.CSSProperties['textAlign']
+  textTransform: React.CSSProperties['textTransform']
+  level: '1' | '2'
+  responsive?: boolean
+}
+
+const HeadingContainer = styled.div<HeadingContainerProps>`
+  ${({ textAlign, textTransform }) => `
+    ${textAlign ? `text-align: ${textAlign};` : ``}
+    ${textTransform ? `text-transform: ${textTransform};` : ``}
+  `}
+
+  ${({ level }) => {
+    switch (level) {
+      case '1':
+        return `
+          font-size: ${tokens.fontSizes.headingOne};
+          font-weight: ${tokens.fontWeights.semiBold};
+          letter-spacing: ${tokens.letterSpacings['-0.02']};
+          line-height: 4rem;
+        `
+      case '2':
+        return `
+          font-size: ${tokens.fontSizes.headingTwo};
+          font-weight: ${tokens.fontWeights.semiBold};
+          letter-spacing: ${tokens.letterSpacings['-0.02']};
+          line-height: 2.5rem;
+        `
+      default:
+        return ``
+    }
+  }}
+  
+  ${({ responsive, level }) => {
+    if (responsive) {
+      switch (level) {
+        case '1':
+          return `
+          font-size: ${tokens.fontSizes.headingTwo};
+          
+          ${largerThan.sm`
+            font-size: ${tokens.fontSizes.headingOne};
+          `}
+        `
+        case '2':
+          return `
+          font-size: ${tokens.fontSizes.extraLarge};
+          letter-spacing: normal;
+          
+          ${largerThan.sm`
+            font-size: ${tokens.fontSizes.headingTwo};
+            letter-spacing: -0.02;
+          `}
+        `
+        default:
+          return ``
+      }
+    }
+  }}
+  
+  font-family: ${tokens.fonts['sans']};
+`
 
 type Props = {
-  align?: BoxProps['textAlign']
-  as?: 'div' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'legend'
+  align?: React.CSSProperties['textAlign']
+  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'legend'
   children?: React.ReactNode
-  color?: BoxProps['color']
+  color?: string
   id?: string
-  transform?: BoxProps['textTransform']
+  transform?: React.CSSProperties['textTransform']
   responsive?: boolean
-} & styles.Variants
+  level?: '1' | '2'
+}
 
 export const Heading = ({
   align,
-  as,
   children,
-  color = 'foreground',
+  as = 'h1',
   id,
   level = '2',
   responsive,
   transform,
 }: Props) => {
   return (
-    <Box
-      as={as ?? resolveDefaultComponent[level]}
-      className={styles.variants({
-        level,
-        responsive,
-      })}
-      color={color}
-      fontFamily="sans"
+    <HeadingContainer
+      as={as}
       id={id}
       textAlign={align}
       textTransform={transform}
+      {...{
+        level,
+        responsive,
+      }}
     >
       {children}
-    </Box>
+    </HeadingContainer>
   )
 }

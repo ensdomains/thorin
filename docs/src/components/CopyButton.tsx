@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { default as copy } from 'copy-to-clipboard'
 
-import { Button, IconCheck, IconDuplicate } from '@ensdomains/thorin/components'
+import { Button, CheckSVG, DuplicateSVG } from '@ensdomains/thorin'
 
 type Props = {
   content: string
@@ -38,11 +38,7 @@ export const CopyButton = ({ content }: Props) => {
 
   return (
     <Button shape="square" size="small" variant="transparent" onClick={onClick}>
-      {state.copied ? (
-        <IconCheck title="Copied" titleId="copied" />
-      ) : (
-        <IconDuplicate title="Copy to Clipboard" titleId="copy" />
-      )}
+      {state.copied ? <CheckSVG /> : <DuplicateSVG />}
     </Button>
   )
 }

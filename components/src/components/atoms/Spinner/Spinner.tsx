@@ -1,21 +1,56 @@
 import * as React from 'react'
+import styled, { keyframes } from 'styled-components'
 
-import { Box, BoxProps } from '../Box'
 import { VisuallyHidden } from '../VisuallyHidden'
-import * as styles from './styles.css'
+import { Colors, tokens } from '@/src/tokens'
+
+const rotate = keyframes`
+  100% {
+    transform: rotate(1turn);
+  }
+`
+
+const Container = styled.div<{ size: 'small' | 'large'; color: Colors }>`
+  animation: ${rotate} 1.1s linear infinite;
+
+  ${({ theme, color }) => `
+    color: ${tokens.colors[theme.mode][color]};
+    stroke: ${tokens.colors[theme.mode][color]};
+  `}
+
+  ${({ size }) => {
+    switch (size) {
+      case 'small':
+        return `
+          height: ${tokens.space['6']};
+          stroke-width: ${tokens.space['1.25']};
+          width: ${tokens.space['6']};
+        `
+      case 'large':
+        return `
+          height: ${tokens.space['16']};
+          stroke-width: ${tokens.space['1.25']};
+          width: ${tokens.space['16']};
+        `
+      default:
+        return ``
+    }
+  }}
+`
 
 type Props = {
   accessibilityLabel?: string
-  color?: BoxProps['color']
-} & styles.Variants
+  color?: Colors
+  size?: 'small' | 'large'
+}
 
 export const Spinner = React.forwardRef(
   (
-    { accessibilityLabel, color = 'textSecondary', size = 'small' }: Props,
+    { accessibilityLabel, size = 'small', color = 'accent' }: Props,
     ref: React.Ref<HTMLElement>,
   ) => {
     return (
-      <Box className={styles.variants({ size })} color={color} ref={ref}>
+      <Container color={color} ref={ref as any} size={size}>
         {accessibilityLabel && (
           <VisuallyHidden>{accessibilityLabel}</VisuallyHidden>
         )}
@@ -37,7 +72,7 @@ export const Spinner = React.forwardRef(
             strokeLinecap="round"
           />
         </svg>
-      </Box>
+      </Container>
     )
   },
 )

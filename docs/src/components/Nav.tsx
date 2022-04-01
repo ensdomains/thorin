@@ -1,21 +1,21 @@
 import { useRouter } from 'next/dist/client/router'
 import * as React from 'react'
-import NextImage from 'next/image'
+import styled from 'styled-components'
 
 import {
-  Box,
   Button,
-  IconMenu,
-  Stack,
+  LogoSVG,
+  MenuSVG,
+  Space,
   Typography,
-} from '@ensdomains/thorin/components'
+  largerThan,
+  tokens,
+} from '@ensdomains/thorin'
 
 import { createGitHubLink } from '~/utils/github'
 import { createPlayroomLink } from '~/utils/playroom'
 import { useIsMounted } from '~/utils/isMounted'
-import * as styles from '~/styles/utils.css'
 import { Link } from './Link'
-import Logo from '~/assets/Logo.svg'
 
 type Link = { name: string; route: string }
 
@@ -30,6 +30,72 @@ type State = {
 const initialState = {
   open: false,
 }
+
+const Container = styled.div`
+  flex-direction: column;
+  height: ${tokens.space['full']};
+`
+
+const ContainerInner = styled.div`
+  ${largerThan.lg`
+    padding-bottom: ${tokens.space['5']};
+  `}
+`
+
+const NavlinkContainer = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: ${tokens.space['5']};
+
+  ${largerThan.lg`
+    flex-direction: column;
+  `}
+`
+
+const NavLinkInner = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: ${tokens.space['4']};
+`
+
+const ENSText = styled(Typography)`
+  ${({ theme }) => `
+      color: ${tokens.colors[theme.mode].blue};
+      font-size: ${tokens.fontSizes['headingThree']};
+      font-weight: ${tokens.fontWeights['semiBold']};
+  `}
+`
+
+const ButtonContainer = styled.div`
+  ${largerThan.lg`
+    display: none;
+  `}
+`
+
+const List = styled.div<{ open?: boolean }>`
+  ${({ open }) => `
+    display: ${open ? 'block' : 'none'};
+    height: ${tokens.space['full']};
+    padding-top: ${tokens.space['10']};
+    
+    ${largerThan.lg`
+      display: block;
+      margin-bottom: ${tokens.space['24']};
+      padding-bottom: ${tokens.space['24']};
+      padding-top: ${tokens.space['5']};
+    `}
+  `}
+`
+
+const FlexContainer = styled.div<{ space?: Space }>`
+  ${({ space }) => `
+    display: flex;
+    flex-direction: column;
+    gap: ${tokens.space[space ?? '4']};
+  `}
+`
 
 export const Nav = ({ links }: Props) => {
   const isMounted = useIsMounted()
@@ -48,56 +114,42 @@ export const Nav = ({ links }: Props) => {
   /* eslint-enable react-hooks/exhaustive-deps */
 
   return (
-    <Box flexDirection="column" height="full">
-      <Box paddingBottom={{ lg: '5' }}>
-        <Stack
-          align="center"
-          direction={{ xs: 'horizontal', lg: 'vertical' }}
-          justify={{ xs: 'space-between', lg: 'flex-start' }}
-          space="5"
-        >
+    <Container>
+      <ContainerInner>
+        <NavlinkContainer>
           <NavLink active={router.asPath === '/'} href="/">
-            <Stack align="center" direction="horizontal">
-              <NextImage height={48} src={Logo} width={48} />
-              <Typography color="blue" size="headingThree" weight="semiBold">
-                ENS
-              </Typography>
-            </Stack>
+            <NavLinkInner>
+              <LogoSVG height={48} width={48} />
+              <ENSText>ENS</ENSText>
+            </NavLinkInner>
           </NavLink>
 
-          <Box display={{ lg: 'none' }}>
+          <ButtonContainer>
             <Button
               pressed={state.open}
               shadowless
-              size="extraSmall"
+              size="small"
               variant="transparent"
               onClick={() => setState((x) => ({ ...x, open: !x.open }))}
             >
-              <Box aria-label={state.open ? 'Close menu' : 'Open menu'}>
-                <IconMenu color="textPlaceholder" strokeWidth="0.75" />
-              </Box>
+              <div aria-label={state.open ? 'Close menu' : 'Open menu'}>
+                <MenuSVG alt="Menu" height={24} width={24} />
+              </div>
             </Button>
-          </Box>
-        </Stack>
-      </Box>
+          </ButtonContainer>
+        </NavlinkContainer>
+      </ContainerInner>
 
-      <Box
-        className={styles.list}
-        display={{ xs: state.open ? 'block' : 'none', lg: 'block' }}
-        height="full"
-        marginBottom={{ lg: '24' }}
-        paddingBottom={{ lg: '24' }}
-        paddingTop={{ xs: '10', lg: '5' }}
-      >
-        <Stack space="6">
-          <Stack space="3">
+      <List open style={{ overflow: 'scroll' }}>
+        <FlexContainer space="6">
+          <FlexContainer space="3">
             <NavLink href={createGitHubLink()}>GitHub</NavLink>
             <NavLink href={createPlayroomLink()}>Playroom</NavLink>
-          </Stack>
+          </FlexContainer>
 
-          <Stack>
+          <FlexContainer>
             <Typography variant="labelHeading">Guides</Typography>
-            <Stack space="3">
+            <FlexContainer space="3">
               <NavLink
                 active={
                   isMounted &&
@@ -116,15 +168,15 @@ export const Nav = ({ links }: Props) => {
               >
                 Playroom
               </NavLink>
-            </Stack>
-          </Stack>
+            </FlexContainer>
+          </FlexContainer>
 
-          <Stack>
+          <FlexContainer>
             <Typography variant="labelHeading">Components</Typography>
             {links.map((x) => (
-              <Stack key={x.name} space="3">
+              <FlexContainer key={x.name} space="3">
                 <Typography variant="label">{x.name}</Typography>
-                <Stack space="3">
+                <FlexContainer space="3">
                   {x.links.map((y) => (
                     <NavLink
                       active={
@@ -136,15 +188,36 @@ export const Nav = ({ links }: Props) => {
                       {y.name}
                     </NavLink>
                   ))}
-                </Stack>
-              </Stack>
+                </FlexContainer>
+              </FlexContainer>
             ))}
-          </Stack>
-        </Stack>
-      </Box>
-    </Box>
+          </FlexContainer>
+        </FlexContainer>
+      </List>
+    </Container>
   )
 }
+
+const HeaderLink = styled.div`
+  transition: all 0.15s ease-in-out;
+  width: ${tokens.space['max']};
+  &:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.05);
+  }
+`
+
+const NavLinkChildrenContainer = styled(Typography)<{ active?: boolean }>`
+  ${({ active, theme }) => `
+  font-weight: ${tokens.fontWeights['semiBold']};
+
+  color: ${
+    active
+      ? tokens.colors[theme.mode].accent
+      : tokens.colors[theme.mode].textTertiary
+  };
+  `}
+`
 
 const NavLink = ({
   active,
@@ -155,15 +228,12 @@ const NavLink = ({
   href: string
 }>) => {
   return (
-    <Box className={styles.headerLink} width="max">
+    <HeaderLink>
       <Link href={href}>
-        <Typography
-          color={active ? 'accent' : 'textTertiary'}
-          weight="semiBold"
-        >
+        <NavLinkChildrenContainer {...{ active }}>
           {children}
-        </Typography>
+        </NavLinkChildrenContainer>
       </Link>
-    </Box>
+    </HeaderLink>
   )
 }

@@ -4,7 +4,13 @@ description: Select element input
 ---
 
 ```tsx
-import { Select } from '@ensdomains/thorin'
+import {
+  DuplicateSVG,
+  EthSVG,
+  FlagSVG,
+  MoonSVG,
+  Select,
+} from '@ensdomains/thorin'
 ```
 
 ```tsx live=true expand=true minHeight=350px
@@ -12,10 +18,10 @@ import { Select } from '@ensdomains/thorin'
   <Select
     options={[
       { value: '0', label: 'Zero' },
-      { value: '1', label: 'One', prefix: <IconEth /> },
-      { value: '2', label: 'Two', prefix: <IconFlag /> },
-      { value: '3', label: 'Three', prefix: <IconMoon /> },
-      { value: '4', label: 'Four', prefix: <IconDuplicate />, disabled: true },
+      { value: '1', label: 'One', prefix: <EthSVG /> },
+      { value: '2', label: 'Two', prefix: <FlagSVG /> },
+      { value: '3', label: 'Three', prefix: <MoonSVG /> },
+      { value: '4', label: 'Four', prefix: <DuplicateSVG />, disabled: true },
     ]}
   />
 </Card>

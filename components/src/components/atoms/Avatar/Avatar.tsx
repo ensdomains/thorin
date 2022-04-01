@@ -1,19 +1,95 @@
 import * as React from 'react'
+import styled from 'styled-components'
 
-import { Box, BoxProps } from '../Box'
-import * as styles from './styles.css'
+import { Space, tokens } from '@/src/tokens'
+
+type Shape = 'circle' | 'square'
+
+interface Container {
+  shape: Shape
+  noBorder?: boolean
+  size: Space
+}
+
+const Container = styled.div<Container>`
+  ${({ shape }) => {
+    switch (shape) {
+      case 'circle':
+        return `
+          border-radius: ${tokens.radii.full};
+          &:after {
+            border-radius: ${tokens.radii.full};
+          }
+        `
+      case 'square':
+        return `
+          border-radius: ${tokens.radii['2xLarge']}
+          &:after {
+            border-radius: ${tokens.radii['2xLarge']}
+          }
+        `
+      default:
+        return ``
+    }
+  }}
+
+  ${({ theme, noBorder }) =>
+    !noBorder &&
+    `
+      &:after {
+      box-shadow: ${tokens.shadows['-px']} ${
+      tokens.colors[theme.mode].foregroundTertiary
+    };
+    content: '';
+    inset: 0;
+    position: absolute;
+      }   
+      }      
+  `}
+
+  ${({ theme, size }) =>
+    `
+      height: ${tokens.space[size]};
+      width: ${tokens.space[size]};
+      min-width: ${tokens.space[size]};
+      background-color: ${tokens.colors[theme.mode].foregroundSecondary};
+      
+       
+  `}
+  
+  overflow: hidden;
+  position: relative;
+`
+
+const Placeholder = styled.div`
+  ${({ theme }) => `
+    background: ${tokens.colors[theme.mode].gradients.blue};
+  `}
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+`
+
+const Img = styled.img`
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+`
 
 export type Props = {
   as?: 'img' | React.ComponentType
   label: string
   placeholder?: boolean
   noBorder?: boolean
-  size?: BoxProps['height']
+  size?: Space
   src?: string
-} & styles.Variants
+  shape?: Shape
+}
 
 export const Avatar = ({
-  as = 'img',
   label,
   placeholder,
   noBorder,
@@ -22,40 +98,18 @@ export const Avatar = ({
   src,
 }: Props) => {
   return (
-    <Box
-      backgroundColor="foregroundSecondary"
-      className={styles.variants({ shape, noBorder: placeholder || noBorder })}
-      height={size}
-      minWidth={size}
-      overflow="hidden"
-      position="relative"
-      width={size}
-    >
+    <Container {...{ shape, size, noBorder: placeholder || noBorder }}>
       {placeholder ? (
-        <Box
-          alignItems="center"
-          aria-label={label}
-          background="accentGradient"
-          display="flex"
-          height="full"
-          justifyContent="center"
-        />
+        <Placeholder aria-label={label} />
       ) : (
-        <>
-          <Box
-            alt={label}
-            as={as}
-            height="full"
-            objectFit="cover"
-            src={src}
-            width="full"
-            {...{
-              decoding: 'async',
-              layout: typeof as === 'string' ? undefined : 'fill',
-            }}
-          />
-        </>
+        <Img
+          {...{
+            decoding: 'async',
+            src: src,
+            alt: label,
+          }}
+        />
       )}
-    </Box>
+    </Container>
   )
 }

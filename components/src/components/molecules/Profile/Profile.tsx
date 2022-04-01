@@ -1,11 +1,15 @@
 import * as React from 'react'
+import styled from 'styled-components'
 
-import * as styles from './styles.css'
-import { shortenAddress } from '../../../utils'
+import { tokens } from '@/src/tokens'
+import { shortenAddress } from '../../../utils/utils'
 
-import { Box, IconDownIndicator, Typography } from '../..'
+import { Typography } from '../..'
 import { Avatar, Props as AvatarProps } from '../../atoms/Avatar'
 import { Dropdown, DropdownItem } from '../Dropdown/Dropdown'
+import { ReactComponent as IconDownIndicatorSvg } from '@/src/icons/DownIndicator.svg'
+
+type Size = 'small' | 'medium' | 'large'
 
 type BaseProps = {
   avatar?: AvatarProps['src']
@@ -14,7 +18,154 @@ type BaseProps = {
   address: string
   ensName?: string
   alignDropdown?: 'left' | 'right'
-} & styles.Variants
+  size?: Size
+}
+
+interface ContainerProps {
+  size: Size
+  hasChevron?: boolean
+  open: boolean
+}
+
+const Container = styled.div<ContainerProps>`
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-radius: ${tokens.radii['full']};
+  transition-duration: ${tokens.transitionDuration['150']};
+  transition-property: colors;
+  transition-timing-function: ${tokens.transitionTimingFunction['inOut']};
+  position: relative;
+  z-index: 10;
+  padding: ${tokens.space['2']} ${tokens.space['4']} ${tokens.space['2']}
+    ${tokens.space['2.5']};
+
+  ${({ hasChevron }) =>
+    hasChevron &&
+    `
+      cursor: pointer;
+      &:hover {
+        transform: translateY(-1px);s
+        filter: brightness(1.05);
+      }
+  `}
+
+  ${({ open, theme }) =>
+    open
+      ? `
+      box-shadow: ${tokens.shadows['0']};
+      background-color: ${tokens.colors[theme.mode].foregroundSecondary};
+  `
+      : `
+      box-shadow: ${tokens.shadows['0.25']};
+      color: ${tokens.colors[theme.mode].foregroundSecondary};
+      background-color: ${tokens.colors[theme.mode].groupBackground};
+  `}
+
+  ${({ size }) => {
+    switch (size) {
+      case 'small':
+        return `
+          max-width: ${tokens.space['48']};
+        `
+      case 'medium':
+        return `
+          max-width: ${tokens.space['52']};
+        `
+      case 'large':
+        return `
+          max-width: ${tokens.space['80']};
+        `
+      default:
+        return ``
+    }
+  }}
+
+  ${({ size, hasChevron }) => {
+    if (size === 'small' && hasChevron)
+      return `
+      max-width: ${tokens.space['52']};
+    `
+
+    if (size === 'medium' && hasChevron)
+      return `
+      max-width: ${tokens.space['56']};
+    `
+
+    if (size === 'large' && hasChevron)
+      return `
+      max-width: calc(${tokens.space['80']} + ${tokens.space['4']});
+    `
+  }}
+`
+
+const Chevron = styled(IconDownIndicatorSvg)<{ open: boolean }>`
+  margin-left: ${tokens.space['1']};
+  width: ${tokens.space['3']};
+  margin-right: ${tokens.space['0.5']};
+  transition-duration: ${tokens.transitionDuration['200']};
+  transition-property: all;
+  transition-timing-function: ${tokens.transitionTimingFunction['inOut']};
+  opacity: 0.3;
+  transform: rotate(0deg);
+  display: flex;
+
+  & > svg {
+    fill: currentColor;
+  }
+  fill: currentColor;
+
+  ${({ open }) =>
+    open &&
+    `
+      opacity: 1;
+      transform: rotate(180deg);
+  `}
+`
+
+const ProfileInnerContainer = styled.div<{
+  size?: 'small' | 'medium' | 'large'
+}>`
+  display: ${({ size }) => (size === 'small' ? 'none' : 'block')};
+  margin: 0 ${tokens.space['1.5']};
+  min-width: ${tokens.space['none']};
+`
+
+const ProfileInner = ({ size, avatar, avatarAs, address, ensName }: Props) => (
+  <>
+    <Avatar
+      as={avatarAs}
+      label="profile-avatar"
+      placeholder={!avatar}
+      src={avatar}
+    />
+    <ProfileInnerContainer size={size}>
+      <Typography
+        as="h3"
+        color={ensName ? 'text' : 'textTertiary'}
+        ellipsis
+        variant={ensName && size === 'large' ? 'extraLarge' : 'large'}
+        weight="bold"
+      >
+        {ensName || 'No name set'}
+      </Typography>
+      <Typography
+        as="h4"
+        color={ensName ? 'textTertiary' : 'text'}
+        variant="small"
+        weight="bold"
+      >
+        {shortenAddress(
+          address,
+          size === 'large' ? 30 : 10,
+          size === 'large' ? 10 : 5,
+          size === 'large' ? 10 : 5,
+        )}
+      </Typography>
+    </ProfileInnerContainer>
+  </>
+)
 
 type Props = BaseProps
 
@@ -34,63 +185,30 @@ export const Profile = ({
       <Dropdown
         {...{ items: dropdownItems, isOpen, setIsOpen, align: alignDropdown }}
       >
-        <Box
-          className={styles.variants({ size, hasChevron: true, open: isOpen })}
+        <Container
+          {...{
+            size,
+            hasChevron: true,
+            open: isOpen,
+          }}
           onClick={() => setIsOpen(!isOpen)}
         >
           <ProfileInner {...{ size, avatar, avatarAs, address, ensName }} />
-          <IconDownIndicator
-            className={styles.chevron({ open: isOpen })}
-            size="3"
-          />
-        </Box>
+          <Chevron open={isOpen} />
+        </Container>
       </Dropdown>
     )
   }
 
   return (
-    <Box
-      className={styles.variants({ size, open: false })}
+    <Container
+      {...{
+        size,
+        open: isOpen,
+      }}
       data-testid="profile"
     >
       <ProfileInner {...{ size, avatar, avatarAs, address, ensName }} />
-    </Box>
+    </Container>
   )
 }
-
-const ProfileInner = ({ size, avatar, avatarAs, address, ensName }: Props) => (
-  <React.Fragment>
-    <Avatar
-      as={avatarAs}
-      label="profile-avatar"
-      placeholder={!avatar}
-      src={avatar}
-    />
-    <Box
-      display={size === 'small' ? 'none' : 'block'}
-      marginX="1.5"
-      minWidth="none"
-    >
-      <Typography
-        as="h3"
-        color={ensName ? 'text' : 'textTertiary'}
-        ellipsis
-        size={ensName && size === 'large' ? 'extraLarge' : 'large'}
-      >
-        {ensName || 'No name set'}
-      </Typography>
-      <Typography
-        as="h4"
-        color={ensName ? 'textTertiary' : 'text'}
-        size="small"
-      >
-        {shortenAddress(
-          address,
-          size === 'large' ? 30 : 10,
-          size === 'large' ? 10 : 5,
-          size === 'large' ? 10 : 5,
-        )}
-      </Typography>
-    </Box>
-  </React.Fragment>
-)

@@ -1,8 +1,9 @@
 import * as React from 'react'
 import { GetLayout, NextLayout } from 'next'
 import Head from 'next/head'
+import styled from 'styled-components'
 
-import { Box } from '@ensdomains/thorin/components'
+import { largerThan, tokens } from '@ensdomains/thorin'
 
 import {
   Header,
@@ -12,6 +13,59 @@ import {
   SkipNavLink,
 } from '~/components'
 import { getLayout as getBaseLayout } from './site'
+
+const Container = styled.div`
+  display: block;
+  justify-content: center;
+  margin: 0 auto;
+  max-width: ${tokens.space['320']};
+  min-height: ${tokens.space['viewHeight']};
+  padding: 0 ${tokens.space['6']};
+
+  ${largerThan.md`
+    display: flex;
+    justify-content: flex-end;
+  `}
+
+  ${largerThan.lg`
+    display: flex;
+    justify-content: center;
+  `}
+`
+
+const Aside = styled.aside`
+  padding-top: ${tokens.space['6']};
+
+  ${largerThan.md`
+    left: ${tokens.space['4']};
+    width: ${tokens.space['full']};
+  `}
+
+  ${largerThan.lg`
+    height: ${tokens.space['viewHeight']};
+    position: fixed;
+    width: ${tokens.space['48']};
+  `}
+
+  ${largerThan.xl`
+    width: ${tokens.space['56']};
+  `}
+`
+
+const Article = styled.article`
+  max-width: ${tokens.space['224']};
+  padding-bottom: ${tokens.space['20']};
+  padding-top: ${tokens.space['20']};
+
+  ${largerThan.lg`
+    max-width: ${tokens.space['192']};
+    padding: ${tokens.space['20']} ${tokens.space['10']};
+  `}
+
+  ${largerThan.xl`
+    max-width: ${tokens.space['224']};
+  `}
+`
 
 export type Props = {
   meta: {
@@ -40,40 +94,19 @@ const Layout: NextLayout<Props> = ({ children, meta }) => {
 
       <SkipNavLink>Skip to content</SkipNavLink>
 
-      <Box
-        display={{ xs: 'block', lg: 'flex' }}
-        justifyContent={{ xs: 'center', md: 'flex-end', xl: 'center' }}
-        marginX="auto"
-        maxWidth="320"
-        minHeight="viewHeight"
-        paddingX="6"
-      >
-        <Box
-          as="aside"
-          height={{ lg: 'viewHeight' }}
-          left={{ md: '4' }}
-          paddingTop="6"
-          position={{ lg: 'fixed' }}
-          width={{ md: 'full', lg: '48', xl: '56' }}
-        >
+      <Container>
+        <Aside>
           <Nav links={links} />
-        </Box>
+        </Aside>
 
-        <Box as="main">
+        <main>
           <SkipNavContent />
-          <Box
-            as="article"
-            maxWidth={{ xs: '224', lg: '192', xl: '224' }}
-            paddingBottom="20"
-            paddingTop="20"
-            paddingX={{ lg: '10' }}
-          >
+          <Article>
             {meta && <Header {...meta} />}
-
             {children}
-          </Box>
-        </Box>
-      </Box>
+          </Article>
+        </main>
+      </Container>
     </>
   )
 }

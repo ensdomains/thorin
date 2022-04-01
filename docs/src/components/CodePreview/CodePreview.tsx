@@ -1,28 +1,20 @@
 import * as React from 'react'
+import styled, { useTheme } from 'styled-components'
 import { default as NextImage } from 'next/image'
 import { default as NextLink } from 'next/link'
-import { LiveEditor, LiveError, LivePreview, LiveProvider } from 'react-live'
+import { LiveEditor, LivePreview, LiveProvider } from 'react-live'
 import { mdx } from '@mdx-js/react'
 import { PrismTheme } from 'prism-react-renderer'
 
-import * as Components from '@ensdomains/thorin/components'
-import {
-  Box,
-  Button,
-  Stack,
-  Typography,
-  useTheme,
-} from '@ensdomains/thorin/components'
-import { vars } from '@ensdomains/thorin/css'
+import { Button, Colors, Components, tokens } from '@ensdomains/thorin'
 
 import { createPlayroomLink } from '~/utils/playroom'
-import { usePlayroomStore } from '../../../../playroom/src/PlayroomState'
-import { avatars } from '../../../../playroom/src/useScope'
+import { usePlayroomStore } from '~/playroom/PlayroomState'
+import { avatars } from '~/playroom/useScope'
 import { CopyButton } from '../CopyButton'
-import './styles.css'
 
 export type Props = {
-  backgroundColor?: Components.BoxProps['backgroundColor']
+  backgroundColor?: Colors
   code: string
   expand?: boolean
   theme?: PrismTheme
@@ -37,8 +29,41 @@ const initialState = {
   expand: false,
 }
 
+const Container = styled.div`
+  ${({ theme }) => `
+    background-color: ${tokens.colors[theme.mode].background};
+    border-color: ${tokens.colors[theme.mode].foregroundSecondary};
+    border-radius: ${tokens.radii['2xLarge']};
+    border-width: ${tokens.space['0.5']};
+    overflow: hidden;
+  `}
+`
+
+const ContainerInner = styled.div<{ expand?: boolean; ref: any }>`
+  ${({ theme, expand }) => `
+    background-color: ${tokens.colors[theme.mode].background};
+    ${expand && `border-bottom-radius: ${tokens.radii['2xLarge']}`};
+    border-radius-top: ${tokens.radii['2xLarge']};
+    overflow: scroll;
+    padding: ${tokens.space['6']};
+  `}
+`
+
+// const LiveErrorTypography = styled(Typography)`
+//   ${({ theme }) => `
+//     color: ${tokens.colors[theme.mode].red};
+//     font-family: ${tokens.fonts['mono']};
+//   `}
+// `
+
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: ${tokens.space['2']};
+`
+
 export const CodePreview = ({
-  backgroundColor = 'background',
   code,
   expand = false,
   theme,
@@ -62,7 +87,6 @@ export const CodePreview = ({
         ...store,
         ...themeValue,
         previewRef,
-        vars,
         NextImage,
         NextLink,
         avatars,
@@ -70,19 +94,9 @@ export const CodePreview = ({
       theme={theme}
       transformCode={(code) => '/** @jsx mdx */' + code}
     >
-      <Box
-        backgroundColor="background"
-        borderColor="foregroundSecondary"
-        borderRadius="2xLarge"
-        borderWidth="0.5"
-        overflow="hidden"
-      >
-        <Box
-          backgroundColor={backgroundColor}
-          borderBottomRadius={state.expand ? undefined : '2xLarge'}
-          borderTopRadius="2xLarge"
-          overflow="scroll"
-          padding="6"
+      <Container>
+        <ContainerInner
+          expand={state.expand}
           ref={previewRef}
           style={{
             minHeight: minHeight || 'none',
@@ -90,29 +104,29 @@ export const CodePreview = ({
         >
           <LivePreview />
 
-          <Typography color="red" font="mono">
-            <LiveError
-              style={{
-                fontFamily: 'inherit',
-                margin: 0,
-              }}
-            />
-          </Typography>
-        </Box>
+          {/*<LiveErrorTypography>*/}
+          {/*  <LiveError*/}
+          {/*    style={{*/}
+          {/*      fontFamily: 'inherit',*/}
+          {/*      margin: 0,*/}
+          {/*    }}*/}
+          {/*  />*/}
+          {/*</LiveErrorTypography>*/}
+        </ContainerInner>
 
         {state.expand && (
-          <Box position="relative">
+          <div style={{ position: 'relative' }}>
             <LiveEditor />
 
-            <Box position="absolute" right="3.5" top="3.5">
+            <div style={{ position: 'absolute', right: 3.5, top: 3.5 }}>
               <CopyButton content={code} />
-            </Box>
-          </Box>
+            </div>
+          </div>
         )}
-      </Box>
+      </Container>
 
-      <Box marginY="2">
-        <Stack direction="horizontal" justify="flex-end" space="2">
+      <div style={{ margin: `${tokens.space['2']} 0` }}>
+        <ButtonContainer>
           <Button
             size="small"
             variant="secondary"
@@ -130,8 +144,8 @@ export const CodePreview = ({
           >
             Open in Playroom
           </Button>
-        </Stack>
-      </Box>
+        </ButtonContainer>
+      </div>
     </LiveProvider>
   )
 }

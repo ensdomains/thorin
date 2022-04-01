@@ -9,7 +9,7 @@ import { Field } from '@ensdomains/thorin'
 
 ```tsx live=true expand=true
 <Field label="Label">
-  <Box backgroundColor="foregroundSecondary" height="8" />
+  <div style={{ backgroundColor: 'black', height: 8 }} />
 </Field>
 ```
 
@@ -21,7 +21,7 @@ import { Field } from '@ensdomains/thorin'
 
 ```tsx live=true
 <Field description="Description or help text" label="Label">
-  <Box backgroundColor="foregroundSecondary" height="8" />
+  <div style={{ backgroundColor: 'black', height: 8 }} />
 </Field>
 ```
 
@@ -29,7 +29,7 @@ import { Field } from '@ensdomains/thorin'
 
 ```tsx live=true
 <Field error="Error message" label="Label">
-  <Box backgroundColor="foregroundSecondary" height="8" />
+  <div style={{ backgroundColor: 'black', height: 8 }} />
 </Field>
 ```
 
@@ -37,7 +37,7 @@ import { Field } from '@ensdomains/thorin'
 
 ```tsx live=true
 <Field hideLabel label="Label">
-  <Box backgroundColor="foregroundSecondary" height="8" />
+  <div style={{ backgroundColor: 'black', height: 8 }} />
 </Field>
 ```
 
@@ -45,7 +45,7 @@ import { Field } from '@ensdomains/thorin'
 
 ```tsx live=true
 <Field label="Label" labelSecondary="Secondary Label">
-  <Box backgroundColor="foregroundSecondary" height="8" />
+  <div style={{ backgroundColor: 'black', height: 8 }} />
 </Field>
 ```
 
@@ -53,7 +53,7 @@ import { Field } from '@ensdomains/thorin'
 
 ```tsx live=true
 <Field inline label="Label">
-  <Box backgroundColor="foregroundSecondary" height="8" width="8" />
+  <div style={{ backgroundColor: 'black', height: 8, width: 8 }} />
 </Field>
 ```
 
@@ -62,15 +62,15 @@ import { Field } from '@ensdomains/thorin'
 The content wrapped by field sets an `id` automatically for accessibility. You can customize the behavior by using the render prop.
 
 ```tsx live=true
-<Stack>
+<div>
   <Field label="Automatically injected">
-    <Box backgroundColor="foregroundSecondary" height="8" />
+    <div style={{ backgroundColor: 'black', height: 8 }} />
   </Field>
 
   <Field label="Render prop">
     {(ids) => (
-      <Box backgroundColor="foregroundSecondary" height="8" {...ids.content} />
+      <div style={{ backgroundColor: 'black', height: 8 }} {...ids.content} />
     )}
   </Field>
-</Stack>
+</div>
 ```
