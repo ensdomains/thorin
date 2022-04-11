@@ -8,11 +8,11 @@ description: Guidelines for prototyping using Playroom
 Select "Open in Playroom" to get started with the example below.
 
 ```tsx live=true
-<Stack align="center">
+<div style={{ display: 'flex' }}>
   <Button
     disabled={getState('loading')}
     loading={getState('loading')}
-    prefix={<IconLockClosed />}
+    prefix={<LockClosedSVG />}
     tone="blue"
     variant="primary"
     onClick={() => {
@@ -22,7 +22,7 @@ Select "Open in Playroom" to get started with the example below.
   >
     Connect Wallet
   </Button>
-</Stack>
+</div>
 ```
 
 With Playroom, you can test different screen sizes and themes, share links to prototypes, and use all system components without needing to import anything.
@@ -48,11 +48,20 @@ vars
 ```
 
 ```tsx live=true
-<Stack>
+<div style={{ display: 'flex' }}>
   <Typography size="extraLarge">
     {getState('counter') != null ? getState('counter') : 2}
   </Typography>
-  <Stack align="center" direction="horizontal">
+  <div
+    style={{
+      display: 'flex',
+      marginLeft: '24px',
+      flexGap: '12px',
+      gap: '12px',
+      flexAlign: 'center',
+      flexDirection: 'row',
+    }}
+  >
     <Button
       disabled={getState('locked')}
       size="small"
@@ -90,6 +99,6 @@ vars
     </Button>
 
     <VisuallyHidden>{setDefaultState('counter', 2)}</VisuallyHidden>
-  </Stack>
-</Stack>
+  </div>
+</div>
 ```

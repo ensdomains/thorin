@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "next build",
+    "build": "next build & playroom build",
     "clean": "rimraf .next public/playroom",
-    "dev": "NODE_OPTIONS='--inspect' next dev",
+    "dev": "NODE_OPTIONS='--inspect' next dev & playroom start",
     "lint": "next lint",
     "lint:types": "tsc --noEmit",
     "start": "next start"
@@ -40,6 +40,7 @@
     "@types/react-dom": "^17.0.10",
     "@types/rimraf": "^3.0.2",
     "@types/styled-components": "^5",
+    "babel-loader": "^8.2.4",
     "fs-extra": "^10.0.0",
     "glob": "^7.2.0",
     "react-docgen-typescript": "^2.1.1",

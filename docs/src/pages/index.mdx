@@ -37,13 +37,13 @@ import { Button, IconLockClosed, Stack } from '@ensdomains/thorin'
 ```
 
 ```tsx live=true expand=true
-<Stack align="center">
+<div style={{ display: 'flex', alignItems: 'center' }}>
   <Button
-    prefix={<IconLockClosed />}
+    prefix={<LockClosedSVG />}
     variant="primary"
     width={{ xs: 'full', md: 'max' }}
   >
     Connect Wallet
   </Button>
-</Stack>
+</div>
 ```

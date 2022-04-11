@@ -1,14 +1,12 @@
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-
 module.exports = {
-  components: './src/components.ts',
+  components: './src/playroom/components.ts',
   baseUrl: '/playroom/',
-  outputPath: '../docs/public/playroom',
+  outputPath: './public/playroom',
   title: 'ENS',
-  snippets: './src/snippets.ts',
-  themes: './src/themes.ts',
-  frameComponent: './src/FrameComponent.tsx',
-  scope: './src/useScope.ts',
+  snippets: './src/playroom/snippets.ts',
+  themes: './src/playroom/themes.ts',
+  frameComponent: './src/playroom/FrameComponent.tsx',
+  scope: './src/playroom/useScope.ts',
   typeScriptFiles: ['../components/src/**/*.{ts,tsx}'],
   widths: [320, 640, 768, 1024, 1280],
   openBrowser: false,
@@ -16,11 +14,6 @@ module.exports = {
   iframeSandbox: 'allow-scripts allow-same-origin',
 
   webpackConfig: () => ({
-    plugins: [
-      new MiniCssExtractPlugin({
-        ignoreOrder: true,
-      }),
-    ],
     module: {
       rules: [
         {

@@ -79,27 +79,48 @@ type Props = {
   level?: '1' | '2'
 }
 
-export const Heading = ({
-  align,
-  children,
-  as = 'h1',
-  id,
-  level = '2',
-  responsive,
-  transform,
-}: Props) => {
-  return (
+export const Heading = React.forwardRef(
+  (
+    {
+      align,
+      children,
+      as = 'h1',
+      id,
+      level = '2',
+      responsive,
+      transform,
+    }: Props,
+    ref: React.ForwardedRef<HTMLDivElement>,
+  ) => (
     <HeadingContainer
-      as={as}
-      id={id}
       textAlign={align}
       textTransform={transform}
       {...{
         level,
         responsive,
+        as,
+        id,
+        ref,
       }}
     >
       {children}
     </HeadingContainer>
-  )
-}
+  ),
+)
+
+// export const Heading = React.forwardRef() => {
+//   return (
+//     <HeadingContainer
+//       as={as}
+//       id={id}
+//       textAlign={align}
+//       textTransform={transform}
+//       {...{
+//         level,
+//         responsive,
+//       }}
+//     >
+//       {children}
+//     </HeadingContainer>
+//   )
+// })

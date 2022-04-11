@@ -11,17 +11,18 @@ import { PropsTable } from './PropsTable'
 
 const HoverParent = styled.a`
   width: ${tokens.space['max']};
+  display: inline;
 `
 
 const HoverChild = styled.div`
   ${({ theme }) => `
     visibility: hidden;
+    display: inline-block;
 
     ${HoverParent}:hover & {
-      visibilty: visible;
-      display: inline-block;
+      visibility: visible;
       margin-left: ${tokens.space['2']};
-      color: ${tokens.colors[theme.mode].textSecondary};
+      color: ${tokens.colors[theme.mode].textTertiary};
     }
   `}
 `
@@ -62,8 +63,8 @@ export const MDX: MDXProviderProps['components'] = {
     return (
       <div
         style={{
-          marginBottom: tokens.space['6'],
           marginTop: tokens.space['12'],
+          marginBottom: tokens.space['6'],
         }}
       >
         <Heading color="textPrimary" id={id}>

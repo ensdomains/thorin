@@ -2,7 +2,7 @@ import * as React from 'react'
 import styled, { useTheme } from 'styled-components'
 import { default as NextImage } from 'next/image'
 import { default as NextLink } from 'next/link'
-import { LiveEditor, LivePreview, LiveProvider } from 'react-live'
+import { LiveEditor, LiveError, LivePreview, LiveProvider } from 'react-live'
 import { mdx } from '@mdx-js/react'
 import { PrismTheme } from 'prism-react-renderer'
 
@@ -104,14 +104,12 @@ export const CodePreview = ({
         >
           <LivePreview />
 
-          {/*<LiveErrorTypography>*/}
-          {/*  <LiveError*/}
-          {/*    style={{*/}
-          {/*      fontFamily: 'inherit',*/}
-          {/*      margin: 0,*/}
-          {/*    }}*/}
-          {/*  />*/}
-          {/*</LiveErrorTypography>*/}
+          <LiveError
+            style={{
+              fontFamily: 'inherit',
+              margin: 0,
+            }}
+          />
         </ContainerInner>
 
         {state.expand && (

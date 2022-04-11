@@ -205,6 +205,10 @@ const HeaderLink = styled.div`
     transform: translateY(-1px);
     filter: brightness(1.05);
   }
+
+  & a {
+    text-decoration: none;
+  }
 `
 
 const NavLinkChildrenContainer = styled(Typography)<{ active?: boolean }>`
