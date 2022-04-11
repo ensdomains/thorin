@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled from 'styled-components'
+import styled, { FlattenInterpolation } from 'styled-components'
 
 import { ReactNode } from 'react'
 
@@ -32,6 +32,7 @@ type BaseProps = FieldBaseProps & {
   onFocus?: NativeInputProps['onFocus']
   onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>
   size?: 'medium' | 'large' | 'extraLarge'
+  parentStyles?: FlattenInterpolation<any>
 }
 
 type WithTypeEmail = {
@@ -54,6 +55,7 @@ interface InputParentProps {
   disabled?: boolean
   error?: boolean
   suffix: boolean
+  userStyles?: FlattenInterpolation<any>
 }
 
 const InputParent = styled.div<InputParentProps>`
@@ -115,6 +117,7 @@ const InputParent = styled.div<InputParentProps>`
         return ``
     }
   }}
+  ${({ userStyles }) => userStyles}
 `
 
 const Prefix = styled.label`
@@ -294,6 +297,7 @@ export const Input = React.forwardRef(
       onFocus,
       onKeyDown,
       size = 'medium',
+      parentStyles,
       ...props
     }: Props,
     ref: React.Ref<HTMLInputElement>,
@@ -368,6 +372,7 @@ export const Input = React.forwardRef(
               error: hasError,
               suffix: suffix !== undefined,
               size,
+              userStyles: parentStyles,
             }}
           >
             {prefix && (
