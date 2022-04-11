@@ -21,7 +21,7 @@ import { Profile } from '@ensdomains/thorin'
 ## Variants
 
 ```tsx live=true
-<div direction="horizontal" wrap>
+<Stack direction="row" wrap="wrap">
   <Profile address="0xb6e040c9ecaae172a89bd561c5f73e1c48d28cd9" />
   <Profile
     address="0xb6e040c9ecaae172a89bd561c5f73e1c48d28cd9"
@@ -35,13 +35,13 @@ import { Profile } from '@ensdomains/thorin'
     ]}
     ensName="frontend.ens.eth"
   />
-</div>
+</Stack>
 ```
 
 ## Sizes
 
 ```tsx live=true
-<div direction="horizontal" wrap>
+<Stack direction="row" wrap="wrap">
   <Profile
     address="0xb6e040c9ecaae172a89bd561c5f73e1c48d28cd9"
     ensName="frontend.ens.eth"
@@ -57,5 +57,5 @@ import { Profile } from '@ensdomains/thorin'
     ensName="frontend.ens.eth"
     size="large"
   />
-</div>
+</Stack>
 ```

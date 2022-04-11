@@ -44,7 +44,7 @@ import { Input, SearchSVG } from '@ensdomains/thorin'
 ## Affixes
 
 ```tsx live=true
-<div>
+<Stack>
   <Input
     label="Search"
     placeholder="Name or wallet address"
@@ -57,7 +57,7 @@ import { Input, SearchSVG } from '@ensdomains/thorin'
     suffix=".mirror.xyz"
     type="text"
   />
-</div>
+</Stack>
 ```
 
 ## Units
@@ -69,7 +69,7 @@ import { Input, SearchSVG } from '@ensdomains/thorin'
 ## Types
 
 ```tsx live=true
-<div>
+<Stack>
   <Input label="Text" maxLength={140} placeholder="Foo bar baz" type="text" />
 
   <Input
@@ -81,7 +81,7 @@ import { Input, SearchSVG } from '@ensdomains/thorin'
     type="number"
     units="ETH"
   />
-</div>
+</Stack>
 ```
 
 ## Hide Label

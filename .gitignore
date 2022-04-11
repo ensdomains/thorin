@@ -11,6 +11,7 @@ yarn-error.log*
 docs/.next/
 docs/out/
 docs/public/playroom/
+docs/src/playroom/snippets
 
 components/dist/
 components/coverage/

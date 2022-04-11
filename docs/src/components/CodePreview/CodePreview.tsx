@@ -12,6 +12,7 @@ import { createPlayroomLink } from '~/utils/playroom'
 import { usePlayroomStore } from '~/playroom/PlayroomState'
 import { avatars } from '~/playroom/useScope'
 import { CopyButton } from '../CopyButton'
+import { Stack } from '../Stack'
 
 export type Props = {
   backgroundColor?: Colors
@@ -90,6 +91,7 @@ export const CodePreview = ({
         NextImage,
         NextLink,
         avatars,
+        Stack,
       }}
       theme={theme}
       transformCode={(code) => '/** @jsx mdx */' + code}
