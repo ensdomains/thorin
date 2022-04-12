@@ -69,7 +69,7 @@ const ENSText = styled(Typography)`
 `
 
 const ButtonContainer = styled.div`
-  ${largerThan.lg`
+  ${largerThan.md`
     display: none;
   `}
 `
@@ -80,7 +80,7 @@ const List = styled.div<{ open?: boolean }>`
     height: ${tokens.space['full']};
     padding-top: ${tokens.space['10']};
   `}
-  ${largerThan.lg`
+  ${largerThan.md`
     display: block;
     margin-bottom: ${tokens.space['24']};
     padding-bottom: ${tokens.space['24']};
