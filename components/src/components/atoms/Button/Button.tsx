@@ -8,7 +8,7 @@ import { Spinner } from '../Spinner'
 import { Typography } from '../Typography'
 import { GetCenterProps, getCenterProps } from './utils'
 
-export type Size = 'small' | 'medium'
+export type Size = 'extraSmall' | 'small' | 'medium'
 
 type NativeButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement>
 type NativeAnchorProps = React.AllHTMLAttributes<HTMLAnchorElement>
@@ -144,16 +144,6 @@ const ButtonElement = styled.button<ButtonElement>`
     }
   `}
 
-  ${({ shape }) => {
-    switch (shape) {
-      case 'circle':
-        return `
-          border-radius: ${tokens.radii.full};
-        `
-      default:
-        return ``
-    }
-  }}
   ${({ size }) => {
     switch (size) {
       case 'extraSmall':
@@ -212,14 +202,19 @@ const ButtonElement = styled.button<ButtonElement>`
         return ``
     }
   }}
-  
   ${({ size, shape }) => {
-    if (shape === 'square') {
-      return `border-radius: ${
-        size === 'small' ? tokens.radii['large'] : tokens.radii['2xLarge']
-      };`
+    switch (shape) {
+      case 'circle':
+        return `
+          border-radius: ${tokens.radii.full};
+        `
+      case 'square':
+        return `border-radius: ${
+          size === 'small' ? tokens.radii['large'] : tokens.radii['2xLarge']
+        };`
+      default:
+        return ``
     }
-    return ''
   }}
 
   ${({ size, center }) => {

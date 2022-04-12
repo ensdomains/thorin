@@ -45,6 +45,7 @@ const ContainerInner = styled.div`
 const NavlinkContainer = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
   flex-direction: row;
   gap: ${tokens.space['5']};
 
@@ -127,11 +128,14 @@ export const Nav = ({ links }: Props) => {
             <Button
               pressed={state.open}
               shadowless
-              size="small"
+              size="extraSmall"
               variant="transparent"
               onClick={() => setState((x) => ({ ...x, open: !x.open }))}
             >
-              <div aria-label={state.open ? 'Close menu' : 'Open menu'}>
+              <div
+                aria-label={state.open ? 'Close menu' : 'Open menu'}
+                style={{ height: 24 }}
+              >
                 <MenuSVG alt="Menu" height={24} width={24} />
               </div>
             </Button>

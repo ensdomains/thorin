@@ -13,7 +13,7 @@ interface ContainerProps {
   variant?: Variants
   size?: 'small' | 'base'
   ref: any
-  color: Colors
+  color?: Colors
   weight?: Weights
   font: Fonts
 }
@@ -131,7 +131,7 @@ export const Typography = React.forwardRef<HTMLElement, Props>(
       className,
       weight,
       font = 'sans',
-      color = 'text',
+      color,
       size,
     },
     ref,
