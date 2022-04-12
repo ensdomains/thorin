@@ -79,13 +79,12 @@ const List = styled.div<{ open?: boolean }>`
     display: ${open ? 'block' : 'none'};
     height: ${tokens.space['full']};
     padding-top: ${tokens.space['10']};
-    
-    ${largerThan.lg`
-      display: block;
-      margin-bottom: ${tokens.space['24']};
-      padding-bottom: ${tokens.space['24']};
-      padding-top: ${tokens.space['5']};
-    `}
+  `}
+  ${largerThan.lg`
+    display: block;
+    margin-bottom: ${tokens.space['24']};
+    padding-bottom: ${tokens.space['24']};
+    padding-top: ${tokens.space['5']};
   `}
 `
 
@@ -140,7 +139,7 @@ export const Nav = ({ links }: Props) => {
         </NavlinkContainer>
       </ContainerInner>
 
-      <List open={state.open} style={{ overflow: 'scroll' }}>
+      <List open={!!state.open} style={{ overflow: 'scroll' }}>
         <FlexContainer space="6">
           <FlexContainer space="3">
             <NavLink href={createGitHubLink()}>GitHub</NavLink>
