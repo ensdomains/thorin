@@ -140,7 +140,7 @@ export const Nav = ({ links }: Props) => {
         </NavlinkContainer>
       </ContainerInner>
 
-      <List open style={{ overflow: 'scroll' }}>
+      <List open={state.open} style={{ overflow: 'scroll' }}>
         <FlexContainer space="6">
           <FlexContainer space="3">
             <NavLink href={createGitHubLink()}>GitHub</NavLink>
@@ -148,7 +148,9 @@ export const Nav = ({ links }: Props) => {
           </FlexContainer>
 
           <FlexContainer>
-            <Typography variant="labelHeading">Guides</Typography>
+            <Typography variant="labelHeading" weight="bold">
+              Guides
+            </Typography>
             <FlexContainer space="3">
               <NavLink
                 active={
@@ -172,7 +174,9 @@ export const Nav = ({ links }: Props) => {
           </FlexContainer>
 
           <FlexContainer>
-            <Typography variant="labelHeading">Components</Typography>
+            <Typography variant="labelHeading" weight="bold">
+              Components
+            </Typography>
             {links.map((x) => (
               <FlexContainer key={x.name} space="3">
                 <Typography variant="label">{x.name}</Typography>
