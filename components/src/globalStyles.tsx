@@ -19,7 +19,6 @@ const GlobalStyle = createGlobalStyle`
       color: ${tokens.colors.base.current};
       font-size: 100%;
       font-feature-settings: "ss01" on, "ss03" on;
-      -moz-font-feature-settings: "ss01" on, "ss03" on;
       vertical-align: baseline;
     }
     
