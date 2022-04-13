@@ -21,14 +21,16 @@ import { Profile } from '@ensdomains/thorin'
 ## Variants
 
 ```tsx live=true
-<Stack direction="row" wrap="wrap">
+<Stack flexDirection="row" flexWrap="wrap">
   <Profile address="0xb6e040c9ecaae172a89bd561c5f73e1c48d28cd9" />
   <Profile
     address="0xb6e040c9ecaae172a89bd561c5f73e1c48d28cd9"
+    avatar="https://i.imgur.com/BSJBpQE.jpg"
     ensName="frontend.ens.eth"
   />
   <Profile
     address="0xb6e040c9ecaae172a89bd561c5f73e1c48d28cd9"
+    avatar="https://i.imgur.com/BSJBpQE.jpg"
     dropdownItems={[
       { label: 'Dashboard', onClick: () => null },
       { label: 'Disconnect', onClick: () => null, color: 'red' },
@@ -41,19 +43,22 @@ import { Profile } from '@ensdomains/thorin'
 ## Sizes
 
 ```tsx live=true
-<Stack direction="row" wrap="wrap">
+<Stack flexDirection="row" flexWrap="wrap">
   <Profile
     address="0xb6e040c9ecaae172a89bd561c5f73e1c48d28cd9"
+    avatar="https://i.imgur.com/BSJBpQE.jpg"
     ensName="frontend.ens.eth"
     size="small"
   />
   <Profile
     address="0xb6e040c9ecaae172a89bd561c5f73e1c48d28cd9"
+    avatar="https://i.imgur.com/BSJBpQE.jpg"
     ensName="frontend.ens.eth"
     size="medium"
   />
   <Profile
     address="0xb6e040c9ecaae172a89bd561c5f73e1c48d28cd9"
+    avatar="https://i.imgur.com/BSJBpQE.jpg"
     ensName="frontend.ens.eth"
     size="large"
   />

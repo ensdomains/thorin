@@ -4,6 +4,11 @@ import { tokens } from './tokens'
 
 const GlobalStyle = createGlobalStyle`
   ${({ theme }) => `
+    html,
+    body {
+      font-family: ${tokens.fonts['sans']};
+    }
+
     *, ::before, ::after {
       box-sizing: border-box;
       margin: 0;
@@ -13,7 +18,6 @@ const GlobalStyle = createGlobalStyle`
       border-width: 0;
       color: ${tokens.colors.base.current};
       font-size: 100%;
-      font-family: ${tokens.fonts['sans']};
       font-feature-settings: "ss01" on, "ss03" on;
       -moz-font-feature-settings: "ss01" on, "ss03" on;
       vertical-align: baseline;

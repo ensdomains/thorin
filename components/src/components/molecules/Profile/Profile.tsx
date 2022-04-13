@@ -132,6 +132,10 @@ const ProfileInnerContainer = styled.div<{
   min-width: ${tokens.space['none']};
 `
 
+const ReducedLineText = styled(Typography)`
+  line-height: initial;
+`
+
 const ProfileInner = ({ size, avatar, avatarAs, address, ensName }: Props) => (
   <>
     <Avatar
@@ -141,18 +145,18 @@ const ProfileInner = ({ size, avatar, avatarAs, address, ensName }: Props) => (
       src={avatar}
     />
     <ProfileInnerContainer size={size}>
-      <Typography
-        as="h3"
+      <ReducedLineText
         color={ensName ? 'text' : 'textTertiary'}
         ellipsis
+        forwardedAs="h3"
         variant={ensName && size === 'large' ? 'extraLarge' : 'large'}
         weight="bold"
       >
         {ensName || 'No name set'}
-      </Typography>
-      <Typography
-        as="h4"
+      </ReducedLineText>
+      <ReducedLineText
         color={ensName ? 'textTertiary' : 'text'}
+        forwardedAs="h4"
         variant="small"
         weight="bold"
       >
@@ -162,7 +166,7 @@ const ProfileInner = ({ size, avatar, avatarAs, address, ensName }: Props) => (
           size === 'large' ? 10 : 5,
           size === 'large' ? 10 : 5,
         )}
-      </Typography>
+      </ReducedLineText>
     </ProfileInnerContainer>
   </>
 )

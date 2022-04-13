@@ -18,7 +18,7 @@ import { Avatar } from '@ensdomains/thorin'
 ## Sizes
 
 ```tsx live=true
-<Stack align="center" direction="row" wrap="wrap">
+<Stack alignItems="center" flexDirection="row" flexWrap="wrap">
   <Avatar label="Noun 97" size="24" src={avatars.noun97} />
   <Avatar label="Noun 97" size="16" src={avatars.noun97} />
   <Avatar label="Noun 97" size="12" src={avatars.noun97} />
@@ -35,7 +35,7 @@ import { Avatar } from '@ensdomains/thorin'
 ## Shapes
 
 ```tsx live=true
-<Stack align="center" direction="row" wrap="wrap">
+<Stack alignItems="center" flexDirection="row" flexWrap="wrap">
   <Avatar
     label="Noun 97 circle"
     shape="circle"
@@ -56,7 +56,7 @@ import { Avatar } from '@ensdomains/thorin'
 By default, there is a light border around the edge to define image edges on similarly colored backgrounds. This can be disabled by using the `noBorder` prop.
 
 ```tsx live=true
-<Stack direction="row">
+<Stack flexDirection="row">
   <Avatar
     size="24"
     src={

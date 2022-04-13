@@ -33,17 +33,15 @@ const App = () => {
 ## Use Components
 
 ```tsx
-import { Button, IconLockClosed, Stack } from '@ensdomains/thorin'
+import { Button, IconLockClosed } from '@ensdomains/thorin'
 ```
 
 ```tsx live=true expand=true
-<div style={{ display: 'flex', alignItems: 'center' }}>
-  <Button
-    prefix={<LockClosedSVG />}
-    variant="primary"
-    width={{ xs: 'full', md: 'max' }}
-  >
-    Connect Wallet
-  </Button>
-</div>
+<Stack alignItems="center">
+  <div style={{ width: '180px' }}>
+    <Button prefix={<LockClosedSVG />} variant="primary">
+      Connect Wallet
+    </Button>
+  </div>
+</Stack>
 ```

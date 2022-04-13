@@ -18,7 +18,7 @@ import { Button } from '@ensdomains/thorin'
 ## Variants
 
 ```tsx live=true
-<Stack direction="row" wrap>
+<Stack flexDirection="row" flexWrap="wrap">
   <Button variant="action">Action</Button>
   <Button variant="primary">Primary</Button>
   <Button variant="secondary">Secondary</Button>
@@ -29,7 +29,7 @@ import { Button } from '@ensdomains/thorin'
 ## States
 
 ```tsx live=true
-<Stack direction="row" wrap>
+<Stack flexDirection="row" flexWrap="wrap">
   <Button loading>Loading</Button>
   <Button disabled>Disabled</Button>
   <Button
@@ -48,7 +48,7 @@ import { Button } from '@ensdomains/thorin'
 ## Sizes
 
 ```tsx live=true
-<Stack align="center" direction="row" wrap>
+<Stack alignItems="center" flexDirection="row" flexWrap="wrap">
   <Button size="medium">Connect Wallet</Button>
   <Button size="small">Connect Wallet</Button>
 </Stack>
@@ -59,10 +59,10 @@ import { Button } from '@ensdomains/thorin'
 When `variant` is set to `primary` or `secondary`, you can `tone` to change the button accent color.
 
 ```tsx live=true
-<Stack space="64px">
+<Stack gap="64px">
   <Stack>
     <Typography variant="label">Primary</Typography>
-    <Stack direction="row" wrap>
+    <Stack flexDirection="row" flexWrap="wrap">
       <Button tone="accent" variant="primary">
         Accent
       </Button>
@@ -80,7 +80,7 @@ When `variant` is set to `primary` or `secondary`, you can `tone` to change the 
 
   <Stack>
     <Typography variant="label">Secondary</Typography>
-    <Stack direction="row" wrap>
+    <Stack flexDirection="row" flexWrap="wrap">
       <Button tone="accent" variant="secondary">
         Accent
       </Button>
@@ -98,7 +98,7 @@ When `variant` is set to `primary` or `secondary`, you can `tone` to change the 
 
   <Stack>
     <Typography variant="label">Action</Typography>
-    <Stack direction="row" wrap>
+    <Stack flexDirection="row" flexWrap="wrap">
       <Button tone="accent" variant="action">
         Accent
       </Button>
@@ -121,10 +121,10 @@ When `variant` is set to `primary` or `secondary`, you can `tone` to change the 
 Optional `center` prop reserves space for affixes and loading spinner.
 
 ```tsx live=true
-<Stack space="64px">
+<Stack gap="64px">
   <Stack>
     <Typography variant="label">Default</Typography>
-    <Stack direction="row" wrap>
+    <Stack flexDirection="row" flexWrap="wrap">
       <Button prefix={<PlusSmallSVG />}>Add Entry</Button>
       <Button suffix={<PlusSmallSVG />}>Add Entry</Button>
       <Button prefix={<PlusSmallSVG />} suffix={<PlusSmallSVG />}>
@@ -138,7 +138,7 @@ Optional `center` prop reserves space for affixes and loading spinner.
 
   <Stack>
     <Typography variant="label">Center</Typography>
-    <Stack direction="row" wrap>
+    <Stack flexDirection="row" flexWrap="wrap">
       <Button center prefix={<PlusSmallSVG />}>
         Add Entry
       </Button>
@@ -175,7 +175,7 @@ Optional `center` prop reserves space for affixes and loading spinner.
 ## Shapes
 
 ```tsx live=true
-<Stack direction="row" wrap>
+<Stack flexDirection="row" flexWrap="wrap">
   <Button shape="square">Square</Button>
   <Button shape="circle">Circle</Button>
 </Stack>
@@ -184,7 +184,7 @@ Optional `center` prop reserves space for affixes and loading spinner.
 ## Link
 
 ```tsx live=true
-<Stack direction="row" wrap>
+<Stack flexDirection="row" flexWrap="wrap">
   <Button as="a" href="https://ens.domains" rel="noreferrer" target="_blank">
     Visit ENS
   </Button>

@@ -37,6 +37,7 @@ const Container = styled.div`
     border-radius: ${tokens.radii['2xLarge']};
     border-width: ${tokens.space['0.5']};
     overflow: hidden;
+    font-family: ${tokens.fonts.mono};
   `}
 `
 
