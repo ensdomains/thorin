@@ -8,13 +8,10 @@ const path = require('path')
 
 const getComponentPaths = (category) =>
   glob
-    .sync(
-      `../components/src/components/${category}/**/!(Icons[A-Z])*.docs.mdx`,
-      {
-        cwd: process.cwd(),
-        absolute: true,
-      },
-    )
+    .sync(`./src/reference/mdx/${category}/**/!(Icons[A-Z])*.docs.mdx`, {
+      cwd: process.cwd(),
+      absolute: true,
+    })
     .map((x) => {
       const name = path.basename(x, '.docs.mdx')
       const route = `/components/${category}/${name}`

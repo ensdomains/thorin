@@ -107,20 +107,3 @@ export const Heading = React.forwardRef(
     </HeadingContainer>
   ),
 )
-
-// export const Heading = React.forwardRef() => {
-//   return (
-//     <HeadingContainer
-//       as={as}
-//       id={id}
-//       textAlign={align}
-//       textTransform={transform}
-//       {...{
-//         level,
-//         responsive,
-//       }}
-//     >
-//       {children}
-//     </HeadingContainer>
-//   )
-// })

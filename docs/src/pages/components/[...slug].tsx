@@ -12,6 +12,10 @@ import { PropItem } from 'react-docgen-typescript'
 
 import { Typography, tokens } from '@ensdomains/thorin'
 
+import { glob } from 'glob'
+
+import path from 'path'
+
 import { Props as LayoutProps, getLayout } from '~/layouts/docs'
 import { getComponentName, getComponentPaths } from '~/utils/fs'
 import { getStaticTypes } from '~/utils/getStaticTypes'
@@ -46,11 +50,16 @@ export const getStaticProps: GetStaticProps<StaticProps> = async (context) => {
   const mdxSource = await serialize(content, {
     scope: data,
   })
-
-  const componentPathname = pathname.replace('docs.mdx', 'tsx')
+  const globComponentPath = glob.sync(
+    `../components/src/**/${path.basename(pathname, '.docs.mdx')}.tsx`,
+    {
+      cwd: process.cwd(),
+      absolute: true,
+    },
+  )
+  const componentPathname = globComponentPath[0]
   const staticTypes =
     getStaticTypes(componentPathname)[slug[slug.length - 1]] ?? null
-
   const docsLink = createGitHubLink(pathname.replace(/^\/.*thorin/i, ''))
   const sourceLink = createGitHubLink(
     componentPathname.replace(/^\/.*thorin/i, ''),
