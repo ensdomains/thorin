@@ -18,21 +18,7 @@ const getComponentPaths = (category) =>
       return { name, route }
     })
 
-// const componentPaths = glob
-//   .sync('../components/src/components/**/*.docs.mdx', {
-//     cwd: process.cwd(),
-//     absolute: true,
-//   })
-//   .map((x) => {
-//     const name = path.basename(x, '.docs.mdx')
-//     const route = `/components/${name}`
-//     return { name, route }
-//   })
-
 const config = {
-  // images: {
-  //   domains: ['images.mirror-media.xyz'],
-  // },
   env: {
     navLinks: [
       {

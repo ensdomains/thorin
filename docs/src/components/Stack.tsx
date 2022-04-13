@@ -13,13 +13,15 @@ type Props = {
 
 const Container = styled.div<Props>`
   display: flex;
-  flex-direction: ${(props) => props.flexDirection || 'column'};
-  justify-content: ${(props) => props.justifyContent};
-  align-items: ${(props) => props.alignItems};
-  flex: ${(props) => props.flex};
-  gap: ${(props) => props.gap || '16px'};
-  flex-gap: ${(props) => props.gap || '16px'};
-  flex-wrap: ${(props) => props.flexWrap};
+  ${({ flexDirection, justifyContent, alignItems, flex, gap, flexWrap }) => `
+    flex-direction: ${flexDirection || 'column'};
+    justify-content: ${justifyContent};
+    align-items: ${alignItems};
+    flex: ${flex};
+    gap: ${gap || '16px'};
+    flex-gap: ${gap || '16px'};
+    flex-wrap: ${flexWrap};
+  `}
 `
 
 export const Stack = ({
