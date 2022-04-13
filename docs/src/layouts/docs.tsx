@@ -38,7 +38,8 @@ const Aside = styled.aside`
 
   ${largerThan.md`
     left: ${tokens.space['4']};
-    width: ${tokens.space['full']};
+    width: ${tokens.space['max']};
+    margin-right: ${tokens.space['10']};
   `}
 
   ${largerThan.lg`
@@ -53,9 +54,13 @@ const Aside = styled.aside`
 `
 
 const Article = styled.article`
-  max-width: ${tokens.space['224']};
+  width: 100%;
   padding-bottom: ${tokens.space['20']};
   padding-top: ${tokens.space['20']};
+
+  ${largerThan.md`
+    max-width: ${tokens.space['224']}
+  `}
 
   ${largerThan.lg`
     max-width: ${tokens.space['192']};
@@ -65,6 +70,13 @@ const Article = styled.article`
   ${largerThan.xl`
     max-width: ${tokens.space['224']};
   `}
+`
+
+const Main = styled.main`
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 `
 
 export type Props = {
@@ -99,13 +111,13 @@ const Layout: NextLayout<Props> = ({ children, meta }) => {
           <Nav links={links} />
         </Aside>
 
-        <main>
+        <Main>
           <SkipNavContent />
           <Article>
             {meta && <Header {...meta} />}
             {children}
           </Article>
-        </main>
+        </Main>
       </Container>
     </>
   )

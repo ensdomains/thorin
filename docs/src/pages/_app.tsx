@@ -11,6 +11,7 @@ import { ThorinGlobalStyles } from '@ensdomains/thorin'
 import { MDX } from '~/components'
 import { getLayout as getDocsLayout } from '~/layouts/docs'
 import GlobalStyle from '~/styles/globalStyles'
+import '../styles/styles.css'
 
 const theme: DefaultTheme = {
   mode: 'light',

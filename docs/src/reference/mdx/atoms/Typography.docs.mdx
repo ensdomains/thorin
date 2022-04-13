@@ -1,0 +1,73 @@
+---
+title: Typography
+description: Primitive typographic component
+---
+
+```tsx
+import { Typography } from '@ensdomains/thorin'
+```
+
+```tsx expand=true live=true
+<Typography>Hello World</Typography>
+```
+
+## Props
+
+<PropsTable sourceLink={sourceLink} types={types} />
+
+## Variants
+
+```tsx live=true
+<Stack>
+  <Typography variant="extraLarge">Extra Large</Typography>
+  <Typography variant="large">Large</Typography>
+  <Typography variant="base">Base</Typography>
+  <Typography variant="small">Small</Typography>
+  <Typography variant="label">Label</Typography>
+</Stack>
+```
+
+## Weights
+
+```tsx live=true
+<Stack>
+  <Typography weight="bold">Bold (650)</Typography>
+  <Typography weight="semiBold">Semi Bold (550)</Typography>
+  <Typography weight="medium">Medium (500)</Typography>
+  <Typography weight="normal">Normal (400)</Typography>
+  <Typography weight="light">Light (300)</Typography>
+</Stack>
+```
+
+## Fonts
+
+```tsx live=true
+<Stack>
+  <Typography font="sans">Sans</Typography>
+  <Typography font="mono">Mono</Typography>
+</Stack>
+```
+
+## Color
+
+```tsx live=true
+<Stack>
+  <Typography color="foreground">Foreground</Typography>
+  <Typography color="text">Typography</Typography>
+  <Typography color="textSecondary">Typography Secondary</Typography>
+  <Typography color="textTertiary">Typography Tertiary</Typography>
+  <Typography color="accent">Accent</Typography>
+  <Typography color="red">Red</Typography>
+  <Typography color="green">Green</Typography>
+</Stack>
+```
+
+## Ellipsis
+
+```tsx live=true
+<div style={{ width: 64 }}>
+  <Typography ellipsis>
+    The quick brown fox jumped over the lazy dogs.
+  </Typography>
+</div>
+```

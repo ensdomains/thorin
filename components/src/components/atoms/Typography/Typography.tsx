@@ -11,20 +11,17 @@ type Fonts = 'sans' | 'mono'
 interface ContainerProps {
   ellipsis?: boolean
   variant?: Variants
-  size: 'small' | 'base'
+  size?: 'small' | 'base'
   ref: any
-  color: Colors
-  weight: Weights
+  color?: Colors
+  weight?: Weights
   font: Fonts
 }
 
 const Container = styled.div<ContainerProps>`
-  ${({ theme, color, weight, font, size }) => `
-      color: ${tokens.colors[theme.mode][color]};
+  ${({ font }) => `
       font-family: ${tokens.fonts[font]};
       letter-spacing: ${tokens.letterSpacings['-0.01']};
-      font-size: ${tokens.fontSizes[size]};
-      font-weight: ${tokens.fontWeights[weight]};
       letter-spacing: ${tokens.letterSpacings['-0.015']};
       line-height: ${tokens.lineHeights['1.5']};
   `}
@@ -64,7 +61,7 @@ const Container = styled.div<ContainerProps>`
         return `
           color: ${tokens.colors[theme.mode].text};
           font-size: ${tokens.fontSizes['label']};
-          font-weight: ${tokens.fontWeights['semiBold']};
+          font-weight: ${tokens.fontWeights['bold']};
           letter-spacing: ${tokens.letterSpacings['-0.01']};
           text-transform: capitalize;
         `
@@ -72,7 +69,7 @@ const Container = styled.div<ContainerProps>`
         return `
           color: ${tokens.colors[theme.mode].text};
           font-size: ${tokens.fontSizes['small']};
-          font-weight: ${tokens.fontWeights['semiBold']};
+          font-weight: ${tokens.fontWeights['bold']};
           letter-spacing: ${tokens.letterSpacings['-0.01']};
           text-transform: capitalize;
         `
@@ -81,7 +78,21 @@ const Container = styled.div<ContainerProps>`
     }
   }}
 
-  ${({ weight }) => `
+  ${({ theme, color }) =>
+    color &&
+    `
+    color: ${tokens.colors[theme.mode][color]};
+  `}
+
+  ${({ size }) =>
+    size &&
+    `
+      font-size: ${tokens.fontSizes[size]};
+  `}
+
+  ${({ weight }) =>
+    weight &&
+    `
       font-weight: ${tokens.fontWeights[weight]};
   `}
 `
@@ -118,10 +129,10 @@ export const Typography = React.forwardRef<HTMLElement, Props>(
       ellipsis,
       variant,
       className,
-      weight = 'normal',
+      weight,
       font = 'sans',
-      color = 'text',
-      size = 'base',
+      color,
+      size,
     },
     ref,
   ) => {

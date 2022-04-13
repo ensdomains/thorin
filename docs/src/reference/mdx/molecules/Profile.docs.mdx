@@ -1,0 +1,66 @@
+---
+title: Profile
+description: Ethereum wallet profile
+---
+
+```tsx
+import { Profile } from '@ensdomains/thorin'
+```
+
+```tsx expand=true live=true
+<Profile
+  address="0xb6e040c9ecaae172a89bd561c5f73e1c48d28cd9"
+  ensName="frontend.ens.eth"
+/>
+```
+
+## Props
+
+<PropsTable sourceLink={sourceLink} types={types} />
+
+## Variants
+
+```tsx live=true
+<Stack flexDirection="row" flexWrap="wrap">
+  <Profile address="0xb6e040c9ecaae172a89bd561c5f73e1c48d28cd9" />
+  <Profile
+    address="0xb6e040c9ecaae172a89bd561c5f73e1c48d28cd9"
+    avatar="https://i.imgur.com/BSJBpQE.jpg"
+    ensName="frontend.ens.eth"
+  />
+  <Profile
+    address="0xb6e040c9ecaae172a89bd561c5f73e1c48d28cd9"
+    avatar="https://i.imgur.com/BSJBpQE.jpg"
+    dropdownItems={[
+      { label: 'Dashboard', onClick: () => null },
+      { label: 'Disconnect', onClick: () => null, color: 'red' },
+    ]}
+    ensName="frontend.ens.eth"
+  />
+</Stack>
+```
+
+## Sizes
+
+```tsx live=true
+<Stack flexDirection="row" flexWrap="wrap">
+  <Profile
+    address="0xb6e040c9ecaae172a89bd561c5f73e1c48d28cd9"
+    avatar="https://i.imgur.com/BSJBpQE.jpg"
+    ensName="frontend.ens.eth"
+    size="small"
+  />
+  <Profile
+    address="0xb6e040c9ecaae172a89bd561c5f73e1c48d28cd9"
+    avatar="https://i.imgur.com/BSJBpQE.jpg"
+    ensName="frontend.ens.eth"
+    size="medium"
+  />
+  <Profile
+    address="0xb6e040c9ecaae172a89bd561c5f73e1c48d28cd9"
+    avatar="https://i.imgur.com/BSJBpQE.jpg"
+    ensName="frontend.ens.eth"
+    size="large"
+  />
+</Stack>
+```

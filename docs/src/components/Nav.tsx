@@ -45,6 +45,7 @@ const ContainerInner = styled.div`
 const NavlinkContainer = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
   flex-direction: row;
   gap: ${tokens.space['5']};
 
@@ -69,7 +70,7 @@ const ENSText = styled(Typography)`
 `
 
 const ButtonContainer = styled.div`
-  ${largerThan.lg`
+  ${largerThan.md`
     display: none;
   `}
 `
@@ -79,13 +80,12 @@ const List = styled.div<{ open?: boolean }>`
     display: ${open ? 'block' : 'none'};
     height: ${tokens.space['full']};
     padding-top: ${tokens.space['10']};
-    
-    ${largerThan.lg`
-      display: block;
-      margin-bottom: ${tokens.space['24']};
-      padding-bottom: ${tokens.space['24']};
-      padding-top: ${tokens.space['5']};
-    `}
+  `}
+  ${largerThan.md`
+    display: block;
+    margin-bottom: ${tokens.space['24']};
+    padding-bottom: ${tokens.space['24']};
+    padding-top: ${tokens.space['5']};
   `}
 `
 
@@ -128,11 +128,14 @@ export const Nav = ({ links }: Props) => {
             <Button
               pressed={state.open}
               shadowless
-              size="small"
+              size="extraSmall"
               variant="transparent"
               onClick={() => setState((x) => ({ ...x, open: !x.open }))}
             >
-              <div aria-label={state.open ? 'Close menu' : 'Open menu'}>
+              <div
+                aria-label={state.open ? 'Close menu' : 'Open menu'}
+                style={{ height: 24 }}
+              >
                 <MenuSVG alt="Menu" height={24} width={24} />
               </div>
             </Button>
@@ -140,7 +143,7 @@ export const Nav = ({ links }: Props) => {
         </NavlinkContainer>
       </ContainerInner>
 
-      <List open style={{ overflow: 'scroll' }}>
+      <List open={!!state.open} style={{ overflow: 'scroll' }}>
         <FlexContainer space="6">
           <FlexContainer space="3">
             <NavLink href={createGitHubLink()}>GitHub</NavLink>
@@ -148,7 +151,9 @@ export const Nav = ({ links }: Props) => {
           </FlexContainer>
 
           <FlexContainer>
-            <Typography variant="labelHeading">Guides</Typography>
+            <Typography variant="labelHeading" weight="bold">
+              Guides
+            </Typography>
             <FlexContainer space="3">
               <NavLink
                 active={
@@ -172,7 +177,9 @@ export const Nav = ({ links }: Props) => {
           </FlexContainer>
 
           <FlexContainer>
-            <Typography variant="labelHeading">Components</Typography>
+            <Typography variant="labelHeading" weight="bold">
+              Components
+            </Typography>
             {links.map((x) => (
               <FlexContainer key={x.name} space="3">
                 <Typography variant="label">{x.name}</Typography>
@@ -204,6 +211,10 @@ const HeaderLink = styled.div`
   &:hover {
     transform: translateY(-1px);
     filter: brightness(1.05);
+  }
+
+  & a {
+    text-decoration: none;
   }
 `
 

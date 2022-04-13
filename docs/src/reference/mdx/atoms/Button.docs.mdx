@@ -1,0 +1,195 @@
+---
+title: Button
+description: Trigger for actions
+---
+
+```tsx
+import { Button } from '@ensdomains/thorin'
+```
+
+```tsx expand=true live=true
+<Button>Connect Wallet</Button>
+```
+
+## Props
+
+<PropsTable sourceLink={sourceLink} types={types} />
+
+## Variants
+
+```tsx live=true
+<Stack flexDirection="row" flexWrap="wrap">
+  <Button variant="action">Action</Button>
+  <Button variant="primary">Primary</Button>
+  <Button variant="secondary">Secondary</Button>
+  <Button variant="transparent">Transparent</Button>
+</Stack>
+```
+
+## States
+
+```tsx live=true
+<Stack flexDirection="row" flexWrap="wrap">
+  <Button loading>Loading</Button>
+  <Button disabled>Disabled</Button>
+  <Button
+    disabled={getState('loading')}
+    loading={getState('loading')}
+    onClick={() => {
+      toggleState('loading')
+      setTimeout(() => toggleState('loading'), 1000)
+    }}
+  >
+    Click Me
+  </Button>
+</Stack>
+```
+
+## Sizes
+
+```tsx live=true
+<Stack alignItems="center" flexDirection="row" flexWrap="wrap">
+  <Button size="medium">Connect Wallet</Button>
+  <Button size="small">Connect Wallet</Button>
+</Stack>
+```
+
+## Tones
+
+When `variant` is set to `primary` or `secondary`, you can `tone` to change the button accent color.
+
+```tsx live=true
+<Stack gap="64px">
+  <Stack>
+    <Typography variant="label">Primary</Typography>
+    <Stack flexDirection="row" flexWrap="wrap">
+      <Button tone="accent" variant="primary">
+        Accent
+      </Button>
+      <Button tone="blue" variant="primary">
+        Blue
+      </Button>
+      <Button tone="green" variant="primary">
+        Green
+      </Button>
+      <Button tone="red" variant="primary">
+        Red
+      </Button>
+    </Stack>
+  </Stack>
+
+  <Stack>
+    <Typography variant="label">Secondary</Typography>
+    <Stack flexDirection="row" flexWrap="wrap">
+      <Button tone="accent" variant="secondary">
+        Accent
+      </Button>
+      <Button tone="blue" variant="secondary">
+        Blue
+      </Button>
+      <Button tone="green" variant="secondary">
+        Green
+      </Button>
+      <Button tone="red" variant="secondary">
+        Red
+      </Button>
+    </Stack>
+  </Stack>
+
+  <Stack>
+    <Typography variant="label">Action</Typography>
+    <Stack flexDirection="row" flexWrap="wrap">
+      <Button tone="accent" variant="action">
+        Accent
+      </Button>
+      <Button tone="blue" variant="action">
+        Blue
+      </Button>
+      <Button tone="green" variant="action">
+        Green
+      </Button>
+      <Button tone="red" variant="action">
+        Red
+      </Button>
+    </Stack>
+  </Stack>
+</Stack>
+```
+
+## Affixes
+
+Optional `center` prop reserves space for affixes and loading spinner.
+
+```tsx live=true
+<Stack gap="64px">
+  <Stack>
+    <Typography variant="label">Default</Typography>
+    <Stack flexDirection="row" flexWrap="wrap">
+      <Button prefix={<PlusSmallSVG />}>Add Entry</Button>
+      <Button suffix={<PlusSmallSVG />}>Add Entry</Button>
+      <Button prefix={<PlusSmallSVG />} suffix={<PlusSmallSVG />}>
+        Add Entry
+      </Button>
+      <Button loading prefix={<PlusSmallSVG />}>
+        Add Entry
+      </Button>
+    </Stack>
+  </Stack>
+
+  <Stack>
+    <Typography variant="label">Center</Typography>
+    <Stack flexDirection="row" flexWrap="wrap">
+      <Button center prefix={<PlusSmallSVG />}>
+        Add Entry
+      </Button>
+      <Button center suffix={<PlusSmallSVG />}>
+        Add Entry
+      </Button>
+      <Button center prefix={<PlusSmallSVG />} suffix={<PlusSmallSVG />}>
+        Add Entry
+      </Button>
+      <Button center loading prefix={<PlusSmallSVG />}>
+        Add Entry
+      </Button>
+    </Stack>
+  </Stack>
+</Stack>
+```
+
+## Width
+
+```tsx live=true
+<Stack>
+  <Button width="64">Fixed Width</Button>
+  <Button width="full">Full Width</Button>
+  <Button width={{ xs: 'full', md: 'max' }}>Responsive Width</Button>
+  <Button loading prefix={<PlusSmallSVG />} width="full">
+    With Prefix & Loading
+  </Button>
+  <Button center loading prefix={<PlusSmallSVG />} width="full">
+    Centered With Prefix & Loading
+  </Button>
+</Stack>
+```
+
+## Shapes
+
+```tsx live=true
+<Stack flexDirection="row" flexWrap="wrap">
+  <Button shape="square">Square</Button>
+  <Button shape="circle">Circle</Button>
+</Stack>
+```
+
+## Link
+
+```tsx live=true
+<Stack flexDirection="row" flexWrap="wrap">
+  <Button as="a" href="https://ens.domains" rel="noreferrer" target="_blank">
+    Visit ENS
+  </Button>
+  <NextLink href="/" passHref>
+    <Button as="a">Go to Home</Button>
+  </NextLink>
+</Stack>
+```

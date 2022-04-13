@@ -17,12 +17,6 @@ type Props = {
   types: Record<string, PropItem>
 }
 
-const dataProps = {
-  as: 'td',
-  paddingX: '4',
-  paddingY: '3',
-}
-
 const Container = styled.div`
   max-width: ${tokens.space['full']};
   overflow: scroll;
@@ -32,7 +26,7 @@ const Container = styled.div`
   `}
 `
 
-const TableHead = styled.div`
+const TableHead = styled.th`
   ${({ theme }) => `
       background-color: ${tokens.colors[theme.mode].background};
       position: sticky;
@@ -47,10 +41,11 @@ const TableHeadLabelContainer = styled.div<{
   ${({ theme, i, headers }) => `
       background-color: ${tokens.colors[theme.mode].foregroundTertiary};
       border-color: ${tokens.colors[theme.mode].foregroundSecondary};
-      ${i === 0 && `border-left-radius: ${tokens.radii['large']};`}
+      ${i === 0 ? `border-left-radius: ${tokens.radii['large']};` : ``}
       ${
-        i === headers.length - 1 &&
-        `border-right-radius: ${tokens.radii['large']};`
+        i === headers.length - 1
+          ? `border-right-radius: ${tokens.radii['large']};`
+          : ``
       }
       padding: ${tokens.space['2.5']} ${tokens.space['4']};
 `}
@@ -98,6 +93,10 @@ const NoProps = styled(Typography)`
 `}
 `
 
+const DataCell = styled.td`
+  padding: ${tokens.space['3']} ${tokens.space['4']};
+`
+
 const FlexContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -131,7 +130,7 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
         <Container>
           <table style={{ width: tokens.space['full'] }}>
             <thead>
-              <tr style={{ textAlign: 'left' }}>
+              <tr style={{ textAlign: 'left', background: 'none' }}>
                 {headers.map((x, i) => (
                   <TableHead key={x}>
                     <TableHeadLabelContainer {...{ i, headers }}>
@@ -148,7 +147,7 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
                   key={x.name}
                   style={{ borderBottomWidth: tokens.space['px'] }}
                 >
-                  <div {...dataProps}>
+                  <DataCell>
                     <Name>
                       {x.name}
                       {x.required && (
@@ -157,22 +156,22 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
                         </Required>
                       )}
                     </Name>
-                  </div>
+                  </DataCell>
 
-                  <div {...dataProps}>
+                  <DataCell>
                     <RawName>{x.type.raw ?? x.type.name}</RawName>
-                  </div>
+                  </DataCell>
 
-                  <div {...dataProps}>
+                  <DataCell>
                     <DefaultValue>
                       {x.defaultValue?.value.toString() ?? '-'}
                     </DefaultValue>
-                  </div>
+                  </DataCell>
 
                   {state.showDescriptions && (
-                    <div {...dataProps}>
+                    <DataCell>
                       <Description>{x.description || '-'}</Description>
-                    </div>
+                    </DataCell>
                   )}
                 </tr>
               ))}

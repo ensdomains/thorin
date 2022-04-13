@@ -1,20 +1,7 @@
 import * as React from 'react'
-import styled from 'styled-components'
 import NextLink from 'next/link'
-import { tokens } from '@ensdomains/thorin'
 
 type NextLinkProps = Parameters<typeof NextLink>[0]
-
-const LinkInner = styled.a`
-  ${({ theme }) => `
-      cursor: pointer;
-      text-decoration: underline;
-      text-decoration-color: ${tokens.colors[theme.mode].accent};
-      text-underline-offset: 0.2em;
-  
-      color: ${tokens.colors[theme.mode].accent};
-  `}
-`
 
 type Props = {
   as?: NextLinkProps['as']
@@ -31,9 +18,14 @@ export const Link = ({
   const external = !href.startsWith('/')
   if (external) {
     return (
-      <LinkInner href={href} rel="noopener noreferrer" target="_blank">
+      <a
+        className={className}
+        href={href}
+        rel="noopener noreferrer"
+        target="_blank"
+      >
         {children}
-      </LinkInner>
+      </a>
     )
   }
 
