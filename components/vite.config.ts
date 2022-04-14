@@ -21,6 +21,27 @@ export default defineConfig({
     svgrPlugin({
       svgrOptions: {
         icon: true,
+        svgo: true,
+        replaceAttrValues: { '#000': 'currentColor', black: 'currentColor' },
+        svgProps: {
+          focusable: 'false',
+          shapeRendering: 'geometricPrecision',
+          viewBox: '0 0 24 24',
+        },
+        svgoConfig: {
+          multipass: true,
+          plugins: [
+            {
+              name: 'preset-default',
+              params: {
+                overrides: {
+                  removeViewBox: false,
+                  removeDimensions: true,
+                },
+              },
+            },
+          ],
+        },
         // ...svgr options (https://react-svgr.com/docs/options/)
       },
     }),
