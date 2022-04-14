@@ -17,6 +17,7 @@ interface DropdownMenuContainer {
   opened: boolean
   inner: boolean
   shortThrow: boolean
+  align: 'left' | 'right'
 }
 
 const DropdownMenuContainer = styled.div<DropdownMenuContainer>`
@@ -97,6 +98,15 @@ const DropdownMenuContainer = styled.div<DropdownMenuContainer>`
       margin-top: -${tokens.space['12']};
     `
   }}
+
+  ${({ align }) =>
+    align === 'left'
+      ? `
+    left: 0;
+  `
+      : `
+    right: 0;
+  `}
 `
 
 interface MenuButtonProps {

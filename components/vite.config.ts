@@ -30,17 +30,22 @@ export default defineConfig({
         },
         svgoConfig: {
           multipass: true,
-          plugins: [
-            {
-              name: 'preset-default',
-              params: {
-                overrides: {
-                  removeViewBox: false,
-                  removeDimensions: true,
+          removeViewBox: false,
+          removeDimensions: true,
+        },
+        titleProp: true,
+        jsx: {
+          babelConfig: {
+            plugins: [
+              [
+                '@svgr/babel-plugin-remove-jsx-attribute',
+                {
+                  elements: ['path'],
+                  attributes: ['className', 'strokeWidth'],
                 },
-              },
-            },
-          ],
+              ],
+            ],
+          },
         },
         // ...svgr options (https://react-svgr.com/docs/options/)
       },

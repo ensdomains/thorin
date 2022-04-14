@@ -23,7 +23,7 @@ const Container = styled.div<ContainerProps>`
       font-family: ${tokens.fonts[font]};
       letter-spacing: ${tokens.letterSpacings['-0.01']};
       letter-spacing: ${tokens.letterSpacings['-0.015']};
-      line-height: ${tokens.lineHeights['1.5']};
+      line-height: ${tokens.lineHeights.normal};
   `}
 
   ${({ ellipsis }) =>
@@ -41,7 +41,7 @@ const Container = styled.div<ContainerProps>`
           font-size: ${tokens.fontSizes['small']};
           font-weight: ${tokens.fontWeights['normal']};
           letter-spacing: ${tokens.letterSpacings['-0.01']};
-          line-height: ${tokens.lineHeights['1.5']};
+          line-height: ${tokens.lineHeights.normal};
         `
       case 'large':
         return `
