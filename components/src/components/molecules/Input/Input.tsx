@@ -67,7 +67,7 @@ const InputParent = styled.div<InputParentProps>`
     color: ${tokens.colors[theme.mode].text};
     display: flex;
     transition-duration: ${tokens.transitionDuration['150']};
-    transition-property: colors;
+    transition-property: color, border-color, background-color;
     transition-timing-function: ${tokens.transitionTimingFunction['inOut']};
     
     &:focus-within {
@@ -245,7 +245,7 @@ const MaxButton = styled.button`
       padding: ${tokens.space['2']};
       text-transform: uppercase;
       transition-duration: ${tokens.transitionDuration['150']};
-      transition-property: colors;
+      transition-property: color, border-color, background-color;
       transition-timing-function: ${tokens.transitionTimingFunction['inOut']};
       visibility: hidden;
       

@@ -61,7 +61,7 @@ const ComponentContainer = styled.div`
     padding: ${tokens.space['4']};
     width: ${tokens.space['max']};
     transition-duration: ${tokens.transitionDuration['150']};
-    transition-property: shadow;
+    transition-property: box-shadow;
     transition-timing-function: ${tokens.transitionTimingFunction['inOut']};
     
     box-shadow: ${tokens.boxShadows[theme.mode]['1']}; 

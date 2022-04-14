@@ -19,7 +19,7 @@ const TextArea = styled.textarea<{ disabled?: boolean; error?: boolean }>`
       min-height: ${tokens.space['14']};
       padding: ${tokens.space['4']};
       transition-duration: ${tokens.transitionDuration['150']};
-      transition-property: colors;
+      transition-property: color, border-color, background-color;
       transition-timing-function: ${tokens.transitionTimingFunction['inOut']};
       width: ${tokens.space['full']};
       resize: none;

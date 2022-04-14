@@ -22,7 +22,7 @@ const Container = styled.div<ContainerProps>`
     hover &&
     `
       transition-duration: ${tokens.transitionDuration['150']};
-      transition-property: colors;
+      transition-property: color, border-color, background-color;
       transition-timing-function: ${tokens.transitionTimingFunction['inOut']};
   `}
 

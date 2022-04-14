@@ -34,7 +34,7 @@ const Container = styled.div<ContainerProps>`
   justify-content: space-between;
   border-radius: ${tokens.radii['full']};
   transition-duration: ${tokens.transitionDuration['150']};
-  transition-property: colors;
+  transition-property: color, border-color, background-color;
   transition-timing-function: ${tokens.transitionTimingFunction['inOut']};
   position: relative;
   z-index: 10;
