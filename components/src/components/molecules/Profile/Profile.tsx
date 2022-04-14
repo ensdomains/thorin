@@ -34,12 +34,18 @@ const Container = styled.div<ContainerProps>`
   justify-content: space-between;
   border-radius: ${tokens.radii['full']};
   transition-duration: ${tokens.transitionDuration['150']};
-  transition-property: color, border-color, background-color;
+  transition-property: color, border-color, background-color, transform, filter,
+    box-shadow;
   transition-timing-function: ${tokens.transitionTimingFunction['inOut']};
   position: relative;
   z-index: 10;
   padding: ${tokens.space['2']} ${tokens.space['4']} ${tokens.space['2']}
     ${tokens.space['2.5']};
+  box-shadow: ${tokens.shadows['0.25']};
+  ${({ theme }) => `
+    color: ${tokens.colors[theme.mode].foregroundSecondary};
+    background-color: ${tokens.colors[theme.mode].groupBackground};
+  `}
 
   ${({ hasChevron }) =>
     hasChevron &&
@@ -52,15 +58,10 @@ const Container = styled.div<ContainerProps>`
   `}
 
   ${({ open, theme }) =>
-    open
-      ? `
+    open &&
+    `
       box-shadow: ${tokens.shadows['0']};
       background-color: ${tokens.colors[theme.mode].foregroundSecondary};
-  `
-      : `
-      box-shadow: ${tokens.shadows['0.25']};
-      color: ${tokens.colors[theme.mode].foregroundSecondary};
-      background-color: ${tokens.colors[theme.mode].groupBackground};
   `}
 
   ${({ size }) => {
@@ -100,7 +101,7 @@ const Container = styled.div<ContainerProps>`
   }}
 `
 
-const Chevron = styled(IconDownIndicatorSvg)<{ open: boolean }>`
+const Chevron = styled.svg<{ $open: boolean }>`
   margin-left: ${tokens.space['1']};
   width: ${tokens.space['3']};
   margin-right: ${tokens.space['0.5']};
@@ -110,14 +111,10 @@ const Chevron = styled(IconDownIndicatorSvg)<{ open: boolean }>`
   opacity: 0.3;
   transform: rotate(0deg);
   display: flex;
+  color: ${({ theme }) => tokens.colors[theme.mode].foreground};
 
-  & > svg {
-    fill: currentColor;
-  }
-  fill: currentColor;
-
-  ${({ open }) =>
-    open &&
+  ${({ $open }) =>
+    $open &&
     `
       opacity: 1;
       transform: rotate(180deg);
@@ -198,7 +195,7 @@ export const Profile = ({
           onClick={() => setIsOpen(!isOpen)}
         >
           <ProfileInner {...{ size, avatar, avatarAs, address, ensName }} />
-          <Chevron open={isOpen} />
+          <Chevron $open={isOpen} as={IconDownIndicatorSvg} />
         </Container>
       </Dropdown>
     )

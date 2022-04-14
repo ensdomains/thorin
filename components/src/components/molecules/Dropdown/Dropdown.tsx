@@ -40,9 +40,16 @@ const DropdownMenuContainer = styled.div<DropdownMenuContainer>`
     opacity: 0;
   `}
 
+  ${({ theme }) => `
+    padding: ${tokens.space['1.5']};
+    background-color: ${tokens.colors[theme.mode].groupBackground};
+    box-shadow: ${tokens.boxShadows[theme.mode]['0.02']};
+    border-radius: ${tokens.radii['2xLarge']};
+  `}
+
   ${({ theme, inner }) =>
-    inner
-      ? `
+    inner &&
+    `
     background-color: ${tokens.colors[theme.mode].grey};
     border-radius: ${tokens.radii.almostExtraLarge};
     border-top-radius: none;
@@ -55,12 +62,6 @@ const DropdownMenuContainer = styled.div<DropdownMenuContainer>`
     padding-bottom: ${tokens.space['1.5']};
     margin-top: -${tokens.space['2.5']};
     transition: 0.35s all cubic-bezier(1, 0, 0.22, 1.6);
-  `
-      : `
-    padding: ${tokens.space['1.5']};
-    background-color: ${tokens.colors[theme.mode].groupBackground};
-    box-shadow: ${tokens.boxShadows[theme.mode]['0.02']};
-    border-radius: ${tokens.radii['2xLarge']};
   `}
 
   ${({ opened, inner }) => {
@@ -124,7 +125,9 @@ const MenuButton = styled.button<MenuButtonProps>`
   height: ${tokens.space['12']};
   padding: ${tokens.space['3']};
   font-weight: ${tokens.fontWeights['semiBold']};
-  transition: 0.15s all ease-in-out;
+  transition-duration: 0.15s;
+  transition-property: color, transform, filter;
+  transition-timing-function: ease-in-out;
   letter-spacing: -0.01em;
 
   &:active {
@@ -257,7 +260,7 @@ const InnerMenuButton = styled.button<InnerMenuButton>`
       border-bottom-width: 0;
       background-color: ${tokens.colors[theme.mode].grey};
       color: ${tokens.colors[theme.mode].textTertiary};
-      transition: 0.35s all cubic-bezier(1, 0, 0.22, 1.6), 0.3s color ease-in-out, 0.2s border-radius ease-in-out, 0s border-width 0.1s;
+      transition: 0.35s all cubic-bezier(1, 0, 0.22, 1.6), 0.3s color ease-in-out, 0.2s border-radius ease-in-out, 0s border-width 0.1s, 0s padding linear;
       
       &:hover {
         color: ${tokens.colors[theme.mode].accent};
@@ -269,7 +272,7 @@ const InnerMenuButton = styled.button<InnerMenuButton>`
       color: ${tokens.colors[theme.mode].textSecondary};
       border-radius: ${tokens.radii['almostExtraLarge']};
       box-shadow: ${tokens.boxShadows[theme.mode]['0.02']};
-      transition: 0.35s all cubic-bezier(1, 0, 0.22, 1.6), 0.15s color ease-in-out, 0s border-width 0.15s, 0.15s border-color ease-in-out;
+      transition: 0.35s all cubic-bezier(1, 0, 0.22, 1.6), 0.15s color ease-in-out, 0s border-width 0.15s, 0.15s border-color ease-in-out, 0s padding linear;
       
       &:hover {
         border-color: ${tokens.colors[theme.mode].border};
@@ -313,6 +316,17 @@ type Props = {
   items: DropdownItem[]
   size?: 'small' | 'medium'
   label?: React.ReactNode
+  isOpen?: boolean
+}
+
+type PropsWithIsOpen = {
+  isOpen: boolean
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+type PropsWithoutIsOpen = {
+  isOpen?: never
+  setIsOpen?: never
 }
 
 export const Dropdown = ({
@@ -326,10 +340,13 @@ export const Dropdown = ({
   keepMenuOnTop = false,
   size = 'medium',
   label,
-}: Props) => {
+  ...props
+}: Props & (PropsWithIsOpen | PropsWithoutIsOpen)) => {
   const dropdownRef = React.useRef<any>()
-
-  const [isOpen, setIsOpen] = React.useState(false)
+  const [internalIsOpen, internalSetIsOpen] = React.useState(false)
+  const [isOpen, setIsOpen] = props.setIsOpen
+    ? [props.isOpen, props.setIsOpen]
+    : [internalIsOpen, internalSetIsOpen]
 
   const handleClickOutside = (e: any) => {
     if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -346,6 +363,7 @@ export const Dropdown = ({
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dropdownRef, isOpen])
 
   return (
