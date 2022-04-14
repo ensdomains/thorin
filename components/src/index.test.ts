@@ -36,6 +36,8 @@ const expectedExportedKeys = [
   'Select',
   'SkeletonGroup',
   'Textarea',
+  'Tooltip',
+  'TooltipPopover',
   // organisms
   'Dialog',
   'ChevronLeftSVG',
@@ -80,7 +82,6 @@ const expectedExportedKeys = [
   'SplitSVG',
   'SunSVG',
   'TokensSVG',
-  'Tooltip',
   'TrendingUpSVG',
   'UploadSVG',
   'UserSolidSVG',
