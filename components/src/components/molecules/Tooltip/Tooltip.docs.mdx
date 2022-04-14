@@ -5,19 +5,6 @@ description: attaches a tooltip menu to wrapped element
 
 ```tsx
 import { Tooltip, TooltipProps } from '@ensdomains/thorin'
-import styled from 'styled-components'
-
-const Button = styled.button<TooltipProps['children']>`
-  border: 1px solid black;
-  ${({ open }) =>
-    open
-      ? `
-    background: white;
-  `
-      : `
-    background: lightgray;
-  `}
-`
 ```
 
 ```tsx live=true  expand=ture minHeight=300px

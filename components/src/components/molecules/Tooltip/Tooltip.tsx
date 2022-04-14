@@ -13,7 +13,7 @@ export interface TooltipProps extends Omit<DynamicPopoverProps, 'popover'> {
   content?: React.ReactNode
 }
 
-const Popover = styled.div<DynamicPopoverPopover>`
+export const TooltipPopover = styled.div<DynamicPopoverPopover>`
   position: absolute;
   border-width: 1px;
   border-style: solid;
@@ -56,7 +56,7 @@ const Popover = styled.div<DynamicPopoverPopover>`
 `
 
 export const Tooltip = ({ content, ...props }: TooltipProps) => {
-  const popover = <Popover>{content}</Popover>
+  const popover = <TooltipPopover>{content}</TooltipPopover>
   return DynamicPopover({
     popover,
     ...props,
