@@ -68,14 +68,14 @@ type WithoutAnchor = {
 }
 
 interface ButtonElement {
-  pressed: boolean
-  shadowless: boolean
-  shape?: 'circle' | 'square'
-  size?: 'extraSmall' | 'small' | 'medium'
-  variant: 'primary' | 'secondary' | 'action' | 'transparent'
-  type?: NativeButtonProps['type']
-  center: boolean | undefined
-  tone: Tone
+  $pressed: boolean
+  $shadowless: boolean
+  $shape?: 'circle' | 'square'
+  $size?: 'extraSmall' | 'small' | 'medium'
+  $variant: 'primary' | 'secondary' | 'action' | 'transparent'
+  $type?: NativeButtonProps['type']
+  $center: boolean | undefined
+  $tone: Tone
 }
 
 const getAccentColour = (
@@ -129,11 +129,11 @@ const ButtonElement = styled.button<ButtonElement>`
     filter: brightness(1);
   }
 
-  ${({ theme, disabled, center, pressed, shadowless }) => `
+  ${({ theme, disabled, $center, $pressed, $shadowless }) => `
     ${disabled ? `cursor: not-allowed` : ``};
-    ${center ? `position: relative` : ``};
-    ${pressed ? `brightness(0.95)` : ``};
-    ${shadowless ? `box-shadow: none !important` : ``};
+    ${$center ? `position: relative` : ``};
+    ${$pressed ? `brightness(0.95)` : ``};
+    ${$shadowless ? `box-shadow: none !important` : ``};
     
     box-shadow: ${tokens.shadows['0.25']} ${tokens.colors[theme.mode].grey};
     
@@ -144,8 +144,8 @@ const ButtonElement = styled.button<ButtonElement>`
     }
   `}
 
-  ${({ size }) => {
-    switch (size) {
+  ${({ $size }) => {
+    switch ($size) {
       case 'extraSmall':
         return `
           border-radius: ${tokens.radii.large};
@@ -169,12 +169,12 @@ const ButtonElement = styled.button<ButtonElement>`
         return ``
     }
   }}
-  ${({ theme, variant, tone }) => {
-    switch (variant) {
+  ${({ theme, $variant, $tone }) => {
+    switch ($variant) {
       case 'primary':
         return `
-          color: ${getAccentColour(theme.mode, tone, 'accentText')};
-          background: ${getAccentColour(theme.mode, tone, 'accent')};
+          color: ${getAccentColour(theme.mode, $tone, 'accentText')};
+          background: ${getAccentColour(theme.mode, $tone, 'accent')};
         `
       case 'secondary':
         return `
@@ -183,8 +183,8 @@ const ButtonElement = styled.button<ButtonElement>`
         `
       case 'action':
         return `
-          color: ${getAccentColour(theme.mode, tone, 'accentText')};
-          background: ${getAccentColour(theme.mode, tone, 'accentGradient')};
+          color: ${getAccentColour(theme.mode, $tone, 'accentText')};
+          background: ${getAccentColour(theme.mode, $tone, 'accentGradient')};
         `
       case 'transparent':
         return `
@@ -202,23 +202,23 @@ const ButtonElement = styled.button<ButtonElement>`
         return ``
     }
   }}
-  ${({ size, shape }) => {
-    switch (shape) {
+  ${({ $size, $shape }) => {
+    switch ($shape) {
       case 'circle':
         return `
           border-radius: ${tokens.radii.full};
         `
       case 'square':
         return `border-radius: ${
-          size === 'small' ? tokens.radii['large'] : tokens.radii['2xLarge']
+          $size === 'small' ? tokens.radii['large'] : tokens.radii['2xLarge']
         };`
       default:
         return ``
     }
   }}
 
-  ${({ size, center }) => {
-    if (size === 'medium' && center) {
+  ${({ $size, $center }) => {
+    if ($size === 'medium' && $center) {
       return `
         padding-left: ${tokens.space['14']};
         padding-right: ${tokens.space['14']};
@@ -227,8 +227,8 @@ const ButtonElement = styled.button<ButtonElement>`
     return ''
   }}
 
-  ${({ theme, shadowless, pressed, variant }) => {
-    if (shadowless && pressed && variant === 'transparent') {
+  ${({ theme, $shadowless, $pressed, $variant }) => {
+    if ($shadowless && $pressed && $variant === 'transparent') {
       return `
         background-color: ${tokens.colors[theme.mode].backgroundSecondary};
       `
@@ -306,20 +306,20 @@ export const Button = React.forwardRef(
     return (
       <ButtonElement
         {...{
-          variant,
-          tone,
-          size,
-          shape,
-          shadowless,
-          pressed,
-          center,
-          disabled,
-          href,
-          ref,
-          rel,
-          tabIndex,
-          target,
-          type,
+          $variant: variant,
+          $tone: tone,
+          $size: size,
+          $shape: shape,
+          $shadowless: shadowless,
+          $pressed: pressed,
+          $center: center,
+          disabled: disabled,
+          href: href,
+          ref: ref,
+          rel: rel,
+          tabIndex: tabIndex,
+          target: target,
+          type: type,
           onClick,
           zIndex,
           position: zIndex && 'relative',
