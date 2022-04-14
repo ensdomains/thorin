@@ -20,7 +20,8 @@
     "prepublish": "yarn clean && yarn build:components",
     "size": "yarn build:components && yarn size-limit",
     "test": "yarn workspaces foreach -p run test",
-    "publish:local": "yarn prepublish && yalc publish components/ --no-scripts --push --up"
+    "publish:local": "yarn prepublish && yalc publish components/ --no-scripts --push --up",
+    "publish": "yarn clean && yarn workspace @ensdomains/thorin publish"
   },
   "lint-staged": {
     "*.{js,mdx,ts,tsx}": [
