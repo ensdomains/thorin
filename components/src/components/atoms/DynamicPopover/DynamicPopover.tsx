@@ -165,6 +165,7 @@ export const computeCoordsFromPlacement = (
 
 const DynamicPopoverContainer = styled.div`
   position: relative;
+  display: inline-block;
 `
 
 export const DynamicPopover = ({
