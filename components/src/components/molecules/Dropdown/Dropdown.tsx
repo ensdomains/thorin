@@ -312,7 +312,7 @@ type Props = {
   keepMenuOnTop?: boolean
   items: DropdownItem[]
   size?: 'small' | 'medium'
-  label?: string
+  label?: React.ReactNode
 }
 
 export const Dropdown = ({
