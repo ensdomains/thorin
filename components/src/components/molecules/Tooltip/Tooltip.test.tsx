@@ -2,6 +2,8 @@ import * as React from 'react'
 
 import styled, { ThemeProvider } from 'styled-components'
 
+import { act } from 'react-dom/test-utils'
+
 import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 
 import { Tooltip, TooltipProps } from './Tooltip'
@@ -35,14 +37,20 @@ describe('<Tooltip />', () => {
 
   it('should show popover when clicked', () => {
     render(<TooltipHelper />)
-    userEvent.click(screen.getByTestId('tooltipbutton'))
+    act(() => {
+      userEvent.click(screen.getByTestId('tooltipbutton'))
+    })
     expect(screen.getByTestId('tooltipcontent')).toBeVisible()
   })
 
   it('should close if clicking outside of dropdown', async () => {
     render(<TooltipHelper />)
-    userEvent.click(screen.getByTestId('tooltipbutton'))
-    userEvent.click(screen.getByText('outside'))
+    act(() => {
+      userEvent.click(screen.getByTestId('tooltipbutton'))
+    })
+    act(() => {
+      userEvent.click(screen.getByText('outside'))
+    })
     await waitFor(() => {
       expect(screen.getByTestId('tooltipcontent')).not.toBeVisible()
     })
@@ -50,8 +58,12 @@ describe('<Tooltip />', () => {
 
   it('should close dropdown if button is clicked when open', () => {
     render(<TooltipHelper />)
-    userEvent.click(screen.getByTestId('tooltipbutton'))
-    userEvent.click(screen.getByTestId('tooltipbutton'))
+    act(() => {
+      userEvent.click(screen.getByTestId('tooltipbutton'))
+    })
+    act(() => {
+      userEvent.click(screen.getByTestId('tooltipbutton'))
+    })
     expect(screen.getByTestId('tooltipcontent')).not.toBeVisible()
   })
 })
