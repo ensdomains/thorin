@@ -144,6 +144,10 @@ const ButtonElement = styled.button<ButtonElement>`
     }
   `}
 
+  border-radius: ${tokens.radii.extraLarge};
+  font-size: ${tokens.fontSizes.large};
+  padding: ${tokens.space['3.5']} ${tokens.space['4']};
+
   ${({ $size }) => {
     switch ($size) {
       case 'extraSmall':
@@ -160,11 +164,7 @@ const ButtonElement = styled.button<ButtonElement>`
           padding: 0 ${tokens.space['4']};
         `
       case 'medium':
-        return `
-          border-radius: ${tokens.radii.extraLarge};
-          font-size: ${tokens.fontSizes.large};
-          padding: ${tokens.space['3.5']} ${tokens.space['4']};
-        `
+        return ``
       default:
         return ``
     }
