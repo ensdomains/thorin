@@ -1,0 +1,21 @@
+---
+title: DynamicPopover
+description: Abstracts the positioning of popover elements so that they are visible on the screen
+---
+
+```tsx
+import { DynamicPopover } from '@ensdomains/thorin'
+```
+
+```tsx live=true  expand=ture minHeight=300px
+<DynamicPopover
+  placement="bottom-start"
+  popover={<TooltipPopover>Additional Information</TooltipPopover>}
+>
+  <Button>Click Me</Button>
+</DynamicPopover>
+```
+
+## Props
+
+<PropsTable sourceLink={sourceLink} types={types} />
