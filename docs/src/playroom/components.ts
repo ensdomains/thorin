@@ -1,1 +1,1 @@
-export { Components } from '@ensdomains/thorin'
+export { Button } from '../../../components/src/components'

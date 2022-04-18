@@ -3,7 +3,8 @@ import reactElementToJSXString from 'react-element-to-jsx-string'
 
 import { Snippet } from './types'
 
-const req = require.context('./snippets', true, /\.snippets\.tsx?$/)
+const req = require.context('@/src/components', true, /\.docs\.mdx$/)
+console.log(req.keys())
 
 const snippets = flatten(
   req.keys().map((filename: string) => {

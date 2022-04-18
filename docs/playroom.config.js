@@ -1,3 +1,5 @@
+const path = require('path')
+
 module.exports = {
   components: './src/playroom/components.ts',
   baseUrl: '/playroom/',
@@ -30,10 +32,30 @@ module.exports = {
             },
           },
         },
+        {
+          test: /\.svg$/,
+          issuer: /\.[jt]sx?$/,
+          use: [
+            { loader: '@svgr/webpack', options: { icon: true } },
+            { loader: 'file-loader', options: { name: '[name].[ext]' } },
+          ],
+        },
+        {
+          test: /\.mdx$/,
+          use: [
+            {
+              loader: 'file-loader',
+              options: {},
+            },
+          ],
+        },
       ],
     },
     resolve: {
-      extensions: ['.js', '.ts', '.tsx'],
+      extensions: ['.js', '.ts', '.tsx', '.svg', '.mdx'],
+      alias: {
+        '@': path.resolve(process.cwd(), '../components'),
+      },
     },
   }),
 }
