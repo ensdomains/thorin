@@ -34,7 +34,7 @@ const DropdownMenuContainer = styled.div<DropdownMenuContainer>`
     opened
       ? `
     visibility: visible;
-    opacity: 100;
+    opacity: 1;
   `
       : `
     z-index: 0;
@@ -76,7 +76,7 @@ const DropdownMenuContainer = styled.div<DropdownMenuContainer>`
 
     if (!opened && !inner)
       return `
-        transition: all 0.3s cubic-bezier(1, 0, 0.22, 1.6), width 0s linear, z-index 0s linear 0s;
+      transition: all 0.3s cubic-bezier(1, 0, 0.22, 1.6), width 0s linear, z-index 0s linear 0s;
       `
 
     if (opened && inner)
@@ -337,6 +337,11 @@ type PropsWithoutIsOpen = {
   setIsOpen?: never
 }
 
+const ButtonWrapper = styled.div`
+  z-index: 10;
+  position: relative;
+`
+
 export const Dropdown = ({
   children,
   buttonProps,
@@ -391,15 +396,16 @@ export const Dropdown = ({
       )}
 
       {!children && !inner && (
-        <Button
-          {...buttonProps}
-          pressed={isOpen}
-          suffix={chevron && <Chevron open={isOpen} />}
-          zIndex="10"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          {label}
-        </Button>
+        <ButtonWrapper>
+          <Button
+            {...buttonProps}
+            pressed={isOpen}
+            suffix={chevron && <Chevron open={isOpen} />}
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            {label}
+          </Button>
+        </ButtonWrapper>
       )}
 
       {React.Children.map(children, (child) => {
