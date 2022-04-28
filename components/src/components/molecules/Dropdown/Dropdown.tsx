@@ -20,6 +20,7 @@ interface DropdownMenuContainer {
   inner: boolean
   shortThrow: boolean
   align: 'left' | 'right'
+  labelAlign?: 'flex-start' | 'flex-end' | 'center'
 }
 
 const DropdownMenuContainer = styled.div<DropdownMenuContainer>`
@@ -29,6 +30,14 @@ const DropdownMenuContainer = styled.div<DropdownMenuContainer>`
   align-items: center;
   border-radius: ${tokens.radii['medium']};
   position: absolute;
+
+  ${({ labelAlign }) =>
+    labelAlign &&
+    `
+    & > button {
+      justify-content: ${labelAlign};
+    }
+  `}
 
   ${({ opened }) =>
     opened
@@ -160,7 +169,7 @@ const MenuButton = styled.button<MenuButtonProps>`
       justify-content: flex-start;
       
       &:hover {
-        transform: translateY(-1x);
+        transform: translateY(-1px);
         filter: brightness(1.05);
       }
     `
@@ -183,6 +192,7 @@ type DropdownMenuProps = {
   align: 'left' | 'right'
   shortThrow: boolean
   keepMenuOnTop: boolean
+  labelAlign?: 'flex-start' | 'flex-end' | 'center'
 }
 
 const DropdownMenu = ({
@@ -194,10 +204,11 @@ const DropdownMenu = ({
   align,
   shortThrow,
   keepMenuOnTop,
+  labelAlign,
 }: DropdownMenuProps) => {
   return (
     <DropdownMenuContainer
-      {...{ opened: isOpen, inner, align, shortThrow }}
+      {...{ opened: isOpen, inner, align, shortThrow, labelAlign }}
       style={{
         width:
           inner || (width && parseInt(width) > 100) ? `${width}px` : '150px',
@@ -324,6 +335,7 @@ type Props = {
   items: DropdownItem[]
   size?: 'small' | 'medium'
   label?: React.ReactNode
+  menuLabelAlign?: 'flex-start' | 'flex-end' | 'center'
   isOpen?: boolean
 }
 
@@ -349,6 +361,7 @@ export const Dropdown = ({
   inner = false,
   chevron = true,
   align = 'left',
+  menuLabelAlign,
   shortThrow = false,
   keepMenuOnTop = false,
   size = 'medium',
@@ -431,6 +444,7 @@ export const Dropdown = ({
           setIsOpen,
           shortThrow,
           keepMenuOnTop,
+          labelAlign: menuLabelAlign,
         }}
       />
     </div>
