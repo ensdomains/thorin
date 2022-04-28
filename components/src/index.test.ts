@@ -11,6 +11,7 @@ const expectedExportedKeys = [
   'BackdropSurface',
   'Button',
   'Card',
+  'DynamicPopover',
   'Field',
   'FileInput',
   'Heading',
@@ -35,6 +36,8 @@ const expectedExportedKeys = [
   'Select',
   'SkeletonGroup',
   'Textarea',
+  'Tooltip',
+  'TooltipPopover',
   // organisms
   'Dialog',
   'ChevronLeftSVG',
