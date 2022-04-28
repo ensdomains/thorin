@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import styled from 'styled-components'
-import { clamp } from 'lodash'
+import clamp from 'lodash/clamp'
 
 export type DynamicPopoverSide = 'top' | 'right' | 'bottom' | 'left'
 
