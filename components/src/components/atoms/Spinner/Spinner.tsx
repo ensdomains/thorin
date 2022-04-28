@@ -29,7 +29,7 @@ const Container = styled.div<{ size: 'small' | 'large'; $color: Colors }>`
       case 'large':
         return `
           height: ${tokens.space['16']};
-          stroke-width: ${tokens.space['1.25']};
+          stroke-width: ${tokens.space['1']};
           width: ${tokens.space['16']};
         `
       default:
@@ -46,7 +46,7 @@ type Props = {
 
 export const Spinner = React.forwardRef(
   (
-    { accessibilityLabel, size = 'small', color = 'accent' }: Props,
+    { accessibilityLabel, size = 'small', color = 'text' }: Props,
     ref: React.Ref<HTMLElement>,
   ) => {
     return (
