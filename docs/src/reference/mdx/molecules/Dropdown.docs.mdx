@@ -48,6 +48,34 @@ import { Dropdown } from '@ensdomains/thorin'
 </Dropdown>
 ```
 
+## Custom menu button
+
+```tsx live=true  expand=ture minHeight=300px
+<Dropdown
+  items={[
+    <Button
+      key="item1"
+      prefix={<PlusSmallSVG />}
+      shadowless
+      size="small"
+      tone="accent"
+    >
+      Item1
+    </Button>,
+    <Button
+      key="item2"
+      prefix={<PlusSmallSVG />}
+      shadowless
+      size="small"
+      tone="red"
+    >
+      Item2
+    </Button>,
+  ]}
+  label="Language"
+/>
+```
+
 ## Props
 
 <PropsTable sourceLink={sourceLink} types={types} />

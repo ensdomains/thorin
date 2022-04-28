@@ -6,12 +6,14 @@ import { Props as ButtonProps } from '@/src/components/atoms/Button'
 import { Colors, tokens } from '@/src/tokens'
 import { ReactComponent as IconDownIndicatorSvg } from '@/src/icons/DownIndicator.svg'
 
-export type DropdownItem = {
+type DropdownItemObject = {
   label: string
   onClick(): void
   color?: Colors
   disabled?: boolean
 }
+
+export type DropdownItem = DropdownItemObject | React.ReactNode
 
 interface DropdownMenuContainer {
   opened: boolean
@@ -202,15 +204,21 @@ const DropdownMenu = ({
         zIndex: keepMenuOnTop ? 100 : undefined,
       }}
     >
-      {items.map(({ label, color, disabled, onClick }: DropdownItem) => (
-        <MenuButton
-          {...{ inner, hasColor: !!color, color, disabled }}
-          key={label}
-          onClick={() => Promise.resolve(setIsOpen(false)).then(onClick)}
-        >
-          {label}
-        </MenuButton>
-      ))}
+      {items.map((item: DropdownItem) => {
+        if (React.isValidElement(item)) {
+          return <div onClick={() => setIsOpen(false)}>{item}</div>
+        }
+        const { color, label, onClick, disabled } = item as DropdownItemObject
+        return (
+          <MenuButton
+            {...{ inner, hasColor: !!color, color, disabled }}
+            key={label}
+            onClick={() => Promise.resolve(setIsOpen(false)).then(onClick)}
+          >
+            {label}
+          </MenuButton>
+        )
+      })}
     </DropdownMenuContainer>
   )
 }
