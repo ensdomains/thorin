@@ -10,7 +10,7 @@ import { Dropdown } from '@ensdomains/thorin'
 ```tsx live=true  expand=ture minHeight=300px
 <Dropdown
   items={[
-    { label: 'Dashboard', onClick: () => null },
+    { label: 'Dashboard', onClick: () => null, color: 'text' },
     { label: 'Disconnect', onClick: () => null, color: 'red' },
   ]}
   label="Language"
@@ -37,15 +37,43 @@ import { Dropdown } from '@ensdomains/thorin'
 ```tsx live=true expand=true minHeight=300px
 <Dropdown
   items={[
-    { label: 'English', onClick: () => null },
-    { label: '简体中文', onClick: () => null },
-    { label: 'Français', onClick: () => null },
-    { label: 'Español', onClick: () => null },
+    { label: 'English', onClick: () => null, color: 'text' },
+    { label: '简体中文', onClick: () => null, color: 'text' },
+    { label: 'Français', onClick: () => null, color: 'text' },
+    { label: 'Español', onClick: () => null, color: 'text' },
   ]}
   label="Language"
 >
   <button>Custom button</button>
 </Dropdown>
+```
+
+## Custom menu button
+
+```tsx live=true  expand=ture minHeight=300px
+<Dropdown
+  items={[
+    <Button
+      key="item1"
+      prefix={<PlusSmallSVG />}
+      shadowless
+      size="small"
+      tone="accent"
+    >
+      Item1
+    </Button>,
+    <Button
+      key="item2"
+      prefix={<PlusSmallSVG />}
+      shadowless
+      size="small"
+      tone="red"
+    >
+      Item2
+    </Button>,
+  ]}
+  label="Language"
+/>
 ```
 
 ## Props

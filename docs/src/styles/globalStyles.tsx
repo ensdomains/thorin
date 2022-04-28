@@ -18,6 +18,11 @@ const GlobalStyle = createGlobalStyle`
     padding-right: ${tokens.space['14']} !important;
   }
 
+  .npm__react-simple-code-editor__textarea *, .npm__react-simple-code-editor__textarea + pre * {
+    font-family: ${tokens.fonts['mono']} !important;
+    font-size: ${tokens.fontSizes['base']} !important;
+  }
+
   .npm__react-simple-code-editor__textarea:focus-visible {
     outline: none;
   }
