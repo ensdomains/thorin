@@ -80,35 +80,41 @@ const Img = styled.img`
 `
 
 export type Props = {
-  as?: 'img' | React.ComponentType
+  /** Accessibility text. */
   label: string
-  placeholder?: boolean
+  /** If true, removes the border around the avatar. */
   noBorder?: boolean
+  /** Uses tokens space settings to set the size */
   size?: Space
+  /** The src attribute for the img element */
   src?: string
+  /** The shape of the avatar. */
   shape?: Shape
+  // as?: 'img' | React.ComponentType
 }
 
 export const Avatar = ({
   label,
-  placeholder,
-  noBorder,
+  noBorder = false,
   shape = 'circle',
   size = '12',
   src,
 }: Props) => {
+  const [showImage, setShowImage] = React.useState(!!src)
+
   return (
-    <Container {...{ shape, size, noBorder: placeholder || noBorder }}>
-      {placeholder ? (
-        <Placeholder aria-label={label} />
-      ) : (
+    <Container {...{ shape, size, noBorder: !showImage || noBorder }}>
+      {showImage ? (
         <Img
           {...{
             decoding: 'async',
             src: src,
             alt: label,
+            onError: () => setShowImage(false),
           }}
         />
+      ) : (
+        <Placeholder aria-label={label} />
       )}
     </Container>
   )

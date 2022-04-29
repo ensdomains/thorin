@@ -1,7 +1,9 @@
 import * as React from 'react'
 
 import styled from 'styled-components'
-import { clamp } from 'lodash'
+import clamp from 'lodash/clamp'
+
+import { ButtonProps } from '../Button'
 
 export type DynamicPopoverSide = 'top' | 'right' | 'bottom' | 'left'
 
@@ -28,20 +30,22 @@ export type DynamicPopoverPopover = React.ReactNode & {
   open?: boolean
 }
 
-export type DynamicPopoverButton = React.ReactNode & {
-  open?: boolean
-}
+export type Button = React.ReactNode & ButtonProps
 
 export interface DynamicPopoverProps {
-  /** A react node that has the following properties:\no  open: boolean */
-  children: DynamicPopoverButton
+  /** A Button component. The component will override the onClick and pressed properties of the button. */
+  children: Button
+  /** A react node that adopts the DynamicPopoverPopover props. */
   popover: DynamicPopoverPopover
+  /** The side and alignment of the popover in relation to the button. */
   placement?: DynamicPopoverPlacement
-  /** number of pixels between the button and the popover */
+  /** The number of pixels between the button and the popover */
   offset?: number
-  /** number of pixels between the popover and the viewport */
+  /** If shift is true, sets the minimum number of pixels between the popover and the viewport */
   padding?: number
+  /** If true, will flip the popover to the opposite side if there is not enough space. */
   flip?: boolean
+  /** If true, will shift the popover alignment to be remain visible. */
   shift?: boolean
 }
 
@@ -228,7 +232,7 @@ export const DynamicPopover = ({
     <DynamicPopoverContainer data-testid="dynamicpopover" ref={containerRef}>
       {React.isValidElement(children) &&
         React.cloneElement(children, {
-          open,
+          pressed: open,
           onClick: () => setOpen((o) => !o),
         })}
       {React.isValidElement(popover) &&

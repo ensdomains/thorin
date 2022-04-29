@@ -8,6 +8,8 @@ import { PrismTheme } from 'prism-react-renderer'
 
 import { Button, Colors, Components, tokens } from '@ensdomains/thorin'
 
+import ComponentWrapper from '../../playroom/ComponentWrapper'
+
 import { createPlayroomLink } from '~/utils/playroom'
 import { usePlayroomStore } from '~/playroom/PlayroomState'
 import { avatars } from '~/playroom/useScope'
@@ -86,6 +88,7 @@ export const CodePreview = ({
       scope={{
         mdx,
         ...Components,
+        ComponentWrapper,
         ...store,
         ...themeValue,
         previewRef,
@@ -125,7 +128,6 @@ export const CodePreview = ({
           </div>
         )}
       </Container>
-
       <div style={{ margin: `${tokens.space['2']} 0` }}>
         <ButtonContainer>
           <Button

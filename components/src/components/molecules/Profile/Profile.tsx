@@ -12,12 +12,18 @@ import { ReactComponent as IconDownIndicatorSvg } from '@/src/icons/DownIndicato
 type Size = 'small' | 'medium' | 'large'
 
 type BaseProps = {
+  /** The url of the avatar icon. */
   avatar?: AvatarProps['src']
-  avatarAs?: AvatarProps['as']
+  // avatarAs?: AvatarProps['as']
+  /** An array of objects conforming to the DropdownItem interface. */
   dropdownItems?: DropdownItem[]
+  /** The ethereum address of the profiled user. */
   address: string
+  /** The ENS name associated with the address. */
   ensName?: string
+  /** The alignment of the dropdown menu in relation to the profile button. */
   alignDropdown?: 'left' | 'right'
+  /** The size and styling of the profile button. */
   size?: Size
 }
 
@@ -133,14 +139,9 @@ const ReducedLineText = styled(Typography)`
   line-height: initial;
 `
 
-const ProfileInner = ({ size, avatar, avatarAs, address, ensName }: Props) => (
+const ProfileInner = ({ size, avatar, address, ensName }: Props) => (
   <>
-    <Avatar
-      as={avatarAs}
-      label="profile-avatar"
-      placeholder={!avatar}
-      src={avatar}
-    />
+    <Avatar label="profile-avatar" placeholder={!avatar} src={avatar} />
     <ProfileInnerContainer size={size}>
       <ReducedLineText
         color={ensName ? 'text' : 'textTertiary'}
@@ -173,7 +174,6 @@ type Props = BaseProps
 export const Profile = ({
   size = 'medium',
   avatar,
-  avatarAs,
   dropdownItems,
   address,
   ensName,
@@ -194,7 +194,7 @@ export const Profile = ({
           }}
           onClick={() => setIsOpen(!isOpen)}
         >
-          <ProfileInner {...{ size, avatar, avatarAs, address, ensName }} />
+          <ProfileInner {...{ size, avatar, address, ensName }} />
           <Chevron $open={isOpen} as={IconDownIndicatorSvg} />
         </Container>
       </Dropdown>
@@ -209,7 +209,7 @@ export const Profile = ({
       }}
       data-testid="profile"
     >
-      <ProfileInner {...{ size, avatar, avatarAs, address, ensName }} />
+      <ProfileInner {...{ size, avatar, address, ensName }} />
     </Container>
   )
 }

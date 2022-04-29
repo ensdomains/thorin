@@ -1,16 +1,9 @@
-import * as React from 'react'
-
-import { FileInput } from '@ensdomains/thorin'
-
 import { Snippet } from '../../../types'
 
+// Use code string because react-element-to-jsx-string does not work with function as children
 export const snippets: Snippet[] = [
   {
-    name: 'Basic',
-    code: (
-      <FileInput>
-        {(context) => (context.name ? <div>{context.name}</div> : <div />)}
-      </FileInput>
-    ),
+    name: 'Atoms',
+    code: '<FileInput>{(context) => context.name ? <div>{context.name}</div> : <div />}</FileInput>',
   },
 ]

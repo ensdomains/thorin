@@ -32,10 +32,14 @@ const Container = styled.div<{ dark: boolean; shadow?: boolean }>`
 `
 
 export type Props = {
+  /** Adds shadow when theme is in light mode.  */
   shadow?: boolean
 }
 
-export const Card = ({ children, shadow }: React.PropsWithChildren<Props>) => {
+export const Card = ({
+  shadow = false,
+  children,
+}: React.PropsWithChildren<Props>) => {
   const { mode, forcedMode } = useTheme()
   return (
     <Container

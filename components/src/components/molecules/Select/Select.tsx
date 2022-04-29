@@ -91,6 +91,7 @@ const SelectOptionContainer = styled.div<{ open?: boolean }>`
 
   ${({ theme }) => `
     box-shadow: ${tokens.boxShadows[theme.mode]['0.02']};
+    background: ${tokens.colors[theme.mode].background};
   `}
 
   ${({ open }) =>
@@ -169,14 +170,22 @@ type OptionProps = {
   disabled?: boolean
 }
 
-type SelectProps = Exclude<FieldBaseProps, 'inline'> & {
+type SelectProps = Omit<FieldBaseProps, 'inline'> & {
+  /** The id attribute of div element. */
   id?: NativeSelectProps['id']
+  /** If true, prevents user interaction with component. */
   disabled?: boolean
+  /** The handler for change events. */
   onChange?: (selected: OptionProps | null) => void
+  /** The tabindex attribute for  */
   tabIndex?: NativeSelectProps['tabIndex']
+  /** The handler for focus events. */
   onFocus?: NativeSelectProps['onFocus']
+  /** The handler for blur events. */
   onBlur?: NativeSelectProps['onBlur']
+  /** The selected option data. */
   selected?: OptionProps
+  /** An arrary of objects conforming to OptionProps interface. */
   options: OptionProps[] | OptionProps
 }
 
@@ -334,3 +343,5 @@ export const Select = React.forwardRef(
     )
   },
 )
+
+Select.displayName = 'Select'

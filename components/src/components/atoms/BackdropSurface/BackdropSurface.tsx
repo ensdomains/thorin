@@ -9,6 +9,7 @@ const Container = styled.div`
   position: fixed;
   overflow: hidden;
   top: 0;
+  left: 0;
   ${({ theme }) => `
     backgroundColor: ${tokens.shades[theme.mode].backgroundHideFallback};
     

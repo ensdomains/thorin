@@ -1,14 +1,15 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
-import { tokens } from '@/src/tokens'
+import { Colors, tokens } from '@/src/tokens'
 import { largerThan } from '@/src/utils/responsiveHelpers'
 
 interface HeadingContainerProps {
-  textAlign: React.CSSProperties['textAlign']
+  textAlign?: React.CSSProperties['textAlign']
   textTransform: React.CSSProperties['textTransform']
   level: '1' | '2'
   responsive?: boolean
+  color?: Colors
 }
 
 const HeadingContainer = styled.div<HeadingContainerProps>`
@@ -64,17 +65,28 @@ const HeadingContainer = styled.div<HeadingContainerProps>`
       }
     }
   }}
+
+  ${({ color, theme }) =>
+    color &&
+    `
+    color: ${tokens.colors[theme.mode][color]};
+    `}
   
   font-family: ${tokens.fonts['sans']};
 `
 
 type Props = {
+  /** CSS property of textAlign */
   align?: React.CSSProperties['textAlign']
+  /** JSX element to render. */
   as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'legend'
   children?: React.ReactNode
-  color?: string
+  color?: Colors
+  /** The id attribute of element */
   id?: string
+  /** CSS property of text-transform */
   transform?: React.CSSProperties['textTransform']
+  /**  */
   responsive?: boolean
   level?: '1' | '2'
 }
@@ -89,6 +101,7 @@ export const Heading = React.forwardRef(
       level = '2',
       responsive,
       transform,
+      color,
     }: Props,
     ref: React.ForwardedRef<HTMLDivElement>,
   ) => (
@@ -101,6 +114,7 @@ export const Heading = React.forwardRef(
         as,
         id,
         ref,
+        color,
       }}
     >
       {children}

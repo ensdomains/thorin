@@ -10,6 +10,8 @@ import {
   tokens,
 } from '@ensdomains/thorin'
 
+import property from 'lodash/property'
+
 import { Link } from './Link'
 
 type Props = {
@@ -104,6 +106,25 @@ const FlexContainer = styled.div`
   gap: ${tokens.space['2']};
 `
 
+const formatPropType = (type: any): string => {
+  if (!type.raw) return type.name
+  if (
+    [
+      'boolean',
+      'string',
+      'ReactNodeNoStrings',
+      'ReactNode',
+      'Button',
+      'DynamicPopoverPopover',
+    ].includes(type.raw)
+  )
+    return type.raw
+  if (type.raw.indexOf('Ref') === 0) return type.raw
+  if (type.raw.indexOf('ElementType') === 0) return type.raw
+  if (type.value) return type.value.map(property('value')).join(' | ')
+  return type.raw ?? type.name
+}
+
 export const PropsTable = ({ sourceLink, types }: Props) => {
   const [state, setState] = React.useState<{
     showDescriptions: boolean
@@ -159,7 +180,7 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
                   </DataCell>
 
                   <DataCell>
-                    <RawName>{x.type.raw ?? x.type.name}</RawName>
+                    <RawName>{formatPropType(x.type)}</RawName>
                   </DataCell>
 
                   <DataCell>

@@ -18,12 +18,14 @@ type Variant = 'primary' | 'secondary' | 'action' | 'transparent'
 type Tone = 'accent' | 'blue' | 'green' | 'red'
 
 type BaseProps = {
+  /** An alternative element type to render the component as.*/
+  as?: 'a'
   /** Centers text and reserves space for icon and spinner */
   center?: boolean
   children: NativeButtonProps['children']
-  /** Marks as unusable */
+  /** If true, prevents user interaction with button. */
   disabled?: boolean
-  /** Adds ReactNode before children */
+  /** Insert a ReactNode before the children */
   prefix?: ReactNodeNoStrings
   /** Shows loading spinner inside button */
   loading?: boolean
@@ -33,19 +35,26 @@ type BaseProps = {
   size?: Size
   /** Adds ReactNode after children */
   suffix?: ReactNodeNoStrings
+  /** The tabIndex attribute for button attribute */
   tabIndex?: NativeButtonProps['tabIndex']
+  /** The type attribute for button attribute */
   type?: NativeButtonProps['type']
+  /** Sets the styling of the component.  */
   variant?: Variant
   width?: string
   zIndex?: string
+  /** If true, sets the style to indicate "on" state. Useful for toggles switches. */
   pressed?: boolean
+  /** If true, removes the box-shadow */
   shadowless?: boolean
+  /** The handler for click events. */
   onClick?: React.MouseEventHandler<HTMLElement> | undefined
 }
 
 type WithTone = {
+  /** Sets the color scheme when variant is 'primary' or 'action' */
   tone?: Tone
-  variant?: 'primary' | 'secondary'
+  variant?: 'primary' | 'action'
 }
 
 type WithoutTone = {
@@ -54,14 +63,15 @@ type WithoutTone = {
 }
 
 type WithAnchor = {
-  as?: 'a'
+  /** The href attribute for the anchor element. */
   href?: string
+  /** The rel attribute for the anchor element. */
   rel?: NativeAnchorProps['rel']
+  /** The target attribute for the anchor element. */
   target?: NativeAnchorProps['target']
 }
 
 type WithoutAnchor = {
-  as?: 'button'
   href?: never
   rel?: never
   target?: never
@@ -132,7 +142,7 @@ const ButtonElement = styled.button<ButtonElement>`
   ${({ theme, disabled, $center, $pressed, $shadowless }) => `
     ${disabled ? `cursor: not-allowed` : ``};
     ${$center ? `position: relative` : ``};
-    ${$pressed ? `brightness(0.95)` : ``};
+    ${$pressed ? `filter: brightness(0.95)` : ``};
     ${$shadowless ? `box-shadow: none !important` : ``};
     
     box-shadow: ${tokens.shadows['0.25']} ${tokens.colors[theme.mode].grey};
@@ -251,7 +261,7 @@ const LabelContainer = styled(Typography)`
 
 export type Props = BaseProps &
   (WithTone | WithoutTone) &
-  (WithAnchor | WithoutAnchor)
+  (WithoutAnchor | WithAnchor)
 
 export const Button = React.forwardRef(
   (
@@ -269,18 +279,18 @@ export const Button = React.forwardRef(
       tabIndex,
       target,
       tone = 'accent',
-      type,
+      type = 'button',
       variant = 'primary',
       width,
       zIndex,
       onClick,
       pressed = false,
       shadowless = false,
+      as: asProp,
     }: Props,
     ref: React.Ref<HTMLButtonElement>,
   ) => {
     const labelContent = <LabelContainer ellipsis>{children}</LabelContainer>
-
     let childContent: ReactNodeNoStrings
     if (shape) {
       childContent = loading ? <Spinner /> : labelContent
@@ -306,6 +316,7 @@ export const Button = React.forwardRef(
     return (
       <ButtonElement
         {...{
+          as: asProp as any,
           $variant: variant,
           $tone: tone,
           $size: size,

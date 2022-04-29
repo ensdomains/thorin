@@ -24,9 +24,11 @@ const ContainerInner = styled.span<{ active?: boolean }>`
 `
 
 type Props = {
+  /** The element type of the container element. Defaults to div. */
   as?: 'div' | 'span'
   backgroundColor?: Colors
   radius?: Radii
+  /** If true, hides the content and shows the skeleton style. */
   loading?: boolean
 }
 

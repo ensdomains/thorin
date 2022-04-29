@@ -39,7 +39,9 @@ const Container = styled.div<{ size: 'small' | 'large'; $color: Colors }>`
 `
 
 type Props = {
+  /** Hidden text used for accessibilty. */
   accessibilityLabel?: string
+  /** A tokens 'mode' color value */
   color?: Colors
   size?: 'small' | 'large'
 }

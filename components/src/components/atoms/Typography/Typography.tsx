@@ -78,7 +78,7 @@ const Container = styled.div<ContainerProps>`
     }
   }}
 
-  ${({ theme, color }) =>
+  ${({ color, theme }) =>
     color &&
     `
     color: ${tokens.colors[theme.mode][color]};
@@ -98,6 +98,7 @@ const Container = styled.div<ContainerProps>`
 `
 
 type Props = {
+  /** element type of container */
   as?:
     | 'code'
     | 'div'
@@ -112,10 +113,15 @@ type Props = {
     | 'span'
     | 'i'
   children?: React.ReactNode
+  /** If true, will truncate text with an elipsis on overflow. If false, text will break on the next word. */
   ellipsis?: boolean
+  /** Font size and */
   variant?: Variants
+  /** The classname attribute of contianer. */
   className?: string
+  /** The tokens.fontWeight value */
   weight?: Weights
+  /** The  */
   font?: Fonts
   color?: Colors
   size?: 'small' | 'base'

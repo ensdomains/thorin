@@ -86,7 +86,7 @@ const Container = styled.div<ContainerProps>`
       return `
         background-color: ${tokens.colors[theme.mode].accentTertiary};
       
-        &:hover:active {
+        &:hover, &:active {
         background-color: ${tokens.colors[theme.mode].accentSecondary};
         }
         `
@@ -96,7 +96,7 @@ const Container = styled.div<ContainerProps>`
         color: ${tokens.colors[theme.mode].textSecondary};
         background-color: ${tokens.colors[theme.mode].foregroundTertiary};
       
-        &:hover:active {
+        &:hover, &:active {
           color: ${tokens.colors[theme.mode].text};
           background-color: ${tokens.colors[theme.mode].foregroundSecondary};
         }
@@ -104,21 +104,21 @@ const Container = styled.div<ContainerProps>`
 
     if (hover && tone === 'blue')
       return `
-        &:hover:active {
+        &:hover, &:active {
           background-color: rgb(${tokens.colors[theme.mode].blue});
         }
         `
 
     if (hover && tone === 'green')
       return `
-        &:hover:active {
+        &:hover, &:active {
           background-color: rgb(${tokens.colors[theme.mode].green});
         }
         `
 
     if (hover && tone === 'red')
       return `
-        &:hover:active {
+        &:hover, &:active {
           background-color: rgb(${tokens.colors[theme.mode].red});
         }
         `
@@ -142,10 +142,15 @@ const ChildContainer = styled.div`
 `
 
 export type Props = {
+  /** Element type of container */
   as?: 'div' | 'span'
+  /** Text of optional label element */
   label?: string
+  /** If true, changes colors on hover */
   hover?: boolean
+  /** Size of element */
   size?: 'small' | 'medium'
+  /** Color style of tag */
   tone?: 'accent' | 'blue' | 'green' | 'red' | 'secondary'
 }
 

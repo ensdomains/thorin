@@ -1,0 +1,59 @@
+---
+title: DynamicPopover
+description: Abstracts the positioning of popover elements so that they are visible on the screen
+---
+
+```tsx
+import { DynamicPopover } from '@ensdomains/thorin'
+```
+
+```tsx live=true  expand=ture minHeight=300px
+<DynamicPopover
+  placement="bottom-start"
+  popover={<TooltipPopover>Additional Information</TooltipPopover>}
+>
+  <Button>Click Me</Button>
+</DynamicPopover>
+```
+
+## Props
+
+<PropsTable sourceLink={sourceLink} types={types} />
+
+## DynamicPopoverPopover Props
+
+Use these props for positioning when creating a custom popover
+
+<PropsTable
+  types={{
+    x: {
+      name: 'x',
+      description: 'The number of pixels from the left of the container.',
+      type: {
+        raw: 'number',
+      },
+    },
+    y: {
+      name: 'y',
+      description: 'The number of pixels from the top of the container.',
+      type: {
+        raw: 'number',
+      },
+    },
+    side: {
+      name: 'side',
+      description:
+        'The side of the container that the popover will appear. Used to calculate animations.',
+      type: {
+        raw: '"top" | "right" | "bottom" | "left"',
+      },
+    },
+    open: {
+      name: 'open',
+      description: 'If true, the component is visible.',
+      type: {
+        raw: 'boolean',
+      },
+    },
+  }}
+/>

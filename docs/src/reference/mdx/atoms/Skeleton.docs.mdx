@@ -8,7 +8,10 @@ import { Skeleton } from '@ensdomains/thorin'
 ```
 
 ```tsx expand=true live=true
-<Skeleton loading>Hello World</Skeleton>
+<Stack>
+  <Skeleton loading={getState('skeleton')}>Hello World</Skeleton>
+  <Button onClick={() => toggleState('skeleton')}>Toggle</Button>
+</Stack>
 ```
 
 ## Props

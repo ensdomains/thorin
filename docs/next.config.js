@@ -71,9 +71,16 @@ const config = {
   },
   pageExtensions: ['mdx', 'tsx'],
   webpack(config) {
+    // console.log(config.module.rules)
+    // const found = config.module.rules.findIndex(
+    //   (rule) => rule.test && rule.test.exec('u.svg'),
+    // )
+    // console.log('u.svg', found)
+    // config.module.rules[found].test = /\.(jpe?g|png|gif)$/i
+
     config.module.rules.push({
       test: /\.svg$/,
-      use: ['@svgr/webpack'],
+      use: [{ loader: '@svgr/webpack', options: {} }],
     })
 
     return config

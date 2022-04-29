@@ -1,12 +1,9 @@
-import * as React from 'react'
-
-import { VisuallyHidden } from '@ensdomains/thorin'
-
 import { Snippet } from '../../../types'
 
+// Use code string because react-element-to-jsx-string attempts to print styled.components instead of the component name
 export const snippets: Snippet[] = [
   {
     name: 'Basic',
-    code: <VisuallyHidden>_</VisuallyHidden>,
+    code: '<VisuallyHidden>_</VisuallyHidden>',
   },
 ]

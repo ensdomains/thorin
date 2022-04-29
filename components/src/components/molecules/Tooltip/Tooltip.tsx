@@ -10,8 +10,19 @@ import {
 } from '../../atoms/DynamicPopover'
 
 export interface TooltipProps extends Omit<DynamicPopoverProps, 'popover'> {
+  /** A text or component containg the content of the popover. */
   content?: React.ReactNode
 }
+
+export const Tooltip = ({ content, ...props }: TooltipProps) => {
+  const popover = <TooltipPopover>{content}</TooltipPopover>
+  return DynamicPopover({
+    popover,
+    ...props,
+  })
+}
+
+Tooltip.displayName = 'Tooltip'
 
 export const TooltipPopover = styled.div<DynamicPopoverPopover>`
   position: absolute;
@@ -50,17 +61,9 @@ export const TooltipPopover = styled.div<DynamicPopoverPopover>`
   `}
 
   ${({ theme }) => `
-    border-color: ${tokens.colors[theme.mode].borderSecondary}
+    border-color: ${tokens.colors[theme.mode].borderSecondary};
     background: ${tokens.colors[theme.mode].background};
   `}
 `
 
-export const Tooltip = ({ content, ...props }: TooltipProps) => {
-  const popover = <TooltipPopover>{content}</TooltipPopover>
-  return DynamicPopover({
-    popover,
-    ...props,
-  })
-}
-
-Tooltip.displayName = 'Tooltip'
+TooltipPopover.displayName = 'TooltipPopover'

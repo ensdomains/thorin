@@ -1,6 +1,6 @@
 ---
 title: FileInput
-description: Surface for accepting files
+description: A HOC used to build components for accepting files.
 ---
 
 ```tsx
@@ -11,18 +11,18 @@ import { FileInput } from '@ensdomains/thorin'
 <FileInput onChange={(file) => alert(file)}>
   {(context) =>
     context.name ? (
-      <div>
+      <Stack alignItems="center" flexDirection="row">
         {context.name}
         <Button
           shape="circle"
           size="small"
-          variant="transparent"
+          variant="secondary"
           onClick={context.reset}
         >
           <VisuallyHidden>Remove</VisuallyHidden>
-          <IconClose />
+          <CloseSVG />
         </Button>
-      </div>
+      </Stack>
     ) : (
       <div>{context.droppable ? 'Drop file' : 'Attach file'}</div>
     )
@@ -33,6 +33,56 @@ import { FileInput } from '@ensdomains/thorin'
 ## Props
 
 <PropsTable sourceLink={sourceLink} types={types} />
+
+## Context Props
+
+<PropsTable
+  types={{
+    droppable: {
+      name: 'droppable',
+      description:
+        'If true, a file has been dragged inside the component. Used to make UI updates.',
+      type: {
+        raw: 'boolean',
+      },
+    },
+    file: {
+      name: 'file',
+      description: 'The file that is ready to be accepted.',
+      type: {
+        raw: 'File',
+      },
+    },
+    focused: {
+      name: 'focused',
+      description: 'If true the component is focused. Used to make UI updates.',
+      type: {
+        raw: 'boolean',
+      },
+    },
+    name: {
+      name: 'name',
+      description: 'The name of the file.',
+      type: {
+        raw: 'string',
+      },
+    },
+    type: {
+      name: 'type',
+      description: 'The file type of the file',
+      type: {
+        raw: 'string',
+      },
+    },
+    reset: {
+      name: 'reset',
+      description: 'An event handler used to reset input component.',
+      type: {
+        raw: 'MouseEvent<HTMLInputElement>',
+      },
+    },
+  }}
+/>
 
 ## Max Size
 

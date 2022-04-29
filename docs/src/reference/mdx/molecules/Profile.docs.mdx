@@ -18,6 +18,41 @@ import { Profile } from '@ensdomains/thorin'
 
 <PropsTable sourceLink={sourceLink} types={types} />
 
+## Dropdown Item Props
+
+<PropsTable
+  types={{
+    label: {
+      name: 'label',
+      description: 'The text label.',
+      type: {
+        raw: 'string',
+      },
+    },
+    color: {
+      name: 'color',
+      description: 'The color of the label.',
+      type: {
+        raw: '"blue" | "green" | "indigo" | "orange" | "pink" | "purple" | "red" | "teal" | "yellow" | "grey" | "accent" | "accentSecondary" | "accentSecondaryHover" | "accentTertiary" | "accentText" | "accentGradient" | "background" | "backgroundHide" | "backgroundSecondary" | "backgroundTertiary" | "border" | "borderSecondary" | "borderTertiary" | "foreground" | "foregroundSecondary" | "foregroundSecondaryHover" | "foregroundTertiary" | "groupBackground" | "groupBorder" | "gradients" | "text" | "textPlaceholder" | "textSecondary" | "textTertiary"',
+      },
+    },
+    disabled: {
+      name: 'disabled',
+      description: 'The disabled attribute of button element.',
+      type: {
+        raw: 'boolean',
+      },
+    },
+    onClick: {
+      name: 'onClick',
+      description: 'An event handler for click events.',
+      type: {
+        raw: '() => void',
+      },
+    },
+  }}
+/>
+
 ## Variants
 
 ```tsx live=true

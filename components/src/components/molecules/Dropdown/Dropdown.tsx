@@ -2,7 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 
 import { Button } from '../..'
-import { Props as ButtonProps } from '@/src/components/atoms/Button'
+import { ButtonProps as ButtonProps } from '@/src/components/atoms/Button'
 import { Colors, tokens } from '@/src/tokens'
 import { ReactComponent as IconDownIndicatorSvg } from '@/src/icons/DownIndicator.svg'
 
@@ -173,13 +173,21 @@ const MenuButton = styled.button<MenuButtonProps>`
 `
 
 type DropdownMenuProps = {
+  /** An array of objects conforming to the DropdownItem interface. */
   items: DropdownItem[]
+  /** If true, makes the menu visible. */
   isOpen: boolean
+  /** A mutation function for the isOpen variable. */
   setIsOpen: (isOpen: boolean) => void
+  /** Sets the width in the number of pixels. Must be at least 150. */
   width?: string
+  /** If true, renders a dropdown where the button and menu are merged. */
   inner: boolean
+  /** Sets which side of the button to align the dropdown menu. */
   align: 'left' | 'right'
+  /** If true, decreases the distance of the dropdown animation. */
   shortThrow: boolean
+  /** If true, sets the zIndex of the dropdown menu to 100. */
   keepMenuOnTop: boolean
 }
 
