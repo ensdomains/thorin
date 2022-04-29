@@ -141,7 +141,7 @@ const ReducedLineText = styled(Typography)`
 
 const ProfileInner = ({ size, avatar, address, ensName }: Props) => (
   <>
-    <Avatar label="profile-avatar" placeholder={!avatar} src={avatar} />
+    <Avatar label="profile-avatar" src={avatar} />
     <ProfileInnerContainer size={size}>
       <ReducedLineText
         color={ensName ? 'text' : 'textTertiary'}
