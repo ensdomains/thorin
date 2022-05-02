@@ -7,7 +7,7 @@ import { PlayroomStateProvider } from './PlayroomState'
 import ThorinGlobalStyles from '@/src/globalStyles'
 import { tokens } from '@/src/tokens'
 
-const GlobalStyle = createGlobalStyle<{ mode: 'light' | 'dark' }>`
+const GlobalStyle = createGlobalStyle`
   html {
     height: 100%;
   }
@@ -15,7 +15,7 @@ const GlobalStyle = createGlobalStyle<{ mode: 'light' | 'dark' }>`
     padding: 1.5rem;
     box-sizing: border-box;
     min-height: 100%;
-    background: ${({ mode }) => tokens.colors[mode].backgroundTertiary};
+    background: ${({ theme }) => tokens.colors[theme.mode].backgroundTertiary};
   }
 `
 
@@ -28,7 +28,7 @@ React.PropsWithChildren<any>) => (
     <link href="https://rsms.me/inter/inter.css" rel="stylesheet" />
     <PlayroomStateProvider>
       <ThemeProvider theme={{ mode: theme }}>
-        <GlobalStyle mode={theme} />
+        <GlobalStyle />
         <ThorinGlobalStyles />
         {children}
       </ThemeProvider>

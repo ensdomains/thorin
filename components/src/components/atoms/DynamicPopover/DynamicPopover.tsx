@@ -30,11 +30,14 @@ export type DynamicPopoverPopover = React.ReactNode & {
   open?: boolean
 }
 
-export type Button = React.ReactNode & ButtonProps
+export type DynamicPopoverButton = React.ReactElement & {
+  pressed?: boolean
+  onClick?: ButtonProps['onClick']
+}
 
 export interface DynamicPopoverProps {
   /** A Button component. The component will override the onClick and pressed properties of the button. */
-  children: Button
+  children: DynamicPopoverButton
   /** A react node that adopts the DynamicPopoverPopover props. */
   popover: DynamicPopoverPopover
   /** The side and alignment of the popover in relation to the button. */

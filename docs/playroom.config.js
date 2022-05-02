@@ -9,7 +9,7 @@ module.exports = {
   themes: './src/playroom/themes.ts',
   frameComponent: './src/playroom/FrameComponent.tsx',
   scope: './src/playroom/useScope.ts',
-  typeScriptFiles: ['../components/src/**/*.{ts,tsx}'],
+  typeScriptFiles: ['../components/src/**/*.{ts,tsx}', 'src/**/*.{ts,tsx}'],
   widths: [320, 640, 768, 1024, 1280],
   openBrowser: false,
   port: 8082,

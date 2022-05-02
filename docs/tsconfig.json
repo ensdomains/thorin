@@ -29,5 +29,5 @@
     "types": ["jest", "node", "webpack-env"]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["**/*.snippets.tsx"]
+  "exclude": []
 }

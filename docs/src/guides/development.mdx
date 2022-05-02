@@ -8,7 +8,7 @@ description: Guidelines for working on thorin
 Clone repository, install dependencies, and run docs site and Playroom.
 
 ```bash
-gh repo clone @ensdomains/thorin
+yarn add @ensdomains/thorin
 yarn
 yarn dev
 ```
@@ -21,21 +21,43 @@ Scaffold a new component:
 yarn gen:component
 ```
 
-Export from `src/index.ts` to make available:
+The scaffolding script will prompt you to enter a component name in pascal case, if the component is a forwardRef, and which component group the component belongs in. Once successfully entered, the script will:
 
-```ts
-export { ComponentName } from './components'
-```
+1\. Create a component file in the components folder.
+
+2\. Create a component test file in the components folder.
+
+3\. Create a component index file exporting the component and component interface.
+
+4\. Create a mdx file in the docs folder.
+
+5\. Create a snippets file in the docs folder.
+
+6\. Add the component file to the component index files in the docs folder.
+
+You will need to add the component to the test file at components/src/index.test.ts in order to pass the automated tests.
 
 ## Adding Icons
 
-Add a `.svg` file to `icons` and run:
+Add a `.svg` file in pascal case to the `icons` folder and run:
 
 ```bash
 yarn gen:icons
 ```
 
 All files in the `icons` directory are automatically converted to React components and exported for use. Generated icons should follow a 24x24 bounding box.
+
+## Test
+
+```bash
+yarn test
+```
+
+## Build
+
+```bash
+yarn build
+```
 
 ## Publishing New Versions
 

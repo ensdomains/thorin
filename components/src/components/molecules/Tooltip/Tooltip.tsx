@@ -7,7 +7,7 @@ import {
   DynamicPopover,
   DynamicPopoverPopover,
   DynamicPopoverProps,
-} from '../../atoms/DynamicPopover'
+} from '@/src/components/atoms/DynamicPopover'
 
 export interface TooltipProps extends Omit<DynamicPopoverProps, 'popover'> {
   /** A text or component containg the content of the popover. */

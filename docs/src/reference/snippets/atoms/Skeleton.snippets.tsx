@@ -7,6 +7,10 @@ import { Snippet } from '../../../types'
 export const snippets: Snippet[] = [
   {
     name: 'Basic',
-    code: <Skeleton loading>_</Skeleton>,
+    code: (
+      <Skeleton loading>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      </Skeleton>
+    ),
   },
 ]

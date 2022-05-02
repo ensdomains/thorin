@@ -121,3 +121,5 @@ export const Heading = React.forwardRef(
     </HeadingContainer>
   ),
 )
+
+Heading.displayName = 'Heading'

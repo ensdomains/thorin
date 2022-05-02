@@ -20,6 +20,29 @@ import { DynamicPopover } from '@ensdomains/thorin'
 
 <PropsTable sourceLink={sourceLink} types={types} />
 
+## DynamicPopoverButton Props
+
+Use a Button component or a component that implements this interface.
+
+<PropsTable
+  types={{
+    pressed: {
+      name: 'pressed',
+      description: 'If true, the popover is visible.',
+      type: {
+        raw: 'boolean',
+      },
+    },
+    onClick: {
+      name: 'onClick',
+      description: 'A handler for click events.',
+      type: {
+        raw: 'MouseEventHandler<HTMLElement>',
+      },
+    },
+  }}
+/>
+
 ## DynamicPopoverPopover Props
 
 Use these props for positioning when creating a custom popover
