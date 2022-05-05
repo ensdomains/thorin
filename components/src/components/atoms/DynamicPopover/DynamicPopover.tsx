@@ -336,3 +336,5 @@ export const DynamicPopover = ({
     </Container>
   )
 }
+
+DynamicPopover.displayName = 'DynamicPopover'

@@ -4,6 +4,6 @@ import { Snippet } from '../../../types'
 export const snippets: Snippet[] = [
   {
     name: 'Atoms',
-    code: '<FileInput>{(context) => context.name ? <div>{context.name}</div> : <div>Attach a file</div>}</FileInput>',
+    code: `<FileInput>{(context) => context.name ? <div>{context.name}</div> : <div>Attach a file</div>}</FileInput>`,
   },
 ]

@@ -435,3 +435,5 @@ export const Dropdown = ({
     </div>
   )
 }
+
+Dropdown.displayName = 'Dropdown'

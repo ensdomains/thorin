@@ -36,11 +36,7 @@ const Container = styled.div`
   height: ${tokens.space['full']};
 `
 
-const ContainerInner = styled.div`
-  ${largerThan.lg`
-    padding-bottom: ${tokens.space['5']};
-  `}
-`
+const ContainerInner = styled.div``
 
 const NavlinkContainer = styled.div`
   display: flex;
@@ -48,10 +44,6 @@ const NavlinkContainer = styled.div`
   justify-content: space-between;
   flex-direction: row;
   gap: ${tokens.space['5']};
-
-  ${largerThan.lg`
-    flex-direction: column;
-  `}
 `
 
 const NavLinkInner = styled.div`

@@ -8,10 +8,12 @@ export const snippets: Snippet[] = [
   {
     name: 'Basic',
     code: (
-      <Avatar
-        label="Avatar"
-        src="https://images.mirror-media.xyz/publication-images/H-zIoEYWk4SpFkljJiwB9.png"
-      />
+      <div style={{ width: '100px' }}>
+        <Avatar
+          label="Avatar"
+          src="https://images.mirror-media.xyz/publication-images/H-zIoEYWk4SpFkljJiwB9.png"
+        />
+      </div>
     ),
   },
 ]

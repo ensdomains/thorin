@@ -15,7 +15,7 @@ yarn dev
 
 ## Component Groups
 
-Thorin is organized according to the [`Atomic Design Methodology`](https://atomicdesign.bradfrost.com/chapter-2/).
+Components are organized in folders according to the [`Atomic Design Methodology`](https://atomicdesign.bradfrost.com/chapter-2/).
 
 **Atoms** serve as the foundational building blocks that comprise all our user interfaces. These atoms include basic HTML elements like form labels, inputs, buttons, and others that can’t be broken down any further without ceasing to be functional.
 
@@ -29,40 +29,40 @@ Adding a component requires adding and modifying several files. The different st
 
 ### 1. Create a component file
 
-The react component file should be named in pascal case and placed in a folder with the same name in the directory of the component group.
+The react component should be named using [`pascal case`](https://techterms.com/definition/pascalcase) convention (e.g. PascalCase). The react component file should use the component name with a **.tsx** file extension. It should be added to a folder named as the component name and nested in the [`Component Group`](#component-groups) folder at _components/src/components_.
 
 ### 2. Create a component test file
 
-The react component test file should have the same name as the component file with a file extension of .test.tsx. It should be located in the same directory as the component file.
+The react component test file should have the same name as the component a **.test.tsx** file extension. It should be located in the same directory as the component file.
 
-### 3.Create a component index file
+### 3. Create a component index file
 
-The react component and type should be exported in an index file in the same directory as the component file. If a generic type was used, export it using an alias.
+The react component and type should be exported in an index file in the same directory as the component file. If a generic Props type was used, export it using an alias.
 
 ```tsx
 export { ComponentName } from './ComponentName'
 export type { Props as ComponentNameProps } from './ComponentName'
 ```
 
-### 4. Add the component export to the Component Group index file
+### 4. Add the component to the exports in the Component Group index file
 
-The react component should be added to the list of exports in the Component Group directory index file. Only the react copmonent needs to be exported.
+The react component should be added to the list of exports in the index file located in the [`Component Group`](#component-groups) folder in _components/src/components_. Only the react component needs to be exported.
 
 ### 5. Create a mdx file
 
-The component mdx file should have the same name as the react component with a .docs.mdx file extension. It should be added to the Component Group folder in docs/src/reference/mdx.
+The component mdx file should have the same name as the react component with a **.docs.mdx** file extension. It should be added to the [`Component Group`](#component-groups) folder in _docs/src/reference/mdx_.
 
 ### 6. Create a snippets file
 
-The component snippets file should have the same name as the react component with a .snippets.tsx and located in the Component Group folder in docs/src/reference/snippets.
+The component snippets file should have the same name as the react component with a **.snippets.tsx** file extension. It should be added to the [`Component Group`](#component-groups) folder in _docs/src/reference/snippets_.
 
 ### 7. Add the component to the module export test
 
-Add the component to the module export test located at components/src/index.test.tsx.
+Add the component to the module export test located at _components/src/index.test.tsx_.
 
 ## Scaffolding Components
 
-A generator script is available that will perform items 1-6 of Adding Components. **Adding the component to the mododule export test must be done manually.** Access the script using:
+A generator script is available that will perform items 1 - 6 of [Adding Components](#adding-components). **Adding the component to the mododule export test must be done manually.** Access the script using:
 
 ```bash
 yarn gen:component
@@ -72,9 +72,9 @@ yarn gen:component
 
 ### Components
 
-Use functional components
+Use **functional components** with hooks and **avoid using inline styles**.
 
-**Add displayName** to component. This is neccessary for playroom to generate snippet from code.
+**Add displayName** to component. This is neccessary for playroom to generate snippets from code.
 
 ```tsx
 const Component = () => <div />
@@ -84,7 +84,7 @@ Component.displayName = 'Component'
 
 ### Styled Components
 
-When using styled components **prefix property names with $**
+When using styled components **prefix property names with $** to avoid passing component props directly to styled components.
 
 ```tsx
 const Container = styled.div<{
@@ -96,14 +96,31 @@ const Container = styled.div<{
 
 ### Snippets
 
-If snippet doesn't work, might need to turn it to string.
+Playroom uses [react-element-to-jsx-string](https://www.npmjs.com/package/react-element-to-jsx-string) to convert a react component into a string which can be used by playroom. In certain situations it is not able to accurately convert the element, such as if the components' children includes a function.
+
+If you are having problems with your snippet in playroom, convert your snippet code to a single line string. **Do not use backslash** to break the string into multiple lines.
+
+```tsx
+export const snippets: Snippet[] = [
+  {
+    name: 'Basic',
+    code: '<FileInput>{(context) => context.name ? <div>{context.name}</div> : <div>Attach a file</div>}</FileInput>',
+  },
+]
+```
 
 ### Docs
 
-Link to components from `@ensdomains/thorin`.
+When you need to import a component within the _docs/_ folder, **link to components from @ensdomains/thorin**.
 
 ```
 import { Field } from '@ensdomains/thorin'
+```
+
+For updates to components to appear in files in the _docs/_ folder, you will first need to **build the components** using:
+
+```bash
+yarn build:components
 ```
 
 ## Adding Icons
@@ -124,15 +141,13 @@ yarn test
 
 ## Build
 
-### Building the components
-
 To build the comopnents in the components library use:
 
 ```bash
 yarn build:components
 ```
 
-### Building the project
+To build the entire project use:
 
 ```bash
 yarn build
@@ -142,19 +157,24 @@ yarn build
 
 [Create a new release](https://github.com/ensdomains/thorin/releases/new) on GitHub with a tag that follows [semantic versioning](https://semver.org/). Publishing a release triggers a workflow for building, testing, and pushing to [npm](https://www.npmjs.com/package/@ensdomains/thorin).
 
-## FAQ
+## Common Problems
 
-I update the component, why can't I see it in the docs?
-you need to build:component before docs can see it.
+### My component did not update in my mdx file or playroom.?
 
-Snippet isn't working
-sometimes the component is not converted into string properly. Must turn code in snipets to string.
+Update the component using `yarn build:component` and reload the page after the script has completed.
 
-Says a framework is not available in Playroom
-\export the component in docs/src/playroom/components.ts to make it available
+### My snippet looks malformed or doesn't work in playroom
 
-Says a framework is not available in mdx code preview
-add to scope property of LiveProvider component in docs/src/components/CodePreview/CodePreview.tsx
+Check if displayName has been added to component. If not, then you may need to conver the snippet to a string. See the [snippets section](#snippets) for more details.
 
-Props Table for types is weird
-formatPropType in docs/src/components/PropsTable.tsx
+### Playroom is giving an error that a component or module is not available
+
+Check if the module or component has been exported in _docs/src/playroom/components.ts_.
+
+### Code preview in mdx file is giving an error that a component or module is not available
+
+Check that the component or module is included in the scope property of the LiveProvider component in _docs/src/components/CodePreview/CodePreview.tsx_.
+
+### The value in the Type column in the documentation props table is oddly formatted.
+
+You can customize the format of the type value by adding conditions to the function **formatPropType** in _docs/src/components/PropsTable.tsx_.

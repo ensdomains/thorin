@@ -29,23 +29,72 @@ With Playroom, you can test different screen sizes and themes, share links to pr
 
 ## State and Interactivity
 
-You can control Playroom state and interactivity using the variables and functions that are injected into the global context:
+You can control Playroom state and interactivity using the functions that are injected into the global context:
 
-```ts
-// State
-setDefaultState(key, value)
-getState(key)
-setState(key, value)
-toggleState(key)
-resetState()
-// Theme
-accent
-mode
-setAccent(accent)
-setMode(mode)
-// CSS
-vars
+### Get State
+
+The function getState requires a key that identifies the property it is getting. Use getState in place of a state variable.
+
+By default the value is undefined so it will not pass a value to the property. In this example, the property checked has been assigned getState('checked') but it still functions as if the property was undefined.
+
+```tsx live=true
+<Checkbox checked={getState('checked')} label="Checkbox" />
 ```
+
+### Set Default State
+
+The function setDefaultState sets the initial value for a key that can be retreived with getState.
+
+When declaring setDefaultState, wrap it in a VisuallyHidden component.
+
+In this example, the default state of checked has been set using setDefaultState.
+
+```tsx live=true
+<>
+  <VisuallyHidden>{setDefaultState('checked', true)}</VisuallyHidden>
+  <Checkbox checked={getState('checked')} label="Checkbox" />
+</>
+```
+
+### Set State
+
+The function setState muatates the value for a key that can be retrieved with getState.
+
+In this example, setState is used to mutate the value of getState('checked')
+
+```tsx live=true
+<>
+  <VisuallyHidden>{setDefaultState('checked', true)}</VisuallyHidden>
+  <Checkbox
+    checked={getState('checked')}
+    label="Checkbox"
+    onChange={() => setState('checked', !getState('checked'))}
+  />
+</>
+```
+
+### Toggle State
+
+The function toggleState performs a "not" operation on the value for a key.
+
+In this example, setState was replaced with toggleState.
+
+```tsx live=true
+<>
+  <VisuallyHidden>{setDefaultState('checked', true)}</VisuallyHidden>
+  <Checkbox
+    checked={getState('checked')}
+    label="Checkbox"
+    onChange={() => toggleState('checked')}
+  />
+</>
+```
+
+### Reset State
+
+The function resetState will set the value of all the keys to their default state. If no default state was set using setDefaultState, the value fo the key will be set to undefined.
+
+In this example we have a more complex code sample that uses all the playroom state functions.
 
 ```tsx live=true
 <div style={{ display: 'flex' }}>
