@@ -49,3 +49,5 @@ export const Skeleton = ({
     </Container>
   )
 }
+
+Skeleton.displayName = 'Skeleton'

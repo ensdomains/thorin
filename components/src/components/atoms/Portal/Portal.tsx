@@ -28,3 +28,5 @@ export const Portal: React.FC<Props> = ({
 
   return ReactDOM.createPortal(children, container)
 }
+
+Portal.displayName = 'Portal'

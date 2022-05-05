@@ -118,3 +118,5 @@ export const FieldSet = ({
     </Container>
   )
 }
+
+FieldSet.displayName = 'FieldSet'

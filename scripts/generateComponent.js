@@ -82,7 +82,6 @@ const COMPONENT_GROUPS = {
       }
 
       ${componentName}.displayName = '${componentName}'\n
-
     `
     const componentForwardRef = dedent`
       ${componentImports}
@@ -199,7 +198,7 @@ const COMPONENT_GROUPS = {
     console.log('Creating index at', indexFilePath)
     const componentIndex = dedent`
       export { ${componentName} } from './${componentName}'
-      export type { Props } from './${componentName}'\n
+      export type { Props as ${componentName}Props } from './${componentName}'\n
     `
     await fs.writeFile(indexFilePath, componentIndex, 'utf-8')
 

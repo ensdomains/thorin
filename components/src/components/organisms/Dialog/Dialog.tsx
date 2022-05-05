@@ -69,3 +69,5 @@ export const Dialog = ({
     </div>
   </Modal>
 )
+
+Dialog.displayName = 'Dialog'

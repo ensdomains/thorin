@@ -1,14 +1,13 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
-import { Space, tokens } from '@/src/tokens'
+import { tokens } from '@/src/tokens'
 
 type Shape = 'circle' | 'square'
 
 interface Container {
   $shape: Shape
   $noBorder?: boolean
-  $size: Space
 }
 
 const Container = styled.div<Container>`
@@ -122,3 +121,5 @@ export const Avatar = ({
     </Container>
   )
 }
+
+Avatar.displayName = 'Avatar'

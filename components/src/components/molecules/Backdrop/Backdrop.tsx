@@ -39,3 +39,5 @@ export const Backdrop = ({ children, surface, onDismiss, open }: Props) => {
     </Portal>
   ) : null
 }
+
+Backdrop.displayName = 'Backdrop'

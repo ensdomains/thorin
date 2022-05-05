@@ -72,16 +72,29 @@ yarn gen:component
 
 ### Components
 
-&middot; Use functional comnponents<br/>
-&middot; Add displayName to forwardRefs
+Use functional components
 
-Prefer interface to type
+**Add displayName** to component. This is neccessary for playroom to generate snippet from code.
+
+```tsx
+const Component = () => <div />
+
+Component.displayName = 'Component'
+```
 
 ### Styled Components
 
-&middot; When using styled components prefix variables with $
+When using styled components **prefix property names with $**
 
-### snippets
+```tsx
+const Container = styled.div<{
+  $property: string
+}>`
+  ${({ $property }) => ``}
+`
+```
+
+### Snippets
 
 If snippet doesn't work, might need to turn it to string.
 

@@ -50,3 +50,5 @@ export const RadioButtonGroup = ({
     </>
   )
 }
+
+RadioButtonGroup.displayName = 'RadioButtonGroup'

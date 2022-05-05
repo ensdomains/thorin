@@ -172,3 +172,5 @@ export const Tag = ({
     </Container>
   )
 }
+
+Tag.displayName = 'Tag'

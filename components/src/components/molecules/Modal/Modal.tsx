@@ -53,3 +53,5 @@ export const Modal = ({
     </Container>
   </Backdrop>
 )
+
+Modal.displayName = 'Modal'

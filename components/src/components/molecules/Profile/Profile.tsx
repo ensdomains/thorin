@@ -218,3 +218,5 @@ export const Profile = ({
     </Container>
   )
 }
+
+Profile.displayName = 'Profile'
