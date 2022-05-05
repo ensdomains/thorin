@@ -44,13 +44,13 @@ export const ThemeSwitcher = () => {
   return (
     <SkeletonGroup loading={!isMounted}>
       <FlexContainer>
-        <Skeleton backgroundColor="foregroundTertiary">
+        <Skeleton>
           <Button size="small" variant="secondary">
             <TextContainer>{isMounted ? mode : 'light'}</TextContainer>
           </Button>
         </Skeleton>
 
-        <Skeleton backgroundColor="foregroundTertiary">
+        <Skeleton>
           <Button size="small" variant="secondary">
             <Capitalize>{'blue'}</Capitalize>
           </Button>
