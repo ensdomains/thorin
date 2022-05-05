@@ -5,7 +5,7 @@ description: Guidelines for working on thorin
 
 ## Set Up
 
-Clone repository, install dependencies, and run docs site and Playroom.
+Clone repository, install dependencies, and run the dev script to start the docs and playroom sites.
 
 ```bash
 yarn add @ensdomains/thorin
@@ -13,29 +13,85 @@ yarn
 yarn dev
 ```
 
+## Component Groups
+
+Thorin is organized according to the [`Atomic Design Methodology`](https://atomicdesign.bradfrost.com/chapter-2/).
+
+**Atoms** serve as the foundational building blocks that comprise all our user interfaces. These atoms include basic HTML elements like form labels, inputs, buttons, and others that can’t be broken down any further without ceasing to be functional.
+
+**Molecules** are relatively simple groups of UI elements functioning together as a unit. For example, a form label, search input, and button can join together to create a search form molecule.
+
+**Organisms** are relatively complex UI components composed of groups of molecules and/or atoms and/or other organisms. These organisms form distinct sections of an interface.
+
 ## Adding Components
 
-Scaffold a new component:
+Adding a component requires adding and modifying several files. The different steps to adding a component are:
+
+### 1. Create a component file
+
+The react component file should be named in pascal case and placed in a folder with the same name in the directory of the component group.
+
+### 2. Create a component test file
+
+The react component test file should have the same name as the component file with a file extension of .test.tsx. It should be located in the same directory as the component file.
+
+### 3.Create a component index file
+
+The react component and type should be exported in an index file in the same directory as the component file. If a generic type was used, export it using an alias.
+
+```tsx
+export { ComponentName } from './ComponentName'
+export type { Props as ComponentNameProps } from './ComponentName'
+```
+
+### 4. Add the component export to the Component Group index file
+
+The react component should be added to the list of exports in the Component Group directory index file. Only the react copmonent needs to be exported.
+
+### 5. Create a mdx file
+
+The component mdx file should have the same name as the react component with a .docs.mdx file extension. It should be added to the Component Group folder in docs/src/reference/mdx.
+
+### 6. Create a snippets file
+
+The component snippets file should have the same name as the react component with a .snippets.tsx and located in the Component Group folder in docs/src/reference/snippets.
+
+### 7. Add the component to the module export test
+
+Add the component to the module export test located at components/src/index.test.tsx.
+
+## Scaffolding Components
+
+A generator script is available that will perform items 1-6 of Adding Components. **Adding the component to the mododule export test must be done manually.** Access the script using:
 
 ```bash
 yarn gen:component
 ```
 
-The scaffolding script will prompt you to enter a component name in pascal case, if the component is a forwardRef, and which component group the component belongs in. Once successfully entered, the script will:
+## Style Guidelines
 
-1\. Create a component file in the components folder.
+### Components
 
-2\. Create a component test file in the components folder.
+&middot; Use functional comnponents<br/>
+&middot; Add displayName to forwardRefs
 
-3\. Create a component index file exporting the component and component interface.
+Prefer interface to type
 
-4\. Create a mdx file in the docs folder.
+### Styled Components
 
-5\. Create a snippets file in the docs folder.
+&middot; When using styled components prefix variables with $
 
-6\. Add the component file to the component index files in the docs folder.
+### snippets
 
-You will need to add the component to the test file at components/src/index.test.ts in order to pass the automated tests.
+If snippet doesn't work, might need to turn it to string.
+
+### Docs
+
+Link to components from `@ensdomains/thorin`.
+
+```
+import { Field } from '@ensdomains/thorin'
+```
 
 ## Adding Icons
 
@@ -55,6 +111,16 @@ yarn test
 
 ## Build
 
+### Building the components
+
+To build the comopnents in the components library use:
+
+```bash
+yarn build:components
+```
+
+### Building the project
+
 ```bash
 yarn build
 ```
@@ -62,3 +128,20 @@ yarn build
 ## Publishing New Versions
 
 [Create a new release](https://github.com/ensdomains/thorin/releases/new) on GitHub with a tag that follows [semantic versioning](https://semver.org/). Publishing a release triggers a workflow for building, testing, and pushing to [npm](https://www.npmjs.com/package/@ensdomains/thorin).
+
+## FAQ
+
+I update the component, why can't I see it in the docs?
+you need to build:component before docs can see it.
+
+Snippet isn't working
+sometimes the component is not converted into string properly. Must turn code in snipets to string.
+
+Says a framework is not available in Playroom
+\export the component in docs/src/playroom/components.ts to make it available
+
+Says a framework is not available in mdx code preview
+add to scope property of LiveProvider component in docs/src/components/CodePreview/CodePreview.tsx
+
+Props Table for types is weird
+formatPropType in docs/src/components/PropsTable.tsx

@@ -8,7 +8,7 @@ import { FieldBaseProps } from '../../atoms/Field'
 import { ReactComponent as IconDownIndicatorSvg } from '@/src/icons/DownIndicator.svg'
 import { tokens } from '@/src/tokens'
 
-const SelectContainer = styled.div<{ disabled?: boolean }>`
+const SelectContainer = styled.div<{ $disabled?: boolean }>`
   ${({ theme }) => `
     background: ${tokens.colors[theme.mode].background};
     border-color: ${tokens.colors[theme.mode].backgroundHide};
@@ -25,8 +25,8 @@ const SelectContainer = styled.div<{ disabled?: boolean }>`
     z-index: 10;
   `}
 
-  ${({ disabled, theme }) =>
-    disabled &&
+  ${({ $disabled, theme }) =>
+    $disabled &&
     `
     cursor: not-allowed;
     background: ${tokens.colors[theme.mode].backgroundTertiary};
@@ -42,8 +42,8 @@ const OptionElementContainer = styled.div`
 `
 
 const Chevron = styled(IconDownIndicatorSvg)<{
-  open: boolean
-  disabled?: boolean
+  $open: boolean
+  $disabled?: boolean
 }>`
   margin-left: ${tokens.space['1']};
   width: ${tokens.space['3']};
@@ -60,21 +60,21 @@ const Chevron = styled(IconDownIndicatorSvg)<{
   }
   fill: currentColor;
 
-  ${({ open }) =>
-    open &&
+  ${({ $open }) =>
+    $open &&
     `
       opacity: 1;
       transform: rotate(180deg);
   `}
 
-  ${({ disabled }) =>
-    disabled &&
+  ${({ $disabled }) =>
+    $disabled &&
     `
       opacity: 0.1;
   `}
 `
 
-const SelectOptionContainer = styled.div<{ open?: boolean }>`
+const SelectOptionContainer = styled.div<{ $open?: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -94,8 +94,8 @@ const SelectOptionContainer = styled.div<{ open?: boolean }>`
     background: ${tokens.colors[theme.mode].background};
   `}
 
-  ${({ open }) =>
-    open
+  ${({ $open }) =>
+    $open
       ? `
       z-index: 20;
       visibility: visible;
@@ -112,7 +112,7 @@ const SelectOptionContainer = styled.div<{ open?: boolean }>`
   `}
 `
 
-const SelectOption = styled.div<{ selected?: boolean; disabled?: boolean }>`
+const SelectOption = styled.div<{ $selected?: boolean; $disabled?: boolean }>`
   align-items: center;
   cursor: pointer;
   display: flex;
@@ -143,14 +143,14 @@ const SelectOption = styled.div<{ selected?: boolean; disabled?: boolean }>`
     }
   `}
 
-  ${({ theme, selected }) =>
-    selected &&
+  ${({ theme, $selected }) =>
+    $selected &&
     `
       background-color: ${tokens.colors[theme.mode].foregroundSecondary};
   `}
 
-  ${({ theme, disabled }) =>
-    disabled &&
+  ${({ theme, $disabled }) =>
+    $disabled &&
     `
       color: ${tokens.colors[theme.mode].textTertiary};
       cursor: not-allowed;
@@ -304,15 +304,15 @@ export const Select = React.forwardRef(
             id={`combo-${id}`}
             role="combobox"
             onClick={(e) => handleInputEvent(e, 'mouse')}
-            {...{ disabled, tabIndex, open: menuOpen }}
+            {...{ $disabled: disabled, tabIndex }}
           >
             <OptionElementContainer data-testid="selected">
               {selected ? <OptionElement option={selected} /> : <div />}
             </OptionElementContainer>
-            <Chevron {...{ open: menuOpen, disabled }} />
+            <Chevron {...{ $open: menuOpen, $disabled: disabled }} />
           </SelectContainer>
           <SelectOptionContainer
-            {...{ open: menuOpen }}
+            {...{ $open: menuOpen }}
             id={`listbox-${id}`}
             role="listbox"
             tabIndex={-1}
@@ -320,8 +320,8 @@ export const Select = React.forwardRef(
             {(Array.isArray(options) ? options : [options]).map((option) => (
               <SelectOption
                 {...{
-                  selected: option === selected,
-                  disabled: option.disabled,
+                  $selected: option === selected,
+                  $disabled: option.disabled,
                 }}
                 key={option.value}
                 role="option"

@@ -5,21 +5,21 @@ import { Colors, tokens } from '@/src/tokens'
 import { largerThan } from '@/src/utils/responsiveHelpers'
 
 interface HeadingContainerProps {
-  textAlign?: React.CSSProperties['textAlign']
-  textTransform: React.CSSProperties['textTransform']
-  level: '1' | '2'
-  responsive?: boolean
-  color?: Colors
+  $textAlign?: React.CSSProperties['textAlign']
+  $textTransform: React.CSSProperties['textTransform']
+  $level: '1' | '2'
+  $responsive?: boolean
+  $color?: Colors
 }
 
 const HeadingContainer = styled.div<HeadingContainerProps>`
-  ${({ textAlign, textTransform }) => `
-    ${textAlign ? `text-align: ${textAlign};` : ``}
-    ${textTransform ? `text-transform: ${textTransform};` : ``}
+  ${({ $textAlign, $textTransform }) => `
+    ${$textAlign ? `text-align: ${$textAlign};` : ``}
+    ${$textTransform ? `text-transform: ${$textTransform};` : ``}
   `}
 
-  ${({ level }) => {
-    switch (level) {
+  ${({ $level }) => {
+    switch ($level) {
       case '1':
         return `
           font-size: ${tokens.fontSizes.headingOne};
@@ -39,9 +39,9 @@ const HeadingContainer = styled.div<HeadingContainerProps>`
     }
   }}
   
-  ${({ responsive, level }) => {
-    if (responsive) {
-      switch (level) {
+  ${({ $responsive, $level }) => {
+    if ($responsive) {
+      switch ($level) {
         case '1':
           return `
           font-size: ${tokens.fontSizes.headingTwo};
@@ -66,10 +66,10 @@ const HeadingContainer = styled.div<HeadingContainerProps>`
     }
   }}
 
-  ${({ color, theme }) =>
-    color &&
+  ${({ $color, theme }) =>
+    $color &&
     `
-    color: ${tokens.colors[theme.mode][color]};
+    color: ${tokens.colors[theme.mode][$color]};
     `}
   
   font-family: ${tokens.fonts['sans']};
@@ -106,15 +106,15 @@ export const Heading = React.forwardRef(
     ref: React.ForwardedRef<HTMLDivElement>,
   ) => (
     <HeadingContainer
-      textAlign={align}
-      textTransform={transform}
+      $color={color}
+      $level={level}
+      $responsive={responsive}
+      $textAlign={align}
+      $textTransform={transform}
       {...{
-        level,
-        responsive,
         as,
         id,
         ref,
-        color,
       }}
     >
       {children}

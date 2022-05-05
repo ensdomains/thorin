@@ -28,9 +28,9 @@ type BaseProps = {
 }
 
 interface ContainerProps {
-  size: Size
-  hasChevron?: boolean
-  open: boolean
+  $size: Size
+  $hasChevron?: boolean
+  $open: boolean
 }
 
 const Container = styled.div<ContainerProps>`
@@ -53,8 +53,8 @@ const Container = styled.div<ContainerProps>`
     background-color: ${tokens.colors[theme.mode].groupBackground};
   `}
 
-  ${({ hasChevron }) =>
-    hasChevron &&
+  ${({ $hasChevron }) =>
+    $hasChevron &&
     `
       cursor: pointer;
       &:hover {
@@ -63,15 +63,15 @@ const Container = styled.div<ContainerProps>`
       }
   `}
 
-  ${({ open, theme }) =>
-    open &&
+  ${({ $open, theme }) =>
+    $open &&
     `
       box-shadow: ${tokens.shadows['0']};
       background-color: ${tokens.colors[theme.mode].foregroundSecondary};
   `}
 
-  ${({ size }) => {
-    switch (size) {
+  ${({ $size }) => {
+    switch ($size) {
       case 'small':
         return `
           max-width: ${tokens.space['48']};
@@ -89,24 +89,27 @@ const Container = styled.div<ContainerProps>`
     }
   }}
 
-  ${({ size, hasChevron }) => {
-    if (size === 'small' && hasChevron)
+  ${({ $size, $hasChevron }) => {
+    if ($size === 'small' && $hasChevron)
       return `
       max-width: ${tokens.space['52']};
     `
 
-    if (size === 'medium' && hasChevron)
+    if ($size === 'medium' && $hasChevron)
       return `
       max-width: ${tokens.space['56']};
     `
 
-    if (size === 'large' && hasChevron)
+    if ($size === 'large' && $hasChevron)
       return `
       max-width: calc(${tokens.space['80']} + ${tokens.space['4']});
     `
   }}
 `
 
+const AvatarContainer = styled.div`
+  width: ${tokens.space['12']};
+`
 const Chevron = styled.svg<{ $open: boolean }>`
   margin-left: ${tokens.space['1']};
   width: ${tokens.space['3']};
@@ -128,9 +131,9 @@ const Chevron = styled.svg<{ $open: boolean }>`
 `
 
 const ProfileInnerContainer = styled.div<{
-  size?: 'small' | 'medium' | 'large'
+  $size?: 'small' | 'medium' | 'large'
 }>`
-  display: ${({ size }) => (size === 'small' ? 'none' : 'block')};
+  display: ${({ $size }) => ($size === 'small' ? 'none' : 'block')};
   margin: 0 ${tokens.space['1.5']};
   min-width: ${tokens.space['none']};
 `
@@ -141,8 +144,10 @@ const ReducedLineText = styled(Typography)`
 
 const ProfileInner = ({ size, avatar, address, ensName }: Props) => (
   <>
-    <Avatar label="profile-avatar" src={avatar} />
-    <ProfileInnerContainer size={size}>
+    <AvatarContainer>
+      <Avatar label="profile-avatar" src={avatar} />
+    </AvatarContainer>
+    <ProfileInnerContainer $size={size}>
       <ReducedLineText
         color={ensName ? 'text' : 'textTertiary'}
         ellipsis
@@ -188,9 +193,9 @@ export const Profile = ({
       >
         <Container
           {...{
-            size,
-            hasChevron: true,
-            open: isOpen,
+            $size: size,
+            $hasChevron: true,
+            $open: isOpen,
           }}
           onClick={() => setIsOpen(!isOpen)}
         >
@@ -204,8 +209,8 @@ export const Profile = ({
   return (
     <Container
       {...{
-        size,
-        open: isOpen,
+        $size: size,
+        $open: isOpen,
       }}
       data-testid="profile"
     >

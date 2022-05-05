@@ -8,10 +8,7 @@ import { DynamicPopover } from '@ensdomains/thorin'
 ```
 
 ```tsx live=true  expand=ture minHeight=300px
-<DynamicPopover
-  placement="bottom-start"
-  popover={<TooltipPopover>Additional Information</TooltipPopover>}
->
+<DynamicPopover placement="bottom-start" popover="Popover Information">
   <Button>Click Me</Button>
 </DynamicPopover>
 ```
@@ -22,7 +19,7 @@ import { DynamicPopover } from '@ensdomains/thorin'
 
 ## DynamicPopoverButton Props
 
-Use a Button component or a component that implements this interface.
+Use a Button component or a custom component that conforms to this interface. The component will clone the element and overwrite these properties.
 
 <PropsTable
   types={{
@@ -43,40 +40,77 @@ Use a Button component or a component that implements this interface.
   }}
 />
 
-## DynamicPopoverPopover Props
+## DynamicPopoverAnimationFn
 
-Use these props for positioning when creating a custom popover
+A function that provides custom animations to the popover appearing and disappearing.
+
+### Type
+
+```tsx
+type DynamicPopoverAnimationFunc = (
+  side: DynamicPopoverSide,
+  open?: boolean,
+) => Keyframes
+```
+
+### Parameters
 
 <PropsTable
   types={{
-    x: {
-      name: 'x',
-      description: 'The number of pixels from the left of the container.',
-      type: {
-        raw: 'number',
-      },
-    },
-    y: {
-      name: 'y',
-      description: 'The number of pixels from the top of the container.',
-      type: {
-        raw: 'number',
-      },
-    },
     side: {
       name: 'side',
-      description:
-        'The side of the container that the popover will appear. Used to calculate animations.',
+      description: 'The side of the button that the popover will appear.',
       type: {
-        raw: '"top" | "right" | "bottom" | "left"',
+        raw: '"top" | "left" | "bottom" | "right"',
       },
+      required: true,
     },
     open: {
-      name: 'open',
-      description: 'If true, the component is visible.',
+      name: 'onClick',
+      description: 'If true, the popover is visible',
       type: {
         raw: 'boolean',
       },
     },
   }}
 />
+
+### Return
+
+Returns a Keyframes object created from `keyframes` module of the `styled-components` library.
+
+```tsx live=true expand=ture minHeight=300px
+<DynamicPopover
+  animationFn={(side, open) => {
+    if (open)
+      return keyframes`
+    0% {
+      transform: scale(0.2);
+      visibility: hidden;
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1);
+      visibility: visible;
+      opacity: 1;
+    }
+  `
+    return keyframes`
+  0% {
+    transform: scale(1);
+    visibility: visible;
+    opacity: 1;  
+  }
+  100% {
+    transform: scale(0.2);
+    visibility: hidden;
+    opacity: 0;  
+  }
+  `
+  }}
+  placement="bottom-start"
+  popover="Popover Information"
+>
+  <Button>Click Me</Button>
+</DynamicPopover>
+```

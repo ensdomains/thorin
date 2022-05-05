@@ -1,11 +1,11 @@
 import * as React from 'react'
 
-import styled, { useTheme } from 'styled-components'
+import styled from 'styled-components'
 
 import { ReactNodeNoStrings } from '../../../types'
 import { useFieldIds } from '../../../hooks'
 import { VisuallyHidden } from '../VisuallyHidden'
-import { Mode, Space, tokens } from '@/src/tokens'
+import { Space, tokens } from '@/src/tokens'
 
 type State = ReturnType<typeof useFieldIds> | undefined
 const Context = React.createContext<State>(undefined)
@@ -42,6 +42,7 @@ const Label = styled.label`
   color: ${tokens.colors[theme.mode].textTertiary};
   font-weight: ${tokens.fontWeights['semiBold']};
   margin-right: ${tokens.space['4']};
+  display: flex;
 `}
 `
 
@@ -62,6 +63,16 @@ const LabelContentContainer = styled.div`
   padding-bottom: 0;
 `
 
+const RequiredWrapper = styled.span`
+  ${({ theme }) => `
+  color: ${tokens.colors[theme.mode].red};
+  `}
+  ::before {
+    content: ' ';
+    white-space: pre;
+  }
+`
+
 const LabelContent = ({
   ids,
   label,
@@ -70,22 +81,28 @@ const LabelContent = ({
 }: LabelContentProps) => (
   <LabelContentContainer>
     <Label {...ids.label}>
-      {label} {required && <VisuallyHidden>(required)</VisuallyHidden>}
+      {label}{' '}
+      {required && (
+        <>
+          <RequiredWrapper>*</RequiredWrapper>
+          <VisuallyHidden>required</VisuallyHidden>
+        </>
+      )}
     </Label>
     {labelSecondary && labelSecondary}
   </LabelContentContainer>
 )
 
 interface ContainerProps {
-  width: Space
-  inline?: boolean
+  $width: Space
+  $inline?: boolean
 }
 const Container = styled.div<ContainerProps>`
-  ${({ inline }) => (inline ? 'align-items: center' : '')};
+  ${({ $inline }) => ($inline ? 'align-items: center' : '')};
   display: flex;
-  flex-direction: ${({ inline }) => (inline ? 'row' : 'column')};
+  flex-direction: ${({ $inline }) => ($inline ? 'row' : 'column')};
   gap: ${tokens.space[2]};
-  width: ${({ width }) => tokens.space[width]};
+  width: ${({ $width }) => tokens.space[$width]};
 `
 
 const ContainerInner = styled.div`
@@ -94,9 +111,9 @@ const ContainerInner = styled.div`
   gap: ${tokens.space[2]};
 `
 
-const Description = styled.div<{ mode: Mode }>`
+const Description = styled.div`
   padding: 0 ${tokens.space['4']};
-  color: ${({ mode }) => tokens.shades[mode].textSecondary};
+  color: ${({ theme }) => tokens.shades[theme.mode].textSecondary};
 `
 
 const Error = styled.div`
@@ -122,8 +139,6 @@ export const Field = ({
     error: error !== undefined,
   })
 
-  const { mode } = useTheme()
-
   // Allow children to consume ids or try to clone ids onto it
   let content: React.ReactNode | null
   if (typeof children === 'function')
@@ -136,7 +151,7 @@ export const Field = ({
   else content = children
 
   return inline ? (
-    <Container inline={inline} width={width}>
+    <Container $inline={inline} $width={width}>
       <div>{content}</div>
       <ContainerInner>
         {hideLabel ? (
@@ -146,7 +161,7 @@ export const Field = ({
         ) : (
           <LabelContent {...{ ids, label, labelSecondary, required }} />
         )}
-        {description && <Description {...{ mode }}>{description}</Description>}
+        {description && <Description>{description}</Description>}
         {error && (
           <Error aria-live="polite" {...ids.error}>
             {error}
@@ -155,7 +170,7 @@ export const Field = ({
       </ContainerInner>
     </Container>
   ) : (
-    <Container width={width}>
+    <Container $width={width}>
       {hideLabel ? (
         <VisuallyHidden>
           <LabelContent {...{ ids, label, labelSecondary, required }} />
@@ -166,9 +181,7 @@ export const Field = ({
       {content}
 
       {description && (
-        <Description {...{ mode }} {...ids.description}>
-          {description}
-        </Description>
+        <Description {...ids.description}>{description}</Description>
       )}
 
       {error && (

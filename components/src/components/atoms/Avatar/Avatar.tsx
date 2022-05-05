@@ -6,14 +6,14 @@ import { Space, tokens } from '@/src/tokens'
 type Shape = 'circle' | 'square'
 
 interface Container {
-  shape: Shape
-  noBorder?: boolean
-  size: Space
+  $shape: Shape
+  $noBorder?: boolean
+  $size: Space
 }
 
 const Container = styled.div<Container>`
-  ${({ shape }) => {
-    switch (shape) {
+  ${({ $shape }) => {
+    switch ($shape) {
       case 'circle':
         return `
           border-radius: ${tokens.radii.full};
@@ -33,8 +33,8 @@ const Container = styled.div<Container>`
     }
   }}
 
-  ${({ theme, noBorder }) =>
-    !noBorder &&
+  ${({ theme, $noBorder }) =>
+    !$noBorder &&
     `
       &:after {
       box-shadow: ${tokens.shadows['-px']} ${
@@ -47,16 +47,22 @@ const Container = styled.div<Container>`
       }      
   `}
 
-  ${({ theme, size }) =>
+  ${({ theme }) =>
     `
-      height: ${tokens.space[size]};
-      width: ${tokens.space[size]};
-      min-width: ${tokens.space[size]};
       background-color: ${tokens.colors[theme.mode].foregroundSecondary};
-      
-       
   `}
-  
+
+  width: 100%;
+  padding-bottom: 100%;
+
+  > * {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
   overflow: hidden;
   position: relative;
 `
@@ -85,8 +91,6 @@ export type Props = {
   /** If true, removes the border around the avatar. */
   noBorder?: boolean
   /** Uses tokens space settings to set the size */
-  size?: Space
-  /** The src attribute for the img element */
   src?: string
   /** The shape of the avatar. */
   shape?: Shape
@@ -97,13 +101,12 @@ export const Avatar = ({
   label,
   noBorder = false,
   shape = 'circle',
-  size = '12',
   src,
 }: Props) => {
   const [showImage, setShowImage] = React.useState(!!src)
 
   return (
-    <Container {...{ shape, size, noBorder: !showImage || noBorder }}>
+    <Container $noBorder={!showImage || noBorder} $shape={shape}>
       {showImage ? (
         <Img
           {...{

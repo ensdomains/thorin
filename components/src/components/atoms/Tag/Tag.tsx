@@ -4,10 +4,9 @@ import styled from 'styled-components'
 import { tokens } from '@/src/tokens'
 
 interface ContainerProps {
-  hover?: boolean
-  size: 'small' | 'medium'
-  tone: 'accent' | 'blue' | 'green' | 'secondary' | 'red'
-  as?: 'div' | 'span'
+  $hover?: boolean
+  $size: 'small' | 'medium'
+  $tone: 'accent' | 'blue' | 'green' | 'secondary' | 'red'
 }
 
 const Container = styled.div<ContainerProps>`
@@ -18,16 +17,16 @@ const Container = styled.div<ContainerProps>`
   font-weight: ${tokens.fontWeights['medium']};
   width: ${tokens.space['max']};
 
-  ${({ hover }) =>
-    hover &&
+  ${({ $hover }) =>
+    $hover &&
     `
       transition-duration: ${tokens.transitionDuration['150']};
       transition-property: color, border-color, background-color;
       transition-timing-function: ${tokens.transitionTimingFunction['inOut']};
   `}
 
-  ${({ size }) => {
-    switch (size) {
+  ${({ $size }) => {
+    switch ($size) {
       case 'small':
         return `
           height: ${tokens.space['5']};
@@ -43,8 +42,8 @@ const Container = styled.div<ContainerProps>`
     }
   }}
 
-  ${({ tone, theme }) => {
-    switch (tone) {
+  ${({ $tone, theme }) => {
+    switch ($tone) {
       case 'accent':
         return `
           color: ${tokens.colors[theme.mode].accent};
@@ -81,8 +80,8 @@ const Container = styled.div<ContainerProps>`
     }
   }}
   
-  ${({ hover, tone, theme }) => {
-    if (hover && tone === 'accent')
+  ${({ $hover, $tone, theme }) => {
+    if ($hover && $tone === 'accent')
       return `
         background-color: ${tokens.colors[theme.mode].accentTertiary};
       
@@ -91,7 +90,7 @@ const Container = styled.div<ContainerProps>`
         }
         `
 
-    if (hover && tone === 'secondary')
+    if ($hover && $tone === 'secondary')
       return `
         color: ${tokens.colors[theme.mode].textSecondary};
         background-color: ${tokens.colors[theme.mode].foregroundTertiary};
@@ -102,21 +101,21 @@ const Container = styled.div<ContainerProps>`
         }
         `
 
-    if (hover && tone === 'blue')
+    if ($hover && $tone === 'blue')
       return `
         &:hover, &:active {
           background-color: rgb(${tokens.colors[theme.mode].blue});
         }
         `
 
-    if (hover && tone === 'green')
+    if ($hover && $tone === 'green')
       return `
         &:hover, &:active {
           background-color: rgb(${tokens.colors[theme.mode].green});
         }
         `
 
-    if (hover && tone === 'red')
+    if ($hover && $tone === 'red')
       return `
         &:hover, &:active {
           background-color: rgb(${tokens.colors[theme.mode].red});
@@ -163,7 +162,7 @@ export const Tag = ({
   tone = 'secondary',
 }: React.PropsWithChildren<Props>) => {
   return (
-    <Container as={as} {...{ hover, size, tone }}>
+    <Container as={as} {...{ $hover: hover, $size: size, $tone: tone }}>
       {label && (
         <LabelContainer>
           <span>{label}</span>

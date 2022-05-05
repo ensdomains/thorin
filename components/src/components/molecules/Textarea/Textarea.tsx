@@ -5,7 +5,7 @@ import { Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
 import { tokens } from '@/src/tokens'
 
-const TextArea = styled.textarea<{ disabled?: boolean; error?: boolean }>`
+const TextArea = styled.textarea<{ $error?: boolean }>`
   ${({ theme }) => `
       background-color: ${tokens.colors.base.transparent};
       border-color: ${tokens.colors[theme.mode].foregroundSecondary};
@@ -36,8 +36,8 @@ const TextArea = styled.textarea<{ disabled?: boolean; error?: boolean }>`
       cursor: not-allowed;
   `}
 
-  ${({ theme, error }) =>
-    error &&
+  ${({ theme, $error }) =>
+    $error &&
     `
       border-color: ${tokens.colors[theme.mode].red};
       cursor: default;
@@ -135,6 +135,7 @@ export const Textarea = React.forwardRef(
           autoCorrect={autoCorrect}
           autoFocus={autoFocus}
           defaultValue={defaultValue}
+          disabled={disabled}
           maxLength={maxLength}
           name={name}
           placeholder={placeholder}
@@ -148,8 +149,7 @@ export const Textarea = React.forwardRef(
           onChange={onChange}
           onFocus={onFocus}
           {...{
-            disabled,
-            error: hasError,
+            $error: hasError,
           }}
         />
       </Field>

@@ -9,33 +9,32 @@ type Weights = 'bold' | 'semiBold' | 'medium' | 'normal' | 'light'
 type Fonts = 'sans' | 'mono'
 
 interface ContainerProps {
-  ellipsis?: boolean
-  variant?: Variants
-  size?: 'small' | 'base'
-  ref: any
-  color?: Colors
-  weight?: Weights
-  font: Fonts
+  $ellipsis?: boolean
+  $variant?: Variants
+  $size?: 'small' | 'base'
+  $color?: Colors
+  $weight?: Weights
+  $font: Fonts
 }
 
 const Container = styled.div<ContainerProps>`
-  ${({ font }) => `
-      font-family: ${tokens.fonts[font]};
+  ${({ $font }) => `
+      font-family: ${tokens.fonts[$font]};
       letter-spacing: ${tokens.letterSpacings['-0.01']};
       letter-spacing: ${tokens.letterSpacings['-0.015']};
       line-height: ${tokens.lineHeights.normal};
   `}
 
-  ${({ ellipsis }) =>
-    ellipsis &&
+  ${({ $ellipsis }) =>
+    $ellipsis &&
     `
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: nowrap;
   `}
 
-  ${({ variant, theme }) => {
-    switch (variant) {
+  ${({ $variant, theme }) => {
+    switch ($variant) {
       case 'small':
         return `
           font-size: ${tokens.fontSizes['small']};
@@ -78,22 +77,22 @@ const Container = styled.div<ContainerProps>`
     }
   }}
 
-  ${({ color, theme }) =>
-    color &&
+  ${({ $color, theme }) =>
+    $color &&
     `
-    color: ${tokens.colors[theme.mode][color]};
+    color: ${tokens.colors[theme.mode][$color]};
   `}
 
-  ${({ size }) =>
-    size &&
+  ${({ $size }) =>
+    $size &&
     `
-      font-size: ${tokens.fontSizes[size]};
+      font-size: ${tokens.fontSizes[$size]};
   `}
 
-  ${({ weight }) =>
-    weight &&
+  ${({ $weight }) =>
+    $weight &&
     `
-      font-weight: ${tokens.fontWeights[weight]};
+      font-weight: ${tokens.fontWeights[$weight]};
   `}
 `
 
@@ -146,13 +145,13 @@ export const Typography = React.forwardRef<HTMLElement, Props>(
       <Container
         as={as}
         {...{
-          variant,
-          ellipsis: ellipsis ? true : undefined,
           className,
-          weight,
-          font,
-          color,
-          size,
+          $variant: variant,
+          $ellipsis: ellipsis ? true : undefined,
+          $weight: weight,
+          $font: font,
+          $color: color,
+          $size: size,
         }}
         ref={ref}
       >

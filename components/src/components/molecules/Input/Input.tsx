@@ -1,8 +1,6 @@
 import * as React from 'react'
 import styled, { FlattenInterpolation } from 'styled-components'
 
-import { ReactNode } from 'react'
-
 import { Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
 import { tokens } from '@/src/tokens'
@@ -76,11 +74,11 @@ type WithTypeNumber = {
 }
 
 interface InputParentProps {
-  size: 'medium' | 'large' | 'extraLarge'
-  disabled?: boolean
-  error?: boolean
-  suffix: boolean
-  userStyles?: FlattenInterpolation<any>
+  $size: 'medium' | 'large' | 'extraLarge'
+  $disabled?: boolean
+  $error?: boolean
+  $suffix: boolean
+  $userStyles?: FlattenInterpolation<any>
 }
 
 const InputParent = styled.div<InputParentProps>`
@@ -100,15 +98,15 @@ const InputParent = styled.div<InputParentProps>`
     }
   `}
 
-  ${({ theme, disabled }) =>
-    disabled &&
+  ${({ theme, $disabled }) =>
+    $disabled &&
     `
       border-color: ${tokens.colors[theme.mode].foregroundSecondary};
       background-color: ${tokens.colors[theme.mode].background};
   `}
 
-  ${({ theme, error }) =>
-    error &&
+  ${({ theme, $error }) =>
+    $error &&
     `
       border-color: ${tokens.colors[theme.mode].red};
       cursor: default;
@@ -118,14 +116,14 @@ const InputParent = styled.div<InputParentProps>`
       }
   `}
 
-  ${({ suffix }) =>
-    suffix &&
+  ${({ $suffix }) =>
+    $suffix &&
     `
       height: ${tokens.space['16']};
   `}
 
-  ${({ size }) => {
-    switch (size) {
+  ${({ $size }) => {
+    switch ($size) {
       case 'medium':
         return `
           height: ${tokens.space['14']};
@@ -142,7 +140,7 @@ const InputParent = styled.div<InputParentProps>`
         return ``
     }
   }}
-  ${({ userStyles }) => userStyles}
+  ${({ $userStyles }) => $userStyles}
 `
 
 const Prefix = styled.label`
@@ -176,7 +174,7 @@ const InputContainer = styled.div`
 `
 
 interface InputComponentProps {
-  size: any
+  $size: any
 }
 
 const InputComponent = styled.input<InputComponentProps>`
@@ -190,7 +188,7 @@ const InputComponent = styled.input<InputComponentProps>`
     
     &::placeholder {
         color: ${tokens.colors[theme.mode].textPlaceholder};
-        font-weight: ${tokens.fontWeights['bold']};
+        font-weight: ${tokens.fontWeights['medium']};
     }
   `}
 
@@ -208,8 +206,8 @@ const InputComponent = styled.input<InputComponentProps>`
         font-variant-numeric: tabular-nums;
   `}
 
-  ${({ size }) => {
-    switch (size) {
+  ${({ $size }) => {
+    switch ($size) {
       case 'medium':
         return `
           font-size: ${tokens.fontSizes['base']};
@@ -229,62 +227,48 @@ const InputComponent = styled.input<InputComponentProps>`
   }}
 `
 
-const Ghost = styled.div<{ type: HTMLInputElement['type'] }>`
+const Ghost = styled.div<{ $type: HTMLInputElement['type']; $size: any }>`
   border-color: ${tokens.colors.base.transparent};
   inset: 0;
   position: absolute;
   pointer-events: none;
   white-space: pre;
   line-height: normal;
+  padding: 0 ${tokens.space['4']};
+  display: flex;
+  align-items: center;
 
-  ${({ type }) =>
-    type === 'number' &&
+  ${({ $type }) =>
+    $type === 'number' &&
     `
         font-feature-settings: 'kern' 1,  'tnum' 1, 'calt' 0;
         font-variant-numeric: tabular-nums;
   `}
+
+  ${({ $size }) => {
+    switch ($size) {
+      case 'medium':
+        return `
+          font-size: ${tokens.fontSizes['base']};
+        `
+      case 'large':
+        return `
+          font-size: ${tokens.fontSizes['large']};
+        `
+      case 'extraLarge':
+        return `
+          font-size: ${tokens.fontSizes['headingThree']};
+          padding: 0 ${tokens.space['6']};
+        `
+      default:
+        return ``
+    }
+  }}
 `
 
 const Units = styled.span`
   ${({ theme }) => `
     color: ${tokens.colors[theme.mode].text};
-  `}
-`
-
-const MaxContainer = styled.div<{ suffix: ReactNode }>`
-  display: flex;
-  align-items: center;
-  ${({ suffix }) => suffix && `padding-right: ${tokens.space['4']};`}
-`
-
-const MaxButton = styled.button`
-  ${({ theme }) => `
-      background-color: ${tokens.colors[theme.mode].foregroundSecondary};
-      border-radius: ${tokens.radii['medium']};
-      color: ${tokens.colors[theme.mode].textSecondary};
-      cursor: pointer;
-      font-size: ${tokens.fontSizes['label']};
-      font-weight: ${tokens.fontWeights['semiBold']};
-      height: ${tokens.space['max']};
-      line-height: none;
-      padding: ${tokens.space['2']};
-      text-transform: uppercase;
-      transition-duration: ${tokens.transitionDuration['150']};
-      transition-property: color, border-color, background-color;
-      transition-timing-function: ${tokens.transitionTimingFunction['inOut']};
-      visibility: hidden;
-      
-      &:hover {
-        color: ${tokens.colors[theme.mode].text};
-      }
-      
-      ${InputParent}:hover & {
-        visibility: visible;
-      }
-      
-      ${InputParent}:focus-within & {
-        visibility: visible;
-      }
   `}
 `
 
@@ -339,7 +323,6 @@ export const Input = React.forwardRef(
       : undefined
     const hasError = error ? true : undefined
 
-    const max = (props as WithTypeNumber).max
     const inputType = type === 'number' ? 'number' : 'text'
 
     const handleInput = React.useCallback(
@@ -369,16 +352,6 @@ export const Input = React.forwardRef(
       [],
     )
 
-    const handleMax = React.useCallback(() => {
-      if (onChange)
-        onChange({
-          target: { value: max },
-        } as React.ChangeEvent<HTMLInputElement>)
-      else if (inputRef.current) inputRef.current.value = max as string
-      if (!units) return
-      setState((x) => ({ ...x, ghostValue: max }))
-    }, [inputRef, max, units, onChange])
-
     return (
       <Field
         description={description}
@@ -393,11 +366,11 @@ export const Input = React.forwardRef(
         {(ids) => (
           <InputParent
             {...{
-              disabled,
-              error: hasError,
-              suffix: suffix !== undefined,
-              size,
-              userStyles: parentStyles,
+              $disabled: disabled,
+              $error: hasError,
+              $suffix: suffix !== undefined,
+              $size: size,
+              $userStyles: parentStyles,
             }}
           >
             {prefix && (
@@ -408,6 +381,7 @@ export const Input = React.forwardRef(
 
             <InputContainer>
               <InputComponent
+                $size={size}
                 aria-invalid={hasError}
                 autoComplete={autoComplete}
                 autoCorrect={autoCorrect}
@@ -419,7 +393,6 @@ export const Input = React.forwardRef(
                 placeholder={placeholderText}
                 readOnly={readOnly}
                 ref={inputRef}
-                size={size}
                 spellCheck={spellCheck}
                 tabIndex={tabIndex}
                 type={inputType}
@@ -435,7 +408,12 @@ export const Input = React.forwardRef(
               />
 
               {units && state.ghostValue && (
-                <Ghost aria-hidden="true" data-testid="ghost" type={inputType}>
+                <Ghost
+                  $size={size}
+                  $type={inputType}
+                  aria-hidden="true"
+                  data-testid="ghost"
+                >
                   <span style={{ visibility: 'hidden' }}>
                     {state.ghostValue}{' '}
                   </span>
@@ -443,12 +421,6 @@ export const Input = React.forwardRef(
                 </Ghost>
               )}
             </InputContainer>
-
-            {max && (
-              <MaxContainer suffix={suffix}>
-                <MaxButton onClick={handleMax}>Max</MaxButton>
-              </MaxContainer>
-            )}
 
             {suffix && (
               <Suffix aria-hidden="true" {...ids?.label}>

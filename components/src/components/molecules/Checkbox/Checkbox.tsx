@@ -8,17 +8,17 @@ import { FieldBaseProps } from '../../atoms/Field'
 type NativeInputProps = React.AllHTMLAttributes<HTMLInputElement>
 
 interface InputProps {
-  size: any
-  variant: 'regular' | 'switch'
-  color: 'grey' | 'white'
+  $size: any
+  $variant: 'regular' | 'switch'
+  $color: 'grey' | 'white'
 }
 
 const Input = styled.input<InputProps>`
   cursor: pointer;
   margin: ${tokens.space['1']} 0;
 
-  ${({ theme, variant, size }) => {
-    switch (variant) {
+  ${({ theme, $variant, $size }) => {
+    switch ($variant) {
       case 'regular':
         return `
           width: ${tokens.space['7']};
@@ -61,13 +61,13 @@ const Input = styled.input<InputProps>`
           background-color: ${tokens.colors[theme.mode].accent};
           filter: grayscale(1) brightness(1.5);
           width: ${
-            size === 'small' ? '' : size === 'large' ? '5.188rem' : '3rem'
+            $size === 'small' ? '' : $size === 'large' ? '5.188rem' : '3rem'
           };
           height: ${
-            size === 'small' ? '' : size === 'large' ? '2.875rem' : '1.688rem'
+            $size === 'small' ? '' : $size === 'large' ? '2.875rem' : '1.688rem'
           };
           border-radius: ${
-            size === 'small' ? '' : size === 'large' ? '1.437rem' : '1.344rem'
+            $size === 'small' ? '' : $size === 'large' ? '1.437rem' : '1.344rem'
           };
           
           &:hover {
@@ -95,10 +95,18 @@ const Input = styled.input<InputProps>`
             transform: translateX(-50%);
             transition: transform 90ms ease-in-out;
             width: ${
-              size === 'small' ? '' : size === 'large' ? '2.313rem' : '1.313rem'
+              $size === 'small'
+                ? ''
+                : $size === 'large'
+                ? '2.313rem'
+                : '1.313rem'
             };
             height: ${
-              size === 'small' ? '' : size === 'large' ? '2.313rem' : '1.313rem'
+              $size === 'small'
+                ? ''
+                : $size === 'large'
+                ? '2.313rem'
+                : '1.313rem'
             };
 
           }
@@ -116,8 +124,8 @@ const Input = styled.input<InputProps>`
     }
   }}
 
-  ${({ theme, color }) => {
-    switch (color) {
+  ${({ theme, $color }) => {
+    switch ($color) {
       case 'grey':
         return `
           background-color: ${tokens.colors[theme.mode].grey};
@@ -131,9 +139,9 @@ const Input = styled.input<InputProps>`
     }
   }}
 
-  ${({ variant, size }) => {
-    if (variant === 'switch' && size) {
-      switch (size) {
+  ${({ $variant, $size }) => {
+    if ($variant === 'switch' && $size) {
+      switch ($size) {
         case 'small':
           return `
             width: ${tokens.space['7']};
@@ -226,9 +234,9 @@ export const Checkbox = React.forwardRef(
           ref={inputRef}
           type="checkbox"
           {...{
-            color,
-            variant,
-            size,
+            $color: color,
+            $variant: variant,
+            $size: size,
             disabled,
             name,
             tabIndex,

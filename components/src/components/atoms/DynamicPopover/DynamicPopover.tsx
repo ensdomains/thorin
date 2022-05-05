@@ -1,9 +1,7 @@
 import * as React from 'react'
 
-import styled from 'styled-components'
+import styled, { Keyframes, css, keyframes } from 'styled-components'
 import clamp from 'lodash/clamp'
-
-import { ButtonProps } from '../Button'
 
 export type DynamicPopoverSide = 'top' | 'right' | 'bottom' | 'left'
 
@@ -23,23 +21,29 @@ export type DynamicPopoverPlacement =
   | 'bottom-center'
   | 'bottom-end'
 
-export type DynamicPopoverPopover = React.ReactNode & {
-  x?: number
-  y?: number
-  side?: DynamicPopoverSide
-  open?: boolean
+export type DynamicPopoverAnimationFunc = (
+  side: DynamicPopoverSide,
+  open?: boolean,
+) => Keyframes
+
+type DynamicPopoverPopoverProps = {
+  $x?: number
+  $y?: number
+  $side?: DynamicPopoverSide
+  $open?: boolean
+  $animationFn?: DynamicPopoverAnimationFunc
 }
 
-export type DynamicPopoverButton = React.ReactElement & {
+export type DynamicPopoverButtonProps = {
   pressed?: boolean
-  onClick?: ButtonProps['onClick']
+  onClick?: React.MouseEventHandler<HTMLElement>
 }
 
 export interface DynamicPopoverProps {
   /** A Button component. The component will override the onClick and pressed properties of the button. */
-  children: DynamicPopoverButton
-  /** A react node that adopts the DynamicPopoverPopover props. */
-  popover: DynamicPopoverPopover
+  children: React.ReactElement<DynamicPopoverButtonProps>
+  /** A react node that has includes the styling and content of the popover. */
+  popover: React.ReactNode
   /** The side and alignment of the popover in relation to the button. */
   placement?: DynamicPopoverPlacement
   /** The number of pixels between the button and the popover */
@@ -50,6 +54,8 @@ export interface DynamicPopoverProps {
   flip?: boolean
   /** If true, will shift the popover alignment to be remain visible. */
   shift?: boolean
+  /** A function that returns a styled-components Keyframes object that controls the animation of the popover. */
+  animationFn?: DynamicPopoverAnimationFunc
 }
 
 /**
@@ -170,9 +176,73 @@ export const computeCoordsFromPlacement = (
   return { ...coords, side: idealSide }
 }
 
-const DynamicPopoverContainer = styled.div`
+/**
+ * @desc default function for computing the animation keyframes based on the side
+ */
+const defaultKeyframesFunc: DynamicPopoverAnimationFunc = (
+  side,
+  open = false,
+) => {
+  let translate = ''
+  if (side === 'top') translate = `translate(0, 3em)`
+  else if (side === 'right') translate = `translate(-3em, 0)`
+  else if (side === 'bottom') translate = `translate(0, -3em)`
+  else translate = `translate(3em, 0);`
+  if (open)
+    return keyframes`
+  0% {
+    transform: ${translate};
+    opacity: 0;
+    visibility: hidden;
+  }
+  100% {
+    transform: translate(0,0);
+    opacity: 1;
+    visibility: visible;
+  }`
+  return keyframes`
+    0% {
+      transform: translate(0,0);
+      opacity: 1;
+      visibility: visible;
+    }
+    100% {
+      transform: ${translate};
+      opacity: 0;
+      visibility: hidden;
+    }
+  `
+}
+
+const Container = styled.div`
   position: relative;
   display: inline-block;
+`
+
+const PopoverContainer = styled.div<DynamicPopoverPopoverProps>`
+  position: absolute;
+  box-sizing: border-box;
+  z-index: 20;
+  visibility: hidden;
+  opacity: 0;
+
+  ${({ $side, $open, $animationFn }) => {
+    if ($side && $animationFn)
+      return css`
+        animation: ${$animationFn($side, $open)} 0.35s forwards
+          cubic-bezier(1, 0, 0.22, 1.6);
+      `
+    if ($side)
+      return css`
+        animation: ${defaultKeyframesFunc($side, $open)} 0.35s forwards
+          cubic-bezier(1, 0, 0.22, 1.6);
+      `
+  }}
+
+  ${({ $x, $y }) => `
+    left: ${$x}px;
+    top: ${$y}px;
+  `}
 `
 
 export const DynamicPopover = ({
@@ -183,22 +253,26 @@ export const DynamicPopover = ({
   padding = 20,
   flip = true,
   shift = true,
+  animationFn,
 }: DynamicPopoverProps) => {
-  const [open, setOpen] = React.useState(false)
-  const [popoverProps, setPopoverProps] = React.useState({
-    x: 0,
-    y: 0,
-    side: 'top',
-  })
+  const [popoverProps, setPopoverProps] =
+    React.useState<DynamicPopoverPopoverProps>({
+      $x: 0,
+      $y: 0,
+      $side: undefined,
+      $open: false,
+      $animationFn: animationFn,
+    })
+  const open = popoverProps.$open
 
   const containerRef = React.useRef<HTMLDivElement | null>(null)
-  const floatingRef = React.useRef<Element | null>(null)
+  const floatingRef = React.useRef<HTMLDivElement | null>(null)
 
   const computePopoverProps = React.useCallback(
     (container, floating) => {
       const fRect = floating.getBoundingClientRect()
       const rRect = container.getBoundingClientRect()
-      const props = computeCoordsFromPlacement(
+      return computeCoordsFromPlacement(
         rRect,
         fRect,
         placement,
@@ -207,45 +281,58 @@ export const DynamicPopover = ({
         flip,
         shift,
       )
-      setPopoverProps(props)
     },
-    [placement, padding, offset, flip, shift, setPopoverProps],
+    [placement, padding, offset, flip, shift],
   )
 
   // Handle clicks outside of the container
   const handleClickOutside = (e: any) => {
     if (containerRef.current && !containerRef.current.contains(e.target)) {
-      setOpen(false)
+      setPopoverProps((_props) => ({ ..._props, $open: false }))
     }
   }
 
+  // Make sure event listner is remove when component unmounts
   React.useEffect(() => {
-    if (containerRef.current && floatingRef.current && open) {
-      computePopoverProps(containerRef.current, floatingRef.current)
-      document.addEventListener('mousedown', handleClickOutside)
-    } else {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
-  }, [open, computePopoverProps])
+  }, [])
+
+  // Handle clicks on the button
+  const togglePopover = () => {
+    // handle opening popover
+    if (containerRef.current && floatingRef.current && !open) {
+      const { x, y, side } = computePopoverProps(
+        containerRef.current,
+        floatingRef.current,
+      )
+      document.addEventListener('mousedown', handleClickOutside)
+      setPopoverProps({
+        $x: x,
+        $y: y,
+        $side: side,
+        $open: !open,
+        $animationFn: animationFn,
+      })
+    }
+    // handle closing popover
+    else {
+      document.removeEventListener('mousedown', handleClickOutside)
+      setPopoverProps((_props) => ({ ..._props, $open: false }))
+    }
+  }
 
   return (
-    <DynamicPopoverContainer data-testid="dynamicpopover" ref={containerRef}>
+    <Container data-testid="dynamicpopover" ref={containerRef}>
       {React.isValidElement(children) &&
         React.cloneElement(children, {
-          pressed: open,
-          onClick: () => setOpen((o) => !o),
+          pressed: popoverProps.$open,
+          onClick: () => togglePopover(),
         })}
-      {React.isValidElement(popover) &&
-        React.cloneElement(popover, {
-          ref: floatingRef,
-          open,
-          ...popoverProps,
-        })}
-    </DynamicPopoverContainer>
+      <PopoverContainer {...popoverProps} ref={floatingRef}>
+        {popover}
+      </PopoverContainer>
+    </Container>
   )
 }
-
-DynamicPopover.displayName = 'DynamicPopover'

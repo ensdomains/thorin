@@ -4,7 +4,7 @@ import styled, { useTheme } from 'styled-components'
 import { largerThan } from '@/src/utils/responsiveHelpers'
 import { tokens } from '@/src/tokens'
 
-const Container = styled.div<{ dark: boolean; shadow?: boolean }>`
+const Container = styled.div<{ $dark: boolean; $shadow?: boolean }>`
   padding: ${tokens.space['6']};
   border-radius: ${tokens.radii['2xLarge']};
 
@@ -12,12 +12,12 @@ const Container = styled.div<{ dark: boolean; shadow?: boolean }>`
     border-radius: ${tokens.radii['3xLarge']};
   `}
 
-  ${({ dark }) =>
+  ${({ $dark: dark }) =>
     dark
       ? `background-color: ${tokens.colors.base.black};`
       : `background-color: ${tokens.colors.base.white};`}
 
-  ${({ dark, shadow }) =>
+  ${({ $dark: dark, $shadow: shadow }) =>
     !dark &&
     shadow &&
     `
@@ -44,8 +44,8 @@ export const Card = ({
   return (
     <Container
       {...{
-        dark: (forcedMode ?? mode) === 'dark',
-        shadow,
+        $dark: (forcedMode ?? mode) === 'dark',
+        $shadow: shadow,
       }}
     >
       {children}

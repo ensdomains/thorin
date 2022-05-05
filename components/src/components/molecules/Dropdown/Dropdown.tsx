@@ -14,10 +14,10 @@ export type DropdownItem = {
 }
 
 interface DropdownMenuContainer {
-  opened: boolean
-  inner: boolean
-  shortThrow: boolean
-  align: 'left' | 'right'
+  $opened: boolean
+  $inner: boolean
+  $shortThrow: boolean
+  $align: 'left' | 'right'
 }
 
 const DropdownMenuContainer = styled.div<DropdownMenuContainer>`
@@ -28,8 +28,8 @@ const DropdownMenuContainer = styled.div<DropdownMenuContainer>`
   border-radius: ${tokens.radii['medium']};
   position: absolute;
 
-  ${({ opened }) =>
-    opened
+  ${({ $opened }) =>
+    $opened
       ? `
     visibility: visible;
     opacity: 100;
@@ -47,8 +47,8 @@ const DropdownMenuContainer = styled.div<DropdownMenuContainer>`
     border-radius: ${tokens.radii['2xLarge']};
   `}
 
-  ${({ theme, inner }) =>
-    inner &&
+  ${({ theme, $inner }) =>
+    $inner &&
     `
     background-color: ${tokens.colors[theme.mode].grey};
     border-radius: ${tokens.radii.almostExtraLarge};
@@ -64,44 +64,44 @@ const DropdownMenuContainer = styled.div<DropdownMenuContainer>`
     transition: 0.35s all cubic-bezier(1, 0, 0.22, 1.6);
   `}
 
-  ${({ opened, inner }) => {
-    if (opened && !inner)
+  ${({ $opened, $inner }) => {
+    if ($opened && !$inner)
       return `
       z-index: 20;
       margin-top: ${tokens.space['1.5']};
       transition: all 0.3s cubic-bezier(1, 0, 0.22, 1.6), width 0s linear, z-index 0s linear 0.3s;
     `
 
-    if (!opened && !inner)
+    if (!$opened && !$inner)
       return `
         transition: all 0.3s cubic-bezier(1, 0, 0.22, 1.6), width 0s linear, z-index 0s linear 0s;
       `
 
-    if (opened && inner)
+    if ($opened && $inner)
       return `
         transition: all 0.35s cubic-bezier(1, 0, 0.22, 1.6), width 0s linear, z-index 0s linear 0.35s;
       `
 
-    if (!opened && inner)
+    if (!$opened && $inner)
       return `
         transition: all 0.35s cubic-bezier(1, 0, 0.22, 1.6), width 0s linear, z-index 0s linear 0s;
       `
   }}
 
-  ${({ opened, shortThrow }) => {
-    if (!opened && shortThrow)
+  ${({ $opened, $shortThrow }) => {
+    if (!$opened && $shortThrow)
       return `
       margin-top: -${tokens.space['2.5']};
     `
 
-    if (!opened && !shortThrow)
+    if (!$opened && !$shortThrow)
       return `
       margin-top: -${tokens.space['12']};
     `
   }}
 
-  ${({ align }) =>
-    align === 'left'
+  ${({ $align }) =>
+    $align === 'left'
       ? `
     left: 0;
   `
@@ -111,9 +111,9 @@ const DropdownMenuContainer = styled.div<DropdownMenuContainer>`
 `
 
 interface MenuButtonProps {
-  inner: boolean
-  hasColor: boolean
-  color?: Colors
+  $inner: boolean
+  $hasColor: boolean
+  $color?: Colors
 }
 
 const MenuButton = styled.button<MenuButtonProps>`
@@ -135,16 +135,16 @@ const MenuButton = styled.button<MenuButtonProps>`
     filter: brightness(1);
   }
 
-  ${({ theme, color }) => `
-    color: ${tokens.colors[theme.mode][color || 'accent']};
+  ${({ theme, $color }) => `
+    color: ${tokens.colors[theme.mode][$color || 'accent']};
   
     &:disabled {
       color: ${tokens.colors[theme.mode].textTertiary}
     }
   `}
 
-  ${({ theme, inner }) => {
-    if (inner)
+  ${({ theme, $inner }) => {
+    if ($inner)
       return `
       justify-content: center;
     
@@ -153,7 +153,7 @@ const MenuButton = styled.button<MenuButtonProps>`
       }
     `
 
-    if (!inner)
+    if (!$inner)
       return `
       justify-content: flex-start;
       
@@ -164,8 +164,8 @@ const MenuButton = styled.button<MenuButtonProps>`
     `
   }}
 
-  ${({ theme, inner, hasColor }) => {
-    if (inner && !hasColor)
+  ${({ theme, $inner, $hasColor }) => {
+    if ($inner && !$hasColor)
       return `
       color: ${tokens.colors[theme.mode].textSecondary};  
     `
@@ -203,7 +203,12 @@ const DropdownMenu = ({
 }: DropdownMenuProps) => {
   return (
     <DropdownMenuContainer
-      {...{ opened: isOpen, inner, align, shortThrow }}
+      {...{
+        $opened: isOpen,
+        $inner: inner,
+        $align: align,
+        $shortThrow: shortThrow,
+      }}
       style={{
         width:
           inner || (width && parseInt(width) > 100) ? `${width}px` : '150px',
@@ -212,7 +217,7 @@ const DropdownMenu = ({
     >
       {items.map(({ label, color, disabled, onClick }: DropdownItem) => (
         <MenuButton
-          {...{ inner, hasColor: !!color, color, disabled }}
+          {...{ $inner: inner, $hasColor: !!color, $color: color, disabled }}
           key={label}
           onClick={() => Promise.resolve(setIsOpen(false)).then(onClick)}
         >
@@ -224,8 +229,8 @@ const DropdownMenu = ({
 }
 
 interface InnerMenuButton {
-  size: 'small' | 'medium'
-  open: boolean
+  $size: 'small' | 'medium'
+  $open: boolean
 }
 
 const InnerMenuButton = styled.button<InnerMenuButton>`
@@ -243,8 +248,8 @@ const InnerMenuButton = styled.button<InnerMenuButton>`
     border-color: ${tokens.colors[theme.mode].borderSecondary};
   `}
 
-  ${({ size }) => {
-    switch (size) {
+  ${({ $size }) => {
+    switch ($size) {
       case 'small':
         return `
           padding: ${tokens.space['0.5']} ${tokens.space['0.25']};
@@ -258,8 +263,8 @@ const InnerMenuButton = styled.button<InnerMenuButton>`
     }
   }}
 
-  ${({ theme, open }) => {
-    if (open)
+  ${({ theme, $open }) => {
+    if ($open)
       return `
       border-top-left-radius: ${tokens.radii['almostExtraLarge']};
       border-top-right-radius: ${tokens.radii['almostExtraLarge']};
@@ -274,7 +279,7 @@ const InnerMenuButton = styled.button<InnerMenuButton>`
         color: ${tokens.colors[theme.mode].accent};
       }
       `
-    if (!open)
+    if (!$open)
       return `
       background-color: ${tokens.colors[theme.mode].background};
       color: ${tokens.colors[theme.mode].textSecondary};
@@ -289,7 +294,7 @@ const InnerMenuButton = styled.button<InnerMenuButton>`
   }}
 `
 
-const Chevron = styled(IconDownIndicatorSvg)<{ open: boolean }>`
+const Chevron = styled(IconDownIndicatorSvg)<{ $open: boolean }>`
   margin-left: ${tokens.space['1']};
   width: ${tokens.space['3']};
   margin-right: ${tokens.space['0.5']};
@@ -305,8 +310,8 @@ const Chevron = styled(IconDownIndicatorSvg)<{ open: boolean }>`
   }
   fill: currentColor;
 
-  ${({ open }) =>
-    open &&
+  ${({ $open }) =>
+    $open &&
     `
       opacity: 1;
       transform: rotate(180deg);
@@ -382,11 +387,11 @@ export const Dropdown = ({
     >
       {!children && inner && (
         <InnerMenuButton
-          {...{ open: isOpen, size }}
+          {...{ $open: isOpen, $size: size }}
           onClick={() => setIsOpen(!isOpen)}
         >
           {label}
-          {chevron && <Chevron open={isOpen} />}
+          {chevron && <Chevron $open={isOpen} />}
         </InnerMenuButton>
       )}
 
@@ -394,7 +399,7 @@ export const Dropdown = ({
         <Button
           {...buttonProps}
           pressed={isOpen}
-          suffix={chevron && <Chevron open={isOpen} />}
+          suffix={chevron && <Chevron $open={isOpen} />}
           zIndex="10"
           onClick={() => setIsOpen(!isOpen)}
         >
@@ -430,5 +435,3 @@ export const Dropdown = ({
     </div>
   )
 }
-
-Dropdown.displayName = 'Dropdown'

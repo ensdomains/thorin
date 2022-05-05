@@ -16,9 +16,9 @@ const SubTitle = styled(Typography)`
   font-weight: ${tokens.fontWeights['normal']};
 `
 
-const Container = styled.div<{ center?: boolean }>`
-  ${({ center }) => `
-    flex-direction: ${center ? 'column' : 'row'};
+const Container = styled.div<{ $center?: boolean }>`
+  ${({ $center }) => `
+    flex-direction: ${$center ? 'column' : 'row'};
     gap: ${tokens.space['2']};
   `}
   display: flex;
@@ -60,7 +60,7 @@ export const Dialog = ({
       {children}
       {(leading || trailing) && (
         <div style={{ marginTop: 4 }}>
-          <Container {...{ center }}>
+          <Container {...{ $center: center }}>
             {leading || (!center && <div style={{ flexGrow: 1 }} />)}
             {trailing || (!center && <div style={{ flexGrow: 1 }} />)}
           </Container>
