@@ -52,3 +52,5 @@ export const Card = ({
     </Container>
   )
 }
+
+Card.displayName = 'Card'
