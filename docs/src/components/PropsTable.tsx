@@ -208,26 +208,32 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
       <div style={{ margin: `${tokens.space['2']} 0` }}>
         <FlexContainer>
           {!!props.length && (
-            <Button
-              size="small"
-              variant="secondary"
-              onClick={() =>
-                setState((x) => ({
-                  ...x,
-                  showDescriptions: !x.showDescriptions,
-                }))
-              }
-            >
-              {state.showDescriptions ? 'Hide Description' : 'Show Description'}
-            </Button>
+            <div>
+              <Button
+                size="small"
+                variant="secondary"
+                onClick={() =>
+                  setState((x) => ({
+                    ...x,
+                    showDescriptions: !x.showDescriptions,
+                  }))
+                }
+              >
+                {state.showDescriptions
+                  ? 'Hide Description'
+                  : 'Show Description'}
+              </Button>
+            </div>
           )}
 
           {sourceLink && (
-            <Link href={sourceLink}>
-              <Button size="small" variant="secondary">
-                View Source on GitHub
-              </Button>
-            </Link>
+            <div>
+              <Link href={sourceLink}>
+                <Button size="small" variant="secondary">
+                  View Source on GitHub
+                </Button>
+              </Link>
+            </div>
           )}
         </FlexContainer>
       </div>

@@ -131,23 +131,27 @@ export const CodePreview = ({
       </Container>
       <div style={{ margin: `${tokens.space['2']} 0` }}>
         <ButtonContainer>
-          <Button
-            size="small"
-            variant="secondary"
-            onClick={() => setState((x) => ({ ...x, expand: !x.expand }))}
-          >
-            {state.expand ? 'Hide Code' : 'View Code'}
-          </Button>
+          <div>
+            <Button
+              size="small"
+              variant="secondary"
+              onClick={() => setState((x) => ({ ...x, expand: !x.expand }))}
+            >
+              {state.expand ? 'Hide Code' : 'View Code'}
+            </Button>
+          </div>
 
-          <Button
-            as="a"
-            href={createPlayroomLink({ code })}
-            size="small"
-            target="_blank"
-            variant="secondary"
-          >
-            Open in Playroom
-          </Button>
+          <div>
+            <Button
+              as="a"
+              href={createPlayroomLink({ code })}
+              size="small"
+              target="_blank"
+              variant="secondary"
+            >
+              Open in Playroom
+            </Button>
+          </div>
         </ButtonContainer>
       </div>
     </LiveProvider>

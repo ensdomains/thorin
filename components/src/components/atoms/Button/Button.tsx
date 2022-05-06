@@ -35,13 +35,13 @@ type BaseProps = {
   size?: Size
   /** Adds ReactNode after children */
   suffix?: ReactNodeNoStrings
-  /** The tabIndex attribute for button attribute */
+  /** The tabIndex attribute for button elemnt. */
   tabIndex?: NativeButtonProps['tabIndex']
-  /** The type attribute for button attribute */
+  /** The type attribute for button element. */
   type?: NativeButtonProps['type']
   /** Sets the styling of the component.  */
   variant?: Variant
-  width?: string
+  /** The zIndex attribute for button element. */
   zIndex?: string
   /** If true, sets the style to indicate "on" state. Useful for toggles switches. */
   pressed?: boolean
@@ -128,6 +128,7 @@ const ButtonElement = styled.button<ButtonElement>`
   transition-duration: ${tokens.transitionDuration['150']};
   transition-timing-function: ${tokens.transitionTimingFunction['inOut']};
   letter-spacing: ${tokens.letterSpacings['-0.01']};
+  width: 100%;
 
   &:hover {
     transform: translateY(-1px);
@@ -281,7 +282,6 @@ export const Button = React.forwardRef(
       tone = 'accent',
       type = 'button',
       variant = 'primary',
-      width,
       zIndex,
       onClick,
       pressed = false,
@@ -334,7 +334,6 @@ export const Button = React.forwardRef(
           onClick,
           zIndex,
           position: zIndex && 'relative',
-          width: width ?? '100%',
         }}
       >
         {childContent}
