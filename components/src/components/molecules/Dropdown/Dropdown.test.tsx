@@ -2,6 +2,8 @@ import * as React from 'react'
 
 import { ThemeProvider } from 'styled-components'
 
+import { act } from 'react-dom/test-utils'
+
 import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 
 import { Dropdown } from './Dropdown'
@@ -37,15 +39,21 @@ describe('<Dropdown />', () => {
 
   it('should show dropdown when clicked', () => {
     render(<DropdownHelper label="Menu" />)
-    userEvent.click(screen.getByText('Menu'))
+    act(() => {
+      userEvent.click(screen.getByText('Menu'))
+    })
     expect(screen.queryByText('Dashboard')).toBeVisible()
   })
 
   it('should call dropdown item callback when clicked', async () => {
     const mockCallback = jest.fn()
     render(<DropdownHelper {...{ mockCallback, label: 'Menu' }} />)
-    userEvent.click(screen.getByText('Menu'))
-    userEvent.click(screen.getByText('Dashboard'))
+    act(() => {
+      userEvent.click(screen.getByText('Menu'))
+    })
+    act(() => {
+      userEvent.click(screen.getByText('Dashboard'))
+    })
     await waitFor(() => {
       expect(mockCallback).toHaveBeenCalled()
     })
@@ -53,8 +61,13 @@ describe('<Dropdown />', () => {
 
   it('should close if clicking outside of dropdown', async () => {
     render(<DropdownHelper label="Menu" />)
-    userEvent.click(screen.getByText('Menu'))
-    userEvent.click(screen.getByText('outside'))
+    act(() => {
+      userEvent.click(screen.getByText('Menu'))
+    })
+    act(() => {
+      userEvent.click(screen.getByText('outside'))
+    })
+
     await waitFor(() => {
       expect(screen.queryByText('Dashboard')).not.toBeVisible()
     })
@@ -62,8 +75,14 @@ describe('<Dropdown />', () => {
 
   it('should close dropdown if button is clicked when open', () => {
     render(<DropdownHelper label="Menu" />)
-    userEvent.click(screen.getByText('Menu'))
-    userEvent.click(screen.getByText('Menu'))
+    act(() => {
+      userEvent.click(screen.getByText('Menu'))
+    })
+
+    act(() => {
+      userEvent.click(screen.getByText('Menu'))
+    })
+
     expect(screen.queryByText('Dashboard')).not.toBeVisible()
   })
 
@@ -82,9 +101,13 @@ describe('<Dropdown />', () => {
         <button>custom</button>
       </DropdownHelper>,
     )
-    userEvent.click(screen.getByText('custom'))
+    act(() => {
+      userEvent.click(screen.getByText('custom'))
+    })
     expect(screen.queryByText('Dashboard')).toBeVisible()
-    userEvent.click(screen.getByText('custom'))
+    act(() => {
+      userEvent.click(screen.getByText('custom'))
+    })
     expect(screen.queryByText('Dashboard')).not.toBeVisible()
   })
 

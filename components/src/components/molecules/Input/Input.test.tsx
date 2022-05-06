@@ -65,8 +65,6 @@ describe('<Input />', () => {
 
       const element = screen.getByLabelText(/funding/i)
       expect(element).toHaveValue(null)
-      userEvent.click(screen.getByText('Max'))
-      expect(element).toHaveValue(20)
     })
 
     it('units', () => {
