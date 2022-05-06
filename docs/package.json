@@ -9,7 +9,6 @@
     "lint": "next lint",
     "lint:types": "tsc --noEmit",
     "start": "next start",
-    "test": "jest",
     "playroom:start": "playroom start",
     "playroom:build": "playroom build"
   },
