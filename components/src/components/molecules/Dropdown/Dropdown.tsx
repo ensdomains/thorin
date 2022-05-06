@@ -6,18 +6,21 @@ import { ButtonProps as ButtonProps } from '@/src/components/atoms/Button'
 import { Colors, tokens } from '@/src/tokens'
 import { ReactComponent as IconDownIndicatorSvg } from '@/src/icons/DownIndicator.svg'
 
-export type DropdownItem = {
+type DropdownItemObject = {
   label: string
   onClick(): void
   color?: Colors
   disabled?: boolean
 }
 
+export type DropdownItem = DropdownItemObject | React.ReactNode
+
 interface DropdownMenuContainer {
   $opened: boolean
   $inner: boolean
   $shortThrow: boolean
   $align: 'left' | 'right'
+  $labelAlign?: 'flex-start' | 'flex-end' | 'center'
 }
 
 const DropdownMenuContainer = styled.div<DropdownMenuContainer>`
@@ -28,11 +31,19 @@ const DropdownMenuContainer = styled.div<DropdownMenuContainer>`
   border-radius: ${tokens.radii['medium']};
   position: absolute;
 
+  ${({ $labelAlign }) =>
+    $labelAlign &&
+    `
+    & > button {
+      justify-content: ${$labelAlign};
+    }
+  `}
+
   ${({ $opened }) =>
     $opened
       ? `
     visibility: visible;
-    opacity: 100;
+    opacity: 1;
   `
       : `
     z-index: 0;
@@ -74,7 +85,7 @@ const DropdownMenuContainer = styled.div<DropdownMenuContainer>`
 
     if (!$opened && !$inner)
       return `
-        transition: all 0.3s cubic-bezier(1, 0, 0.22, 1.6), width 0s linear, z-index 0s linear 0s;
+      transition: all 0.3s cubic-bezier(1, 0, 0.22, 1.6), width 0s linear, z-index 0s linear 0s;
       `
 
     if ($opened && $inner)
@@ -158,7 +169,7 @@ const MenuButton = styled.button<MenuButtonProps>`
       justify-content: flex-start;
       
       &:hover {
-        transform: translateY(-1x);
+        transform: translateY(-1px);
         filter: brightness(1.05);
       }
     `
@@ -189,6 +200,7 @@ type DropdownMenuProps = {
   shortThrow: boolean
   /** If true, sets the zIndex of the dropdown menu to 100. */
   keepMenuOnTop: boolean
+  labelAlign?: 'flex-start' | 'flex-end' | 'center'
 }
 
 const DropdownMenu = ({
@@ -200,6 +212,7 @@ const DropdownMenu = ({
   align,
   shortThrow,
   keepMenuOnTop,
+  labelAlign,
 }: DropdownMenuProps) => {
   return (
     <DropdownMenuContainer
@@ -208,6 +221,7 @@ const DropdownMenu = ({
         $inner: inner,
         $align: align,
         $shortThrow: shortThrow,
+        $labelAlign: labelAlign,
       }}
       style={{
         width:
@@ -215,15 +229,21 @@ const DropdownMenu = ({
         zIndex: keepMenuOnTop ? 100 : undefined,
       }}
     >
-      {items.map(({ label, color, disabled, onClick }: DropdownItem) => (
-        <MenuButton
-          {...{ $inner: inner, $hasColor: !!color, $color: color, disabled }}
-          key={label}
-          onClick={() => Promise.resolve(setIsOpen(false)).then(onClick)}
-        >
-          {label}
-        </MenuButton>
-      ))}
+      {items.map((item: DropdownItem) => {
+        if (React.isValidElement(item)) {
+          return <div onClick={() => setIsOpen(false)}>{item}</div>
+        }
+        const { color, label, onClick, disabled } = item as DropdownItemObject
+        return (
+          <MenuButton
+            {...{ $inner: inner, $hasColor: !!color, $color: color, disabled }}
+            key={label}
+            onClick={() => Promise.resolve(setIsOpen(false)).then(onClick)}
+          >
+            {label}
+          </MenuButton>
+        )
+      })}
     </DropdownMenuContainer>
   )
 }
@@ -329,6 +349,7 @@ type Props = {
   items: DropdownItem[]
   size?: 'small' | 'medium'
   label?: React.ReactNode
+  menuLabelAlign?: 'flex-start' | 'flex-end' | 'center'
   isOpen?: boolean
 }
 
@@ -342,6 +363,11 @@ type PropsWithoutIsOpen = {
   setIsOpen?: never
 }
 
+const ButtonWrapper = styled.div`
+  z-index: 10;
+  position: relative;
+`
+
 export const Dropdown = ({
   children,
   buttonProps,
@@ -349,6 +375,7 @@ export const Dropdown = ({
   inner = false,
   chevron = true,
   align = 'left',
+  menuLabelAlign,
   shortThrow = false,
   keepMenuOnTop = false,
   size = 'medium',
@@ -396,15 +423,16 @@ export const Dropdown = ({
       )}
 
       {!children && !inner && (
-        <Button
-          {...buttonProps}
-          pressed={isOpen}
-          suffix={chevron && <Chevron $open={isOpen} />}
-          zIndex="10"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          {label}
-        </Button>
+        <ButtonWrapper>
+          <Button
+            {...buttonProps}
+            pressed={isOpen}
+            suffix={chevron && <Chevron $open={isOpen} />}
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            {label}
+          </Button>
+        </ButtonWrapper>
       )}
 
       {React.Children.map(children, (child) => {
@@ -430,6 +458,7 @@ export const Dropdown = ({
           setIsOpen,
           shortThrow,
           keepMenuOnTop,
+          labelAlign: menuLabelAlign,
         }}
       />
     </div>

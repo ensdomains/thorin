@@ -4,15 +4,11 @@ import { tokens } from './tokens'
 
 const GlobalStyle = createGlobalStyle`
   ${({ theme }) => `
-    html,
-    body {
-      font-family: ${tokens.fonts['sans']};
-    }
-
     *, ::before, ::after {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      font-family: ${tokens.fonts['sans']};
       border-color: ${tokens.colors[theme.mode].foregroundSecondary};
       border-style: ${tokens.borderStyles['solid']};
       border-width: 0;

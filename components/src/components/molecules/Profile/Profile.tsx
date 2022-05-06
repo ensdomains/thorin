@@ -58,7 +58,7 @@ const Container = styled.div<ContainerProps>`
     `
       cursor: pointer;
       &:hover {
-        transform: translateY(-1px);s
+        transform: translateY(-1px);
         filter: brightness(1.05);
       }
   `}
