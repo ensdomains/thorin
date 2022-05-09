@@ -68,21 +68,28 @@ export const PageButtons = ({
   if (alwaysShowFirst && start > 1) {
     array[0] = -1
     array.unshift(1)
+  } else if (start > 1) {
+    array.unshift(-1)
   }
 
   if (alwaysShowLast && total > current + maxPerSide) {
-    array[array.length - 1] = -1
+    array[array.length - 1] = -1 * total
     array.push(total)
+  } else if (total > current + maxPerSide) {
+    array.push(-1 * total)
   }
 
   return (
-    <Container>
+    <Container data-testid="pagebuttons">
       {array.map((value) =>
-        value === -1 ? (
-          <Dots>...</Dots>
+        0 > value ? (
+          <Dots data-testid="pagebutton-dots" key={value}>
+            ...
+          </Dots>
         ) : (
           <PageButton
             $selected={value === current}
+            data-testid="pagebutton"
             key={value}
             onClick={() => onChange(value)}
           >
