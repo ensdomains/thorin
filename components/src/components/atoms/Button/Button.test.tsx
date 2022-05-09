@@ -5,13 +5,14 @@ import { ThemeProvider } from 'styled-components'
 import { cleanup, render, screen } from '@/test'
 
 import { Button } from './Button'
+import { lightTheme } from '@/src/tokens'
 
 describe('<Button />', () => {
   afterEach(cleanup)
 
   it('renders', () => {
     render(
-      <ThemeProvider theme={{ mode: 'light' }}>
+      <ThemeProvider theme={lightTheme}>
         <Button>Connect Wallet</Button>
       </ThemeProvider>,
     )

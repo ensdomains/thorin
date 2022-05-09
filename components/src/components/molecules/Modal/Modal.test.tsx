@@ -5,13 +5,14 @@ import { ThemeProvider } from 'styled-components'
 import { cleanup, render, screen, userEvent } from '@/test'
 
 import { Modal } from './Modal'
+import { lightTheme } from '@/src/tokens'
 
 describe('<Modal />', () => {
   afterEach(cleanup)
 
   it('renders', () => {
     render(
-      <ThemeProvider theme={{ mode: 'light' }}>
+      <ThemeProvider theme={lightTheme}>
         <Modal open>Modal</Modal>
       </ThemeProvider>,
     )
@@ -20,7 +21,7 @@ describe('<Modal />', () => {
 
   it('should not be visible if not open', () => {
     render(
-      <ThemeProvider theme={{ mode: 'light' }}>
+      <ThemeProvider theme={lightTheme}>
         <Modal open={false}>Modal</Modal>
       </ThemeProvider>,
     )
@@ -30,7 +31,7 @@ describe('<Modal />', () => {
   it('should display close icon if callback is provided', () => {
     const mockCallback = jest.fn()
     render(
-      <ThemeProvider theme={{ mode: 'light' }}>
+      <ThemeProvider theme={lightTheme}>
         <Modal open onDismiss={mockCallback}>
           Modal
         </Modal>
@@ -42,7 +43,7 @@ describe('<Modal />', () => {
   it('should call callback if close icon is clicked', () => {
     const mockCallback = jest.fn()
     render(
-      <ThemeProvider theme={{ mode: 'light' }}>
+      <ThemeProvider theme={lightTheme}>
         <Modal open onDismiss={mockCallback}>
           Modal
         </Modal>

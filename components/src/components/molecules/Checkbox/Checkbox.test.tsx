@@ -6,11 +6,12 @@ import { ThemeProvider } from 'styled-components'
 import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 
 import { Checkbox } from './Checkbox'
+import { lightTheme } from '@/src/tokens'
 
 const CheckboxWithState = (props: any) => {
   const [checked, setChecked] = useState<boolean>(false)
   return (
-    <ThemeProvider theme={{ mode: 'light' }}>
+    <ThemeProvider theme={lightTheme}>
       <div>
         hello there
         {checked ? <div>checked</div> : <div>unchecked</div>}
@@ -32,7 +33,7 @@ describe('<Checkbox />', () => {
 
   it('renders', async () => {
     render(
-      <ThemeProvider theme={{ mode: 'light' }}>
+      <ThemeProvider theme={lightTheme}>
         <Checkbox label="Checkbox" />
       </ThemeProvider>,
     )

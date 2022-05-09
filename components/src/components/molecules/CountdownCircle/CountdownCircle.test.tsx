@@ -5,13 +5,14 @@ import { ThemeProvider } from 'styled-components'
 import { cleanup, render, screen, waitFor } from '@/test'
 
 import { CountdownCircle } from './CountdownCircle'
+import { lightTheme } from '@/src/tokens'
 
 describe('<CountdownCircle />', () => {
   afterEach(cleanup)
 
   it('renders', async () => {
     render(
-      <ThemeProvider theme={{ mode: 'light' }}>
+      <ThemeProvider theme={lightTheme}>
         <CountdownCircle countdownAmount={10} />
       </ThemeProvider>,
     )
@@ -20,7 +21,7 @@ describe('<CountdownCircle />', () => {
 
   it('should countdown starting from supplied value', async () => {
     render(
-      <ThemeProvider theme={{ mode: 'light' }}>
+      <ThemeProvider theme={lightTheme}>
         <CountdownCircle countdownAmount={10} />
       </ThemeProvider>,
     )
@@ -31,7 +32,7 @@ describe('<CountdownCircle />', () => {
 
   it('should not countdown if disabled', async () => {
     render(
-      <ThemeProvider theme={{ mode: 'light' }}>
+      <ThemeProvider theme={lightTheme}>
         <CountdownCircle countdownAmount={10} disabled />
       </ThemeProvider>,
     )
@@ -42,7 +43,7 @@ describe('<CountdownCircle />', () => {
   it('should call callback on 0', async () => {
     const mockCallback = jest.fn()
     render(
-      <ThemeProvider theme={{ mode: 'light' }}>
+      <ThemeProvider theme={lightTheme}>
         <CountdownCircle callback={mockCallback} countdownAmount={1} />
       </ThemeProvider>,
     )

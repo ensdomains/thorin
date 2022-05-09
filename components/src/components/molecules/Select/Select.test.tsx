@@ -5,13 +5,14 @@ import { ThemeProvider } from 'styled-components'
 import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 
 import { Select } from './Select'
+import { lightTheme } from '@/src/tokens'
 
 describe('<Select />', () => {
   afterEach(cleanup)
 
   it('renders', () => {
     render(
-      <ThemeProvider theme={{ mode: 'light' }}>
+      <ThemeProvider theme={lightTheme}>
         <Select
           label="select"
           options={[
@@ -27,7 +28,7 @@ describe('<Select />', () => {
 
   it('should update selection correctly', () => {
     render(
-      <ThemeProvider theme={{ mode: 'light' }}>
+      <ThemeProvider theme={lightTheme}>
         <Select
           label="select"
           options={[
@@ -46,7 +47,7 @@ describe('<Select />', () => {
   it('should update value correctly', async () => {
     const mockCallback = jest.fn()
     render(
-      <ThemeProvider theme={{ mode: 'light' }}>
+      <ThemeProvider theme={lightTheme}>
         <Select
           label="select"
           options={[
@@ -69,7 +70,7 @@ describe('<Select />', () => {
   it('should not allow disabled option to be selected', () => {
     const mockCallback = jest.fn()
     render(
-      <ThemeProvider theme={{ mode: 'light' }}>
+      <ThemeProvider theme={lightTheme}>
         <Select
           label="select"
           options={[
@@ -89,7 +90,7 @@ describe('<Select />', () => {
   it('should close dropdown when clicking outside of element', async () => {
     const mockCallback = jest.fn()
     render(
-      <ThemeProvider theme={{ mode: 'light' }}>
+      <ThemeProvider theme={lightTheme}>
         <div>
           <div>outside</div>
           <Select

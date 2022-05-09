@@ -5,6 +5,7 @@ import { ThemeProvider } from 'styled-components'
 import { cleanup, render, screen, userEvent } from '@/test'
 
 import { Profile } from './Profile'
+import { lightTheme } from '@/src/tokens'
 
 const TEST_ADDRESS = '0x155097452fc6aefab3df09ca314c71bfc60ccb92'
 
@@ -13,7 +14,7 @@ describe('<Profile />', () => {
 
   it('renders', async () => {
     render(
-      <ThemeProvider theme={{ mode: 'light' }}>
+      <ThemeProvider theme={lightTheme}>
         <Profile address="" />
       </ThemeProvider>,
     )
@@ -22,7 +23,7 @@ describe('<Profile />', () => {
 
   it('should add middle ellipsis to address', () => {
     render(
-      <ThemeProvider theme={{ mode: 'light' }}>
+      <ThemeProvider theme={lightTheme}>
         <Profile address={TEST_ADDRESS} />
       </ThemeProvider>,
     )
@@ -32,7 +33,7 @@ describe('<Profile />', () => {
 
   it('should display dropdown if items are provided', () => {
     render(
-      <ThemeProvider theme={{ mode: 'light' }}>
+      <ThemeProvider theme={lightTheme}>
         <Profile
           address={TEST_ADDRESS}
           dropdownItems={[
@@ -48,7 +49,7 @@ describe('<Profile />', () => {
 
   it('should hide text if size is small', () => {
     render(
-      <ThemeProvider theme={{ mode: 'light' }}>
+      <ThemeProvider theme={lightTheme}>
         <Profile address={TEST_ADDRESS} ensName="nick.eth" size="small" />
       </ThemeProvider>,
     )

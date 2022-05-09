@@ -5,13 +5,14 @@ import { ThemeProvider } from 'styled-components'
 import { cleanup, render, screen, userEvent } from '@/test'
 
 import { Input } from './Input'
+import { lightTheme } from '@/src/tokens'
 
 describe('<Input />', () => {
   afterEach(cleanup)
 
   it('renders', () => {
     render(
-      <ThemeProvider theme={{ mode: 'light' }}>
+      <ThemeProvider theme={lightTheme}>
         <Input label="Funding Goal" />
       </ThemeProvider>,
     )
@@ -20,7 +21,7 @@ describe('<Input />', () => {
 
   it('receives user input', () => {
     render(
-      <ThemeProvider theme={{ mode: 'light' }}>
+      <ThemeProvider theme={lightTheme}>
         <Input label="Display Name" />
       </ThemeProvider>,
     )
@@ -32,7 +33,7 @@ describe('<Input />', () => {
   describe('[type=text]', () => {
     it('maxLength', () => {
       render(
-        <ThemeProvider theme={{ mode: 'light' }}>
+        <ThemeProvider theme={lightTheme}>
           <Input label="Short Name" maxLength={7} />
         </ThemeProvider>,
       )
@@ -46,7 +47,7 @@ describe('<Input />', () => {
   describe('[type=number]', () => {
     it('filters invalid characters', () => {
       render(
-        <ThemeProvider theme={{ mode: 'light' }}>
+        <ThemeProvider theme={lightTheme}>
           <Input label="Funding Goal" type="number" />
         </ThemeProvider>,
       )
@@ -58,7 +59,7 @@ describe('<Input />', () => {
 
     it('max', () => {
       render(
-        <ThemeProvider theme={{ mode: 'light' }}>
+        <ThemeProvider theme={lightTheme}>
           <Input label="Funding Goal" max={20} type="number" />
         </ThemeProvider>,
       )
@@ -71,7 +72,7 @@ describe('<Input />', () => {
 
     it('units', () => {
       render(
-        <ThemeProvider theme={{ mode: 'light' }}>
+        <ThemeProvider theme={lightTheme}>
           <Input
             label="Funding Goal"
             placeholder="10"

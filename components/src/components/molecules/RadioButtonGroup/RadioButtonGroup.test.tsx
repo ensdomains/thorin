@@ -7,12 +7,13 @@ import { cleanup, render, screen, userEvent } from '@/test'
 
 import { RadioButtonGroup } from './RadioButtonGroup'
 import { FieldSet, RadioButton } from '@/src'
+import { lightTheme } from '@/src/tokens'
 // import { RadioButton } from '@/src/components'
 
 const RadioButtonGroupWithState = () => {
   const [state, setState] = useState<boolean>(false)
   return (
-    <ThemeProvider theme={{ mode: 'light' }}>
+    <ThemeProvider theme={lightTheme}>
       <FieldSet
         data-testid="radio-group"
         legend={`Radio Buttons - Current Value: ${state || '30'}`}
@@ -55,7 +56,7 @@ describe('<RadioButtonGroup />', () => {
     const PlainJaneRadios = () => {
       const [state, setState] = useState<boolean>(false)
       return (
-        <ThemeProvider theme={{ mode: 'light' }}>
+        <ThemeProvider theme={lightTheme}>
           <FieldSet
             data-testid="radio-group"
             legend={`Radio Buttons - Current Value: ${state || '30'}`}

@@ -7,6 +7,7 @@ import { act } from 'react-dom/test-utils'
 import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 
 import { Tooltip, TooltipProps } from './Tooltip'
+import { lightTheme } from '@/src/tokens'
 
 const TooltipButton = styled.button<TooltipProps['children']>`
   ${({ open }) => (open ? `background: red;` : `background: white;`)}
@@ -14,7 +15,7 @@ const TooltipButton = styled.button<TooltipProps['children']>`
 const TooltipHelper = ({ ...props }: any) => {
   const content = <div data-testid="tooltipcontent">Content</div>
   return (
-    <ThemeProvider theme={{ mode: 'light' }}>
+    <ThemeProvider theme={lightTheme}>
       <div>
         <div>outside</div>
         <Tooltip content={content} {...props}>
