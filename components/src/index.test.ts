@@ -31,6 +31,7 @@ const expectedExportedKeys = [
   'Input',
   'Modal',
   'Profile',
+  'PageButtons',
   'RadioButton',
   'RadioButtonGroup',
   'Select',
