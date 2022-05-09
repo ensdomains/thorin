@@ -1,18 +1,16 @@
 import { createGlobalStyle } from 'styled-components'
 
-import { tokens } from './tokens'
-
 const GlobalStyle = createGlobalStyle`
   ${({ theme }) => `
     *, ::before, ::after {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: ${tokens.fonts['sans']};
-      border-color: ${tokens.colors[theme.mode].foregroundSecondary};
-      border-style: ${tokens.borderStyles['solid']};
+      font-family: ${theme.fonts['sans']};
+      border-color: ${theme.colors.foregroundSecondary};
+      border-style: ${theme.borderStyles['solid']};
       border-width: 0;
-      color: ${tokens.colors.base.current};
+      color: ${theme.colors.current};
       font-size: 100%;
       font-feature-settings: "ss01" on, "ss03" on;
       vertical-align: baseline;
@@ -23,14 +21,14 @@ const GlobalStyle = createGlobalStyle`
     }
   
     html {
-      font-size: ${tokens.fontSizes['root']};
-      color: ${tokens.colors[theme.mode].foreground};
+      font-size: ${theme.fontSizes['root']};
+      color: ${theme.colors.foreground};
       text-rendering: optimizeLegibility;
       background: radial-gradient(40.48% 67.6% at 50% 32.4%,#ecf4ff 0%,#f7f7ff 52.77%,#f7f7f7 100%),#ffffff;
     }
     
     body {
-      line-height: ${tokens.lineHeights.none};
+      line-height: ${theme.lineHeights.none};
     }
     
     article, aside, details, div, figcaption, figure, footer, header, hgroup, menu, nav, section {
@@ -59,14 +57,14 @@ const GlobalStyle = createGlobalStyle`
       appearance: none;
       outline: none;
       &:placeholder {
-        color: ${tokens.colors[theme.mode].textTertiary};
-        opacity: ${tokens.opacity['100']};
+        color: ${theme.colors.textTertiary};
+        opacity: ${theme.opacity['100']};
       }
     }
     
     mark {
-      background-color: ${tokens.colors.base.transparent};
-      color: ${tokens.colors.base.inherit};
+      background-color: ${theme.colors.transparent};
+      color: ${theme.colors.inherit};
     }
     
     select {
@@ -74,8 +72,8 @@ const GlobalStyle = createGlobalStyle`
         appearance: none;
         outline: none;
         &:placeholder {
-          color: ${tokens.colors[theme.mode].textTertiary};
-          opacity: ${tokens.opacity['100']};
+          color: ${theme.colors.textTertiary};
+          opacity: ${theme.opacity['100']};
         }
         
         &:-ms-expand {
@@ -88,8 +86,8 @@ const GlobalStyle = createGlobalStyle`
       appearance: none;
       outline: none;
       &:placeholder {
-        color: ${tokens.colors[theme.mode].textTertiary};
-        opacity: ${tokens.opacity['100']};
+        color: ${theme.colors.textTertiary};
+        opacity: ${theme.opacity['100']};
       }
       &::-webkit-outer-spin-button {
         webkit-appearance: none;
@@ -111,7 +109,7 @@ const GlobalStyle = createGlobalStyle`
     
     a {
       text-decoration: none;
-      color: ${tokens.colors.base.inherit};
+      color: ${theme.colors.inherit};
     }
   
   `}

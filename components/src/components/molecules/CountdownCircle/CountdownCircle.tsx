@@ -2,7 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 
 import { VisuallyHidden } from '../..'
-import { Colors, tokens } from '@/src/tokens'
+import { Colors } from '@/src/tokens'
 
 interface NumberBox {
   disabled?: boolean
@@ -17,28 +17,28 @@ const NumberBox = styled.div<NumberBox>`
   font-weight: bold;
 
   ${({ theme }) => `
-    color: ${tokens.colors[theme.mode].accent};
+    color: ${theme.colors.accent};
   `}
 
   ${({ theme, disabled }) =>
     disabled &&
     `
-    color: ${tokens.colors[theme.mode].textPlaceholder};
+    color: ${theme.colors.textPlaceholder};
   `}
 
-  ${({ size }) => {
+  ${({ size, theme }) => {
     switch (size) {
       case 'small':
         return `
-          height: ${tokens.space['16']};
-          width: ${tokens.space['16']};
+          height: ${theme.space['16']};
+          width: ${theme.space['16']};
         `
       case 'large':
         return `
-          font-size: ${tokens.fontSizes.extraLarge};
-          margin-top: -${tokens.space['0.5']};
-          height: ${tokens.space['24']};
-          width: ${tokens.space['24']};
+          font-size: ${theme.fontSizes.extraLarge};
+          margin-top: -${theme.space['0.5']};
+          height: ${theme.space['24']};
+          width: ${theme.space['24']};
         `
       default:
         return ``
@@ -55,32 +55,32 @@ interface ContainerProps {
 
 const Container = styled.div<ContainerProps>`
   ${({ theme }) => `
-    stroke: ${tokens.colors[theme.mode].accent};
+    stroke: ${theme.colors.accent};
   `}
 
   ${({ theme, color }) => `
-    color: ${tokens.colors[theme.mode][color]};
+    color: ${theme.colors[color]};
   `}
 
   ${({ theme, disabled }) =>
     disabled &&
     `
-    color: ${tokens.colors[theme.mode].foregroundSecondary};
+    color: ${theme.colors.foregroundSecondary};
   `}
 
-  ${({ size }) => {
+  ${({ size, theme }) => {
     switch (size) {
       case 'small':
         return `
-          height: ${tokens.space['16']};
-          width: ${tokens.space['16']};
-          stroke-width: ${tokens.space['1']};
+          height: ${theme.space['16']};
+          width: ${theme.space['16']};
+          stroke-width: ${theme.space['1']};
         `
       case 'large':
         return `
-          height: ${tokens.space['24']};
-          width: ${tokens.space['24']};
-          stroke-width: ${tokens.space['1']};
+          height: ${theme.space['24']};
+          width: ${theme.space['24']};
+          stroke-width: ${theme.space['1']};
         `
       default:
         return ``

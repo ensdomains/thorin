@@ -1,8 +1,6 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
-import { tokens } from '@/src/tokens'
-
 import {
   DynamicPopover,
   DynamicPopoverPopover,
@@ -14,17 +12,21 @@ export interface TooltipProps extends Omit<DynamicPopoverProps, 'popover'> {
 }
 
 export const TooltipPopover = styled.div<DynamicPopoverPopover>`
-  position: absolute;
-  border-width: 1px;
-  border-style: solid;
-  box-sizing: border-box;
-  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.02);
-  border-radius: ${tokens.space['3.5']};
-  padding: ${tokens.space['2.5']} ${tokens.space['2.5']} ${tokens.space['2.5']}
-    ${tokens.space['3.5']};
-  width: 230px;
-  transition: 0.35s all cubic-bezier(1, 0, 0.22, 1.6);
-  z-index: 20;
+  ${({ theme }) => `
+    position: absolute;
+    border-width: 1px;
+    border-style: solid;
+    box-sizing: border-box;
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.02);
+    border-radius: ${theme.space['3.5']};
+    padding: ${theme.space['2.5']} ${theme.space['2.5']} ${theme.space['2.5']}
+      ${theme.space['3.5']};
+    width: 230px;
+    transition: 0.35s all cubic-bezier(1, 0, 0.22, 1.6);
+    z-index: 20;
+    border-color: ${theme.colors.borderSecondary}
+    background: ${theme.colors.background};
+  `}
   ${({ open }) =>
     open
       ? `
@@ -47,11 +49,6 @@ export const TooltipPopover = styled.div<DynamicPopoverPopover>`
   ${({ x, y }) => `
     left: ${x}px;
     top: ${y}px;
-  `}
-
-  ${({ theme }) => `
-    border-color: ${tokens.colors[theme.mode].borderSecondary}
-    background: ${tokens.colors[theme.mode].background};
   `}
 `
 

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
-import { Space, tokens } from '@/src/tokens'
+import { Space } from '@/src/tokens'
 
 type Shape = 'circle' | 'square'
 
@@ -12,20 +12,20 @@ interface Container {
 }
 
 const Container = styled.div<Container>`
-  ${({ shape }) => {
+  ${({ shape, theme }) => {
     switch (shape) {
       case 'circle':
         return `
-          border-radius: ${tokens.radii.full};
+          border-radius: ${theme.radii.full};
           &:after {
-            border-radius: ${tokens.radii.full};
+            border-radius: ${theme.radii.full};
           }
         `
       case 'square':
         return `
-          border-radius: ${tokens.radii['2xLarge']}
+          border-radius: ${theme.radii['2xLarge']}
           &:after {
-            border-radius: ${tokens.radii['2xLarge']}
+            border-radius: ${theme.radii['2xLarge']}
           }
         `
       default:
@@ -37,9 +37,7 @@ const Container = styled.div<Container>`
     !noBorder &&
     `
       &:after {
-      box-shadow: ${tokens.shadows['-px']} ${
-      tokens.colors[theme.mode].foregroundTertiary
-    };
+      box-shadow: ${theme.shadows['-px']} ${theme.colors.foregroundTertiary};
     content: '';
     inset: 0;
     position: absolute;
@@ -49,10 +47,10 @@ const Container = styled.div<Container>`
 
   ${({ theme, size }) =>
     `
-      height: ${tokens.space[size]};
-      width: ${tokens.space[size]};
-      min-width: ${tokens.space[size]};
-      background-color: ${tokens.colors[theme.mode].foregroundSecondary};
+      height: ${theme.space[size]};
+      width: ${theme.space[size]};
+      min-width: ${theme.space[size]};
+      background-color: ${theme.colors.foregroundSecondary};
       
        
   `}
@@ -63,7 +61,7 @@ const Container = styled.div<Container>`
 
 const Placeholder = styled.div`
   ${({ theme }) => `
-    background: ${tokens.colors[theme.mode].gradients.blue};
+    background: ${theme.colors.gradients.blue};
   `}
 
   display: flex;

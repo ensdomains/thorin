@@ -2,7 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 
 import { Context } from '../../molecules/SkeletonGroup'
-import { Colors, Radii, tokens } from '@/src/tokens'
+import { Colors, Radii } from '@/src/tokens'
 
 interface ContainerProps {
   active?: boolean
@@ -12,9 +12,9 @@ const Container = styled.div<ContainerProps>`
   ${({ theme, active }) =>
     active &&
     `
-     background-color: ${tokens.colors[theme.mode].foregroundSecondary};
-     border-radius: ${tokens.radii.medium};
-     width: ${tokens.space.fit};
+     background-color: ${theme.colors.foregroundSecondary};
+     border-radius: ${theme.radii.medium};
+     width: ${theme.space.fit};
   `}
 `
 

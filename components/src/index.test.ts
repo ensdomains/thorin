@@ -5,6 +5,9 @@ const exportedKeys = Object.keys(Exports)
 const expectedExportedKeys = [
   'largerThan',
   'tokens',
+  'baseTheme',
+  'lightTheme',
+  'darkTheme',
   'Components',
   // atoms
   'Avatar',

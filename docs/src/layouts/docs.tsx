@@ -3,7 +3,7 @@ import { GetLayout, NextLayout } from 'next'
 import Head from 'next/head'
 import styled from 'styled-components'
 
-import { largerThan, tokens } from '@ensdomains/thorin'
+import { largerThan } from '@ensdomains/thorin'
 
 import {
   Header,
@@ -15,12 +15,14 @@ import {
 import { getLayout as getBaseLayout } from './site'
 
 const Container = styled.div`
-  display: block;
-  justify-content: center;
-  margin: 0 auto;
-  max-width: ${tokens.space['320']};
-  min-height: ${tokens.space['viewHeight']};
-  padding: 0 ${tokens.space['6']};
+  ${({ theme }) => `
+    display: block;
+    justify-content: center;
+    margin: 0 auto;
+    max-width: ${theme.space['320']};
+    min-height: ${theme.space['viewHeight']};
+    padding: 0 ${theme.space['6']};
+  `}
 
   ${largerThan.md`
     display: flex;
@@ -34,41 +36,45 @@ const Container = styled.div`
 `
 
 const Aside = styled.aside`
-  padding-top: ${tokens.space['6']};
-
-  ${largerThan.md`
-    left: ${tokens.space['4']};
-    width: ${tokens.space['max']};
-    margin-right: ${tokens.space['10']};
+  ${({ theme }) => `
+    padding-top: ${theme.space['6']};
   `}
 
-  ${largerThan.lg`
-    height: ${tokens.space['viewHeight']};
+  ${({ theme }) => largerThan.md`
+    left: ${theme.space['4']};
+    width: ${theme.space['max']};
+    margin-right: ${theme.space['10']};
+  `}
+
+  ${({ theme }) => largerThan.lg`
+    height: ${theme.space['viewHeight']};
     position: fixed;
-    width: ${tokens.space['48']};
+    width: ${theme.space['48']};
   `}
 
-  ${largerThan.xl`
-    width: ${tokens.space['56']};
+  ${({ theme }) => largerThan.xl`
+    width: ${theme.space['56']};
   `}
 `
 
 const Article = styled.article`
-  width: 100%;
-  padding-bottom: ${tokens.space['20']};
-  padding-top: ${tokens.space['20']};
-
-  ${largerThan.md`
-    max-width: ${tokens.space['224']}
+  ${({ theme }) => `
+    width: 100%;
+    padding-bottom: ${theme.space['20']};
+    padding-top: ${theme.space['20']};
   `}
 
-  ${largerThan.lg`
-    max-width: ${tokens.space['192']};
-    padding: ${tokens.space['20']} ${tokens.space['10']};
+  ${({ theme }) => largerThan.md`
+    max-width: ${theme.space['224']}
   `}
 
-  ${largerThan.xl`
-    max-width: ${tokens.space['224']};
+  ${({ theme }) => largerThan.lg`
+    max-width: ${theme.space['192']};
+    padding: ${theme.space['20']} ${theme.space['10']};
+  `}
+
+  ${({ theme }) => largerThan.xl`
+    max-width: ${theme.space['224']};
   `}
 `
 
