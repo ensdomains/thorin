@@ -1,8 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
-import { Button } from '../..'
-import { Props as ButtonProps } from '@/src/components/atoms/Button'
+import { Button, ButtonProps } from '@/src/components/atoms/Button'
 import { Colors } from '@/src/tokens'
 import { ReactComponent as IconDownIndicatorSvg } from '@/src/icons/DownIndicator.svg'
 
