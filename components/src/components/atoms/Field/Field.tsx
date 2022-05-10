@@ -30,10 +30,10 @@ type Props = FieldBaseProps & {
 
 const Label = styled.label`
   ${({ theme }) => `
-  color: ${theme.colors.textTertiary};
-  font-weight: ${theme.fontWeights['semiBold']};
-  margin-right: ${theme.space['4']};
-`}
+    color: ${theme.colors.textTertiary};
+    font-weight: ${theme.fontWeights['semiBold']};
+    margin-right: ${theme.space['4']};
+  `}
 `
 
 interface LabelContentProps {
@@ -45,14 +45,14 @@ interface LabelContentProps {
 
 const LabelContentContainer = styled.div`
   ${({ theme }) => `
-  display: flex;
-  align-items: flex-end;
-  justify-conetn: space-between;
-  padding-left: ${theme.space['4']};
-  padding-right: ${theme.space['4']};
-  padding-top: 0;
-  padding-bottom: 0;
-`}
+    display: flex;
+    align-items: flex-end;
+    justify-conetn: space-between;
+    padding-left: ${theme.space['4']};
+    padding-right: ${theme.space['4']};
+    padding-top: 0;
+    padding-bottom: 0;
+  `}
 `
 
 const LabelContent = ({
@@ -78,30 +78,30 @@ const Container = styled.div<ContainerProps>`
   display: flex;
   flex-direction: ${({ inline }) => (inline ? 'row' : 'column')};
   ${({ theme, width }) => `
-  gap: ${theme.space[2]};
-  width: ${theme.space[width]};
+    gap: ${theme.space[2]};
+    width: ${theme.space[width]};
   `}
 `
 
-const ContainerInner = styled.div`'
+const ContainerInner = styled.div`
   ${({ theme }) => `
-  display: flex;
-  flex-direction: column;
-  gap: ${theme.space[2]};
+    display: flex;
+    flex-direction: column;
+    gap: ${theme.space[2]};
   `}
 `
 
 const Description = styled.div`
   ${({ theme }) => `
-  padding: 0 ${theme.space['4']};
-  color: ${theme.shades.textSecondary};
+    padding: 0 ${theme.space['4']};
+    color: ${theme.colors.textSecondary};
   `}
 `
 
 const Error = styled.div`
   ${({ theme }) => `
-  color: ${theme.colors.red};
-  padding: 0 ${theme.space[4]};
+    color: ${theme.colors.red};
+    padding: 0 ${theme.space[4]};
   `}
 `
 
