@@ -29,6 +29,38 @@ const App = () => {
 }
 ```
 
+### Dark Theme
+
+To use the dark theme, import `darkTheme` and pass it to the `ThemeProvider`.
+
+```tsx
+import { ThemeProvider, darkTheme } from '@ensdomains/thorin'
+
+const App = () => {
+  return <ThemeProvider theme={darkTheme}>{children}</ThemeProvider>
+}
+```
+
+### Custom Themes
+
+To customise the theme, you can change properties on either the `lightTheme` or `darkTheme` objects, or create an entirely new one.
+
+```tsx
+import { ThemeProvider, lightTheme } from '@ensdomains/thorin'
+
+const theme = {
+  ...lightTheme,
+  colors: {
+    ...lightTheme.colors,
+    foreground: 'rgba(255, 255, 255, 0.4)',
+  },
+}
+
+const App = () => {
+  return <ThemeProvider theme={theme}>{children}</ThemeProvider>
+}
+```
+
 ## Use Components
 
 ```tsx
