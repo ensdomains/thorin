@@ -5,13 +5,14 @@ import { ThemeProvider } from 'styled-components'
 import { cleanup, render, screen, userEvent } from '@/test'
 
 import { Textarea } from './Textarea'
+import { lightTheme } from '@/src/tokens'
 
 describe('<Textarea />', () => {
   afterEach(cleanup)
 
   it('renders', () => {
     render(
-      <ThemeProvider theme={{ mode: 'light' }}>
+      <ThemeProvider theme={lightTheme}>
         <Textarea label="Why are you entering $WRITE Race?" />
       </ThemeProvider>,
     )
@@ -20,7 +21,7 @@ describe('<Textarea />', () => {
 
   it('receives user input', () => {
     render(
-      <ThemeProvider theme={{ mode: 'light' }}>
+      <ThemeProvider theme={lightTheme}>
         <Textarea label="Why are you entering $WRITE Race?" />
       </ThemeProvider>,
     )
@@ -33,7 +34,7 @@ describe('<Textarea />', () => {
 
   it('respects the maxLength parameter', () => {
     render(
-      <ThemeProvider theme={{ mode: 'light' }}>
+      <ThemeProvider theme={lightTheme}>
         <Textarea label="Why are you entering $WRITE Race?" maxLength={14} />
       </ThemeProvider>,
     )
@@ -45,7 +46,7 @@ describe('<Textarea />', () => {
 
   it('does not allow typing when disabled', () => {
     render(
-      <ThemeProvider theme={{ mode: 'light' }}>
+      <ThemeProvider theme={lightTheme}>
         <Textarea
           disabled
           label="Why are you entering $WRITE Race?"
@@ -61,7 +62,7 @@ describe('<Textarea />', () => {
 
   it('shows error message', () => {
     render(
-      <ThemeProvider theme={{ mode: 'light' }}>
+      <ThemeProvider theme={lightTheme}>
         <Textarea error="error" label="Why are you entering $WRITE Race?" />
       </ThemeProvider>,
     )

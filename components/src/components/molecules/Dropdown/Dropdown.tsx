@@ -2,8 +2,8 @@ import * as React from 'react'
 import styled from 'styled-components'
 
 import { Button } from '../..'
-import { ButtonProps as ButtonProps } from '@/src/components/atoms/Button'
-import { Colors, tokens } from '@/src/tokens'
+import { Props as ButtonProps } from '@/src/components/atoms/Button'
+import { Colors } from '@/src/tokens'
 import { ReactComponent as IconDownIndicatorSvg } from '@/src/icons/DownIndicator.svg'
 
 type DropdownItemObject = {
@@ -24,12 +24,14 @@ interface DropdownMenuContainer {
 }
 
 const DropdownMenuContainer = styled.div<DropdownMenuContainer>`
+  ${({ theme }) => `
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border-radius: ${tokens.radii['medium']};
+  border-radius: ${theme.radii['medium']};
   position: absolute;
+  `}
 
   ${({ $labelAlign }) =>
     $labelAlign &&
@@ -52,34 +54,34 @@ const DropdownMenuContainer = styled.div<DropdownMenuContainer>`
   `}
 
   ${({ theme }) => `
-    padding: ${tokens.space['1.5']};
-    background-color: ${tokens.colors[theme.mode].groupBackground};
-    box-shadow: ${tokens.boxShadows[theme.mode]['0.02']};
-    border-radius: ${tokens.radii['2xLarge']};
+    padding: ${theme.space['1.5']};
+    background-color: ${theme.colors.groupBackground};
+    box-shadow: ${theme.boxShadows['0.02']};
+    border-radius: ${theme.radii['2xLarge']};
   `}
 
   ${({ theme, $inner }) =>
     $inner &&
     `
-    background-color: ${tokens.colors[theme.mode].grey};
-    border-radius: ${tokens.radii.almostExtraLarge};
+    background-color: ${theme.colors.grey};
+    border-radius: ${theme.radii.almostExtraLarge};
     border-top-radius: none;
     box-shadow: 0;
-    border-width: ${tokens.space['px']};
+    border-width: ${theme.space['px']};
     border-top-width: 0;
-    border-color: ${tokens.colors[theme.mode].borderSecondary};
-    padding: 0 ${tokens.space['1.5']};
-    padding-top: ${tokens.space['2.5']};
-    padding-bottom: ${tokens.space['1.5']};
-    margin-top: -${tokens.space['2.5']};
+    border-color: ${theme.colors.borderSecondary};
+    padding: 0 ${theme.space['1.5']};
+    padding-top: ${theme.space['2.5']};
+    padding-bottom: ${theme.space['1.5']};
+    margin-top: -${theme.space['2.5']};
     transition: 0.35s all cubic-bezier(1, 0, 0.22, 1.6);
   `}
 
-  ${({ $opened, $inner }) => {
+  ${({ $opened, $inner, theme }) => {
     if ($opened && !$inner)
       return `
       z-index: 20;
-      margin-top: ${tokens.space['1.5']};
+      margin-top: ${theme.space['1.5']};
       transition: all 0.3s cubic-bezier(1, 0, 0.22, 1.6), width 0s linear, z-index 0s linear 0.3s;
     `
 
@@ -99,15 +101,15 @@ const DropdownMenuContainer = styled.div<DropdownMenuContainer>`
       `
   }}
 
-  ${({ $opened, $shortThrow }) => {
+  ${({ $opened, $shortThrow, theme }) => {
     if (!$opened && $shortThrow)
       return `
-      margin-top: -${tokens.space['2.5']};
+      margin-top: -${theme.space['2.5']};
     `
 
     if (!$opened && !$shortThrow)
       return `
-      margin-top: -${tokens.space['12']};
+      margin-top: -${theme.space['12']};
     `
   }}
 
@@ -128,14 +130,15 @@ interface MenuButtonProps {
 }
 
 const MenuButton = styled.button<MenuButtonProps>`
+  ${({ theme }) => `
   align-items: center;
   cursor: pointer;
   display: flex;
-  gap: ${tokens.space['4']};
-  width: ${tokens.space['full']};
-  height: ${tokens.space['12']};
-  padding: ${tokens.space['3']};
-  font-weight: ${tokens.fontWeights['semiBold']};
+  gap: ${theme.space['4']};
+  width: ${theme.space['full']};
+  height: ${theme.space['12']};
+  padding: ${theme.space['3']};
+  font-weight: ${theme.fontWeights['semiBold']};
   transition-duration: 0.15s;
   transition-property: color, transform, filter;
   transition-timing-function: ease-in-out;
@@ -145,12 +148,13 @@ const MenuButton = styled.button<MenuButtonProps>`
     transform: translateY(0px);
     filter: brightness(1);
   }
+  `}
 
   ${({ theme, $color }) => `
-    color: ${tokens.colors[theme.mode][$color || 'accent']};
+    color: ${theme.colors[$color || 'accent']};
   
     &:disabled {
-      color: ${tokens.colors[theme.mode].textTertiary}
+      color: ${theme.colors.textTertiary}
     }
   `}
 
@@ -160,7 +164,7 @@ const MenuButton = styled.button<MenuButtonProps>`
       justify-content: center;
     
       &:hover {
-        color: ${tokens.colors[theme.mode].accent};
+        color: ${theme.colors.accent};
       }
     `
 
@@ -178,7 +182,7 @@ const MenuButton = styled.button<MenuButtonProps>`
   ${({ theme, $inner, $hasColor }) => {
     if ($inner && !$hasColor)
       return `
-      color: ${tokens.colors[theme.mode].textSecondary};  
+      color: ${theme.colors.textSecondary};  
     `
   }}
 `
@@ -254,29 +258,31 @@ interface InnerMenuButton {
 }
 
 const InnerMenuButton = styled.button<InnerMenuButton>`
+  ${({ theme }) => `
   z-index: 10;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: ${tokens.space['4']};
-  border-width: ${tokens.space['px']};
-  font-weight: ${tokens.fontWeights['semiBold']};
+  gap: ${theme.space['4']};
+  border-width: ${theme.space['px']};
+  font-weight: ${theme.fontWeights['semiBold']};
   cursor: pointer;
   position: relative;
-
-  ${({ theme }) => `
-    border-color: ${tokens.colors[theme.mode].borderSecondary};
   `}
 
-  ${({ $size }) => {
+  ${({ theme }) => `
+    border-color: ${theme.colors.borderSecondary};
+  `}
+
+  ${({ $size, theme }) => {
     switch ($size) {
       case 'small':
         return `
-          padding: ${tokens.space['0.5']} ${tokens.space['0.25']};
+          padding: ${theme.space['0.5']} ${theme.space['0.25']};
         `
       case 'medium':
         return `
-          padding: ${tokens.space['2.5']} ${tokens.space['3.5']};
+          padding: ${theme.space['2.5']} ${theme.space['3.5']};
         `
       default:
         return ``
@@ -286,44 +292,46 @@ const InnerMenuButton = styled.button<InnerMenuButton>`
   ${({ theme, $open }) => {
     if ($open)
       return `
-      border-top-left-radius: ${tokens.radii['almostExtraLarge']};
-      border-top-right-radius: ${tokens.radii['almostExtraLarge']};
+      border-top-left-radius: ${theme.radii['almostExtraLarge']};
+      border-top-right-radius: ${theme.radii['almostExtraLarge']};
       border-bottom-left-radius: none;
       border-bottom-right-radius: none;
       border-bottom-width: 0;
-      background-color: ${tokens.colors[theme.mode].grey};
-      color: ${tokens.colors[theme.mode].textTertiary};
+      background-color: ${theme.colors.grey};
+      color: ${theme.colors.textTertiary};
       transition: 0.35s all cubic-bezier(1, 0, 0.22, 1.6), 0.3s color ease-in-out, 0.2s border-radius ease-in-out, 0s border-width 0.1s, 0s padding linear;
       
       &:hover {
-        color: ${tokens.colors[theme.mode].accent};
+        color: ${theme.colors.accent};
       }
       `
     if (!$open)
       return `
-      background-color: ${tokens.colors[theme.mode].background};
-      color: ${tokens.colors[theme.mode].textSecondary};
-      border-radius: ${tokens.radii['almostExtraLarge']};
-      box-shadow: ${tokens.boxShadows[theme.mode]['0.02']};
+      background-color: ${theme.colors.background};
+      color: ${theme.colors.textSecondary};
+      border-radius: ${theme.radii['almostExtraLarge']};
+      box-shadow: ${theme.boxShadows['0.02']};
       transition: 0.35s all cubic-bezier(1, 0, 0.22, 1.6), 0.15s color ease-in-out, 0s border-width 0.15s, 0.15s border-color ease-in-out, 0s padding linear;
       
       &:hover {
-        border-color: ${tokens.colors[theme.mode].border};
+        border-color: ${theme.colors.border};
       }
       `
   }}
 `
 
 const Chevron = styled(IconDownIndicatorSvg)<{ $open: boolean }>`
-  margin-left: ${tokens.space['1']};
-  width: ${tokens.space['3']};
-  margin-right: ${tokens.space['0.5']};
-  transition-duration: ${tokens.transitionDuration['200']};
-  transition-property: all;
-  transition-timing-function: ${tokens.transitionTimingFunction['inOut']};
-  opacity: 0.3;
-  transform: rotate(0deg);
-  display: flex;
+  ${({ theme }) => `
+    margin-left: ${theme.space['1']};
+    width: ${theme.space['3']};
+    margin-right: ${theme.space['0.5']};
+    transition-duration: ${theme.transitionDuration['200']};
+    transition-property: all;
+    transition-timing-function: ${theme.transitionTimingFunction['inOut']};
+    opacity: 0.3;
+    transform: rotate(0deg);
+    display: flex;
+  `}
 
   & > svg {
     fill: currentColor;
@@ -410,7 +418,7 @@ export const Dropdown = ({
     <div
       data-testid="dropdown"
       ref={dropdownRef}
-      style={{ maxWidth: tokens.space.max, position: 'relative' }}
+      style={{ maxWidth: 'max-content', position: 'relative' }}
     >
       {!children && inner && (
         <InnerMenuButton

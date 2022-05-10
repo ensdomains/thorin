@@ -3,7 +3,6 @@ import styled from 'styled-components'
 
 import { Backdrop, Card } from '../..'
 import { Props as CardProps } from '../../atoms/Card/Card'
-import { tokens } from '@/src/tokens'
 import { CloseSVG } from '@/src/icons'
 
 const Container = styled.div`
@@ -12,15 +11,17 @@ const Container = styled.div`
 `
 
 const IconCloseContainer = styled(CloseSVG)`
-  height: ${tokens.space['6']};
-  width: ${tokens.space['6']};
-  margin-top: -${tokens.space['6']};
-  opacity: ${tokens.opacity['30']};
+  ${({ theme }) => `
+  height: ${theme.space['6']};
+  width: ${theme.space['6']};
+  margin-top: -${theme.space['6']};
+  opacity: ${theme.opacity['30']};
   cursor: pointer;
-  padding: ${tokens.space['1.25']};
+  padding: ${theme.space['1.25']};
   transition-propery: all;
-  transition-duration: ${tokens.transitionDuration['150']};
-  transition-timing-function: ${tokens.transitionTimingFunction['inOut']};
+  transition-duration: ${theme.transitionDuration['150']};
+  transition-timing-function: ${theme.transitionTimingFunction['inOut']};
+  `}
 
   &:hover {
     opacity: 0.5;

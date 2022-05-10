@@ -1,34 +1,32 @@
 import * as React from 'react'
-import styled, { useTheme } from 'styled-components'
+import styled from 'styled-components'
 
 import { largerThan } from '@/src/utils/responsiveHelpers'
-import { tokens } from '@/src/tokens'
 
-const Container = styled.div<{ $dark: boolean; $shadow?: boolean }>`
-  padding: ${tokens.space['6']};
-  border-radius: ${tokens.radii['2xLarge']};
-
-  ${largerThan.lg`
-    border-radius: ${tokens.radii['3xLarge']};
-  `}
-
-  ${({ $dark: dark }) =>
-    dark
-      ? `background-color: ${tokens.colors.base.black};`
-      : `background-color: ${tokens.colors.base.white};`}
-
-  ${({ $dark: dark, $shadow: shadow }) =>
-    !dark &&
-    shadow &&
+const Container = styled.div<{ $shadow?: boolean }>`
+  ${({ theme }) => [
     `
-        box-shadow: 0px 0px ${tokens.radii['2xLarge']} rgba(0,0,0,0.1);
-        border-radius: ${tokens.radii['2xLarge']};
-        
-        ${largerThan.lg`
-            box-shadow: 0px 0px ${tokens.radii['3xLarge']} rgba(0,0,0,0.1);
-            border-radius: ${tokens.radii['3xLarge']};
-        `}
-    `}
+    padding: ${theme.space['6']};
+    border-radius: ${theme.radii['2xLarge']};
+    background-color: ${theme.colors.background};
+    `,
+    largerThan.lg`
+      border-radius: ${theme.radii['3xLarge']};
+    `,
+  ]}
+
+  ${({ $shadow, theme }) =>
+    $shadow &&
+    theme.mode === 'light' && [
+      `
+      box-shadow: 0px 0px ${theme.radii['2xLarge']} rgba(0,0,0,0.1);
+      border-radius: ${theme.radii['2xLarge']};
+    `,
+      largerThan.lg`
+      box-shadow: 0px 0px ${theme.radii['3xLarge']} rgba(0,0,0,0.1);
+      border-radius: ${theme.radii['3xLarge']};
+    `,
+    ]}
 `
 
 export type Props = {
@@ -36,15 +34,10 @@ export type Props = {
   shadow?: boolean
 }
 
-export const Card = ({
-  shadow = false,
-  children,
-}: React.PropsWithChildren<Props>) => {
-  const { mode, forcedMode } = useTheme()
+export const Card = ({ children, shadow }: React.PropsWithChildren<Props>) => {
   return (
     <Container
       {...{
-        $dark: (forcedMode ?? mode) === 'dark',
         $shadow: shadow,
       }}
     >

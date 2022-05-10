@@ -6,13 +6,11 @@ import {
 } from '@reach/skip-nav'
 import '@reach/skip-nav/styles.css'
 
-import { tokens } from '@ensdomains/thorin'
-
 const Container = styled(ReachSkipNavLink)`
   ${({ theme }) => `
-    background: ${tokens.colors[theme.mode].accent};
-    color: ${tokens.colors[theme.mode].accentText};
-    font-family: ${tokens.fonts['sans']};
+    background: ${theme.colors.accent};
+    color: ${theme.colors.accentText};
+    font-family: ${theme.fonts['sans']};
   `}
 `
 

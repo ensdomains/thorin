@@ -1,7 +1,6 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
-import { tokens } from '@/src/tokens'
 import { Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
 
@@ -14,17 +13,19 @@ interface InputProps {
 }
 
 const Input = styled.input<InputProps>`
+  ${({ theme }) => `
   cursor: pointer;
-  margin: ${tokens.space['1']} 0;
+  margin: ${theme.space['1']} 0;
+  `}
 
   ${({ theme, $variant, $size }) => {
     switch ($variant) {
       case 'regular':
         return `
-          width: ${tokens.space['7']};
-          height: ${tokens.space['7']};
+          width: ${theme.space['7']};
+          height: ${theme.space['7']};
           font: inherit;
-          border-radius: ${tokens.space['2']};
+          border-radius: ${theme.space['2']};
           display: grid;
           place-content: center;
           transition: transform 150ms ease-in-out, filter 150ms ease-in-out;
@@ -41,10 +42,10 @@ const Input = styled.input<InputProps>`
           
           &::before {
             content: '';
-            background-color: ${tokens.colors[theme.mode].accent};
-            mask-image: ${`url('data:image/svg+xml; utf8, <svg width="${tokens.space['4']}" height="${tokens.space['4']}" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 12.625L10.125 20.125L22 3.875" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" /></svg>')`};
-            width: ${tokens.space['4']};
-            height: ${tokens.space['4']};
+            background-color: ${theme.colors.accent};
+            mask-image: ${`url('data:image/svg+xml; utf8, <svg width="${theme.space['4']}" height="${theme.space['4']}" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 12.625L10.125 20.125L22 3.875" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" /></svg>')`};
+            width: ${theme.space['4']};
+            height: ${theme.space['4']};
             transform: scale(0);
             transition: transform 90ms ease-in-out;
           }
@@ -58,7 +59,7 @@ const Input = styled.input<InputProps>`
           display: grid;
           place-content: center;
           transition: transform 150ms ease-in-out, filter 150ms ease-in-out;
-          background-color: ${tokens.colors[theme.mode].accent};
+          background-color: ${theme.colors.accent};
           filter: grayscale(1) brightness(1.5);
           width: ${
             $size === 'small' ? '' : $size === 'large' ? '5.188rem' : '3rem'
@@ -90,8 +91,8 @@ const Input = styled.input<InputProps>`
           
           &::before {
             content: '';
-            background-color: ${tokens.colors.base.white};
-            border-radius: ${tokens.radii['full']};
+            background-color: ${theme.colors.white};
+            border-radius: ${theme.radii['full']};
             transform: translateX(-50%);
             transition: transform 90ms ease-in-out;
             width: ${
@@ -128,7 +129,7 @@ const Input = styled.input<InputProps>`
     switch ($color) {
       case 'grey':
         return `
-          background-color: ${tokens.colors[theme.mode].grey};
+          background-color: ${theme.colors.grey};
         `
       case 'white':
         return `
@@ -139,12 +140,12 @@ const Input = styled.input<InputProps>`
     }
   }}
 
-  ${({ $variant, $size }) => {
+  ${({ $variant, $size, theme }) => {
     if ($variant === 'switch' && $size) {
       switch ($size) {
         case 'small':
           return `
-            width: ${tokens.space['7']};
+            width: ${theme.space['7']};
         `
         case 'medium':
           return `

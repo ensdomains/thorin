@@ -3,47 +3,46 @@ import styled from 'styled-components'
 
 import { Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
-import { tokens } from '@/src/tokens'
 
 const TextArea = styled.textarea<{ $error?: boolean }>`
   ${({ theme }) => `
-      background-color: ${tokens.colors.base.transparent};
-      border-color: ${tokens.colors[theme.mode].foregroundSecondary};
-      border-radius: ${tokens.radii['2xLarge']};
-      border-width: ${tokens.space['0.5']};
-      color: ${tokens.colors[theme.mode].text};
+      background-color: ${theme.colors.transparent};
+      border-color: ${theme.colors.foregroundSecondary};
+      border-radius: ${theme.radii['2xLarge']};
+      border-width: ${theme.space['0.5']};
+      color: ${theme.colors.text};
       display: flex;
-      font-family: ${tokens.fonts['sans']};
-      font-size: ${tokens.fontSizes['base']};
-      font-weight: ${tokens.fontWeights['medium']};
-      min-height: ${tokens.space['14']};
-      padding: ${tokens.space['4']};
-      transition-duration: ${tokens.transitionDuration['150']};
+      font-family: ${theme.fonts['sans']};
+      font-size: ${theme.fontSizes['base']};
+      font-weight: ${theme.fontWeights['medium']};
+      min-height: ${theme.space['14']};
+      padding: ${theme.space['4']};
+      transition-duration: ${theme.transitionDuration['150']};
       transition-property: color, border-color, background-color;
-      transition-timing-function: ${tokens.transitionTimingFunction['inOut']};
-      width: ${tokens.space['full']};
+      transition-timing-function: ${theme.transitionTimingFunction['inOut']};
+      width: ${theme.space['full']};
       resize: none;
       
       &:focus {
-        border-color: ${tokens.colors[theme.mode].accent};
+        border-color: ${theme.colors.accent};
       }
   `}
 
   ${({ theme, disabled }) =>
     disabled &&
     `
-      border-color: ${tokens.colors[theme.mode].foregroundSecondary};
+      border-color: ${theme.colors.foregroundSecondary};
       cursor: not-allowed;
   `}
 
   ${({ theme, $error }) =>
     $error &&
     `
-      border-color: ${tokens.colors[theme.mode].red};
+      border-color: ${theme.colors.red};
       cursor: default;
       
       &:focus-within {
-        border-color: ${tokens.colors[theme.mode].red};
+        border-color: ${theme.colors.red};
       }
   `}
 `

@@ -8,10 +8,12 @@ import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 import { Button } from '@/src/components/atoms/Button'
 import { Tooltip } from './Tooltip'
 
+import { lightTheme } from '@/src/tokens'
+
 const TooltipHelper = ({ ...props }: any) => {
   const content = <div data-testid="tooltipcontent">Content</div>
   return (
-    <ThemeProvider theme={{ mode: 'light' }}>
+    <ThemeProvider theme={lightTheme}>
       <div>
         <div>outside</div>
         <Tooltip content={content} {...props}>

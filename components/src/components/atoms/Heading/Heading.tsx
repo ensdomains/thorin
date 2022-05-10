@@ -1,7 +1,8 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
-import { Colors, tokens } from '@/src/tokens'
+import { Colors } from '@/src/tokens'
+
 import { largerThan } from '@/src/utils/responsiveHelpers'
 
 interface HeadingContainerProps {
@@ -18,20 +19,20 @@ const HeadingContainer = styled.div<HeadingContainerProps>`
     ${$textTransform ? `text-transform: ${$textTransform};` : ``}
   `}
 
-  ${({ $level }) => {
+  ${({ $level, theme }) => {
     switch ($level) {
       case '1':
         return `
-          font-size: ${tokens.fontSizes.headingOne};
-          font-weight: ${tokens.fontWeights.semiBold};
-          letter-spacing: ${tokens.letterSpacings['-0.02']};
+          font-size: ${theme.fontSizes.headingOne};
+          font-weight: ${theme.fontWeights.semiBold};
+          letter-spacing: ${theme.letterSpacings['-0.02']};
           line-height: 4rem;
         `
       case '2':
         return `
-          font-size: ${tokens.fontSizes.headingTwo};
-          font-weight: ${tokens.fontWeights.semiBold};
-          letter-spacing: ${tokens.letterSpacings['-0.02']};
+          font-size: ${theme.fontSizes.headingTwo};
+          font-weight: ${theme.fontWeights.semiBold};
+          letter-spacing: ${theme.letterSpacings['-0.02']};
           line-height: 2.5rem;
         `
       default:
@@ -39,27 +40,29 @@ const HeadingContainer = styled.div<HeadingContainerProps>`
     }
   }}
   
-  ${({ $responsive, $level }) => {
+  ${({ $responsive, $level, theme }) => {
     if ($responsive) {
       switch ($level) {
         case '1':
-          return `
-          font-size: ${tokens.fontSizes.headingTwo};
-          
-          ${largerThan.sm`
-            font-size: ${tokens.fontSizes.headingOne};
-          `}
-        `
+          return [
+            `
+          font-size: ${theme.fontSizes.headingTwo};
+          `,
+            largerThan.sm`
+            font-size: ${theme.fontSizes.headingOne};
+          `,
+          ]
         case '2':
-          return `
-          font-size: ${tokens.fontSizes.extraLarge};
+          return [
+            `
+          font-size: ${theme.fontSizes.extraLarge};
           letter-spacing: normal;
-          
-          ${largerThan.sm`
-            font-size: ${tokens.fontSizes.headingTwo};
+          `,
+            largerThan.sm`
+            font-size: ${theme.fontSizes.headingTwo};
             letter-spacing: -0.02;
-          `}
-        `
+          `,
+          ]
         default:
           return ``
       }
@@ -69,10 +72,10 @@ const HeadingContainer = styled.div<HeadingContainerProps>`
   ${({ $color, theme }) =>
     $color &&
     `
-    color: ${tokens.colors[theme.mode][$color]};
+    color: ${theme.colors[$color]};
     `}
   
-  font-family: ${tokens.fonts['sans']};
+  font-family: ${({ theme }) => theme.fonts['sans']};
 `
 
 type Props = {

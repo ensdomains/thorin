@@ -1,0 +1,30 @@
+---
+title: PageButtons
+description: Page button component
+---
+
+```tsx
+import { PageButtons } from '@ensdomains/thorin'
+```
+
+```tsx live=true
+<div
+  style={{
+    backgroundColor: 'rgba(0, 0, 0, 0.05)',
+    padding: '16px',
+    borderRadius: '12px',
+  }}
+>
+  <PageButtons
+    alwaysShowFirst
+    alwaysShowLast
+    current={getState('pageButtons') || 1}
+    total={100}
+    onChange={(value) => setState('pageButtons', value)}
+  />
+</div>
+```
+
+## Props
+
+<PropsTable sourceLink={sourceLink} types={types} />

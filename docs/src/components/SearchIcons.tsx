@@ -1,13 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
-import {
-  Input,
-  SearchSVG,
-  Typography,
-  largerThan,
-  tokens,
-} from '@ensdomains/thorin'
+import { Input, SearchSVG, Typography, largerThan } from '@ensdomains/thorin'
 import * as Components from '@ensdomains/thorin'
 
 import { Link } from '~/components'
@@ -26,69 +20,77 @@ const initialState: State = {
 }
 
 const FlexContainer = styled.div`
-  gap: ${tokens.space['8']};
+  ${({ theme }) => `
+    gap: ${theme.space['8']};
+  `}
 `
 
 const IconGrid = styled.div`
-  display: grid;
-  gap: ${tokens.space['4']};
-  grid-template-columns: repeat(auto-fit, minmax(${tokens.space['18']}, 1fr));
-  ${largerThan.md`
-        grid-template-columns: repeat(auto-fit, minmax(${tokens.space['20']}, 1fr));
+  ${({ theme }) => `
+    display: grid;
+    gap: ${theme.space['4']};
+    grid-template-columns: repeat(auto-fit, minmax(${theme.space['18']}, 1fr));
+    ${largerThan.md`
+          grid-template-columns: repeat(auto-fit, minmax(${theme.space['20']}, 1fr));
+    `}
   `}
 `
 
 const IconGridInner = styled.div`
-  max-width: ${tokens.space['18']};
+  ${({ theme }) => `
+  max-width: ${theme.space['18']};
 
   ${largerThan.md`
-      max-width: ${tokens.space['20']};
+      max-width: ${theme.space['20']};
+  `}
   `}
 `
 
 const IconGridFlex = styled.div`
   display: flex;
   align-items: center;
-  gap: ${tokens.space['2']};
+  gap: ${({ theme }) => theme.space['2']};
 `
 
 const ComponentContainer = styled.div`
   ${({ theme }) => `
-    background-color: ${tokens.colors[theme.mode].foregroundTertiary};
-    border-radius: ${tokens.radii['large']};
-    box-shadow-color: ${tokens.colors.base.transparent};
-    color: ${tokens.colors[theme.mode].foreground};
-    padding: ${tokens.space['4']};
-    width: ${tokens.space['max']};
-    transition-duration: ${tokens.transitionDuration['150']};
+    background-color: ${theme.colors.foregroundTertiary};
+    border-radius: ${theme.radii['large']};
+    box-shadow-color: ${theme.colors.transparent};
+    color: ${theme.colors.foreground};
+    padding: ${theme.space['4']};
+    width: ${theme.space['max']};
+    transition-duration: ${theme.transitionDuration['150']};
     transition-property: box-shadow;
-    transition-timing-function: ${tokens.transitionTimingFunction['inOut']};
+    transition-timing-function: ${theme.transitionTimingFunction['inOut']};
     
-    box-shadow: ${tokens.boxShadows[theme.mode]['1']}; 
+    box-shadow: ${theme.boxShadows['1']}; 
     
     &:hover {
-      box-shadow: ${tokens.boxShadows[theme.mode]['1']};
+      box-shadow: ${theme.boxShadows['1']};
     }
     
     &:active {
-      box-shadow: ${tokens.boxShadows[theme.mode]['0.5']};
+      box-shadow: ${theme.boxShadows['0.5']};
     }
   `}
 `
 
 const IconNameContainer = styled.div`
-  width: ${tokens.space['14']};
+  ${({ theme }) => `
+    width: ${theme.space['14']};
 
-  ${largerThan.md`
-    width: ${tokens.space['18']};
+    ${largerThan.md`
+      width: ${theme.space['18']};
+    `}
   `}
 `
 
 const IconName = styled(Typography)`
   ${({ theme }) => `
     text-align: center;
-    size: ${tokens.fontSizes['label']};
-    color: ${tokens.colors[theme.mode].text};
+    size: ${theme.fontSizes['label']};
+    color: ${theme.colors.text};
   `}
 `
 

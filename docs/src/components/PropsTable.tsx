@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import { PropItem } from 'react-docgen-typescript'
 
 import {
@@ -7,7 +7,6 @@ import {
   Typography,
   VisuallyHidden,
   largerThan,
-  tokens,
 } from '@ensdomains/thorin'
 
 import property from 'lodash/property'
@@ -20,7 +19,7 @@ type Props = {
 }
 
 const Container = styled.div`
-  max-width: ${tokens.space['full']};
+  max-width: ${({ theme }) => theme.space['full']};
   overflow: scroll;
 
   ${largerThan.lg`
@@ -30,7 +29,7 @@ const Container = styled.div`
 
 const TableHead = styled.th`
   ${({ theme }) => `
-      background-color: ${tokens.colors[theme.mode].background};
+      background-color: ${theme.colors.background};
       position: sticky;
       top: 0;
   `}
@@ -41,69 +40,71 @@ const TableHeadLabelContainer = styled.div<{
   headers: Array<string>
 }>`
   ${({ theme, i, headers }) => `
-      background-color: ${tokens.colors[theme.mode].foregroundTertiary};
-      border-color: ${tokens.colors[theme.mode].foregroundSecondary};
-      ${i === 0 ? `border-left-radius: ${tokens.radii['large']};` : ``}
+      background-color: ${theme.colors.foregroundTertiary};
+      border-color: ${theme.colors.foregroundSecondary};
+      ${i === 0 ? `border-left-radius: ${theme.radii['large']};` : ``}
       ${
         i === headers.length - 1
-          ? `border-right-radius: ${tokens.radii['large']};`
+          ? `border-right-radius: ${theme.radii['large']};`
           : ``
       }
-      padding: ${tokens.space['2.5']} ${tokens.space['4']};
+      padding: ${theme.space['2.5']} ${theme.space['4']};
 `}
 `
 
 const Name = styled(Typography)`
   ${({ theme }) => `
-      color: ${tokens.colors[theme.mode].text};
-      font-size: ${tokens.fontSizes['small']};
+      color: ${theme.colors.text};
+      font-size: ${theme.fontSizes['small']};
 `}
 `
 
 const Required = styled(Typography)`
   ${({ theme }) => `
-      color: ${tokens.colors[theme.mode].red};
-      font-size: ${tokens.fontSizes['small']};
+      color: ${theme.colors.red};
+      font-size: ${theme.fontSizes['small']};
 `}
 `
 
 const RawName = styled(Typography)`
   ${({ theme }) => `
-      color: ${tokens.colors[theme.mode].accent};
-      font-size: ${tokens.fontSizes['small']};
-      font-family: ${tokens.fonts['mono']};
+      color: ${theme.colors.accent};
+      font-size: ${theme.fontSizes['small']};
+      font-family: ${theme.fonts['mono']};
 `}
 `
 
 const DefaultValue = styled(Typography)`
   ${({ theme }) => `
-      color: ${tokens.colors[theme.mode].textSecondary};
-      font-size: ${tokens.fontSizes['small']};
+      color: ${theme.colors.textSecondary};
+      font-size: ${theme.fontSizes['small']};
 `}
 `
 
 const Description = styled(Typography)`
   ${({ theme }) => `
-      color: ${tokens.colors[theme.mode].textSecondary};
-      font-size: ${tokens.fontSizes['small']};
+      color: ${theme.colors.textSecondary};
+      font-size: ${theme.fontSizes['small']};
 `}
 `
 
 const NoProps = styled(Typography)`
   ${({ theme }) => `
-      color: ${tokens.colors[theme.mode].textSecondary};
+      color: ${theme.colors.textSecondary};
 `}
 `
 
 const DataCell = styled.td`
-  padding: ${tokens.space['3']} ${tokens.space['4']};
+  ${({ theme }) => `
+    padding: ${theme.space['3']} ${theme.space['4']};
+  `}
 `
 
 const FlexContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  gap: ${tokens.space['2']};
+  gap: ${({ theme }) => theme.space['2']};
 `
 
 const formatPropType = (type: any): string => {
@@ -126,6 +127,8 @@ const formatPropType = (type: any): string => {
 }
 
 export const PropsTable = ({ sourceLink, types }: Props) => {
+  const theme = useTheme()
+
   const [state, setState] = React.useState<{
     showDescriptions: boolean
   }>({
@@ -149,7 +152,7 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
     <>
       {props.length ? (
         <Container>
-          <table style={{ width: tokens.space['full'] }}>
+          <table style={{ width: theme.space['full'] }}>
             <thead>
               <tr style={{ textAlign: 'left', background: 'none' }}>
                 {headers.map((x, i) => (
@@ -166,7 +169,7 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
               {props.map((x) => (
                 <tr
                   key={x.name}
-                  style={{ borderBottomWidth: tokens.space['px'] }}
+                  style={{ borderBottomWidth: theme.space['px'] }}
                 >
                   <DataCell>
                     <Name>
@@ -205,7 +208,7 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
         </div>
       )}
 
-      <div style={{ margin: `${tokens.space['2']} 0` }}>
+      <div style={{ margin: `${theme.space['2']} 0` }}>
         <FlexContainer>
           {!!props.length && (
             <div>

@@ -1,8 +1,6 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
-import { tokens } from '@/src/tokens'
-
 interface ContainerProps {
   $hover?: boolean
   $size: 'small' | 'medium'
@@ -10,32 +8,34 @@ interface ContainerProps {
 }
 
 const Container = styled.div<ContainerProps>`
+  ${({ theme }) => `
   line-height: normal;
   align-items: center;
   display: flex;
-  border-radius: ${tokens.radii['full']};
-  font-weight: ${tokens.fontWeights['medium']};
-  width: ${tokens.space['max']};
-
-  ${({ $hover }) =>
-    $hover &&
-    `
-      transition-duration: ${tokens.transitionDuration['150']};
-      transition-property: color, border-color, background-color;
-      transition-timing-function: ${tokens.transitionTimingFunction['inOut']};
+  border-radius: ${theme.radii['full']};
+  font-weight: ${theme.fontWeights['medium']};
+  width: ${theme.space['max']};
   `}
 
-  ${({ $size }) => {
+  ${({ $hover, theme }) =>
+    $hover &&
+    `
+      transition-duration: ${theme.transitionDuration['150']};
+      transition-property: color, border-color, background-color;
+      transition-timing-function: ${theme.transitionTimingFunction['inOut']};
+  `}
+
+  ${({ $size, theme }) => {
     switch ($size) {
       case 'small':
         return `
-          height: ${tokens.space['5']};
-          font-size: ${tokens.fontSizes['label']};
+          height: ${theme.space['5']};
+          font-size: ${theme.fontSizes['label']};
         `
       case 'medium':
         return `
-          height: ${tokens.space['6']};
-          font-size: ${tokens.fontSizes['small']};
+          height: ${theme.space['6']};
+          font-size: ${theme.fontSizes['small']};
         `
       default:
         return ``
@@ -46,34 +46,28 @@ const Container = styled.div<ContainerProps>`
     switch ($tone) {
       case 'accent':
         return `
-          color: ${tokens.colors[theme.mode].accent};
-          background-color: ${tokens.colors[theme.mode].accentTertiary};
+          color: ${theme.colors.accent};
+          background-color: ${theme.colors.accentTertiary};
         `
       case 'secondary':
         return `
-          color: ${tokens.colors[theme.mode].textTertiary};
-          background-color: ${tokens.colors[theme.mode].foregroundTertiary};
+          color: ${theme.colors.textTertiary};
+          background-color: ${theme.colors.foregroundTertiary};
         `
       case 'blue':
         return `
-          color: ${tokens.colors[theme.mode].blue};
-          background-color: rgba(${tokens.accentsRaw[theme.mode].blue}, calc(${
-          tokens.shades[theme.mode].accentSecondary
-        } * 0.5));
+          color: ${theme.colors.blue};
+          background-color: rgba(${theme.accentsRaw.blue}, calc(${theme.shades.accentSecondary} * 0.5));
         `
       case 'green':
         return `
-          color: ${tokens.colors[theme.mode].green};
-          background-color: rgba(${tokens.accentsRaw[theme.mode].green}, calc(${
-          tokens.shades[theme.mode].accentSecondary
-        } * 0.5));
+          color: ${theme.colors.green};
+          background-color: rgba(${theme.accentsRaw.green}, calc(${theme.shades.accentSecondary} * 0.5));
         `
       case 'red':
         return `
-          color: ${tokens.colors[theme.mode].red};
-          background-color: rgba(${tokens.accentsRaw[theme.mode].red}, calc(${
-          tokens.shades[theme.mode].accentSecondary
-        } * 0.5));
+          color: ${theme.colors.red};
+          background-color: rgba(${theme.accentsRaw.red}, calc(${theme.shades.accentSecondary} * 0.5));
         `
       default:
         return ``
@@ -83,61 +77,65 @@ const Container = styled.div<ContainerProps>`
   ${({ $hover, $tone, theme }) => {
     if ($hover && $tone === 'accent')
       return `
-        background-color: ${tokens.colors[theme.mode].accentTertiary};
+        background-color: ${theme.colors.accentTertiary};
       
         &:hover, &:active {
-        background-color: ${tokens.colors[theme.mode].accentSecondary};
+          background-color: ${theme.colors.accentSecondary};
         }
         `
 
     if ($hover && $tone === 'secondary')
       return `
-        color: ${tokens.colors[theme.mode].textSecondary};
-        background-color: ${tokens.colors[theme.mode].foregroundTertiary};
+        color: ${theme.colors.textSecondary};
+        background-color: ${theme.colors.foregroundTertiary};
       
         &:hover, &:active {
-          color: ${tokens.colors[theme.mode].text};
-          background-color: ${tokens.colors[theme.mode].foregroundSecondary};
+          color: ${theme.colors.text};
+          background-color: ${theme.colors.foregroundSecondary};
+
         }
         `
 
     if ($hover && $tone === 'blue')
       return `
         &:hover, &:active {
-          background-color: rgb(${tokens.colors[theme.mode].blue});
+          background-color: ${theme.colors.blue};
+
         }
         `
 
     if ($hover && $tone === 'green')
       return `
         &:hover, &:active {
-          background-color: rgb(${tokens.colors[theme.mode].green});
+          background-color: ${theme.colors.green};
         }
         `
 
     if ($hover && $tone === 'red')
       return `
         &:hover, &:active {
-          background-color: rgb(${tokens.colors[theme.mode].red});
+          background-color: ${theme.colors.red};
+
         }
         `
   }}
 `
 
 const LabelContainer = styled.label`
-  align-items: center;
-  border-radius: ${tokens.radii['full']};
-  display: flex;
-  height: ${tokens.space['full']};
-  padding: 0 ${tokens.space['2']};
-
   ${({ theme }) => `
-    box-shadow: 0 0 0 2px ${tokens.colors[theme.mode].background};
+  align-items: center;
+  border-radius: ${theme.radii['full']};
+  display: flex;
+  height: ${theme.space['full']};
+  padding: 0 ${theme.space['2']};
+  box-shadow: 0 0 0 2px ${theme.colors.background};
   `}
 `
 
 const ChildContainer = styled.div`
-  padding: 0 ${tokens.space['2']};
+  ${({ theme }) => `
+  padding: 0 ${theme.space['2']};
+  `}
 `
 
 export type Props = {

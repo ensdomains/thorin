@@ -9,7 +9,6 @@ import {
   Space,
   Typography,
   largerThan,
-  tokens,
 } from '@ensdomains/thorin'
 
 import { createGitHubLink } from '~/utils/github'
@@ -33,7 +32,7 @@ const initialState = {
 
 const Container = styled.div`
   flex-direction: column;
-  height: ${tokens.space['full']};
+  height: ${({ theme }) => theme.space['full']};
 `
 
 const ContainerInner = styled.div``
@@ -43,21 +42,21 @@ const NavlinkContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   flex-direction: row;
-  gap: ${tokens.space['5']};
+  gap: ${({ theme }) => theme.space['5']};
 `
 
 const NavLinkInner = styled.div`
   display: flex;
   align-items: center;
   flex-direction: row;
-  gap: ${tokens.space['4']};
+  gap: ${({ theme }) => theme.space['4']};
 `
 
 const ENSText = styled(Typography)`
   ${({ theme }) => `
-      color: ${tokens.colors[theme.mode].blue};
-      font-size: ${tokens.fontSizes['headingThree']};
-      font-weight: ${tokens.fontWeights['semiBold']};
+      color: ${theme.colors.blue};
+      font-size: ${theme.fontSizes['headingThree']};
+      font-weight: ${theme.fontWeights['semiBold']};
   `}
 `
 
@@ -68,24 +67,24 @@ const ButtonContainer = styled.div`
 `
 
 const List = styled.div<{ open?: boolean }>`
-  ${({ open }) => `
+  ${({ open, theme }) => `
     display: ${open ? 'block' : 'none'};
-    height: ${tokens.space['full']};
-    padding-top: ${tokens.space['10']};
+    height: ${theme.space['full']};
+    padding-top: ${theme.space['10']};
   `}
-  ${largerThan.md`
+  ${({ theme }) => largerThan.md`
     display: block;
-    margin-bottom: ${tokens.space['24']};
-    padding-bottom: ${tokens.space['24']};
-    padding-top: ${tokens.space['5']};
+    margin-bottom: ${theme.space['24']};
+    padding-bottom: ${theme.space['24']};
+    padding-top: ${theme.space['5']};
   `}
 `
 
 const FlexContainer = styled.div<{ space?: Space }>`
-  ${({ space }) => `
+  ${({ space, theme }) => `
     display: flex;
     flex-direction: column;
-    gap: ${tokens.space[space ?? '4']};
+    gap: ${theme.space[space ?? '4']};
   `}
 `
 
@@ -199,7 +198,7 @@ export const Nav = ({ links }: Props) => {
 
 const HeaderLink = styled.div`
   transition: all 0.15s ease-in-out;
-  width: ${tokens.space['max']};
+  width: ${({ theme }) => theme.space['max']};
   &:hover {
     transform: translateY(-1px);
     filter: brightness(1.05);
@@ -212,13 +211,9 @@ const HeaderLink = styled.div`
 
 const NavLinkChildrenContainer = styled(Typography)<{ active?: boolean }>`
   ${({ active, theme }) => `
-  font-weight: ${tokens.fontWeights['semiBold']};
+  font-weight: ${theme.fontWeights['semiBold']};
 
-  color: ${
-    active
-      ? tokens.colors[theme.mode].accent
-      : tokens.colors[theme.mode].textTertiary
-  };
+  color: ${active ? theme.colors.accent : theme.colors.textTertiary};
   `}
 `
 

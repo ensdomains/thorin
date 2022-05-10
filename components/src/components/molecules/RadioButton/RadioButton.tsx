@@ -3,12 +3,8 @@ import styled from 'styled-components'
 
 import { Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
-import { tokens } from '@/src/tokens'
 
 const Input = styled.input`
-  width: ${tokens.space['6']};
-  height: ${tokens.space['6']};
-  margin: ${tokens.space['2']} 0;
   cursor: pointer;
   font: inherit;
   border-radius: 50%;
@@ -31,16 +27,19 @@ const Input = styled.input`
   }
 
   ${({ theme }) => `
-    background-color: ${tokens.colors[theme.mode].backgroundHide};
+    width: ${theme.space['6']};
+    height: ${theme.space['6']};
+    margin: ${theme.space['2']} 0;
+    background-color: ${theme.colors.backgroundHide};
   
     &::before {
         content: '';
-        width: ${tokens.space['4.5']};
-        height: ${tokens.space['4.5']};
+        width: ${theme.space['4.5']};
+        height: ${theme.space['4.5']};
         border-radius: 50%;
         transform: scale(0);
         transition: transform 90ms ease-in-out;
-        background-image: ${tokens.colors[theme.mode].gradients.blue};
+        background-image: ${theme.colors.gradients.blue};
         background-size: 100% 100%;
         background-position: center;
       }

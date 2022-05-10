@@ -6,11 +6,12 @@ import { ThemeProvider } from 'styled-components'
 import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 
 import { RadioButton } from './RadioButton'
+import { lightTheme } from '@/src/tokens'
 
 const RadioWithState = (props: any) => {
   const [checked, setChecked] = useState<boolean>(false)
   return (
-    <ThemeProvider theme={{ mode: 'light' }}>
+    <ThemeProvider theme={lightTheme}>
       <div>
         hello there
         {checked ? <div>checked</div> : <div>unchecked</div>}
@@ -32,7 +33,7 @@ describe('<Radio />', () => {
 
   it('renders', async () => {
     render(
-      <ThemeProvider theme={{ mode: 'light' }}>
+      <ThemeProvider theme={lightTheme}>
         <RadioButton label="radio" name="name" value={10} />
       </ThemeProvider>,
     )

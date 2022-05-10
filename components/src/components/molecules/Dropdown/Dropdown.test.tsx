@@ -7,10 +7,11 @@ import { act } from 'react-dom/test-utils'
 import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 
 import { Dropdown } from './Dropdown'
+import { lightTheme } from '@/src/tokens'
 
 const DropdownHelper = ({ mockCallback, children, ...props }: any) => {
   return (
-    <ThemeProvider theme={{ mode: 'light' }}>
+    <ThemeProvider theme={lightTheme}>
       <div>
         <div>outside</div>
         <Dropdown
@@ -113,7 +114,7 @@ describe('<Dropdown />', () => {
 
   it('sholud not error if no dropdown items are passed in', () => {
     render(
-      <ThemeProvider theme={{ mode: 'light' }}>
+      <ThemeProvider theme={lightTheme}>
         {/*eslint-disable-next-line @typescript-eslint/ban-ts-comment*/}
         {/*@ts-ignore*/}
         <Dropdown label="" />

@@ -1,8 +1,6 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
-import { tokens } from '@/src/tokens'
-
 type Shape = 'circle' | 'square'
 
 interface Container {
@@ -11,20 +9,20 @@ interface Container {
 }
 
 const Container = styled.div<Container>`
-  ${({ $shape }) => {
+  ${({ $shape, theme }) => {
     switch ($shape) {
       case 'circle':
         return `
-          border-radius: ${tokens.radii.full};
+          border-radius: ${theme.radii.full};
           &:after {
-            border-radius: ${tokens.radii.full};
+            border-radius: ${theme.radii.full};
           }
         `
       case 'square':
         return `
-          border-radius: ${tokens.radii['2xLarge']}
+          border-radius: ${theme.radii['2xLarge']}
           &:after {
-            border-radius: ${tokens.radii['2xLarge']}
+            border-radius: ${theme.radii['2xLarge']}
           }
         `
       default:
@@ -36,9 +34,7 @@ const Container = styled.div<Container>`
     !$noBorder &&
     `
       &:after {
-      box-shadow: ${tokens.shadows['-px']} ${
-      tokens.colors[theme.mode].foregroundTertiary
-    };
+      box-shadow: ${theme.shadows['-px']} ${theme.colors.foregroundTertiary};
     content: '';
     inset: 0;
     position: absolute;
@@ -48,7 +44,7 @@ const Container = styled.div<Container>`
 
   ${({ theme }) =>
     `
-      background-color: ${tokens.colors[theme.mode].foregroundSecondary};
+      background-color: ${theme.colors.foregroundSecondary};
   `}
 
   width: 100%;
@@ -68,7 +64,7 @@ const Container = styled.div<Container>`
 
 const Placeholder = styled.div`
   ${({ theme }) => `
-    background: ${tokens.colors[theme.mode].gradients.blue};
+    background: ${theme.colors.gradients.blue};
   `}
 
   display: flex;

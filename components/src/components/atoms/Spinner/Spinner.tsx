@@ -2,7 +2,7 @@ import * as React from 'react'
 import styled, { keyframes } from 'styled-components'
 
 import { VisuallyHidden } from '../VisuallyHidden'
-import { Colors, tokens } from '@/src/tokens'
+import { Colors } from '@/src/tokens'
 
 const rotate = keyframes`
   100% {
@@ -14,23 +14,23 @@ const Container = styled.div<{ $size: 'small' | 'large'; $color: Colors }>`
   animation: ${rotate} 1.1s linear infinite;
 
   ${({ theme, $color }) => `
-    color: ${tokens.colors[theme.mode][$color]};
-    stroke: ${tokens.colors[theme.mode][$color]};
+    color: ${theme.colors[$color]};
+    stroke: ${theme.colors[$color]};
   `}
 
-  ${({ $size }) => {
+  ${({ $size, theme }) => {
     switch ($size) {
       case 'small':
         return `
-          height: ${tokens.space['6']};
-          stroke-width: ${tokens.space['1.25']};
-          width: ${tokens.space['6']};
+          height: ${theme.space['6']};
+          stroke-width: ${theme.space['1.25']};
+          width: ${theme.space['6']};
         `
       case 'large':
         return `
-          height: ${tokens.space['16']};
-          stroke-width: ${tokens.space['1']};
-          width: ${tokens.space['16']};
+          height: ${theme.space['16']};
+          stroke-width: ${theme.space['1']};
+          width: ${theme.space['16']};
         `
       default:
         return ``

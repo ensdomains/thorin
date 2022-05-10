@@ -6,7 +6,7 @@ import { LiveEditor, LiveError, LivePreview, LiveProvider } from 'react-live'
 import { mdx } from '@mdx-js/react'
 import { PrismTheme } from 'prism-react-renderer'
 
-import { Button, Colors, Components, tokens } from '@ensdomains/thorin'
+import { Button, Colors, Components } from '@ensdomains/thorin'
 
 import ComponentWrapper from '../../playroom/ComponentWrapper'
 
@@ -34,22 +34,22 @@ const initialState = {
 
 const Container = styled.div`
   ${({ theme }) => `
-    background-color: ${tokens.colors[theme.mode].background};
-    border-color: ${tokens.colors[theme.mode].foregroundSecondary};
-    border-radius: ${tokens.radii['2xLarge']};
-    border-width: ${tokens.space['0.5']};
+    background-color: ${theme.colors.background};
+    border-color: ${theme.colors.foregroundSecondary};
+    border-radius: ${theme.radii['2xLarge']};
+    border-width: ${theme.space['0.5']};
     overflow: hidden;
-    font-family: ${tokens.fonts.mono};
+    font-family: ${theme.fonts.mono};
   `}
 `
 
 const ContainerInner = styled.div<{ expand?: boolean; ref: any }>`
   ${({ theme, expand }) => `
-    background-color: ${tokens.colors[theme.mode].background};
-    ${expand && `border-bottom-radius: ${tokens.radii['2xLarge']}`};
-    border-radius-top: ${tokens.radii['2xLarge']};
+    background-color: ${theme.colors.background};
+    ${expand && `border-bottom-radius: ${theme.radii['2xLarge']}`};
+    border-radius-top: ${theme.radii['2xLarge']};
     overflow: scroll;
-    padding: ${tokens.space['6']};
+    padding: ${theme.space['6']};
   `}
 `
 
@@ -64,7 +64,7 @@ const ButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  gap: ${tokens.space['2']};
+  gap: ${({ theme }) => theme.space['2']};
 `
 
 export const CodePreview = ({
@@ -129,7 +129,8 @@ export const CodePreview = ({
           </div>
         )}
       </Container>
-      <div style={{ margin: `${tokens.space['2']} 0` }}>
+
+      <div style={{ margin: `${themeValue.space['2']} 0` }}>
         <ButtonContainer>
           <div>
             <Button

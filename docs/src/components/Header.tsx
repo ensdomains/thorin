@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
-import { Heading, Typography, tokens } from '@ensdomains/thorin'
+import { Heading, Typography } from '@ensdomains/thorin'
 
 type Props = {
   description?: React.ReactNode
@@ -11,13 +11,13 @@ type Props = {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${tokens.space['10']};
+  gap: ${({ theme }) => theme.space['10']};
 `
 
 const Description = styled(Typography)`
   ${({ theme }) => `
-      color: ${tokens.colors[theme.mode].textSecondary};
-      font-size: ${tokens.fontSizes['extraLarge']};
+      color: ${theme.colors.textSecondary};
+      font-size: ${theme.fontSizes['extraLarge']};
   `}
 `
 
