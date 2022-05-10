@@ -9,6 +9,7 @@ import { Skeleton } from '@ensdomains/thorin'
 
 ```tsx expand=true live=true
 <Stack>
+  <VisuallyHidden>{setDefaultState('skeleton', true)}</VisuallyHidden>
   <Skeleton loading={getState('skeleton')}>Hello World</Skeleton>
   <Button onClick={() => toggleState('skeleton')}>Toggle</Button>
 </Stack>
@@ -20,18 +21,44 @@ import { Skeleton } from '@ensdomains/thorin'
 
 ## Wrap content
 
-Can wrap content and the container will automatically resize. Check out [`SkeletonGroup`](/components/SkeletonGroup) if you want to manage multiple skeletons with a single `loading` prop.
+The container will automatically resize to encompass wrapped content.
 
 ```tsx live=true
 <Stack>
-  <Skeleton loading={getState('loading')}>
-    <Heading level="1">Foo Bar Baz</Heading>
+  <Skeleton loading={getState('skeleton')}>
+    <Typography>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+      commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+      velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+      cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+      est laborum.
+    </Typography>
   </Skeleton>
-  <Skeleton loading={getState('loading')}>
-    <Typography>The quick brown fox jumped over the lazy dogs.</Typography>
-  </Skeleton>
+  <VisuallyHidden>{setDefaultState('skeleton', true)}</VisuallyHidden>
+  <Button size="small" onClick={() => toggleState('skeleton')}>
+    Toggle Skeletons
+  </Button>
+</Stack>
+```
 
-  <Button size="small" onClick={() => toggleState('loading')}>
+## Skeleton Group
+
+Nest inside [`SkeletonGroup`](/components/SkeletonGroup) to manage multiple skeletons with a single `loading` prop.
+
+```tsx live=true
+<Stack>
+  <SkeletonGroup loading={getState('skeleton')}>
+    <Skeleton>
+      <Heading level="1">Foo Bar Baz</Heading>
+    </Skeleton>
+    <Skeleton>
+      <Typography>The quick brown fox jumped over the lazy dogs.</Typography>
+    </Skeleton>
+  </SkeletonGroup>
+  <VisuallyHidden>{setDefaultState('skeleton', true)}</VisuallyHidden>
+  <Button size="small" onClick={() => toggleState('skeleton')}>
     Toggle Skeletons
   </Button>
 </Stack>

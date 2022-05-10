@@ -101,6 +101,7 @@ export const lightTheme = {
   shades: tokens.shades.light,
   boxShadows: tokens.boxShadows.light,
   accentsRaw: tokens.accentsRaw.light,
+  mode: 'light',
 }
 
 export const darkTheme = {
@@ -112,6 +113,7 @@ export const darkTheme = {
   shades: tokens.shades.dark,
   boxShadows: tokens.boxShadows.dark,
   accentsRaw: tokens.accentsRaw.dark,
+  mode: 'dark',
 }
 
 export type { Accent, Mode } from './color'
