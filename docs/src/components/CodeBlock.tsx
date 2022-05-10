@@ -6,10 +6,9 @@ import Highlight, {
 } from 'prism-react-renderer'
 import dynamic from 'next/dynamic'
 import vsLight from 'prism-react-renderer/themes/vsLight'
-import vsDark from 'prism-react-renderer/themes/vsDark'
 import styled, { useTheme } from 'styled-components'
 
-import { Colors, tokens } from '@ensdomains/thorin'
+import { Colors } from '@ensdomains/thorin'
 
 import { useIsMounted } from '~/utils/isMounted'
 import { PlayroomStateProvider } from '~/playroom/PlayroomState'
@@ -18,10 +17,10 @@ import type { Props as CodePreviewProps } from './CodePreview'
 
 const CodePreviewContainer = styled.div`
   ${({ theme }) => `
-    background-color: ${tokens.colors[theme.mode].foregroundSecondary};
-    border-radius: ${tokens.radii['large']};
-    height: ${tokens.space['48']};
-    width: ${tokens.space['full']};
+    background-color: ${theme.colors.foregroundSecondary};
+    border-radius: ${theme.radii['large']};
+    height: ${theme.space['48']};
+    width: ${theme.space['full']};
   `}
 `
 
@@ -33,26 +32,34 @@ const CodePreview = dynamic<CodePreviewProps>(
 )
 
 const Pre = styled.pre`
-  border-radius: ${tokens.radii['2xLarge']};
-  padding: ${tokens.space['6']};
+  ${({ theme }) => `
+  border-radius: ${theme.radii['2xLarge']};
+  padding: ${theme.space['6']};
   position: relative;
+  `}
 `
 
 const CopyButtonContainer = styled.div`
+  ${({ theme }) => `
   position: absolute;
-  right: ${tokens.space['3.5']};
-  top: ${tokens.space['3.5']};
+  right: ${theme.space['3.5']};
+  top: ${theme.space['3.5']};
+  `}
 `
 
 const LineContainer = styled.div`
-  padding-right: ${tokens.space['8']};
+  ${({ theme }) => `
+  padding-right: ${theme.space['8']};
   white-space: pre-wrap;
+  `}
 `
 
 const Token = styled.span`
-  font-family: ${tokens.fonts['mono']};
-  font-size: ${tokens.fontSizes['base']};
-  line-height: ${tokens.lineHeights['1.5']};
+  ${({ theme }) => `
+  font-family: ${theme.fonts['mono']};
+  font-size: ${theme.fontSizes['base']};
+  line-height: ${theme.lineHeights['1.5']};
+  `}
 `
 
 type Props = {
@@ -73,15 +80,15 @@ export const CodeBlock = ({
   minHeight,
 }: Props) => {
   const isMounted = useIsMounted()
-  const { mode } = useTheme()
-  const theme = mode === 'light' ? vsLight : vsDark
+  const { colors } = useTheme()
+  const theme = vsLight
   const modifiedTheme: PrismTheme | undefined = isMounted
     ? {
         ...theme,
         plain: {
           ...theme.plain,
-          color: tokens.colors[mode].foreground,
-          backgroundColor: tokens.colors[mode].foregroundTertiary,
+          color: colors.foreground,
+          backgroundColor: colors.foregroundTertiary,
         },
       }
     : undefined

@@ -10,7 +10,7 @@ import { SearchIcons } from './SearchIcons'
 import { PropsTable } from './PropsTable'
 
 const HoverParent = styled.a`
-  width: ${tokens.space['max']};
+  width: ${({ theme }) => theme.space['max']};
   display: inline;
 `
 
@@ -21,32 +21,32 @@ const HoverChild = styled.div`
 
     ${HoverParent}:hover & {
       visibility: visible;
-      margin-left: ${tokens.space['2']};
-      color: ${tokens.colors[theme.mode].textTertiary};
+      margin-left: ${theme.space['2']};
+      color: ${theme.colors.textTertiary};
     }
   `}
 `
 
 const InlineCode = styled(Typography)`
   ${({ theme }) => `
-    color: ${tokens.colors[theme.mode].accent};
-    font-family: ${tokens.fonts['mono']};
+    color: ${theme.colors.accent};
+    font-family: ${theme.fonts['mono']};
   `}
 `
 
 const P = styled(Typography)`
   ${({ theme }) => `
-    color: ${tokens.colors[theme.mode].text};
-    line-height: ${tokens.lineHeights['1.625']};
+    color: ${theme.colors.text};
+    line-height: ${theme.lineHeights['1.625']};
   `}
 `
 
 const StyledLink = styled(Link)`
   ${({ theme }) => `
-    color: ${tokens.colors[theme.mode].accent};
+    color: ${theme.colors.accent};
     cursor: pointer;
     text-decoration: underline;
-    text-decoration-color: ${tokens.colors[theme.mode].accent};
+    text-decoration-color: ${theme.colors.accent};
     text-underline-offset: 0.2em;
   `}
 `

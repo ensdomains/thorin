@@ -1,11 +1,11 @@
 import * as React from 'react'
 
-import styled, { useTheme } from 'styled-components'
+import styled from 'styled-components'
 
 import { ReactNodeNoStrings } from '../../../types'
 import { useFieldIds } from '../../../hooks'
 import { VisuallyHidden } from '../VisuallyHidden'
-import { Mode, Space, tokens } from '@/src/tokens'
+import { Space } from '@/src/tokens'
 
 type State = ReturnType<typeof useFieldIds> | undefined
 const Context = React.createContext<State>(undefined)
@@ -30,10 +30,10 @@ type Props = FieldBaseProps & {
 
 const Label = styled.label`
   ${({ theme }) => `
-  color: ${tokens.colors[theme.mode].textTertiary};
-  font-weight: ${tokens.fontWeights['semiBold']};
-  margin-right: ${tokens.space['4']};
-`}
+    color: ${theme.colors.textTertiary};
+    font-weight: ${theme.fontWeights['semiBold']};
+    margin-right: ${theme.space['4']};
+  `}
 `
 
 interface LabelContentProps {
@@ -44,13 +44,15 @@ interface LabelContentProps {
 }
 
 const LabelContentContainer = styled.div`
-  display: flex;
-  align-items: flex-end;
-  justify-conetn: space-between;
-  padding-left: ${tokens.space['4']};
-  padding-right: ${tokens.space['4']};
-  padding-top: 0;
-  padding-bottom: 0;
+  ${({ theme }) => `
+    display: flex;
+    align-items: flex-end;
+    justify-conetn: space-between;
+    padding-left: ${theme.space['4']};
+    padding-right: ${theme.space['4']};
+    padding-top: 0;
+    padding-bottom: 0;
+  `}
 `
 
 const LabelContent = ({
@@ -75,24 +77,32 @@ const Container = styled.div<ContainerProps>`
   ${({ inline }) => (inline ? 'align-items: center' : '')};
   display: flex;
   flex-direction: ${({ inline }) => (inline ? 'row' : 'column')};
-  gap: ${tokens.space[2]};
-  width: ${({ width }) => tokens.space[width]};
+  ${({ theme, width }) => `
+    gap: ${theme.space[2]};
+    width: ${theme.space[width]};
+  `}
 `
 
 const ContainerInner = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${tokens.space[2]};
+  ${({ theme }) => `
+    display: flex;
+    flex-direction: column;
+    gap: ${theme.space[2]};
+  `}
 `
 
-const Description = styled.div<{ mode: Mode }>`
-  padding: 0 ${tokens.space['4']};
-  color: ${({ mode }) => tokens.shades[mode].textSecondary};
+const Description = styled.div`
+  ${({ theme }) => `
+    padding: 0 ${theme.space['4']};
+    color: ${theme.colors.textSecondary};
+  `}
 `
 
 const Error = styled.div`
-  color: ${({ theme }) => tokens.colors[theme.mode].red};
-  padding: 0 ${tokens.space[4]};
+  ${({ theme }) => `
+    color: ${theme.colors.red};
+    padding: 0 ${theme.space[4]};
+  `}
 `
 
 export const Field = ({
@@ -112,8 +122,6 @@ export const Field = ({
     description: description !== undefined,
     error: error !== undefined,
   })
-
-  const { mode } = useTheme()
 
   // Allow children to consume ids or try to clone ids onto it
   let content: React.ReactNode | null
@@ -137,7 +145,7 @@ export const Field = ({
         ) : (
           <LabelContent {...{ ids, label, labelSecondary, required }} />
         )}
-        {description && <Description {...{ mode }}>{description}</Description>}
+        {description && <Description>{description}</Description>}
         {error && (
           <Error aria-live="polite" {...ids.error}>
             {error}
@@ -157,9 +165,7 @@ export const Field = ({
       {content}
 
       {description && (
-        <Description {...{ mode }} {...ids.description}>
-          {description}
-        </Description>
+        <Description {...ids.description}>{description}</Description>
       )}
 
       {error && (

@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import 'styled-components'
-import { Accent as TokenAccent, Mode as TokenMode } from '@/src/tokens'
+import { Accent as TokenAccent, Mode as TokenMode, Tokens } from '@/src/tokens'
 
 export type AllOrNone<T> = T | { [K in keyof T]?: never }
 
@@ -24,34 +24,13 @@ export type Accent = TokenAccent | 'foreground'
 
 export type Mode = TokenMode
 
-export interface DefaultTheme {
-  mode: 'light' | 'dark'
-  defaultAccent?: Accent
-  /** Default mode name. */
-  defaultMode?: TokenMode
-  /** Element to bind theme */
-  element?: string | HTMLElement
-  /** Forced accent name */
-  forcedAccent?: Accent
-  /** Forced mode name */
-  forcedMode?: TokenMode
-}
+export type DefaultTheme = Tokens
 
 export type Size = 'small' | 'medium' | 'extraSmall' | undefined
 
 declare module 'styled-components' {
-  interface DefaultTheme {
-    mode: 'light' | 'dark'
-    defaultAccent?: Accent
-    /** Default mode name. */
-    defaultMode?: TokenMode
-    /** Element to bind theme */
-    element?: string | HTMLElement
-    /** Forced accent name */
-    forcedAccent?: Accent
-    /** Forced mode name */
-    forcedMode?: TokenMode
-  }
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface DefaultTheme extends Tokens {}
 }
 
 export type OptionalTitle = AllOrNone<{

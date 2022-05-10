@@ -74,8 +74,48 @@ export const tokens = {
   accentsRaw,
 }
 
+export const baseTheme = {
+  borderStyles,
+  borderWidths,
+  colors: colors.base,
+  fonts,
+  fontSizes,
+  fontWeights,
+  letterSpacings,
+  lineHeights,
+  opacity,
+  radii,
+  shadows,
+  space,
+  breakpoints,
+  transitionDuration,
+  transitionTimingFunction,
+}
+
+export const lightTheme = {
+  ...baseTheme,
+  colors: {
+    ...baseTheme.colors,
+    ...tokens.colors.light,
+  },
+  shades: tokens.shades.light,
+  boxShadows: tokens.boxShadows.light,
+  accentsRaw: tokens.accentsRaw.light,
+}
+
+export const darkTheme = {
+  ...tokens,
+  colors: {
+    ...baseTheme.colors,
+    ...tokens.colors.dark,
+  },
+  shades: tokens.shades.dark,
+  boxShadows: tokens.boxShadows.dark,
+  accentsRaw: tokens.accentsRaw.dark,
+}
+
 export type { Accent, Mode } from './color'
-export type Tokens = typeof tokens
+export type Tokens = typeof lightTheme
 export type Breakpoints = keyof typeof breakpoints
 export type Space = keyof typeof space
 export type Colors = keyof typeof colors.light

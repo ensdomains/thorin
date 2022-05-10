@@ -5,7 +5,6 @@ import { ReactNode } from 'react'
 
 import { Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
-import { tokens } from '@/src/tokens'
 
 type NativeInputProps = React.AllHTMLAttributes<HTMLInputElement>
 
@@ -60,58 +59,58 @@ interface InputParentProps {
 
 const InputParent = styled.div<InputParentProps>`
   ${({ theme }) => `
-    background-color: ${tokens.colors[theme.mode].backgroundSecondary};
-    border-radius: ${tokens.radii['2xLarge']};
-    border-width: ${tokens.space['0.75']};
-    border-color: ${tokens.colors.base.transparent};
-    color: ${tokens.colors[theme.mode].text};
+    background-color: ${theme.colors.backgroundSecondary};
+    border-radius: ${theme.radii['2xLarge']};
+    border-width: ${theme.space['0.75']};
+    border-color: ${theme.colors.transparent};
+    color: ${theme.colors.text};
     display: flex;
-    transition-duration: ${tokens.transitionDuration['150']};
+    transition-duration: ${theme.transitionDuration['150']};
     transition-property: color, border-color, background-color;
-    transition-timing-function: ${tokens.transitionTimingFunction['inOut']};
+    transition-timing-function: ${theme.transitionTimingFunction['inOut']};
     
     &:focus-within {
-      border-color: ${tokens.colors[theme.mode].accentSecondary};
+      border-color: ${theme.colors.accentSecondary};
     }
   `}
 
   ${({ theme, disabled }) =>
     disabled &&
     `
-      border-color: ${tokens.colors[theme.mode].foregroundSecondary};
-      background-color: ${tokens.colors[theme.mode].background};
+      border-color: ${theme.colors.foregroundSecondary};
+      background-color: ${theme.colors.background};
   `}
 
   ${({ theme, error }) =>
     error &&
     `
-      border-color: ${tokens.colors[theme.mode].red};
+      border-color: ${theme.colors.red};
       cursor: default;
       
       &:focus-within {
-        border-color: ${tokens.colors[theme.mode].red};
+        border-color: ${theme.colors.red};
       }
   `}
 
-  ${({ suffix }) =>
+  ${({ suffix, theme }) =>
     suffix &&
     `
-      height: ${tokens.space['16']};
+      height: ${theme.space['16']};
   `}
 
-  ${({ size }) => {
+  ${({ size, theme }) => {
     switch (size) {
       case 'medium':
         return `
-          height: ${tokens.space['14']};
+          height: ${theme.space['14']};
         `
       case 'large':
         return `
-          height: ${tokens.space['16']};
+          height: ${theme.space['16']};
         `
       case 'extraLarge':
         return `
-          height: ${tokens.space['18']};
+          height: ${theme.space['18']};
         `
       default:
         return ``
@@ -121,33 +120,39 @@ const InputParent = styled.div<InputParentProps>`
 `
 
 const Prefix = styled.label`
+  ${({ theme }) => `
   align-items: center;
   display: flex;
-  height: ${tokens.space['full']};
+  height: ${theme.space['full']};
   line-height: normal;
   color: inherit;
-  font-family: ${tokens.fonts['sans']};
-  font-weight: ${tokens.fontWeights['medium']};
-  padding-left: ${tokens.space['4']};
-  padding-right: ${tokens.space['2']};
+  font-family: ${theme.fonts['sans']};
+  font-weight: ${theme.fontWeights['medium']};
+  padding-left: ${theme.space['4']};
+  padding-right: ${theme.space['2']};
+  `}
 `
 
 const Suffix = styled.label`
+  ${({ theme }) => `
   align-items: center;
   display: flex;
-  height: ${tokens.space['full']};
+  height: ${theme.space['full']};
   line-height: normal;
   color: inherit;
-  font-family: ${tokens.fonts['sans']};
-  font-weight: ${tokens.fontWeights['medium']};
-  padding-left: ${tokens.space['2']};
-  padding-right: ${tokens.space['2']};
+  font-family: ${theme.fonts['sans']};
+  font-weight: ${theme.fontWeights['medium']};
+  padding-left: ${theme.space['2']};
+  padding-right: ${theme.space['2']};
+  `}
 `
 
 const InputContainer = styled.div`
+  ${({ theme }) => `
   overflow: hidden;
   position: relative;
-  width: ${tokens.space['full']};
+  width: ${theme.space['full']};
+  `}
 `
 
 interface InputComponentProps {
@@ -156,23 +161,23 @@ interface InputComponentProps {
 
 const InputComponent = styled.input<InputComponentProps>`
   ${({ theme }) => `
-    background-color: ${tokens.colors.base.transparent};
+    background-color: ${theme.colors.transparent};
     position: relative;
-    width: ${tokens.space['full']};
-    height: ${tokens.space['full']};
-    padding: 0 ${tokens.space['4']};
-    font-weight: ${tokens.fontWeights['medium']};
+    width: ${theme.space['full']};
+    height: ${theme.space['full']};
+    padding: 0 ${theme.space['4']};
+    font-weight: ${theme.fontWeights['medium']};
     
     &::placeholder {
-        color: ${tokens.colors[theme.mode].textPlaceholder};
-        font-weight: ${tokens.fontWeights['bold']};
+        color: ${theme.colors.textPlaceholder};
+        font-weight: ${theme.fontWeights['bold']};
     }
   `}
 
-  ${({ disabled }) =>
+  ${({ disabled, theme }) =>
     disabled &&
     `
-        opacity ${tokens.opacity['50']};
+        opacity ${theme.opacity['50']};
         cursor: not-allowed;
   `}
 
@@ -183,20 +188,20 @@ const InputComponent = styled.input<InputComponentProps>`
         font-variant-numeric: tabular-nums;
   `}
 
-  ${({ size }) => {
+  ${({ size, theme }) => {
     switch (size) {
       case 'medium':
         return `
-          font-size: ${tokens.fontSizes['base']};
+          font-size: ${theme.fontSizes['base']};
         `
       case 'large':
         return `
-          font-size: ${tokens.fontSizes['large']};
+          font-size: ${theme.fontSizes['large']};
         `
       case 'extraLarge':
         return `
-          font-size: ${tokens.fontSizes['headingThree']};
-          padding: 0 ${tokens.space['6']};
+          font-size: ${theme.fontSizes['headingThree']};
+          padding: 0 ${theme.space['6']};
         `
       default:
         return ``
@@ -205,7 +210,7 @@ const InputComponent = styled.input<InputComponentProps>`
 `
 
 const Ghost = styled.div<{ type: HTMLInputElement['type'] }>`
-  border-color: ${tokens.colors.base.transparent};
+  border-color: ${({ theme }) => theme.colors.transparent};
   inset: 0;
   position: absolute;
   pointer-events: none;
@@ -222,35 +227,35 @@ const Ghost = styled.div<{ type: HTMLInputElement['type'] }>`
 
 const Units = styled.span`
   ${({ theme }) => `
-    color: ${tokens.colors[theme.mode].text};
+    color: ${theme.colors.text};
   `}
 `
 
 const MaxContainer = styled.div<{ suffix: ReactNode }>`
   display: flex;
   align-items: center;
-  ${({ suffix }) => suffix && `padding-right: ${tokens.space['4']};`}
+  ${({ suffix, theme }) => suffix && `padding-right: ${theme.space['4']};`}
 `
 
 const MaxButton = styled.button`
   ${({ theme }) => `
-      background-color: ${tokens.colors[theme.mode].foregroundSecondary};
-      border-radius: ${tokens.radii['medium']};
-      color: ${tokens.colors[theme.mode].textSecondary};
+      background-color: ${theme.colors.foregroundSecondary};
+      border-radius: ${theme.radii['medium']};
+      color: ${theme.colors.textSecondary};
       cursor: pointer;
-      font-size: ${tokens.fontSizes['label']};
-      font-weight: ${tokens.fontWeights['semiBold']};
-      height: ${tokens.space['max']};
+      font-size: ${theme.fontSizes['label']};
+      font-weight: ${theme.fontWeights['semiBold']};
+      height: ${theme.space['max']};
       line-height: none;
-      padding: ${tokens.space['2']};
+      padding: ${theme.space['2']};
       text-transform: uppercase;
-      transition-duration: ${tokens.transitionDuration['150']};
+      transition-duration: ${theme.transitionDuration['150']};
       transition-property: color, border-color, background-color;
-      transition-timing-function: ${tokens.transitionTimingFunction['inOut']};
+      transition-timing-function: ${theme.transitionTimingFunction['inOut']};
       visibility: hidden;
       
       &:hover {
-        color: ${tokens.colors[theme.mode].text};
+        color: ${theme.colors.text};
       }
       
       ${InputParent}:hover & {

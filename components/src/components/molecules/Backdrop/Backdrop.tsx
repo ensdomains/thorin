@@ -4,14 +4,15 @@ import styled from 'styled-components'
 import { Portal } from '../..'
 
 import { BackdropSurface } from '../../atoms/BackdropSurface'
-import { tokens } from '@/src/tokens'
 
 const Container = styled.div`
+  ${({ theme }) => `
   align-items: center;
   justify-content: center;
   display: flex;
-  height: ${tokens.space.full};
-  width: ${tokens.space.full};
+  height: ${theme.space.full};
+  width: ${theme.space.full};
+  `}
 `
 
 type Props = {

@@ -1,8 +1,6 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
-import { tokens } from '@/src/tokens'
-
 type Props = {
   total: number
   current: number
@@ -13,44 +11,50 @@ type Props = {
 }
 
 const Container = styled.div`
+  ${({ theme }) => `
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: ${tokens.space['2']};
-  flex-gap: ${tokens.space['2']};
+  gap: ${theme.space['2']};
+  flex-gap: ${theme.space['2']};
+  `}
 `
 
 const PageButton = styled.button<{ $selected?: boolean }>`
-  border-radius: ${tokens.radii['extraLarge']};
-  border: 1px solid ${({ theme }) => tokens.colors[theme.mode].borderSecondary};
   background-color: transparent;
   transition: all 0.15s ease-in-out;
   cursor: pointer;
   ${({ $selected, theme }) =>
     $selected
       ? `
-    background-color: ${tokens.colors[theme.mode].background};
+    background-color: ${theme.colors.background};
     cursor: default;
     pointer-events: none;
   `
       : `
     &:hover {
-      background-color: ${tokens.colors[theme.mode].foregroundSecondary};
+      background-color: ${theme.colors.foregroundSecondary};
     }
   `}
-  min-width: ${tokens.space['10']};
-  padding: ${tokens.space['2']};
-  height: ${tokens.space['10']};
-  font-size: ${tokens.fontSizes['small']};
-  font-weight: ${tokens.fontWeights['medium']};
-  color: ${({ theme }) => tokens.colors[theme.mode].text};
+  ${({ theme }) => `
+  border-radius: ${theme.radii['extraLarge']};
+  border: 1px solid ${theme.colors.borderSecondary};
+  min-width: ${theme.space['10']};
+  padding: ${theme.space['2']};
+  height: ${theme.space['10']};
+  font-size: ${theme.fontSizes['small']};
+  font-weight: ${theme.fontWeights['medium']};
+  color: ${theme.colors.text};
+  `}
 `
 
 const Dots = styled.p`
-  font-size: ${tokens.fontSizes['small']};
-  font-weight: ${tokens.fontWeights['bold']};
-  color: ${({ theme }) => tokens.colors[theme.mode].textTertiary};
+  ${({ theme }) => `
+  font-size: ${theme.fontSizes['small']};
+  font-weight: ${theme.fontWeights['bold']};
+  color: ${theme.colors.textTertiary};
+  `}
 `
 
 export const PageButtons = ({

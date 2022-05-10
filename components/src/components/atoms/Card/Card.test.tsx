@@ -5,13 +5,14 @@ import { ThemeProvider } from 'styled-components'
 import { cleanup, render, screen } from '@/test'
 
 import { Card } from './Card'
+import { lightTheme } from '@/src/tokens'
 
 describe('<Card />', () => {
   afterEach(cleanup)
 
   it('renders', () => {
     render(
-      <ThemeProvider theme={{ mode: 'light' }}>
+      <ThemeProvider theme={lightTheme}>
         <Card>foo bar baz</Card>
       </ThemeProvider>,
     )

@@ -5,6 +5,7 @@ import { ThemeProvider } from 'styled-components'
 import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 
 import { PageButtons } from './PageButtons'
+import { lightTheme } from '@/src/tokens'
 
 const ButtonsHelper = ({
   mockCallback,
@@ -13,7 +14,7 @@ const ButtonsHelper = ({
   mockCallback: (value: number) => void
 }) => {
   return (
-    <ThemeProvider theme={{ mode: 'light' }}>
+    <ThemeProvider theme={lightTheme}>
       <div>
         <div>outside</div>
         <PageButtons

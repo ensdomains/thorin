@@ -4,22 +4,25 @@ import styled from 'styled-components'
 import { Modal, Typography } from '../..'
 
 import { Props as CardProps } from '../../atoms/Card/Card'
-import { tokens } from '@/src/tokens'
 
 const Title = styled(Typography)`
-  font-size: ${tokens.fontSizes['headingTwo']};
-  font-weight: ${tokens.fontWeights['bold']};
+  ${({ theme }) => `
+    font-size: ${theme.fontSizes['headingTwo']};
+    font-weight: ${theme.fontWeights['bold']};
+  `}
 `
 
 const SubTitle = styled(Typography)`
-  font-size: ${tokens.fontSizes['headingThree']};
-  font-weight: ${tokens.fontWeights['normal']};
+  ${({ theme }) => `
+    font-size: ${theme.fontSizes['headingThree']};
+    font-weight: ${theme.fontWeights['normal']};
+  `}
 `
 
 const Container = styled.div<{ center?: boolean }>`
-  ${({ center }) => `
+  ${({ center, theme }) => `
     flex-direction: ${center ? 'column' : 'row'};
-    gap: ${tokens.space['2']};
+    gap: ${theme.space['2']};
   `}
   display: flex;
   align-items: center;

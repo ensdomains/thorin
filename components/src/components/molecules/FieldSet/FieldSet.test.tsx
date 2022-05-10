@@ -5,13 +5,14 @@ import { ThemeProvider } from 'styled-components'
 import { cleanup, render, screen } from '@/test'
 
 import { FieldSet } from './FieldSet'
+import { lightTheme } from '@/src/tokens'
 
 describe('<FieldSet />', () => {
   afterEach(cleanup)
 
   it('renders', () => {
     render(
-      <ThemeProvider theme={{ mode: 'light' }}>
+      <ThemeProvider theme={lightTheme}>
         <FieldSet legend="Token">
           <div />
         </FieldSet>

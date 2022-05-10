@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
-import { Colors, tokens } from '@/src/tokens'
+import { Colors } from '@/src/tokens'
 
 type Variants = 'small' | 'large' | 'extraLarge' | 'label' | 'labelHeading'
 
@@ -19,11 +19,11 @@ interface ContainerProps {
 }
 
 const Container = styled.div<ContainerProps>`
-  ${({ font }) => `
-      font-family: ${tokens.fonts[font]};
-      letter-spacing: ${tokens.letterSpacings['-0.01']};
-      letter-spacing: ${tokens.letterSpacings['-0.015']};
-      line-height: ${tokens.lineHeights.normal};
+  ${({ font, theme }) => `
+      font-family: ${theme.fonts[font]};
+      letter-spacing: ${theme.letterSpacings['-0.01']};
+      letter-spacing: ${theme.letterSpacings['-0.015']};
+      line-height: ${theme.lineHeights.normal};
   `}
 
   ${({ ellipsis }) =>
@@ -38,39 +38,39 @@ const Container = styled.div<ContainerProps>`
     switch (variant) {
       case 'small':
         return `
-          font-size: ${tokens.fontSizes['small']};
-          font-weight: ${tokens.fontWeights['normal']};
-          letter-spacing: ${tokens.letterSpacings['-0.01']};
-          line-height: ${tokens.lineHeights.normal};
+          font-size: ${theme.fontSizes['small']};
+          font-weight: ${theme.fontWeights['normal']};
+          letter-spacing: ${theme.letterSpacings['-0.01']};
+          line-height: ${theme.lineHeights.normal};
         `
       case 'large':
         return `
-          font-size: ${tokens.fontSizes['large']};
-          font-weight: ${tokens.fontWeights['normal']};
-          letter-spacing: ${tokens.letterSpacings['-0.02']};
-          line-height: ${tokens.lineHeights['2']};
+          font-size: ${theme.fontSizes['large']};
+          font-weight: ${theme.fontWeights['normal']};
+          letter-spacing: ${theme.letterSpacings['-0.02']};
+          line-height: ${theme.lineHeights['2']};
         `
       case 'extraLarge':
         return `
-          font-size: ${tokens.fontSizes['extraLarge']};
-          font-weight: ${tokens.fontWeights['medium']};
-          letter-spacing: ${tokens.letterSpacings['-0.02']};
-          line-height: ${tokens.lineHeights['2']};
+          font-size: ${theme.fontSizes['extraLarge']};
+          font-weight: ${theme.fontWeights['medium']};
+          letter-spacing: ${theme.letterSpacings['-0.02']};
+          line-height: ${theme.lineHeights['2']};
         `
       case 'label':
         return `
-          color: ${tokens.colors[theme.mode].text};
-          font-size: ${tokens.fontSizes['label']};
-          font-weight: ${tokens.fontWeights['bold']};
-          letter-spacing: ${tokens.letterSpacings['-0.01']};
+          color: ${theme.colors.text};
+          font-size: ${theme.fontSizes['label']};
+          font-weight: ${theme.fontWeights['bold']};
+          letter-spacing: ${theme.letterSpacings['-0.01']};
           text-transform: capitalize;
         `
       case 'labelHeading':
         return `
-          color: ${tokens.colors[theme.mode].text};
-          font-size: ${tokens.fontSizes['small']};
-          font-weight: ${tokens.fontWeights['bold']};
-          letter-spacing: ${tokens.letterSpacings['-0.01']};
+          color: ${theme.colors.text};
+          font-size: ${theme.fontSizes['small']};
+          font-weight: ${theme.fontWeights['bold']};
+          letter-spacing: ${theme.letterSpacings['-0.01']};
           text-transform: capitalize;
         `
       default:
@@ -81,19 +81,19 @@ const Container = styled.div<ContainerProps>`
   ${({ theme, color }) =>
     color &&
     `
-    color: ${tokens.colors[theme.mode][color]};
+    color: ${theme.colors[color]};
   `}
 
-  ${({ size }) =>
+  ${({ size, theme }) =>
     size &&
     `
-      font-size: ${tokens.fontSizes[size]};
+      font-size: ${theme.fontSizes[size]};
   `}
 
-  ${({ weight }) =>
+  ${({ weight, theme }) =>
     weight &&
     `
-      font-weight: ${tokens.fontWeights[weight]};
+      font-weight: ${theme.fontWeights[weight]};
   `}
 `
 

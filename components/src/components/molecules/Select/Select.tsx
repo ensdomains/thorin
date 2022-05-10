@@ -6,18 +6,17 @@ import uniqueId from 'lodash/uniqueId'
 import { Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
 import { ReactComponent as IconDownIndicatorSvg } from '@/src/icons/DownIndicator.svg'
-import { tokens } from '@/src/tokens'
 
 const SelectContainer = styled.div<{ disabled?: boolean }>`
   ${({ theme }) => `
-    background: ${tokens.colors[theme.mode].background};
-    border-color: ${tokens.colors[theme.mode].backgroundHide};
-    border-width: ${tokens.space['px']};
-    border-radius: ${tokens.radii['extraLarge']};
+    background: ${theme.colors.background};
+    border-color: ${theme.colors.backgroundHide};
+    border-width: ${theme.space['px']};
+    border-radius: ${theme.radii['extraLarge']};
     cursor: pointer;
     position: relative;
-    padding: ${tokens.space['4']};
-    height: ${tokens.space['14']};
+    padding: ${theme.space['4']};
+    height: ${theme.space['14']};
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -29,7 +28,7 @@ const SelectContainer = styled.div<{ disabled?: boolean }>`
     disabled &&
     `
     cursor: not-allowed;
-    background: ${tokens.colors[theme.mode].backgroundTertiary};
+    background: ${theme.colors.backgroundTertiary};
   `}
 `
 
@@ -38,27 +37,29 @@ const OptionElementContainer = styled.div`
   display: flex;
   flex-direction: row;
   flex-grow: 1;
-  gap: ${tokens.space['4']};
+  gap: ${({ theme }) => theme.space['4']};
 `
 
 const Chevron = styled(IconDownIndicatorSvg)<{
   open: boolean
   disabled?: boolean
 }>`
-  margin-left: ${tokens.space['1']};
-  width: ${tokens.space['3']};
-  margin-right: ${tokens.space['0.5']};
-  transition-duration: ${tokens.transitionDuration['200']};
-  transition-property: all;
-  transition-timing-function: ${tokens.transitionTimingFunction['inOut']};
-  opacity: 0.3;
-  transform: rotate(0deg);
-  display: flex;
+  ${({ theme }) => `
+    margin-left: ${theme.space['1']};
+    width: ${theme.space['3']};
+    margin-right: ${theme.space['0.5']};
+    transition-duration: ${theme.transitionDuration['200']};
+    transition-property: all;
+    transition-timing-function: ${theme.transitionTimingFunction['inOut']};
+    opacity: 0.3;
+    transform: rotate(0deg);
+    display: flex;
 
-  & > svg {
+    & > svg {
+      fill: currentColor;
+    }
     fill: currentColor;
-  }
-  fill: currentColor;
+  `}
 
   ${({ open }) =>
     open &&
@@ -75,87 +76,84 @@ const Chevron = styled(IconDownIndicatorSvg)<{
 `
 
 const SelectOptionContainer = styled.div<{ open?: boolean }>`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
-  margin-top: ${tokens.space['1.5']};
-  padding: ${tokens.space['1.5']};
-  position: absolute;
-  visibility: hidden;
-  opacity: 0;
-  width: ${tokens.space['full']};
-  height: ${tokens.space['fit']};
-  border-radius: ${tokens.radii['medium']};
-  overflow: hidden;
-
   ${({ theme }) => `
-    box-shadow: ${tokens.boxShadows[theme.mode]['0.02']};
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-top: ${theme.space['1.5']};
+    padding: ${theme.space['1.5']};
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+    width: ${theme.space['full']};
+    height: ${theme.space['fit']};
+    border-radius: ${theme.radii['medium']};
+    overflow: hidden;
+    box-shadow: ${theme.boxShadows['0.02']};
   `}
 
-  ${({ open }) =>
+  ${({ open, theme }) =>
     open
       ? `
       z-index: 20;
       visibility: visible;
-      margin-top: ${tokens.space['1.5']};
-      opacity ${tokens.opacity['100']};
+      margin-top: ${theme.space['1.5']};
+      opacity ${theme.opacity['100']};
       transition: all 0.3s cubic-bezier(1, 0, 0.22, 1.6), z-index 0s linear 0.3s;
   `
       : `
       z-index: 0;
       visibility: hidden;
-      margin-top: -${tokens.space['12']};
+      margin-top: -${theme.space['12']};
       opacity: 0;
       transition: all 0.3s cubic-bezier(1, 0, 0.22, 1.6), z-index 0s linear 0s;
   `}
 `
 
 const SelectOption = styled.div<{ selected?: boolean; disabled?: boolean }>`
-  align-items: center;
-  cursor: pointer;
-  display: flex;
-  gap: ${tokens.space['3']};
-  width: ${tokens.space['full']};
-  height: ${tokens.space['9']};
-  padding: 0 ${tokens.space['2']};
-  justify-content: flex-start;
-  transition-duration: ${tokens.transitionDuration['150']};
-  transition-property: all;
-  transition-timing-function: ${tokens.transitionTimingFunction['inOut']};
-  border-radius: ${tokens.radii['medium']};
-  margin: ${tokens.space['0.5']} 0;
-
   ${({ theme }) => `
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    gap: ${theme.space['3']};
+    width: ${theme.space['full']};
+    height: ${theme.space['9']};
+    padding: 0 ${theme.space['2']};
+    justify-content: flex-start;
+    transition-duration: ${theme.transitionDuration['150']};
+    transition-property: all;
+    transition-timing-function: ${theme.transitionTimingFunction['inOut']};
+    border-radius: ${theme.radii['medium']};
+    margin: ${theme.space['0.5']} 0;
+
     &:hover {
-      background-color: ${
-        tokens.colors[theme.mode].foregroundSecondaryHover
-      };    
+      background-color: ${theme.colors.foregroundSecondaryHover};    
     }
     
     &::first-child {
-      margin-top: ${tokens.space['0']};
+      margin-top: ${theme.space['0']};
     }
     
     &::last-child {
-      margin-bottom: ${tokens.space['0']};
+      margin-bottom: ${theme.space['0']};
     }
   `}
 
   ${({ theme, selected }) =>
     selected &&
     `
-      background-color: ${tokens.colors[theme.mode].foregroundSecondary};
+      background-color: ${theme.colors.foregroundSecondary};
   `}
 
   ${({ theme, disabled }) =>
     disabled &&
     `
-      color: ${tokens.colors[theme.mode].textTertiary};
+      color: ${theme.colors.textTertiary};
       cursor: not-allowed;
       
       &:hover {
-        background-color: ${tokens.colors.base.transparent};
+        background-color: ${theme.colors.transparent};
       }
   `}
 `
