@@ -21,43 +21,21 @@ const Container = styled.div`
     margin: 0 auto;
     max-width: ${theme.space['320']};
     min-height: ${theme.space['viewHeight']};
-  `}
-
-  ${largerThan.md`
-    display: flex;
-    justify-content: flex-end;
-  `}
-
-  ${largerThan.lg`
-    display: flex;
-    justify-content: center;
+    padding: 0 ${theme.space['6']};
   `}
 `
 
 const Aside = styled.aside`
   ${({ theme }) => `
-    padding: ${theme.space['6']} ${theme.space['6']} 0 ${theme.space['6']};
+    display: block;
+    padding-top: ${theme.space['12']};
   `}
 
   ${({ theme }) => largerThan.md`
     height: ${theme.space['viewHeight']};
     position: fixed;
-    left: 0;
     width: ${theme.space['56']};
-  `}
-
-  ${({ theme }) => largerThan.lg`
-    height: ${theme.space['viewHeight']};
-    position: fixed;
-    left: 0;
-    width: ${theme.space['56']};
-  `}
-
-  ${({ theme }) => largerThan.xl`
-    height: ${theme.space['viewHeight']};
-    position: fixed;
-    left: 0;
-    width: ${theme.space['56']};
+    padding-right: ${theme.space['12']};
   `}
 `
 
@@ -71,35 +49,18 @@ const Article = styled.article`
   ${({ theme }) => largerThan.md`
     max-width: ${theme.space['224']}
   `}
-
-  ${({ theme }) => largerThan.lg`
-    max-width: ${theme.space['192']};
-    padding: ${theme.space['20']} ${theme.space['10']};
-  `}
-
-  ${({ theme }) => largerThan.xl`
-    max-width: ${theme.space['224']};
-  `}
 `
 
 const Main = styled.main`
-  flex-grow: 1;
   display: flex;
   justify-content: center;
   align-items: flex-start;
   ${({ theme }) => [
     `
-    padding: 0 ${theme.space['6']};
     `,
     largerThan.md`
     margin-left: ${theme.space['56']}
     `,
-    largerThan.lg`
-    margin-left: ${theme.space['56']};
-  `,
-    largerThan.xl`
-    margin-left: ${theme.space['56']};
-  `,
   ]}
 `
 

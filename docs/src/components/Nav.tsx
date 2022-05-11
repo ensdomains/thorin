@@ -35,7 +35,16 @@ const Container = styled.div`
   height: ${({ theme }) => theme.space['full']};
 `
 
-const ContainerInner = styled.div``
+const ContainerInner = styled.div`
+  ${({ theme }) => [
+    `
+    `,
+
+    largerThan.md`
+      padding-bottom: ${theme.space['6']};
+    `,
+  ]}
+`
 
 const NavlinkContainer = styled.div`
   display: flex;
@@ -76,7 +85,7 @@ const List = styled.div<{ open?: boolean }>`
     display: block;
     margin-bottom: ${theme.space['24']};
     padding-bottom: ${theme.space['24']};
-    padding-top: ${theme.space['5']};
+    padding-top: 0;
   `}
 `
 
