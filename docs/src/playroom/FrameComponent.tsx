@@ -24,21 +24,17 @@ const FrameComponent = ({
   theme,
   children,
 }: // theme,
-React.PropsWithChildren<any>) => {
-  console.log('THEME >>>>', theme)
-
-  return (
-    <>
-      <link href="https://rsms.me/inter/inter.css" rel="stylesheet" />
-      <PlayroomStateProvider>
-        <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
-          <GlobalStyle />
-          <ThorinGlobalStyles />
-          {children}
-        </ThemeProvider>
-      </PlayroomStateProvider>
-    </>
-  )
-}
+React.PropsWithChildren<any>) => (
+  <>
+    <link href="https://rsms.me/inter/inter.css" rel="stylesheet" />
+    <PlayroomStateProvider>
+      <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
+        <GlobalStyle />
+        <ThorinGlobalStyles />
+        {children}
+      </ThemeProvider>
+    </PlayroomStateProvider>
+  </>
+)
 
 export default FrameComponent
