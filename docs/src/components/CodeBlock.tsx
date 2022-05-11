@@ -90,6 +90,10 @@ export const CodeBlock = ({
           color: colors.foreground,
           backgroundColor: colors.foregroundTertiary,
         },
+        styles: [
+          ...theme.styles,
+          { types: ['gray'], style: { color: '#A2A2A2' } },
+        ],
       }
     : undefined
 

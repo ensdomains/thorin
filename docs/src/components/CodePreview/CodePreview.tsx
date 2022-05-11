@@ -9,12 +9,12 @@ import { PrismTheme } from 'prism-react-renderer'
 import { Button, Colors, Components } from '@ensdomains/thorin'
 
 import ComponentWrapper from '../../playroom/ComponentWrapper'
-
+import { Prism } from '../Prism'
 import { createPlayroomLink } from '~/utils/playroom'
 import { usePlayroomStore } from '~/playroom/PlayroomState'
 import { avatars } from '~/playroom/useScope'
 import { CopyButton } from '../CopyButton'
-import { Stack } from '../Stack'
+import { DeleteMe } from '../DeleteMe'
 
 export type Props = {
   backgroundColor?: Colors
@@ -95,7 +95,7 @@ export const CodePreview = ({
         NextImage,
         NextLink,
         avatars,
-        Stack,
+        DeleteMe,
         keyframes,
       }}
       theme={theme}
@@ -121,7 +121,7 @@ export const CodePreview = ({
 
         {state.expand && (
           <div style={{ position: 'relative' }}>
-            <LiveEditor />
+            <LiveEditor language="jsx" prism={Prism} />
 
             <div style={{ position: 'absolute', right: 3.5, top: 3.5 }}>
               <CopyButton content={code} />

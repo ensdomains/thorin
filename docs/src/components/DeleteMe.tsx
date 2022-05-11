@@ -24,7 +24,7 @@ const Container = styled.div<Props>`
   `}
 `
 
-export const Stack = ({
+export const DeleteMe = ({
   children,
   ...props
 }: React.PropsWithChildren<Props>) => (

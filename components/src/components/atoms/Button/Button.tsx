@@ -219,11 +219,15 @@ const ButtonElement = styled.button<ButtonElement>`
       case 'circle':
         return `
           border-radius: ${theme.radii.full};
+          padding: 0;
         `
       case 'square':
-        return `border-radius: ${
+        return `
+        border-radius: ${
           $size === 'small' ? theme.radii['large'] : theme.radii['2xLarge']
-        };`
+        };
+        padding: 0;
+        `
       default:
         return ``
     }
