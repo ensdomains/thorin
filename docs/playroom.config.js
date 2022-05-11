@@ -32,23 +32,6 @@ module.exports = {
             },
           },
         },
-        {
-          test: /\.svg$/,
-          issuer: /\.[jt]sx?$/,
-          use: [
-            { loader: '@svgr/webpack', options: { icon: true } },
-            { loader: 'file-loader', options: { name: '[name].[ext]' } },
-          ],
-        },
-        {
-          test: /\.mdx$/,
-          use: [
-            {
-              loader: 'file-loader',
-              options: {},
-            },
-          ],
-        },
       ],
     },
     resolve: {

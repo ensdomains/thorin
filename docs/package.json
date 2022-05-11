@@ -17,7 +17,6 @@
     "@reach/skip-nav": "^0.16.0",
     "@sindresorhus/slugify": "^2.1.0",
     "copy-to-clipboard": "^3.3.1",
-    "file-loader": "^6.2.0",
     "gray-matter": "^4.0.3",
     "lodash": "^4.17.21",
     "next": "latest",
