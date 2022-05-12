@@ -121,7 +121,7 @@ export const CodePreview = ({
 
         {state.expand && (
           <div style={{ position: 'relative' }}>
-            <LiveEditor language="jsx" prism={Prism} />
+            <LiveEditor prism={Prism} />
 
             <div style={{ position: 'absolute', right: 3.5, top: 3.5 }}>
               <CopyButton content={code} />
