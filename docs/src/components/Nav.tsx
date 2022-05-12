@@ -36,14 +36,9 @@ const Container = styled.div`
 `
 
 const ContainerInner = styled.div`
-  ${({ theme }) => [
-    `
-    `,
-
-    largerThan.md`
-      padding-bottom: ${theme.space['6']};
-    `,
-  ]}
+  ${({ theme }) => largerThan.lg`
+    padding-bottom: ${theme.space['5']};    
+  `}
 `
 
 const NavlinkContainer = styled.div`
@@ -52,6 +47,10 @@ const NavlinkContainer = styled.div`
   justify-content: space-between;
   flex-direction: row;
   gap: ${({ theme }) => theme.space['5']};
+
+  ${largerThan.lg`
+    flex-direction: column;
+  `}
 `
 
 const NavLinkInner = styled.div`
@@ -85,7 +84,7 @@ const List = styled.div<{ open?: boolean }>`
     display: block;
     margin-bottom: ${theme.space['24']};
     padding-bottom: ${theme.space['24']};
-    padding-top: 0;
+    padding-top: ${theme.space['5']};
   `}
 `
 

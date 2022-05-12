@@ -23,19 +23,37 @@ const Container = styled.div`
     min-height: ${theme.space['viewHeight']};
     padding: 0 ${theme.space['6']};
   `}
+
+  ${largerThan.md`
+    display: flex;
+    justify-content: flex-end;
+  `}
+
+  ${largerThan.lg`
+    display: flex;
+    justify-content: center;
+  `}
 `
 
 const Aside = styled.aside`
   ${({ theme }) => `
-    display: block;
-    padding-top: ${theme.space['12']};
+    padding-top: ${theme.space['6']};
   `}
 
   ${({ theme }) => largerThan.md`
+    left: ${theme.space['4']};
+    width: ${theme.space['max']};
+    margin-right: ${theme.space['10']};
+  `}
+
+  ${({ theme }) => largerThan.lg`
     height: ${theme.space['viewHeight']};
     position: fixed;
+    width: ${theme.space['48']};
+  `}
+
+  ${({ theme }) => largerThan.xl`
     width: ${theme.space['56']};
-    padding-right: ${theme.space['12']};
   `}
 `
 
@@ -49,19 +67,22 @@ const Article = styled.article`
   ${({ theme }) => largerThan.md`
     max-width: ${theme.space['224']}
   `}
+
+  ${({ theme }) => largerThan.lg`
+    max-width: ${theme.space['192']};
+    padding: ${theme.space['20']} ${theme.space['10']};
+  `}
+
+  ${({ theme }) => largerThan.xl`
+    max-width: ${theme.space['224']};
+  `}
 `
 
 const Main = styled.main`
+  flex-grow: 1;
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  ${({ theme }) => [
-    `
-    `,
-    largerThan.md`
-    margin-left: ${theme.space['56']}
-    `,
-  ]}
 `
 
 export type Props = {
