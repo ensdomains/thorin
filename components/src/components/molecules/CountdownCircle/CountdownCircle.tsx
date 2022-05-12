@@ -5,8 +5,8 @@ import { VisuallyHidden } from '../..'
 import { Colors } from '@/src/tokens'
 
 interface NumberBox {
-  disabled?: boolean
-  size: 'small' | 'large'
+  $disabled?: boolean
+  $size: 'small' | 'large'
 }
 
 const NumberBox = styled.div<NumberBox>`
@@ -20,14 +20,14 @@ const NumberBox = styled.div<NumberBox>`
     color: ${theme.colors.accent};
   `}
 
-  ${({ theme, disabled }) =>
-    disabled &&
+  ${({ theme, $disabled }) =>
+    $disabled &&
     `
     color: ${theme.colors.textPlaceholder};
   `}
 
-  ${({ size, theme }) => {
-    switch (size) {
+  ${({ $size, theme }) => {
+    switch ($size) {
       case 'small':
         return `
           height: ${theme.space['16']};
@@ -47,10 +47,9 @@ const NumberBox = styled.div<NumberBox>`
 `
 
 interface ContainerProps {
-  disabled?: boolean
-  size: 'small' | 'large'
-  color: Colors
-  ref: React.Ref<HTMLDivElement>
+  $disabled?: boolean
+  $size: 'small' | 'large'
+  $color: Colors
 }
 
 const Container = styled.div<ContainerProps>`
@@ -58,18 +57,18 @@ const Container = styled.div<ContainerProps>`
     stroke: ${theme.colors.accent};
   `}
 
-  ${({ theme, color }) => `
-    color: ${theme.colors[color]};
+  ${({ theme, $color }) => `
+    color: ${theme.colors[$color]};
   `}
 
-  ${({ theme, disabled }) =>
-    disabled &&
+  ${({ theme, $disabled }) =>
+    $disabled &&
     `
     color: ${theme.colors.foregroundSecondary};
   `}
 
-  ${({ size, theme }) => {
-    switch (size) {
+  ${({ $size, theme }) => {
+    switch ($size) {
       case 'small':
         return `
           height: ${theme.space['16']};
@@ -89,13 +88,13 @@ const Container = styled.div<ContainerProps>`
 `
 
 interface CircleProps {
-  finished: boolean
+  $finished: boolean
 }
 
 const Circle = styled.circle<CircleProps>`
   transition: all 1s linear, stroke-width 0.2s ease-in-out 1s;
 
-  ${({ finished }) => finished && `stroke-width: 0;`}
+  ${({ $finished }) => $finished && `stroke-width: 0;`}
 `
 
 type Props = {
@@ -141,14 +140,14 @@ export const CountdownCircle = React.forwardRef(
 
     return (
       <div data-testid="countdown-circle" style={{ position: 'relative' }}>
-        <NumberBox {...{ size, disabled }}>
+        <NumberBox {...{ $size: size, $disabled: disabled }}>
           {disabled ? totalCount : currentCount}
         </NumberBox>
         <Container
           {...{
-            size,
-            disabled,
-            color,
+            $size: size,
+            $disabled: disabled,
+            $color: color,
             ref,
           }}
         >
@@ -157,10 +156,10 @@ export const CountdownCircle = React.forwardRef(
           )}
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <Circle
+              $finished={currentCount === 0}
               cx="12"
               cy="12"
               fill="none"
-              finished={currentCount === 0}
               r="9"
               strokeDasharray={`${48 * (currentCount / totalCount)}, 56`}
               strokeLinecap="round"

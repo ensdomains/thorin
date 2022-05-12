@@ -14,3 +14,28 @@ import { CountdownCircle } from '@ensdomains/thorin'
 ## Props
 
 <PropsTable sourceLink={sourceLink} types={types} />
+
+## Colors
+
+```tsx expand=true live=true
+<Stack flexDirection="row">
+  <CountdownCircle color="blue" countdownAmount={30} />
+  <CountdownCircle color="green" countdownAmount={30} />
+  <CountdownCircle color="indigo" countdownAmount={30} />
+</Stack>
+```
+
+## Sizes
+
+```tsx expand=true live=true
+<Stack flexDirection="row">
+  <CountdownCircle countdownAmount={30} size="small" />
+  <CountdownCircle countdownAmount={30} size="large" />
+</Stack>
+```
+
+## Disabled
+
+```tsx expand=true live=true
+<CountdownCircle countdownAmount={30} disabled />
+```

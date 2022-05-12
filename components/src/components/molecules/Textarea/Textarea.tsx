@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
 
-const TextArea = styled.textarea<{ disabled?: boolean; error?: boolean }>`
+const TextArea = styled.textarea<{ $error?: boolean }>`
   ${({ theme }) => `
       background-color: ${theme.colors.transparent};
       border-color: ${theme.colors.foregroundSecondary};
@@ -35,8 +35,8 @@ const TextArea = styled.textarea<{ disabled?: boolean; error?: boolean }>`
       cursor: not-allowed;
   `}
 
-  ${({ theme, error }) =>
-    error &&
+  ${({ theme, $error }) =>
+    $error &&
     `
       border-color: ${theme.colors.red};
       cursor: default;
@@ -50,21 +50,37 @@ const TextArea = styled.textarea<{ disabled?: boolean; error?: boolean }>`
 type NativeTextareaProps = React.AllHTMLAttributes<HTMLTextAreaElement>
 
 type Props = FieldBaseProps & {
+  /** If true, the input will automatically correct words it marks as spelling errors. */
   autoCorrect?: NativeTextareaProps['autoCorrect']
+  /** If true, the component will attempt to get focus after it is rendered. */
   autoFocus?: NativeTextareaProps['autoFocus']
+  /** The initial value. Useful for detecting changes in value. */
   defaultValue?: string | number
+  /** If true, prevents user interaction. */
   disabled?: boolean
+  /** The id attribute of the textarea element. */
   id?: NativeTextareaProps['id']
+  /** The name attribute of the textarea element. */
   name?: string
+  /** The maximum number of characters allowed. */
   maxLength?: NativeTextareaProps['maxLength']
+  /** The placeholder attribute for textarea. */
   placeholder?: NativeTextareaProps['placeholder']
+  /** The readOnly attribute for textarea.  */
   readOnly?: NativeTextareaProps['readOnly']
+  /** Specifies the height of the text area in rows. */
   rows?: NativeTextareaProps['rows']
+  /** Textarea will mark words which it thinks are misspellings. */
   spellCheck?: NativeTextareaProps['spellCheck']
+  /** The tabindex attribute of textarea. */
   tabIndex?: NativeTextareaProps['tabIndex']
+  /** The value attribute of textarea. */
   value?: string | number
+  /** The handler for change events. */
   onChange?: React.EventHandler<React.ChangeEvent<HTMLTextAreaElement>>
+  /** The handler for blur events. */
   onBlur?: NativeTextareaProps['onBlur']
+  /** The handler for focus events. */
   onFocus?: NativeTextareaProps['onFocus']
 }
 
@@ -118,6 +134,7 @@ export const Textarea = React.forwardRef(
           autoCorrect={autoCorrect}
           autoFocus={autoFocus}
           defaultValue={defaultValue}
+          disabled={disabled}
           maxLength={maxLength}
           name={name}
           placeholder={placeholder}
@@ -131,8 +148,7 @@ export const Textarea = React.forwardRef(
           onChange={onChange}
           onFocus={onFocus}
           {...{
-            disabled,
-            error: hasError,
+            $error: hasError,
           }}
         />
       </Field>

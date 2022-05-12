@@ -10,7 +10,7 @@ const rotate = keyframes`
   }
 `
 
-const Container = styled.div<{ size: 'small' | 'large'; $color: Colors }>`
+const Container = styled.div<{ $size: 'small' | 'large'; $color: Colors }>`
   animation: ${rotate} 1.1s linear infinite;
 
   ${({ theme, $color }) => `
@@ -18,8 +18,8 @@ const Container = styled.div<{ size: 'small' | 'large'; $color: Colors }>`
     stroke: ${theme.colors[$color]};
   `}
 
-  ${({ size, theme }) => {
-    switch (size) {
+  ${({ $size, theme }) => {
+    switch ($size) {
       case 'small':
         return `
           height: ${theme.space['6']};
@@ -39,7 +39,9 @@ const Container = styled.div<{ size: 'small' | 'large'; $color: Colors }>`
 `
 
 type Props = {
+  /** Hidden text used for accessibilty. */
   accessibilityLabel?: string
+  /** A tokens 'mode' color value */
   color?: Colors
   size?: 'small' | 'large'
 }
@@ -50,7 +52,7 @@ export const Spinner = React.forwardRef(
     ref: React.Ref<HTMLElement>,
   ) => {
     return (
-      <Container $color={color} ref={ref as any} size={size}>
+      <Container $color={color} $size={size} ref={ref as any}>
         {accessibilityLabel && (
           <VisuallyHidden>{accessibilityLabel}</VisuallyHidden>
         )}

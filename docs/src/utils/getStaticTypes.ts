@@ -1,11 +1,11 @@
-import { parse as docgen } from 'react-docgen-typescript'
+import { withCustomConfig as docgen } from 'react-docgen-typescript'
 import keyBy from 'lodash/keyBy'
 import mapValues from 'lodash/mapValues'
 
 const allowed = (name: string) => ['ref'].includes(name)
 
 export const getStaticTypes = (pathname: string) => {
-  const types = docgen(pathname, {
+  const parse = docgen(__dirname + '/../../../../tsconfig.json', {
     propFilter: (prop, _component) => {
       if (allowed(prop.name)) return true
       if (prop.declarations !== undefined && prop.declarations.length > 0) {
@@ -22,7 +22,9 @@ export const getStaticTypes = (pathname: string) => {
     shouldExtractValuesFromUnion: true,
     shouldExtractLiteralValuesFromEnum: true,
     shouldRemoveUndefinedFromOptional: true,
-  })
+  }).parse
+
+  const types = parse(pathname)
 
   const typesByDisplayName = keyBy(types, 'displayName')
   const parsedTypes = mapValues(typesByDisplayName, (component) =>

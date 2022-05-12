@@ -18,3 +18,40 @@ import { Checkbox } from '@ensdomains/thorin'
 ## Props
 
 <PropsTable sourceLink={sourceLink} types={types} />
+
+## Color
+
+```tsx live=true
+<Card padding="4" shadow>
+  <FieldSet legend="Colors">
+    <Checkbox color="grey" label="Grey" />
+    <Checkbox color="white" label="White" />
+  </FieldSet>
+</Card>
+```
+
+## Variants
+
+```tsx live=true
+<FieldSet legend="Variants">
+  <Checkbox label="Checkbox" variant="regular" />
+  <Checkbox label="Switch" size="regular" variant="switch" />
+</FieldSet>
+```
+
+## Sizes
+
+```tsx live=true
+<>
+  <FieldSet legend="Checkboxes">
+    <Checkbox label="Small" size="small" />
+    <Checkbox label="Medium" size="medium" />
+    <Checkbox label="Large" size="large" />
+  </FieldSet>
+  <FieldSet legend="Switches">
+    <Checkbox label="Small" size="small" variant="switch" />
+    <Checkbox label="Medium" size="medium" variant="switch" />
+    <Checkbox label="Large" size="large" variant="switch" />
+  </FieldSet>
+</>
+```

@@ -3,20 +3,21 @@ import styled from 'styled-components'
 
 import { largerThan } from '@/src/utils/responsiveHelpers'
 
-const Container = styled.div<{ shadow?: boolean }>`
+const Container = styled.div<{ $shadow?: boolean }>`
   ${({ theme }) => [
     `
-  padding: ${theme.space['6']};
-  border-radius: ${theme.radii['2xLarge']};
-  background-color: ${theme.colors.background};
-  `,
+    padding: ${theme.space['6']};
+    border-radius: ${theme.radii['2xLarge']};
+    background-color: ${theme.colors.background};
+    `,
     largerThan.lg`
-    border-radius: ${theme.radii['3xLarge']};
-  `,
+      border-radius: ${theme.radii['3xLarge']};
+    `,
   ]}
 
-  ${({ shadow, theme }) =>
-    shadow && [
+  ${({ $shadow, theme }) =>
+    $shadow &&
+    theme.mode === 'light' && [
       `
       box-shadow: 0px 0px ${theme.radii['2xLarge']} rgba(0,0,0,0.1);
       border-radius: ${theme.radii['2xLarge']};
@@ -29,6 +30,7 @@ const Container = styled.div<{ shadow?: boolean }>`
 `
 
 export type Props = {
+  /** Adds shadow when theme is in light mode.  */
   shadow?: boolean
 }
 
@@ -36,10 +38,12 @@ export const Card = ({ children, shadow }: React.PropsWithChildren<Props>) => {
   return (
     <Container
       {...{
-        shadow,
+        $shadow: shadow,
       }}
     >
       {children}
     </Container>
   )
 }
+
+Card.displayName = 'Card'

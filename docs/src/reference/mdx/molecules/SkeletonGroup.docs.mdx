@@ -7,18 +7,6 @@ description: Manages loading state for multiple skeletons
 import { SkeletonGroup } from '@ensdomains/thorin'
 ```
 
-```tsx expand=true live=true
-<SkeletonGroup loading>
-  <Skeleton>Hello World</Skeleton>
-</SkeletonGroup>
-```
-
-## Props
-
-<PropsTable sourceLink={sourceLink} types={types} />
-
-## Wrap content
-
 ```tsx live=true
 <SkeletonGroup loading={getState('loading')}>
   <Stack>
@@ -28,10 +16,14 @@ import { SkeletonGroup } from '@ensdomains/thorin'
     <Skeleton>
       <Typography>The quick brown fox jumped over the lazy dogs.</Typography>
     </Skeleton>
-
+    <VisuallyHidden>{setDefaultState('loading', true)}</VisuallyHidden>
     <Button size="small" onClick={() => toggleState('loading')}>
-      Toggle Skeletons
+      Toggle Skeleton Group
     </Button>
   </Stack>
 </SkeletonGroup>
 ```
+
+## Props
+
+<PropsTable sourceLink={sourceLink} types={types} />

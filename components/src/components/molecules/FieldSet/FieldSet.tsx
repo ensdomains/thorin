@@ -50,11 +50,17 @@ const ChildrenContainer = styled.div`
 
 export type Props = {
   children: ReactNodeNoStrings
+  /** Description content */
   description?: string | React.ReactNode
+  /** The disabled attribute of the fieldset element. */
   disabled?: NativeFieldSetProps['disabled']
+  /** The form attribute of the fieldset element. */
   form?: NativeFieldSetProps['form']
+  /** The name attribute of the fieldset element. */
   name?: NativeFieldSetProps['name']
+  /** The title for the group of elements */
   legend: string
+  /** An optional Tag component next to the legend. */
   status?:
     | 'required'
     | 'optional'
@@ -119,3 +125,5 @@ export const FieldSet = ({
     </Container>
   )
 }
+
+FieldSet.displayName = 'FieldSet'

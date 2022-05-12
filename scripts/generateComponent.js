@@ -6,6 +6,13 @@ const path = require('path')
 
 const baseDir = path.join(__dirname, '..')
 const componentsDir = path.join(baseDir, 'components/src/components')
+const referencesDir = path.join(baseDir, 'docs/src/reference')
+
+const COMPONENT_GROUPS = {
+  a: 'atoms',
+  m: 'molecules',
+  o: 'organisms',
+}
 
 ;(async () => {
   try {
@@ -15,7 +22,7 @@ const componentsDir = path.join(baseDir, 'components/src/components')
         name: 'componentName',
         description: 'Component name',
         type: 'string',
-        pattern: /^[A-Z][a-z]+[A-Z]?[a-z]*$/,
+        pattern: /^[A-Z][a-z]+(?:[A-Z][a-z]+)*$/,
         message: 'Component Name must be only letters and pascal case',
         required: true,
       },
@@ -25,56 +32,88 @@ const componentsDir = path.join(baseDir, 'components/src/components')
         type: 'boolean',
         default: false,
       },
+      {
+        name: 'componentGroupOption',
+        description:
+          'Choose the component group\nA - Atoms\nM - Molecules\nO - Organisms',
+        required: true,
+        type: 'string',
+        message: 'Your options are A, M, or O',
+        pattern: /^[AaMmOo]$/,
+      },
     ])
-    const { componentName, forwardRef } = input
+    const { componentName, forwardRef, componentGroupOption } = input
+    const componentGroup = COMPONENT_GROUPS[componentGroupOption.toLowerCase()]
 
-    const componentDir = path.join(componentsDir, componentName)
+    const componentDir = path.join(componentsDir, componentGroup, componentName)
+
     const exists = fs.existsSync(componentDir)
     if (exists) {
       console.log('Component already exists.')
       return
     }
 
-    // Create directory
     console.log(`Scaffolding <${componentName} />`)
+
+    // Create directory
+    console.log(`Create directory at ${componentDir}`)
     await fs.mkdirp(componentDir)
+
+    /**
+     * Write component file
+     */
+    const componentFilePath = path.join(componentDir, `${componentName}.tsx`)
 
     console.log('Creating component...')
     const componentImports = dedent`
       import * as React from 'react'
+      import styled from 'styled-components'
 
-      import { Box } from '../..'
+      export type Props = {}
 
-      type Props = {}
+      const Container = styled.div\`\`
     `
     const componentBasic = dedent`
       ${componentImports}
 
       export const ${componentName} = ({ ...props }: Props) => {
-        return <Box />
+        return <Container>
+        </Container>
       }
+
+      ${componentName}.displayName = '${componentName}'\n
     `
     const componentForwardRef = dedent`
       ${componentImports}
 
       export const ${componentName} = React.forwardRef(
         ({ ...props }: Props, ref: React.Ref<HTMLElement>) => {
-          return <Box ref={ref} />
+          return <Container ref={ref}>
+          </Container>
         }
       )
 
-      ${componentName}.displayName = '${componentName}'
+      ${componentName}.displayName = '${componentName}'\n
     `
     await fs.writeFile(
-      path.join(componentDir, `${componentName}.tsx`),
+      componentFilePath,
       forwardRef ? componentForwardRef : componentBasic,
       'utf-8',
     )
 
-    // Write docs file
-    console.log('Creating docs...')
+    /**
+     * WRITE DOCS FILE
+     * */
+
+    const docsFilePath = path.join(
+      referencesDir,
+      'mdx',
+      componentGroup,
+      `${componentName}.docs.mdx`,
+    )
+    console.log('Creating docs at', docsFilePath, '...')
     await fs.writeFile(
-      path.join(componentDir, `${componentName}.docs.mdx`),
+      docsFilePath,
       dedent`
           ---
           title: ${componentName}
@@ -92,19 +131,29 @@ const componentsDir = path.join(baseDir, 'components/src/components')
           ## Props
 
           <PropsTable sourceLink={sourceLink} types={types} />
+
         `,
       'utf-8',
     )
 
-    // Write snippets file
-    console.log('Creating snippets...')
+    /**
+     * Write Snippets File
+     */
+
+    const snippetsFilePath = path.join(
+      referencesDir,
+      'snippets',
+      componentGroup,
+      `${componentName}.snippets.tsx`,
+    )
+    console.log('Creating snippets at', snippetsFilePath)
     await fs.writeFile(
-      path.join(componentDir, `${componentName}.snippets.tsx`),
+      snippetsFilePath,
       dedent`
           import * as React from 'react'
+          import { ${componentName} } from '@ensdomains/thorin'
 
           import { Snippet } from '../../../types'
-          import { ${componentName} } from './${componentName}'
 
           export const snippets: Snippet[] = [
             {
@@ -116,10 +165,13 @@ const componentsDir = path.join(baseDir, 'components/src/components')
       'utf-8',
     )
 
-    // Write test file
-    console.log('Creating test...')
+    /**
+     * Write Test File
+     */
+    const testFilePath = path.join(componentDir, `${componentName}.test.tsx`)
+    console.log('Creating test file at', testFilePath)
     await fs.writeFile(
-      path.join(componentDir, `${componentName}.test.tsx`),
+      testFilePath,
       dedent`
           import * as React from 'react'
 
@@ -134,30 +186,38 @@ const componentsDir = path.join(baseDir, 'components/src/components')
               render(<${componentName} />)
             })
           })
+
         `,
       'utf-8',
     )
 
-    // Write index file
-    console.log('Creating index...')
+    /**
+     * Write component index file
+     */
+    const indexFilePath = path.join(componentDir, 'index.ts')
+    console.log('Creating index at', indexFilePath)
     const componentIndex = dedent`
       export { ${componentName} } from './${componentName}'
+      export type { Props as ${componentName}Props } from './${componentName}'\n
     `
-    await fs.writeFile(
-      path.join(componentDir, 'index.ts'),
-      componentIndex,
-      'utf-8',
-    )
+    await fs.writeFile(indexFilePath, componentIndex, 'utf-8')
 
-    // Add to components index
-    console.log('Exporting from components...')
-    const exports = path.join(componentsDir, 'index.ts')
-    const componentsIndex = await fs.readFile(exports, 'utf8')
+    /**
+     * Write component group index file
+     * */
+    const groupIndexFilePath = path.join(
+      componentsDir,
+      componentGroup,
+      'index.ts',
+    )
+    console.log('Adding component to group index at', groupIndexFilePath)
+    const componentsIndex = await fs.readFile(groupIndexFilePath, 'utf8')
     const lines = [...componentsIndex.split(/\r?\n/), componentIndex]
       .sort((a, b) => (a > b ? 1 : -1))
       .join('\n')
       .trim()
-    await fs.writeFile(exports, lines, 'utf-8')
+
+    await fs.writeFile(groupIndexFilePath, lines + '\n', 'utf-8')
 
     console.log('Done.')
   } catch (err) {

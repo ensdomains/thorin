@@ -1,3 +1,5 @@
+const path = require('path')
+
 module.exports = {
   components: './src/playroom/components.ts',
   baseUrl: '/playroom/',
@@ -7,7 +9,7 @@ module.exports = {
   themes: './src/playroom/themes.ts',
   frameComponent: './src/playroom/FrameComponent.tsx',
   scope: './src/playroom/useScope.ts',
-  typeScriptFiles: ['../components/src/**/*.{ts,tsx}'],
+  typeScriptFiles: ['../components/src/**/*.{ts,tsx}', 'src/**/*.{ts,tsx}'],
   widths: [320, 640, 768, 1024, 1280],
   openBrowser: false,
   port: 8082,
@@ -33,7 +35,10 @@ module.exports = {
       ],
     },
     resolve: {
-      extensions: ['.js', '.ts', '.tsx'],
+      extensions: ['.js', '.ts', '.tsx', '.svg', '.mdx'],
+      alias: {
+        '@': path.resolve(process.cwd(), '../components'),
+      },
     },
   }),
 }

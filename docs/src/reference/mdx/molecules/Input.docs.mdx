@@ -46,12 +46,20 @@ import { Input, SearchSVG } from '@ensdomains/thorin'
 ```tsx live=true
 <Stack>
   <Input
+    description="Prefix using a svg component."
     label="Search"
     placeholder="Name or wallet address"
     prefix={<SearchSVG />}
   />
-  <Input label="Funding Goal" placeholder="10" prefix="Ξ" type="number" />
   <Input
+    description="Prefix using a string."
+    label="Funding Goal"
+    placeholder="10"
+    prefix="Ξ"
+    type="number"
+  />
+  <Input
+    description="Suffix using a string."
     label="Subdomain"
     placeholder="subdomain"
     suffix=".mirror.xyz"
@@ -71,7 +79,6 @@ import { Input, SearchSVG } from '@ensdomains/thorin'
 ```tsx live=true
 <Stack>
   <Input label="Text" maxLength={140} placeholder="Foo bar baz" type="text" />
-
   <Input
     label="Number"
     labelSecondary={<Tag>100 ETH max</Tag>}
@@ -81,6 +88,16 @@ import { Input, SearchSVG } from '@ensdomains/thorin'
     type="number"
     units="ETH"
   />
+</Stack>
+```
+
+## Sizes
+
+```tsx live=true
+<Stack>
+  <Input label="Medium" size="medium" />
+  <Input label="Large" size="large" />
+  <Input label="Extra Large" size="extraLarge" />
 </Stack>
 ```
 

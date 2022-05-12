@@ -8,16 +8,19 @@ import { RadioButtonGroup } from '@ensdomains/thorin'
 ```
 
 ```tsx live=true
-<Card padding="4" shadow>
+<Card shadow>
   <FieldSet
     legend={`Radio Buttons - Current Value: ${
       getState('radiobuttongroup') || '30'
     }`}
   >
-    <RadioButtonGroup onChange={(val) => setState('radiobuttongroup', val)}>
-      <RadioButton label="Label" name="RadioButtonGroup" value="10" />
-      <RadioButton label="Label" name="RadioButtonGroup" value="20" />
-      <RadioButton checked label="Label" name="RadioButtonGroup" value="30" />
+    <RadioButtonGroup
+      currentValue={getState('radiobuttongroup') || '30'}
+      onChange={(val) => setState('radiobuttongroup', val)}
+    >
+      <RadioButton label="Label 10" name="RadioButtonGroup" value="10" />
+      <RadioButton label="Label 20" name="RadioButtonGroup" value="20" />
+      <RadioButton label="Label 30" name="RadioButtonGroup" value="30" />
     </RadioButtonGroup>
   </FieldSet>
 </Card>

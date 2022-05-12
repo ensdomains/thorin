@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { ReactNodeNoStrings } from '../../../types'
 import { useFieldIds } from '../../../hooks'
 import { VisuallyHidden } from '../VisuallyHidden'
+
 import { Space } from '@/src/tokens'
 
 type State = ReturnType<typeof useFieldIds> | undefined
@@ -13,18 +14,27 @@ const Context = React.createContext<State>(undefined)
 type NativeFormProps = React.AllHTMLAttributes<HTMLFormElement>
 
 export type FieldBaseProps = {
+  /** Description text or react component. */
   description?: React.ReactNode
+  /** Error text or a react component. */
   error?: React.ReactNode
+  /** If true, hides the label and secondary label. */
   hideLabel?: boolean
+  /** Label text or react component */
   label: React.ReactNode
+  /** Secondary text or react component */
   labelSecondary?: React.ReactNode
+  /** Adds mark to label */
   required?: NativeFormProps['required']
+  /** If true, moves the label and status messages to the right of the content. */
   inline?: boolean
+  /** A tokens space key value setting the width of the parent element. */
   width?: Space
 }
 
 type Props = FieldBaseProps & {
   children: React.ReactElement | ((context: State) => ReactNodeNoStrings)
+  /** The id attribute of the label element */
   id?: NativeFormProps['id']
 }
 
@@ -33,6 +43,7 @@ const Label = styled.label`
     color: ${theme.colors.textTertiary};
     font-weight: ${theme.fontWeights['semiBold']};
     margin-right: ${theme.space['4']};
+    display: flex;
   `}
 `
 
@@ -55,6 +66,16 @@ const LabelContentContainer = styled.div`
   `}
 `
 
+const RequiredWrapper = styled.span`
+  ${({ theme }) => `
+  color: ${theme.colors.red};
+  `}
+  ::before {
+    content: ' ';
+    white-space: pre;
+  }
+`
+
 const LabelContent = ({
   ids,
   label,
@@ -63,23 +84,29 @@ const LabelContent = ({
 }: LabelContentProps) => (
   <LabelContentContainer>
     <Label {...ids.label}>
-      {label} {required && <VisuallyHidden>(required)</VisuallyHidden>}
+      {label}{' '}
+      {required && (
+        <>
+          <RequiredWrapper>*</RequiredWrapper>
+          <VisuallyHidden>required</VisuallyHidden>
+        </>
+      )}
     </Label>
     {labelSecondary && labelSecondary}
   </LabelContentContainer>
 )
 
 interface ContainerProps {
-  width: Space
-  inline?: boolean
+  $width: Space
+  $inline?: boolean
 }
 const Container = styled.div<ContainerProps>`
-  ${({ inline }) => (inline ? 'align-items: center' : '')};
+  ${({ $inline }) => ($inline ? 'align-items: center' : '')};
   display: flex;
-  flex-direction: ${({ inline }) => (inline ? 'row' : 'column')};
-  ${({ theme, width }) => `
+  flex-direction: ${({ $inline }) => ($inline ? 'row' : 'column')};
+  ${({ theme, $width }) => `
     gap: ${theme.space[2]};
-    width: ${theme.space[width]};
+    width: ${theme.space[$width]};
   `}
 `
 
@@ -135,7 +162,7 @@ export const Field = ({
   else content = children
 
   return inline ? (
-    <Container inline={inline} width={width}>
+    <Container $inline={inline} $width={width}>
       <div>{content}</div>
       <ContainerInner>
         {hideLabel ? (
@@ -154,7 +181,7 @@ export const Field = ({
       </ContainerInner>
     </Container>
   ) : (
-    <Container width={width}>
+    <Container $width={width}>
       {hideLabel ? (
         <VisuallyHidden>
           <LabelContent {...{ ids, label, labelSecondary, required }} />
@@ -176,3 +203,5 @@ export const Field = ({
     </Container>
   )
 }
+
+Field.displayName = 'Field'

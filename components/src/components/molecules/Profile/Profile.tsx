@@ -11,19 +11,25 @@ import { ReactComponent as IconDownIndicatorSvg } from '@/src/icons/DownIndicato
 type Size = 'small' | 'medium' | 'large'
 
 type BaseProps = {
+  /** The url of the avatar icon. */
   avatar?: AvatarProps['src']
-  avatarAs?: AvatarProps['as']
+  // avatarAs?: AvatarProps['as']
+  /** An array of objects conforming to the DropdownItem interface. */
   dropdownItems?: DropdownItem[]
+  /** The ethereum address of the profiled user. */
   address: string
+  /** The ENS name associated with the address. */
   ensName?: string
+  /** The alignment of the dropdown menu in relation to the profile button. */
   alignDropdown?: 'left' | 'right'
+  /** The size and styling of the profile button. */
   size?: Size
 }
 
 interface ContainerProps {
-  size: Size
-  hasChevron?: boolean
-  open: boolean
+  $size: Size
+  $hasChevron?: boolean
+  $open: boolean
 }
 
 const Container = styled.div<ContainerProps>`
@@ -46,8 +52,8 @@ const Container = styled.div<ContainerProps>`
     background-color: ${theme.colors.groupBackground};
   `}
 
-  ${({ hasChevron }) =>
-    hasChevron &&
+  ${({ $hasChevron }) =>
+    $hasChevron &&
     `
       cursor: pointer;
       &:hover {
@@ -56,15 +62,15 @@ const Container = styled.div<ContainerProps>`
       }
   `}
 
-  ${({ open, theme }) =>
-    open &&
+  ${({ $open, theme }) =>
+    $open &&
     `
       box-shadow: ${theme.shadows['0']};
       background-color: ${theme.colors.foregroundSecondary};
   `}
 
-  ${({ size, theme }) => {
-    switch (size) {
+  ${({ $size, theme }) => {
+    switch ($size) {
       case 'small':
         return `
           max-width: ${theme.space['48']};
@@ -82,24 +88,29 @@ const Container = styled.div<ContainerProps>`
     }
   }}
 
-  ${({ size, hasChevron, theme }) => {
-    if (size === 'small' && hasChevron)
+  ${({ $size, $hasChevron, theme }) => {
+    if ($size === 'small' && $hasChevron)
       return `
       max-width: ${theme.space['52']};
     `
 
-    if (size === 'medium' && hasChevron)
+    if ($size === 'medium' && $hasChevron)
       return `
       max-width: ${theme.space['56']};
     `
 
-    if (size === 'large' && hasChevron)
+    if ($size === 'large' && $hasChevron)
       return `
       max-width: calc(${theme.space['80']} + ${theme.space['4']});
     `
   }}
 `
 
+const AvatarContainer = styled.div`
+  ${({ theme }) => `
+    width: ${theme.space['12']};
+  `}
+`
 const Chevron = styled.svg<{ $open: boolean }>`
   ${({ theme }) => `
   margin-left: ${theme.space['1']};
@@ -123,10 +134,10 @@ const Chevron = styled.svg<{ $open: boolean }>`
 `
 
 const ProfileInnerContainer = styled.div<{
-  size?: 'small' | 'medium' | 'large'
+  $size?: 'small' | 'medium' | 'large'
 }>`
-  ${({ theme, size }) => `
-  display: ${size === 'small' ? 'none' : 'block'};
+  ${({ theme, $size }) => `
+  display: ${$size === 'small' ? 'none' : 'block'};
   margin: 0 ${theme.space['1.5']};
   min-width: ${theme.space['none']};
   `}
@@ -136,15 +147,12 @@ const ReducedLineText = styled(Typography)`
   line-height: initial;
 `
 
-const ProfileInner = ({ size, avatar, avatarAs, address, ensName }: Props) => (
+const ProfileInner = ({ size, avatar, address, ensName }: Props) => (
   <>
-    <Avatar
-      as={avatarAs}
-      label="profile-avatar"
-      placeholder={!avatar}
-      src={avatar}
-    />
-    <ProfileInnerContainer size={size}>
+    <AvatarContainer>
+      <Avatar label="profile-avatar" src={avatar} />
+    </AvatarContainer>
+    <ProfileInnerContainer $size={size}>
       <ReducedLineText
         color={ensName ? 'text' : 'textTertiary'}
         ellipsis
@@ -176,7 +184,6 @@ type Props = BaseProps
 export const Profile = ({
   size = 'medium',
   avatar,
-  avatarAs,
   dropdownItems,
   address,
   ensName,
@@ -191,13 +198,13 @@ export const Profile = ({
       >
         <Container
           {...{
-            size,
-            hasChevron: true,
-            open: isOpen,
+            $size: size,
+            $hasChevron: true,
+            $open: isOpen,
           }}
           onClick={() => setIsOpen(!isOpen)}
         >
-          <ProfileInner {...{ size, avatar, avatarAs, address, ensName }} />
+          <ProfileInner {...{ size, avatar, address, ensName }} />
           <Chevron $open={isOpen} as={IconDownIndicatorSvg} />
         </Container>
       </Dropdown>
@@ -207,12 +214,14 @@ export const Profile = ({
   return (
     <Container
       {...{
-        size,
-        open: isOpen,
+        $size: size,
+        $open: isOpen,
       }}
       data-testid="profile"
     >
-      <ProfileInner {...{ size, avatar, avatarAs, address, ensName }} />
+      <ProfileInner {...{ size, avatar, address, ensName }} />
     </Container>
   )
 }
+
+Profile.displayName = 'Profile'

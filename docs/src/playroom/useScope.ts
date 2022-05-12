@@ -2,8 +2,9 @@
 // import { vars } from '@ensdomains/thorin/css'
 
 import { useTheme } from 'styled-components'
+import React from 'react'
 
-// import { usePlayroomStore } from './PlayroomState'
+import { usePlayroomStore } from './PlayroomState'
 
 export const avatars = {
   noun2:
@@ -23,9 +24,10 @@ export const avatars = {
 const useScope = () => {
   return {
     ...useTheme(),
-    // ...usePlayroomStore(),
+    ...usePlayroomStore(),
     // vars,
     avatars,
+    React,
   }
 }
 

@@ -1,6 +1,6 @@
 ---
 title: Button
-description: Trigger for actions
+description: An element that can trigger an action
 ---
 
 ```tsx
@@ -56,7 +56,7 @@ import { Button } from '@ensdomains/thorin'
 
 ## Tones
 
-When `variant` is set to `primary` or `secondary`, you can `tone` to change the button accent color.
+When `variant` is set to `primary` or `action`, you can `tone` to change the button accent color.
 
 ```tsx live=true
 <Stack gap="64px">
@@ -153,22 +153,6 @@ Optional `center` prop reserves space for affixes and loading spinner.
       </Button>
     </Stack>
   </Stack>
-</Stack>
-```
-
-## Width
-
-```tsx live=true
-<Stack>
-  <Button width="64">Fixed Width</Button>
-  <Button width="full">Full Width</Button>
-  <Button width={{ xs: 'full', md: 'max' }}>Responsive Width</Button>
-  <Button loading prefix={<PlusSmallSVG />} width="full">
-    With Prefix & Loading
-  </Button>
-  <Button center loading prefix={<PlusSmallSVG />} width="full">
-    Centered With Prefix & Loading
-  </Button>
 </Stack>
 ```
 

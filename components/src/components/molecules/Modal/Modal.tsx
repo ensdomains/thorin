@@ -30,8 +30,11 @@ const IconCloseContainer = styled(CloseSVG)`
 
 type Props = {
   children: React.ReactNode
+  /** An element providing styling for the backdrop component. Defaults to the BackdropSurface component. */
   backdropSurface?: React.ElementType
+  /** A handler for click events in the background. */
   onDismiss?: () => void
+  /** If true, the modal is visible. */
   open: boolean
 } & CardProps
 
@@ -51,3 +54,5 @@ export const Modal = ({
     </Container>
   </Backdrop>
 )
+
+Modal.displayName = 'Modal'

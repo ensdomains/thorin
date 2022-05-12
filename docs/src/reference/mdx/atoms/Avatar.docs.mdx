@@ -1,6 +1,6 @@
 ---
 title: Avatar
-description: Representation of entity
+description: An image that represents an entity
 ---
 
 ```tsx
@@ -8,7 +8,9 @@ import { Avatar } from '@ensdomains/thorin'
 ```
 
 ```tsx live=true expand=true
-<Avatar label="Noun 97" src={avatars.noun97} />
+<div style={{ maxWidth: '50px' }}>
+  <Avatar label="Noun 97" src={avatars.noun97} />
+</div>
 ```
 
 ## Props
@@ -17,37 +19,56 @@ import { Avatar } from '@ensdomains/thorin'
 
 ## Sizes
 
+The size of the avatar is controlled by the width of it's parent component.
+
 ```tsx live=true
 <Stack alignItems="center" flexDirection="row" flexWrap="wrap">
-  <Avatar label="Noun 97" size="24" src={avatars.noun97} />
-  <Avatar label="Noun 97" size="16" src={avatars.noun97} />
-  <Avatar label="Noun 97" size="12" src={avatars.noun97} />
-  <Avatar label="Noun 97" size="10" src={avatars.noun97} />
+  <div style={{ width: '100px' }}>
+    <Avatar label="Noun 97" src={avatars.noun97} />
+  </div>
+  <div style={{ width: '75px' }}>
+    <Avatar label="Noun 97" src={avatars.noun97} />
+  </div>
+  <div style={{ width: '50px' }}>
+    <Avatar label="Noun 97" src={avatars.noun97} />
+  </div>
+  <div style={{ width: '25px' }}>
+    <Avatar label="Noun 97" src={avatars.noun97} />
+  </div>
 </Stack>
 ```
 
 ## Placeholder
 
+The placeholder is shown if the src property is undefined or if an error occurs loading the src.
+
 ```tsx live=true
-<Avatar placeholder />
+<Stack flexDirection="row" flexWrap="wrap">
+  <Stack>
+    <Typography variant="label">undefined src</Typography>
+    <div style={{ width: '100px' }}>
+      <Avatar />
+    </div>
+  </Stack>
+  <Stack>
+    <Typography variant="label">broken Link</Typography>
+    <div style={{ width: '100px' }}>
+      <Avatar src="http://thisisa.com/brockenLink.jpg" />
+    </div>
+  </Stack>
+</Stack>
 ```
 
 ## Shapes
 
 ```tsx live=true
 <Stack alignItems="center" flexDirection="row" flexWrap="wrap">
-  <Avatar
-    label="Noun 97 circle"
-    shape="circle"
-    size="24"
-    src={avatars.noun97}
-  />
-  <Avatar
-    label="Noun 97 square"
-    shape="square"
-    size="24"
-    src={avatars.noun97}
-  />
+  <div style={{ width: '100px' }}>
+    <Avatar label="Noun 97 circle" shape="circle" src={avatars.noun97} />
+  </div>
+  <div style={{ width: '100px' }}>
+    <Avatar label="Noun 97 square" shape="square" src={avatars.noun97} />
+  </div>
 </Stack>
 ```
 
@@ -57,30 +78,32 @@ By default, there is a light border around the edge to define image edges on sim
 
 ```tsx live=true
 <Stack flexDirection="row">
-  <Avatar
-    size="24"
-    src={
-      mode === 'light'
-        ? 'https://images.mirror-media.xyz/publication-images/152cd86f-45ad-4f48-8971-4dd33fde5bc1.png'
-        : 'https://images.mirror-media.xyz/publication-images/5eaba6b2-b9ee-4bea-aeac-75796d53798f.jpg'
-    }
-  />
-  <Avatar
-    noBorder
-    size="24"
-    src={
-      mode === 'light'
-        ? 'https://images.mirror-media.xyz/publication-images/152cd86f-45ad-4f48-8971-4dd33fde5bc1.png'
-        : 'https://images.mirror-media.xyz/publication-images/5eaba6b2-b9ee-4bea-aeac-75796d53798f.jpg'
-    }
-  />
+  <div style={{ width: '100px' }}>
+    <Avatar
+      src={
+        mode === 'light'
+          ? 'https://images.mirror-media.xyz/publication-images/152cd86f-45ad-4f48-8971-4dd33fde5bc1.png'
+          : 'https://images.mirror-media.xyz/publication-images/5eaba6b2-b9ee-4bea-aeac-75796d53798f.jpg'
+      }
+    />
+  </div>
+  <div style={{ width: '100px' }}>
+    <Avatar
+      noBorder
+      src={
+        mode === 'light'
+          ? 'https://images.mirror-media.xyz/publication-images/152cd86f-45ad-4f48-8971-4dd33fde5bc1.png'
+          : 'https://images.mirror-media.xyz/publication-images/5eaba6b2-b9ee-4bea-aeac-75796d53798f.jpg'
+      }
+    />
+  </div>
 </Stack>
 ```
 
-## next/image
+<!-- ## next/image
 
 If you are using Next.js and configured [`next/image`](https://nextjs.org/docs/api-reference/next/image) appropriately, you can pass it in with the `as` prop.
 
 ```tsx live=true expand=true
 <Avatar as={NextImage} label="Noun 97" src={avatars.noun97} />
-```
+``` -->

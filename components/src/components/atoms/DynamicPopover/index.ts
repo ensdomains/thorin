@@ -1,7 +1,7 @@
 export { DynamicPopover } from './DynamicPopover'
 export type {
   DynamicPopoverPlacement,
+  DynamicPopoverSide,
+  DynamicPopoverAlignment,
   DynamicPopoverProps,
-  DynamicPopoverPopover,
-  DynamicPopoverButton,
 } from './DynamicPopover'

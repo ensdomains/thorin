@@ -1,17 +1,15 @@
 import * as React from 'react'
 
-import styled, { ThemeProvider } from 'styled-components'
+import { ThemeProvider } from 'styled-components'
 
 import { act } from 'react-dom/test-utils'
 
 import { cleanup, render, screen, userEvent, waitFor } from '@/test'
+import { Button } from '@/src/components/atoms/Button'
+import { Tooltip } from './Tooltip'
 
-import { Tooltip, TooltipProps } from './Tooltip'
 import { lightTheme } from '@/src/tokens'
 
-const TooltipButton = styled.button<TooltipProps['children']>`
-  ${({ open }) => (open ? `background: red;` : `background: white;`)}
-`
 const TooltipHelper = ({ ...props }: any) => {
   const content = <div data-testid="tooltipcontent">Content</div>
   return (
@@ -19,7 +17,7 @@ const TooltipHelper = ({ ...props }: any) => {
       <div>
         <div>outside</div>
         <Tooltip content={content} {...props}>
-          <TooltipButton data-testid="tooltipbutton">Click me</TooltipButton>
+          <Button>Click me</Button>
         </Tooltip>
       </div>
     </ThemeProvider>
@@ -32,22 +30,22 @@ describe('<Tooltip />', () => {
   it('renders', () => {
     render(<TooltipHelper />)
     expect(screen.getByTestId('dynamicpopover')).toBeInTheDocument()
-    expect(screen.getByTestId('tooltipbutton')).toBeInTheDocument()
+    expect(screen.getByText('Click me')).toBeInTheDocument()
     expect(screen.getByTestId('tooltipcontent')).toBeInTheDocument()
   })
 
   it('should show popover when clicked', () => {
     render(<TooltipHelper />)
     act(() => {
-      userEvent.click(screen.getByTestId('tooltipbutton'))
+      userEvent.click(screen.getByText('Click me'))
     })
-    expect(screen.getByTestId('tooltipcontent')).toBeVisible()
+    expect(screen.getByText('Click me')).toBeVisible()
   })
 
   it('should close if clicking outside of dropdown', async () => {
     render(<TooltipHelper />)
     act(() => {
-      userEvent.click(screen.getByTestId('tooltipbutton'))
+      userEvent.click(screen.getByText('Click me'))
     })
     act(() => {
       userEvent.click(screen.getByText('outside'))
@@ -60,10 +58,10 @@ describe('<Tooltip />', () => {
   it('should close dropdown if button is clicked when open', () => {
     render(<TooltipHelper />)
     act(() => {
-      userEvent.click(screen.getByTestId('tooltipbutton'))
+      userEvent.click(screen.getByText('Click me'))
     })
     act(() => {
-      userEvent.click(screen.getByTestId('tooltipbutton'))
+      userEvent.click(screen.getByText('Click me'))
     })
     expect(screen.getByTestId('tooltipcontent')).not.toBeVisible()
   })

@@ -1,6 +1,7 @@
 import * as React from 'react'
 
 import { ThemeProvider } from 'styled-components'
+import { act } from 'react-dom/test-utils'
 
 import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 
@@ -39,8 +40,12 @@ describe('<Select />', () => {
         />
       </ThemeProvider>,
     )
-    userEvent.click(screen.getByTestId('selected'))
-    userEvent.click(screen.getByText('One'))
+    act(() => {
+      userEvent.click(screen.getByTestId('selected'))
+    })
+    act(() => {
+      userEvent.click(screen.getByText('One'))
+    })
     expect(screen.getByTestId('selected').innerHTML).toEqual('One')
   })
 
@@ -59,9 +64,13 @@ describe('<Select />', () => {
         />
       </ThemeProvider>,
     )
-    userEvent.click(screen.getByTestId('selected'))
+    act(() => {
+      userEvent.click(screen.getByTestId('selected'))
+    })
     expect(mockCallback).toBeCalledWith(null)
-    userEvent.click(screen.getByText('One'))
+    act(() => {
+      userEvent.click(screen.getByText('One'))
+    })
     await waitFor(() => {
       expect(mockCallback).toBeCalledWith({ value: '1', label: 'One' })
     })
@@ -82,8 +91,12 @@ describe('<Select />', () => {
         />
       </ThemeProvider>,
     )
-    userEvent.click(screen.getByTestId('selected'))
-    userEvent.click(screen.getByText('Two'))
+    act(() => {
+      userEvent.click(screen.getByTestId('selected'))
+    })
+    act(() => {
+      userEvent.click(screen.getByText('Two'))
+    })
     expect(screen.getAllByText('Two').length).toEqual(1)
   })
 
@@ -105,8 +118,12 @@ describe('<Select />', () => {
         </div>
       </ThemeProvider>,
     )
-    userEvent.click(screen.getByTestId('selected'))
-    userEvent.click(screen.getByText('outside'))
+    act(() => {
+      userEvent.click(screen.getByTestId('selected'))
+    })
+    act(() => {
+      userEvent.click(screen.getByText('outside'))
+    })
     await waitFor(() => {
       expect(screen.getByText('Two')).not.toBeVisible()
     })
