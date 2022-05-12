@@ -21,6 +21,7 @@ const Container = styled.div`
     margin: 0 auto;
     max-width: ${theme.space['320']};
     min-height: ${theme.space['viewHeight']};
+    padding: 0 ${theme.space['6']};
   `}
 
   ${largerThan.md`
@@ -36,27 +37,22 @@ const Container = styled.div`
 
 const Aside = styled.aside`
   ${({ theme }) => `
-    padding: ${theme.space['6']} ${theme.space['6']} 0 ${theme.space['6']};
+    padding-top: ${theme.space['6']};
   `}
 
   ${({ theme }) => largerThan.md`
-    height: ${theme.space['viewHeight']};
-    position: fixed;
-    left: 0;
-    width: ${theme.space['56']};
+    left: ${theme.space['4']};
+    width: ${theme.space['max']};
+    margin-right: ${theme.space['10']};
   `}
 
   ${({ theme }) => largerThan.lg`
     height: ${theme.space['viewHeight']};
     position: fixed;
-    left: 0;
-    width: ${theme.space['56']};
+    width: ${theme.space['48']};
   `}
 
   ${({ theme }) => largerThan.xl`
-    height: ${theme.space['viewHeight']};
-    position: fixed;
-    left: 0;
     width: ${theme.space['56']};
   `}
 `
@@ -87,20 +83,6 @@ const Main = styled.main`
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  ${({ theme }) => [
-    `
-    padding: 0 ${theme.space['6']};
-    `,
-    largerThan.md`
-    margin-left: ${theme.space['56']}
-    `,
-    largerThan.lg`
-    margin-left: ${theme.space['56']};
-  `,
-    largerThan.xl`
-    margin-left: ${theme.space['56']};
-  `,
-  ]}
 `
 
 export type Props = {

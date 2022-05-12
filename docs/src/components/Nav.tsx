@@ -35,7 +35,11 @@ const Container = styled.div`
   height: ${({ theme }) => theme.space['full']};
 `
 
-const ContainerInner = styled.div``
+const ContainerInner = styled.div`
+  ${({ theme }) => largerThan.lg`
+    padding-bottom: ${theme.space['5']};    
+  `}
+`
 
 const NavlinkContainer = styled.div`
   display: flex;
@@ -43,6 +47,10 @@ const NavlinkContainer = styled.div`
   justify-content: space-between;
   flex-direction: row;
   gap: ${({ theme }) => theme.space['5']};
+
+  ${largerThan.lg`
+    flex-direction: column;
+  `}
 `
 
 const NavLinkInner = styled.div`
