@@ -67,7 +67,7 @@ export const MDX: MDXProviderProps['components'] = {
           marginBottom: tokens.space['6'],
         }}
       >
-        <Heading color="textPrimary" id={id}>
+        <Heading color="text" id={id}>
           <HoverParent href={`#${id}`}>
             {children}
             <HoverChild>#</HoverChild>

@@ -14,7 +14,7 @@ import {
 ```
 
 ```tsx live=true expand=true minHeight=350px
-<Card padding="4">
+<Card>
   <Select
     options={[
       { value: '0', label: 'Zero' },
@@ -30,3 +30,78 @@ import {
 ## Props
 
 <PropsTable sourceLink={sourceLink} types={types} />
+
+## Option Props
+
+<PropsTable
+  types={{
+    value: {
+      name: 'value',
+      description: 'The value of the option.',
+      required: true,
+      type: {
+        raw: 'string',
+      },
+    },
+    label: {
+      name: 'label',
+      description: 'The human readable text for the option.',
+      type: {
+        raw: 'string',
+      },
+    },
+    prefix: {
+      name: 'prefix',
+      description: 'The text or component inserted before the label.',
+      type: {
+        raw: 'ReactNode',
+      },
+    },
+    disabled: {
+      name: 'disabled',
+      description: 'If true, prevents user interaction with option.',
+      type: {
+        raw: 'boolean',
+      },
+    },
+  }}
+/>
+
+## Messages
+
+```tsx live=true expand=true minHeight=350px
+<Card>
+  <Select
+    description="Description message"
+    error="Error message"
+    inline
+    label="Label text"
+    labelSecondary="Label secondary text"
+    options={[
+      { value: '0', label: 'Zero' },
+      { value: '1', label: 'One', prefix: <EthSVG /> },
+      { value: '2', label: 'Two', prefix: <FlagSVG /> },
+      { value: '3', label: 'Three', prefix: <MoonSVG /> },
+      { value: '4', label: 'Four', prefix: <DuplicateSVG />, disabled: true },
+    ]}
+  />
+</Card>
+```
+
+## Disabled
+
+```tsx live=true expand=true minHeight=350px
+<Card>
+  <Select
+    disabled
+    options={[
+      { value: '0', label: 'Zero' },
+      { value: '1', label: 'One', prefix: <EthSVG /> },
+      { value: '2', label: 'Two', prefix: <FlagSVG /> },
+      { value: '3', label: 'Three', prefix: <MoonSVG /> },
+      { value: '4', label: 'Four', prefix: <DuplicateSVG />, disabled: true },
+    ]}
+    selected={{ value: '1', label: 'One', prefix: <EthSVG /> }}
+  />
+</Card>
+```

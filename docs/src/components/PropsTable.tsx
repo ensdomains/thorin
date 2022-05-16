@@ -9,6 +9,8 @@ import {
   largerThan,
 } from '@ensdomains/thorin'
 
+import property from 'lodash/property'
+
 import { Link } from './Link'
 
 type Props = {
@@ -105,6 +107,25 @@ const FlexContainer = styled.div`
   gap: ${({ theme }) => theme.space['2']};
 `
 
+const formatPropType = (type: any): string => {
+  if (!type.raw) return type.name
+  if (
+    [
+      'boolean',
+      'string',
+      'ReactNodeNoStrings',
+      'ReactNode',
+      'Button',
+      'DynamicPopoverPopover',
+    ].includes(type.raw)
+  )
+    return type.raw
+  if (type.raw.indexOf('Ref') === 0) return type.raw
+  if (type.raw.indexOf('ElementType') === 0) return type.raw
+  if (type.value) return type.value.map(property('value')).join(' | ')
+  return type.raw ?? type.name
+}
+
 export const PropsTable = ({ sourceLink, types }: Props) => {
   const theme = useTheme()
 
@@ -162,7 +183,7 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
                   </DataCell>
 
                   <DataCell>
-                    <RawName>{x.type.raw ?? x.type.name}</RawName>
+                    <RawName>{formatPropType(x.type)}</RawName>
                   </DataCell>
 
                   <DataCell>
@@ -190,26 +211,32 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
       <div style={{ margin: `${theme.space['2']} 0` }}>
         <FlexContainer>
           {!!props.length && (
-            <Button
-              size="small"
-              variant="secondary"
-              onClick={() =>
-                setState((x) => ({
-                  ...x,
-                  showDescriptions: !x.showDescriptions,
-                }))
-              }
-            >
-              {state.showDescriptions ? 'Hide Description' : 'Show Description'}
-            </Button>
+            <div>
+              <Button
+                size="small"
+                variant="secondary"
+                onClick={() =>
+                  setState((x) => ({
+                    ...x,
+                    showDescriptions: !x.showDescriptions,
+                  }))
+                }
+              >
+                {state.showDescriptions
+                  ? 'Hide Description'
+                  : 'Show Description'}
+              </Button>
+            </div>
           )}
 
           {sourceLink && (
-            <Link href={sourceLink}>
-              <Button size="small" variant="secondary">
-                View Source on GitHub
-              </Button>
-            </Link>
+            <div>
+              <Link href={sourceLink}>
+                <Button size="small" variant="secondary">
+                  View Source on GitHub
+                </Button>
+              </Link>
+            </div>
           )}
         </FlexContainer>
       </div>

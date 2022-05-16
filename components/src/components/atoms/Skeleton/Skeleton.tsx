@@ -2,15 +2,14 @@ import * as React from 'react'
 import styled from 'styled-components'
 
 import { Context } from '../../molecules/SkeletonGroup'
-import { Colors, Radii } from '@/src/tokens'
 
 interface ContainerProps {
-  active?: boolean
+  $active?: boolean
 }
 
 const Container = styled.div<ContainerProps>`
-  ${({ theme, active }) =>
-    active &&
+  ${({ theme, $active }) =>
+    $active &&
     `
      background-color: ${theme.colors.foregroundSecondary};
      border-radius: ${theme.radii.medium};
@@ -18,15 +17,15 @@ const Container = styled.div<ContainerProps>`
   `}
 `
 
-const ContainerInner = styled.span<{ active?: boolean }>`
+const ContainerInner = styled.span<{ $active?: boolean }>`
   display: block;
-  ${({ active }) => (active ? 'visibility: hidden;' : '')}
+  ${({ $active }) => ($active ? 'visibility: hidden;' : '')}
 `
 
 type Props = {
-  as?: 'div' | 'span'
-  backgroundColor?: Colors
-  radius?: Radii
+  /** An alternative element type to render the component as.*/
+  as?: 'span'
+  /** If true, hides the content and shows the skeleton style. */
   loading?: boolean
 }
 
@@ -38,10 +37,10 @@ export const Skeleton = ({
   const groupLoading = React.useContext(Context)
   const active = loading ?? groupLoading
   return (
-    <Container {...{ active, as }}>
+    <Container {...{ $active: active, as }}>
       <ContainerInner
         {...{
-          active,
+          $active: active,
         }}
       >
         {children}
@@ -49,3 +48,5 @@ export const Skeleton = ({
     </Container>
   )
 }
+
+Skeleton.displayName = 'Skeleton'

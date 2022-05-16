@@ -1,8 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
-import { Button } from '../..'
-import { Props as ButtonProps } from '@/src/components/atoms/Button'
+import { Button, ButtonProps } from '@/src/components/atoms/Button'
 import { Colors } from '@/src/tokens'
 import { ReactComponent as IconDownIndicatorSvg } from '@/src/icons/DownIndicator.svg'
 
@@ -16,11 +15,11 @@ type DropdownItemObject = {
 export type DropdownItem = DropdownItemObject | React.ReactNode
 
 interface DropdownMenuContainer {
-  opened: boolean
-  inner: boolean
-  shortThrow: boolean
-  align: 'left' | 'right'
-  labelAlign?: 'flex-start' | 'flex-end' | 'center'
+  $opened: boolean
+  $inner: boolean
+  $shortThrow: boolean
+  $align: 'left' | 'right'
+  $labelAlign?: 'flex-start' | 'flex-end' | 'center'
 }
 
 const DropdownMenuContainer = styled.div<DropdownMenuContainer>`
@@ -33,16 +32,16 @@ const DropdownMenuContainer = styled.div<DropdownMenuContainer>`
   position: absolute;
   `}
 
-  ${({ labelAlign }) =>
-    labelAlign &&
+  ${({ $labelAlign }) =>
+    $labelAlign &&
     `
     & > button {
-      justify-content: ${labelAlign};
+      justify-content: ${$labelAlign};
     }
   `}
 
-  ${({ opened }) =>
-    opened
+  ${({ $opened }) =>
+    $opened
       ? `
     visibility: visible;
     opacity: 1;
@@ -60,8 +59,8 @@ const DropdownMenuContainer = styled.div<DropdownMenuContainer>`
     border-radius: ${theme.radii['2xLarge']};
   `}
 
-  ${({ theme, inner }) =>
-    inner &&
+  ${({ theme, $inner }) =>
+    $inner &&
     `
     background-color: ${theme.colors.grey};
     border-radius: ${theme.radii.almostExtraLarge};
@@ -77,44 +76,44 @@ const DropdownMenuContainer = styled.div<DropdownMenuContainer>`
     transition: 0.35s all cubic-bezier(1, 0, 0.22, 1.6);
   `}
 
-  ${({ opened, inner, theme }) => {
-    if (opened && !inner)
+  ${({ $opened, $inner, theme }) => {
+    if ($opened && !$inner)
       return `
       z-index: 20;
       margin-top: ${theme.space['1.5']};
       transition: all 0.3s cubic-bezier(1, 0, 0.22, 1.6), width 0s linear, z-index 0s linear 0.3s;
     `
 
-    if (!opened && !inner)
+    if (!$opened && !$inner)
       return `
       transition: all 0.3s cubic-bezier(1, 0, 0.22, 1.6), width 0s linear, z-index 0s linear 0s;
       `
 
-    if (opened && inner)
+    if ($opened && $inner)
       return `
         transition: all 0.35s cubic-bezier(1, 0, 0.22, 1.6), width 0s linear, z-index 0s linear 0.35s;
       `
 
-    if (!opened && inner)
+    if (!$opened && $inner)
       return `
         transition: all 0.35s cubic-bezier(1, 0, 0.22, 1.6), width 0s linear, z-index 0s linear 0s;
       `
   }}
 
-  ${({ opened, shortThrow, theme }) => {
-    if (!opened && shortThrow)
+  ${({ $opened, $shortThrow, theme }) => {
+    if (!$opened && $shortThrow)
       return `
       margin-top: -${theme.space['2.5']};
     `
 
-    if (!opened && !shortThrow)
+    if (!$opened && !$shortThrow)
       return `
       margin-top: -${theme.space['12']};
     `
   }}
 
-  ${({ align }) =>
-    align === 'left'
+  ${({ $align }) =>
+    $align === 'left'
       ? `
     left: 0;
   `
@@ -124,9 +123,9 @@ const DropdownMenuContainer = styled.div<DropdownMenuContainer>`
 `
 
 interface MenuButtonProps {
-  inner: boolean
-  hasColor: boolean
-  color?: Colors
+  $inner: boolean
+  $hasColor: boolean
+  $color?: Colors
 }
 
 const MenuButton = styled.button<MenuButtonProps>`
@@ -150,16 +149,16 @@ const MenuButton = styled.button<MenuButtonProps>`
   }
   `}
 
-  ${({ theme, color }) => `
-    color: ${theme.colors[color || 'accent']};
+  ${({ theme, $color }) => `
+    color: ${theme.colors[$color || 'accent']};
   
     &:disabled {
       color: ${theme.colors.textTertiary}
     }
   `}
 
-  ${({ theme, inner }) => {
-    if (inner)
+  ${({ theme, $inner }) => {
+    if ($inner)
       return `
       justify-content: center;
     
@@ -168,7 +167,7 @@ const MenuButton = styled.button<MenuButtonProps>`
       }
     `
 
-    if (!inner)
+    if (!$inner)
       return `
       justify-content: flex-start;
       
@@ -179,8 +178,8 @@ const MenuButton = styled.button<MenuButtonProps>`
     `
   }}
 
-  ${({ theme, inner, hasColor }) => {
-    if (inner && !hasColor)
+  ${({ theme, $inner, $hasColor }) => {
+    if ($inner && !$hasColor)
       return `
       color: ${theme.colors.textSecondary};  
     `
@@ -188,13 +187,21 @@ const MenuButton = styled.button<MenuButtonProps>`
 `
 
 type DropdownMenuProps = {
+  /** An array of objects conforming to the DropdownItem interface. */
   items: DropdownItem[]
+  /** If true, makes the menu visible. */
   isOpen: boolean
+  /** A mutation function for the isOpen variable. */
   setIsOpen: (isOpen: boolean) => void
+  /** Sets the width in the number of pixels. Must be at least 150. */
   width?: string
+  /** If true, renders a dropdown where the button and menu are merged. */
   inner: boolean
+  /** Sets which side of the button to align the dropdown menu. */
   align: 'left' | 'right'
+  /** If true, decreases the distance of the dropdown animation. */
   shortThrow: boolean
+  /** If true, sets the zIndex of the dropdown menu to 100. */
   keepMenuOnTop: boolean
   labelAlign?: 'flex-start' | 'flex-end' | 'center'
 }
@@ -212,7 +219,13 @@ const DropdownMenu = ({
 }: DropdownMenuProps) => {
   return (
     <DropdownMenuContainer
-      {...{ opened: isOpen, inner, align, shortThrow, labelAlign }}
+      {...{
+        $opened: isOpen,
+        $inner: inner,
+        $align: align,
+        $shortThrow: shortThrow,
+        $labelAlign: labelAlign,
+      }}
       style={{
         width:
           inner || (width && parseInt(width) > 100) ? `${width}px` : '150px',
@@ -226,7 +239,7 @@ const DropdownMenu = ({
         const { color, label, onClick, disabled } = item as DropdownItemObject
         return (
           <MenuButton
-            {...{ inner, hasColor: !!color, color, disabled }}
+            {...{ $inner: inner, $hasColor: !!color, $color: color, disabled }}
             key={label}
             onClick={() => Promise.resolve(setIsOpen(false)).then(onClick)}
           >
@@ -239,8 +252,8 @@ const DropdownMenu = ({
 }
 
 interface InnerMenuButton {
-  size: 'small' | 'medium'
-  open: boolean
+  $size: 'small' | 'medium'
+  $open: boolean
 }
 
 const InnerMenuButton = styled.button<InnerMenuButton>`
@@ -260,8 +273,8 @@ const InnerMenuButton = styled.button<InnerMenuButton>`
     border-color: ${theme.colors.borderSecondary};
   `}
 
-  ${({ size, theme }) => {
-    switch (size) {
+  ${({ $size, theme }) => {
+    switch ($size) {
       case 'small':
         return `
           padding: ${theme.space['0.5']} ${theme.space['0.25']};
@@ -275,8 +288,8 @@ const InnerMenuButton = styled.button<InnerMenuButton>`
     }
   }}
 
-  ${({ theme, open }) => {
-    if (open)
+  ${({ theme, $open }) => {
+    if ($open)
       return `
       border-top-left-radius: ${theme.radii['almostExtraLarge']};
       border-top-right-radius: ${theme.radii['almostExtraLarge']};
@@ -291,7 +304,7 @@ const InnerMenuButton = styled.button<InnerMenuButton>`
         color: ${theme.colors.accent};
       }
       `
-    if (!open)
+    if (!$open)
       return `
       background-color: ${theme.colors.background};
       color: ${theme.colors.textSecondary};
@@ -306,17 +319,17 @@ const InnerMenuButton = styled.button<InnerMenuButton>`
   }}
 `
 
-const Chevron = styled(IconDownIndicatorSvg)<{ open: boolean }>`
+const Chevron = styled(IconDownIndicatorSvg)<{ $open: boolean }>`
   ${({ theme }) => `
-  margin-left: ${theme.space['1']};
-  width: ${theme.space['3']};
-  margin-right: ${theme.space['0.5']};
-  transition-duration: ${theme.transitionDuration['200']};
-  transition-property: all;
-  transition-timing-function: ${theme.transitionTimingFunction['inOut']};
-  opacity: 0.3;
-  transform: rotate(0deg);
-  display: flex;
+    margin-left: ${theme.space['1']};
+    width: ${theme.space['3']};
+    margin-right: ${theme.space['0.5']};
+    transition-duration: ${theme.transitionDuration['200']};
+    transition-property: all;
+    transition-timing-function: ${theme.transitionTimingFunction['inOut']};
+    opacity: 0.3;
+    transform: rotate(0deg);
+    display: flex;
   `}
 
   & > svg {
@@ -324,8 +337,8 @@ const Chevron = styled(IconDownIndicatorSvg)<{ open: boolean }>`
   }
   fill: currentColor;
 
-  ${({ open }) =>
-    open &&
+  ${({ $open }) =>
+    $open &&
     `
       opacity: 1;
       transform: rotate(180deg);
@@ -408,11 +421,11 @@ export const Dropdown = ({
     >
       {!children && inner && (
         <InnerMenuButton
-          {...{ open: isOpen, size }}
+          {...{ $open: isOpen, $size: size }}
           onClick={() => setIsOpen(!isOpen)}
         >
           {label}
-          {chevron && <Chevron open={isOpen} />}
+          {chevron && <Chevron $open={isOpen} />}
         </InnerMenuButton>
       )}
 
@@ -421,7 +434,7 @@ export const Dropdown = ({
           <Button
             {...buttonProps}
             pressed={isOpen}
-            suffix={chevron && <Chevron open={isOpen} />}
+            suffix={chevron && <Chevron $open={isOpen} />}
             onClick={() => setIsOpen(!isOpen)}
           >
             {label}

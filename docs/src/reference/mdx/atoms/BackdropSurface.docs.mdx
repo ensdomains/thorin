@@ -1,6 +1,6 @@
 ---
 title: BackdropSurface
-description: Surface of backdrop, used for Modals
+description: The default surface for the Backdrop component used in the Modal component.
 ---
 
 ```tsx
@@ -8,13 +8,11 @@ import { BackdropSurface } from '@ensdomains/thorin'
 ```
 
 ```tsx
-<Portal className="modal">
+<Portal>
   <BackdropSurface>
-    <Box>
-      <Card>
-        <Typography>This text will be highlighted</Typography>
-      </Card>
-    </Box>
+    <Card>
+      <Typography>This text will be highlighted</Typography>
+    </Card>
   </BackdropSurface>
 </Portal>
 ```

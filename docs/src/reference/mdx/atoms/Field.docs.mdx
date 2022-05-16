@@ -1,6 +1,6 @@
 ---
 title: Field
-description: Wrapper for form content
+description: Wrapper for form content that adds labels and status messages
 ---
 
 ```tsx
@@ -16,6 +16,14 @@ import { Field } from '@ensdomains/thorin'
 ## Props
 
 <PropsTable sourceLink={sourceLink} types={types} />
+
+## Required
+
+```tsx live=true
+<Field description="Description or help text" label="Label" required>
+  <div style={{ backgroundColor: 'black', height: 8 }} />
+</Field>
+```
 
 ## Description
 

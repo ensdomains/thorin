@@ -12,6 +12,7 @@
     "clean": "yarn workspaces foreach -p run clean",
     "dev": "yarn workspaces foreach -pi run dev",
     "gen:component": "yarn node scripts/generateComponent.js",
+    "gen:icons": "yarn node scripts/generateIcons.js",
     "lint": "eslint . --cache",
     "lint:fix": "yarn lint --fix",
     "lint:format": "prettier --write .",

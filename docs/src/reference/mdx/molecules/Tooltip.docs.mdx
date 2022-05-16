@@ -1,6 +1,6 @@
 ---
 title: Tooltip
-description: attaches a tooltip menu to wrapped element
+description: Attaches a popover to a Button component. Built with DynamicPopover.
 ---
 
 ```tsx
@@ -16,3 +16,40 @@ import { Tooltip, TooltipProps } from '@ensdomains/thorin'
 ## Props
 
 <PropsTable sourceLink={sourceLink} types={types} />
+
+## Placement
+
+```tsx live=true  expand=ture minHeight=300px
+<Stack>
+  <Stack flexDirection="row" justifyContent="space-between">
+    <Tooltip content={<div>Content</div>} placement="bottom-start">
+      <Button>Click me</Button>
+    </Tooltip>
+    <Tooltip content={<div>Content</div>} placement="bottom-center">
+      <Button>Click me</Button>
+    </Tooltip>
+    <Tooltip content={<div>Content</div>} placement="bottom-end">
+      <Button>Click me</Button>
+    </Tooltip>
+  </Stack>
+  <Stack flexDirection="row" justifyContent="space-between">
+    <Tooltip content={<div>Content</div>} placement="right-center">
+      <Button>Click me</Button>
+    </Tooltip>
+    <Tooltip content={<div>Content</div>} placement="left-center">
+      <Button>Click me</Button>
+    </Tooltip>
+  </Stack>
+  <Stack flexDirection="row" justifyContent="space-between">
+    <Tooltip content={<div>Content</div>} placement="top-start">
+      <Button>Click me</Button>
+    </Tooltip>
+    <Tooltip content={<div>Content</div>} placement="top-center">
+      <Button>Click me</Button>
+    </Tooltip>
+    <Tooltip content={<div>Content</div>} placement="top-end">
+      <Button>Click me</Button>
+    </Tooltip>
+  </Stack>
+</Stack>
+```

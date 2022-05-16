@@ -9,33 +9,32 @@ type Weights = 'bold' | 'semiBold' | 'medium' | 'normal' | 'light'
 type Fonts = 'sans' | 'mono'
 
 interface ContainerProps {
-  ellipsis?: boolean
-  variant?: Variants
-  size?: 'small' | 'base'
-  ref: any
-  color?: Colors
-  weight?: Weights
-  font: Fonts
+  $ellipsis?: boolean
+  $variant?: Variants
+  $size?: 'small' | 'base'
+  $color?: Colors
+  $weight?: Weights
+  $font: Fonts
 }
 
 const Container = styled.div<ContainerProps>`
-  ${({ font, theme }) => `
-      font-family: ${theme.fonts[font]};
-      letter-spacing: ${theme.letterSpacings['-0.01']};
-      letter-spacing: ${theme.letterSpacings['-0.015']};
-      line-height: ${theme.lineHeights.normal};
+  ${({ $font, theme }) => `
+    font-family: ${theme.fonts[$font]};
+    letter-spacing: ${theme.letterSpacings['-0.01']};
+    letter-spacing: ${theme.letterSpacings['-0.015']};
+    line-height: ${theme.lineHeights.normal};
   `}
 
-  ${({ ellipsis }) =>
-    ellipsis &&
+  ${({ $ellipsis }) =>
+    $ellipsis &&
     `
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: nowrap;
   `}
 
-  ${({ variant, theme }) => {
-    switch (variant) {
+  ${({ $variant, theme }) => {
+    switch ($variant) {
       case 'small':
         return `
           font-size: ${theme.fontSizes['small']};
@@ -78,26 +77,27 @@ const Container = styled.div<ContainerProps>`
     }
   }}
 
-  ${({ theme, color }) =>
-    color &&
+  ${({ $color, theme }) =>
+    $color &&
     `
-    color: ${theme.colors[color]};
+    color: ${theme.colors[$color]};
   `}
 
-  ${({ size, theme }) =>
-    size &&
+  ${({ $size, theme }) =>
+    $size &&
     `
-      font-size: ${theme.fontSizes[size]};
+      font-size: ${theme.fontSizes[$size]};
   `}
 
-  ${({ weight, theme }) =>
-    weight &&
+  ${({ $weight, theme }) =>
+    $weight &&
     `
-      font-weight: ${theme.fontWeights[weight]};
+      font-weight: ${theme.fontWeights[$weight]};
   `}
 `
 
 type Props = {
+  /** element type of container */
   as?:
     | 'code'
     | 'div'
@@ -112,10 +112,15 @@ type Props = {
     | 'span'
     | 'i'
   children?: React.ReactNode
+  /** If true, will truncate text with an elipsis on overflow. If false, text will break on the next word. */
   ellipsis?: boolean
+  /** Font size and */
   variant?: Variants
+  /** The classname attribute of contianer. */
   className?: string
+  /** The tokens.fontWeight value */
   weight?: Weights
+  /** The  */
   font?: Fonts
   color?: Colors
   size?: 'small' | 'base'
@@ -140,13 +145,13 @@ export const Typography = React.forwardRef<HTMLElement, Props>(
       <Container
         as={as}
         {...{
-          variant,
-          ellipsis: ellipsis ? true : undefined,
           className,
-          weight,
-          font,
-          color,
-          size,
+          $variant: variant,
+          $ellipsis: ellipsis ? true : undefined,
+          $weight: weight,
+          $font: font,
+          $color: color,
+          $size: size,
         }}
         ref={ref}
       >

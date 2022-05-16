@@ -41,7 +41,6 @@ const expectedExportedKeys = [
   'SkeletonGroup',
   'Textarea',
   'Tooltip',
-  'TooltipPopover',
   // organisms
   'Dialog',
   'ChevronLeftSVG',

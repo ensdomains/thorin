@@ -28,6 +28,28 @@ import { Textarea } from '@ensdomains/thorin'
 />
 ```
 
+## Read Only
+
+```tsx live=true
+<Textarea
+  defaultValue="This is a read only textarea. You can focus on the textarea but you can not enter text."
+  label="Read only"
+  placeholder="Share your story…"
+  readOnly
+/>
+```
+
+## Rows
+
+```tsx live=true
+<Textarea
+  defaultValue="This is a textarea whose rows property has been set to two. This textarea will only be centered on two rows when it appears, even if there are more than two rows."
+  label="2 rows"
+  placeholder="Share your story…"
+  rows={2}
+/>
+```
+
 ## Description
 
 ```tsx live=true
@@ -54,6 +76,18 @@ import { Textarea } from '@ensdomains/thorin'
 <Textarea
   hideLabel
   label="Why are you entering $WRITE Race?"
+  placeholder="Share your story…"
+/>
+```
+
+## Max Length
+
+```tsx live=true
+<Textarea
+  defaultValue="This textarea can hold a maximum of 100 characters."
+  hideLabel
+  label="Max length"
+  maxLength={100}
   placeholder="Share your story…"
 />
 ```

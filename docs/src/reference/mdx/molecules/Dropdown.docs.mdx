@@ -17,6 +17,45 @@ import { Dropdown } from '@ensdomains/thorin'
 />
 ```
 
+## Props
+
+<PropsTable sourceLink={sourceLink} types={types} />
+
+## Dropdown Item Props
+
+<PropsTable
+  types={{
+    label: {
+      name: 'label',
+      description: 'The text label.',
+      type: {
+        raw: 'string',
+      },
+    },
+    color: {
+      name: 'color',
+      description: 'The color of the label.',
+      type: {
+        raw: '"blue" | "green" | "indigo" | "orange" | "pink" | "purple" | "red" | "teal" | "yellow" | "grey" | "accent" | "accentSecondary" | "accentSecondaryHover" | "accentTertiary" | "accentText" | "accentGradient" | "background" | "backgroundHide" | "backgroundSecondary" | "backgroundTertiary" | "border" | "borderSecondary" | "borderTertiary" | "foreground" | "foregroundSecondary" | "foregroundSecondaryHover" | "foregroundTertiary" | "groupBackground" | "groupBorder" | "gradients" | "text" | "textPlaceholder" | "textSecondary" | "textTertiary"',
+      },
+    },
+    disabled: {
+      name: 'disabled',
+      description: 'The disabled attribute of button element.',
+      type: {
+        raw: 'boolean',
+      },
+    },
+    onClick: {
+      name: 'onClick',
+      description: 'An event handler for click events.',
+      type: {
+        raw: '() => void',
+      },
+    },
+  }}
+/>
+
 ## Inner Dropdown
 
 ```tsx live=true expand=true minHeight=300px
@@ -30,6 +69,61 @@ import { Dropdown } from '@ensdomains/thorin'
   ]}
   label="Language"
 />
+```
+
+## Align
+
+```tsx live=true expand=true minHeight=300px
+<Stack flexDirection="row" justifyContent="space-between">
+  <Dropdown
+    align="left"
+    items={[
+      { label: 'Text Label 1', onClick: () => null },
+      { label: 'Text Label 2', onClick: () => null },
+      { label: 'Text Label 3', onClick: () => null },
+      { label: 'Text Label 4', onClick: () => null },
+    ]}
+    label="Left"
+  />
+  <Dropdown
+    align="right"
+    items={[
+      { label: 'Text Label 1', onClick: () => null },
+      { label: 'Text Label 2', onClick: () => null },
+      { label: 'Text Label 3', onClick: () => null },
+      { label: 'Text Label 4', onClick: () => null },
+    ]}
+    label="Right"
+  />
+</Stack>
+```
+
+## Short Throw
+
+```tsx live=true expand=true minHeight=300px
+<Stack flexDirection="row" justifyContent="space-between">
+  <Dropdown
+    align="left"
+    items={[
+      { label: 'Text Label 1', onClick: () => null },
+      { label: 'Text Label 2', onClick: () => null },
+      { label: 'Text Label 3', onClick: () => null },
+      { label: 'Text Label 4', onClick: () => null },
+    ]}
+    label="Regular Throw"
+  />
+  <Dropdown
+    align="right"
+    items={[
+      { label: 'Text Label 1', onClick: () => null },
+      { label: 'Text Label 2', onClick: () => null },
+      { label: 'Text Label 3', onClick: () => null },
+      { label: 'Text Label 4', onClick: () => null },
+    ]}
+    label="Short Throw"
+    shortThrow
+  />
+</Stack>
 ```
 
 ## Custom button
@@ -75,7 +169,3 @@ import { Dropdown } from '@ensdomains/thorin'
   label="Language"
 />
 ```
-
-## Props
-
-<PropsTable sourceLink={sourceLink} types={types} />

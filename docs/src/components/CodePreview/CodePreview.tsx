@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled, { useTheme } from 'styled-components'
+import styled, { keyframes, useTheme } from 'styled-components'
 import { default as NextImage } from 'next/image'
 import { default as NextLink } from 'next/link'
 import { LiveEditor, LiveError, LivePreview, LiveProvider } from 'react-live'
@@ -7,6 +7,8 @@ import { mdx } from '@mdx-js/react'
 import { PrismTheme } from 'prism-react-renderer'
 
 import { Button, Colors, Components } from '@ensdomains/thorin'
+
+import ComponentWrapper from '../../playroom/ComponentWrapper'
 
 import { createPlayroomLink } from '~/utils/playroom'
 import { usePlayroomStore } from '~/playroom/PlayroomState'
@@ -86,6 +88,7 @@ export const CodePreview = ({
       scope={{
         mdx,
         ...Components,
+        ComponentWrapper,
         ...store,
         ...themeValue,
         previewRef,
@@ -93,6 +96,7 @@ export const CodePreview = ({
         NextLink,
         avatars,
         Stack,
+        keyframes,
       }}
       theme={theme}
       transformCode={(code) => '/** @jsx mdx */' + code}
@@ -128,23 +132,27 @@ export const CodePreview = ({
 
       <div style={{ margin: `${themeValue.space['2']} 0` }}>
         <ButtonContainer>
-          <Button
-            size="small"
-            variant="secondary"
-            onClick={() => setState((x) => ({ ...x, expand: !x.expand }))}
-          >
-            {state.expand ? 'Hide Code' : 'View Code'}
-          </Button>
+          <div>
+            <Button
+              size="small"
+              variant="secondary"
+              onClick={() => setState((x) => ({ ...x, expand: !x.expand }))}
+            >
+              {state.expand ? 'Hide Code' : 'View Code'}
+            </Button>
+          </div>
 
-          <Button
-            as="a"
-            href={createPlayroomLink({ code })}
-            size="small"
-            target="_blank"
-            variant="secondary"
-          >
-            Open in Playroom
-          </Button>
+          <div>
+            <Button
+              as="a"
+              href={createPlayroomLink({ code })}
+              size="small"
+              target="_blank"
+              variant="secondary"
+            >
+              Open in Playroom
+            </Button>
+          </div>
         </ButtonContainer>
       </div>
     </LiveProvider>

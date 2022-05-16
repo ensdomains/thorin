@@ -7,9 +7,9 @@ import { FieldBaseProps } from '../../atoms/Field'
 type NativeInputProps = React.AllHTMLAttributes<HTMLInputElement>
 
 interface InputProps {
-  size: any
-  variant: 'regular' | 'switch'
-  color: 'grey' | 'white'
+  $size: any
+  $variant: 'regular' | 'switch'
+  $color: 'grey' | 'white'
 }
 
 const Input = styled.input<InputProps>`
@@ -18,8 +18,8 @@ const Input = styled.input<InputProps>`
   margin: ${theme.space['1']} 0;
   `}
 
-  ${({ theme, variant }) => {
-    switch (variant) {
+  ${({ theme, $variant, $size }) => {
+    switch ($variant) {
       case 'regular':
         return `
           width: ${theme.space['7']};
@@ -61,6 +61,15 @@ const Input = styled.input<InputProps>`
           transition: transform 150ms ease-in-out, filter 150ms ease-in-out;
           background-color: ${theme.colors.accent};
           filter: grayscale(1) brightness(1.5);
+          width: ${
+            $size === 'small' ? '' : $size === 'large' ? '5.188rem' : '3rem'
+          };
+          height: ${
+            $size === 'small' ? '' : $size === 'large' ? '2.875rem' : '1.688rem'
+          };
+          border-radius: ${
+            $size === 'small' ? '' : $size === 'large' ? '1.437rem' : '1.344rem'
+          };
           
           &:hover {
             transform: translateY(-1px);
@@ -86,6 +95,21 @@ const Input = styled.input<InputProps>`
             border-radius: ${theme.radii['full']};
             transform: translateX(-50%);
             transition: transform 90ms ease-in-out;
+            width: ${
+              $size === 'small'
+                ? ''
+                : $size === 'large'
+                ? '2.313rem'
+                : '1.313rem'
+            };
+            height: ${
+              $size === 'small'
+                ? ''
+                : $size === 'large'
+                ? '2.313rem'
+                : '1.313rem'
+            };
+
           }
           
           &:checked::before {
@@ -101,8 +125,8 @@ const Input = styled.input<InputProps>`
     }
   }}
 
-  ${({ theme, color }) => {
-    switch (color) {
+  ${({ theme, $color }) => {
+    switch ($color) {
       case 'grey':
         return `
           background-color: ${theme.colors.grey};
@@ -116,9 +140,9 @@ const Input = styled.input<InputProps>`
     }
   }}
 
-  ${({ variant, size, theme }) => {
-    if (variant === 'switch' && size) {
-      switch (size) {
+  ${({ $variant, $size, theme }) => {
+    if ($variant === 'switch' && $size) {
+      switch ($size) {
         case 'small':
           return `
             width: ${theme.space['7']};
@@ -136,18 +160,30 @@ const Input = styled.input<InputProps>`
   }}
 `
 
-type Props = Exclude<FieldBaseProps, 'inline'> & {
-  label: NativeInputProps['label']
+type Props = Omit<FieldBaseProps, 'inline'> & {
+  /** Label content */
+  label: React.ReactNode
+  /** The name attribute of input element. */
   name?: NativeInputProps['name']
+  /** The value attribute of input element. */
   value?: NativeInputProps['value']
+  /** The checked attribute of input element */
   checked?: NativeInputProps['checked']
+  /** The id attribute of input element. */
   id?: NativeInputProps['id']
+  /** The disabled attribute of input element */
   disabled?: boolean
+  /** The handler for change events. */
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
+  /** The tabindex attribute for input element. */
   tabIndex?: NativeInputProps['tabIndex']
+  /** The handler for focus events. */
   onFocus?: NativeInputProps['onFocus']
+  /** The handler for blur events. */
   onBlur?: NativeInputProps['onBlur']
+  /** The ui styling of component. */
   variant?: 'regular' | 'switch'
+  /** Set the background color of the checkbox */
   color?: 'grey' | 'white'
   size?: 'small' | 'medium' | 'large'
 }
@@ -199,9 +235,9 @@ export const Checkbox = React.forwardRef(
           ref={inputRef}
           type="checkbox"
           {...{
-            color,
-            variant,
-            size,
+            $color: color,
+            $variant: variant,
+            $size: size,
             disabled,
             name,
             tabIndex,

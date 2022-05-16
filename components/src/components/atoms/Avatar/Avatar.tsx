@@ -1,19 +1,16 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
-import { Space } from '@/src/tokens'
-
 type Shape = 'circle' | 'square'
 
 interface Container {
-  shape: Shape
-  noBorder?: boolean
-  size: Space
+  $shape: Shape
+  $noBorder?: boolean
 }
 
 const Container = styled.div<Container>`
-  ${({ shape, theme }) => {
-    switch (shape) {
+  ${({ $shape, theme }) => {
+    switch ($shape) {
       case 'circle':
         return `
           border-radius: ${theme.radii.full};
@@ -33,8 +30,8 @@ const Container = styled.div<Container>`
     }
   }}
 
-  ${({ theme, noBorder }) =>
-    !noBorder &&
+  ${({ theme, $noBorder }) =>
+    !$noBorder &&
     `
       &:after {
       box-shadow: ${theme.shadows['-px']} ${theme.colors.foregroundTertiary};
@@ -45,16 +42,22 @@ const Container = styled.div<Container>`
       }      
   `}
 
-  ${({ theme, size }) =>
+  ${({ theme }) =>
     `
-      height: ${theme.space[size]};
-      width: ${theme.space[size]};
-      min-width: ${theme.space[size]};
       background-color: ${theme.colors.foregroundSecondary};
-      
-       
   `}
-  
+
+  width: 100%;
+  padding-bottom: 100%;
+
+  > * {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
   overflow: hidden;
   position: relative;
 `
@@ -78,36 +81,41 @@ const Img = styled.img`
 `
 
 export type Props = {
-  as?: 'img' | React.ComponentType
+  /** Accessibility text. */
   label: string
-  placeholder?: boolean
+  /** If true, removes the border around the avatar. */
   noBorder?: boolean
-  size?: Space
+  /** Uses tokens space settings to set the size */
   src?: string
+  /** The shape of the avatar. */
   shape?: Shape
+  // as?: 'img' | React.ComponentType
 }
 
 export const Avatar = ({
   label,
-  placeholder,
-  noBorder,
+  noBorder = false,
   shape = 'circle',
-  size = '12',
   src,
 }: Props) => {
+  const [showImage, setShowImage] = React.useState(!!src)
+
   return (
-    <Container {...{ shape, size, noBorder: placeholder || noBorder }}>
-      {placeholder ? (
-        <Placeholder aria-label={label} />
-      ) : (
+    <Container $noBorder={!showImage || noBorder} $shape={shape}>
+      {showImage ? (
         <Img
           {...{
             decoding: 'async',
             src: src,
             alt: label,
+            onError: () => setShowImage(false),
           }}
         />
+      ) : (
+        <Placeholder aria-label={label} />
       )}
     </Container>
   )
 }
+
+Avatar.displayName = 'Avatar'

@@ -1,36 +1,57 @@
 import * as React from 'react'
 import styled, { FlattenInterpolation } from 'styled-components'
 
-import { ReactNode } from 'react'
-
 import { Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
 
 type NativeInputProps = React.AllHTMLAttributes<HTMLInputElement>
 
 type BaseProps = FieldBaseProps & {
+  /** If the element should attempt to gain focus after it is rendered. */
   autoFocus?: NativeInputProps['autoFocus']
+  /** If the input should display a list of suggested words. */
   autoComplete?: NativeInputProps['autoComplete']
+  /** If the imput should automatically fix spelling errors. */
   autoCorrect?: NativeInputProps['autoCorrect']
+  /** The initial value of the input. Useful for checking if the value of the input has changed. */
   defaultValue?: string | number
+  /** Disables input from receiving user input. */
   disabled?: boolean
+  /** The id attribute of the input element. */
   id?: NativeInputProps['id']
+  /** A hint to the browser of what type of input the input will receive. Allows browsers to display the corresponding keyboard. */
   inputMode?: NativeInputProps['inputMode']
+  /** The name attribute of the input element. */
   name?: string
+  /** The placeholder attribute of the input element. */
   placeholder?: NativeInputProps['placeholder']
+  /** A string or component inserted in front of the input element. */
   prefix?: React.ReactNode
+  /** Sets the input in read only mode. */
   readOnly?: NativeInputProps['readOnly']
+  /** If the input will mark spelling errors in the text. */
   spellCheck?: NativeInputProps['spellCheck']
+  /** A string or component inserted at the end of the input. */
   suffix?: React.ReactNode
+  /** The tabindex attribute of the input element. */
   tabIndex?: NativeInputProps['tabIndex']
+  /** The data type the input. */
   type?: 'email' | 'number' | 'text'
+  /** Inserts text after the input text. */
   units?: string
+  /** The value attribute of the input element. */
   value?: string | number
+  /** A handler for blur events. */
   onBlur?: NativeInputProps['onBlur']
+  /** A handler for change events. */
   onChange?: React.EventHandler<React.ChangeEvent<HTMLInputElement>>
+  /** A handler for focus events. */
   onFocus?: NativeInputProps['onFocus']
+  /** A handler for keydown events. */
   onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>
+  /** Sets the height of the input element. */
   size?: 'medium' | 'large' | 'extraLarge'
+  /** Set of styles  */
   parentStyles?: FlattenInterpolation<any>
 }
 
@@ -45,16 +66,18 @@ type WithTypeText = {
 
 type WithTypeNumber = {
   type?: 'number'
+  /** Sets the max value of number type inputs as well as a tag to the label and a mx button at the end of the input element. */
   max?: NativeInputProps['max']
+  /** Sets the min value of number type inputs. */
   min?: NativeInputProps['min']
 }
 
 interface InputParentProps {
-  size: 'medium' | 'large' | 'extraLarge'
-  disabled?: boolean
-  error?: boolean
-  suffix: boolean
-  userStyles?: FlattenInterpolation<any>
+  $size: 'medium' | 'large' | 'extraLarge'
+  $disabled?: boolean
+  $error?: boolean
+  $suffix: boolean
+  $userStyles?: FlattenInterpolation<any>
 }
 
 const InputParent = styled.div<InputParentProps>`
@@ -74,15 +97,15 @@ const InputParent = styled.div<InputParentProps>`
     }
   `}
 
-  ${({ theme, disabled }) =>
-    disabled &&
+  ${({ theme, $disabled }) =>
+    $disabled &&
     `
       border-color: ${theme.colors.foregroundSecondary};
       background-color: ${theme.colors.background};
   `}
 
-  ${({ theme, error }) =>
-    error &&
+  ${({ theme, $error }) =>
+    $error &&
     `
       border-color: ${theme.colors.red};
       cursor: default;
@@ -92,14 +115,14 @@ const InputParent = styled.div<InputParentProps>`
       }
   `}
 
-  ${({ suffix, theme }) =>
-    suffix &&
+  ${({ $suffix, theme }) =>
+    $suffix &&
     `
       height: ${theme.space['16']};
   `}
 
-  ${({ size, theme }) => {
-    switch (size) {
+  ${({ $size, theme }) => {
+    switch ($size) {
       case 'medium':
         return `
           height: ${theme.space['14']};
@@ -116,7 +139,7 @@ const InputParent = styled.div<InputParentProps>`
         return ``
     }
   }}
-  ${({ userStyles }) => userStyles}
+  ${({ $userStyles }) => $userStyles}
 `
 
 const Prefix = styled.label`
@@ -156,7 +179,7 @@ const InputContainer = styled.div`
 `
 
 interface InputComponentProps {
-  size: any
+  $size: any
 }
 
 const InputComponent = styled.input<InputComponentProps>`
@@ -170,7 +193,7 @@ const InputComponent = styled.input<InputComponentProps>`
     
     &::placeholder {
         color: ${theme.colors.textPlaceholder};
-        font-weight: ${theme.fontWeights['bold']};
+        font-weight: ${theme.fontWeights['medium']};
     }
   `}
 
@@ -188,8 +211,8 @@ const InputComponent = styled.input<InputComponentProps>`
         font-variant-numeric: tabular-nums;
   `}
 
-  ${({ size, theme }) => {
-    switch (size) {
+  ${({ $size, theme }) => {
+    switch ($size) {
       case 'medium':
         return `
           font-size: ${theme.fontSizes['base']};
@@ -209,62 +232,52 @@ const InputComponent = styled.input<InputComponentProps>`
   }}
 `
 
-const Ghost = styled.div<{ type: HTMLInputElement['type'] }>`
-  border-color: ${({ theme }) => theme.colors.transparent};
+const Ghost = styled.div<{ $type: HTMLInputElement['type']; $size: any }>`
   inset: 0;
   position: absolute;
   pointer-events: none;
   white-space: pre;
   line-height: normal;
+  display: flex;
+  align-items: center;
 
-  ${({ type }) =>
-    type === 'number' &&
+  ${({ theme }) => `
+    padding: 0 ${theme.space['4']};
+    border-color: ${theme.colors.transparent};
+  `}
+
+  ${({ $type }) =>
+    $type === 'number' &&
     `
         font-feature-settings: 'kern' 1,  'tnum' 1, 'calt' 0;
         font-variant-numeric: tabular-nums;
   `}
+
+  ${({ $size, theme }) => {
+    switch ($size) {
+      case 'medium':
+        return `
+          font-size: ${theme.fontSizes['base']};
+        `
+      case 'large':
+        return `
+          font-size: ${theme.fontSizes['large']};
+        `
+      case 'extraLarge':
+        return `
+          font-size: ${theme.fontSizes['headingThree']};
+          padding: 0 ${theme.space['6']};
+        `
+      default:
+        return ``
+    }
+  }}
 `
 
 const Units = styled.span`
   ${({ theme }) => `
     color: ${theme.colors.text};
-  `}
-`
-
-const MaxContainer = styled.div<{ suffix: ReactNode }>`
-  display: flex;
-  align-items: center;
-  ${({ suffix, theme }) => suffix && `padding-right: ${theme.space['4']};`}
-`
-
-const MaxButton = styled.button`
-  ${({ theme }) => `
-      background-color: ${theme.colors.foregroundSecondary};
-      border-radius: ${theme.radii['medium']};
-      color: ${theme.colors.textSecondary};
-      cursor: pointer;
-      font-size: ${theme.fontSizes['label']};
-      font-weight: ${theme.fontWeights['semiBold']};
-      height: ${theme.space['max']};
-      line-height: none;
-      padding: ${theme.space['2']};
-      text-transform: uppercase;
-      transition-duration: ${theme.transitionDuration['150']};
-      transition-property: color, border-color, background-color;
-      transition-timing-function: ${theme.transitionTimingFunction['inOut']};
-      visibility: hidden;
-      
-      &:hover {
-        color: ${theme.colors.text};
-      }
-      
-      ${InputParent}:hover & {
-        visibility: visible;
-      }
-      
-      ${InputParent}:focus-within & {
-        visibility: visible;
-      }
+    font-weight: ${theme.fontWeights['medium']};
   `}
 `
 
@@ -319,7 +332,6 @@ export const Input = React.forwardRef(
       : undefined
     const hasError = error ? true : undefined
 
-    const max = (props as WithTypeNumber).max
     const inputType = type === 'number' ? 'number' : 'text'
 
     const handleInput = React.useCallback(
@@ -349,16 +361,6 @@ export const Input = React.forwardRef(
       [],
     )
 
-    const handleMax = React.useCallback(() => {
-      if (onChange)
-        onChange({
-          target: { value: max },
-        } as React.ChangeEvent<HTMLInputElement>)
-      else if (inputRef.current) inputRef.current.value = max as string
-      if (!units) return
-      setState((x) => ({ ...x, ghostValue: max }))
-    }, [inputRef, max, units, onChange])
-
     return (
       <Field
         description={description}
@@ -373,11 +375,11 @@ export const Input = React.forwardRef(
         {(ids) => (
           <InputParent
             {...{
-              disabled,
-              error: hasError,
-              suffix: suffix !== undefined,
-              size,
-              userStyles: parentStyles,
+              $disabled: disabled,
+              $error: hasError,
+              $suffix: suffix !== undefined,
+              $size: size,
+              $userStyles: parentStyles,
             }}
           >
             {prefix && (
@@ -388,6 +390,7 @@ export const Input = React.forwardRef(
 
             <InputContainer>
               <InputComponent
+                $size={size}
                 aria-invalid={hasError}
                 autoComplete={autoComplete}
                 autoCorrect={autoCorrect}
@@ -399,7 +402,6 @@ export const Input = React.forwardRef(
                 placeholder={placeholderText}
                 readOnly={readOnly}
                 ref={inputRef}
-                size={size}
                 spellCheck={spellCheck}
                 tabIndex={tabIndex}
                 type={inputType}
@@ -415,7 +417,12 @@ export const Input = React.forwardRef(
               />
 
               {units && state.ghostValue && (
-                <Ghost aria-hidden="true" data-testid="ghost" type={inputType}>
+                <Ghost
+                  $size={size}
+                  $type={inputType}
+                  aria-hidden="true"
+                  data-testid="ghost"
+                >
                   <span style={{ visibility: 'hidden' }}>
                     {state.ghostValue}{' '}
                   </span>
@@ -423,12 +430,6 @@ export const Input = React.forwardRef(
                 </Ghost>
               )}
             </InputContainer>
-
-            {max && (
-              <MaxContainer suffix={suffix}>
-                <MaxButton onClick={handleMax}>Max</MaxButton>
-              </MaxContainer>
-            )}
 
             {suffix && (
               <Suffix aria-hidden="true" {...ids?.label}>
