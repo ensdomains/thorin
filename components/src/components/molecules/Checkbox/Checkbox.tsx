@@ -257,11 +257,15 @@ type Props = Omit<FieldBaseProps, 'inline'> & {
   onBlur?: NativeInputProps['onBlur']
   /** The ui styling of component. */
   variant?: 'regular' | 'switch'
-  /** Set the background color of the checkbox */
+  /** Set the highlight color. */
   color?: Colors
+  /** Use gradient color for background color of switch variant. */
   gradient?: boolean
+  /** Set the background color for regular variant. */
   background?: 'white' | 'grey'
+  /** The size of the checkbox. */
   size?: 'small' | 'medium' | 'large'
+  /** Adds a border to regular variant or uses alternative styling for switch variant. */
   border?: boolean
 }
 
