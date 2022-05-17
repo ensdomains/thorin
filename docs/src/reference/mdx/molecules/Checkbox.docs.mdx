@@ -19,17 +19,6 @@ import { Checkbox } from '@ensdomains/thorin'
 
 <PropsTable sourceLink={sourceLink} types={types} />
 
-## Color
-
-```tsx live=true
-<Card padding="4" shadow>
-  <FieldSet legend="Colors">
-    <Checkbox color="grey" label="Grey" />
-    <Checkbox color="white" label="White" />
-  </FieldSet>
-</Card>
-```
-
 ## Variants
 
 ```tsx live=true
@@ -39,19 +28,116 @@ import { Checkbox } from '@ensdomains/thorin'
 </FieldSet>
 ```
 
-## Sizes
+## Color
+
+### Checkbox
 
 ```tsx live=true
-<>
-  <FieldSet legend="Checkboxes">
-    <Checkbox label="Small" size="small" />
-    <Checkbox label="Medium" size="medium" />
-    <Checkbox label="Large" size="large" />
-  </FieldSet>
-  <FieldSet legend="Switches">
-    <Checkbox label="Small" size="small" variant="switch" />
-    <Checkbox label="Medium" size="medium" variant="switch" />
-    <Checkbox label="Large" size="large" variant="switch" />
-  </FieldSet>
-</>
+<Stack padding="4" shadow>
+  <Checkbox color="red" label="Red" />
+  <Checkbox color="blue" label="Blue" />
+  <Checkbox color="green" label="Green" />
+</Stack>
+```
+
+### Switch
+
+```tsx live=true
+<Stack padding="4" shadow>
+  <Checkbox color="red" label="Red" variant="switch" />
+  <Checkbox color="blue" label="Blue" variant="switch" />
+  <Checkbox color="green" label="Green" variant="switch" />
+</Stack>
+```
+
+## Sizes
+
+### Checkbox
+
+```tsx live=true
+<Stack flexDirection="row" flexWrap="wrap">
+  <Checkbox background="grey" label="Small" size="small" />
+  <Checkbox label="Medium" size="medium" />
+  <Checkbox label="Large" size="large" />
+</Stack>
+```
+
+### Switch
+
+```tsx live=true
+<Stack flexDirection="row" flexWrap="wrap">
+  <Checkbox label="Small" size="small" variant="switch" />
+  <Checkbox label="Medium" size="medium" variant="switch" />
+  <Checkbox label="Large" size="large" variant="switch" />
+</Stack>
+```
+
+## Border
+
+## Checkbox
+
+```tsx live=true
+<Stack>
+  <Checkbox
+    background="white"
+    border
+    label="Small"
+    size="small"
+    variant="checkbox"
+  />
+  <Checkbox
+    background="white"
+    border
+    label="Medium"
+    size="medium"
+    variant="checkbox"
+  />
+  <Checkbox
+    background="white"
+    border
+    label="Large"
+    size="large"
+    variant="checkbox"
+  />
+</Stack>
+```
+
+## Switch
+
+```tsx live=true
+<Stack>
+  <Checkbox border label="Small" size="small" variant="switch" />
+  <Checkbox border label="Medium" size="medium" variant="switch" />
+  <Checkbox border label="Large" size="large" variant="switch" />
+</Stack>
+```
+
+## Background
+
+A checkbox only property to control background color
+
+```tsx live=true
+<Stack>
+  <div style={{ background: 'lightgrey', padding: '20px' }}>
+    <Checkbox background="white" label="White" />
+  </div>
+  <div style={{ bakground: 'white', padding: '20px' }}>
+    <Checkbox background="grey" label="Grey" />
+  </div>
+</Stack>
+```
+
+## Gradient
+
+A switch only property
+
+```tsx live=true
+<Stack>
+  <Checkbox color="blue" gradient label="Blue" variant="switch" />
+  <Checkbox color="red" gradient label="Red" variant="switch" />
+  <Checkbox color="green" gradient label="Green" variant="switch" />
+  <Checkbox border color="blue" gradient label="Blue" variant="switch" />
+  <Checkbox border color="red" gradient label="Red" variant="switch" />
+  <Checkbox border color="green" gradient label="Green" variant="switch" />
+</Stack>
 ```
