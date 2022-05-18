@@ -83,6 +83,12 @@ const Main = styled.main`
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  ${largerThan.md`
+    justify-content: flex-end;
+  `}
+  ${largerThan.xl`
+    justify-content: center;
+  `}
 `
 
 export type Props = {
