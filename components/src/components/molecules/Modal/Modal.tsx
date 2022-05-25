@@ -1,31 +1,36 @@
 import * as React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
-import { Backdrop, Card } from '../..'
-import { Props as CardProps } from '../../atoms/Card/Card'
-import { CloseSVG } from '@/src/icons'
+import type { TransitionState } from 'react-transition-state'
 
-const Container = styled.div`
+import { Backdrop } from '../..'
+import { largerThan } from '@/src'
+
+const Container = styled.div<{ $state: TransitionState }>`
   display: flex;
   flex-direction: row;
-`
-
-const IconCloseContainer = styled(CloseSVG)`
-  ${({ theme }) => `
-  height: ${theme.space['6']};
-  width: ${theme.space['6']};
-  margin-top: -${theme.space['6']};
-  opacity: ${theme.opacity['30']};
-  cursor: pointer;
-  padding: ${theme.space['1.25']};
-  transition-propery: all;
-  transition-duration: ${theme.transitionDuration['150']};
-  transition-timing-function: ${theme.transitionTimingFunction['inOut']};
+  align-self: flex-end;
+  width: 100%;
+  ${largerThan.sm`
+    align-self: center;
+    width: initial;
   `}
 
-  &:hover {
-    opacity: 0.5;
-  }
+  ${({ theme }) => css`
+    transition: ${theme.transitionDuration['300']} all
+      ${theme.transitionTimingFunction.popIn};
+  `}
+
+  ${({ $state }) =>
+    $state === 'entered'
+      ? css`
+          opacity: 1;
+          transform: translateY(0px);
+        `
+      : css`
+          opacity: 0;
+          transform: translateY(128px);
+        `}
 `
 
 type Props = {
@@ -36,22 +41,16 @@ type Props = {
   onDismiss?: () => void
   /** If true, the modal is visible. */
   open: boolean
-} & CardProps
+}
 
 export const Modal = ({
   children,
   backdropSurface,
   onDismiss,
   open,
-  ...cardProps
 }: Props) => (
   <Backdrop {...{ open, onDismiss, surface: backdropSurface }}>
-    <Container>
-      <Card {...cardProps}>{children}</Card>
-      {onDismiss && (
-        <IconCloseContainer data-testid="close-icon" onClick={onDismiss} />
-      )}
-    </Container>
+    {({ state }) => <Container $state={state}>{children}</Container>}
   </Backdrop>
 )
 
