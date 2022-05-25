@@ -2865,6 +2865,7 @@ __metadata:
   peerDependencies:
     react: ^17
     react-dom: ^17
+    react-transition-state: ^1.1.4
     styled-components: ^5.3.3
   languageName: unknown
   linkType: soft
@@ -7591,6 +7592,7 @@ __metadata:
     react-dom: ^17.0.2
     react-element-to-jsx-string: ^14.3.4
     react-live: ^2.3.0
+    react-transition-state: ^1.1.4
     rimraf: ^3.0.2
     styled-components: 5.3.3
     typescript: ^4.6.2
@@ -14277,6 +14279,16 @@ playroom@0.27.7:
     react: ^16.0.0
     react-dom: ^16.0.0
   checksum: 20d9381c77c7a7ef256e2d871e1b0ab95cc0b025b3933467840f6608ce37835f98785d50b6709df7e4daf75889f3c95a0d80b1809f8399b2361ec282a063196b
+  languageName: node
+  linkType: hard
+
+"react-transition-state@npm:^1.1.4":
+  version: 1.1.4
+  resolution: "react-transition-state@npm:1.1.4"
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 510e3e03ab684c02ad9e084103dae5c86421a6ba4ce532a0de13e121513717ee139e9c3c5c760fd4c3f24720bec2e5624219ef68e75cf4a443f19ef648c9aa71
   languageName: node
   linkType: hard
 
