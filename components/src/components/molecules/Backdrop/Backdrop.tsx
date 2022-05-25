@@ -35,9 +35,6 @@ export const Backdrop = ({ children, surface, onDismiss, open }: Props) => {
     },
     mountOnEnter: true,
     unmountOnExit: true,
-    onChange: (event) => {
-      console.log(event)
-    },
   })
   const boxRef = React.useRef<HTMLDivElement | null>(null)
   const Background = surface || BackdropSurface

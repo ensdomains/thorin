@@ -1,7 +1,8 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 
-import { ExitSVG, largerThan } from '@/src'
+import { ExitSVG } from '@/src'
+import { largerThan } from '@/src/utils/responsiveHelpers'
 
 import { Modal, Typography } from '../..'
 

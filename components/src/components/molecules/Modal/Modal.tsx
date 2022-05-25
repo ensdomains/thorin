@@ -4,7 +4,7 @@ import styled, { css } from 'styled-components'
 import type { TransitionState } from 'react-transition-state'
 
 import { Backdrop } from '../..'
-import { largerThan } from '@/src'
+import { largerThan } from '@/src/utils/responsiveHelpers'
 
 const Container = styled.div<{ $state: TransitionState }>`
   display: flex;
