@@ -66,21 +66,28 @@ export const PageButtons = ({
   onChange,
 }: Props) => {
   const maxPerSide = Math.floor(max / 2)
-  const start = Math.min(Math.max(current - maxPerSide, 1), total - max + 1)
-  const array = Array.from({ length: max }, (_, i) => start + i)
+  const start = Math.max(
+    Math.min(Math.max(current - maxPerSide, 1), total - max + 1),
+    1,
+  )
+  const array = Array.from({ length: max }, (_, i) => start + i).filter(
+    (x) => x <= total,
+  )
 
-  if (alwaysShowFirst && start > 1) {
-    array[0] = -1
-    array.unshift(1)
-  } else if (start > 1) {
-    array.unshift(-1)
-  }
+  if (total > max) {
+    if (alwaysShowFirst && start > 1) {
+      array[0] = -1
+      array.unshift(1)
+    } else if (start > 1) {
+      array.unshift(-1)
+    }
 
-  if (alwaysShowLast && total > current + maxPerSide) {
-    array[array.length - 1] = -1 * total
-    array.push(total)
-  } else if (total > current + maxPerSide) {
-    array.push(-1 * total)
+    if (alwaysShowLast && total > current + maxPerSide) {
+      array[array.length - 1] = -1 * total
+      array.push(total)
+    } else if (total > current + maxPerSide) {
+      array.push(-1 * total)
+    }
   }
 
   return (

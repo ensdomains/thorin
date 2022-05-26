@@ -10,12 +10,10 @@ import { Modal } from '@ensdomains/thorin'
 ```tsx live=true
 <>
   <Button onClick={() => toggleState('modal')}>Open Modal</Button>
-  <Modal
-    open={getState('modal')}
-    padding="4"
-    onDismiss={() => toggleState('modal')}
-  >
-    <Typography>This is a modal popup.</Typography>
+  <Modal open={getState('modal')} onDismiss={() => toggleState('modal')}>
+    <Card>
+      <Typography>This is a modal popup.</Typography>
+    </Card>
   </Modal>
 </>
 ```

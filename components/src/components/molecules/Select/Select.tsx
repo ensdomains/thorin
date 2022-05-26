@@ -7,21 +7,33 @@ import { Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
 import { ReactComponent as IconDownIndicatorSvg } from '@/src/icons/DownIndicator.svg'
 
-const SelectContainer = styled.div<{ $disabled?: boolean }>`
-  ${({ theme }) => `
+type Size = 'small' | 'medium'
+
+const SelectContainer = styled.div<{ $disabled?: boolean; $size: Size }>`
+  ${({ theme, $size }) => `
     background: ${theme.colors.background};
     border-color: ${theme.colors.backgroundHide};
     border-width: ${theme.space['px']};
-    border-radius: ${theme.radii['extraLarge']};
     cursor: pointer;
     position: relative;
-    padding: ${theme.space['4']};
-    height: ${theme.space['14']};
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
     z-index: 10;
+    ${
+      $size === 'medium'
+        ? `
+      border-radius: ${theme.radii['extraLarge']};
+      padding: ${theme.space['4']};
+      height: ${theme.space['14']};
+    `
+        : `
+      border-radius: ${theme.radii['almostExtraLarge']};
+      padding: ${theme.space['2']};
+      height: ${theme.space['10']};
+    `
+    }
   `}
 
   ${({ $disabled, theme }) =>
@@ -186,6 +198,7 @@ type SelectProps = Omit<FieldBaseProps, 'inline'> & {
   selected?: OptionProps
   /** An arrary of objects conforming to OptionProps interface. */
   options: OptionProps[] | OptionProps
+  size?: Size
 }
 
 export const Select = React.forwardRef(
@@ -206,6 +219,7 @@ export const Select = React.forwardRef(
       onFocus,
       options,
       selected: _selected,
+      size = 'medium',
     }: SelectProps,
     ref: React.Ref<HTMLDivElement>,
   ) => {
@@ -296,6 +310,7 @@ export const Select = React.forwardRef(
           {...{ onFocus, onBlur }}
         >
           <SelectContainer
+            $size={size}
             aria-controls={`listbox-${id}`}
             aria-expanded="true"
             aria-haspopup="listbox"
