@@ -27,6 +27,7 @@ const transitionTimingFunction = {
   in: 'cubic-bezier(0.4, 0, 1, 1)',
   out: 'cubic-bezier(0, 0, 0.2, 1)',
   inOut: 'cubic-bezier(0.42, 0, 0.58, 1)',
+  popIn: 'cubic-bezier(0.15, 1.15, 0.6, 1)',
 }
 
 export const breakpoints = {

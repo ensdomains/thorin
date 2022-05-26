@@ -144,7 +144,7 @@ export const colors = {
     background: 'rgb(255, 255, 255)',
     backgroundHide: `rgba(0,0,0, ${shades.light.backgroundHide})`,
     backgroundSecondary: 'rgb(246, 246, 248)',
-    backgroundTertiary: '246, 246, 248',
+    backgroundTertiary: 'rgb(246, 246, 248)',
     border: `rgb(0,0,0, ${shades.light.border})`,
     borderSecondary: `rgb(0,0,0, ${shades.light.borderSecondary})`,
     borderTertiary: `rgb(0,0,0, ${shades.light.borderTertiary})`,

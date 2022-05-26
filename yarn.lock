@@ -2865,6 +2865,7 @@ __metadata:
   peerDependencies:
     react: ^17
     react-dom: ^17
+    react-transition-state: ^1.1.4
     styled-components: ^5.3.3
   languageName: unknown
   linkType: soft
@@ -7552,6 +7553,7 @@ __metadata:
     react-dom: ^17.0.2
     react-element-to-jsx-string: ^14.3.4
     react-live: next
+    react-transition-state: ^1.1.4
     rimraf: ^3.0.2
     styled-components: 5.3.3
     typescript: ^4.6.2
@@ -14209,6 +14211,15 @@ playroom@0.27.7:
   languageName: node
   linkType: hard
 
+"react-hook-form@npm:^7.31.2":
+  version: 7.31.2
+  resolution: "react-hook-form@npm:7.31.2"
+  peerDependencies:
+    react: ^16.8.0 || ^17 || ^18
+  checksum: 8a6b0ab7cb893adfbdec6340c6e4c5a702e34948659f67d37dde918ad3f6c1e6f3245e29030453482698dc33b6a48b7bc10d449ecec27997e41794ba5ccd8611
+  languageName: node
+  linkType: hard
+
 "react-is@npm:17.0.2, react-is@npm:^17.0.1":
   version: 17.0.2
   resolution: "react-is@npm:17.0.2"
@@ -14231,6 +14242,16 @@ playroom@0.27.7:
     sucrase: ^3.21.0
     use-editable: ^2.3.3
   checksum: c511da37809f1a0084c7edfc6324113f3b8bfb1024d0727794e952d6365f5348d01ca02062f83a44dc24f1bc3e462473e63354f289ea94d371f324509e263efb
+  languageName: node
+  linkType: hard
+
+"react-transition-state@npm:^1.1.4":
+  version: 1.1.4
+  resolution: "react-transition-state@npm:1.1.4"
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 510e3e03ab684c02ad9e084103dae5c86421a6ba4ce532a0de13e121513717ee139e9c3c5c760fd4c3f24720bec2e5624219ef68e75cf4a443f19ef648c9aa71
   languageName: node
   linkType: hard
 
@@ -16183,6 +16204,7 @@ resolve@^2.0.0-next.3:
     prettier: ^2.4.1
     prompt: ^1.2.0
     react-docgen-typescript: ^2.1.1
+    react-hook-form: ^7.31.2
     size-limit: ^6.0.3
     styled-components: ^5.3.3
     typescript: 4.4.4

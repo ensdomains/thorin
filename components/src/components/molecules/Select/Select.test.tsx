@@ -3,10 +3,56 @@ import * as React from 'react'
 import { ThemeProvider } from 'styled-components'
 import { act } from 'react-dom/test-utils'
 
+import { Controller, useForm } from 'react-hook-form'
+
 import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 
 import { Select } from './Select'
 import { lightTheme } from '@/src/tokens'
+
+const SelectWithForm = ({ submit }: { submit: (data: unknown) => void }) => {
+  const { control, handleSubmit } = useForm<{
+    select?: {
+      label?: string
+      value: string
+    }
+  }>({
+    defaultValues: {},
+  })
+  return (
+    <ThemeProvider theme={lightTheme}>
+      <form
+        onSubmit={handleSubmit((data: any) => {
+          console.log(JSON.stringify(data))
+          console.log(JSON.stringify(data?.select))
+          submit(data)
+        })}
+      >
+        <div>outside</div>
+        <Controller
+          control={control}
+          name="select"
+          render={({ field }) => (
+            <Select
+              {...field}
+              label="select"
+              options={[
+                { value: '0', label: 'Zero' },
+                { value: '1', label: 'One' },
+                { value: '2', label: 'Two', disabled: true },
+              ]}
+              tabIndex={2}
+            />
+          )}
+          rules={{
+            required: true,
+          }}
+        />
+        <input data-testid="submit" type="submit" />
+      </form>
+    </ThemeProvider>
+  )
+}
 
 describe('<Select />', () => {
   afterEach(cleanup)
@@ -49,7 +95,7 @@ describe('<Select />', () => {
     expect(screen.getByTestId('selected').innerHTML).toEqual('One')
   })
 
-  it('should update value correctly', async () => {
+  it('should call onChange when selection made', async () => {
     const mockCallback = jest.fn()
     render(
       <ThemeProvider theme={lightTheme}>
@@ -67,12 +113,45 @@ describe('<Select />', () => {
     act(() => {
       userEvent.click(screen.getByTestId('selected'))
     })
-    expect(mockCallback).toBeCalledWith(null)
     act(() => {
       userEvent.click(screen.getByText('One'))
     })
     await waitFor(() => {
       expect(mockCallback).toBeCalledWith({ value: '1', label: 'One' })
+    })
+  })
+
+  it('should update value when value changes', async () => {
+    const { rerender } = render(
+      <ThemeProvider theme={lightTheme}>
+        <Select
+          label="select"
+          options={[
+            { value: '0', label: 'Zero' },
+            { value: '1', label: 'One' },
+            { value: '2', label: 'Two' },
+          ]}
+          value={{ value: '0', label: 'Zero' }}
+        />
+      </ThemeProvider>,
+    )
+
+    rerender(
+      <ThemeProvider theme={lightTheme}>
+        <Select
+          label="select"
+          options={[
+            { value: '0', label: 'Zero' },
+            { value: '1', label: 'One' },
+            { value: '2', label: 'Two' },
+          ]}
+          value={{ value: '1', label: 'One' }}
+        />
+      </ThemeProvider>,
+    )
+
+    await waitFor(() => {
+      expect(screen.getByTestId('selected').innerHTML).toEqual('One')
     })
   })
 
@@ -127,5 +206,303 @@ describe('<Select />', () => {
     await waitFor(() => {
       expect(screen.getByText('Two')).not.toBeVisible()
     })
+  })
+
+  /** Autocomplete */
+
+  it('should filter options if autocomplete is true ', async () => {
+    const mockCallback = jest.fn()
+    render(
+      <ThemeProvider theme={lightTheme}>
+        <div>
+          <div>outside</div>
+          <Select
+            autocomplete
+            label="select"
+            options={[
+              { value: '0', label: 'Zero' },
+              { value: '1', label: 'One' },
+              { value: '2', label: 'Two', disabled: true },
+            ]}
+            onChange={mockCallback}
+          />
+        </div>
+      </ThemeProvider>,
+    )
+
+    act(() => {
+      userEvent.click(screen.getByTestId('selected'))
+    })
+
+    act(() => {
+      userEvent.type(screen.getByTestId('select-input'), 'o')
+    })
+
+    await waitFor(() => {
+      expect(screen.getByText('Zero')).toBeVisible()
+      expect(screen.getByText('One')).toBeVisible()
+      expect(screen.getByText('Two')).toBeVisible()
+    })
+
+    act(() => {
+      userEvent.type(screen.getByTestId('select-input'), 'n')
+    })
+
+    await waitFor(() => {
+      expect(screen.queryByText('Zero')).not.toBeInTheDocument()
+      expect(screen.getByText('One')).toBeVisible()
+      expect(screen.queryByText('Two')).not.toBeInTheDocument()
+    })
+  })
+
+  it('should update selection using arrows', () => {
+    render(
+      <ThemeProvider theme={lightTheme}>
+        <Select
+          autocomplete
+          label="select"
+          options={[
+            { value: '0', label: 'Zero' },
+            { value: '1', label: 'One' },
+            { value: '2', label: 'Two' },
+          ]}
+        />
+      </ThemeProvider>,
+    )
+    act(() => {
+      userEvent.click(screen.getByTestId('selected'))
+    })
+
+    act(() => {
+      userEvent.type(screen.getByTestId('select-input'), '{arrowdown}')
+    })
+
+    act(() => {
+      userEvent.type(screen.getByTestId('select-input'), '{enter}')
+    })
+    expect(screen.getByTestId('selected').innerHTML).toEqual('Zero')
+  })
+
+  /** Createable */
+
+  it('should filter options if createable is true ', async () => {
+    const mockCallback = jest.fn()
+    render(
+      <ThemeProvider theme={lightTheme}>
+        <div>
+          <div>outside</div>
+          <Select
+            createable
+            label="select"
+            options={[
+              { value: '0', label: 'Zero' },
+              { value: '1', label: 'One' },
+              { value: '2', label: 'Two', disabled: true },
+            ]}
+            onChange={mockCallback}
+          />
+        </div>
+      </ThemeProvider>,
+    )
+
+    act(() => {
+      userEvent.click(screen.getByTestId('selected'))
+    })
+
+    act(() => {
+      userEvent.type(screen.getByTestId('select-input'), 'o')
+    })
+
+    await waitFor(() => {
+      expect(screen.getByText('Zero')).toBeVisible()
+      expect(screen.getByText('One')).toBeVisible()
+      expect(screen.getByText('Two')).toBeVisible()
+    })
+
+    act(() => {
+      userEvent.type(screen.getByTestId('select-input'), 'n')
+    })
+
+    await waitFor(() => {
+      expect(screen.queryByText('Zero')).not.toBeInTheDocument()
+      expect(screen.getByText('One')).toBeVisible()
+      expect(screen.queryByText('Two')).not.toBeInTheDocument()
+    })
+  })
+
+  it('should show create options only if it is unique ', async () => {
+    const mockCallback = jest.fn()
+    render(
+      <ThemeProvider theme={lightTheme}>
+        <div>
+          <div>outside</div>
+          <Select
+            createable
+            label="select"
+            options={[
+              { value: '0', label: 'Zero' },
+              { value: '1', label: 'One' },
+              { value: '2', label: 'Two', disabled: true },
+            ]}
+            onChange={mockCallback}
+          />
+        </div>
+      </ThemeProvider>,
+    )
+
+    act(() => {
+      userEvent.click(screen.getByTestId('selected'))
+    })
+
+    act(() => {
+      userEvent.type(screen.getByTestId('select-input'), 'o')
+    })
+
+    await waitFor(() => {
+      expect(screen.queryAllByRole('option').length).toEqual(4)
+      expect(screen.getByText('Zero')).toBeVisible()
+      expect(screen.getByText('One')).toBeVisible()
+      expect(screen.getByText('Two')).toBeVisible()
+    })
+
+    await act(async () => {
+      await userEvent.type(screen.getByTestId('select-input'), 'ne', {
+        delay: 100,
+      })
+    })
+
+    await waitFor(() => {
+      expect(screen.getByTestId('select-input')).toHaveValue('one')
+      expect(screen.getByText('One')).toBeVisible()
+      expect(screen.queryAllByRole('option').length).toEqual(1)
+    })
+  })
+
+  it('should call on create if create option is clicked', async () => {
+    const mockCallback = jest.fn()
+    render(
+      <ThemeProvider theme={lightTheme}>
+        <div>
+          <div>outside</div>
+          <Select
+            createable
+            label="select"
+            options={[
+              { value: '0', label: 'Zero' },
+              { value: '1', label: 'One' },
+              { value: '2', label: 'Two', disabled: true },
+            ]}
+            onCreate={mockCallback}
+          />
+        </div>
+      </ThemeProvider>,
+    )
+
+    act(() => {
+      userEvent.click(screen.getByTestId('selected'))
+    })
+
+    await act(async () => {
+      await userEvent.type(screen.getByTestId('select-input'), 'onsies', {
+        delay: 100,
+      })
+    })
+
+    act(() => {
+      expect(screen.getByTestId('select-input')).toHaveValue('onsies')
+      const create = screen.queryByRole('option')
+      expect(create).toBeVisible()
+      create && userEvent.click(create)
+    })
+
+    await waitFor(() => {
+      expect(mockCallback).toBeCalledWith('onsies')
+    })
+  })
+
+  /** React Form Hook Integration Tests */
+
+  it('should call on blur when clicking outside of element', async () => {
+    const mockCallback = jest.fn()
+    render(
+      <ThemeProvider theme={lightTheme}>
+        <div>
+          <div>outside</div>
+          <Select
+            label="select"
+            options={[
+              { value: '0', label: 'Zero' },
+              { value: '1', label: 'One' },
+              { value: '2', label: 'Two', disabled: true },
+            ]}
+            onBlur={mockCallback}
+          />
+        </div>
+      </ThemeProvider>,
+    )
+    act(() => {
+      userEvent.click(screen.getByTestId('selected'))
+    })
+    act(() => {
+      userEvent.click(screen.getByText('outside'))
+    })
+    await waitFor(() => {
+      expect(mockCallback).toBeCalledTimes(1)
+    })
+  })
+
+  it('should work with react-form-hook', async () => {
+    const mockSubmit = jest.fn()
+
+    render(<SelectWithForm submit={mockSubmit} />)
+    act(() => {
+      userEvent.click(screen.getByTestId('selected'))
+    })
+    act(() => {
+      userEvent.click(screen.getByText('One'))
+    })
+    expect(screen.getByTestId('selected').innerHTML).toEqual('One')
+
+    act(() => {
+      userEvent.click(screen.getByTestId('submit'))
+    })
+
+    await waitFor(() => {
+      expect(mockSubmit).toBeCalledWith({
+        select: { value: '1', label: 'One' },
+      })
+    })
+  })
+
+  it('should not call submit if there is an validation error', async () => {
+    const mockSubmit = jest.fn()
+
+    render(<SelectWithForm submit={mockSubmit} />)
+
+    act(() => {
+      userEvent.click(screen.getByTestId('submit'))
+    })
+
+    await waitFor(() => {
+      expect(mockSubmit).toBeCalledTimes(0)
+    })
+  })
+
+  it('should have focus if there is an validation error', async () => {
+    const mockSubmit = jest.fn()
+
+    render(<SelectWithForm submit={mockSubmit} />)
+
+    act(() => {
+      userEvent.click(screen.getByTestId('submit'))
+    })
+
+    await waitFor(() => {
+      expect(mockSubmit).toBeCalledTimes(0)
+    })
+
+    expect(screen.getByTestId('select-container')).toHaveFocus()
+
+    // await waitFor(() => {})
   })
 })

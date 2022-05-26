@@ -16,13 +16,16 @@ import {
 ```tsx live=true expand=true minHeight=350px
 <Card>
   <Select
+    createable
     options={[
       { value: '0', label: 'Zero' },
       { value: '1', label: 'One', prefix: <EthSVG /> },
       { value: '2', label: 'Two', prefix: <FlagSVG /> },
       { value: '3', label: 'Three', prefix: <MoonSVG /> },
       { value: '4', label: 'Four', prefix: <DuplicateSVG />, disabled: true },
+      { value: '5', label: 'Four', prefix: <DuplicateSVG /> },
     ]}
+    tabIndex="2"
   />
 </Card>
 ```
@@ -104,4 +107,41 @@ import {
     selected={{ value: '1', label: 'One', prefix: <EthSVG /> }}
   />
 </Card>
+```
+
+## Autocomplete
+
+```tsx live=true expand=true minHeight=350px
+<Card>
+  <Select
+    autocomplete
+    options={[
+      { value: '0', label: 'Zero' },
+      { value: '1', label: 'One', prefix: <EthSVG /> },
+      { value: '2', label: 'Two', prefix: <FlagSVG /> },
+      { value: '3', label: 'Three', prefix: <MoonSVG /> },
+      { value: '4', label: 'Four', prefix: <DuplicateSVG />, disabled: true },
+    ]}
+    selected={{ value: '1', label: 'One', prefix: <EthSVG /> }}
+  />
+</Card>
+```
+
+## Createable
+
+```tsx live=true expand=true minHeight=350px
+<>
+  <Card>
+    <Select
+      createable
+      options={[
+        { value: '0', label: 'Zero' },
+        { value: '1', label: 'One', prefix: <EthSVG /> },
+        { value: '2', label: 'Two', prefix: <FlagSVG /> },
+        { value: '3', label: 'Three', prefix: <MoonSVG /> },
+        { value: '4', label: 'Four', prefix: <DuplicateSVG />, disabled: true },
+      ]}
+    />
+  </Card>
+</>
 ```
