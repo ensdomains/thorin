@@ -205,7 +205,7 @@ export const FileInput = React.forwardRef(
     }, [state.file])
 
     return (
-      <div ref={ref}>
+      <div>
         <VisuallyHidden>
           <input
             accept={accept}
