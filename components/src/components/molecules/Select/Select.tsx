@@ -1,7 +1,5 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import findIndex from 'lodash/findIndex'
-import findLastIndex from 'lodash/findLastIndex'
 import uniqueId from 'lodash/uniqueId'
 
 import { useEffect } from 'react'
@@ -217,9 +215,6 @@ const NoResultsContainer = styled.div`
     border-radius: ${theme.radii['medium']};
     margin: ${theme.space['0.5']} 0;
     font-style: italic;
-
-    &:hover {
-    }
     
     &::first-child {
       margin-top: ${theme.space['0']};
@@ -230,15 +225,6 @@ const NoResultsContainer = styled.div`
     }
   `}
 `
-
-type NativeSelectProps = React.AllHTMLAttributes<HTMLDivElement>
-
-export type SelectOptionProps = {
-  value: string
-  label?: string
-  prefix?: React.ReactNode
-  disabled?: boolean
-}
 
 // Helper function for filtering options
 const createOptionsReducer =
@@ -254,6 +240,21 @@ const createOptionsReducer =
     }
     return results
   }
+
+enum ReservedKeys {
+  ArrowUp = 'ArrowUp',
+  ArrowDown = 'ArrowDown',
+  Enter = 'Enter',
+}
+
+type NativeSelectProps = React.AllHTMLAttributes<HTMLDivElement>
+
+export type SelectOptionProps = {
+  value: string
+  label?: string
+  prefix?: React.ReactNode
+  disabled?: boolean
+}
 
 export type SelectProps = Omit<FieldBaseProps, 'inline'> & {
   /** The id attribute of div element. */
@@ -337,12 +338,10 @@ export const Select = React.forwardRef(
     const changeSelectedOption = (option?: SelectOptionProps) => {
       if (option?.disabled) return
       if (option?.value === CREATE_OPTION_VALUE) {
-        if (onCreate) onCreate(queryValue)
-        else if (process.env.NODE_ENV !== 'production')
-          console.warn('onCreate was called but is not defined')
+        onCreate && onCreate(queryValue)
       } else if (option) {
         setSelected(option)
-        if (onChange) onChange(option)
+        onChange && onChange(option)
       }
     }
 
@@ -390,33 +389,18 @@ export const Select = React.forwardRef(
       [visibleOptions, queryValue, setInputValue, setHighlightedIndex],
     )
 
-    const incrementHighlightIndex = React.useCallback(
-      (direction: 'next' | 'previous') => {
-        const maxIndex = isCreateable
-          ? visibleOptions.length
-          : visibleOptions.length - 1
-
-        const nextIndex =
-          direction === 'previous' ? highlightedIndex - 1 : highlightedIndex + 1
-
+    const incrementHighlightIndex = (direction: 'next' | 'previous') => {
+      let nextIndex = highlightedIndex
+      do {
+        if (direction === 'previous') nextIndex--
+        else nextIndex++
         if (nextIndex < 0) {
-          changeHighlightIndex(-1)
-        } else if (nextIndex > maxIndex) {
-          changeHighlightIndex(maxIndex)
-        } else {
-          const isActive = (x: SelectOptionProps) => !x.disabled
-          let nextActiveIndex = highlightedIndex
-          if (direction === 'previous') {
-            nextActiveIndex = findLastIndex(visibleOptions, isActive, nextIndex)
-          } else {
-            const _index = findIndex(visibleOptions, isActive, nextIndex)
-            if (_index != -1) nextActiveIndex = _index
-          }
-          changeHighlightIndex(nextActiveIndex)
+          return changeHighlightIndex(-1)
         }
-      },
-      [visibleOptions, highlightedIndex, changeHighlightIndex, isCreateable],
-    )
+        if (visibleOptions[nextIndex] && !visibleOptions[nextIndex]?.disabled)
+          return changeHighlightIndex(nextIndex)
+      } while (visibleOptions[nextIndex])
+    }
 
     const selectHighlightedIndex = () => {
       const option = options[highlightedIndex]
@@ -460,14 +444,14 @@ export const Select = React.forwardRef(
         return setMenuOpen(true)
       }
 
-      if (!['ArrowDown', 'ArrowUp', 'Enter'].includes(e.key)) return
+      if (!(e.key in ReservedKeys)) return
 
       e.preventDefault()
       e.stopPropagation()
 
-      if (e.key === 'ArrowUp') incrementHighlightIndex('previous')
-      else if (e.key === 'ArrowDown') incrementHighlightIndex('next')
-      if (e.key === 'Enter') {
+      if (e.key === ReservedKeys.ArrowUp) incrementHighlightIndex('previous')
+      else if (e.key === ReservedKeys.ArrowDown) incrementHighlightIndex('next')
+      if (e.key === ReservedKeys.Enter) {
         selectHighlightedIndex()
         setMenuOpen(false)
       }
@@ -527,19 +511,21 @@ export const Select = React.forwardRef(
       >
         <div style={{ position: 'relative' }}>
           <SelectContainer
+            $disabled={disabled}
             $size={size}
             aria-controls={`listbox-${id}`}
             aria-expanded="true"
             aria-haspopup="listbox"
             aria-invalid={error ? true : undefined}
+            data-testid="select-container"
             id={`combo-${id}`}
             ref={rootRef}
             role="combobox"
+            tabIndex={tabIndex}
+            onBlur={onBlur}
             onClick={handleSelectContainerClick}
-            {...{ $disabled: disabled, tabIndex }}
+            onFocus={onFocus}
             onKeyDown={handleKeydown}
-            {...{ onFocus, onBlur }}
-            data-testid="select-container"
           >
             <OptionElementContainer data-testid="selected">
               {isAutocomplete && isOpen ? (
@@ -567,10 +553,10 @@ export const Select = React.forwardRef(
                 <OptionElement option={selected} />
               )}
             </OptionElementContainer>
-            <Chevron {...{ $open: isOpen, $disabled: disabled }} />
+            <Chevron $disabled={disabled} $open={isOpen} />
           </SelectContainer>
           <SelectOptionContainer
-            {...{ $open: isOpen }}
+            $open={isOpen}
             id={`listbox-${id}`}
             role="listbox"
             tabIndex={-1}
