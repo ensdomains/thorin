@@ -23,8 +23,6 @@ const SelectWithForm = ({ submit }: { submit: (data: unknown) => void }) => {
     <ThemeProvider theme={lightTheme}>
       <form
         onSubmit={handleSubmit((data: any) => {
-          console.log(JSON.stringify(data))
-          console.log(JSON.stringify(data?.select))
           submit(data)
         })}
       >

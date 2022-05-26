@@ -3,6 +3,10 @@ import { useState } from 'react'
 
 import { ThemeProvider } from 'styled-components'
 
+import { useForm } from 'react-hook-form'
+
+import { act } from 'react-dom/test-utils'
+
 import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 
 import { Checkbox } from './Checkbox'
@@ -24,6 +28,35 @@ const CheckboxWithState = (props: any) => {
           {...props}
         />
       </div>
+    </ThemeProvider>
+  )
+}
+
+const CheckboxWithForm = ({ submit }: { submit: (data: unknown) => void }) => {
+  const { register, handleSubmit } = useForm<{
+    component?: 'test'
+  }>({
+    defaultValues: {
+      component: 'test',
+    },
+  })
+
+  return (
+    <ThemeProvider theme={lightTheme}>
+      <form
+        onSubmit={handleSubmit((data: any) => {
+          console.log(JSON.stringify(data))
+          console.log(JSON.stringify(data?.select))
+          submit(data)
+        })}
+      >
+        <div>outside</div>
+        <Checkbox
+          label="checkbox"
+          {...register('component', { required: true })}
+        />
+        <input data-testid="submit" type="submit" />
+      </form>
     </ThemeProvider>
   )
 }
@@ -74,5 +107,79 @@ describe('<Checkbox />', () => {
     await waitFor(() => {
       expect(screen.queryByText('unchecked')).toBeInTheDocument()
     })
+  })
+
+  /** React Form Hook Integration Tests */
+
+  it('should call on blur when clicking outside of element', async () => {
+    const mockCallback = jest.fn()
+    render(
+      <ThemeProvider theme={lightTheme}>
+        <div>
+          <div>outside</div>
+          <Checkbox label="component" value="test" onBlur={mockCallback} />
+        </div>
+      </ThemeProvider>,
+    )
+    act(() => {
+      userEvent.click(screen.getByTestId('checkbox'))
+    })
+    act(() => {
+      userEvent.click(screen.getByText('outside'))
+    })
+    await waitFor(() => {
+      expect(mockCallback).toBeCalledTimes(1)
+    })
+  })
+
+  it('should work with react-form-hook', async () => {
+    const mockSubmit = jest.fn()
+
+    render(<CheckboxWithForm submit={mockSubmit} />)
+    act(() => {
+      userEvent.click(screen.getByTestId('checkbox'))
+    })
+
+    act(() => {
+      userEvent.click(screen.getByTestId('submit'))
+    })
+
+    await waitFor(() => {
+      expect(mockSubmit).toBeCalledWith({
+        select: { value: '1', label: 'One' },
+      })
+    })
+  })
+
+  it('should not call submit if there is an validation error', async () => {
+    const mockSubmit = jest.fn()
+
+    render(<CheckboxWithForm submit={mockSubmit} />)
+
+    act(() => {
+      userEvent.click(screen.getByTestId('submit'))
+    })
+
+    await waitFor(() => {
+      expect(mockSubmit).toBeCalledTimes(0)
+    })
+  })
+
+  it('should have focus if there is an validation error', async () => {
+    const mockSubmit = jest.fn()
+
+    render(<CheckboxWithForm submit={mockSubmit} />)
+
+    act(() => {
+      userEvent.click(screen.getByTestId('submit'))
+    })
+
+    await waitFor(() => {
+      expect(mockSubmit).toBeCalledTimes(0)
+    })
+
+    expect(screen.getByTestId('checkbox')).toHaveFocus()
+
+    // await waitFor(() => {})
   })
 })
