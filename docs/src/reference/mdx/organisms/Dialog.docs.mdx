@@ -11,11 +11,9 @@ import { Dialog } from '@ensdomains/thorin'
 <>
   <Button onClick={() => toggleState('dialog')}>Open Dialog</Button>
   <Dialog
-    leading={<Button>Leading</Button>}
     open={getState('dialog')}
     subtitle="Dialog Subtitle"
     title="Dialog Title"
-    trailing={<Button>Trailing</Button>}
     onDismiss={() => toggleState('dialog')}
   >
     <Typography>Dialog text content.</Typography>
@@ -26,3 +24,56 @@ import { Dialog } from '@ensdomains/thorin'
 ## Props
 
 <PropsTable sourceLink={sourceLink} types={types} />
+
+## Variants
+
+```tsx live=true
+<Stack flexDirection="row" flexWrap="wrap">
+  <>
+    <Button onClick={() => toggleState('dialog-closable')}>
+      Open Closable Dialog
+    </Button>
+    <Dialog
+      open={getState('dialog-closable')}
+      subtitle="This is a closable dialog."
+      title="Closable Dialog"
+      variant="closable"
+      onDismiss={() => toggleState('dialog-closable')}
+    >
+      <Typography>Dialog text content.</Typography>
+    </Dialog>
+  </>
+  <>
+    <Button onClick={() => toggleState('dialog-actionable')}>
+      Open Actionable Dialog
+    </Button>
+    <Dialog
+      leading={
+        <Button shadowless variant="secondary">
+          Leading
+        </Button>
+      }
+      open={getState('dialog-actionable')}
+      subtitle="This is an actionable dialog."
+      title="Actionable Dialog"
+      trailing={<Button shadowless>Trailing</Button>}
+      variant="actionable"
+      onDismiss={() => toggleState('dialog-actionable')}
+    >
+      <Typography>Dialog text content.</Typography>
+    </Dialog>
+  </>
+  <>
+    <Button onClick={() => toggleState('dialog-blank')}>
+      Open Blank Dialog
+    </Button>
+    <Dialog
+      open={getState('dialog-blank')}
+      variant="blank"
+      onDismiss={() => toggleState('dialog-blank')}
+    >
+      <Typography>This is a blank dialog.</Typography>
+    </Dialog>
+  </>
+</Stack>
+```

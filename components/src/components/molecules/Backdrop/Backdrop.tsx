@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { TransitionState, useTransition } from 'react-transition-state'
 import styled from 'styled-components'
 
 import { Portal } from '../..'
@@ -12,11 +13,12 @@ const Container = styled.div`
   display: flex;
   height: ${theme.space.full};
   width: ${theme.space.full};
+  padding: ${theme.space['2']};
   `}
 `
 
 type Props = {
-  children: React.ReactNode
+  children: (renderProps: { state: TransitionState }) => React.ReactNode
   /** An element that provides backdrop styling. Defaults to BackdropSurface component. */
   surface?: React.ElementType
   /** A event fired when the background is clicked. */
@@ -26,16 +28,29 @@ type Props = {
 }
 
 export const Backdrop = ({ children, surface, onDismiss, open }: Props) => {
+  const [state, toggle] = useTransition({
+    timeout: {
+      enter: 50,
+      exit: 300,
+    },
+    mountOnEnter: true,
+    unmountOnExit: true,
+  })
   const boxRef = React.useRef<HTMLDivElement | null>(null)
   const Background = surface || BackdropSurface
 
   const dismissClick = (e: React.MouseEvent<HTMLElement>) =>
     e.target === boxRef.current && onDismiss && onDismiss()
 
-  return open ? (
+  React.useEffect(() => {
+    toggle(open || false)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open])
+
+  return state !== 'unmounted' ? (
     <Portal className="modal">
-      <Background onClick={dismissClick}>
-        <Container ref={boxRef}>{children}</Container>
+      <Background $state={state} onClick={dismissClick}>
+        <Container ref={boxRef}>{children({ state })}</Container>
       </Background>
     </Portal>
   ) : null
