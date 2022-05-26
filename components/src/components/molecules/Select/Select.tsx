@@ -405,8 +405,7 @@ export const Select = React.forwardRef(
     const selectHighlightedIndex = () => {
       const option = options[highlightedIndex]
       option && changeSelectedOption(option)
-      setQueryValue('')
-      setInputValue('')
+      handleReset()
     }
 
     const [menuOpen, setMenuOpen] = React.useState(false)
