@@ -94,6 +94,7 @@ const stylesForSwitch = (
     border-width: 1px;
     border-style: solid;
     border-color: ${theme.colors.borderSecondary};
+    transition: all 90ms ease-in-out;
 
     &:hover {
       transform: translateY(-1px);
