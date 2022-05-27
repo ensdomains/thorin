@@ -7,13 +7,23 @@ import { Backdrop } from '../..'
 import { largerThan } from '@/src/utils/responsiveHelpers'
 
 const Container = styled.div<{ $state: TransitionState }>`
+  width: 95%;
+
+  position: fixed;
+  left: 2.5%;
+  z-index: 9999;
+  bottom: ${({ theme }) => theme.space['4']};
+
   display: flex;
   flex-direction: row;
-  align-self: flex-end;
-  width: 100%;
+
   ${largerThan.sm`
-    align-self: center;
-    width: initial;
+    width: min-content;
+    
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    bottom: initial;
   `}
 
   ${({ theme }) => css`
