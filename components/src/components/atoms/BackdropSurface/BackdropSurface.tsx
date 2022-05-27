@@ -7,6 +7,7 @@ export const BackdropSurface = styled.div<{ $state: TransitionState }>`
   height: 100vh;
   position: fixed;
   overflow: hidden;
+  z-index: 999;
   top: 0;
   left: 0;
   ${({ theme }) => css`

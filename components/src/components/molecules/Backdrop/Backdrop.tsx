@@ -1,21 +1,9 @@
 import * as React from 'react'
 import { TransitionState, useTransition } from 'react-transition-state'
-import styled from 'styled-components'
 
 import { Portal } from '../..'
 
 import { BackdropSurface } from '../../atoms/BackdropSurface'
-
-const Container = styled.div`
-  ${({ theme }) => `
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  height: ${theme.space.full};
-  width: ${theme.space.full};
-  padding: ${theme.space['2']};
-  `}
-`
 
 type Props = {
   children: (renderProps: { state: TransitionState }) => React.ReactNode
@@ -49,9 +37,8 @@ export const Backdrop = ({ children, surface, onDismiss, open }: Props) => {
 
   return state !== 'unmounted' ? (
     <Portal className="modal">
-      <Background $state={state} onClick={dismissClick}>
-        <Container ref={boxRef}>{children({ state })}</Container>
-      </Background>
+      <Background $state={state} ref={boxRef} onClick={dismissClick} />
+      {children({ state })}
     </Portal>
   ) : null
 }
