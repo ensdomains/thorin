@@ -79,6 +79,10 @@ export const CodePreview = ({
     expand,
   })
   const [code, setCode] = React.useState(_code)
+  React.useEffect(() => {
+    _code && _code !== code && setCode(_code)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [_code])
   const store = usePlayroomStore()
   const themeValue = useTheme()
 
