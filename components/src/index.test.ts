@@ -43,6 +43,7 @@ const expectedExportedKeys = [
   'Tooltip',
   // organisms
   'Dialog',
+  'Toast',
   'ChevronLeftSVG',
   'ArrowCircleSVG',
   'ArrowRightSVG',
