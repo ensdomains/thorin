@@ -68,7 +68,7 @@ const ButtonContainer = styled.div`
 `
 
 export const CodePreview = ({
-  code,
+  code: _code,
   expand = false,
   theme,
   minHeight,
@@ -78,6 +78,7 @@ export const CodePreview = ({
     ...initialState,
     expand,
   })
+  const [code, setCode] = React.useState(_code)
   const store = usePlayroomStore()
   const themeValue = useTheme()
 
@@ -121,7 +122,7 @@ export const CodePreview = ({
 
         {state.expand && (
           <div style={{ position: 'relative' }}>
-            <LiveEditor />
+            <LiveEditor onChange={(newCode) => setCode(newCode)} />
 
             <div style={{ position: 'absolute', right: 3.5, top: 3.5 }}>
               <CopyButton content={code} />
