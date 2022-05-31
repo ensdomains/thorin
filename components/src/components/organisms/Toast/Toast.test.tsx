@@ -7,7 +7,7 @@ import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 import { Toast } from './Toast'
 import { lightTheme } from '@/src/tokens'
 
-describe('<Modal />', () => {
+describe('<Toast />', () => {
   afterEach(cleanup)
 
   it('renders', () => {
@@ -16,7 +16,7 @@ describe('<Modal />', () => {
         <Toast open title="Test" variant="desktop" onClose={() => void 0} />
       </ThemeProvider>,
     )
-    waitFor(() => expect(screen.getByText('Modal')).toBeVisible(), {
+    waitFor(() => expect(screen.getByText('Test')).toBeVisible(), {
       timeout: 300,
     })
   })
@@ -32,7 +32,7 @@ describe('<Modal />', () => {
         />
       </ThemeProvider>,
     )
-    waitFor(() => expect(screen.getByText('Modal')).toBeNull(), {
+    waitFor(() => expect(screen.getByText('Test')).toBeNull(), {
       timeout: 300,
     })
   })
