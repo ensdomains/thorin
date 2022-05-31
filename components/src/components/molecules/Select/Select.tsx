@@ -280,8 +280,9 @@ export type SelectProps = Omit<FieldBaseProps, 'inline'> & {
   onBlur?: NativeSelectProps['onBlur']
   /** A handler for when new values are created */
   onCreate?: (value: string) => void
-  /** The selected option data. */
+  /** The selected option's value. */
   value?: SelectOptionProps['value']
+  /** The name property of an input element. */
   name?: NativeSelectProps['name']
   /** An arrary of objects conforming to OptionProps interface. */
   options: SelectOptionProps[]
