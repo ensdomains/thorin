@@ -8,6 +8,7 @@ import { CloseSVG, Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
 import { ReactComponent as IconDownIndicatorSvg } from '@/src/icons/DownIndicator.svg'
 import { useDocumentEvent } from '@/src/hooks/useDocumentEvent'
+import { VisuallyHidden } from '../../atoms'
 
 const CREATE_OPTION_VALUE = 'CREATE_OPTION_VALUE'
 
@@ -247,7 +248,7 @@ enum ReservedKeys {
   Enter = 'Enter',
 }
 
-type NativeSelectProps = React.AllHTMLAttributes<HTMLDivElement>
+type NativeSelectProps = React.AllHTMLAttributes<HTMLInputElement>
 
 export type SelectOptionProps = {
   value: string
@@ -270,7 +271,7 @@ export type SelectProps = Omit<FieldBaseProps, 'inline'> & {
   /** The string or component to prefix the value in the create value option. */
   createablePrefix?: string
   /** The handler for change events. */
-  onChange?: (selected: SelectOptionProps | null) => void
+  onChange?: NativeSelectProps['onChange']
   /** The tabindex attribute for  */
   tabIndex?: NativeSelectProps['tabIndex']
   /** The handler for focus events. */
@@ -279,8 +280,10 @@ export type SelectProps = Omit<FieldBaseProps, 'inline'> & {
   onBlur?: NativeSelectProps['onBlur']
   /** A handler for when new values are created */
   onCreate?: (value: string) => void
-  /** The selected option data. */
-  value?: SelectOptionProps
+  /** The selected option's value. */
+  value?: SelectOptionProps['value']
+  /** The name property of an input element. */
+  name?: NativeSelectProps['name']
   /** An arrary of objects conforming to OptionProps interface. */
   options: SelectOptionProps[]
   size?: Size
@@ -308,15 +311,17 @@ export const Select = React.forwardRef(
       onCreate,
       options,
       emptyListMessage = 'No results',
-      value: _selected,
+      name,
+      value: _value,
       size = 'medium',
     }: SelectProps,
-    ref: React.Ref<HTMLDivElement>,
+    ref: React.Ref<HTMLInputElement>,
   ) => {
-    const defaultRef = React.useRef<HTMLDivElement>(null)
-    const rootRef = (ref as React.RefObject<HTMLDivElement>) || defaultRef
+    const defaultRef = React.useRef<HTMLInputElement>(null)
+    const inputRef = (ref as React.RefObject<HTMLInputElement>) || defaultRef
+    const displayRef = React.useRef<HTMLDivElement>(null)
+    const searchInputRef = React.useRef<HTMLInputElement>(null)
 
-    const inputRef = React.useRef<HTMLInputElement | null>(null)
     const [inputValue, setInputValue] = React.useState('')
 
     const [queryValue, setQueryValue] = React.useState('')
@@ -325,23 +330,43 @@ export const Select = React.forwardRef(
 
     const [id] = React.useState(_id || uniqueId())
 
-    // Internal tracker of selected
-    const [selected, setSelected] = React.useState<SelectOptionProps | null>(
-      null,
-    )
+    // Internal tracker of value
+    const [value, setValue] = React.useState<SelectProps['value']>('')
     React.useEffect(() => {
-      if (_selected?.value !== selected?.value && _selected !== undefined)
-        setSelected(_selected)
+      if (_value !== value && _value !== undefined) setValue(_value)
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [_selected])
+    }, [_value])
 
-    const changeSelectedOption = (option?: SelectOptionProps) => {
+    const selectedOption = options?.find((o) => o.value === value) || null
+
+    const changeSelectedOption = (option?: SelectOptionProps, event?: any) => {
       if (option?.disabled) return
       if (option?.value === CREATE_OPTION_VALUE) {
         onCreate && onCreate(queryValue)
-      } else if (option) {
-        setSelected(option)
-        onChange && onChange(option)
+      } else if (option?.value) {
+        setValue(option?.value)
+        if (event) {
+          const nativeEvent = event.nativeEvent || event
+          const clonedEvent = new nativeEvent.constructor(
+            nativeEvent.type,
+            nativeEvent,
+          )
+          Object.defineProperties(clonedEvent, {
+            target: {
+              writable: true,
+              value: { value: option.value, name },
+            },
+            currentTarget: {
+              writable: true,
+              value: {
+                value: option.value,
+                name,
+              },
+            },
+          })
+          onChange && onChange(clonedEvent)
+        }
+        // onChange && onChange(option)
       }
     }
 
@@ -402,9 +427,9 @@ export const Select = React.forwardRef(
       } while (visibleOptions[nextIndex])
     }
 
-    const selectHighlightedIndex = () => {
+    const selectHighlightedIndex = (event: any) => {
       const option = options[highlightedIndex]
-      option && changeSelectedOption(option)
+      option && changeSelectedOption(option, event)
       handleReset()
     }
 
@@ -451,7 +476,7 @@ export const Select = React.forwardRef(
       if (e.key === ReservedKeys.ArrowUp) incrementHighlightIndex('previous')
       else if (e.key === ReservedKeys.ArrowDown) incrementHighlightIndex('next')
       if (e.key === ReservedKeys.Enter) {
-        selectHighlightedIndex()
+        selectHighlightedIndex(e)
         setMenuOpen(false)
       }
     }
@@ -477,7 +502,7 @@ export const Select = React.forwardRef(
     const handleOptionClick =
       (option: SelectOptionProps) => (e: React.MouseEvent<HTMLDivElement>) => {
         e.stopPropagation()
-        changeSelectedOption(option)
+        changeSelectedOption(option, e)
         setMenuOpen(false)
       }
 
@@ -486,7 +511,7 @@ export const Select = React.forwardRef(
       if (!isNaN(index)) changeHighlightIndex(index)
     }
 
-    useDocumentEvent(rootRef, 'click', () => setMenuOpen(false), menuOpen)
+    useDocumentEvent(displayRef, 'click', () => setMenuOpen(false), menuOpen)
 
     const OptionElement = ({ option }: { option: SelectOptionProps | null }) =>
       option ? (
@@ -518,7 +543,7 @@ export const Select = React.forwardRef(
             aria-invalid={error ? true : undefined}
             data-testid="select-container"
             id={`combo-${id}`}
-            ref={rootRef}
+            ref={displayRef}
             role="combobox"
             tabIndex={tabIndex}
             onBlur={onBlur}
@@ -534,8 +559,8 @@ export const Select = React.forwardRef(
                     autoComplete="off"
                     autoFocus
                     data-testid="select-input"
-                    placeholder={selected?.label}
-                    ref={inputRef}
+                    placeholder={selectedOption?.label}
+                    ref={searchInputRef}
                     spellCheck="false"
                     style={{ flex: '1', height: '100%' }}
                     value={inputValue}
@@ -549,10 +574,32 @@ export const Select = React.forwardRef(
                   </ClearIconContainer>
                 </>
               ) : (
-                <OptionElement option={selected} />
+                <OptionElement option={selectedOption} />
               )}
             </OptionElementContainer>
             <Chevron $disabled={disabled} $open={isOpen} />
+            <VisuallyHidden>
+              <input
+                aria-hidden
+                name={name}
+                ref={inputRef}
+                tabIndex={-1}
+                value={value}
+                onChange={(e) => {
+                  const newValue = e.target.value
+                  const option = options?.find((o) => o.value === newValue)
+                  if (option) {
+                    setValue(option.value)
+                    onChange && onChange(e)
+                  }
+                }}
+                onFocus={() => {
+                  searchInputRef.current
+                    ? searchInputRef.current.focus()
+                    : displayRef.current?.focus()
+                }}
+              />
+            </VisuallyHidden>
           </SelectContainer>
           <SelectOptionContainer
             $open={isOpen}
@@ -567,7 +614,7 @@ export const Select = React.forwardRef(
             {visibleOptions.map((option, index) => (
               <SelectOption
                 {...{
-                  $selected: option?.value === selected?.value,
+                  $selected: option?.value === value,
                   $disabled: option.disabled,
                   $highlighted: index === highlightedIndex,
                 }}

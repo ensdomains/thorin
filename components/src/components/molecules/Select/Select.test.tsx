@@ -3,7 +3,7 @@ import * as React from 'react'
 import { ThemeProvider } from 'styled-components'
 import { act } from 'react-dom/test-utils'
 
-import { Controller, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 
 import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 
@@ -11,42 +11,32 @@ import { Select } from './Select'
 import { lightTheme } from '@/src/tokens'
 
 const SelectWithForm = ({ submit }: { submit: (data: unknown) => void }) => {
-  const { control, handleSubmit } = useForm<{
-    select?: {
-      label?: string
-      value: string
-    }
+  const { register, handleSubmit } = useForm<{
+    select?: string
   }>({
-    defaultValues: {},
+    defaultValues: {
+      select: '',
+    },
   })
   return (
     <ThemeProvider theme={lightTheme}>
       <form
         onSubmit={handleSubmit((data: any) => {
-          console.log(JSON.stringify(data))
-          console.log(JSON.stringify(data?.select))
           submit(data)
         })}
       >
         <div>outside</div>
-        <Controller
-          control={control}
-          name="select"
-          render={({ field }) => (
-            <Select
-              {...field}
-              label="select"
-              options={[
-                { value: '0', label: 'Zero' },
-                { value: '1', label: 'One' },
-                { value: '2', label: 'Two', disabled: true },
-              ]}
-              tabIndex={2}
-            />
-          )}
-          rules={{
+        <Select
+          label="select"
+          {...register('select', {
             required: true,
-          }}
+          })}
+          options={[
+            { value: '0', label: 'Zero' },
+            { value: '1', label: 'One' },
+            { value: '2', label: 'Two', disabled: true },
+          ]}
+          tabIndex={2}
         />
         <input data-testid="submit" type="submit" />
       </form>
@@ -96,7 +86,10 @@ describe('<Select />', () => {
   })
 
   it('should call onChange when selection made', async () => {
-    const mockCallback = jest.fn()
+    const mockCallback = jest.fn((e: any) => [
+      e.target.value,
+      e.currentTarget.value,
+    ])
     render(
       <ThemeProvider theme={lightTheme}>
         <Select
@@ -117,7 +110,7 @@ describe('<Select />', () => {
       userEvent.click(screen.getByText('One'))
     })
     await waitFor(() => {
-      expect(mockCallback).toBeCalledWith({ value: '1', label: 'One' })
+      expect(mockCallback).toHaveReturnedWith(['1', '1'])
     })
   })
 
@@ -131,7 +124,7 @@ describe('<Select />', () => {
             { value: '1', label: 'One' },
             { value: '2', label: 'Two' },
           ]}
-          value={{ value: '0', label: 'Zero' }}
+          value="0"
         />
       </ThemeProvider>,
     )
@@ -145,7 +138,7 @@ describe('<Select />', () => {
             { value: '1', label: 'One' },
             { value: '2', label: 'Two' },
           ]}
-          value={{ value: '1', label: 'One' }}
+          value="1"
         />
       </ThemeProvider>,
     )
@@ -420,7 +413,7 @@ describe('<Select />', () => {
     })
   })
 
-  /** React Form Hook Integration Tests */
+  // /** React Form Hook Integration Tests */
 
   it('should call on blur when clicking outside of element', async () => {
     const mockCallback = jest.fn()
@@ -469,7 +462,7 @@ describe('<Select />', () => {
 
     await waitFor(() => {
       expect(mockSubmit).toBeCalledWith({
-        select: { value: '1', label: 'One' },
+        select: '1',
       })
     })
   })
@@ -501,7 +494,9 @@ describe('<Select />', () => {
       expect(mockSubmit).toBeCalledTimes(0)
     })
 
-    expect(screen.getByTestId('select-container')).toHaveFocus()
+    await waitFor(() => {
+      expect(screen.getByTestId('select-container')).toHaveFocus()
+    })
 
     // await waitFor(() => {})
   })
