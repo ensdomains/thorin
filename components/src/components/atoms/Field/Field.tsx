@@ -103,12 +103,15 @@ interface ContainerProps {
   $inline?: boolean
 }
 const Container = styled.div<ContainerProps>`
-  ${({ theme, $inline, $width }) => `
-    display: ${$inline ? 'inline-flex' : 'flex'};
+  display: flex;
+  ${({ theme, $inline }) => `
     flex-direction: ${$inline ? 'row' : 'column'};
     align-items: ${$inline ? 'center' : 'normal'};    
     gap: ${$inline ? theme.space['2.5'] : theme.space['2']};
-    ${!$inline && $width && `width: ${theme.space[$width]};`}
+  `}
+
+  ${({ theme, $width }) => `
+    width: ${theme.space[$width]};
   `}
 `
 
@@ -117,6 +120,7 @@ const ContainerInner = styled.div`
     display: flex;
     flex-direction: column;
     gap: ${theme.space[2]};
+    flex: 1;
   `}
 `
 
