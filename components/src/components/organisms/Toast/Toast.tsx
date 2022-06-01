@@ -7,7 +7,7 @@ import { Space } from '@/src'
 import { Backdrop, ExitSVG, Typography } from '../..'
 
 const IconCloseContainer = styled.div`
-  ${({ theme }) => `
+  ${({ theme }) => css`
     position: absolute;
     top: ${theme.space['2.5']};
     right: ${theme.space['2.5']};
@@ -33,8 +33,8 @@ const Container = styled.div<{
   $right?: Space
   $bottom?: Space
   $top?: Space
-}>`
-  ${({ theme, $state, $top, $left, $right, $bottom, $mobile, $popped }) => css`
+}>(
+  ({ theme, $state, $top, $left, $right, $bottom, $mobile, $popped }) => css`
     position: fixed;
     z-index: 1000;
 
@@ -46,6 +46,7 @@ const Container = styled.div<{
     css`
       width: 95%;
       left: 2.5%;
+      touch-action: none;
     `}
 
     ${!$mobile &&
@@ -84,8 +85,8 @@ const Container = styled.div<{
           opacity: 0;
           transform: translateY(-64px);
         `}
-  `}
-`
+  `,
+)
 
 const Title = styled(Typography)`
   ${({ theme }) => css`
@@ -98,7 +99,7 @@ const DraggableContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  ${({ theme }) => `
+  ${({ theme }) => css`
     padding-top: ${theme.space['3']};
     margin-bottom: calc(-1 * ${theme.space['2']});
   `}
@@ -235,7 +236,6 @@ export const TouchToast = ({
           setTouches([])
         }
       } else {
-        console.log(difference * -1, parseFloat(space['32']) * fontSize)
         if (difference * -1 > parseFloat(space['32']) * fontSize) {
           setCalcTop(originalTop * 2)
           setPopped(true)
@@ -250,6 +250,52 @@ export const TouchToast = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [touches])
 
+  const onTouchStart = React.useCallback((e: TouchEvent) => {
+    e.preventDefault()
+    setTouches([e.targetTouches.item(0)?.pageY])
+  }, [])
+
+  const onTouchMove = React.useCallback((e: TouchEvent) => {
+    e.preventDefault()
+    setTouches((touches) => [...touches, e.targetTouches.item(0)?.pageY])
+  }, [])
+
+  React.useEffect(() => {
+    const componentRef = ref.current
+
+    componentRef?.addEventListener('touchstart', onTouchStart, {
+      passive: false,
+      capture: false,
+    })
+    componentRef?.addEventListener('touchmove', onTouchMove, {
+      passive: false,
+      capture: false,
+    })
+
+    return () => {
+      componentRef?.removeEventListener('touchstart', onTouchStart, {
+        capture: false,
+      })
+      componentRef?.removeEventListener('touchmove', onTouchMove, {
+        capture: false,
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  React.useEffect(() => {
+    const componentRef = ref.current
+    if (popped) {
+      componentRef?.removeEventListener('touchstart', onTouchStart, {
+        capture: false,
+      })
+      componentRef?.removeEventListener('touchmove', onTouchMove, {
+        capture: false,
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [popped])
+
   return (
     <Container
       $bottom={bottom}
@@ -263,10 +309,6 @@ export const TouchToast = ({
       style={{ top: `${calcTop}px` }}
       onClick={() => setPopped(true)}
       onTouchEnd={() => setTouches((touches) => [...touches, undefined])}
-      onTouchMove={(e) =>
-        setTouches((touches) => [...touches, e.targetTouches.item(0).pageY])
-      }
-      onTouchStart={(e) => setTouches([e.targetTouches.item(0).pageY])}
     >
       <Title variant="large" weight="bold">
         {title}
@@ -278,7 +320,10 @@ export const TouchToast = ({
           <IconCloseContainer
             as={ExitSVG}
             data-testid="close-icon"
-            onClick={() => onClose()}
+            onClick={(e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
+              e.stopPropagation()
+              onClose()
+            }}
           />
         </>
       )}
@@ -320,11 +365,7 @@ export const Toast = ({
       className="toast"
       noBackground
       open={open}
-      onDismiss={() => {
-        if (variant === 'touch' && popped) {
-          onClose()
-        }
-      }}
+      onDismiss={variant === 'touch' && popped ? () => onClose() : undefined}
     >
       {({ state }) =>
         variant === 'touch' ? (

@@ -47,13 +47,14 @@ export const Backdrop = ({
 
   return state !== 'unmounted' ? (
     <Portal className={className}>
-      <Background
-        $empty={noBackground}
-        $state={state}
-        ref={boxRef}
-        onClick={dismissClick}
-      />
-
+      {onDismiss && (
+        <Background
+          $empty={noBackground}
+          $state={state}
+          ref={boxRef}
+          onClick={dismissClick}
+        />
+      )}
       {children({ state })}
     </Portal>
   ) : null
