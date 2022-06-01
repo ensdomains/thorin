@@ -38,12 +38,12 @@ type Props = FieldBaseProps & {
   id?: NativeFormProps['id']
 }
 
-const Label = styled.label`
-  ${({ theme }) => `
+const Label = styled.label<{ $inline?: boolean }>`
+  ${({ theme, $inline }) => `
     color: ${theme.colors.textTertiary};
     font-weight: ${theme.fontWeights['semiBold']};
-    margin-right: ${theme.space['4']};
     display: flex;
+    ${!$inline && `margin-right: ${theme.space['4']};`}
   `}
 `
 
@@ -52,15 +52,16 @@ interface LabelContentProps {
   label: React.ReactNode
   labelSecondary: React.ReactNode
   required: boolean | undefined
+  $inline?: boolean
 }
 
-const LabelContentContainer = styled.div`
-  ${({ theme }) => `
+const LabelContentContainer = styled.div<{ $inline?: boolean }>`
+  ${({ theme, $inline }) => `
     display: flex;
     align-items: flex-end;
     justify-conetn: space-between;
-    padding-left: ${theme.space['4']};
-    padding-right: ${theme.space['4']};
+    padding-left: ${$inline ? '0' : theme.space['4']};
+    padding-right: ${$inline ? '0' : theme.space['4']};
     padding-top: 0;
     padding-bottom: 0;
   `}
@@ -81,9 +82,10 @@ const LabelContent = ({
   label,
   labelSecondary,
   required,
+  $inline,
 }: LabelContentProps) => (
-  <LabelContentContainer>
-    <Label {...ids.label}>
+  <LabelContentContainer $inline={$inline}>
+    <Label {...ids.label} $inline={$inline}>
       {label}{' '}
       {required && (
         <>
@@ -101,12 +103,12 @@ interface ContainerProps {
   $inline?: boolean
 }
 const Container = styled.div<ContainerProps>`
-  ${({ $inline }) => ($inline ? 'align-items: center' : '')};
-  display: flex;
-  flex-direction: ${({ $inline }) => ($inline ? 'row' : 'column')};
-  ${({ theme, $width }) => `
-    gap: ${theme.space[2]};
-    width: ${theme.space[$width]};
+  ${({ theme, $inline, $width }) => `
+    display: ${$inline ? 'inline-flex' : 'flex'};
+    flex-direction: ${$inline ? 'row' : 'column'};
+    align-items: ${$inline ? 'center' : 'normal'};    
+    gap: ${$inline ? theme.space['2.5'] : theme.space['2']};
+    ${!$inline && $width && `width: ${theme.space[$width]};`}
   `}
 `
 
@@ -163,14 +165,16 @@ export const Field = ({
 
   return inline ? (
     <Container $inline={inline} $width={width}>
-      <div>{content}</div>
       <ContainerInner>
         {hideLabel ? (
           <VisuallyHidden>
             <LabelContent {...{ ids, label, labelSecondary, required }} />
           </VisuallyHidden>
         ) : (
-          <LabelContent {...{ ids, label, labelSecondary, required }} />
+          <LabelContent
+            {...{ ids, label, labelSecondary, required }}
+            $inline={inline}
+          />
         )}
         {description && <Description>{description}</Description>}
         {error && (
@@ -179,6 +183,7 @@ export const Field = ({
           </Error>
         )}
       </ContainerInner>
+      <div>{content}</div>
     </Container>
   ) : (
     <Container $width={width}>
