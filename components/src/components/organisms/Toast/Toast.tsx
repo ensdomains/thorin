@@ -2,7 +2,7 @@ import * as React from 'react'
 import { TransitionState } from 'react-transition-state'
 import styled, { css, useTheme } from 'styled-components'
 
-import { Colors, Space } from '@/src'
+import { Space } from '@/src'
 
 import { Backdrop, ExitSVG, Typography } from '../..'
 
@@ -123,10 +123,6 @@ type Props = {
   onClose: () => void
   open: boolean
   msToShow?: number
-  tag?: {
-    name: string
-    color: Colors
-  }
   title: string
   description?: string
   children?: React.ReactNode
@@ -299,18 +295,25 @@ export const Toast = ({
   ...props
 }: Props) => {
   const [popped, setPopped] = React.useState(false)
+  const currentTimeout = React.useRef<number | undefined>()
 
   React.useEffect(() => {
     if (open) {
       setPopped(false)
-      const timeout = setTimeout(() => onClose(), msToShow || 8000)
+      currentTimeout.current = setTimeout(() => onClose(), msToShow || 8000)
       return () => {
-        clearTimeout(timeout)
+        clearTimeout(currentTimeout.current)
         onClose()
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open])
+
+  React.useEffect(() => {
+    if (popped) {
+      clearTimeout(currentTimeout.current)
+    }
+  }, [popped])
 
   return (
     <Backdrop
