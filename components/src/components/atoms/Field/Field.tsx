@@ -59,7 +59,7 @@ const LabelContentContainer = styled.div<{ $inline?: boolean }>(
   ({ theme, $inline }) => css`
     display: flex;
     align-items: flex-end;
-    justify-conetn: space-between;
+    justify-content: space-between;
     padding-left: ${$inline ? '0' : theme.space['4']};
     padding-right: ${$inline ? '0' : theme.space['4']};
     padding-top: 0;
