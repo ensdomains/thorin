@@ -1,6 +1,6 @@
 import { borderStyles, borderWidths, radii } from './border'
 import { shadows } from './shadows'
-import { accentsRaw, colors, shades } from './color'
+import { accentsRaw, colors, shades, shadesRaw } from './color'
 import { opacity } from './opacity'
 import { space } from './space'
 import {
@@ -73,6 +73,7 @@ export const tokens = {
   transitionTimingFunction,
   boxShadows,
   accentsRaw,
+  shadesRaw,
 }
 
 export const baseTheme = {
@@ -102,6 +103,7 @@ export const lightTheme = {
   shades: tokens.shades.light,
   boxShadows: tokens.boxShadows.light,
   accentsRaw: tokens.accentsRaw.light,
+  shadesRaw: tokens.shadesRaw.light,
   mode: 'light',
 }
 
@@ -114,6 +116,7 @@ export const darkTheme = {
   shades: tokens.shades.dark,
   boxShadows: tokens.boxShadows.dark,
   accentsRaw: tokens.accentsRaw.dark,
+  shadesRaw: tokens.shadesRaw.dark,
   mode: 'dark',
 }
 

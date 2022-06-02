@@ -1,0 +1,29 @@
+---
+title: Toast
+description: Provides brief notifcations to the user
+---
+
+```tsx
+import { Toast } from '@ensdomains/thorin'
+```
+
+```tsx live=true expand=true
+<>
+  <Button onClick={() => toggleState('toast')}>Show Toast</Button>
+  <Toast
+    description="This is an example toast."
+    open={getState('toast')}
+    title="Example Toast"
+    variant="desktop"
+    onClose={() => setState('toast', false)}
+  >
+    <Button shadowless size="small">
+      Click Me
+    </Button>
+  </Toast>
+</>
+```
+
+## Props
+
+<PropsTable sourceLink={sourceLink} types={types} />

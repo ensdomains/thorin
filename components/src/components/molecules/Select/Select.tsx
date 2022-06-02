@@ -271,7 +271,7 @@ export type SelectProps = Omit<FieldBaseProps, 'inline'> & {
   /** The string or component to prefix the value in the create value option. */
   createablePrefix?: string
   /** The handler for change events. */
-  onChange?: NativeSelectProps['onChange']
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
   /** The tabindex attribute for  */
   tabIndex?: NativeSelectProps['tabIndex']
   /** The handler for focus events. */
