@@ -110,12 +110,13 @@ const SelectOptionContainer = styled.div<{ $open?: boolean }>(
 
     ${$open
       ? css`
-        z-index: 20;
-        visibility: visible;
-        margin-top: ${theme.space['1.5']};
-        opacity ${theme.opacity['100']};
-        transition: all 0.3s cubic-bezier(1, 0, 0.22, 1.6), z-index 0s linear 0.3s;
-      `
+          z-index: 20;
+          visibility: visible;
+          margin-top: ${theme.space['1.5']};
+          opacity: ${theme.opacity['100']};
+          transition: all 0.3s cubic-bezier(1, 0, 0.22, 1.6),
+            z-index 0s linear 0.3s;
+        `
       : css`
           z-index: 0;
           visibility: hidden;
@@ -147,11 +148,11 @@ const SelectOption = styled.div<{
     border-radius: ${theme.radii['medium']};
     margin: ${theme.space['0.5']} 0;
 
-    &::first-child {
+    &:first-child {
       margin-top: ${theme.space['0']};
     }
 
-    &::last-child {
+    &:last-child {
       margin-bottom: ${theme.space['0']};
     }
 
@@ -213,11 +214,11 @@ const NoResultsContainer = styled.div(
     margin: ${theme.space['0.5']} 0;
     font-style: italic;
 
-    &::first-child {
+    &:first-child {
       margin-top: ${theme.space['0']};
     }
 
-    &::last-child {
+    &:last-child {
       margin-bottom: ${theme.space['0']};
     }
   `,

@@ -1,3 +1,4 @@
+/* stylelint-disable property-no-unknown */
 import { createGlobalStyle, css } from 'styled-components'
 
 const GlobalStyle = createGlobalStyle(
@@ -59,12 +60,11 @@ const GlobalStyle = createGlobalStyle(
       list-style: none;
     }
 
-    quote,
     blockquote {
       quotes: none;
 
-      &:before,
-      &after {
+      &::before,
+      &::after {
         content: '';
       }
     }
@@ -74,7 +74,7 @@ const GlobalStyle = createGlobalStyle(
       border-spacing: 0;
     }
 
-    field {
+    fieldset {
       display: block;
       appearance: none;
       outline: none;

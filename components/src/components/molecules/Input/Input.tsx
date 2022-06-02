@@ -195,7 +195,7 @@ const InputComponent = styled.input<InputComponentProps>(
 
     ${disabled &&
     css`
-      opacity ${theme.opacity['50']};
+      opacity: ${theme.opacity['50']};
       cursor: not-allowed;
     `}
 

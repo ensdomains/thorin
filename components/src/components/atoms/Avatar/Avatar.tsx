@@ -33,7 +33,7 @@ const Container = styled.div<Container>(
 
     ${!$noBorder &&
     css`
-      &:after {
+      &::after {
         box-shadow: ${theme.shadows['-px']} ${theme.colors.foregroundTertiary};
         content: '';
         inset: 0;

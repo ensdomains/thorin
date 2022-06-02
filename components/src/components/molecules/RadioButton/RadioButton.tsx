@@ -23,10 +23,6 @@ const Input = styled.input(
       filter: contrast(1);
     }
 
-    &:checked::before {
-      transform: scale(1);
-    }
-
     width: ${theme.space['6']};
     height: ${theme.space['6']};
     margin: ${theme.space['2']} 0;
@@ -42,6 +38,10 @@ const Input = styled.input(
       background-image: ${theme.colors.gradients.blue};
       background-size: 100% 100%;
       background-position: center;
+    }
+
+    &:checked::before {
+      transform: scale(1);
     }
   `,
 )
