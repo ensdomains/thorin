@@ -39,11 +39,16 @@ type Props = FieldBaseProps & {
 }
 
 const Label = styled.label<{ $inline?: boolean }>(
-  ({ theme, $inline }) => css`
+  ({ theme }) => css`
     color: ${theme.colors.textTertiary};
     font-weight: ${theme.fontWeights['semiBold']};
     display: flex;
-    ${!$inline && `margin-right: ${theme.space['4']};`}
+  `,
+)
+
+const LabelSecondary = styled.span(
+  ({ theme }) => css`
+    margin-left: ${theme.space['4']};
   `,
 )
 
@@ -59,7 +64,6 @@ const LabelContentContainer = styled.div<{ $inline?: boolean }>(
   ({ theme, $inline }) => css`
     display: flex;
     align-items: flex-end;
-    justify-content: space-between;
     padding-left: ${$inline ? '0' : theme.space['4']};
     padding-right: ${$inline ? '0' : theme.space['4']};
     padding-top: 0;
@@ -94,7 +98,7 @@ const LabelContent = ({
         </>
       )}
     </Label>
-    {labelSecondary && labelSecondary}
+    {labelSecondary && <LabelSecondary>{labelSecondary}</LabelSecondary>}
   </LabelContentContainer>
 )
 
@@ -121,17 +125,17 @@ const ContainerInner = styled.div(
   `,
 )
 
-const Description = styled.div(
-  ({ theme }) => css`
-    padding: 0 ${theme.space['4']};
+const Description = styled.div<{ $inline?: boolean }>(
+  ({ theme, $inline }) => css`
+    padding: 0 ${$inline ? '0' : theme.space['4']};
     color: ${theme.colors.textSecondary};
   `,
 )
 
-const Error = styled.div(
-  ({ theme }) => `
+const Error = styled.div<{ $inline?: boolean }>(
+  ({ theme, $inline }) => `
     color: ${theme.colors.red};
-    padding: 0 ${theme.space[4]};
+    padding: 0 ${$inline ? '0' : theme.space[4]};
 `,
 )
 
@@ -177,9 +181,11 @@ export const Field = ({
             $inline={inline}
           />
         )}
-        {description && <Description>{description}</Description>}
+        {description && (
+          <Description $inline={inline}>{description}</Description>
+        )}
         {error && (
-          <Error aria-live="polite" {...ids.error}>
+          <Error aria-live="polite" {...ids.error} $inline={inline}>
             {error}
           </Error>
         )}
