@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import { Colors } from '@/src/tokens'
 
@@ -17,84 +17,80 @@ interface ContainerProps {
   $font: Fonts
 }
 
-const Container = styled.div<ContainerProps>`
-  ${({ $font, theme }) => `
+const Container = styled.div<ContainerProps>(
+  ({ theme, $ellipsis, $variant, $size, $color, $weight, $font }) => css`
     font-family: ${theme.fonts[$font]};
     letter-spacing: ${theme.letterSpacings['-0.01']};
     letter-spacing: ${theme.letterSpacings['-0.015']};
     line-height: ${theme.lineHeights.normal};
-  `}
 
-  ${({ $ellipsis }) =>
-    $ellipsis &&
-    `
+    ${$ellipsis &&
+    css`
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: nowrap;
-  `}
+    `}
 
-  ${({ $variant, theme }) => {
-    switch ($variant) {
-      case 'small':
-        return `
-          font-size: ${theme.fontSizes['small']};
-          font-weight: ${theme.fontWeights['normal']};
-          letter-spacing: ${theme.letterSpacings['-0.01']};
-          line-height: ${theme.lineHeights.normal};
-        `
-      case 'large':
-        return `
-          font-size: ${theme.fontSizes['large']};
-          font-weight: ${theme.fontWeights['normal']};
-          letter-spacing: ${theme.letterSpacings['-0.02']};
-          line-height: ${theme.lineHeights['2']};
-        `
-      case 'extraLarge':
-        return `
-          font-size: ${theme.fontSizes['extraLarge']};
-          font-weight: ${theme.fontWeights['medium']};
-          letter-spacing: ${theme.letterSpacings['-0.02']};
-          line-height: ${theme.lineHeights['2']};
-        `
-      case 'label':
-        return `
-          color: ${theme.colors.text};
-          font-size: ${theme.fontSizes['label']};
-          font-weight: ${theme.fontWeights['bold']};
-          letter-spacing: ${theme.letterSpacings['-0.01']};
-          text-transform: capitalize;
-        `
-      case 'labelHeading':
-        return `
-          color: ${theme.colors.text};
-          font-size: ${theme.fontSizes['small']};
-          font-weight: ${theme.fontWeights['bold']};
-          letter-spacing: ${theme.letterSpacings['-0.01']};
-          text-transform: capitalize;
-        `
-      default:
-        return ``
-    }
-  }}
+    ${() => {
+      switch ($variant) {
+        case 'small':
+          return css`
+            font-size: ${theme.fontSizes['small']};
+            font-weight: ${theme.fontWeights['normal']};
+            letter-spacing: ${theme.letterSpacings['-0.01']};
+            line-height: ${theme.lineHeights.normal};
+          `
+        case 'large':
+          return css`
+            font-size: ${theme.fontSizes['large']};
+            font-weight: ${theme.fontWeights['normal']};
+            letter-spacing: ${theme.letterSpacings['-0.02']};
+            line-height: ${theme.lineHeights['2']};
+          `
+        case 'extraLarge':
+          return css`
+            font-size: ${theme.fontSizes['extraLarge']};
+            font-weight: ${theme.fontWeights['medium']};
+            letter-spacing: ${theme.letterSpacings['-0.02']};
+            line-height: ${theme.lineHeights['2']};
+          `
+        case 'label':
+          return css`
+            color: ${theme.colors.text};
+            font-size: ${theme.fontSizes['label']};
+            font-weight: ${theme.fontWeights['bold']};
+            letter-spacing: ${theme.letterSpacings['-0.01']};
+            text-transform: capitalize;
+          `
+        case 'labelHeading':
+          return css`
+            color: ${theme.colors.text};
+            font-size: ${theme.fontSizes['small']};
+            font-weight: ${theme.fontWeights['bold']};
+            letter-spacing: ${theme.letterSpacings['-0.01']};
+            text-transform: capitalize;
+          `
+        default:
+          return ``
+      }
+    }}
 
-  ${({ $color, theme }) =>
-    $color &&
-    `
-    color: ${theme.colors[$color]};
-  `}
+  ${$color &&
+    css`
+      color: ${theme.colors[$color]};
+    `}
 
-  ${({ $size, theme }) =>
-    $size &&
-    `
+  ${$size &&
+    css`
       font-size: ${theme.fontSizes[$size]};
-  `}
+    `}
 
-  ${({ $weight, theme }) =>
-    $weight &&
-    `
+  ${$weight &&
+    css`
       font-weight: ${theme.fontWeights[$weight]};
-  `}
-`
+    `}
+  `,
+)
 
 type Props = {
   /** element type of container */

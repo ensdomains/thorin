@@ -5,20 +5,19 @@ import styled, { css } from 'styled-components'
 export const BackdropSurface = styled.div<{
   $state: TransitionState
   $empty: boolean
-}>`
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  overflow: hidden;
-  z-index: 999;
-  top: 0;
-  left: 0;
-  ${({ theme }) => css`
+}>(
+  ({ theme, $state, $empty }) => css`
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    overflow: hidden;
+    z-index: 999;
+    top: 0;
+    left: 0;
     transition: ${theme.transitionDuration['300']} all
       ${theme.transitionTimingFunction.popIn};
-  `}
-  ${({ theme, $state, $empty }) =>
-    !$empty && $state === 'entered'
+
+    ${!$empty && $state === 'entered'
       ? css`
           background-color: rgba(
             0,
@@ -38,4 +37,5 @@ export const BackdropSurface = styled.div<{
             backdrop-filter: blur(0px);
           }
         `}
-`
+  `,
+)

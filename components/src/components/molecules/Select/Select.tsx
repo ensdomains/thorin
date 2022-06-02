@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import uniqueId from 'lodash/uniqueId'
 
 import { useEffect } from 'react'
@@ -14,8 +14,8 @@ const CREATE_OPTION_VALUE = 'CREATE_OPTION_VALUE'
 
 type Size = 'small' | 'medium'
 
-const SelectContainer = styled.div<{ $disabled?: boolean; $size: Size }>`
-  ${({ theme, $size }) => `
+const SelectContainer = styled.div<{ $disabled?: boolean; $size: Size }>(
+  ({ theme, $disabled, $size }) => css`
     background: ${theme.colors.background};
     border-color: ${theme.colors.backgroundHide};
     border-width: ${theme.space['px']};
@@ -26,42 +26,41 @@ const SelectContainer = styled.div<{ $disabled?: boolean; $size: Size }>`
     align-items: center;
     justify-content: space-between;
     z-index: 10;
-    ${
-      $size === 'medium'
-        ? `
-      border-radius: ${theme.radii['extraLarge']};
-      padding: ${theme.space['4']};
-      height: ${theme.space['14']};
-    `
-        : `
-      border-radius: ${theme.radii['almostExtraLarge']};
-      padding: ${theme.space['2']};
-      height: ${theme.space['10']};
-    `
-    }
-  `}
+    ${$size === 'medium'
+      ? css`
+          border-radius: ${theme.radii['extraLarge']};
+          padding: ${theme.space['4']};
+          height: ${theme.space['14']};
+        `
+      : css`
+          border-radius: ${theme.radii['almostExtraLarge']};
+          padding: ${theme.space['2']};
+          height: ${theme.space['10']};
+        `}
 
-  ${({ $disabled, theme }) =>
-    $disabled &&
-    `
-    cursor: not-allowed;
-    background: ${theme.colors.backgroundTertiary};
-  `}
-`
+    ${$disabled &&
+    css`
+      cursor: not-allowed;
+      background: ${theme.colors.backgroundTertiary};
+    `}
+  `,
+)
 
-const OptionElementContainer = styled.div`
-  align-items: center;
-  display: flex;
-  flex-direction: row;
-  flex-grow: 1;
-  gap: ${({ theme }) => theme.space['4']};
-`
+const OptionElementContainer = styled.div(
+  ({ theme }) => css`
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    gap: ${theme.space['4']};
+  `,
+)
 
 const Chevron = styled(IconDownIndicatorSvg)<{
   $open: boolean
   $disabled?: boolean
-}>`
-  ${({ theme }) => `
+}>(
+  ({ theme, $open, $disabled }) => css`
     margin-left: ${theme.space['1']};
     width: ${theme.space['3']};
     margin-right: ${theme.space['0.5']};
@@ -76,33 +75,31 @@ const Chevron = styled(IconDownIndicatorSvg)<{
       fill: currentColor;
     }
     fill: currentColor;
-  `}
 
-  ${({ $open }) =>
-    $open &&
-    `
+    ${$open &&
+    css`
       opacity: 1;
       transform: rotate(180deg);
-  `}
+    `}
 
-  ${({ $disabled }) =>
-    $disabled &&
-    `
+    ${$disabled &&
+    css`
       opacity: 0.1;
-  `}
-`
+    `}
+  `,
+)
 
-const SelectOptionContainer = styled.div<{ $open?: boolean }>`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
-  position: absolute;
-  visibility: hidden;
-  opacity: 0;
-  overflow: hidden;
+const SelectOptionContainer = styled.div<{ $open?: boolean }>(
+  ({ theme, $open }) => css`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+    overflow: hidden;
 
-  ${({ theme }) => `
     margin-top: ${theme.space['1.5']};
     padding: ${theme.space['1.5']};
     width: ${theme.space['full']};
@@ -110,32 +107,33 @@ const SelectOptionContainer = styled.div<{ $open?: boolean }>`
     border-radius: ${theme.radii['medium']};
     box-shadow: ${theme.boxShadows['0.02']};
     background: ${theme.colors.background};
-  `}
 
-  ${({ $open, theme }) =>
-    $open
-      ? `
-      z-index: 20;
-      visibility: visible;
-      margin-top: ${theme.space['1.5']};
-      opacity ${theme.opacity['100']};
-      transition: all 0.3s cubic-bezier(1, 0, 0.22, 1.6), z-index 0s linear 0.3s;
-  `
-      : `
-      z-index: 0;
-      visibility: hidden;
-      margin-top: -${theme.space['12']};
-      opacity: 0;
-      transition: all 0.3s cubic-bezier(1, 0, 0.22, 1.6), z-index 0s linear 0s;
-  `}
-`
+    ${$open
+      ? css`
+          z-index: 20;
+          visibility: visible;
+          margin-top: ${theme.space['1.5']};
+          opacity: ${theme.opacity['100']};
+          transition: all 0.3s cubic-bezier(1, 0, 0.22, 1.6),
+            z-index 0s linear 0.3s;
+        `
+      : css`
+          z-index: 0;
+          visibility: hidden;
+          margin-top: -${theme.space['12']};
+          opacity: 0;
+          transition: all 0.3s cubic-bezier(1, 0, 0.22, 1.6),
+            z-index 0s linear 0s;
+        `}
+  `,
+)
 
 const SelectOption = styled.div<{
   $selected?: boolean
   $disabled?: boolean
   $highlighted?: boolean
-}>`
-  ${({ theme }) => `
+}>(
+  ({ theme, $selected, $disabled, $highlighted }) => css`
     align-items: center;
     cursor: pointer;
     display: flex;
@@ -149,60 +147,59 @@ const SelectOption = styled.div<{
     transition-timing-function: ${theme.transitionTimingFunction['inOut']};
     border-radius: ${theme.radii['medium']};
     margin: ${theme.space['0.5']} 0;
-    
-    &::first-child {
+
+    &:first-child {
       margin-top: ${theme.space['0']};
     }
-    
-    &::last-child {
+
+    &:last-child {
       margin-bottom: ${theme.space['0']};
     }
-  `}
 
-  ${({ theme, $selected, $highlighted }) => {
-    if ($selected)
-      return `
-    background-color: ${theme.colors.foregroundSecondary};
-    `
-    else if ($highlighted)
-      return `
-    background-color: ${theme.colors.foregroundSecondaryHover};    
-    `
-  }}
+    ${() => {
+      if ($selected)
+        return css`
+          background-color: ${theme.colors.foregroundSecondary};
+        `
+      else if ($highlighted)
+        return css`
+          background-color: ${theme.colors.foregroundSecondaryHover};
+        `
+    }}
 
-  ${({ theme, $disabled }) =>
-    $disabled &&
-    `
+    ${$disabled &&
+    css`
       color: ${theme.colors.textTertiary};
       cursor: not-allowed;
-      
+
       &:hover {
         background-color: ${theme.colors.transparent};
       }
-  `}
-`
+    `}
+  `,
+)
 
 const ClearIconContainer = styled.div<{
   $size: SelectProps['size']
-}>`
-  gap: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  ${({ theme, $size }) => `
-  width: ${$size === 'medium' ? theme.space['14'] : theme.space['10']};
-  height: ${$size === 'medium' ? theme.space['14'] : theme.space['10']};
-  svg {
-    display: block;
-    path {
-      color: ${theme.colors.textSecondary};
+}>(
+  ({ theme, $size }) => css`
+    gap: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: ${$size === 'medium' ? theme.space['14'] : theme.space['10']};
+    height: ${$size === 'medium' ? theme.space['14'] : theme.space['10']};
+    svg {
+      display: block;
+      path {
+        color: ${theme.colors.textSecondary};
+      }
     }
-  }
-  `}
-`
+  `,
+)
 
-const NoResultsContainer = styled.div`
-  ${({ theme }) => `
+const NoResultsContainer = styled.div(
+  ({ theme }) => css`
     align-items: center;
     display: flex;
     gap: ${theme.space['3']};
@@ -216,16 +213,16 @@ const NoResultsContainer = styled.div`
     border-radius: ${theme.radii['medium']};
     margin: ${theme.space['0.5']} 0;
     font-style: italic;
-    
-    &::first-child {
+
+    &:first-child {
       margin-top: ${theme.space['0']};
     }
-    
-    &::last-child {
+
+    &:last-child {
       margin-bottom: ${theme.space['0']};
     }
-  `}
-`
+  `,
+)
 
 // Helper function for filtering options
 const createOptionsReducer =

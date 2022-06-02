@@ -1,5 +1,4 @@
 import React from 'react'
-import styled from 'styled-components'
 
 type Props = {
   alignItems?: string
@@ -11,22 +10,26 @@ type Props = {
   flexWrap?: string
 }
 
-const Container = styled.div<Props>`
-  display: flex;
-  ${({ flexDirection, justifyContent, alignItems, flex, gap, flexWrap }) => `
-    flex-direction: ${flexDirection || 'column'};
-    justify-content: ${justifyContent};
-    align-items: ${alignItems};
-    flex: ${flex};
-    gap: ${gap || '16px'};
-    flex-gap: ${gap || '16px'};
-    flex-wrap: ${flexWrap};
-  `}
-`
-
 export const Stack = ({
   children,
-  ...props
+  alignItems,
+  flexDirection,
+  flex,
+  justifyContent,
+  gap,
+  flexWrap,
 }: React.PropsWithChildren<Props>) => (
-  <Container {...props}>{children}</Container>
+  <div
+    style={{
+      display: 'flex',
+      alignItems,
+      flexDirection: (flexDirection as any) || 'column',
+      flex,
+      justifyContent: justifyContent,
+      gap: gap || '16px',
+      flexWrap: flexWrap as any,
+    }}
+  >
+    {children}
+  </div>
 )

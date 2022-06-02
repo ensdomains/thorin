@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 type Props = {
   total: number
@@ -10,52 +10,52 @@ type Props = {
   onChange: (value: number) => void
 }
 
-const Container = styled.div`
-  ${({ theme }) => `
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: ${theme.space['2']};
-  flex-gap: ${theme.space['2']};
-  `}
-`
+const Container = styled.div(
+  ({ theme }) => css`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: ${theme.space['2']};
+    flex-gap: ${theme.space['2']};
+  `,
+)
 
-const PageButton = styled.button<{ $selected?: boolean }>`
-  background-color: transparent;
-  transition: all 0.15s ease-in-out;
-  cursor: pointer;
-  ${({ $selected, theme }) =>
-    $selected
-      ? `
-    background-color: ${theme.colors.background};
-    cursor: default;
-    pointer-events: none;
-  `
-      : `
-    &:hover {
-      background-color: ${theme.colors.foregroundSecondary};
-    }
-  `}
-  ${({ theme }) => `
-  border-radius: ${theme.radii['extraLarge']};
-  border: 1px solid ${theme.colors.borderSecondary};
-  min-width: ${theme.space['10']};
-  padding: ${theme.space['2']};
-  height: ${theme.space['10']};
-  font-size: ${theme.fontSizes['small']};
-  font-weight: ${theme.fontWeights['medium']};
-  color: ${theme.colors.text};
-  `}
-`
+const PageButton = styled.button<{ $selected?: boolean }>(
+  ({ theme, $selected }) => css`
+    background-color: transparent;
+    transition: all 0.15s ease-in-out;
+    cursor: pointer;
+    ${$selected
+      ? css`
+          background-color: ${theme.colors.background};
+          cursor: default;
+          pointer-events: none;
+        `
+      : css`
+          &:hover {
+            background-color: ${theme.colors.foregroundSecondary};
+          }
+        `}
 
-const Dots = styled.p`
-  ${({ theme }) => `
-  font-size: ${theme.fontSizes['small']};
-  font-weight: ${theme.fontWeights['bold']};
-  color: ${theme.colors.textTertiary};
-  `}
-`
+    border-radius: ${theme.radii['extraLarge']};
+    border: 1px solid ${theme.colors.borderSecondary};
+    min-width: ${theme.space['10']};
+    padding: ${theme.space['2']};
+    height: ${theme.space['10']};
+    font-size: ${theme.fontSizes['small']};
+    font-weight: ${theme.fontWeights['medium']};
+    color: ${theme.colors.text};
+  `,
+)
+
+const Dots = styled.p(
+  ({ theme }) => css`
+    font-size: ${theme.fontSizes['small']};
+    font-weight: ${theme.fontWeights['bold']};
+    color: ${theme.colors.textTertiary};
+  `,
+)
 
 export const PageButtons = ({
   total,

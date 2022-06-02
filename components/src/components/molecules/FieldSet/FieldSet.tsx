@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import { ReactNodeNoStrings } from '../../../types'
 import { Heading, Tag } from '../..'
@@ -7,46 +7,46 @@ import { TagProps } from '../../atoms/Tag'
 
 type NativeFieldSetProps = React.AllHTMLAttributes<HTMLFieldSetElement>
 
-const Container = styled.fieldset`
-  ${({ theme }) => `
-  display: flex;
-  flex-direction: column;
-  gap: ${theme.space['4']};
-  `}
-`
+const Container = styled.fieldset(
+  ({ theme }) => css`
+    display: flex;
+    flex-direction: column;
+    gap: ${theme.space['4']};
+  `,
+)
 
-const ContainerInner = styled.div`
-  ${({ theme }) => `
-  display: flex;
-  flex-direction: column;
-  gap: ${theme.space['1']};
-  padding: 0 ${theme.space['4']};
-  `}
-`
+const ContainerInner = styled.div(
+  ({ theme }) => css`
+    display: flex;
+    flex-direction: column;
+    gap: ${theme.space['1']};
+    padding: 0 ${theme.space['4']};
+  `,
+)
 
-const Row = styled.div`
-  ${({ theme }) => `
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  gap: ${theme.space['3']};
-  `}
-`
+const Row = styled.div(
+  ({ theme }) => css`
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: ${theme.space['3']};
+  `,
+)
 
-const Description = styled.div`
-  ${({ theme }) => `
+const Description = styled.div(
+  ({ theme }) => css`
     color: ${theme.colors.textSecondary};
     font-size: ${theme.fontSizes.base};
-  `}
-`
+  `,
+)
 
-const ChildrenContainer = styled.div`
-  ${({ theme }) => `
-  display: flex;
-  flex-direction: column;
-  gap: ${theme.space['4']};
-  `}
-`
+const ChildrenContainer = styled.div(
+  ({ theme }) => css`
+    display: flex;
+    flex-direction: column;
+    gap: ${theme.space['4']};
+  `,
+)
 
 export type Props = {
   children: ReactNodeNoStrings

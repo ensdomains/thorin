@@ -1,3 +1,5 @@
+import { css } from 'styled-components'
+
 import { DefaultTheme } from '@/src/types'
 
 export interface GetCenterProps {
@@ -9,7 +11,7 @@ export interface GetCenterProps {
 
 export const getCenterProps = ({ center, size, side, theme }: GetCenterProps) =>
   center &&
+  css`
+    position: absolute;
+    ${side}: ${size === 'medium' ? theme.space['4'] : theme.space['5']};
   `
-  position: absolute;
-  ${side}: ${size === 'medium' ? theme.space['4'] : theme.space['5']};
-`

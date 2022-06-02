@@ -4,35 +4,33 @@ import styled, { css } from 'styled-components'
 import type { TransitionState } from 'react-transition-state'
 
 import { Backdrop } from '../..'
-import { largerThan } from '@/src/utils/responsiveHelpers'
+import { mq } from '@/src/utils/responsiveHelpers'
 
-const Container = styled.div<{ $state: TransitionState }>`
-  width: 95%;
+const Container = styled.div<{ $state: TransitionState }>(
+  ({ theme, $state }) => css`
+    width: 95%;
 
-  position: fixed;
-  left: 2.5%;
-  z-index: 9999;
-  bottom: ${({ theme }) => theme.space['4']};
+    position: fixed;
+    left: 2.5%;
+    z-index: 9999;
+    bottom: ${theme.space['4']};
 
-  display: flex;
-  flex-direction: row;
+    display: flex;
+    flex-direction: row;
 
-  ${largerThan.sm`
-    width: min-content;
-    
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    bottom: initial;
-  `}
+    ${mq.sm.min(css`
+      width: min-content;
 
-  ${({ theme }) => css`
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      bottom: initial;
+    `)}
+
     transition: ${theme.transitionDuration['300']} all
       ${theme.transitionTimingFunction.popIn};
-  `}
 
-  ${({ $state }) =>
-    $state === 'entered'
+    ${$state === 'entered'
       ? css`
           opacity: 1;
           transform: translateY(0px);
@@ -41,7 +39,8 @@ const Container = styled.div<{ $state: TransitionState }>`
           opacity: 0;
           transform: translateY(128px);
         `}
-`
+  `,
+)
 
 type Props = {
   children: React.ReactNode
