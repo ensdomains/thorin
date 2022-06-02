@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import { ReactNodeNoStrings } from '../../../types'
 import { useFieldIds } from '../../../hooks'
@@ -38,14 +38,14 @@ type Props = FieldBaseProps & {
   id?: NativeFormProps['id']
 }
 
-const Label = styled.label<{ $inline?: boolean }>`
-  ${({ theme, $inline }) => `
+const Label = styled.label<{ $inline?: boolean }>(
+  ({ theme, $inline }) => css`
     color: ${theme.colors.textTertiary};
     font-weight: ${theme.fontWeights['semiBold']};
     display: flex;
     ${!$inline && `margin-right: ${theme.space['4']};`}
-  `}
-`
+  `,
+)
 
 interface LabelContentProps {
   ids: any
@@ -55,8 +55,8 @@ interface LabelContentProps {
   $inline?: boolean
 }
 
-const LabelContentContainer = styled.div<{ $inline?: boolean }>`
-  ${({ theme, $inline }) => `
+const LabelContentContainer = styled.div<{ $inline?: boolean }>(
+  ({ theme, $inline }) => css`
     display: flex;
     align-items: flex-end;
     justify-conetn: space-between;
@@ -64,18 +64,18 @@ const LabelContentContainer = styled.div<{ $inline?: boolean }>`
     padding-right: ${$inline ? '0' : theme.space['4']};
     padding-top: 0;
     padding-bottom: 0;
-  `}
-`
+  `,
+)
 
-const RequiredWrapper = styled.span`
-  ${({ theme }) => `
-  color: ${theme.colors.red};
-  `}
-  ::before {
-    content: ' ';
-    white-space: pre;
-  }
-`
+const RequiredWrapper = styled.span(
+  ({ theme }) => css`
+    color: ${theme.colors.red};
+    ::before {
+      content: ' ';
+      white-space: pre;
+    }
+  `,
+)
 
 const LabelContent = ({
   ids,
@@ -102,41 +102,38 @@ interface ContainerProps {
   $width: Space
   $inline?: boolean
 }
-const Container = styled.div<ContainerProps>`
-  display: flex;
-  ${({ theme, $inline }) => `
+const Container = styled.div<ContainerProps>(
+  ({ theme, $inline, $width }) => css`
+    display: flex;
     flex-direction: ${$inline ? 'row' : 'column'};
-    align-items: ${$inline ? 'center' : 'normal'};    
+    align-items: ${$inline ? 'center' : 'normal'};
     gap: ${$inline ? theme.space['2.5'] : theme.space['2']};
-  `}
-
-  ${({ theme, $width }) => `
     width: ${theme.space[$width]};
-  `}
-`
+  `,
+)
 
-const ContainerInner = styled.div`
-  ${({ theme }) => `
+const ContainerInner = styled.div(
+  ({ theme }) => css`
     display: flex;
     flex-direction: column;
     gap: ${theme.space[2]};
     flex: 1;
-  `}
-`
+  `,
+)
 
-const Description = styled.div`
-  ${({ theme }) => `
+const Description = styled.div(
+  ({ theme }) => css`
     padding: 0 ${theme.space['4']};
     color: ${theme.colors.textSecondary};
-  `}
-`
+  `,
+)
 
-const Error = styled.div`
-  ${({ theme }) => `
+const Error = styled.div(
+  ({ theme }) => `
     color: ${theme.colors.red};
     padding: 0 ${theme.space[4]};
-  `}
-`
+`,
+)
 
 export const Field = ({
   children,
