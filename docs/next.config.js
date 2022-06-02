@@ -1,5 +1,7 @@
 const { glob } = require('glob')
 
+const StylelintPlugin = require('stylelint-webpack-plugin')
+
 const withMDX = require('@next/mdx')({
   extension: /\.mdx?$/,
 })
@@ -71,6 +73,11 @@ const config = {
   },
   pageExtensions: ['mdx', 'tsx'],
   webpack(config) {
+    config.plugins.push(
+      new StylelintPlugin({
+        extensions: ['tsx'],
+      }),
+    )
     return config
   },
   reactStrictMode: true,

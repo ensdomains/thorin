@@ -1,10 +1,7 @@
 export const createGitHubLink = (path = '') => {
-  const repo = `${process.env.VERCEL_GIT_REPO_OWNER ?? 'ensdomains'}/${
-    process.env.VERCEL_GIT_REPO_SLUG ?? 'thorin'
-  }`
-  const branch = process.env.VERCEL_GIT_COMMIT_REF ?? 'main'
-  return `https://github.com/${repo}/tree/${branch}${path?.replace(
-    '/vercel/path0',
+  const branch = process.env.CF_PAGES_BRANCH ?? 'main'
+  return `https://github.com/ensdomains/thorin/tree/${branch}${path?.replace(
+    '/opt/buildhome/repo',
     '',
   )}`
 }

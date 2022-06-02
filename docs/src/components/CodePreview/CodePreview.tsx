@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled, { keyframes, useTheme } from 'styled-components'
+import styled, { css, keyframes, useTheme } from 'styled-components'
 import { default as NextImage } from 'next/image'
 import { default as NextLink } from 'next/link'
 import { LiveEditor, LiveError, LivePreview, LiveProvider } from 'react-live'
@@ -32,26 +32,27 @@ const initialState = {
   expand: false,
 }
 
-const Container = styled.div`
-  ${({ theme }) => `
+const Container = styled.div(
+  ({ theme }) => css`
     background-color: ${theme.colors.background};
     border-color: ${theme.colors.foregroundSecondary};
     border-radius: ${theme.radii['2xLarge']};
     border-width: ${theme.space['0.5']};
     overflow: hidden;
     font-family: ${theme.fonts.mono};
-  `}
-`
+  `,
+)
 
-const ContainerInner = styled.div<{ expand?: boolean; ref: any }>`
-  ${({ theme, expand }) => `
+const ContainerInner = styled.div<{ $expand?: boolean; ref: any }>(
+  ({ theme, $expand }) => css`
     background-color: ${theme.colors.background};
-    ${expand && `border-bottom-radius: ${theme.radii['2xLarge']}`};
-    border-radius-top: ${theme.radii['2xLarge']};
+    ${$expand && `border-bottom-radius: ${theme.radii['2xLarge']}`};
+    border-top-left-radius: ${theme.radii['2xLarge']};
+    border-top-right-radius: ${theme.radii['2xLarge']};
     overflow: scroll;
     padding: ${theme.space['6']};
-  `}
-`
+  `,
+)
 
 // const LiveErrorTypography = styled(Typography)`
 //   ${({ theme }) => `
@@ -60,12 +61,14 @@ const ContainerInner = styled.div<{ expand?: boolean; ref: any }>`
 //   `}
 // `
 
-const ButtonContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  gap: ${({ theme }) => theme.space['2']};
-`
+const ButtonContainer = styled.div(
+  ({ theme }) => css`
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: ${theme.space['2']};
+  `,
+)
 
 export const CodePreview = ({
   code: _code,
@@ -108,7 +111,7 @@ export const CodePreview = ({
     >
       <Container>
         <ContainerInner
-          expand={state.expand}
+          $expand={state.expand}
           ref={previewRef}
           style={{
             minHeight: minHeight || 'none',

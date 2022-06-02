@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled from 'styled-components'
+import styled, { FlattenSimpleInterpolation, css } from 'styled-components'
 
 import { Colors } from '@/src/tokens'
 import { DefaultTheme } from '@/src/types'
@@ -37,7 +37,7 @@ const gradientWithFallback = (
 const stylesForSwitch = (
   theme: DefaultTheme,
   { $size, $border, $color, $gradient }: InputProps,
-): string => {
+): FlattenSimpleInterpolation => {
   const valueForTokens = valueForSizeAndTokens($size)
 
   const containerWidth = valueForTokens([
@@ -84,7 +84,7 @@ const stylesForSwitch = (
 
   const switchBackgroundClip = $border ? 'border-box' : 'content-box'
 
-  return `
+  return css`
     box-sizing: border-box;
     background: ${theme.colors.foregroundSecondary};
     background-clip: content-box;
@@ -100,7 +100,7 @@ const stylesForSwitch = (
       transform: translateY(-1px);
       filter: brightness(1.05);
     }
-    
+
     &:active {
       transform: translateY(0px);
       filter: brightness(1.1);
@@ -111,7 +111,7 @@ const stylesForSwitch = (
       background-clip: content-box;
       border-color: transparent;
     }
-  
+
     &::before {
       content: '';
       border-width: ${switchBorderWidth};
@@ -120,23 +120,24 @@ const stylesForSwitch = (
       background-color: ${theme.colors.background};
       background-clip: ${switchBackgroundClip};
       border-radius: ${theme.radii['full']};
-      transform: translateX(-${containerHalfWidth}) translateX(${containerHalfHeight});
+      transform: translateX(-${containerHalfWidth})
+        translateX(${containerHalfHeight});
       transition: all 90ms ease-in-out;
       box-sizing: ${switchBoxSizing};
       width: ${switchSize};
       height: ${switchSize};
     }
-    
+
     &:checked::before {
-      transform: translateX(${containerHalfWidth}) translateX(-${containerHalfHeight});
+      transform: translateX(${containerHalfWidth})
+        translateX(-${containerHalfHeight});
       border-color: ${$border ? switchBorderColor : 'transparent'};
     }
 
-    ${
-      $border &&
-      `
+    ${$border &&
+    css`
       &::after {
-        content: "";
+        content: '';
         display: block;
         position: absolute;
         background-color: ${switchBorderColor};
@@ -145,24 +146,24 @@ const stylesForSwitch = (
         height: ${valueForTokens(['9px', '10px', '16px'])};
         left: 50%;
         top: 50%;
-        transform: translateX(-${containerHalfWidth}) translateX(${containerHalfHeight}) translate(-50%, -50%);
+        transform: translateX(-${containerHalfWidth})
+          translateX(${containerHalfHeight}) translate(-50%, -50%);
         transition: all 90ms ease-in-out;
         z-index: 1;
       }
 
       &:checked::after {
-        transform: translateX(${containerHalfWidth}) translateX(-${containerHalfHeight}) translate(-50%, -50%);
+        transform: translateX(${containerHalfWidth})
+          translateX(-${containerHalfHeight}) translate(-50%, -50%);
       }
-    `
-    }
-    
+    `}
   `
 }
 
 const stylesForCheckbox = (
   theme: DefaultTheme,
   { $background, $size, $color, $border }: InputProps,
-): string => {
+): FlattenSimpleInterpolation => {
   const valueForTokens = valueForSizeAndTokens($size)
 
   const checkboxSize = valueForTokens([
@@ -181,59 +182,57 @@ const stylesForCheckbox = (
     theme.space['6'],
   ])
 
-  return `
-  width: ${checkboxSize};
-  height: ${checkboxSize};
-  border-width: 1px;
-  border-color: ${checkboxBorderColor};
-  border-radius: ${theme.space['2']};
-  background-color: ${theme.colors[$background]};
-  background-clip: content-box;
+  return css`
+    width: ${checkboxSize};
+    height: ${checkboxSize};
+    border-width: 1px;
+    border-color: ${checkboxBorderColor};
+    border-radius: ${theme.space['2']};
+    background-color: ${theme.colors[$background]};
+    background-clip: content-box;
 
+    &:hover {
+      transform: translateY(-1px);
+      filter: contrast(0.7);
+    }
 
-  &:hover {
-    transform: translateY(-1px);
-    filter: contrast(0.7);
-  }
-  
-  &:active {
-    transform: translateY(0px);
-    filter: contrast(1);
-  }
-  
-  &::before {
-    content: '';
-    background-color: ${theme.colors[$color]};
-    mask-image: ${`url('data:image/svg+xml; utf8, <svg width="${checkboxMarkSize}" height="${checkboxMarkSize}" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 12.625L10.125 20.125L22 3.875" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" /></svg>')`};
-    width: ${checkboxMarkSize};
-    height: ${checkboxMarkSize};
-    transform: scale(0);
-    transition: all 90ms ease-in-out;
-  }
-  
-  &:checked::before {
-    transform: scale(1);
-  }
-`
+    &:active {
+      transform: translateY(0px);
+      filter: contrast(1);
+    }
+
+    &::before {
+      content: '';
+      background-color: ${theme.colors[$color]};
+      mask-image: ${`url('data:image/svg+xml; utf8, <svg width="${checkboxMarkSize}" height="${checkboxMarkSize}" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 12.625L10.125 20.125L22 3.875" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" /></svg>')`};
+      width: ${checkboxMarkSize};
+      height: ${checkboxMarkSize};
+      transform: scale(0);
+      transition: all 90ms ease-in-out;
+    }
+
+    &:checked::before {
+      transform: scale(1);
+    }
+  `
 }
 
-const Input = styled.input<InputProps>`
-  font: inherit;
-  display: grid;
-  position: relative;
-  place-content: center;
-  transition: transform 150ms ease-in-out, filter 150ms ease-in-out;
-
-  ${({ theme }) => `
+const Input = styled.input<InputProps>(
+  ({ theme, ...props }) => css`
+    font: inherit;
+    display: grid;
+    position: relative;
+    place-content: center;
+    transition: transform 150ms ease-in-out, filter 150ms ease-in-out;
     cursor: pointer;
     margin: ${theme.space['1']} 0;
-  `}
 
-  ${({ theme, ...props }) => {
-    if (props.$variant === 'switch') return stylesForSwitch(theme, props)
-    return stylesForCheckbox(theme, props)
-  }}
-`
+    ${() => {
+      if (props.$variant === 'switch') return stylesForSwitch(theme, props)
+      return stylesForCheckbox(theme, props)
+    }}
+  `,
+)
 
 type Props = Omit<FieldBaseProps, 'inline'> & {
   /** Label content */

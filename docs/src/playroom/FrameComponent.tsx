@@ -1,22 +1,24 @@
 import * as React from 'react'
 
-import { ThemeProvider, createGlobalStyle } from 'styled-components'
+import { ThemeProvider, createGlobalStyle, css } from 'styled-components'
 
 import { ThorinGlobalStyles, darkTheme, lightTheme } from '@ensdomains/thorin'
 
 import { PlayroomStateProvider } from './PlayroomState'
 
-const GlobalStyle = createGlobalStyle`
-  html {
-    height: 100%;
-  }
-  body {
-    padding: 1.5rem;
-    box-sizing: border-box;
-    min-height: 100%;
-    background: ${({ theme }) => theme.colors.backgroundTertiary};
-  }
-`
+const GlobalStyle = createGlobalStyle(
+  ({ theme }) => css`
+    html {
+      height: 100%;
+    }
+    body {
+      padding: 1.5rem;
+      box-sizing: border-box;
+      min-height: 100%;
+      background: ${theme.colors.backgroundTertiary};
+    }
+  `,
+)
 
 const FrameComponent = ({
   theme,

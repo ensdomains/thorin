@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import { shortenAddress } from '../../../utils/utils'
 
@@ -32,16 +32,16 @@ interface ContainerProps {
   $open: boolean
 }
 
-const Container = styled.div<ContainerProps>`
-  ${({ theme }) => `
+const Container = styled.div<ContainerProps>(
+  ({ theme, $size, $hasChevron, $open }) => css`
     align-items: center;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     border-radius: ${theme.radii['full']};
     transition-duration: ${theme.transitionDuration['150']};
-    transition-property: color, border-color, background-color, transform, filter,
-      box-shadow;
+    transition-property: color, border-color, background-color, transform,
+      filter, box-shadow;
     transition-timing-function: ${theme.transitionTimingFunction['inOut']};
     position: relative;
     z-index: 10;
@@ -50,102 +50,102 @@ const Container = styled.div<ContainerProps>`
     box-shadow: ${theme.shadows['0.25']};
     color: ${theme.colors.foregroundSecondary};
     background-color: ${theme.colors.groupBackground};
-  `}
 
-  ${({ $hasChevron }) =>
-    $hasChevron &&
-    `
+    ${$hasChevron &&
+    css`
       cursor: pointer;
       &:hover {
         transform: translateY(-1px);
         filter: brightness(1.05);
       }
-  `}
+    `}
 
-  ${({ $open, theme }) =>
-    $open &&
-    `
+    ${$open &&
+    css`
       box-shadow: ${theme.shadows['0']};
       background-color: ${theme.colors.foregroundSecondary};
-  `}
+    `}
 
-  ${({ $size, theme }) => {
-    switch ($size) {
-      case 'small':
-        return `
-          max-width: ${theme.space['48']};
-        `
-      case 'medium':
-        return `
+  ${() => {
+      switch ($size) {
+        case 'small':
+          return css`
+            max-width: ${theme.space['48']};
+          `
+        case 'medium':
+          return css`
+            max-width: ${theme.space['52']};
+          `
+        case 'large':
+          return css`
+            max-width: ${theme.space['80']};
+          `
+        default:
+          return ``
+      }
+    }}
+
+  ${() => {
+      if ($size === 'small' && $hasChevron)
+        return css`
           max-width: ${theme.space['52']};
         `
-      case 'large':
-        return `
-          max-width: ${theme.space['80']};
+
+      if ($size === 'medium' && $hasChevron)
+        return css`
+          max-width: ${theme.space['56']};
         `
-      default:
-        return ``
-    }
-  }}
 
-  ${({ $size, $hasChevron, theme }) => {
-    if ($size === 'small' && $hasChevron)
-      return `
-      max-width: ${theme.space['52']};
-    `
+      if ($size === 'large' && $hasChevron)
+        return css`
+          max-width: calc(${theme.space['80']} + ${theme.space['4']});
+        `
+    }}
+  `,
+)
 
-    if ($size === 'medium' && $hasChevron)
-      return `
-      max-width: ${theme.space['56']};
-    `
-
-    if ($size === 'large' && $hasChevron)
-      return `
-      max-width: calc(${theme.space['80']} + ${theme.space['4']});
-    `
-  }}
-`
-
-const AvatarContainer = styled.div`
-  ${({ theme }) => `
+const AvatarContainer = styled.div(
+  ({ theme }) => css`
     width: ${theme.space['12']};
-  `}
-`
-const Chevron = styled.svg<{ $open: boolean }>`
-  ${({ theme }) => `
-  margin-left: ${theme.space['1']};
-  width: ${theme.space['3']};
-  margin-right: ${theme.space['0.5']};
-  transition-duration: ${theme.transitionDuration['200']};
-  transition-property: all;
-  transition-timing-function: ${theme.transitionTimingFunction['inOut']};
-  opacity: 0.3;
-  transform: rotate(0deg);
-  display: flex;
-  color: ${theme.colors.foreground};
-  `}
+  `,
+)
 
-  ${({ $open }) =>
-    $open &&
-    `
+const Chevron = styled.svg<{ $open: boolean }>(
+  ({ theme, $open }) => css`
+    margin-left: ${theme.space['1']};
+    width: ${theme.space['3']};
+    margin-right: ${theme.space['0.5']};
+    transition-duration: ${theme.transitionDuration['200']};
+    transition-property: all;
+    transition-timing-function: ${theme.transitionTimingFunction['inOut']};
+    opacity: 0.3;
+    transform: rotate(0deg);
+    display: flex;
+    color: ${theme.colors.foreground};
+
+    ${$open &&
+    css`
       opacity: 1;
       transform: rotate(180deg);
-  `}
-`
+    `}
+  `,
+)
 
 const ProfileInnerContainer = styled.div<{
   $size?: 'small' | 'medium' | 'large'
-}>`
-  ${({ theme, $size }) => `
-  display: ${$size === 'small' ? 'none' : 'block'};
-  margin: 0 ${theme.space['1.5']};
-  min-width: ${theme.space['none']};
-  `}
-`
+}>(
+  ({ theme, $size }) => css`
+    display: ${$size === 'small' ? 'none' : 'block'};
+    margin: 0 ${theme.space['1.5']};
+    min-width: ${theme.space['none']};
+  `,
+)
 
-const ReducedLineText = styled(Typography)`
-  line-height: initial;
-`
+const ReducedLineText = styled(Typography)(
+  () => css`
+    line-height: initial;
+  `,
+)
 
 const ProfileInner = ({ size, avatar, address, ensName }: Props) => (
   <>

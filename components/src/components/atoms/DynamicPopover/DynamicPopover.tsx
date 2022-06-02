@@ -219,31 +219,31 @@ const Container = styled.div`
   display: inline-block;
 `
 
-const PopoverContainer = styled.div<DynamicPopoverPopoverProps>`
-  position: absolute;
-  box-sizing: border-box;
-  z-index: 20;
-  visibility: hidden;
-  opacity: 0;
+const PopoverContainer = styled.div<DynamicPopoverPopoverProps>(
+  ({ $side, $open, $animationFn, $x, $y }) => css`
+    position: absolute;
+    box-sizing: border-box;
+    z-index: 20;
+    visibility: hidden;
+    opacity: 0;
 
-  ${({ $side, $open, $animationFn }) => {
-    if ($side && $animationFn)
-      return css`
-        animation: ${$animationFn($side, $open)} 0.35s forwards
-          cubic-bezier(1, 0, 0.22, 1.6);
-      `
-    if ($side)
-      return css`
-        animation: ${defaultKeyframesFunc($side, $open)} 0.35s forwards
-          cubic-bezier(1, 0, 0.22, 1.6);
-      `
-  }}
+    ${() => {
+      if ($side && $animationFn)
+        return css`
+          animation: ${$animationFn($side, $open)} 0.35s forwards
+            cubic-bezier(1, 0, 0.22, 1.6);
+        `
+      if ($side)
+        return css`
+          animation: ${defaultKeyframesFunc($side, $open)} 0.35s forwards
+            cubic-bezier(1, 0, 0.22, 1.6);
+        `
+    }}
 
-  ${({ $x, $y }) => `
     left: ${$x}px;
     top: ${$y}px;
-  `}
-`
+  `,
+)
 
 export const DynamicPopover = ({
   popover,

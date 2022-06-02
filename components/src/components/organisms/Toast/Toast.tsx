@@ -6,8 +6,8 @@ import { Space } from '@/src'
 
 import { Backdrop, ExitSVG, Typography } from '../..'
 
-const IconCloseContainer = styled.div`
-  ${({ theme }) => css`
+const IconCloseContainer = styled.div(
+  ({ theme }) => css`
     position: absolute;
     top: ${theme.space['2.5']};
     right: ${theme.space['2.5']};
@@ -15,15 +15,15 @@ const IconCloseContainer = styled.div`
     width: ${theme.space['8']};
     opacity: ${theme.opacity['50']};
     cursor: pointer;
-    transition-propery: all;
+    transition-property: all;
     transition-duration: ${theme.transitionDuration['150']};
     transition-timing-function: ${theme.transitionTimingFunction['inOut']};
 
     &:hover {
       opacity: ${theme.opacity['70']};
     }
-  `}
-`
+  `,
+)
 
 const Container = styled.div<{
   $state: TransitionState
@@ -88,31 +88,31 @@ const Container = styled.div<{
   `,
 )
 
-const Title = styled(Typography)`
-  ${({ theme }) => css`
+const Title = styled(Typography)(
+  ({ theme }) => css`
     line-height: ${theme.lineHeights.normal};
-  `}
-`
+  `,
+)
 
-const DraggableContainer = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  ${({ theme }) => css`
+const DraggableContainer = styled.div(
+  ({ theme }) => css`
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding-top: ${theme.space['3']};
     margin-bottom: calc(-1 * ${theme.space['2']});
-  `}
-`
+  `,
+)
 
-const DraggableLine = styled.div`
-  ${({ theme }) => css`
+const DraggableLine = styled.div(
+  ({ theme }) => css`
     width: ${theme.space['8']};
     height: ${theme.space['1']};
     border-radius: ${theme.radii['full']};
     background: ${theme.colors.border};
-  `}
-`
+  `,
+)
 
 const Draggable = () => (
   <DraggableContainer>
@@ -173,12 +173,12 @@ const DesktopToast = ({
   )
 }
 
-const ActionWrapper = styled.div`
-  ${({ theme }) => `
+const ActionWrapper = styled.div(
+  ({ theme }) => css`
     margin-top: ${theme.space['3']};
     width: 100%;
-  `}
-`
+  `,
+)
 
 export const TouchToast = ({
   onClose,
