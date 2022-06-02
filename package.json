@@ -29,7 +29,7 @@
     "*.{js,mdx,ts,tsx}": [
       "yarn lint:fix"
     ],
-    "*.{tsx}": [
+    "*.tsx": [
       "yarn lint:styles"
     ],
     "*.{json,md,yml}": [
