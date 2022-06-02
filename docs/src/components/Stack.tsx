@@ -21,6 +21,7 @@ export const Stack = ({
 }: React.PropsWithChildren<Props>) => (
   <div
     style={{
+      display: 'flex',
       alignItems,
       flexDirection: (flexDirection as any) || 'column',
       flex,
