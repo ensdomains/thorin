@@ -13,9 +13,19 @@ type Props = {
   onDismiss?: () => void
   /** If true, backdrop and it's children are visible */
   open: boolean
+  /** If true, removes background */
+  noBackground?: boolean
+  className?: string
 }
 
-export const Backdrop = ({ children, surface, onDismiss, open }: Props) => {
+export const Backdrop = ({
+  children,
+  surface,
+  onDismiss,
+  noBackground = false,
+  className = 'modal',
+  open,
+}: Props) => {
   const [state, toggle] = useTransition({
     timeout: {
       enter: 50,
@@ -36,8 +46,15 @@ export const Backdrop = ({ children, surface, onDismiss, open }: Props) => {
   }, [open])
 
   return state !== 'unmounted' ? (
-    <Portal className="modal">
-      <Background $state={state} ref={boxRef} onClick={dismissClick} />
+    <Portal className={className}>
+      {onDismiss && (
+        <Background
+          $empty={noBackground}
+          $state={state}
+          ref={boxRef}
+          onClick={dismissClick}
+        />
+      )}
       {children({ state })}
     </Portal>
   ) : null

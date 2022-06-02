@@ -2,7 +2,10 @@ import type { TransitionState } from 'react-transition-state'
 
 import styled, { css } from 'styled-components'
 
-export const BackdropSurface = styled.div<{ $state: TransitionState }>`
+export const BackdropSurface = styled.div<{
+  $state: TransitionState
+  $empty: boolean
+}>`
   width: 100vw;
   height: 100vh;
   position: fixed;
@@ -14,8 +17,8 @@ export const BackdropSurface = styled.div<{ $state: TransitionState }>`
     transition: ${theme.transitionDuration['300']} all
       ${theme.transitionTimingFunction.popIn};
   `}
-  ${({ theme, $state }) =>
-    $state === 'entered'
+  ${({ theme, $state, $empty }) =>
+    !$empty && $state === 'entered'
       ? css`
           background-color: rgba(
             0,
