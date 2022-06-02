@@ -2,6 +2,7 @@
   "recommendations": [
     "dbaeumer.vscode-eslint",
     "jounqin.vscode-mdx",
-    "styled-components.vscode-styled-components"
+    "styled-components.vscode-styled-components",
+    "stylelint.vscode-stylelint"
   ]
 }
