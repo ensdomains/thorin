@@ -141,10 +141,8 @@ const stylesForSwitch = (
         display: block;
         position: absolute;
         background-color: ${switchBorderColor};
-        /* stylelint-disable-next-line function-no-unknown */
         width: ${valueForTokens(['1.5px', '1.5px', '2px'])};
         border-radius: 2px;
-        /* stylelint-disable-next-line function-no-unknown */
         height: ${valueForTokens(['9px', '10px', '16px'])};
         left: 50%;
         top: 50%;
@@ -206,7 +204,6 @@ const stylesForCheckbox = (
     &::before {
       content: '';
       background-color: ${theme.colors[$color]};
-      /* stylelint-disable-next-line function-no-unknown */
       mask-image: ${`url('data:image/svg+xml; utf8, <svg width="${checkboxMarkSize}" height="${checkboxMarkSize}" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 12.625L10.125 20.125L22 3.875" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" /></svg>')`};
       width: ${checkboxMarkSize};
       height: ${checkboxMarkSize};

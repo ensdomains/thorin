@@ -28,7 +28,6 @@ const DropdownMenuContainer = styled.div<DropdownMenuContainer>(
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border-radius: ${theme.radii['medium']};
     position: absolute;
 
     ${$labelAlign &&
@@ -58,7 +57,8 @@ const DropdownMenuContainer = styled.div<DropdownMenuContainer>(
     css`
       background-color: ${theme.colors.grey};
       border-radius: ${theme.radii.almostExtraLarge};
-      border-top-radius: none;
+      border-top-left-radius: none;
+      border-top-right-radius: none;
       box-shadow: 0;
       border-width: ${theme.space['px']};
       border-top-width: 0;

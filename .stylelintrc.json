@@ -17,6 +17,7 @@
         "ignoreProperties": ["flex-gap", "webkit-appearance"]
       }
     ],
-    "no-duplicate-selectors": null
+    "no-duplicate-selectors": null,
+    "function-no-unknown": null
   }
 }
