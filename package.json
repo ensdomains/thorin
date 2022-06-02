@@ -17,6 +17,7 @@
     "lint:fix": "yarn lint --fix",
     "lint:format": "prettier --write .",
     "lint:types": "yarn workspaces foreach -p run lint:types",
+    "lint:styles": "stylelint .",
     "postinstall": "husky install",
     "prepublish": "yarn clean && yarn build:components",
     "size": "yarn build:components && yarn size-limit",
@@ -27,6 +28,9 @@
   "lint-staged": {
     "*.{js,mdx,ts,tsx}": [
       "yarn lint:fix"
+    ],
+    "*.tsx": [
+      "yarn lint:styles"
     ],
     "*.{json,md,yml}": [
       "yarn lint:format"
