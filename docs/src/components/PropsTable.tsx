@@ -13,94 +13,96 @@ type Props = {
   types: Record<string, PropItem>
 }
 
-const Container = styled.div`
-  max-width: ${({ theme }) => theme.space['full']};
-  overflow: scroll;
+const Container = styled.div(
+  ({ theme }) => css`
+    max-width: ${theme.space['full']};
+    overflow: scroll;
 
-  ${mq.lg.min(css`
-    overflow: unset;
-  `)}
-`
+    ${mq.lg.min(css`
+      overflow: unset;
+    `)}
+  `,
+)
 
-const TableHead = styled.th`
-  ${({ theme }) => `
-      background-color: ${theme.colors.background};
-      position: sticky;
-      top: 0;
-  `}
-`
+const TableHead = styled.th(
+  ({ theme }) => css`
+    background-color: ${theme.colors.background};
+    position: sticky;
+    top: 0;
+  `,
+)
 
 const TableHeadLabelContainer = styled.div<{
-  i: number
-  headers: Array<string>
-}>`
-  ${({ theme, i, headers }) => `
-      background-color: ${theme.colors.foregroundTertiary};
-      border-color: ${theme.colors.foregroundSecondary};
-      ${i === 0 ? `border-left-radius: ${theme.radii['large']};` : ``}
-      ${
-        i === headers.length - 1
-          ? `border-right-radius: ${theme.radii['large']};`
-          : ``
-      }
+  $i: number
+  $headers: Array<string>
+}>(
+  ({ theme, $i, $headers }) => css`
+    background-color: ${theme.colors.foregroundTertiary};
+    border-color: ${theme.colors.foregroundSecondary};
+    ${$i === 0 ? `border-left-radius: ${theme.radii['large']};` : ``}
+    ${$i === $headers.length - 1
+      ? `border-right-radius: ${theme.radii['large']};`
+      : ``}
       padding: ${theme.space['2.5']} ${theme.space['4']};
-`}
-`
+  `,
+)
 
-const Name = styled(Typography)`
-  ${({ theme }) => `
-      color: ${theme.colors.text};
-      font-size: ${theme.fontSizes['small']};
-`}
-`
+const Name = styled(Typography)(
+  ({ theme }) => css`
+    color: ${theme.colors.text};
+    font-size: ${theme.fontSizes['small']};
+  `,
+)
 
-const Required = styled(Typography)`
-  ${({ theme }) => `
-      color: ${theme.colors.red};
-      font-size: ${theme.fontSizes['small']};
-`}
-`
+const Required = styled(Typography)(
+  ({ theme }) => css`
+    color: ${theme.colors.red};
+    font-size: ${theme.fontSizes['small']};
+  `,
+)
 
-const RawName = styled(Typography)`
-  ${({ theme }) => `
-      color: ${theme.colors.accent};
-      font-size: ${theme.fontSizes['small']};
-      font-family: ${theme.fonts['mono']};
-`}
-`
+const RawName = styled(Typography)(
+  ({ theme }) => css`
+    color: ${theme.colors.accent};
+    font-size: ${theme.fontSizes['small']};
+    font-family: ${theme.fonts['mono']};
+  `,
+)
 
-const DefaultValue = styled(Typography)`
-  ${({ theme }) => `
-      color: ${theme.colors.textSecondary};
-      font-size: ${theme.fontSizes['small']};
-`}
-`
+const DefaultValue = styled(Typography)(
+  ({ theme }) => css`
+    color: ${theme.colors.textSecondary};
+    font-size: ${theme.fontSizes['small']};
+  `,
+)
 
-const Description = styled(Typography)`
-  ${({ theme }) => `
-      color: ${theme.colors.textSecondary};
-      font-size: ${theme.fontSizes['small']};
-`}
-`
+const Description = styled(Typography)(
+  ({ theme }) => css`
+    color: ${theme.colors.textSecondary};
+    font-size: ${theme.fontSizes['small']};
+  `,
+)
 
-const NoProps = styled(Typography)`
-  ${({ theme }) => `
-      color: ${theme.colors.textSecondary};
-`}
-`
+const NoProps = styled(Typography)(
+  ({ theme }) => css`
+    color: ${theme.colors.textSecondary};
+  `,
+)
 
-const DataCell = styled.td`
-  ${({ theme }) => `
+const DataCell = styled.td(
+  ({ theme }) => css`
     padding: ${theme.space['3']} ${theme.space['4']};
-  `}
-`
+  `,
+)
 
-const FlexContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  gap: ${({ theme }) => theme.space['2']};
-`
+const FlexContainer = styled.div(
+  ({ theme }) => css`
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: ${theme.space['2']};
+  `,
+)
 
 const formatPropType = (type: any): string => {
   if (!type.raw) return type.name
@@ -152,7 +154,7 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
               <tr style={{ textAlign: 'left', background: 'none' }}>
                 {headers.map((x, i) => (
                   <TableHead key={x}>
-                    <TableHeadLabelContainer {...{ i, headers }}>
+                    <TableHeadLabelContainer {...{ $i: i, $headers: headers }}>
                       <Typography variant="label">{x}</Typography>
                     </TableHeadLabelContainer>
                   </TableHead>

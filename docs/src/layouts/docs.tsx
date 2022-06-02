@@ -14,88 +14,84 @@ import {
 } from '~/components'
 import { getLayout as getBaseLayout } from './site'
 
-const Container = styled.div`
-  ${({ theme }) => `
+const Container = styled.div(
+  ({ theme }) => css`
     display: block;
     justify-content: center;
     margin: 0 auto;
     max-width: ${theme.space['320']};
     min-height: ${theme.space['viewHeight']};
     padding: 0 ${theme.space['6']};
-  `}
 
-  ${mq.md.min(css`
-    display: flex;
-    justify-content: flex-end;
-  `)}
+    ${mq.md.min(css`
+      display: flex;
+      justify-content: flex-end;
+    `)}
 
-  ${mq.lg.min(css`
-    display: flex;
-    justify-content: center;
-  `)}
-`
+    ${mq.lg.min(css`
+      display: flex;
+      justify-content: center;
+    `)}
+  `,
+)
 
-const Aside = styled.aside`
-  ${({ theme }) => `
+const Aside = styled.aside(
+  ({ theme }) => css`
     padding-top: ${theme.space['6']};
-  `}
 
-  ${({ theme }) =>
-    mq.md.min(css`
+    ${mq.md.min(css`
       left: ${theme.space['4']};
       width: ${theme.space['max']};
       margin-right: ${theme.space['10']};
     `)}
 
-  ${({ theme }) =>
-    mq.lg.min(css`
+    ${mq.lg.min(css`
       height: ${theme.space['viewHeight']};
       position: fixed;
       width: ${theme.space['48']};
     `)}
 
-  ${({ theme }) =>
-    mq.xl.min(css`
+    ${mq.xl.min(css`
       width: ${theme.space['56']};
     `)}
-`
+  `,
+)
 
-const Article = styled.article`
-  ${({ theme }) => `
+const Article = styled.article(
+  ({ theme }) => css`
     width: 100%;
     padding-bottom: ${theme.space['20']};
     padding-top: ${theme.space['20']};
-  `}
 
-  ${({ theme }) =>
-    mq.md.min(css`
+    ${mq.md.min(css`
       max-width: ${theme.space['224']};
     `)}
 
-  ${({ theme }) =>
-    mq.lg.min(css`
+    ${mq.lg.min(css`
       max-width: ${theme.space['192']};
       padding: ${theme.space['20']} ${theme.space['10']};
     `)}
 
-  ${({ theme }) =>
-    mq.xl.min(css`
+    ${mq.xl.min(css`
       max-width: ${theme.space['224']};
     `)}
-`
+  `,
+)
 
-const Main = styled.main`
-  flex-grow: 1;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  ${mq.md.min(css`
-    justify-content: flex-end;
-  `)}
-  ${mq.xl.min(css`
+const Main = styled.main(
+  () => css`
+    flex-grow: 1;
+    display: flex;
     justify-content: center;
-  `)}
-`
+    align-items: flex-start;
+    ${mq.md.min(css`
+      justify-content: flex-end;
+    `)}
+    ${mq.xl.min(css`
+      justify-content: center;
+    `)}
+  `,
+)
 
 export type Props = {
   meta: {

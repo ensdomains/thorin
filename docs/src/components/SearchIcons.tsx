@@ -19,14 +19,14 @@ const initialState: State = {
   query: '',
 }
 
-const FlexContainer = styled.div`
-  ${({ theme }) => `
+const FlexContainer = styled.div(
+  ({ theme }) => css`
     gap: ${theme.space['8']};
-  `}
-`
+  `,
+)
 
-const IconGrid = styled.div`
-  ${({ theme }) => `
+const IconGrid = styled.div(
+  ({ theme }) => css`
     display: grid;
     gap: ${theme.space['4']};
     grid-template-columns: repeat(auto-fit, minmax(${theme.space['18']}, 1fr));
@@ -36,66 +36,67 @@ const IconGrid = styled.div`
         minmax(${theme.space['20']}, 1fr)
       );
     `)}
-  `}
-`
+  `,
+)
 
-const IconGridInner = styled.div`
-  ${({ theme }) => `
-  max-width: ${theme.space['18']};
+const IconGridInner = styled.div(
+  ({ theme }) => css`
+    max-width: ${theme.space['18']};
 
-  ${mq.md.min(css`
-    max-width: ${theme.space['20']};
-  `)}
-  `}
-`
+    ${mq.md.min(css`
+      max-width: ${theme.space['20']};
+    `)}
+  `,
+)
 
-const IconGridFlex = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${({ theme }) => theme.space['2']};
-`
+const IconGridFlex = styled.div(
+  ({ theme }) => css`
+    display: flex;
+    align-items: center;
+    gap: ${theme.space['2']};
+  `,
+)
 
-const ComponentContainer = styled.div`
-  ${({ theme }) => `
+const ComponentContainer = styled.div(
+  ({ theme }) => css`
     background-color: ${theme.colors.foregroundTertiary};
     border-radius: ${theme.radii['large']};
-    box-shadow-color: ${theme.colors.transparent};
     color: ${theme.colors.foreground};
     padding: ${theme.space['4']};
     width: ${theme.space['max']};
     transition-duration: ${theme.transitionDuration['150']};
     transition-property: box-shadow;
     transition-timing-function: ${theme.transitionTimingFunction['inOut']};
-    
-    box-shadow: ${theme.boxShadows['1']}; 
-    
+
+    box-shadow: ${theme.boxShadows['1']};
+
     &:hover {
       box-shadow: ${theme.boxShadows['1']};
     }
-    
+
     &:active {
       box-shadow: ${theme.boxShadows['0.5']};
     }
-  `}
-`
+  `,
+)
 
-const IconNameContainer = styled.div`
-  ${({ theme }) => `
+const IconNameContainer = styled.div(
+  ({ theme }) => css`
     width: ${theme.space['14']};
 
     ${mq.md.min(css`
       width: ${theme.space['18']};
     `)}
-  `}
-`
+  `,
+)
 
-const IconName = styled(Typography)`
-  ${({ theme }) => `
+const IconName = styled(Typography)(
+  ({ theme }) => css`
     text-align: center;
     size: ${theme.fontSizes['label']};
     color: ${theme.colors.text};
-  `}
-`
+  `,
+)
 
 export const SearchIcons = () => {
   const [state, setState] = React.useState<State>(initialState)
