@@ -1,50 +1,50 @@
 import * as React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import { Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
 
-const Input = styled.input`
-  cursor: pointer;
-  font: inherit;
-  border-radius: 50%;
-  display: grid;
-  place-content: center;
-  transition: transform 150ms ease-in-out, filter 150ms ease-in-out;
+const Input = styled.input(
+  ({ theme }) => css`
+    cursor: pointer;
+    font: inherit;
+    border-radius: 50%;
+    display: grid;
+    place-content: center;
+    transition: transform 150ms ease-in-out, filter 150ms ease-in-out;
 
-  &:hover {
-    transform: translateY(-1px);
-    filter: contrast(0.7);
-  }
+    &:hover {
+      transform: translateY(-1px);
+      filter: contrast(0.7);
+    }
 
-  &:active {
-    transform: translateY(0px);
-    filter: contrast(1);
-  }
+    &:active {
+      transform: translateY(0px);
+      filter: contrast(1);
+    }
 
-  &:checked::before {
-    transform: scale(1);
-  }
+    &:checked::before {
+      transform: scale(1);
+    }
 
-  ${({ theme }) => `
     width: ${theme.space['6']};
     height: ${theme.space['6']};
     margin: ${theme.space['2']} 0;
     background-color: ${theme.colors.backgroundHide};
-  
+
     &::before {
-        content: '';
-        width: ${theme.space['4.5']};
-        height: ${theme.space['4.5']};
-        border-radius: 50%;
-        transform: scale(0);
-        transition: transform 90ms ease-in-out;
-        background-image: ${theme.colors.gradients.blue};
-        background-size: 100% 100%;
-        background-position: center;
-      }
-  `}
-`
+      content: '';
+      width: ${theme.space['4.5']};
+      height: ${theme.space['4.5']};
+      border-radius: 50%;
+      transform: scale(0);
+      transition: transform 90ms ease-in-out;
+      background-image: ${theme.colors.gradients.blue};
+      background-size: 100% 100%;
+      background-position: center;
+    }
+  `,
+)
 
 type NativeInputProps = React.AllHTMLAttributes<HTMLInputElement>
 

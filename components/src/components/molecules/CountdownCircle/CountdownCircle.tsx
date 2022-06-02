@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import { VisuallyHidden } from '../..'
 import { Colors } from '@/src/tokens'
@@ -9,42 +9,41 @@ interface NumberBox {
   $size: 'small' | 'large'
 }
 
-const NumberBox = styled.div<NumberBox>`
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
+const NumberBox = styled.div<NumberBox>(
+  ({ theme, $disabled, $size }) => css`
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
 
-  ${({ theme }) => `
     color: ${theme.colors.accent};
-  `}
 
-  ${({ theme, $disabled }) =>
-    $disabled &&
-    `
-    color: ${theme.colors.textPlaceholder};
-  `}
+    ${$disabled &&
+    css`
+      color: ${theme.colors.textPlaceholder};
+    `}
 
-  ${({ $size, theme }) => {
-    switch ($size) {
-      case 'small':
-        return `
-          height: ${theme.space['16']};
-          width: ${theme.space['16']};
-        `
-      case 'large':
-        return `
-          font-size: ${theme.fontSizes.extraLarge};
-          margin-top: -${theme.space['0.5']};
-          height: ${theme.space['24']};
-          width: ${theme.space['24']};
-        `
-      default:
-        return ``
-    }
-  }}
-`
+    ${() => {
+      switch ($size) {
+        case 'small':
+          return css`
+            height: ${theme.space['16']};
+            width: ${theme.space['16']};
+          `
+        case 'large':
+          return css`
+            font-size: ${theme.fontSizes.extraLarge};
+            margin-top: -${theme.space['0.5']};
+            height: ${theme.space['24']};
+            width: ${theme.space['24']};
+          `
+        default:
+          return ``
+      }
+    }}
+  `,
+)
 
 interface ContainerProps {
   $disabled?: boolean
@@ -52,50 +51,52 @@ interface ContainerProps {
   $color: Colors
 }
 
-const Container = styled.div<ContainerProps>`
-  ${({ theme }) => `
+const Container = styled.div<ContainerProps>(
+  ({ theme, $disabled, $size, $color }) => css`
     stroke: ${theme.colors.accent};
-  `}
 
-  ${({ theme, $color }) => `
     color: ${theme.colors[$color]};
-  `}
 
-  ${({ theme, $disabled }) =>
-    $disabled &&
-    `
-    color: ${theme.colors.foregroundSecondary};
-  `}
+    ${$disabled &&
+    css`
+      color: ${theme.colors.foregroundSecondary};
+    `}
 
-  ${({ $size, theme }) => {
-    switch ($size) {
-      case 'small':
-        return `
-          height: ${theme.space['16']};
-          width: ${theme.space['16']};
-          stroke-width: ${theme.space['1']};
-        `
-      case 'large':
-        return `
-          height: ${theme.space['24']};
-          width: ${theme.space['24']};
-          stroke-width: ${theme.space['1']};
-        `
-      default:
-        return ``
-    }
-  }}
-`
+    ${() => {
+      switch ($size) {
+        case 'small':
+          return css`
+            height: ${theme.space['16']};
+            width: ${theme.space['16']};
+            stroke-width: ${theme.space['1']};
+          `
+        case 'large':
+          return css`
+            height: ${theme.space['24']};
+            width: ${theme.space['24']};
+            stroke-width: ${theme.space['1']};
+          `
+        default:
+          return ``
+      }
+    }}
+  `,
+)
 
 interface CircleProps {
   $finished: boolean
 }
 
-const Circle = styled.circle<CircleProps>`
-  transition: all 1s linear, stroke-width 0.2s ease-in-out 1s;
+const Circle = styled.circle<CircleProps>(
+  ({ $finished }) => css`
+    transition: all 1s linear, stroke-width 0.2s ease-in-out 1s;
 
-  ${({ $finished }) => $finished && `stroke-width: 0;`}
-`
+    ${$finished &&
+    css`
+      stroke-width: 0;
+    `}
+  `,
+)
 
 type Props = {
   accessibilityLabel?: string

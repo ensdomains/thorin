@@ -1,51 +1,49 @@
 import * as React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import { Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
 
-const TextArea = styled.textarea<{ $error?: boolean }>`
-  ${({ theme }) => `
-      background-color: ${theme.colors.transparent};
-      border-color: ${theme.colors.foregroundSecondary};
-      border-radius: ${theme.radii['2xLarge']};
-      border-width: ${theme.space['0.5']};
-      color: ${theme.colors.text};
-      display: flex;
-      font-family: ${theme.fonts['sans']};
-      font-size: ${theme.fontSizes['base']};
-      font-weight: ${theme.fontWeights['medium']};
-      min-height: ${theme.space['14']};
-      padding: ${theme.space['4']};
-      transition-duration: ${theme.transitionDuration['150']};
-      transition-property: color, border-color, background-color;
-      transition-timing-function: ${theme.transitionTimingFunction['inOut']};
-      width: ${theme.space['full']};
-      resize: none;
-      
-      &:focus {
-        border-color: ${theme.colors.accent};
-      }
-  `}
+const TextArea = styled.textarea<{ $error?: boolean }>(
+  ({ theme, disabled, $error }) => css`
+    background-color: ${theme.colors.transparent};
+    border-color: ${theme.colors.foregroundSecondary};
+    border-radius: ${theme.radii['2xLarge']};
+    border-width: ${theme.space['0.5']};
+    color: ${theme.colors.text};
+    display: flex;
+    font-family: ${theme.fonts['sans']};
+    font-size: ${theme.fontSizes['base']};
+    font-weight: ${theme.fontWeights['medium']};
+    min-height: ${theme.space['14']};
+    padding: ${theme.space['4']};
+    transition-duration: ${theme.transitionDuration['150']};
+    transition-property: color, border-color, background-color;
+    transition-timing-function: ${theme.transitionTimingFunction['inOut']};
+    width: ${theme.space['full']};
+    resize: none;
 
-  ${({ theme, disabled }) =>
-    disabled &&
-    `
+    &:focus {
+      border-color: ${theme.colors.accent};
+    }
+
+    ${disabled &&
+    css`
       border-color: ${theme.colors.foregroundSecondary};
       cursor: not-allowed;
-  `}
+    `}
 
-  ${({ theme, $error }) =>
-    $error &&
-    `
+    ${$error &&
+    css`
       border-color: ${theme.colors.red};
       cursor: default;
-      
+
       &:focus-within {
         border-color: ${theme.colors.red};
       }
-  `}
-`
+    `}
+  `,
+)
 
 type NativeTextareaProps = React.AllHTMLAttributes<HTMLTextAreaElement>
 

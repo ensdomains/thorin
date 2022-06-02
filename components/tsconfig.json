@@ -16,6 +16,16 @@
       "jest",
       "vite/client",
       "vite-plugin-svgr/client"
+    ],
+    "plugins": [
+      {
+        "name": "typescript-styled-plugin",
+        "tags": ["styled", "css", "mq"],
+        "validate": true,
+        "lint": {
+          "validProperties": ["flex-gap"]
+        }
+      }
     ]
   },
   "include": ["src"]

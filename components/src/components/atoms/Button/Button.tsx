@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled, { DefaultTheme } from 'styled-components'
+import styled, { DefaultTheme, css } from 'styled-components'
 
 import { ReactNodeNoStrings } from '../../../types'
 import { Spinner } from '../Spinner'
@@ -116,39 +116,63 @@ const getAccentColour = (
   }
 }
 
-const ButtonElement = styled.button<ButtonElement>`
-  align-items: center;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  transition-propery: all;
+const ButtonElement = styled.button<ButtonElement>(
+  ({
+    theme,
+    disabled,
+    $center,
+    $pressed,
+    $shadowless,
+    $size,
+    $variant,
+    $tone,
+    $shape,
+  }) => css`
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    transition-property: all;
 
-  ${({ theme }) => `
-  gap: ${theme.space['4']};
-  transition-duration: ${theme.transitionDuration['150']};
-  transition-timing-function: ${theme.transitionTimingFunction['inOut']};
-  letter-spacing: ${theme.letterSpacings['-0.01']};
-  width: 100%;
-  `}
+    gap: ${theme.space['4']};
+    transition-duration: ${theme.transitionDuration['150']};
+    transition-timing-function: ${theme.transitionTimingFunction['inOut']};
+    letter-spacing: ${theme.letterSpacings['-0.01']};
+    width: 100%;
 
-  &:hover {
-    transform: translateY(-1px);
-    filter: brightness(1.05);
-  }
+    &:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.05);
+    }
 
-  &:active {
-    transform: translateY(0px);
-    filter: brightness(1);
-  }
+    &:active {
+      transform: translateY(0px);
+      filter: brightness(1);
+    }
 
-  ${({ theme, disabled, $center, $pressed, $shadowless }) => `
-    ${disabled ? `cursor: not-allowed` : ``};
-    ${$center ? `position: relative` : ``};
-    ${$pressed ? `filter: brightness(0.95)` : ``};
-    ${$shadowless ? `box-shadow: none !important` : ``};
-    
+    ${disabled
+      ? css`
+          cursor: not-allowed;
+        `
+      : ``};
+    ${$center
+      ? css`
+          position: relative;
+        `
+      : ``};
+    ${$pressed
+      ? css`
+          filter: brightness(0.95);
+        `
+      : ``};
+    ${$shadowless
+      ? css`
+          box-shadow: none !important;
+        `
+      : ``};
+
     box-shadow: ${theme.shadows['0.25']} ${theme.colors.grey};
-    
+
     &:disabled {
       background-color: ${theme.colors.grey};
       transform: translateY(0px);
@@ -158,110 +182,116 @@ const ButtonElement = styled.button<ButtonElement>`
     border-radius: ${theme.radii.extraLarge};
     font-size: ${theme.fontSizes.large};
     padding: ${theme.space['3.5']} ${theme.space['4']};
-  `}
 
-  ${({ $size, theme }) => {
-    switch ($size) {
-      case 'extraSmall':
-        return `
-          border-radius: ${theme.radii.large};
-          font-size: ${theme.fontSizes.small};
-          padding: ${theme.space['2']};
-        `
-      case 'small':
-        return `
-          border-radius: ${theme.radii.large};
-          font-size: ${theme.fontSizes.small};
-          height: ${theme.space['10']};
-          padding: 0 ${theme.space['4']};
-        `
-      case 'medium':
-        return ``
-      default:
-        return ``
-    }
-  }}
-  ${({ theme, $variant, $tone }) => {
-    switch ($variant) {
-      case 'primary':
-        return `
-          color: ${getAccentColour(theme, $tone, 'accentText')};
-          background: ${getAccentColour(theme, $tone, 'accent')};
-        `
-      case 'secondary':
-        return `
-          color: ${theme.colors.textSecondary};
-          background: ${theme.colors.grey};
-        `
-      case 'action':
-        return `
-          color: ${getAccentColour(theme, $tone, 'accentText')};
-          background: ${getAccentColour(theme, $tone, 'accentGradient')};
-        `
-      case 'transparent':
-        return `
-          color: ${theme.colors.textTertiary};
-          
-          &:hover {
+    ${() => {
+      switch ($size) {
+        case 'extraSmall':
+          return css`
+            border-radius: ${theme.radii.large};
+            font-size: ${theme.fontSizes.small};
+            padding: ${theme.space['2']};
+          `
+        case 'small':
+          return css`
+            border-radius: ${theme.radii.large};
+            font-size: ${theme.fontSizes.small};
+            height: ${theme.space['10']};
+            padding: 0 ${theme.space['4']};
+          `
+        case 'medium':
+          return ``
+        default:
+          return ``
+      }
+    }}
+
+    ${() => {
+      switch ($variant) {
+        case 'primary':
+          return css`
+            color: ${getAccentColour(theme, $tone, 'accentText')};
+            background: ${getAccentColour(theme, $tone, 'accent')};
+          `
+        case 'secondary':
+          return css`
+            color: ${theme.colors.textSecondary};
+            background: ${theme.colors.grey};
+          `
+        case 'action':
+          return css`
+            color: ${getAccentColour(theme, $tone, 'accentText')};
+            background: ${getAccentColour(theme, $tone, 'accentGradient')};
+          `
+        case 'transparent':
+          return css`
+            color: ${theme.colors.textTertiary};
+
+            &:hover {
               background-color: ${theme.colors.foregroundTertiary};
-          }
-          
-          &:active {
+            }
+
+            &:active {
               background-color: ${theme.colors.foregroundTertiary};
-          }
+            }
+          `
+        default:
+          return ``
+      }
+    }}
+    
+  ${() => {
+      switch ($shape) {
+        case 'circle':
+          return css`
+            border-radius: ${theme.radii.full};
+          `
+        case 'square':
+          return css`
+            border-radius: ${$size === 'small'
+              ? theme.radii['large']
+              : theme.radii['2xLarge']};
+          `
+        default:
+          return ``
+      }
+    }}
+
+  ${() => {
+      if ($size === 'medium' && $center) {
+        return css`
+          padding-left: ${theme.space['14']};
+          padding-right: ${theme.space['14']};
         `
-      default:
-        return ``
-    }
-  }}
-  ${({ $size, $shape, theme }) => {
-    switch ($shape) {
-      case 'circle':
-        return `
-          border-radius: ${theme.radii.full};
+      }
+      return ''
+    }}
+
+  ${() => {
+      if ($shadowless && $pressed && $variant === 'transparent') {
+        return css`
+          background-color: ${theme.colors.backgroundSecondary};
         `
-      case 'square':
-        return `border-radius: ${
-          $size === 'small' ? theme.radii['large'] : theme.radii['2xLarge']
-        };`
-      default:
-        return ``
-    }
-  }}
+      }
+      return ''
+    }}
+  `,
+)
 
-  ${({ $size, $center, theme }) => {
-    if ($size === 'medium' && $center) {
-      return `
-        padding-left: ${theme.space['14']};
-        padding-right: ${theme.space['14']};
-      `
-    }
-    return ''
-  }}
+const PrefixContainer = styled.div<GetCenterProps>(
+  () => css`
+    ${getCenterProps}
+  `,
+)
 
-  ${({ theme, $shadowless, $pressed, $variant }) => {
-    if ($shadowless && $pressed && $variant === 'transparent') {
-      return `
-        background-color: ${theme.colors.backgroundSecondary};
-      `
-    }
-    return ''
-  }}
-`
+const LoadingContainer = styled.div(() => css``)
 
-const PrefixContainer = styled.div<GetCenterProps>`
-  ${getCenterProps}
-`
-
-const LoadingContainer = styled.div``
-
-const LabelContainer = styled(Typography)`
-  ${({ theme }) => `
-  color: inherit;
-  font-size: inherit;
-  font-weight: ${theme.fontWeights['semiBold']};
-  `}
-`
+const LabelContainer = styled(Typography)(
+  ({ theme }) => css`
+    color: inherit;
+    font-size: inherit;
+    font-weight: ${theme.fontWeights['semiBold']};
+  `,
+)
 
 export type Props = BaseProps &
   (WithTone | WithoutTone) &

@@ -1,33 +1,29 @@
 import * as React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
-import { largerThan } from '@/src/utils/responsiveHelpers'
+import { mq } from '@/src/utils/responsiveHelpers'
 
-const Container = styled.div<{ $shadow?: boolean }>`
-  ${({ theme }) => [
-    `
+const Container = styled.div<{ $shadow?: boolean }>(
+  ({ theme, $shadow }) => css`
     padding: ${theme.space['6']};
     border-radius: ${theme.radii['2xLarge']};
     background-color: ${theme.colors.background};
-    `,
-    largerThan.lg`
+    ${mq.lg.min(css`
       border-radius: ${theme.radii['3xLarge']};
-    `,
-  ]}
+    `)}
 
-  ${({ $shadow, theme }) =>
-    $shadow &&
-    theme.mode === 'light' && [
-      `
-      box-shadow: 0px 0px ${theme.radii['2xLarge']} rgba(0,0,0,0.1);
+    ${$shadow &&
+    theme.mode === 'light' &&
+    css`
+      box-shadow: 0px 0px ${theme.radii['2xLarge']} rgba(0, 0, 0, 0.1);
       border-radius: ${theme.radii['2xLarge']};
-    `,
-      largerThan.lg`
-      box-shadow: 0px 0px ${theme.radii['3xLarge']} rgba(0,0,0,0.1);
-      border-radius: ${theme.radii['3xLarge']};
-    `,
-    ]}
-`
+      ${mq.lg.min(css`
+        box-shadow: 0px 0px ${theme.radii['3xLarge']} rgba(0, 0, 0, 0.1);
+        border-radius: ${theme.radii['3xLarge']};
+      `)}
+    `}
+  `,
+)
 
 export type Props = {
   /** Adds shadow when theme is in light mode.  */

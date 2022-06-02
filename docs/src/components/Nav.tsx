@@ -1,6 +1,6 @@
 import { useRouter } from 'next/dist/client/router'
 import * as React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import {
   Button,
@@ -8,7 +8,7 @@ import {
   MenuSVG,
   Space,
   Typography,
-  largerThan,
+  mq,
 } from '@ensdomains/thorin'
 
 import { createGitHubLink } from '~/utils/github'
@@ -36,9 +36,10 @@ const Container = styled.div`
 `
 
 const ContainerInner = styled.div`
-  ${({ theme }) => largerThan.lg`
-    padding-bottom: ${theme.space['5']};    
-  `}
+  ${({ theme }) =>
+    mq.lg.min(css`
+      padding-bottom: ${theme.space['5']};
+    `)}
 `
 
 const NavlinkContainer = styled.div`
@@ -48,9 +49,9 @@ const NavlinkContainer = styled.div`
   flex-direction: row;
   gap: ${({ theme }) => theme.space['5']};
 
-  ${largerThan.lg`
+  ${mq.lg.min(css`
     flex-direction: column;
-  `}
+  `)}
 `
 
 const NavLinkInner = styled.div`
@@ -69,9 +70,9 @@ const ENSText = styled(Typography)`
 `
 
 const ButtonContainer = styled.div`
-  ${largerThan.md`
+  ${mq.md.min(css`
     display: none;
-  `}
+  `)}
 `
 
 const List = styled.div<{ open?: boolean }>`
@@ -80,12 +81,13 @@ const List = styled.div<{ open?: boolean }>`
     height: ${theme.space['full']};
     padding-top: ${theme.space['10']};
   `}
-  ${({ theme }) => largerThan.md`
-    display: block;
-    margin-bottom: ${theme.space['24']};
-    padding-bottom: ${theme.space['24']};
-    padding-top: ${theme.space['5']};
-  `}
+  ${({ theme }) =>
+    mq.md.min(css`
+      display: block;
+      margin-bottom: ${theme.space['24']};
+      padding-bottom: ${theme.space['24']};
+      padding-top: ${theme.space['5']};
+    `)}
 `
 
 const FlexContainer = styled.div<{ space?: Space }>`

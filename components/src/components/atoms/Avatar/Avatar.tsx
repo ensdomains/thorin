@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 type Shape = 'circle' | 'square'
 
@@ -8,77 +8,76 @@ interface Container {
   $noBorder?: boolean
 }
 
-const Container = styled.div<Container>`
-  ${({ $shape, theme }) => {
-    switch ($shape) {
-      case 'circle':
-        return `
-          border-radius: ${theme.radii.full};
-          &:after {
+const Container = styled.div<Container>(
+  ({ theme, $shape, $noBorder }) => css`
+    ${() => {
+      switch ($shape) {
+        case 'circle':
+          return css`
             border-radius: ${theme.radii.full};
-          }
-        `
-      case 'square':
-        return `
+            &:after {
+              border-radius: ${theme.radii.full};
+            }
+          `
+        case 'square':
+          return css`
           border-radius: ${theme.radii['2xLarge']}
           &:after {
             border-radius: ${theme.radii['2xLarge']}
           }
         `
-      default:
-        return ``
-    }
-  }}
+        default:
+          return css``
+      }
+    }}
 
-  ${({ theme, $noBorder }) =>
-    !$noBorder &&
-    `
+    ${!$noBorder &&
+    css`
       &:after {
-      box-shadow: ${theme.shadows['-px']} ${theme.colors.foregroundTertiary};
-    content: '';
-    inset: 0;
-    position: absolute;
-      }   
-      }      
-  `}
+        box-shadow: ${theme.shadows['-px']} ${theme.colors.foregroundTertiary};
+        content: '';
+        inset: 0;
+        position: absolute;
+      }
+    `}
 
-  ${({ theme }) =>
-    `
-      background-color: ${theme.colors.foregroundSecondary};
-  `}
+    background-color: ${theme.colors.foregroundSecondary};
 
-  width: 100%;
-  padding-bottom: 100%;
+    width: 100%;
+    padding-bottom: 100%;
 
-  > * {
-    position: absolute;
-    top: 0;
-    left: 0;
+    > * {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    overflow: hidden;
+    position: relative;
+  `,
+)
+
+const Placeholder = styled.div(
+  ({ theme }) => css`
+    background: ${theme.colors.gradients.blue};
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
     height: 100%;
-  }
+  `,
+)
 
-  overflow: hidden;
-  position: relative;
-`
-
-const Placeholder = styled.div`
-  ${({ theme }) => `
-    background: ${theme.colors.gradients.blue};
-  `}
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-`
-
-const Img = styled.img`
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
-`
+const Img = styled.img(
+  () => css`
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  `,
+)
 
 export type Props = {
   /** Accessibility text. */

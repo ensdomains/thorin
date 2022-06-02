@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { GetLayout, NextLayout } from 'next'
 import Head from 'next/head'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
-import { largerThan } from '@ensdomains/thorin'
+import { mq } from '@ensdomains/thorin'
 
 import {
   Header,
@@ -24,15 +24,15 @@ const Container = styled.div`
     padding: 0 ${theme.space['6']};
   `}
 
-  ${largerThan.md`
+  ${mq.md.min(css`
     display: flex;
     justify-content: flex-end;
-  `}
+  `)}
 
-  ${largerThan.lg`
+  ${mq.lg.min(css`
     display: flex;
     justify-content: center;
-  `}
+  `)}
 `
 
 const Aside = styled.aside`
@@ -40,21 +40,24 @@ const Aside = styled.aside`
     padding-top: ${theme.space['6']};
   `}
 
-  ${({ theme }) => largerThan.md`
-    left: ${theme.space['4']};
-    width: ${theme.space['max']};
-    margin-right: ${theme.space['10']};
-  `}
+  ${({ theme }) =>
+    mq.md.min(css`
+      left: ${theme.space['4']};
+      width: ${theme.space['max']};
+      margin-right: ${theme.space['10']};
+    `)}
 
-  ${({ theme }) => largerThan.lg`
-    height: ${theme.space['viewHeight']};
-    position: fixed;
-    width: ${theme.space['48']};
-  `}
+  ${({ theme }) =>
+    mq.lg.min(css`
+      height: ${theme.space['viewHeight']};
+      position: fixed;
+      width: ${theme.space['48']};
+    `)}
 
-  ${({ theme }) => largerThan.xl`
-    width: ${theme.space['56']};
-  `}
+  ${({ theme }) =>
+    mq.xl.min(css`
+      width: ${theme.space['56']};
+    `)}
 `
 
 const Article = styled.article`
@@ -64,18 +67,21 @@ const Article = styled.article`
     padding-top: ${theme.space['20']};
   `}
 
-  ${({ theme }) => largerThan.md`
-    max-width: ${theme.space['224']}
-  `}
+  ${({ theme }) =>
+    mq.md.min(css`
+      max-width: ${theme.space['224']};
+    `)}
 
-  ${({ theme }) => largerThan.lg`
-    max-width: ${theme.space['192']};
-    padding: ${theme.space['20']} ${theme.space['10']};
-  `}
+  ${({ theme }) =>
+    mq.lg.min(css`
+      max-width: ${theme.space['192']};
+      padding: ${theme.space['20']} ${theme.space['10']};
+    `)}
 
-  ${({ theme }) => largerThan.xl`
-    max-width: ${theme.space['224']};
-  `}
+  ${({ theme }) =>
+    mq.xl.min(css`
+      max-width: ${theme.space['224']};
+    `)}
 `
 
 const Main = styled.main`
@@ -83,12 +89,12 @@ const Main = styled.main`
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  ${largerThan.md`
+  ${mq.md.min(css`
     justify-content: flex-end;
-  `}
-  ${largerThan.xl`
+  `)}
+  ${mq.xl.min(css`
     justify-content: center;
-  `}
+  `)}
 `
 
 export type Props = {

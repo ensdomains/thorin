@@ -1,13 +1,8 @@
 import * as React from 'react'
-import styled, { useTheme } from 'styled-components'
+import styled, { css, useTheme } from 'styled-components'
 import { PropItem } from 'react-docgen-typescript'
 
-import {
-  Button,
-  Typography,
-  VisuallyHidden,
-  largerThan,
-} from '@ensdomains/thorin'
+import { Button, Typography, VisuallyHidden, mq } from '@ensdomains/thorin'
 
 import property from 'lodash/property'
 
@@ -22,9 +17,9 @@ const Container = styled.div`
   max-width: ${({ theme }) => theme.space['full']};
   overflow: scroll;
 
-  ${largerThan.lg`
+  ${mq.lg.min(css`
     overflow: unset;
-  `}
+  `)}
 `
 
 const TableHead = styled.th`

@@ -3,7 +3,7 @@ import * as Exports from './'
 const exportedKeys = Object.keys(Exports)
 
 const expectedExportedKeys = [
-  'largerThan',
+  'mq',
   'tokens',
   'baseTheme',
   'lightTheme',

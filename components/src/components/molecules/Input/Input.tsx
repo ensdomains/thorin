@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled, { FlattenInterpolation } from 'styled-components'
+import styled, { FlattenInterpolation, css } from 'styled-components'
 
 import { Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
@@ -80,8 +80,8 @@ interface InputParentProps {
   $userStyles?: FlattenInterpolation<any>
 }
 
-const InputParent = styled.div<InputParentProps>`
-  ${({ theme }) => `
+const InputParent = styled.div<InputParentProps>(
+  ({ theme, $size, $disabled, $error, $suffix, $userStyles }) => css`
     background-color: ${theme.colors.backgroundSecondary};
     border-radius: ${theme.radii['2xLarge']};
     border-width: ${theme.space['0.75']};
@@ -91,195 +91,189 @@ const InputParent = styled.div<InputParentProps>`
     transition-duration: ${theme.transitionDuration['150']};
     transition-property: color, border-color, background-color;
     transition-timing-function: ${theme.transitionTimingFunction['inOut']};
-    
+
     &:focus-within {
       border-color: ${theme.colors.accentSecondary};
     }
-  `}
 
-  ${({ theme, $disabled }) =>
-    $disabled &&
-    `
+    ${$disabled &&
+    css`
       border-color: ${theme.colors.foregroundSecondary};
       background-color: ${theme.colors.background};
-  `}
+    `}
 
-  ${({ theme, $error }) =>
-    $error &&
-    `
+    ${$error &&
+    css`
       border-color: ${theme.colors.red};
       cursor: default;
-      
+
       &:focus-within {
         border-color: ${theme.colors.red};
       }
-  `}
+    `}
 
-  ${({ $suffix, theme }) =>
-    $suffix &&
-    `
+  ${$suffix &&
+    css`
       height: ${theme.space['16']};
-  `}
+    `}
 
-  ${({ $size, theme }) => {
-    switch ($size) {
-      case 'medium':
-        return `
-          height: ${theme.space['14']};
-        `
-      case 'large':
-        return `
-          height: ${theme.space['16']};
-        `
-      case 'extraLarge':
-        return `
-          height: ${theme.space['18']};
-        `
-      default:
-        return ``
-    }
-  }}
-  ${({ $userStyles }) => $userStyles}
-`
+  ${() => {
+      switch ($size) {
+        case 'medium':
+          return css`
+            height: ${theme.space['14']};
+          `
+        case 'large':
+          return css`
+            height: ${theme.space['16']};
+          `
+        case 'extraLarge':
+          return css`
+            height: ${theme.space['18']};
+          `
+        default:
+          return ``
+      }
+    }}
+  ${$userStyles}
+  `,
+)
 
-const Prefix = styled.label`
-  ${({ theme }) => `
-  align-items: center;
-  display: flex;
-  height: ${theme.space['full']};
-  line-height: normal;
-  color: inherit;
-  font-family: ${theme.fonts['sans']};
-  font-weight: ${theme.fontWeights['medium']};
-  padding-left: ${theme.space['4']};
-  padding-right: ${theme.space['2']};
-  `}
-`
+const Prefix = styled.label(
+  ({ theme }) => css`
+    align-items: center;
+    display: flex;
+    height: ${theme.space['full']};
+    line-height: normal;
+    color: inherit;
+    font-family: ${theme.fonts['sans']};
+    font-weight: ${theme.fontWeights['medium']};
+    padding-left: ${theme.space['4']};
+    padding-right: ${theme.space['2']};
+  `,
+)
 
-const Suffix = styled.label`
-  ${({ theme }) => `
-  align-items: center;
-  display: flex;
-  height: ${theme.space['full']};
-  line-height: normal;
-  color: inherit;
-  font-family: ${theme.fonts['sans']};
-  font-weight: ${theme.fontWeights['medium']};
-  padding-left: ${theme.space['2']};
-  padding-right: ${theme.space['2']};
-  `}
-`
+const Suffix = styled.label(
+  ({ theme }) => css`
+    align-items: center;
+    display: flex;
+    height: ${theme.space['full']};
+    line-height: normal;
+    color: inherit;
+    font-family: ${theme.fonts['sans']};
+    font-weight: ${theme.fontWeights['medium']};
+    padding-left: ${theme.space['2']};
+    padding-right: ${theme.space['2']};
+  `,
+)
 
-const InputContainer = styled.div`
-  ${({ theme }) => `
-  overflow: hidden;
-  position: relative;
-  width: ${theme.space['full']};
-  `}
-`
+const InputContainer = styled.div(
+  ({ theme }) => css`
+    overflow: hidden;
+    position: relative;
+    width: ${theme.space['full']};
+  `,
+)
 
 interface InputComponentProps {
   $size: any
 }
 
-const InputComponent = styled.input<InputComponentProps>`
-  ${({ theme }) => `
+const InputComponent = styled.input<InputComponentProps>(
+  ({ theme, disabled, type, $size }) => css`
     background-color: ${theme.colors.transparent};
     position: relative;
     width: ${theme.space['full']};
     height: ${theme.space['full']};
     padding: 0 ${theme.space['4']};
     font-weight: ${theme.fontWeights['medium']};
-    
+
     &::placeholder {
-        color: ${theme.colors.textPlaceholder};
-        font-weight: ${theme.fontWeights['medium']};
+      color: ${theme.colors.textPlaceholder};
+      font-weight: ${theme.fontWeights['medium']};
     }
-  `}
 
-  ${({ disabled, theme }) =>
-    disabled &&
-    `
-        opacity ${theme.opacity['50']};
-        cursor: not-allowed;
-  `}
+    ${disabled &&
+    css`
+      opacity ${theme.opacity['50']};
+      cursor: not-allowed;
+    `}
 
-  ${({ type }) =>
-    type === 'number' &&
-    `
-        font-feature-settings: 'kern' 1,  'tnum' 1, 'calt' 0;
-        font-variant-numeric: tabular-nums;
-  `}
+    ${type === 'number' &&
+    css`
+      font-feature-settings: 'kern' 1, 'tnum' 1, 'calt' 0;
+      font-variant-numeric: tabular-nums;
+    `}
 
-  ${({ $size, theme }) => {
-    switch ($size) {
-      case 'medium':
-        return `
-          font-size: ${theme.fontSizes['base']};
-        `
-      case 'large':
-        return `
-          font-size: ${theme.fontSizes['large']};
-        `
-      case 'extraLarge':
-        return `
-          font-size: ${theme.fontSizes['headingThree']};
-          padding: 0 ${theme.space['6']};
-        `
-      default:
-        return ``
-    }
-  }}
-`
+  ${() => {
+      switch ($size) {
+        case 'medium':
+          return css`
+            font-size: ${theme.fontSizes['base']};
+          `
+        case 'large':
+          return css`
+            font-size: ${theme.fontSizes['large']};
+          `
+        case 'extraLarge':
+          return css`
+            font-size: ${theme.fontSizes['headingThree']};
+            padding: 0 ${theme.space['6']};
+          `
+        default:
+          return ``
+      }
+    }}
+  `,
+)
 
-const Ghost = styled.div<{ $type: HTMLInputElement['type']; $size: any }>`
-  inset: 0;
-  position: absolute;
-  pointer-events: none;
-  white-space: pre;
-  line-height: normal;
-  display: flex;
-  align-items: center;
+const Ghost = styled.div<{ $type: HTMLInputElement['type']; $size: any }>(
+  ({ theme, $type, $size }) => css`
+    inset: 0;
+    position: absolute;
+    pointer-events: none;
+    white-space: pre;
+    line-height: normal;
+    display: flex;
+    align-items: center;
 
-  ${({ theme }) => `
     padding: 0 ${theme.space['4']};
     border-color: ${theme.colors.transparent};
-  `}
 
-  ${({ $type }) =>
-    $type === 'number' &&
-    `
-        font-feature-settings: 'kern' 1,  'tnum' 1, 'calt' 0;
-        font-variant-numeric: tabular-nums;
-  `}
+    ${$type === 'number' &&
+    css`
+      font-feature-settings: 'kern' 1, 'tnum' 1, 'calt' 0;
+      font-variant-numeric: tabular-nums;
+    `}
 
-  ${({ $size, theme }) => {
-    switch ($size) {
-      case 'medium':
-        return `
-          font-size: ${theme.fontSizes['base']};
-        `
-      case 'large':
-        return `
-          font-size: ${theme.fontSizes['large']};
-        `
-      case 'extraLarge':
-        return `
-          font-size: ${theme.fontSizes['headingThree']};
-          padding: 0 ${theme.space['6']};
-        `
-      default:
-        return ``
-    }
-  }}
-`
+    ${() => {
+      switch ($size) {
+        case 'medium':
+          return css`
+            font-size: ${theme.fontSizes['base']};
+          `
+        case 'large':
+          return css`
+            font-size: ${theme.fontSizes['large']};
+          `
+        case 'extraLarge':
+          return css`
+            font-size: ${theme.fontSizes['headingThree']};
+            padding: 0 ${theme.space['6']};
+          `
+        default:
+          return ``
+      }
+    }}
+  `,
+)
 
-const Units = styled.span`
-  ${({ theme }) => `
+const Units = styled.span(
+  ({ theme }) => css`
     color: ${theme.colors.text};
     font-weight: ${theme.fontWeights['medium']};
-  `}
-`
+  `,
+)
 
 type Props = BaseProps & (WithTypeEmail | WithTypeText | WithTypeNumber)
 

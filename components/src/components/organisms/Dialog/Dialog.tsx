@@ -2,12 +2,12 @@ import * as React from 'react'
 import styled, { css } from 'styled-components'
 
 import { ExitSVG } from '@/src'
-import { largerThan } from '@/src/utils/responsiveHelpers'
+import { mq } from '@/src/utils/responsiveHelpers'
 
 import { Modal, Typography } from '../..'
 
-const IconCloseContainer = styled.div`
-  ${({ theme }) => `
+const IconCloseContainer = styled.div(
+  ({ theme }) => css`
     position: absolute;
     top: ${theme.space['2.5']};
     right: ${theme.space['2.5']};
@@ -15,78 +15,78 @@ const IconCloseContainer = styled.div`
     width: ${theme.space['8']};
     opacity: ${theme.opacity['50']};
     cursor: pointer;
-    transition-propery: all;
+    transition-property: all;
     transition-duration: ${theme.transitionDuration['150']};
     transition-timing-function: ${theme.transitionTimingFunction['inOut']};
 
     &:hover {
       opacity: ${theme.opacity['70']};
     }
-  `}
-`
+  `,
+)
 
-const StyledCard = styled.div`
-  ${({ theme }) => css`
+const StyledCard = styled.div(
+  ({ theme }) => css`
     padding: ${theme.space['3.5']};
     border-radius: ${theme.radii['3xLarge']};
     background-color: ${theme.colors.background};
     position: relative;
     width: 100%;
-    ${largerThan.sm`
+    ${mq.sm.min(css`
       width: initial;
-    `}
-  `}
-`
+    `)}
+  `,
+)
 
-const Title = styled(Typography)`
-  ${({ theme }) => `
+const Title = styled(Typography)(
+  ({ theme }) => css`
     font-size: ${theme.fontSizes['headingThree']};
     font-weight: ${theme.fontWeights['bold']};
-  `}
-`
+  `,
+)
 
-const SubTitle = styled(Typography)`
-  ${({ theme }) => `
+const SubTitle = styled(Typography)(
+  ({ theme }) => css`
     font-size: ${theme.fontSizes['base']};
     font-weight: ${theme.fontWeights['medium']};
     color: ${theme.colors.textSecondary};
-  `}
-`
+  `,
+)
 
-const Container = styled.div<{ $center?: boolean }>`
-  display: flex;
-  align-items: center;
-  justify-content: stretch;
-  ${({ $center, theme }) => `
+const Container = styled.div<{ $center?: boolean }>(
+  ({ theme, $center }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: stretch;
     flex-direction: ${$center ? 'column' : 'row'};
     gap: ${theme.space['2']};
     width: ${theme.space.full};
     max-width: ${theme.space['96']};
-  `}
-`
+  `,
+)
 
-const TitleContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  ${({ theme }) => `
+const TitleContainer = styled.div(
+  ({ theme }) => css`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     margin-top: ${theme.space['1.5']};
-  `}
-`
+  `,
+)
 
-const ContentWrapper = styled.div`
-  ${({ theme }) => css`
+const ContentWrapper = styled.div(
+  ({ theme }) => css`
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: ${theme.space['5']};
-    ${largerThan.sm`
+    ${mq.sm.min(css`
       min-width: ${theme.space['64']};
-    `}
-  `}
-`
+    `)}
+  `,
+)
 
 type TitleProps = {
   title?: string | React.ReactNode

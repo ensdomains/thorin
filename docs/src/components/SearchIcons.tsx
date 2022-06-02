@@ -1,7 +1,7 @@
 import * as React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
-import { Input, SearchSVG, Typography, largerThan } from '@ensdomains/thorin'
+import { Input, SearchSVG, Typography, mq } from '@ensdomains/thorin'
 import * as Components from '@ensdomains/thorin'
 
 import { Link } from '~/components'
@@ -30,9 +30,12 @@ const IconGrid = styled.div`
     display: grid;
     gap: ${theme.space['4']};
     grid-template-columns: repeat(auto-fit, minmax(${theme.space['18']}, 1fr));
-    ${largerThan.md`
-          grid-template-columns: repeat(auto-fit, minmax(${theme.space['20']}, 1fr));
-    `}
+    ${mq.md.min(css`
+      grid-template-columns: repeat(
+        auto-fit,
+        minmax(${theme.space['20']}, 1fr)
+      );
+    `)}
   `}
 `
 
@@ -40,9 +43,9 @@ const IconGridInner = styled.div`
   ${({ theme }) => `
   max-width: ${theme.space['18']};
 
-  ${largerThan.md`
-      max-width: ${theme.space['20']};
-  `}
+  ${mq.md.min(css`
+    max-width: ${theme.space['20']};
+  `)}
   `}
 `
 
@@ -80,9 +83,9 @@ const IconNameContainer = styled.div`
   ${({ theme }) => `
     width: ${theme.space['14']};
 
-    ${largerThan.md`
+    ${mq.md.min(css`
       width: ${theme.space['18']};
-    `}
+    `)}
   `}
 `
 
