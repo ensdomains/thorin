@@ -243,6 +243,8 @@ type Props = Omit<FieldBaseProps, 'inline'> & {
   value?: NativeInputProps['value']
   /** The checked attribute of input element */
   checked?: NativeInputProps['checked']
+  /** The initial value for checked of input element */
+  defaultChecked?: NativeInputProps['defaultChecked']
   /** The id attribute of input element. */
   id?: NativeInputProps['id']
   /** The disabled attribute of input element */
