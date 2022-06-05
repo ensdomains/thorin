@@ -269,6 +269,8 @@ type Props = Omit<FieldBaseProps, 'inline'> & {
   size?: 'small' | 'medium' | 'large'
   /** Adds a border to regular variant or uses alternative styling for switch variant. */
   border?: boolean
+  /** Set the input to readonly mode */
+  readOnly?: NativeInputProps['readOnly']
 }
 
 export const Checkbox = React.forwardRef(
