@@ -243,6 +243,8 @@ type Props = Omit<FieldBaseProps, 'inline'> & {
   value?: NativeInputProps['value']
   /** The checked attribute of input element */
   checked?: NativeInputProps['checked']
+  /** The initial value for checked of input element */
+  defaultChecked?: NativeInputProps['defaultChecked']
   /** The id attribute of input element. */
   id?: NativeInputProps['id']
   /** The disabled attribute of input element */
@@ -267,6 +269,8 @@ type Props = Omit<FieldBaseProps, 'inline'> & {
   size?: 'small' | 'medium' | 'large'
   /** Adds a border to regular variant or uses alternative styling for switch variant. */
   border?: boolean
+  /** Set the input to readonly mode */
+  readOnly?: NativeInputProps['readOnly']
 }
 
 export const Checkbox = React.forwardRef(
