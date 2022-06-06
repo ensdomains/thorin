@@ -38,3 +38,13 @@ export type OptionalTitle = AllOrNone<{
   titleId: string
 }>
 export type IconProps = React.SVGProps<SVGSVGElement> & OptionalTitle
+
+// Typescript type for react input elements.
+// Omit ref & key property to avoid collisions with component ref & key property
+export type NativeInputProps = Omit<
+  React.DetailedHTMLProps<
+    React.InputHTMLAttributes<HTMLInputElement>,
+    HTMLInputElement
+  >,
+  'ref' | 'key'
+>

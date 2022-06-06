@@ -18,7 +18,7 @@ const CheckboxWithState = (props: any) => {
         <Checkbox
           id="checkbox-id"
           label="checkbox-label"
-          onChange={(e) => {
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setChecked(e.target.checked)
           }}
           {...props}

@@ -1,10 +1,9 @@
 import * as React from 'react'
 import styled, { FlattenInterpolation, css } from 'styled-components'
 
+import { NativeInputProps } from '../../../types'
 import { Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
-
-type NativeInputProps = React.AllHTMLAttributes<HTMLInputElement>
 
 type BaseProps = FieldBaseProps & {
   /** If the element should attempt to gain focus after it is rendered. */
@@ -44,7 +43,7 @@ type BaseProps = FieldBaseProps & {
   /** A handler for blur events. */
   onBlur?: NativeInputProps['onBlur']
   /** A handler for change events. */
-  onChange?: React.EventHandler<React.ChangeEvent<HTMLInputElement>>
+  onChange?: NativeInputProps['onChange']
   /** A handler for focus events. */
   onFocus?: NativeInputProps['onFocus']
   /** A handler for keydown events. */
@@ -53,7 +52,7 @@ type BaseProps = FieldBaseProps & {
   size?: 'medium' | 'large' | 'extraLarge'
   /** Set of styles  */
   parentStyles?: FlattenInterpolation<any>
-}
+} & Omit<NativeInputProps, 'size' | 'prefix'>
 
 type WithTypeEmail = {
   type?: 'email'

@@ -2,11 +2,9 @@ import * as React from 'react'
 import styled, { FlattenSimpleInterpolation, css } from 'styled-components'
 
 import { Colors } from '@/src/tokens'
-import { DefaultTheme } from '@/src/types'
+import { DefaultTheme, NativeInputProps } from '@/src/types'
 import { Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
-
-type NativeInputProps = React.AllHTMLAttributes<HTMLInputElement>
 
 interface InputProps {
   $size: any
@@ -234,7 +232,7 @@ const Input = styled.input<InputProps>(
   `,
 )
 
-type Props = Omit<FieldBaseProps, 'inline'> & {
+type Props = {
   /** Label content */
   label: React.ReactNode
   /** The name attribute of input element. */
@@ -250,7 +248,7 @@ type Props = Omit<FieldBaseProps, 'inline'> & {
   /** The disabled attribute of input element */
   disabled?: boolean
   /** The handler for change events. */
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
+  onChange?: NativeInputProps['onChange']
   /** The tabindex attribute for input element. */
   tabIndex?: NativeInputProps['tabIndex']
   /** The handler for focus events. */
@@ -271,7 +269,8 @@ type Props = Omit<FieldBaseProps, 'inline'> & {
   border?: boolean
   /** Set the input to readonly mode */
   readOnly?: NativeInputProps['readOnly']
-}
+} & FieldBaseProps &
+  Omit<NativeInputProps, 'size'>
 
 export const Checkbox = React.forwardRef(
   (
@@ -283,6 +282,7 @@ export const Checkbox = React.forwardRef(
       id,
       label,
       labelSecondary,
+      inline,
       name,
       required,
       tabIndex,
@@ -311,7 +311,7 @@ export const Checkbox = React.forwardRef(
         error={error}
         hideLabel={hideLabel}
         id={id}
-        inline
+        inline={inline}
         label={label}
         labelSecondary={labelSecondary}
         required={required}
