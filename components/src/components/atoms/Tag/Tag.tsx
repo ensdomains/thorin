@@ -148,6 +148,8 @@ const ChildContainer = styled.div(
   `,
 )
 
+type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
+
 export type Props = {
   /** Element type of container */
   as?: 'div' | 'span'
@@ -159,7 +161,7 @@ export type Props = {
   size?: 'small' | 'medium'
   /** Color style of tag */
   tone?: 'accent' | 'blue' | 'green' | 'red' | 'secondary'
-}
+} & NativeDivProps
 
 export const Tag = ({
   as = 'div',
@@ -168,9 +170,13 @@ export const Tag = ({
   label,
   size = 'medium',
   tone = 'secondary',
-}: React.PropsWithChildren<Props>) => {
+  ...props
+}: Props) => {
   return (
-    <Container as={as} {...{ $hover: hover, $size: size, $tone: tone }}>
+    <Container
+      as={as}
+      {...{ ...props, $hover: hover, $size: size, $tone: tone }}
+    >
       {label && (
         <LabelContainer>
           <span>{label}</span>

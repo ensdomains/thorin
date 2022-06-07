@@ -46,7 +46,7 @@ const Input = styled.input(
   `,
 )
 
-type NativeInputProps = React.AllHTMLAttributes<HTMLInputElement>
+type NativeInputProps = React.InputHTMLAttributes<HTMLInputElement>
 
 type Props = Exclude<FieldBaseProps, 'inline'> & {
   /** A string or component that represents the input item. */
@@ -54,22 +54,24 @@ type Props = Exclude<FieldBaseProps, 'inline'> & {
   /** The name attribute for input elements. */
   name: NativeInputProps['name']
   /** The value attribute of input elements. */
-  value: NativeInputProps['value']
+  value: string | number
+  /** The inital value of input element */
+  defaultValue: string | number
   /** If true, the radio button is selected. */
   checked?: NativeInputProps['checked']
   /** The id attribute of input element. */
   id?: NativeInputProps['id']
   /** If true, the input is unable to receive user input. */
-  disabled?: boolean
+  disabled?: NativeInputProps['disabled']
   /** The handler for change events. */
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
+  onChange?: NativeInputProps['onChange']
   /** The tabindex attribute for input elements. */
   tabIndex?: NativeInputProps['tabIndex']
   /** The handler for focus events. */
   onFocus?: NativeInputProps['onFocus']
   /** The handler for blur events. */
   onBlur?: NativeInputProps['onBlur']
-}
+} & Omit<NativeInputProps, 'children' | 'value' | 'defaultValue'>
 
 export const RadioButton = React.forwardRef(
   (
@@ -110,11 +112,9 @@ export const RadioButton = React.forwardRef(
         width={width}
       >
         <Input
-          aria-invalid={error ? true : undefined}
-          data-testid="radio"
           ref={inputRef}
-          type="radio"
           {...{
+            ...props,
             disabled,
             name,
             tabIndex,
@@ -123,7 +123,9 @@ export const RadioButton = React.forwardRef(
             onChange,
             onFocus,
             checked,
-            ...props,
+            'aria-invalid': error ? true : undefined,
+            'data-testid': 'radio',
+            type: 'radio',
           }}
         />
       </Field>

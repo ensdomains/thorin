@@ -12,6 +12,7 @@ type State = ReturnType<typeof useFieldIds> | undefined
 const Context = React.createContext<State>(undefined)
 
 type NativeFormProps = React.AllHTMLAttributes<HTMLFormElement>
+type NativeLabelProps = React.LabelHTMLAttributes<HTMLLabelElement>
 
 export type FieldBaseProps = {
   /** Description text or react component. */
@@ -36,7 +37,7 @@ type Props = FieldBaseProps & {
   children: React.ReactElement | ((context: State) => ReactNodeNoStrings)
   /** The id attribute of the label element */
   id?: NativeFormProps['id']
-}
+} & Omit<NativeLabelProps, 'id' | 'children'>
 
 const Label = styled.label(
   ({ theme }) => css`
@@ -47,7 +48,7 @@ const Label = styled.label(
   `,
 )
 
-interface LabelContentProps {
+type LabelContentProps = {
   ids: any
   label: React.ReactNode
   labelSecondary: React.ReactNode
@@ -81,9 +82,10 @@ const LabelContent = ({
   label,
   labelSecondary,
   required,
+  ...props
 }: LabelContentProps) => (
   <LabelContentContainer>
-    <Label {...ids.label}>
+    <Label {...{ ...props, ...ids.label }}>
       {label}{' '}
       {required && (
         <>
@@ -143,6 +145,7 @@ export const Field = ({
   required,
   inline,
   width = 'full',
+  ...props
 }: Props) => {
   const ids = useFieldIds({
     id,
@@ -167,10 +170,14 @@ export const Field = ({
       <ContainerInner>
         {hideLabel ? (
           <VisuallyHidden>
-            <LabelContent {...{ ids, label, labelSecondary, required }} />
+            <LabelContent
+              {...{ ...props, ids, label, labelSecondary, required }}
+            />
           </VisuallyHidden>
         ) : (
-          <LabelContent {...{ ids, label, labelSecondary, required }} />
+          <LabelContent
+            {...{ ...props, ids, label, labelSecondary, required }}
+          />
         )}
         {description && <Description>{description}</Description>}
         {error && (
@@ -184,10 +191,12 @@ export const Field = ({
     <Container $width={width}>
       {hideLabel ? (
         <VisuallyHidden>
-          <LabelContent {...{ ids, label, labelSecondary, required }} />
+          <LabelContent
+            {...{ ...props, ids, label, labelSecondary, required }}
+          />
         </VisuallyHidden>
       ) : (
-        <LabelContent {...{ ids, label, labelSecondary, required }} />
+        <LabelContent {...{ ...props, ids, label, labelSecondary, required }} />
       )}
       {content}
 

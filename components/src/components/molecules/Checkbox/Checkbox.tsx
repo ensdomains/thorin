@@ -2,7 +2,7 @@ import * as React from 'react'
 import styled, { FlattenSimpleInterpolation, css } from 'styled-components'
 
 import { Colors } from '@/src/tokens'
-import { DefaultTheme, NativeInputProps } from '@/src/types'
+import { DefaultTheme } from '@/src/types'
 import { Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
 
@@ -232,13 +232,17 @@ const Input = styled.input<InputProps>(
   `,
 )
 
+type NativeInputProps = React.InputHTMLAttributes<HTMLInputElement>
+
 type Props = {
   /** Label content */
   label: React.ReactNode
   /** The name attribute of input element. */
   name?: NativeInputProps['name']
   /** The value attribute of input element. */
-  value?: NativeInputProps['value']
+  value?: string | number
+  /** The initial value of the input element */
+  defaultValue?: string | number
   /** The checked attribute of input element */
   checked?: NativeInputProps['checked']
   /** The initial value for checked of input element */
@@ -246,7 +250,7 @@ type Props = {
   /** The id attribute of input element. */
   id?: NativeInputProps['id']
   /** The disabled attribute of input element */
-  disabled?: boolean
+  disabled?: NativeInputProps['disabled']
   /** The handler for change events. */
   onChange?: NativeInputProps['onChange']
   /** The tabindex attribute for input element. */
@@ -270,7 +274,10 @@ type Props = {
   /** Set the input to readonly mode */
   readOnly?: NativeInputProps['readOnly']
 } & FieldBaseProps &
-  Omit<NativeInputProps, 'size'>
+  Omit<
+    NativeInputProps,
+    'size' | 'color' | 'type' | 'children' | 'value' | 'defaultValue'
+  >
 
 export const Checkbox = React.forwardRef(
   (
@@ -318,11 +325,9 @@ export const Checkbox = React.forwardRef(
         width={width}
       >
         <Input
-          aria-invalid={error ? true : undefined}
-          data-testid="checkbox"
           ref={inputRef}
-          type="checkbox"
           {...{
+            ...props,
             $background: background,
             $color: color,
             $gradient: gradient,
@@ -337,7 +342,9 @@ export const Checkbox = React.forwardRef(
             onChange,
             onFocus,
             checked,
-            ...props,
+            type: 'checkbox',
+            'aria-invalid': error ? true : undefined,
+            'data-testid': 'checkbox',
           }}
         />
       </Field>

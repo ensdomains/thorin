@@ -120,19 +120,21 @@ const Draggable = () => (
   </DraggableContainer>
 )
 
+type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
+
 type Props = {
   onClose: () => void
   open: boolean
   msToShow?: number
   title: string
   description?: string
-  children?: React.ReactNode
+  children?: NativeDivProps['children']
   top?: Space
   left?: Space
   right?: Space
   bottom?: Space
   variant?: 'touch' | 'desktop'
-}
+} & Omit<NativeDivProps, 'title'>
 
 type InternalProps = {
   state: TransitionState
@@ -148,16 +150,20 @@ const DesktopToast = ({
   bottom,
   state,
   children,
+  ...props
 }: Props & InternalProps) => {
   return (
     <Container
-      $bottom={bottom}
-      $left={left}
-      $mobile={false}
-      $right={right}
-      $state={state}
-      $top={top}
-      data-testid="toast-desktop"
+      {...{
+        ...props,
+        $bottom: bottom,
+        $left: left,
+        $mobile: false,
+        $right: right,
+        $state: state,
+        $top: top,
+        'data-testid': 'toast-desktop',
+      }}
     >
       <IconCloseContainer
         as={ExitSVG}
@@ -192,6 +198,7 @@ export const TouchToast = ({
   children,
   popped,
   setPopped,
+  ...props
 }: Props &
   InternalProps & {
     popped: boolean
@@ -298,17 +305,20 @@ export const TouchToast = ({
 
   return (
     <Container
-      $bottom={bottom}
-      $left={left}
-      $mobile
-      $popped={popped}
-      $right={right}
-      $state={state}
-      data-testid="toast-touch"
       ref={ref}
-      style={{ top: `${calcTop}px` }}
-      onClick={() => setPopped(true)}
-      onTouchEnd={() => setTouches((touches) => [...touches, undefined])}
+      {...{
+        ...props,
+        $bottom: bottom,
+        $left: left,
+        $mobile: true,
+        $popped: popped,
+        $right: right,
+        $state: state,
+        'data-testid': 'toast-touch',
+        style: { top: `${calcTop}px` },
+        onClick: () => setPopped(true),
+        onTouchEnd: () => setTouches((touches) => [...touches, undefined]),
+      }}
     >
       <Title variant="large" weight="bold">
         {title}

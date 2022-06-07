@@ -10,6 +10,8 @@ import { ReactComponent as IconDownIndicatorSvg } from '@/src/icons/DownIndicato
 
 type Size = 'small' | 'medium' | 'large'
 
+type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
+
 type BaseProps = {
   /** The url of the avatar icon. */
   avatar?: AvatarProps['src']
@@ -24,7 +26,7 @@ type BaseProps = {
   alignDropdown?: 'left' | 'right'
   /** The size and styling of the profile button. */
   size?: Size
-}
+} & Omit<NativeDivProps, 'children'>
 
 interface ContainerProps {
   $size: Size
@@ -188,6 +190,7 @@ export const Profile = ({
   address,
   ensName,
   alignDropdown = 'left',
+  ...props
 }: Props) => {
   const [isOpen, setIsOpen] = React.useState(false)
 
@@ -198,6 +201,7 @@ export const Profile = ({
       >
         <Container
           {...{
+            ...props,
             $size: size,
             $hasChevron: true,
             $open: isOpen,
@@ -214,10 +218,11 @@ export const Profile = ({
   return (
     <Container
       {...{
+        ...props,
         $size: size,
         $open: isOpen,
+        'data-testid': 'profile',
       }}
-      data-testid="profile"
     >
       <ProfileInner {...{ size, avatar, address, ensName }} />
     </Container>

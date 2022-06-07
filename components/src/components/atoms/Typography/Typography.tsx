@@ -92,6 +92,8 @@ const Container = styled.div<ContainerProps>(
   `,
 )
 
+type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
+
 type Props = {
   /** element type of container */
   as?:
@@ -107,20 +109,19 @@ type Props = {
     | 'p'
     | 'span'
     | 'i'
-  children?: React.ReactNode
   /** If true, will truncate text with an elipsis on overflow. If false, text will break on the next word. */
   ellipsis?: boolean
   /** Font size and */
   variant?: Variants
   /** The classname attribute of contianer. */
-  className?: string
+  className?: NativeDivProps['className']
   /** The tokens.fontWeight value */
   weight?: Weights
   /** The  */
   font?: Fonts
   color?: Colors
   size?: 'small' | 'base'
-}
+} & Omit<NativeDivProps, 'color'>
 
 export const Typography = React.forwardRef<HTMLElement, Props>(
   (
@@ -134,6 +135,7 @@ export const Typography = React.forwardRef<HTMLElement, Props>(
       font = 'sans',
       color,
       size,
+      ...props
     },
     ref,
   ) => {
@@ -141,6 +143,7 @@ export const Typography = React.forwardRef<HTMLElement, Props>(
       <Container
         as={as}
         {...{
+          ...props,
           className,
           $variant: variant,
           $ellipsis: ellipsis ? true : undefined,

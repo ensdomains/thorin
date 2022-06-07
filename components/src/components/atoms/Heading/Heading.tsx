@@ -81,21 +81,23 @@ const HeadingContainer = styled.div<HeadingContainerProps>(
   `,
 )
 
+type NativeDivAttributes = React.HTMLAttributes<HTMLDivElement>
+
 type Props = {
   /** CSS property of textAlign */
   align?: React.CSSProperties['textAlign']
   /** JSX element to render. */
   as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'legend'
-  children?: React.ReactNode
+  children?: NativeDivAttributes['children']
   color?: Colors
   /** The id attribute of element */
-  id?: string
+  id?: NativeDivAttributes['id']
   /** CSS property of text-transform */
   transform?: React.CSSProperties['textTransform']
   /**  */
   responsive?: boolean
   level?: '1' | '2'
-}
+} & Omit<NativeDivAttributes, 'color'>
 
 export const Heading = React.forwardRef(
   (
@@ -108,6 +110,7 @@ export const Heading = React.forwardRef(
       responsive,
       transform,
       color,
+      ...props
     }: Props,
     ref: React.ForwardedRef<HTMLDivElement>,
   ) => (
@@ -118,6 +121,7 @@ export const Heading = React.forwardRef(
       $textAlign={align}
       $textTransform={transform}
       {...{
+        ...props,
         as,
         id,
         ref,

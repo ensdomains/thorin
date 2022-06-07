@@ -22,7 +22,7 @@ type BaseProps = {
   center?: boolean
   children: NativeButtonProps['children']
   /** If true, prevents user interaction with button. */
-  disabled?: boolean
+  disabled?: NativeButtonProps['disabled']
   /** Insert a ReactNode before the children */
   prefix?: ReactNodeNoStrings
   /** Shows loading spinner inside button */
@@ -46,8 +46,8 @@ type BaseProps = {
   /** If true, removes the box-shadow */
   shadowless?: boolean
   /** The handler for click events. */
-  onClick?: React.MouseEventHandler<HTMLElement> | undefined
-}
+  onClick?: NativeButtonProps['onClick']
+} & Omit<NativeButtonProps, 'prefix' | 'size'>
 
 type WithTone = {
   /** Sets the color scheme when variant is 'primary' or 'action' */
@@ -62,7 +62,7 @@ type WithoutTone = {
 
 type WithAnchor = {
   /** The href attribute for the anchor element. */
-  href?: string
+  href?: NativeAnchorProps['href']
   /** The rel attribute for the anchor element. */
   rel?: NativeAnchorProps['rel']
   /** The target attribute for the anchor element. */
@@ -320,6 +320,7 @@ export const Button = React.forwardRef(
       pressed = false,
       shadowless = false,
       as: asProp,
+      ...props
     }: Props,
     ref: React.Ref<HTMLButtonElement>,
   ) => {
@@ -349,6 +350,7 @@ export const Button = React.forwardRef(
     return (
       <ButtonElement
         {...{
+          ...props,
           as: asProp as any,
           $variant: variant,
           $tone: tone,

@@ -45,7 +45,7 @@ const TextArea = styled.textarea<{ $error?: boolean }>(
   `,
 )
 
-type NativeTextareaProps = React.AllHTMLAttributes<HTMLTextAreaElement>
+type NativeTextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement>
 
 type Props = FieldBaseProps & {
   /** If true, the input will automatically correct words it marks as spelling errors. */
@@ -55,11 +55,11 @@ type Props = FieldBaseProps & {
   /** The initial value. Useful for detecting changes in value. */
   defaultValue?: string | number
   /** If true, prevents user interaction. */
-  disabled?: boolean
+  disabled?: NativeTextareaProps['disabled']
   /** The id attribute of the textarea element. */
   id?: NativeTextareaProps['id']
   /** The name attribute of the textarea element. */
-  name?: string
+  name?: NativeTextareaProps['name']
   /** The maximum number of characters allowed. */
   maxLength?: NativeTextareaProps['maxLength']
   /** The placeholder attribute for textarea. */
@@ -75,12 +75,12 @@ type Props = FieldBaseProps & {
   /** The value attribute of textarea. */
   value?: string | number
   /** The handler for change events. */
-  onChange?: React.EventHandler<React.ChangeEvent<HTMLTextAreaElement>>
+  onChange?: NativeTextareaProps['onChange']
   /** The handler for blur events. */
   onBlur?: NativeTextareaProps['onBlur']
   /** The handler for focus events. */
   onFocus?: NativeTextareaProps['onFocus']
-}
+} & Omit<NativeTextareaProps, 'children' | 'value' | 'defaultValue'>
 
 export const Textarea = React.forwardRef(
   (
@@ -108,6 +108,7 @@ export const Textarea = React.forwardRef(
       onChange,
       onBlur,
       onFocus,
+      ...props
     }: Props,
     ref: React.Ref<HTMLTextAreaElement>,
   ) => {
@@ -128,24 +129,25 @@ export const Textarea = React.forwardRef(
         width={width}
       >
         <TextArea
-          aria-invalid={hasError}
-          autoCorrect={autoCorrect}
-          autoFocus={autoFocus}
-          defaultValue={defaultValue}
-          disabled={disabled}
-          maxLength={maxLength}
-          name={name}
-          placeholder={placeholder}
-          readOnly={readOnly}
-          ref={inputRef}
-          rows={rows}
-          spellCheck={spellCheck}
-          tabIndex={tabIndex}
-          value={value}
-          onBlur={onBlur}
-          onChange={onChange}
-          onFocus={onFocus}
           {...{
+            ...props,
+            'aria-invalid': hasError,
+            autoCorrect: autoCorrect,
+            autoFocus: autoFocus,
+            defaultValue: defaultValue,
+            disabled: disabled,
+            maxLength: maxLength,
+            name: name,
+            placeholder: placeholder,
+            readOnly: readOnly,
+            ref: inputRef,
+            rows: rows,
+            spellCheck: spellCheck,
+            tabIndex: tabIndex,
+            value: value,
+            onBlur: onBlur,
+            onChange: onChange,
+            onFocus: onFocus,
             $error: hasError,
           }}
         />

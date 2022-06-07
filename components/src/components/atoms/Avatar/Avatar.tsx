@@ -1,6 +1,8 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 
+type NativeImgAttributes = React.ImgHTMLAttributes<HTMLImageElement>
+
 type Shape = 'circle' | 'square'
 
 interface Container {
@@ -85,17 +87,18 @@ export type Props = {
   /** If true, removes the border around the avatar. */
   noBorder?: boolean
   /** Uses tokens space settings to set the size */
-  src?: string
+  src?: NativeImgAttributes['src']
   /** The shape of the avatar. */
   shape?: Shape
   // as?: 'img' | React.ComponentType
-}
+} & Omit<NativeImgAttributes, 'decoding' | 'alt' | 'onError' | 'children'>
 
 export const Avatar = ({
   label,
   noBorder = false,
   shape = 'circle',
   src,
+  ...props
 }: Props) => {
   const [showImage, setShowImage] = React.useState(!!src)
 
@@ -104,6 +107,7 @@ export const Avatar = ({
       {showImage ? (
         <Img
           {...{
+            ...props,
             decoding: 'async',
             src: src,
             alt: label,

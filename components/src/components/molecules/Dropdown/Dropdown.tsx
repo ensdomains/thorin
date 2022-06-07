@@ -5,6 +5,13 @@ import { Button, ButtonProps } from '@/src/components/atoms/Button'
 import { Colors } from '@/src/tokens'
 import { ReactComponent as IconDownIndicatorSvg } from '@/src/icons/DownIndicator.svg'
 
+const Container = styled.div(
+  () => css`
+    max-width: max-content;
+    position: relative;
+  `,
+)
+
 type DropdownItemObject = {
   label: string
   onClick(): void
@@ -341,6 +348,8 @@ const Chevron = styled(IconDownIndicatorSvg)<{ $open: boolean }>(
   `,
 )
 
+type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
+
 type Props = {
   children?: React.ReactNode
   buttonProps?: ButtonProps
@@ -354,7 +363,7 @@ type Props = {
   label?: React.ReactNode
   menuLabelAlign?: 'flex-start' | 'flex-end' | 'center'
   isOpen?: boolean
-}
+} & NativeDivProps
 
 type PropsWithIsOpen = {
   isOpen: boolean
@@ -383,12 +392,14 @@ export const Dropdown = ({
   keepMenuOnTop = false,
   size = 'medium',
   label,
+  isOpen: _isOpen,
+  setIsOpen: _setIsOpen,
   ...props
 }: Props & (PropsWithIsOpen | PropsWithoutIsOpen)) => {
   const dropdownRef = React.useRef<any>()
   const [internalIsOpen, internalSetIsOpen] = React.useState(false)
-  const [isOpen, setIsOpen] = props.setIsOpen
-    ? [props.isOpen, props.setIsOpen]
+  const [isOpen, setIsOpen] = _setIsOpen
+    ? [_isOpen, _setIsOpen]
     : [internalIsOpen, internalSetIsOpen]
 
   const handleClickOutside = (e: any) => {
@@ -410,11 +421,7 @@ export const Dropdown = ({
   }, [dropdownRef, isOpen])
 
   return (
-    <div
-      data-testid="dropdown"
-      ref={dropdownRef}
-      style={{ maxWidth: 'max-content', position: 'relative' }}
-    >
+    <Container ref={dropdownRef} {...{ ...props, 'data-testid': 'dropdown' }}>
       {!children && inner && (
         <InnerMenuButton
           {...{ $open: isOpen, $size: size }}
@@ -464,7 +471,7 @@ export const Dropdown = ({
           labelAlign: menuLabelAlign,
         }}
       />
-    </div>
+    </Container>
   )
 }
 

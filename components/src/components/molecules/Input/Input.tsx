@@ -1,9 +1,10 @@
 import * as React from 'react'
 import styled, { FlattenInterpolation, css } from 'styled-components'
 
-import { NativeInputProps } from '../../../types'
 import { Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
+
+type NativeInputProps = React.InputHTMLAttributes<HTMLInputElement>
 
 type BaseProps = FieldBaseProps & {
   /** If the element should attempt to gain focus after it is rendered. */
@@ -15,13 +16,13 @@ type BaseProps = FieldBaseProps & {
   /** The initial value of the input. Useful for checking if the value of the input has changed. */
   defaultValue?: string | number
   /** Disables input from receiving user input. */
-  disabled?: boolean
+  disabled?: NativeInputProps['disabled']
   /** The id attribute of the input element. */
   id?: NativeInputProps['id']
   /** A hint to the browser of what type of input the input will receive. Allows browsers to display the corresponding keyboard. */
   inputMode?: NativeInputProps['inputMode']
   /** The name attribute of the input element. */
-  name?: string
+  name?: NativeInputProps['name']
   /** The placeholder attribute of the input element. */
   placeholder?: NativeInputProps['placeholder']
   /** A string or component inserted in front of the input element. */
@@ -35,7 +36,7 @@ type BaseProps = FieldBaseProps & {
   /** The tabindex attribute of the input element. */
   tabIndex?: NativeInputProps['tabIndex']
   /** The data type the input. */
-  type?: 'email' | 'number' | 'text'
+  type?: 'number' | 'text' | 'email'
   /** Inserts text after the input text. */
   units?: string
   /** The value attribute of the input element. */
@@ -47,12 +48,15 @@ type BaseProps = FieldBaseProps & {
   /** A handler for focus events. */
   onFocus?: NativeInputProps['onFocus']
   /** A handler for keydown events. */
-  onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>
+  onKeyDown?: NativeInputProps['onKeyDown']
   /** Sets the height of the input element. */
   size?: 'medium' | 'large' | 'extraLarge'
   /** Set of styles  */
   parentStyles?: FlattenInterpolation<any>
-} & Omit<NativeInputProps, 'size' | 'prefix'>
+} & Omit<
+    NativeInputProps,
+    'size' | 'prefix' | 'children' | 'value' | 'defaultValue' | 'type'
+  >
 
 type WithTypeEmail = {
   type?: 'email'
@@ -383,30 +387,32 @@ export const Input = React.forwardRef(
 
             <InputContainer>
               <InputComponent
-                $size={size}
-                aria-invalid={hasError}
-                autoComplete={autoComplete}
-                autoCorrect={autoCorrect}
-                autoFocus={autoFocus}
-                defaultValue={defaultValue}
-                disabled={disabled}
-                inputMode={inputMode}
-                name={name}
-                placeholder={placeholderText}
-                readOnly={readOnly}
                 ref={inputRef}
-                spellCheck={spellCheck}
-                tabIndex={tabIndex}
-                type={inputType}
-                value={value}
-                onBlur={onBlur}
-                onChange={onChange}
-                onFocus={onFocus}
-                onInput={handleInput}
-                onKeyDown={type === 'number' ? handleKeyDown : onKeyDown}
-                onWheel={type === 'number' ? handleWheel : undefined}
-                {...props}
-                {...ids?.content}
+                {...{
+                  ...props,
+                  ...ids?.content,
+                  $size: size,
+                  'aria-invalid': hasError,
+                  autoComplete: autoComplete,
+                  autoCorrect: autoCorrect,
+                  autoFocus: autoFocus,
+                  defaultValue: defaultValue,
+                  disabled: disabled,
+                  inputMode: inputMode,
+                  name: name,
+                  placeholder: placeholderText,
+                  readOnly: readOnly,
+                  spellCheck: spellCheck,
+                  tabIndex: tabIndex,
+                  type: inputType,
+                  value: value,
+                  onBlur: onBlur,
+                  onChange: onChange,
+                  onFocus: onFocus,
+                  onInput: handleInput,
+                  onKeyDown: type === 'number' ? handleKeyDown : onKeyDown,
+                  onWheel: type === 'number' ? handleWheel : undefined,
+                }}
               />
 
               {units && state.ghostValue && (
