@@ -10,3 +10,7 @@ export const shortenAddress = (
 
   return `${address.slice(0, leftSlice)}...${address.slice(-rightSlice)}`
 }
+
+export const getTestId = (props: any, fallback: string): string => {
+  return props['data-testid'] ? String(props['data-testid']) : fallback
+}

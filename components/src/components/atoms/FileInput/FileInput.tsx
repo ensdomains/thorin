@@ -17,7 +17,8 @@ type Context = {
 
 const initialState: Context = {}
 
-type NativeInputProps = React.AllHTMLAttributes<HTMLInputElement>
+type NativeInputProps = React.InputHTMLAttributes<HTMLInputElement>
+
 export type Props = {
   /** The accept attribute of input element */
   accept?: NativeInputProps['accept']
@@ -36,7 +37,7 @@ export type Props = {
   /** Size in megabytes */
   maxSize?: number
   /** The name attribute of input element. */
-  name?: string
+  name?: NativeInputProps['name']
   /** The required attribute of input element */
   required?: NativeInputProps['required']
   /** The tabindex attribute of input element */
@@ -51,7 +52,10 @@ export type Props = {
   onFocus?: NativeInputProps['onFocus']
   /** An event handler that is fired after the context.reset function is fired. Wrap this function in useCAllback to maintain referential equality. */
   onReset?(): void
-}
+} & Omit<
+  NativeInputProps,
+  'onReset' | 'onChange' | 'onError' | 'defaultValue' | 'children' | 'type'
+>
 
 export const FileInput = React.forwardRef(
   (
@@ -72,6 +76,7 @@ export const FileInput = React.forwardRef(
       onError,
       onFocus,
       onReset,
+      ...props
     }: Props,
     ref: React.Ref<HTMLDivElement>,
   ) => {
@@ -208,6 +213,8 @@ export const FileInput = React.forwardRef(
       <div ref={ref}>
         <VisuallyHidden>
           <input
+            {...props}
+            {...ids.content}
             accept={accept}
             aria-invalid={hasError}
             autoFocus={autoFocus}
@@ -220,7 +227,6 @@ export const FileInput = React.forwardRef(
             onBlur={handleBlur}
             onChange={handleChange}
             onFocus={handleFocus}
-            {...ids.content}
           />
         </VisuallyHidden>
 

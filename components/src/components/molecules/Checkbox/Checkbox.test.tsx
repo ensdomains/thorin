@@ -16,9 +16,10 @@ const CheckboxWithState = (props: any) => {
         hello there
         {checked ? <div>checked</div> : <div>unchecked</div>}
         <Checkbox
+          aria-invalid="sdfasd"
           id="checkbox-id"
           label="checkbox-label"
-          onChange={(e) => {
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setChecked(e.target.checked)
           }}
           {...props}

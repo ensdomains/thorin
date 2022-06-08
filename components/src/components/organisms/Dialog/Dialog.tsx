@@ -116,15 +116,16 @@ type BlankProps = {
 }
 
 type Props = BaseProps & (ClosableProps | ActionableProps | BlankProps)
-
+type ModalProps = React.ComponentProps<typeof Modal>
 const ModalWithTitle = ({
   open,
   onDismiss,
   title,
   subtitle,
   children,
-}: React.ComponentProps<typeof Modal> & TitleProps) => (
-  <Modal {...{ open, onDismiss }}>
+  ...props
+}: Omit<ModalProps, 'title'> & TitleProps) => (
+  <Modal {...{ ...props, open, onDismiss }}>
     <StyledCard>
       <ContentWrapper>
         <TitleContainer>
@@ -149,11 +150,17 @@ export const Dialog = ({
   ...props
 }: Props) => {
   if (variant === 'actionable') {
-    const { trailing, leading, title, subtitle, center } =
+    const { trailing, leading, title, subtitle, center, ...actionProps } =
       props as ActionableProps
 
     return (
-      <ModalWithTitle {...{ open, onDismiss, title, subtitle }}>
+      <ModalWithTitle
+        {...actionProps}
+        open={open}
+        subtitle={subtitle}
+        title={title}
+        onDismiss={onDismiss}
+      >
         {children}
         {(leading || trailing) && (
           <Container {...{ $center: center }}>
@@ -164,10 +171,16 @@ export const Dialog = ({
       </ModalWithTitle>
     )
   } else if (variant === 'closable') {
-    const { title, subtitle } = props as ClosableProps
+    const { title, subtitle, ...closableProps } = props as ClosableProps
 
     return (
-      <ModalWithTitle {...{ open, onDismiss, title, subtitle }}>
+      <ModalWithTitle
+        {...closableProps}
+        open={open}
+        subtitle={subtitle}
+        title={title}
+        onDismiss={onDismiss}
+      >
         {children}
         {onDismiss && (
           <IconCloseContainer

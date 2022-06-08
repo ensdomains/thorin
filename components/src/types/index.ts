@@ -10,7 +10,7 @@ export type AllOrNone<T> = T | { [K in keyof T]?: never }
  */
 export type ReactNodeNoStrings =
   | React.ReactElement
-  | React.ReactNodeArray
+  | React.ReactNode[]
   | boolean
   | null
   | undefined

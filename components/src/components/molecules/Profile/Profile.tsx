@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 
-import { shortenAddress } from '../../../utils/utils'
+import { getTestId, shortenAddress } from '../../../utils/utils'
 
 import { Typography } from '../..'
 import { Avatar, Props as AvatarProps } from '../../atoms/Avatar'
@@ -9,6 +9,8 @@ import { Dropdown, DropdownItem } from '../Dropdown/Dropdown'
 import { ReactComponent as IconDownIndicatorSvg } from '@/src/icons/DownIndicator.svg'
 
 type Size = 'small' | 'medium' | 'large'
+
+type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 
 type BaseProps = {
   /** The url of the avatar icon. */
@@ -24,7 +26,7 @@ type BaseProps = {
   alignDropdown?: 'left' | 'right'
   /** The size and styling of the profile button. */
   size?: Size
-}
+} & Omit<NativeDivProps, 'children'>
 
 interface ContainerProps {
   $size: Size
@@ -188,6 +190,7 @@ export const Profile = ({
   address,
   ensName,
   alignDropdown = 'left',
+  ...props
 }: Props) => {
   const [isOpen, setIsOpen] = React.useState(false)
 
@@ -197,11 +200,10 @@ export const Profile = ({
         {...{ items: dropdownItems, isOpen, setIsOpen, align: alignDropdown }}
       >
         <Container
-          {...{
-            $size: size,
-            $hasChevron: true,
-            $open: isOpen,
-          }}
+          {...props}
+          $hasChevron
+          $open={isOpen}
+          $size={size}
           onClick={() => setIsOpen(!isOpen)}
         >
           <ProfileInner {...{ size, avatar, address, ensName }} />
@@ -214,10 +216,11 @@ export const Profile = ({
   return (
     <Container
       {...{
-        $size: size,
-        $open: isOpen,
+        ...props,
+        'data-testid': getTestId(props, 'profile'),
       }}
-      data-testid="profile"
+      $open={isOpen}
+      $size={size}
     >
       <ProfileInner {...{ size, avatar, address, ensName }} />
     </Container>

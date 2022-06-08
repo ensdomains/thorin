@@ -4,6 +4,14 @@ import styled, { css } from 'styled-components'
 import { Button, ButtonProps } from '@/src/components/atoms/Button'
 import { Colors } from '@/src/tokens'
 import { ReactComponent as IconDownIndicatorSvg } from '@/src/icons/DownIndicator.svg'
+import { getTestId } from '../../../utils/utils'
+
+const Container = styled.div(
+  () => css`
+    max-width: max-content;
+    position: relative;
+  `,
+)
 
 type DropdownItemObject = {
   label: string
@@ -15,7 +23,7 @@ type DropdownItemObject = {
 export type DropdownItem = DropdownItemObject | React.ReactNode
 
 interface DropdownMenuContainer {
-  $opened: boolean
+  $opened?: boolean
   $inner: boolean
   $shortThrow: boolean
   $align: 'left' | 'right'
@@ -186,7 +194,7 @@ type DropdownMenuProps = {
   /** An array of objects conforming to the DropdownItem interface. */
   items: DropdownItem[]
   /** If true, makes the menu visible. */
-  isOpen: boolean
+  isOpen?: boolean
   /** A mutation function for the isOpen variable. */
   setIsOpen: (isOpen: boolean) => void
   /** Sets the width in the number of pixels. Must be at least 150. */
@@ -249,7 +257,7 @@ const DropdownMenu = ({
 
 interface InnerMenuButton {
   $size: 'small' | 'medium'
-  $open: boolean
+  $open?: boolean
 }
 
 const InnerMenuButton = styled.button<InnerMenuButton>(
@@ -316,7 +324,7 @@ const InnerMenuButton = styled.button<InnerMenuButton>(
   `,
 )
 
-const Chevron = styled(IconDownIndicatorSvg)<{ $open: boolean }>(
+const Chevron = styled(IconDownIndicatorSvg)<{ $open?: boolean }>(
   ({ theme, $open }) => css`
     margin-left: ${theme.space['1']};
     width: ${theme.space['3']};
@@ -341,6 +349,8 @@ const Chevron = styled(IconDownIndicatorSvg)<{ $open: boolean }>(
   `,
 )
 
+type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
+
 type Props = {
   children?: React.ReactNode
   buttonProps?: ButtonProps
@@ -354,7 +364,7 @@ type Props = {
   label?: React.ReactNode
   menuLabelAlign?: 'flex-start' | 'flex-end' | 'center'
   isOpen?: boolean
-}
+} & NativeDivProps
 
 type PropsWithIsOpen = {
   isOpen: boolean
@@ -383,12 +393,14 @@ export const Dropdown = ({
   keepMenuOnTop = false,
   size = 'medium',
   label,
+  isOpen: _isOpen,
+  setIsOpen: _setIsOpen,
   ...props
 }: Props & (PropsWithIsOpen | PropsWithoutIsOpen)) => {
   const dropdownRef = React.useRef<any>()
   const [internalIsOpen, internalSetIsOpen] = React.useState(false)
-  const [isOpen, setIsOpen] = props.setIsOpen
-    ? [props.isOpen, props.setIsOpen]
+  const [isOpen, setIsOpen] = _setIsOpen
+    ? [_isOpen, _setIsOpen]
     : [internalIsOpen, internalSetIsOpen]
 
   const handleClickOutside = (e: any) => {
@@ -410,14 +422,14 @@ export const Dropdown = ({
   }, [dropdownRef, isOpen])
 
   return (
-    <div
-      data-testid="dropdown"
+    <Container
       ref={dropdownRef}
-      style={{ maxWidth: 'max-content', position: 'relative' }}
+      {...{ ...props, 'data-testid': getTestId(props, 'dropdown') }}
     >
       {!children && inner && (
         <InnerMenuButton
-          {...{ $open: isOpen, $size: size }}
+          $open={isOpen}
+          $size={size}
           onClick={() => setIsOpen(!isOpen)}
         >
           {label}
@@ -449,22 +461,20 @@ export const Dropdown = ({
       })}
 
       <DropdownMenu
+        align={align}
+        inner={inner}
+        isOpen={isOpen}
+        items={items}
+        keepMenuOnTop={keepMenuOnTop}
+        labelAlign={menuLabelAlign}
+        setIsOpen={setIsOpen}
+        shortThrow={shortThrow}
         width={
           dropdownRef.current &&
           dropdownRef.current.getBoundingClientRect().width.toFixed(2)
         }
-        {...{
-          align,
-          inner,
-          isOpen,
-          items,
-          setIsOpen,
-          shortThrow,
-          keepMenuOnTop,
-          labelAlign: menuLabelAlign,
-        }}
       />
-    </div>
+    </Container>
   )
 }
 

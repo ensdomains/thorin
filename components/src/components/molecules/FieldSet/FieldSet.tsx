@@ -5,8 +5,6 @@ import { ReactNodeNoStrings } from '../../../types'
 import { Heading, Tag } from '../..'
 import { TagProps } from '../../atoms/Tag'
 
-type NativeFieldSetProps = React.AllHTMLAttributes<HTMLFieldSetElement>
-
 const Container = styled.fieldset(
   ({ theme }) => css`
     display: flex;
@@ -48,6 +46,8 @@ const ChildrenContainer = styled.div(
   `,
 )
 
+type NativeFieldSetProps = React.FieldsetHTMLAttributes<HTMLFieldSetElement>
+
 export type Props = {
   children: ReactNodeNoStrings
   /** Description content */
@@ -70,7 +70,7 @@ export type Props = {
         name: string
         tone: TagProps['tone']
       }
-}
+} & Omit<NativeFieldSetProps, 'children'>
 
 export const FieldSet = ({
   children,
@@ -80,6 +80,7 @@ export const FieldSet = ({
   legend,
   name,
   status,
+  ...props
 }: Props) => {
   let statusText: string | undefined
   let statusTone: TagProps['tone']
@@ -107,7 +108,7 @@ export const FieldSet = ({
   }
 
   return (
-    <Container disabled={disabled} form={form} name={name}>
+    <Container {...props} disabled={disabled} form={form} name={name}>
       <ContainerInner>
         <Row>
           <Heading as="legend" level="2" responsive>

@@ -25,18 +25,15 @@ const Container = styled.div<{ $shadow?: boolean }>(
   `,
 )
 
+type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 export type Props = {
   /** Adds shadow when theme is in light mode.  */
   shadow?: boolean
-}
+} & NativeDivProps
 
-export const Card = ({ children, shadow }: React.PropsWithChildren<Props>) => {
+export const Card = ({ children, shadow, ...props }: Props) => {
   return (
-    <Container
-      {...{
-        $shadow: shadow,
-      }}
-    >
+    <Container {...props} $shadow={shadow}>
       {children}
     </Container>
   )

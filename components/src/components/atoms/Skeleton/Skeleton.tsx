@@ -29,29 +29,22 @@ const ContainerInner = styled.span<{ $active?: boolean }>(
   `,
 )
 
+type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
+
 type Props = {
   /** An alternative element type to render the component as.*/
   as?: 'span'
   /** If true, hides the content and shows the skeleton style. */
   loading?: boolean
-}
+} & NativeDivProps
 
-export const Skeleton = ({
-  as,
-  children,
-  loading,
-}: React.PropsWithChildren<Props>) => {
+export const Skeleton = ({ as, children, loading, ...props }: Props) => {
   const groupLoading = React.useContext(Context)
   const active = loading ?? groupLoading
+
   return (
-    <Container {...{ $active: active, as }}>
-      <ContainerInner
-        {...{
-          $active: active,
-        }}
-      >
-        {children}
-      </ContainerInner>
+    <Container {...props} $active={active} as={as}>
+      <ContainerInner $active={active}>{children}</ContainerInner>
     </Container>
   )
 }

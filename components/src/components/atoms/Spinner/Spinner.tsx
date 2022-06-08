@@ -38,21 +38,23 @@ const Container = styled.div<{ $size: 'small' | 'large'; $color: Colors }>(
   `,
 )
 
+type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
+
 type Props = {
   /** Hidden text used for accessibilty. */
   accessibilityLabel?: string
   /** A tokens 'mode' color value */
   color?: Colors
   size?: 'small' | 'large'
-}
+} & Omit<NativeDivProps, 'children' | 'color'>
 
 export const Spinner = React.forwardRef(
   (
-    { accessibilityLabel, size = 'small', color = 'text' }: Props,
+    { accessibilityLabel, size = 'small', color = 'text', ...props }: Props,
     ref: React.Ref<HTMLElement>,
   ) => {
     return (
-      <Container $color={color} $size={size} ref={ref as any}>
+      <Container $color={color} $size={size} ref={ref as any} {...props}>
         {accessibilityLabel && (
           <VisuallyHidden>{accessibilityLabel}</VisuallyHidden>
         )}

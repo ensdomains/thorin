@@ -5,8 +5,7 @@ import { Colors } from '@/src/tokens'
 import { DefaultTheme } from '@/src/types'
 import { Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
-
-type NativeInputProps = React.AllHTMLAttributes<HTMLInputElement>
+import { getTestId } from '../../../utils/utils'
 
 interface InputProps {
   $size: any
@@ -234,13 +233,17 @@ const Input = styled.input<InputProps>(
   `,
 )
 
-type Props = Omit<FieldBaseProps, 'inline'> & {
+type NativeInputProps = React.InputHTMLAttributes<HTMLInputElement>
+
+type Props = {
   /** Label content */
   label: React.ReactNode
   /** The name attribute of input element. */
   name?: NativeInputProps['name']
   /** The value attribute of input element. */
-  value?: NativeInputProps['value']
+  value?: string | number
+  /** The initial value of the input element */
+  defaultValue?: string | number
   /** The checked attribute of input element */
   checked?: NativeInputProps['checked']
   /** The initial value for checked of input element */
@@ -248,9 +251,9 @@ type Props = Omit<FieldBaseProps, 'inline'> & {
   /** The id attribute of input element. */
   id?: NativeInputProps['id']
   /** The disabled attribute of input element */
-  disabled?: boolean
+  disabled?: NativeInputProps['disabled']
   /** The handler for change events. */
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
+  onChange?: NativeInputProps['onChange']
   /** The tabindex attribute for input element. */
   tabIndex?: NativeInputProps['tabIndex']
   /** The handler for focus events. */
@@ -271,7 +274,18 @@ type Props = Omit<FieldBaseProps, 'inline'> & {
   border?: boolean
   /** Set the input to readonly mode */
   readOnly?: NativeInputProps['readOnly']
-}
+} & FieldBaseProps &
+  Omit<
+    NativeInputProps,
+    | 'size'
+    | 'color'
+    | 'type'
+    | 'children'
+    | 'value'
+    | 'defaultValue'
+    | 'type'
+    | 'aria-invalid'
+  >
 
 export const Checkbox = React.forwardRef(
   (
@@ -283,6 +297,7 @@ export const Checkbox = React.forwardRef(
       id,
       label,
       labelSecondary,
+      inline = true,
       name,
       required,
       tabIndex,
@@ -311,34 +326,34 @@ export const Checkbox = React.forwardRef(
         error={error}
         hideLabel={hideLabel}
         id={id}
-        inline
+        inline={inline}
         label={label}
         labelSecondary={labelSecondary}
         required={required}
         width={width}
       >
         <Input
-          aria-invalid={error ? true : undefined}
-          data-testid="checkbox"
-          ref={inputRef}
-          type="checkbox"
           {...{
-            $background: background,
-            $color: color,
-            $gradient: gradient,
-            $border: border,
-            $variant: variant,
-            $size: size,
-            disabled,
-            name,
-            tabIndex,
-            value,
-            onBlur,
-            onChange,
-            onFocus,
-            checked,
             ...props,
+            'data-testid': getTestId(props, 'checkbox'),
+            'aria-invalid': error ? true : undefined,
+            type: 'checkbox',
           }}
+          $background={background}
+          $border={border}
+          $color={color}
+          $gradient={gradient}
+          $size={size}
+          $variant={variant}
+          checked={checked}
+          disabled={disabled}
+          name={name}
+          ref={inputRef}
+          tabIndex={tabIndex}
+          value={value}
+          onBlur={onBlur}
+          onChange={onChange}
+          onFocus={onFocus}
         />
       </Field>
     )

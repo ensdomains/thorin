@@ -22,7 +22,7 @@ type BaseProps = {
   center?: boolean
   children: NativeButtonProps['children']
   /** If true, prevents user interaction with button. */
-  disabled?: boolean
+  disabled?: NativeButtonProps['disabled']
   /** Insert a ReactNode before the children */
   prefix?: ReactNodeNoStrings
   /** Shows loading spinner inside button */
@@ -48,8 +48,8 @@ type BaseProps = {
   /** If true, adds an outline to the button */
   outlined?: boolean
   /** The handler for click events. */
-  onClick?: React.MouseEventHandler<HTMLElement> | undefined
-}
+  onClick?: NativeButtonProps['onClick']
+} & Omit<NativeButtonProps, 'prefix' | 'size'>
 
 type WithTone = {
   /** Sets the color scheme when variant is 'primary' or 'action' */
@@ -64,7 +64,7 @@ type WithoutTone = {
 
 type WithAnchor = {
   /** The href attribute for the anchor element. */
-  href?: string
+  href?: NativeAnchorProps['href']
   /** The rel attribute for the anchor element. */
   rel?: NativeAnchorProps['rel']
   /** The target attribute for the anchor element. */
@@ -350,6 +350,7 @@ export const Button = React.forwardRef(
       shadowless = false,
       outlined = false,
       as: asProp,
+      ...props
     }: Props,
     ref: React.Ref<HTMLButtonElement>,
   ) => {
@@ -378,27 +379,26 @@ export const Button = React.forwardRef(
 
     return (
       <ButtonElement
-        {...{
-          as: asProp as any,
-          $variant: variant,
-          $tone: tone,
-          $size: size,
-          $shape: shape,
-          $shadowless: shadowless,
-          $outlined: outlined,
-          $pressed: pressed,
-          $center: center,
-          disabled,
-          href,
-          ref,
-          rel,
-          tabIndex,
-          target,
-          type,
-          onClick,
-          zIndex,
-          position: zIndex && 'relative',
-        }}
+        {...props}
+        $center={center}
+        $outlined={outlined}
+        $pressed={pressed}
+        $shadowless={shadowless}
+        $shape={shape}
+        $size={size}
+        $tone={tone}
+        $variant={variant}
+        as={asProp as any}
+        disabled={disabled}
+        href={href}
+        position={zIndex && 'relative'}
+        ref={ref}
+        rel={rel}
+        tabIndex={tabIndex}
+        target={target}
+        type={type}
+        zIndex={zIndex}
+        onClick={onClick}
       >
         {childContent}
       </ButtonElement>

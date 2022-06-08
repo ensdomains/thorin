@@ -245,7 +245,7 @@ enum ReservedKeys {
   Enter = 'Enter',
 }
 
-type NativeSelectProps = React.AllHTMLAttributes<HTMLInputElement>
+type NativeSelectProps = React.InputHTMLAttributes<HTMLInputElement>
 
 export type SelectOptionProps = {
   value: string
@@ -254,11 +254,13 @@ export type SelectOptionProps = {
   disabled?: boolean
 }
 
-export type SelectProps = Omit<FieldBaseProps, 'inline'> & {
+type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
+
+export type SelectProps = {
   /** The id attribute of div element. */
   id?: NativeSelectProps['id']
   /** If true, prevents user interaction with component. */
-  disabled?: boolean
+  disabled?: NativeSelectProps['disabled']
   /** If the options list will filter options based on text input. */
   autocomplete?: boolean
   /** Message displayed if there is no available options. */
@@ -268,7 +270,7 @@ export type SelectProps = Omit<FieldBaseProps, 'inline'> & {
   /** The string or component to prefix the value in the create value option. */
   createablePrefix?: string
   /** The handler for change events. */
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
+  onChange?: NativeSelectProps['onChange']
   /** The tabindex attribute for  */
   tabIndex?: NativeSelectProps['tabIndex']
   /** The handler for focus events. */
@@ -284,7 +286,23 @@ export type SelectProps = Omit<FieldBaseProps, 'inline'> & {
   /** An arrary of objects conforming to OptionProps interface. */
   options: SelectOptionProps[]
   size?: Size
-}
+} & FieldBaseProps &
+  Omit<
+    NativeDivProps,
+    | 'children'
+    | 'id'
+    | 'onChange'
+    | 'tabIndex'
+    | 'onFocus'
+    | 'onBlur'
+    | 'aria-controls'
+    | 'aria-expanded'
+    | 'role'
+    | 'aria-haspopup'
+    | 'aria-invalid'
+    | 'onClick'
+    | 'onKeyDown'
+  >
 
 export const Select = React.forwardRef(
   (
@@ -296,6 +314,7 @@ export const Select = React.forwardRef(
       createablePrefix = 'Add ',
       error,
       hideLabel,
+      inline,
       id: _id,
       label,
       labelSecondary,
@@ -311,6 +330,7 @@ export const Select = React.forwardRef(
       name,
       value: _value,
       size = 'medium',
+      ...props
     }: SelectProps,
     ref: React.Ref<HTMLInputElement>,
   ) => {
@@ -525,6 +545,7 @@ export const Select = React.forwardRef(
         error={error}
         hideLabel={hideLabel}
         id={id}
+        inline={inline}
         label={label}
         labelSecondary={labelSecondary}
         required={required}
@@ -532,21 +553,24 @@ export const Select = React.forwardRef(
       >
         <div style={{ position: 'relative' }}>
           <SelectContainer
+            {...{
+              ...props,
+              'aria-controls': `listbox-${id}`,
+              'aria-expanded': 'true',
+              'aria-haspopup': 'listbox',
+              'aria-invalid': error ? true : undefined,
+              'data-testid': 'select-container',
+              role: 'combobox',
+              onClick: handleSelectContainerClick,
+              onKeyDown: handleKeydown,
+            }}
             $disabled={disabled}
             $size={size}
-            aria-controls={`listbox-${id}`}
-            aria-expanded="true"
-            aria-haspopup="listbox"
-            aria-invalid={error ? true : undefined}
-            data-testid="select-container"
             id={`combo-${id}`}
             ref={displayRef}
-            role="combobox"
             tabIndex={tabIndex}
             onBlur={onBlur}
-            onClick={handleSelectContainerClick}
             onFocus={onFocus}
-            onKeyDown={handleKeydown}
           >
             <OptionElementContainer data-testid="selected">
               {isAutocomplete && isOpen ? (

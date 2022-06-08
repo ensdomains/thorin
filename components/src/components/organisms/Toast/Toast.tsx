@@ -5,6 +5,7 @@ import styled, { css, useTheme } from 'styled-components'
 import { Space } from '@/src'
 
 import { Backdrop, ExitSVG, Typography } from '../..'
+import { getTestId } from '../../../utils/utils'
 
 const IconCloseContainer = styled.div(
   ({ theme }) => css`
@@ -120,19 +121,21 @@ const Draggable = () => (
   </DraggableContainer>
 )
 
+type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
+
 type Props = {
   onClose: () => void
   open: boolean
   msToShow?: number
   title: string
   description?: string
-  children?: React.ReactNode
+  children?: NativeDivProps['children']
   top?: Space
   left?: Space
   right?: Space
   bottom?: Space
   variant?: 'touch' | 'desktop'
-}
+} & Omit<NativeDivProps, 'title'>
 
 type InternalProps = {
   state: TransitionState
@@ -148,16 +151,20 @@ const DesktopToast = ({
   bottom,
   state,
   children,
+  ...props
 }: Props & InternalProps) => {
   return (
     <Container
+      {...{
+        ...props,
+        'data-testid': getTestId(props, 'toast-desktop'),
+      }}
       $bottom={bottom}
       $left={left}
       $mobile={false}
       $right={right}
       $state={state}
       $top={top}
-      data-testid="toast-desktop"
     >
       <IconCloseContainer
         as={ExitSVG}
@@ -192,6 +199,7 @@ export const TouchToast = ({
   children,
   popped,
   setPopped,
+  ...props
 }: Props &
   InternalProps & {
     popped: boolean
@@ -298,17 +306,20 @@ export const TouchToast = ({
 
   return (
     <Container
+      {...{
+        ...props,
+        'data-testid': getTestId(props, 'toast-touch'),
+        style: { top: `${calcTop}px` },
+        onClick: () => setPopped(true),
+        onTouchEnd: () => setTouches((touches) => [...touches, undefined]),
+      }}
       $bottom={bottom}
       $left={left}
       $mobile
       $popped={popped}
       $right={right}
       $state={state}
-      data-testid="toast-touch"
       ref={ref}
-      style={{ top: `${calcTop}px` }}
-      onClick={() => setPopped(true)}
-      onTouchEnd={() => setTouches((touches) => [...touches, undefined])}
     >
       <Title variant="large" weight="bold">
         {title}
@@ -370,17 +381,20 @@ export const Toast = ({
       {({ state }) =>
         variant === 'touch' ? (
           <TouchToast
-            {...{
-              ...props,
-              open,
-              onClose,
-              state,
-              popped,
-              setPopped,
-            }}
+            {...props}
+            open={open}
+            popped={popped}
+            setPopped={setPopped}
+            state={state}
+            onClose={onClose}
           />
         ) : (
-          <DesktopToast {...{ ...props, open, onClose, state }} />
+          <DesktopToast
+            {...props}
+            open={open}
+            state={state}
+            onClose={onClose}
+          />
         )
       }
     </Backdrop>
