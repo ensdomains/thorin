@@ -13,7 +13,7 @@ type NativeAnchorProps = React.AllHTMLAttributes<HTMLAnchorElement>
 
 type Variant = 'primary' | 'secondary' | 'action' | 'transparent'
 
-type Tone = 'accent' | 'blue' | 'green' | 'red'
+type Tone = 'accent' | 'blue' | 'green' | 'red' | 'grey'
 
 type BaseProps = {
   /** An alternative element type to render the component as.*/
@@ -28,7 +28,7 @@ type BaseProps = {
   /** Shows loading spinner inside button */
   loading?: boolean
   /** Constrains button to specific shape */
-  shape?: 'square' | 'circle'
+  shape?: 'square' | 'rounded' | 'circle'
   /** Sets dimensions and layout  */
   size?: Size
   /** Adds ReactNode after children */
@@ -45,6 +45,8 @@ type BaseProps = {
   pressed?: boolean
   /** If true, removes the box-shadow */
   shadowless?: boolean
+  /** If true, adds an outline to the button */
+  outlined?: boolean
   /** The handler for click events. */
   onClick?: NativeButtonProps['onClick']
 } & Omit<NativeButtonProps, 'prefix' | 'size'>
@@ -78,10 +80,11 @@ type WithoutAnchor = {
 interface ButtonElement {
   $pressed: boolean
   $shadowless: boolean
-  $shape?: 'circle' | 'square'
-  $size?: 'extraSmall' | 'small' | 'medium'
-  $variant: 'primary' | 'secondary' | 'action' | 'transparent'
-  $type?: NativeButtonProps['type']
+  $outlined: boolean
+  $shape?: BaseProps['shape']
+  $size?: BaseProps['size']
+  $variant: BaseProps['variant']
+  $type?: BaseProps['type']
   $center: boolean | undefined
   $tone: Tone
 }
@@ -95,9 +98,23 @@ const getAccentColour = (
     | 'accentGradient'
     | 'accentSecondary'
     | 'accentSecondaryHover',
+  type?: 'secondary',
 ) => {
   if (tone === 'accent') {
     return theme.colors[accent]
+  }
+
+  if (tone === 'grey') {
+    switch (accent) {
+      case 'accentText':
+        return theme.colors.text
+      case 'accentSecondary':
+        return theme.colors.foregroundTertiary
+      default:
+        return type === 'secondary'
+          ? theme.colors.textSecondary
+          : theme.colors[tone]
+    }
   }
 
   switch (accent) {
@@ -123,6 +140,7 @@ const ButtonElement = styled.button<ButtonElement>(
     $center,
     $pressed,
     $shadowless,
+    $outlined,
     $size,
     $variant,
     $tone,
@@ -171,6 +189,13 @@ const ButtonElement = styled.button<ButtonElement>(
         `
       : ``};
 
+    ${$outlined
+      ? css`
+          border: ${theme.borderWidths.px} ${theme.borderStyles.solid}
+            ${theme.colors.borderTertiary};
+        `
+      : ``}
+
     box-shadow: ${theme.shadows['0.25']} ${theme.colors.grey};
 
     &:disabled {
@@ -214,8 +239,8 @@ const ButtonElement = styled.button<ButtonElement>(
           `
         case 'secondary':
           return css`
-            color: ${theme.colors.textSecondary};
-            background: ${theme.colors.grey};
+            color: ${getAccentColour(theme, $tone, 'accent', 'secondary')};
+            background: ${getAccentColour(theme, $tone, 'accentSecondary')};
           `
         case 'action':
           return css`
@@ -250,6 +275,10 @@ const ButtonElement = styled.button<ButtonElement>(
             border-radius: ${$size === 'small'
               ? theme.radii['large']
               : theme.radii['2xLarge']};
+          `
+        case 'rounded':
+          return css`
+            border-radius: ${theme.radii.extraLarge};
           `
         default:
           return ``
@@ -319,6 +348,7 @@ export const Button = React.forwardRef(
       onClick,
       pressed = false,
       shadowless = false,
+      outlined = false,
       as: asProp,
       ...props
     }: Props,
@@ -351,6 +381,7 @@ export const Button = React.forwardRef(
       <ButtonElement
         {...props}
         $center={center}
+        $outlined={outlined}
         $pressed={pressed}
         $shadowless={shadowless}
         $shape={shape}

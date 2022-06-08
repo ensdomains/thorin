@@ -75,6 +75,9 @@ When `variant` is set to `primary` or `action`, you can `tone` to change the but
       <Button tone="red" variant="primary">
         Red
       </Button>
+      <Button tone="grey" variant="primary">
+        Grey
+      </Button>
     </Stack>
   </Stack>
 
@@ -92,6 +95,9 @@ When `variant` is set to `primary` or `action`, you can `tone` to change the but
       </Button>
       <Button tone="red" variant="secondary">
         Red
+      </Button>
+      <Button tone="grey" variant="secondary">
+        Grey
       </Button>
     </Stack>
   </Stack>
@@ -156,12 +162,21 @@ Optional `center` prop reserves space for affixes and loading spinner.
 </Stack>
 ```
 
-## Shapes
+## Miscellaneous
 
 ```tsx live=true
-<Stack flexDirection="row" flexWrap="wrap">
-  <Button shape="square">Square</Button>
-  <Button shape="circle">Circle</Button>
+<Stack>
+  <Typography>Shapes</Typography>
+  <Stack flexDirection="row" flexWrap="wrap">
+    <Button shape="square">Square</Button>
+    <Button shape="circle">Circle</Button>
+  </Stack>
+  <Button outlined shadowless variant="transparent">
+    Outlined
+  </Button>
+  <Button shadowless variant="transparent">
+    Shadowless
+  </Button>
 </Stack>
 ```
 
