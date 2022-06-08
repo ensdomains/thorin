@@ -48,7 +48,7 @@ const Input = styled.input(
 
 type NativeInputProps = React.InputHTMLAttributes<HTMLInputElement>
 
-type Props = Exclude<FieldBaseProps, 'inline'> & {
+type Props = {
   /** A string or component that represents the input item. */
   label: React.ReactNode
   /** The name attribute for input elements. */
@@ -71,7 +71,8 @@ type Props = Exclude<FieldBaseProps, 'inline'> & {
   onFocus?: NativeInputProps['onFocus']
   /** The handler for blur events. */
   onBlur?: NativeInputProps['onBlur']
-} & Omit<NativeInputProps, 'children' | 'value' | 'defaultValue'>
+} & FieldBaseProps &
+  Omit<NativeInputProps, 'children' | 'value' | 'defaultValue'>
 
 export const RadioButton = React.forwardRef(
   (
@@ -79,6 +80,7 @@ export const RadioButton = React.forwardRef(
       description,
       disabled,
       error,
+      inline = true,
       hideLabel,
       id,
       label,
@@ -105,7 +107,7 @@ export const RadioButton = React.forwardRef(
         error={error}
         hideLabel={hideLabel}
         id={id}
-        inline
+        inline={inline}
         label={label}
         labelSecondary={labelSecondary}
         required={required}

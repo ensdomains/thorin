@@ -291,6 +291,7 @@ export const Input = React.forwardRef(
       disabled,
       error,
       hideLabel,
+      inline,
       id,
       inputMode,
       label,
@@ -364,6 +365,7 @@ export const Input = React.forwardRef(
         error={error}
         hideLabel={hideLabel}
         id={id}
+        inline={inline}
         label={label}
         labelSecondary={labelSecondary}
         required={required}
