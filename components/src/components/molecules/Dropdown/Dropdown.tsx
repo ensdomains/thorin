@@ -22,7 +22,7 @@ type DropdownItemObject = {
 export type DropdownItem = DropdownItemObject | React.ReactNode
 
 interface DropdownMenuContainer {
-  $opened: boolean
+  $opened?: boolean
   $inner: boolean
   $shortThrow: boolean
   $align: 'left' | 'right'
@@ -193,7 +193,7 @@ type DropdownMenuProps = {
   /** An array of objects conforming to the DropdownItem interface. */
   items: DropdownItem[]
   /** If true, makes the menu visible. */
-  isOpen: boolean
+  isOpen?: boolean
   /** A mutation function for the isOpen variable. */
   setIsOpen: (isOpen: boolean) => void
   /** Sets the width in the number of pixels. Must be at least 150. */
@@ -256,7 +256,7 @@ const DropdownMenu = ({
 
 interface InnerMenuButton {
   $size: 'small' | 'medium'
-  $open: boolean
+  $open?: boolean
 }
 
 const InnerMenuButton = styled.button<InnerMenuButton>(
@@ -323,7 +323,7 @@ const InnerMenuButton = styled.button<InnerMenuButton>(
   `,
 )
 
-const Chevron = styled(IconDownIndicatorSvg)<{ $open: boolean }>(
+const Chevron = styled(IconDownIndicatorSvg)<{ $open?: boolean }>(
   ({ theme, $open }) => css`
     margin-left: ${theme.space['1']};
     width: ${theme.space['3']};
@@ -424,7 +424,8 @@ export const Dropdown = ({
     <Container ref={dropdownRef} {...{ ...props, 'data-testid': 'dropdown' }}>
       {!children && inner && (
         <InnerMenuButton
-          {...{ $open: isOpen, $size: size }}
+          $open={isOpen}
+          $size={size}
           onClick={() => setIsOpen(!isOpen)}
         >
           {label}

@@ -56,7 +56,7 @@ type Props = Exclude<FieldBaseProps, 'inline'> & {
   /** The value attribute of input elements. */
   value: string | number
   /** The inital value of input element */
-  defaultValue: string | number
+  defaultValue?: string | number
   /** If true, the radio button is selected. */
   checked?: NativeInputProps['checked']
   /** The id attribute of input element. */
