@@ -80,7 +80,10 @@ type Props = FieldBaseProps & {
   onBlur?: NativeTextareaProps['onBlur']
   /** The handler for focus events. */
   onFocus?: NativeTextareaProps['onFocus']
-} & Omit<NativeTextareaProps, 'children' | 'value' | 'defaultValue'>
+} & Omit<
+    NativeTextareaProps,
+    'children' | 'value' | 'defaultValue' | 'aria-invalid'
+  >
 
 export const Textarea = React.forwardRef(
   (
@@ -134,24 +137,24 @@ export const Textarea = React.forwardRef(
           {...{
             ...props,
             'aria-invalid': hasError,
-            autoCorrect: autoCorrect,
-            autoFocus: autoFocus,
-            defaultValue: defaultValue,
-            disabled: disabled,
-            maxLength: maxLength,
-            name: name,
-            placeholder: placeholder,
-            readOnly: readOnly,
-            ref: inputRef,
-            rows: rows,
-            spellCheck: spellCheck,
-            tabIndex: tabIndex,
-            value: value,
-            onBlur: onBlur,
-            onChange: onChange,
-            onFocus: onFocus,
-            $error: hasError,
           }}
+          $error={hasError}
+          autoCorrect={autoCorrect}
+          autoFocus={autoFocus}
+          defaultValue={defaultValue}
+          disabled={disabled}
+          maxLength={maxLength}
+          name={name}
+          placeholder={placeholder}
+          readOnly={readOnly}
+          ref={inputRef}
+          rows={rows}
+          spellCheck={spellCheck}
+          tabIndex={tabIndex}
+          value={value}
+          onBlur={onBlur}
+          onChange={onChange}
+          onFocus={onFocus}
         />
       </Field>
     )

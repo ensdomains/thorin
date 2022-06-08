@@ -4,6 +4,7 @@ import styled, { css } from 'styled-components'
 import { Button, ButtonProps } from '@/src/components/atoms/Button'
 import { Colors } from '@/src/tokens'
 import { ReactComponent as IconDownIndicatorSvg } from '@/src/icons/DownIndicator.svg'
+import { getTestId } from '../../../utils/utils'
 
 const Container = styled.div(
   () => css`
@@ -421,7 +422,10 @@ export const Dropdown = ({
   }, [dropdownRef, isOpen])
 
   return (
-    <Container ref={dropdownRef} {...{ ...props, 'data-testid': 'dropdown' }}>
+    <Container
+      ref={dropdownRef}
+      {...{ ...props, 'data-testid': getTestId(props, 'dropdown') }}
+    >
       {!children && inner && (
         <InnerMenuButton
           $open={isOpen}
@@ -457,20 +461,18 @@ export const Dropdown = ({
       })}
 
       <DropdownMenu
+        align={align}
+        inner={inner}
+        isOpen={isOpen}
+        items={items}
+        keepMenuOnTop={keepMenuOnTop}
+        labelAlign={menuLabelAlign}
+        setIsOpen={setIsOpen}
+        shortThrow={shortThrow}
         width={
           dropdownRef.current &&
           dropdownRef.current.getBoundingClientRect().width.toFixed(2)
         }
-        {...{
-          align,
-          inner,
-          isOpen,
-          items,
-          setIsOpen,
-          shortThrow,
-          keepMenuOnTop,
-          labelAlign: menuLabelAlign,
-        }}
       />
     </Container>
   )

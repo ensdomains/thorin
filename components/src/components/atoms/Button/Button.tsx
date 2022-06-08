@@ -349,27 +349,25 @@ export const Button = React.forwardRef(
 
     return (
       <ButtonElement
-        {...{
-          ...props,
-          as: asProp as any,
-          $variant: variant,
-          $tone: tone,
-          $size: size,
-          $shape: shape,
-          $shadowless: shadowless,
-          $pressed: pressed,
-          $center: center,
-          disabled: disabled,
-          href: href,
-          ref: ref,
-          rel: rel,
-          tabIndex: tabIndex,
-          target: target,
-          type: type,
-          onClick,
-          zIndex,
-          position: zIndex && 'relative',
-        }}
+        {...props}
+        $center={center}
+        $pressed={pressed}
+        $shadowless={shadowless}
+        $shape={shape}
+        $size={size}
+        $tone={tone}
+        $variant={variant}
+        as={asProp as any}
+        disabled={disabled}
+        href={href}
+        position={zIndex && 'relative'}
+        ref={ref}
+        rel={rel}
+        tabIndex={tabIndex}
+        target={target}
+        type={type}
+        zIndex={zIndex}
+        onClick={onClick}
       >
         {childContent}
       </ButtonElement>

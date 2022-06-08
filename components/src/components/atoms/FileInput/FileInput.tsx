@@ -54,7 +54,7 @@ export type Props = {
   onReset?(): void
 } & Omit<
   NativeInputProps,
-  'onReset' | 'onChange' | 'onError' | 'defaultValue' | 'children'
+  'onReset' | 'onChange' | 'onError' | 'defaultValue' | 'children' | 'type'
 >
 
 export const FileInput = React.forwardRef(
@@ -213,22 +213,20 @@ export const FileInput = React.forwardRef(
       <div ref={ref}>
         <VisuallyHidden>
           <input
-            {...{
-              ...props,
-              accept: accept,
-              'aria-invalid': hasError,
-              autoFocus: autoFocus,
-              disabled: disabled,
-              name: name,
-              required: required,
-              tabIndex: tabIndex,
-              type: 'file',
-              onBlur: handleBlur,
-              onChange: handleChange,
-              onFocus: handleFocus,
-              ...ids.content,
-            }}
+            {...props}
+            {...ids.content}
+            accept={accept}
+            aria-invalid={hasError}
+            autoFocus={autoFocus}
+            disabled={disabled}
+            name={name}
             ref={inputRef}
+            required={required}
+            tabIndex={tabIndex}
+            type="file"
+            onBlur={handleBlur}
+            onChange={handleChange}
+            onFocus={handleFocus}
           />
         </VisuallyHidden>
 

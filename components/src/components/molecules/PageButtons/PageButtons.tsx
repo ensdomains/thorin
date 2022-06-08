@@ -1,6 +1,8 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 
+import { getTestId } from '../../../utils/utils'
+
 type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 
 type Props = {
@@ -94,7 +96,9 @@ export const PageButtons = ({
   }
 
   return (
-    <Container {...{ ...props, 'data-testid': 'pagebuttons' }}>
+    <Container
+      {...{ ...props, 'data-testid': getTestId(props, 'pagebuttons') }}
+    >
       {array.map((value) =>
         0 > value ? (
           <Dots data-testid="pagebutton-dots" key={value}>

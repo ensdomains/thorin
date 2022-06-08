@@ -91,7 +91,10 @@ export type Props = {
   /** The shape of the avatar. */
   shape?: Shape
   // as?: 'img' | React.ComponentType
-} & Omit<NativeImgAttributes, 'decoding' | 'alt' | 'onError' | 'children'>
+} & Omit<
+  NativeImgAttributes,
+  'decoding' | 'alt' | 'onError' | 'children' | 'onError'
+>
 
 export const Avatar = ({
   label,
@@ -106,13 +109,11 @@ export const Avatar = ({
     <Container $noBorder={!showImage || noBorder} $shape={shape}>
       {showImage ? (
         <Img
-          {...{
-            ...props,
-            decoding: 'async',
-            src: src,
-            alt: label,
-            onError: () => setShowImage(false),
-          }}
+          {...props}
+          alt={label}
+          decoding="async"
+          src={src}
+          onError={() => setShowImage(false)}
         />
       ) : (
         <Placeholder aria-label={label} />

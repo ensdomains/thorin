@@ -33,12 +33,7 @@ export type Props = {
 
 export const Card = ({ children, shadow, ...props }: Props) => {
   return (
-    <Container
-      {...{
-        ...props,
-        $shadow: shadow,
-      }}
-    >
+    <Container {...props} $shadow={shadow}>
       {children}
     </Container>
   )

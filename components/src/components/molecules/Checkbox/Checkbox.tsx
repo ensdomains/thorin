@@ -5,6 +5,7 @@ import { Colors } from '@/src/tokens'
 import { DefaultTheme } from '@/src/types'
 import { Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
+import { getTestId } from '../../../utils/utils'
 
 interface InputProps {
   $size: any
@@ -276,7 +277,14 @@ type Props = {
 } & FieldBaseProps &
   Omit<
     NativeInputProps,
-    'size' | 'color' | 'type' | 'children' | 'value' | 'defaultValue'
+    | 'size'
+    | 'color'
+    | 'type'
+    | 'children'
+    | 'value'
+    | 'defaultValue'
+    | 'type'
+    | 'aria-invalid'
   >
 
 export const Checkbox = React.forwardRef(
@@ -325,27 +333,27 @@ export const Checkbox = React.forwardRef(
         width={width}
       >
         <Input
-          ref={inputRef}
           {...{
             ...props,
-            $background: background,
-            $color: color,
-            $gradient: gradient,
-            $border: border,
-            $variant: variant,
-            $size: size,
-            disabled,
-            name,
-            tabIndex,
-            value,
-            onBlur,
-            onChange,
-            onFocus,
-            checked,
-            type: 'checkbox',
+            'data-testid': getTestId(props, 'checkbox'),
             'aria-invalid': error ? true : undefined,
-            'data-testid': 'checkbox',
+            type: 'checkbox',
           }}
+          $background={background}
+          $border={border}
+          $color={color}
+          $gradient={gradient}
+          $size={size}
+          $variant={variant}
+          checked={checked}
+          disabled={disabled}
+          name={name}
+          ref={inputRef}
+          tabIndex={tabIndex}
+          value={value}
+          onBlur={onBlur}
+          onChange={onChange}
+          onFocus={onFocus}
         />
       </Field>
     )

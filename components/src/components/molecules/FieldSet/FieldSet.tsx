@@ -108,14 +108,7 @@ export const FieldSet = ({
   }
 
   return (
-    <Container
-      {...{
-        ...props,
-        disabled: disabled,
-        form: form,
-        name: name,
-      }}
-    >
+    <Container {...props} disabled={disabled} form={form} name={name}>
       <ContainerInner>
         <Row>
           <Heading as="legend" level="2" responsive>

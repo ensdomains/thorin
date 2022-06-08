@@ -150,11 +150,17 @@ export const Dialog = ({
   ...props
 }: Props) => {
   if (variant === 'actionable') {
-    const { trailing, leading, title, subtitle, center } =
+    const { trailing, leading, title, subtitle, center, ...actionProps } =
       props as ActionableProps
 
     return (
-      <ModalWithTitle {...{ ...props, open, onDismiss, title, subtitle }}>
+      <ModalWithTitle
+        {...actionProps}
+        open={open}
+        subtitle={subtitle}
+        title={title}
+        onDismiss={onDismiss}
+      >
         {children}
         {(leading || trailing) && (
           <Container {...{ $center: center }}>
@@ -165,10 +171,16 @@ export const Dialog = ({
       </ModalWithTitle>
     )
   } else if (variant === 'closable') {
-    const { title, subtitle } = props as ClosableProps
+    const { title, subtitle, ...closableProps } = props as ClosableProps
 
     return (
-      <ModalWithTitle {...{ ...props, open, onDismiss, title, subtitle }}>
+      <ModalWithTitle
+        {...closableProps}
+        open={open}
+        subtitle={subtitle}
+        title={title}
+        onDismiss={onDismiss}
+      >
         {children}
         {onDismiss && (
           <IconCloseContainer

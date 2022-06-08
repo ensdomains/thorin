@@ -173,10 +173,7 @@ export const Tag = ({
   ...props
 }: Props) => {
   return (
-    <Container
-      as={as}
-      {...{ ...props, $hover: hover, $size: size, $tone: tone }}
-    >
+    <Container {...props} $hover={hover} $size={size} $tone={tone} as={as}>
       {label && (
         <LabelContainer>
           <span>{label}</span>

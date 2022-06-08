@@ -115,17 +115,15 @@ export const Heading = React.forwardRef(
     ref: React.ForwardedRef<HTMLDivElement>,
   ) => (
     <HeadingContainer
+      {...props}
       $color={color}
       $level={level}
       $responsive={responsive}
       $textAlign={align}
       $textTransform={transform}
-      {...{
-        ...props,
-        as,
-        id,
-        ref,
-      }}
+      as={as}
+      id={id}
+      ref={ref}
     >
       {children}
     </HeadingContainer>

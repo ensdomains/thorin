@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components'
 
 import { VisuallyHidden } from '../..'
 import { Colors } from '@/src/tokens'
+import { getTestId } from '../../../utils/utils'
 
 const CountDownContainer = styled.div(
   () => css`
@@ -152,20 +153,13 @@ export const CountdownCircle = React.forwardRef(
       <CountDownContainer
         {...{
           ...props,
-          'data-testid': 'countdown-circle',
+          'data-testid': getTestId(props, 'countdown-circle'),
         }}
       >
         <NumberBox {...{ $size: size, $disabled: disabled }}>
           {disabled ? totalCount : currentCount}
         </NumberBox>
-        <Container
-          {...{
-            $size: size,
-            $disabled: disabled,
-            $color: color,
-            ref,
-          }}
-        >
+        <Container $color={color} $disabled={disabled} $size={size} ref={ref}>
           {accessibilityLabel && (
             <VisuallyHidden>{accessibilityLabel}</VisuallyHidden>
           )}

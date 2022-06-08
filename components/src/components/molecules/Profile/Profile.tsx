@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 
-import { shortenAddress } from '../../../utils/utils'
+import { getTestId, shortenAddress } from '../../../utils/utils'
 
 import { Typography } from '../..'
 import { Avatar, Props as AvatarProps } from '../../atoms/Avatar'
@@ -200,12 +200,10 @@ export const Profile = ({
         {...{ items: dropdownItems, isOpen, setIsOpen, align: alignDropdown }}
       >
         <Container
-          {...{
-            ...props,
-            $size: size,
-            $hasChevron: true,
-            $open: isOpen,
-          }}
+          {...props}
+          $hasChevron
+          $open={isOpen}
+          $size={size}
           onClick={() => setIsOpen(!isOpen)}
         >
           <ProfileInner {...{ size, avatar, address, ensName }} />
@@ -219,10 +217,10 @@ export const Profile = ({
     <Container
       {...{
         ...props,
-        $size: size,
-        $open: isOpen,
-        'data-testid': 'profile',
+        'data-testid': getTestId(props, 'profile'),
       }}
+      $open={isOpen}
+      $size={size}
     >
       <ProfileInner {...{ size, avatar, address, ensName }} />
     </Container>

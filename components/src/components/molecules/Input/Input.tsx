@@ -55,7 +55,16 @@ type BaseProps = FieldBaseProps & {
   parentStyles?: FlattenInterpolation<any>
 } & Omit<
     NativeInputProps,
-    'size' | 'prefix' | 'children' | 'value' | 'defaultValue' | 'type'
+    | 'size'
+    | 'prefix'
+    | 'children'
+    | 'value'
+    | 'defaultValue'
+    | 'type'
+    | 'aria-invalid'
+    | 'onInput'
+    | 'onKeyDown'
+    | 'onWheel'
   >
 
 type WithTypeEmail = {
@@ -393,28 +402,28 @@ export const Input = React.forwardRef(
                 {...{
                   ...props,
                   ...ids?.content,
-                  $size: size,
                   'aria-invalid': hasError,
-                  autoComplete: autoComplete,
-                  autoCorrect: autoCorrect,
-                  autoFocus: autoFocus,
-                  defaultValue: defaultValue,
-                  disabled: disabled,
-                  inputMode: inputMode,
-                  name: name,
-                  placeholder: placeholderText,
-                  readOnly: readOnly,
-                  spellCheck: spellCheck,
-                  tabIndex: tabIndex,
-                  type: inputType,
-                  value: value,
-                  onBlur: onBlur,
-                  onChange: onChange,
-                  onFocus: onFocus,
                   onInput: handleInput,
                   onKeyDown: type === 'number' ? handleKeyDown : onKeyDown,
                   onWheel: type === 'number' ? handleWheel : undefined,
                 }}
+                $size={size}
+                autoComplete={autoComplete}
+                autoCorrect={autoCorrect}
+                autoFocus={autoFocus}
+                defaultValue={defaultValue}
+                disabled={disabled}
+                inputMode={inputMode}
+                name={name}
+                placeholder={placeholderText}
+                readOnly={readOnly}
+                spellCheck={spellCheck}
+                tabIndex={tabIndex}
+                type={inputType}
+                value={value}
+                onBlur={onBlur}
+                onChange={onChange}
+                onFocus={onFocus}
               />
 
               {units && state.ghostValue && (

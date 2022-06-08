@@ -61,7 +61,7 @@ export const Modal = ({
   open,
   ...props
 }: Props) => (
-  <Backdrop {...{ open, onDismiss, surface: backdropSurface }}>
+  <Backdrop open={open} surface={backdropSurface} onDismiss={onDismiss}>
     {({ state }) => (
       <Container $state={state} {...props}>
         {children}

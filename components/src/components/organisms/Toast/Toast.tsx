@@ -5,6 +5,7 @@ import styled, { css, useTheme } from 'styled-components'
 import { Space } from '@/src'
 
 import { Backdrop, ExitSVG, Typography } from '../..'
+import { getTestId } from '../../../utils/utils'
 
 const IconCloseContainer = styled.div(
   ({ theme }) => css`
@@ -156,14 +157,14 @@ const DesktopToast = ({
     <Container
       {...{
         ...props,
-        $bottom: bottom,
-        $left: left,
-        $mobile: false,
-        $right: right,
-        $state: state,
-        $top: top,
-        'data-testid': 'toast-desktop',
+        'data-testid': getTestId(props, 'toast-desktop'),
       }}
+      $bottom={bottom}
+      $left={left}
+      $mobile={false}
+      $right={right}
+      $state={state}
+      $top={top}
     >
       <IconCloseContainer
         as={ExitSVG}
@@ -305,20 +306,20 @@ export const TouchToast = ({
 
   return (
     <Container
-      ref={ref}
       {...{
         ...props,
-        $bottom: bottom,
-        $left: left,
-        $mobile: true,
-        $popped: popped,
-        $right: right,
-        $state: state,
-        'data-testid': 'toast-touch',
+        'data-testid': getTestId(props, 'toast-touch'),
         style: { top: `${calcTop}px` },
         onClick: () => setPopped(true),
         onTouchEnd: () => setTouches((touches) => [...touches, undefined]),
       }}
+      $bottom={bottom}
+      $left={left}
+      $mobile
+      $popped={popped}
+      $right={right}
+      $state={state}
+      ref={ref}
     >
       <Title variant="large" weight="bold">
         {title}
@@ -380,17 +381,20 @@ export const Toast = ({
       {({ state }) =>
         variant === 'touch' ? (
           <TouchToast
-            {...{
-              ...props,
-              open,
-              onClose,
-              state,
-              popped,
-              setPopped,
-            }}
+            {...props}
+            open={open}
+            popped={popped}
+            setPopped={setPopped}
+            state={state}
+            onClose={onClose}
           />
         ) : (
-          <DesktopToast {...{ ...props, open, onClose, state }} />
+          <DesktopToast
+            {...props}
+            open={open}
+            state={state}
+            onClose={onClose}
+          />
         )
       }
     </Backdrop>

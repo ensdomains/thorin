@@ -289,7 +289,19 @@ export type SelectProps = {
 } & FieldBaseProps &
   Omit<
     NativeDivProps,
-    'children' | 'id' | 'onChange' | 'tabIndex' | 'onFocus' | 'onBlur'
+    | 'children'
+    | 'id'
+    | 'onChange'
+    | 'tabIndex'
+    | 'onFocus'
+    | 'onBlur'
+    | 'aria-controls'
+    | 'aria-expanded'
+    | 'role'
+    | 'aria-haspopup'
+    | 'aria-invalid'
+    | 'onClick'
+    | 'onKeyDown'
   >
 
 export const Select = React.forwardRef(
@@ -543,22 +555,22 @@ export const Select = React.forwardRef(
           <SelectContainer
             {...{
               ...props,
-              $disabled: disabled,
-              $size: size,
               'aria-controls': `listbox-${id}`,
               'aria-expanded': 'true',
               'aria-haspopup': 'listbox',
               'aria-invalid': error ? true : undefined,
               'data-testid': 'select-container',
-              id: `combo-${id}`,
-              ref: displayRef,
               role: 'combobox',
-              tabIndex: tabIndex,
-              onBlur: onBlur,
               onClick: handleSelectContainerClick,
-              onFocus: onFocus,
               onKeyDown: handleKeydown,
             }}
+            $disabled={disabled}
+            $size={size}
+            id={`combo-${id}`}
+            ref={displayRef}
+            tabIndex={tabIndex}
+            onBlur={onBlur}
+            onFocus={onFocus}
           >
             <OptionElementContainer data-testid="selected">
               {isAutocomplete && isOpen ? (

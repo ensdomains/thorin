@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components'
 
 import { Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
+import { getTestId } from '../../../utils/utils'
 
 const Input = styled.input(
   ({ theme }) => css`
@@ -72,7 +73,10 @@ type Props = {
   /** The handler for blur events. */
   onBlur?: NativeInputProps['onBlur']
 } & FieldBaseProps &
-  Omit<NativeInputProps, 'children' | 'value' | 'defaultValue'>
+  Omit<
+    NativeInputProps,
+    'children' | 'value' | 'defaultValue' | 'aria-invalid' | 'type'
+  >
 
 export const RadioButton = React.forwardRef(
   (
@@ -114,21 +118,21 @@ export const RadioButton = React.forwardRef(
         width={width}
       >
         <Input
-          ref={inputRef}
           {...{
             ...props,
-            disabled,
-            name,
-            tabIndex,
-            value,
-            onBlur,
-            onChange,
-            onFocus,
-            checked,
             'aria-invalid': error ? true : undefined,
-            'data-testid': 'radio',
+            'data-testid': getTestId(props, 'radio'),
             type: 'radio',
           }}
+          checked={checked}
+          disabled={disabled}
+          name={name}
+          ref={inputRef}
+          tabIndex={tabIndex}
+          value={value}
+          onBlur={onBlur}
+          onChange={onChange}
+          onFocus={onFocus}
         />
       </Field>
     )

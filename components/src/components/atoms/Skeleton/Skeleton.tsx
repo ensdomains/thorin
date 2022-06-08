@@ -43,14 +43,8 @@ export const Skeleton = ({ as, children, loading, ...props }: Props) => {
   const active = loading ?? groupLoading
 
   return (
-    <Container {...{ ...props, $active: active, as }}>
-      <ContainerInner
-        {...{
-          $active: active,
-        }}
-      >
-        {children}
-      </ContainerInner>
+    <Container {...props} $active={active} as={as}>
+      <ContainerInner $active={active}>{children}</ContainerInner>
     </Container>
   )
 }

@@ -141,17 +141,15 @@ export const Typography = React.forwardRef<HTMLElement, Props>(
   ) => {
     return (
       <Container
+        {...props}
+        $color={color}
+        $ellipsis={ellipsis ? true : undefined}
+        $font={font}
+        $size={size}
+        $variant={variant}
+        $weight={weight}
         as={as}
-        {...{
-          ...props,
-          className,
-          $variant: variant,
-          $ellipsis: ellipsis ? true : undefined,
-          $weight: weight,
-          $font: font,
-          $color: color,
-          $size: size,
-        }}
+        className={className}
         ref={ref}
       >
         {children}
