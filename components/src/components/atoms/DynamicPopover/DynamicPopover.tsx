@@ -1,7 +1,6 @@
 import * as React from 'react'
 
-import styled, { Keyframes, css, keyframes } from 'styled-components'
-import clamp from 'lodash/clamp'
+import styled, { css } from 'styled-components'
 
 import { useDocumentEvent } from '../../../hooks/useDocumentEvent'
 
@@ -26,14 +25,14 @@ export type DynamicPopoverPlacement =
 export type DynamicPopoverAnimationFunc = (
   side: DynamicPopoverSide,
   open?: boolean,
-) => Keyframes
+) => string
 
 type DynamicPopoverPopoverProps = {
   $x?: number
   $y?: number
   $side?: DynamicPopoverSide
   $open?: boolean
-  $animationFn?: DynamicPopoverAnimationFunc
+  $injectedCSS?: string
 }
 
 export type DynamicPopoverButtonProps = {
@@ -62,7 +61,7 @@ export interface DynamicPopoverProps {
   open?: boolean
   /** The setter for the isOpen variable */
   onDismiss?: () => void
-  /** A function that returns a styled-components Keyframes object that controls the animation of the popover. */
+  /** A function that returns string of the css state for open and closed popover. */
   animationFn?: DynamicPopoverAnimationFunc
 }
 
@@ -173,10 +172,16 @@ export const computeCoordsFromPlacement = (
     const coordsRange = computeCoordRange(reference, floating, padding)
     switch (mainAxis) {
       case 'x':
-        coords.x = clamp(coords.x, coordsRange.minX, coordsRange.maxX)
+        coords.x = Math.min(
+          Math.max(coords.x, coordsRange.minX),
+          coordsRange.maxX,
+        )
         break
       default:
-        coords.y = clamp(coords.y, coordsRange.minY, coordsRange.maxY)
+        coords.y = Math.min(
+          Math.max(coords.y, coordsRange.minY),
+          coordsRange.maxY,
+        )
         break
     }
   }
@@ -187,8 +192,8 @@ export const computeCoordsFromPlacement = (
 /**
  * @desc default function for computing the animation keyframes based on the side
  */
-const defaultKeyframesFunc: DynamicPopoverAnimationFunc = (
-  side,
+const defaultAnimationFunc: DynamicPopoverAnimationFunc = (
+  side: string,
   open = false,
 ) => {
   let translate = ''
@@ -197,28 +202,15 @@ const defaultKeyframesFunc: DynamicPopoverAnimationFunc = (
   else if (side === 'bottom') translate = `translate(0, -3em)`
   else translate = `translate(3em, 0);`
   if (open)
-    return keyframes`
-  0% {
+    return `
+      transform: translate(0, 0);
+      opacity: 1;
+      visibility: visible;
+    `
+  return `
     transform: ${translate};
     opacity: 0;
     visibility: hidden;
-  }
-  100% {
-    transform: translate(0,0);
-    opacity: 1;
-    visibility: visible;
-  }`
-  return keyframes`
-    0% {
-      transform: translate(0,0);
-      opacity: 1;
-      visibility: visible;
-    }
-    100% {
-      transform: ${translate};
-      opacity: 0;
-      visibility: hidden;
-    }
   `
 }
 
@@ -228,28 +220,19 @@ const Container = styled.div`
 `
 
 const PopoverContainer = styled.div<DynamicPopoverPopoverProps>(
-  ({ $side, $open, $animationFn, $x, $y }) => css`
+  ({ $injectedCSS, $x, $y }) => css`
     position: absolute;
     box-sizing: border-box;
     z-index: 20;
     visibility: hidden;
     opacity: 0;
-
-    ${() => {
-      if ($side && $animationFn)
-        return css`
-          animation: ${$animationFn($side, $open)} 0.35s forwards
-            cubic-bezier(1, 0, 0.22, 1.6);
-        `
-      if ($side)
-        return css`
-          animation: ${defaultKeyframesFunc($side, $open)} 0.35s forwards
-            cubic-bezier(1, 0, 0.22, 1.6);
-        `
-    }}
-
+    transition: all 0.35s cubic-bezier(1, 0, 0.22, 1.6);
     left: ${$x}px;
     top: ${$y}px;
+    ${$injectedCSS &&
+    css`
+      ${$injectedCSS}
+    `}
   `,
 )
 
@@ -261,18 +244,27 @@ export const DynamicPopover = ({
   padding = 20,
   flip = true,
   shift = true,
-  animationFn,
+  animationFn: _animationFn,
   disabled = false,
   open = false,
   onDismiss,
 }: DynamicPopoverProps) => {
+  const animationFn = React.useMemo(() => {
+    if (_animationFn) {
+      return (side: DynamicPopoverSide, open: boolean) =>
+        _animationFn(side, open)
+    }
+    return (side: DynamicPopoverSide, open: boolean) =>
+      defaultAnimationFunc(side, open)
+  }, [_animationFn])
+
   const [popoverProps, setPopoverProps] =
     React.useState<DynamicPopoverPopoverProps>({
       $x: 0,
       $y: 0,
       $side: undefined,
       $open: open,
-      $animationFn: animationFn,
+      $injectedCSS: '',
     })
 
   const containerRef = React.useRef<HTMLDivElement | null>(null)
@@ -296,34 +288,27 @@ export const DynamicPopover = ({
   )
 
   React.useEffect(() => {
-    if (containerRef.current && floatingRef.current && open && !disabled) {
+    if (
+      containerRef.current &&
+      floatingRef.current &&
+      animationFn &&
+      computePopoverProps
+    ) {
+      const isOpen = !!open && !disabled
       const { x, y, side } = computePopoverProps(
         containerRef.current,
         floatingRef.current,
       )
+      const injectedCss = animationFn(side, isOpen)
       setPopoverProps({
         $x: x,
         $y: y,
         $side: side,
         $open: open,
-        $animationFn: animationFn,
+        $injectedCSS: injectedCss,
       })
     }
-    // handle closing popover
-    else {
-      setPopoverProps((_props) => ({
-        ..._props,
-        $open: false,
-        $animationFn: animationFn,
-      }))
-    }
-    /**
-     * We leave out animationFn from the dependencies because there is not a dependable way
-     * to evaluate a function using styled-components keyframes for equality. Including animationFn
-     * could lead to unwanted hook executions.
-     * */
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open, disabled, setPopoverProps, computePopoverProps])
+  }, [open, disabled, setPopoverProps, computePopoverProps, animationFn])
 
   // Handle clicks outside of the container
   useDocumentEvent(containerRef, 'click', () => onDismiss && onDismiss(), open)
@@ -331,7 +316,11 @@ export const DynamicPopover = ({
   return (
     <Container data-testid="dynamicpopover" ref={containerRef}>
       {children}
-      <PopoverContainer {...popoverProps} ref={floatingRef}>
+      <PopoverContainer
+        data-testid="dynamicpopover-popover"
+        {...popoverProps}
+        ref={floatingRef}
+      >
         {popover}
       </PopoverContainer>
     </Container>

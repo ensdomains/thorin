@@ -34,7 +34,7 @@ A function that provides custom animations to the popover appearing and disappea
 type DynamicPopoverAnimationFunc = (
   side: DynamicPopoverSide,
   open?: boolean,
-) => Keyframes
+) => string
 ```
 
 ### Parameters
@@ -50,7 +50,7 @@ type DynamicPopoverAnimationFunc = (
       required: true,
     },
     open: {
-      name: 'onClick',
+      name: 'open',
       description: 'If true, the popover is visible',
       type: {
         raw: 'boolean',
@@ -61,36 +61,22 @@ type DynamicPopoverAnimationFunc = (
 
 ### Return
 
-Returns a Keyframes object created from `keyframes` module of the `styled-components` library.
+Returns a string of css attributes.
 
 ```tsx live=true expand=ture minHeight=300px
 <DynamicPopover
   animationFn={(side, open) => {
     if (open)
-      return keyframes`
-    0% {
+      return `
+        transform: scale(1);
+        visibility: visible;
+        opacity: 1;
+      `
+    return `
       transform: scale(0.2);
       visibility: hidden;
       opacity: 0;
-    }
-    100% {
-      transform: scale(1);
-      visibility: visible;
-      opacity: 1;
-    }
-  `
-    return keyframes`
-  0% {
-    transform: scale(1);
-    visibility: visible;
-    opacity: 1;  
-  }
-  100% {
-    transform: scale(0.2);
-    visibility: hidden;
-    opacity: 0;  
-  }
-  `
+    `
   }}
   open={getState('isOpen')}
   placement="bottom-start"
@@ -111,29 +97,15 @@ Prevents the popover from appearing
 <DynamicPopover
   animationFn={(side, open) => {
     if (open)
-      return keyframes`
-    0% {
-      transform: scale(0.2);
-      visibility: hidden;
-      opacity: 0;
-    }
-    100% {
+      return `
       transform: scale(1);
       visibility: visible;
       opacity: 1;
-    }
   `
-    return keyframes`
-  0% {
-    transform: scale(1);
-    visibility: visible;
-    opacity: 1;  
-  }
-  100% {
+    return `
     transform: scale(0.2);
     visibility: hidden;
     opacity: 0;  
-  }
   `
   }}
   disabled={getState('isDisabled')}
