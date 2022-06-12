@@ -393,8 +393,7 @@ describe('<Select />', () => {
       </ThemeProvider>,
     )
     await waitFor(() => {
-      expect(ref.current).toBeInstanceOf(HTMLDivElement)
-      expect(ref.current).toHaveAttribute('role', 'combobox')
+      expect(ref.current).toBeInstanceOf(HTMLInputElement)
     })
   })
 })
