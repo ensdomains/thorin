@@ -7,6 +7,7 @@ import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 
 import { Select } from './Select'
 import { lightTheme } from '@/src/tokens'
+import { Input } from '../Input'
 
 describe('<Select />', () => {
   afterEach(cleanup)
@@ -394,6 +395,64 @@ describe('<Select />', () => {
     )
     await waitFor(() => {
       expect(ref.current).toBeInstanceOf(HTMLInputElement)
+    })
+  })
+
+  it('should show dropdown menu when clicked and embeded in Input', async () => {
+    render(
+      <ThemeProvider theme={lightTheme}>
+        <Input
+          label="parent component"
+          placeholder="parent component"
+          prefix={
+            <Select
+              label="select"
+              options={[
+                { value: '0', label: 'Zero' },
+                { value: '1', label: 'One' },
+                { value: '2', label: 'Two' },
+              ]}
+            />
+          }
+        />
+      </ThemeProvider>,
+    )
+
+    act(() => {
+      userEvent.click(screen.getByTestId('selected'))
+    })
+    waitFor(() => {
+      expect(screen.getByRole('listbox')).toBeVisible()
+    })
+  })
+
+  it('should have focus on input when clicked and embeded in Input as autocomplete Select', async () => {
+    render(
+      <ThemeProvider theme={lightTheme}>
+        <Input
+          label="parent component"
+          placeholder="parent component"
+          prefix={
+            <Select
+              autocomplete
+              label="select"
+              options={[
+                { value: '0', label: 'Zero' },
+                { value: '1', label: 'One' },
+                { value: '2', label: 'Two' },
+              ]}
+            />
+          }
+        />
+      </ThemeProvider>,
+    )
+
+    act(() => {
+      userEvent.click(screen.getByTestId('selected'))
+    })
+
+    waitFor(() => {
+      expect(document.activeElement).toEqual(screen.getByTestId('select-input'))
     })
   })
 })
