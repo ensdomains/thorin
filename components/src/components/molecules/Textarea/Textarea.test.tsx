@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { ThemeProvider } from 'styled-components'
 
-import { cleanup, render, screen, userEvent } from '@/test'
+import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 
 import { Textarea } from './Textarea'
 import { lightTheme } from '@/src/tokens'
@@ -68,5 +68,17 @@ describe('<Textarea />', () => {
     )
 
     expect(screen.getByText('error')).toBeInTheDocument()
+  })
+
+  it('should pass a ref down', async () => {
+    const ref = { current: null } as React.RefObject<any>
+    render(
+      <ThemeProvider theme={lightTheme}>
+        <Textarea label="Why are you entering $WRITE Race?" ref={ref} />
+      </ThemeProvider>,
+    )
+    await waitFor(() => {
+      expect(ref.current).toBeInstanceOf(HTMLTextAreaElement)
+    })
   })
 })

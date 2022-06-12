@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { ThemeProvider } from 'styled-components'
 
-import { cleanup, render, screen, userEvent } from '@/test'
+import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 
 import { Input } from './Input'
 import { lightTheme } from '@/src/tokens'
@@ -85,6 +85,24 @@ describe('<Input />', () => {
       userEvent.type(element, '20')
       expect(element).toHaveValue(20)
       expect(screen.getByTestId('ghost')).toBeInTheDocument()
+    })
+  })
+
+  it('should pass a ref down', async () => {
+    const ref = { current: null } as React.RefObject<any>
+    render(
+      <ThemeProvider theme={lightTheme}>
+        <Input
+          label="Funding Goal"
+          placeholder="10"
+          ref={ref}
+          type="number"
+          units="ETH"
+        />
+      </ThemeProvider>,
+    )
+    await waitFor(() => {
+      expect(ref.current).toBeInstanceOf(HTMLInputElement)
     })
   })
 })
