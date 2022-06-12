@@ -1,12 +1,11 @@
 import * as React from 'react'
-import styled from 'styled-components'
+import styled, { FlattenSimpleInterpolation, css } from 'styled-components'
 
 import { Colors } from '@/src/tokens'
 import { DefaultTheme } from '@/src/types'
 import { Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
-
-type NativeInputProps = React.AllHTMLAttributes<HTMLInputElement>
+import { getTestId } from '../../../utils/utils'
 
 interface InputProps {
   $size: any
@@ -37,7 +36,7 @@ const gradientWithFallback = (
 const stylesForSwitch = (
   theme: DefaultTheme,
   { $size, $border, $color, $gradient }: InputProps,
-): string => {
+): FlattenSimpleInterpolation => {
   const valueForTokens = valueForSizeAndTokens($size)
 
   const containerWidth = valueForTokens([
@@ -84,7 +83,7 @@ const stylesForSwitch = (
 
   const switchBackgroundClip = $border ? 'border-box' : 'content-box'
 
-  return `
+  return css`
     box-sizing: border-box;
     background: ${theme.colors.foregroundSecondary};
     background-clip: content-box;
@@ -100,7 +99,7 @@ const stylesForSwitch = (
       transform: translateY(-1px);
       filter: brightness(1.05);
     }
-    
+
     &:active {
       transform: translateY(0px);
       filter: brightness(1.1);
@@ -111,7 +110,7 @@ const stylesForSwitch = (
       background-clip: content-box;
       border-color: transparent;
     }
-  
+
     &::before {
       content: '';
       border-width: ${switchBorderWidth};
@@ -120,23 +119,24 @@ const stylesForSwitch = (
       background-color: ${theme.colors.background};
       background-clip: ${switchBackgroundClip};
       border-radius: ${theme.radii['full']};
-      transform: translateX(-${containerHalfWidth}) translateX(${containerHalfHeight});
+      transform: translateX(-${containerHalfWidth})
+        translateX(${containerHalfHeight});
       transition: all 90ms ease-in-out;
       box-sizing: ${switchBoxSizing};
       width: ${switchSize};
       height: ${switchSize};
     }
-    
+
     &:checked::before {
-      transform: translateX(${containerHalfWidth}) translateX(-${containerHalfHeight});
+      transform: translateX(${containerHalfWidth})
+        translateX(-${containerHalfHeight});
       border-color: ${$border ? switchBorderColor : 'transparent'};
     }
 
-    ${
-      $border &&
-      `
+    ${$border &&
+    css`
       &::after {
-        content: "";
+        content: '';
         display: block;
         position: absolute;
         background-color: ${switchBorderColor};
@@ -145,24 +145,24 @@ const stylesForSwitch = (
         height: ${valueForTokens(['9px', '10px', '16px'])};
         left: 50%;
         top: 50%;
-        transform: translateX(-${containerHalfWidth}) translateX(${containerHalfHeight}) translate(-50%, -50%);
+        transform: translateX(-${containerHalfWidth})
+          translateX(${containerHalfHeight}) translate(-50%, -50%);
         transition: all 90ms ease-in-out;
         z-index: 1;
       }
 
       &:checked::after {
-        transform: translateX(${containerHalfWidth}) translateX(-${containerHalfHeight}) translate(-50%, -50%);
+        transform: translateX(${containerHalfWidth})
+          translateX(-${containerHalfHeight}) translate(-50%, -50%);
       }
-    `
-    }
-    
+    `}
   `
 }
 
 const stylesForCheckbox = (
   theme: DefaultTheme,
   { $background, $size, $color, $border }: InputProps,
-): string => {
+): FlattenSimpleInterpolation => {
   const valueForTokens = valueForSizeAndTokens($size)
 
   const checkboxSize = valueForTokens([
@@ -181,75 +181,79 @@ const stylesForCheckbox = (
     theme.space['6'],
   ])
 
-  return `
-  width: ${checkboxSize};
-  height: ${checkboxSize};
-  border-width: 1px;
-  border-color: ${checkboxBorderColor};
-  border-radius: ${theme.space['2']};
-  background-color: ${theme.colors[$background]};
-  background-clip: content-box;
+  return css`
+    width: ${checkboxSize};
+    height: ${checkboxSize};
+    border-width: 1px;
+    border-color: ${checkboxBorderColor};
+    border-radius: ${theme.space['2']};
+    background-color: ${theme.colors[$background]};
+    background-clip: content-box;
 
+    &:hover {
+      transform: translateY(-1px);
+      filter: contrast(0.7);
+    }
 
-  &:hover {
-    transform: translateY(-1px);
-    filter: contrast(0.7);
-  }
-  
-  &:active {
-    transform: translateY(0px);
-    filter: contrast(1);
-  }
-  
-  &::before {
-    content: '';
-    background-color: ${theme.colors[$color]};
-    mask-image: ${`url('data:image/svg+xml; utf8, <svg width="${checkboxMarkSize}" height="${checkboxMarkSize}" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 12.625L10.125 20.125L22 3.875" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" /></svg>')`};
-    width: ${checkboxMarkSize};
-    height: ${checkboxMarkSize};
-    transform: scale(0);
-    transition: all 90ms ease-in-out;
-  }
-  
-  &:checked::before {
-    transform: scale(1);
-  }
-`
+    &:active {
+      transform: translateY(0px);
+      filter: contrast(1);
+    }
+
+    &::before {
+      content: '';
+      background-color: ${theme.colors[$color]};
+      mask-image: ${`url('data:image/svg+xml; utf8, <svg width="${checkboxMarkSize}" height="${checkboxMarkSize}" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 12.625L10.125 20.125L22 3.875" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" /></svg>')`};
+      width: ${checkboxMarkSize};
+      height: ${checkboxMarkSize};
+      transform: scale(0);
+      transition: all 90ms ease-in-out;
+    }
+
+    &:checked::before {
+      transform: scale(1);
+    }
+  `
 }
 
-const Input = styled.input<InputProps>`
-  font: inherit;
-  display: grid;
-  position: relative;
-  place-content: center;
-  transition: transform 150ms ease-in-out, filter 150ms ease-in-out;
-
-  ${({ theme }) => `
+const Input = styled.input<InputProps>(
+  ({ theme, ...props }) => css`
+    font: inherit;
+    display: grid;
+    position: relative;
+    place-content: center;
+    transition: transform 150ms ease-in-out, filter 150ms ease-in-out;
     cursor: pointer;
     margin: ${theme.space['1']} 0;
-  `}
 
-  ${({ theme, ...props }) => {
-    if (props.$variant === 'switch') return stylesForSwitch(theme, props)
-    return stylesForCheckbox(theme, props)
-  }}
-`
+    ${() => {
+      if (props.$variant === 'switch') return stylesForSwitch(theme, props)
+      return stylesForCheckbox(theme, props)
+    }}
+  `,
+)
 
-type Props = Omit<FieldBaseProps, 'inline'> & {
+type NativeInputProps = React.InputHTMLAttributes<HTMLInputElement>
+
+type Props = {
   /** Label content */
   label: React.ReactNode
   /** The name attribute of input element. */
   name?: NativeInputProps['name']
   /** The value attribute of input element. */
-  value?: NativeInputProps['value']
+  value?: string | number
+  /** The initial value of the input element */
+  defaultValue?: string | number
   /** The checked attribute of input element */
   checked?: NativeInputProps['checked']
+  /** The initial value for checked of input element */
+  defaultChecked?: NativeInputProps['defaultChecked']
   /** The id attribute of input element. */
   id?: NativeInputProps['id']
   /** The disabled attribute of input element */
-  disabled?: boolean
+  disabled?: NativeInputProps['disabled']
   /** The handler for change events. */
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
+  onChange?: NativeInputProps['onChange']
   /** The tabindex attribute for input element. */
   tabIndex?: NativeInputProps['tabIndex']
   /** The handler for focus events. */
@@ -268,7 +272,20 @@ type Props = Omit<FieldBaseProps, 'inline'> & {
   size?: 'small' | 'medium' | 'large'
   /** Adds a border to regular variant or uses alternative styling for switch variant. */
   border?: boolean
-}
+  /** Set the input to readonly mode */
+  readOnly?: NativeInputProps['readOnly']
+} & FieldBaseProps &
+  Omit<
+    NativeInputProps,
+    | 'size'
+    | 'color'
+    | 'type'
+    | 'children'
+    | 'value'
+    | 'defaultValue'
+    | 'type'
+    | 'aria-invalid'
+  >
 
 export const Checkbox = React.forwardRef(
   (
@@ -280,6 +297,7 @@ export const Checkbox = React.forwardRef(
       id,
       label,
       labelSecondary,
+      inline = true,
       name,
       required,
       tabIndex,
@@ -308,34 +326,34 @@ export const Checkbox = React.forwardRef(
         error={error}
         hideLabel={hideLabel}
         id={id}
-        inline
+        inline={inline}
         label={label}
         labelSecondary={labelSecondary}
         required={required}
         width={width}
       >
         <Input
-          aria-invalid={error ? true : undefined}
-          data-testid="checkbox"
-          ref={inputRef}
-          type="checkbox"
           {...{
-            $background: background,
-            $color: color,
-            $gradient: gradient,
-            $border: border,
-            $variant: variant,
-            $size: size,
-            disabled,
-            name,
-            tabIndex,
-            value,
-            onBlur,
-            onChange,
-            onFocus,
-            checked,
             ...props,
+            'data-testid': getTestId(props, 'checkbox'),
+            'aria-invalid': error ? true : undefined,
+            type: 'checkbox',
           }}
+          $background={background}
+          $border={border}
+          $color={color}
+          $gradient={gradient}
+          $size={size}
+          $variant={variant}
+          checked={checked}
+          disabled={disabled}
+          name={name}
+          ref={inputRef}
+          tabIndex={tabIndex}
+          value={value}
+          onBlur={onBlur}
+          onChange={onChange}
+          onFocus={onFocus}
         />
       </Field>
     )

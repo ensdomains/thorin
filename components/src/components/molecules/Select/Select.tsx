@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import uniqueId from 'lodash/uniqueId'
 
 import { useEffect } from 'react'
@@ -8,13 +8,14 @@ import { CloseSVG, Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
 import { ReactComponent as IconDownIndicatorSvg } from '@/src/icons/DownIndicator.svg'
 import { useDocumentEvent } from '@/src/hooks/useDocumentEvent'
+import { VisuallyHidden } from '../../atoms'
 
 const CREATE_OPTION_VALUE = 'CREATE_OPTION_VALUE'
 
 type Size = 'small' | 'medium'
 
-const SelectContainer = styled.div<{ $disabled?: boolean; $size: Size }>`
-  ${({ theme, $size }) => `
+const SelectContainer = styled.div<{ $disabled?: boolean; $size: Size }>(
+  ({ theme, $disabled, $size }) => css`
     background: ${theme.colors.background};
     border-color: ${theme.colors.backgroundHide};
     border-width: ${theme.space['px']};
@@ -25,42 +26,41 @@ const SelectContainer = styled.div<{ $disabled?: boolean; $size: Size }>`
     align-items: center;
     justify-content: space-between;
     z-index: 10;
-    ${
-      $size === 'medium'
-        ? `
-      border-radius: ${theme.radii['extraLarge']};
-      padding: ${theme.space['4']};
-      height: ${theme.space['14']};
-    `
-        : `
-      border-radius: ${theme.radii['almostExtraLarge']};
-      padding: ${theme.space['2']};
-      height: ${theme.space['10']};
-    `
-    }
-  `}
+    ${$size === 'medium'
+      ? css`
+          border-radius: ${theme.radii['extraLarge']};
+          padding: ${theme.space['4']};
+          height: ${theme.space['14']};
+        `
+      : css`
+          border-radius: ${theme.radii['almostExtraLarge']};
+          padding: ${theme.space['2']};
+          height: ${theme.space['10']};
+        `}
 
-  ${({ $disabled, theme }) =>
-    $disabled &&
-    `
-    cursor: not-allowed;
-    background: ${theme.colors.backgroundTertiary};
-  `}
-`
+    ${$disabled &&
+    css`
+      cursor: not-allowed;
+      background: ${theme.colors.backgroundTertiary};
+    `}
+  `,
+)
 
-const OptionElementContainer = styled.div`
-  align-items: center;
-  display: flex;
-  flex-direction: row;
-  flex-grow: 1;
-  gap: ${({ theme }) => theme.space['4']};
-`
+const OptionElementContainer = styled.div(
+  ({ theme }) => css`
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    gap: ${theme.space['4']};
+  `,
+)
 
 const Chevron = styled(IconDownIndicatorSvg)<{
   $open: boolean
   $disabled?: boolean
-}>`
-  ${({ theme }) => `
+}>(
+  ({ theme, $open, $disabled }) => css`
     margin-left: ${theme.space['1']};
     width: ${theme.space['3']};
     margin-right: ${theme.space['0.5']};
@@ -75,33 +75,31 @@ const Chevron = styled(IconDownIndicatorSvg)<{
       fill: currentColor;
     }
     fill: currentColor;
-  `}
 
-  ${({ $open }) =>
-    $open &&
-    `
+    ${$open &&
+    css`
       opacity: 1;
       transform: rotate(180deg);
-  `}
+    `}
 
-  ${({ $disabled }) =>
-    $disabled &&
-    `
+    ${$disabled &&
+    css`
       opacity: 0.1;
-  `}
-`
+    `}
+  `,
+)
 
-const SelectOptionContainer = styled.div<{ $open?: boolean }>`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
-  position: absolute;
-  visibility: hidden;
-  opacity: 0;
-  overflow: hidden;
+const SelectOptionContainer = styled.div<{ $open?: boolean }>(
+  ({ theme, $open }) => css`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+    overflow: hidden;
 
-  ${({ theme }) => `
     margin-top: ${theme.space['1.5']};
     padding: ${theme.space['1.5']};
     width: ${theme.space['full']};
@@ -109,32 +107,33 @@ const SelectOptionContainer = styled.div<{ $open?: boolean }>`
     border-radius: ${theme.radii['medium']};
     box-shadow: ${theme.boxShadows['0.02']};
     background: ${theme.colors.background};
-  `}
 
-  ${({ $open, theme }) =>
-    $open
-      ? `
-      z-index: 20;
-      visibility: visible;
-      margin-top: ${theme.space['1.5']};
-      opacity ${theme.opacity['100']};
-      transition: all 0.3s cubic-bezier(1, 0, 0.22, 1.6), z-index 0s linear 0.3s;
-  `
-      : `
-      z-index: 0;
-      visibility: hidden;
-      margin-top: -${theme.space['12']};
-      opacity: 0;
-      transition: all 0.3s cubic-bezier(1, 0, 0.22, 1.6), z-index 0s linear 0s;
-  `}
-`
+    ${$open
+      ? css`
+          z-index: 20;
+          visibility: visible;
+          margin-top: ${theme.space['1.5']};
+          opacity: ${theme.opacity['100']};
+          transition: all 0.3s cubic-bezier(1, 0, 0.22, 1.6),
+            z-index 0s linear 0.3s;
+        `
+      : css`
+          z-index: 0;
+          visibility: hidden;
+          margin-top: -${theme.space['12']};
+          opacity: 0;
+          transition: all 0.3s cubic-bezier(1, 0, 0.22, 1.6),
+            z-index 0s linear 0s;
+        `}
+  `,
+)
 
 const SelectOption = styled.div<{
   $selected?: boolean
   $disabled?: boolean
   $highlighted?: boolean
-}>`
-  ${({ theme }) => `
+}>(
+  ({ theme, $selected, $disabled, $highlighted }) => css`
     align-items: center;
     cursor: pointer;
     display: flex;
@@ -148,60 +147,59 @@ const SelectOption = styled.div<{
     transition-timing-function: ${theme.transitionTimingFunction['inOut']};
     border-radius: ${theme.radii['medium']};
     margin: ${theme.space['0.5']} 0;
-    
-    &::first-child {
+
+    &:first-child {
       margin-top: ${theme.space['0']};
     }
-    
-    &::last-child {
+
+    &:last-child {
       margin-bottom: ${theme.space['0']};
     }
-  `}
 
-  ${({ theme, $selected, $highlighted }) => {
-    if ($selected)
-      return `
-    background-color: ${theme.colors.foregroundSecondary};
-    `
-    else if ($highlighted)
-      return `
-    background-color: ${theme.colors.foregroundSecondaryHover};    
-    `
-  }}
+    ${() => {
+      if ($selected)
+        return css`
+          background-color: ${theme.colors.foregroundSecondary};
+        `
+      else if ($highlighted)
+        return css`
+          background-color: ${theme.colors.foregroundSecondaryHover};
+        `
+    }}
 
-  ${({ theme, $disabled }) =>
-    $disabled &&
-    `
+    ${$disabled &&
+    css`
       color: ${theme.colors.textTertiary};
       cursor: not-allowed;
-      
+
       &:hover {
         background-color: ${theme.colors.transparent};
       }
-  `}
-`
+    `}
+  `,
+)
 
 const ClearIconContainer = styled.div<{
   $size: SelectProps['size']
-}>`
-  gap: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  ${({ theme, $size }) => `
-  width: ${$size === 'medium' ? theme.space['14'] : theme.space['10']};
-  height: ${$size === 'medium' ? theme.space['14'] : theme.space['10']};
-  svg {
-    display: block;
-    path {
-      color: ${theme.colors.textSecondary};
+}>(
+  ({ theme, $size }) => css`
+    gap: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: ${$size === 'medium' ? theme.space['14'] : theme.space['10']};
+    height: ${$size === 'medium' ? theme.space['14'] : theme.space['10']};
+    svg {
+      display: block;
+      path {
+        color: ${theme.colors.textSecondary};
+      }
     }
-  }
-  `}
-`
+  `,
+)
 
-const NoResultsContainer = styled.div`
-  ${({ theme }) => `
+const NoResultsContainer = styled.div(
+  ({ theme }) => css`
     align-items: center;
     display: flex;
     gap: ${theme.space['3']};
@@ -215,16 +213,16 @@ const NoResultsContainer = styled.div`
     border-radius: ${theme.radii['medium']};
     margin: ${theme.space['0.5']} 0;
     font-style: italic;
-    
-    &::first-child {
+
+    &:first-child {
       margin-top: ${theme.space['0']};
     }
-    
-    &::last-child {
+
+    &:last-child {
       margin-bottom: ${theme.space['0']};
     }
-  `}
-`
+  `,
+)
 
 // Helper function for filtering options
 const createOptionsReducer =
@@ -247,7 +245,7 @@ enum ReservedKeys {
   Enter = 'Enter',
 }
 
-type NativeSelectProps = React.AllHTMLAttributes<HTMLDivElement>
+type NativeSelectProps = React.InputHTMLAttributes<HTMLInputElement>
 
 export type SelectOptionProps = {
   value: string
@@ -256,11 +254,13 @@ export type SelectOptionProps = {
   disabled?: boolean
 }
 
-export type SelectProps = Omit<FieldBaseProps, 'inline'> & {
+type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
+
+export type SelectProps = {
   /** The id attribute of div element. */
   id?: NativeSelectProps['id']
   /** If true, prevents user interaction with component. */
-  disabled?: boolean
+  disabled?: NativeSelectProps['disabled']
   /** If the options list will filter options based on text input. */
   autocomplete?: boolean
   /** Message displayed if there is no available options. */
@@ -270,7 +270,7 @@ export type SelectProps = Omit<FieldBaseProps, 'inline'> & {
   /** The string or component to prefix the value in the create value option. */
   createablePrefix?: string
   /** The handler for change events. */
-  onChange?: (selected: SelectOptionProps | null) => void
+  onChange?: NativeSelectProps['onChange']
   /** The tabindex attribute for  */
   tabIndex?: NativeSelectProps['tabIndex']
   /** The handler for focus events. */
@@ -279,12 +279,30 @@ export type SelectProps = Omit<FieldBaseProps, 'inline'> & {
   onBlur?: NativeSelectProps['onBlur']
   /** A handler for when new values are created */
   onCreate?: (value: string) => void
-  /** The selected option data. */
-  value?: SelectOptionProps
+  /** The selected option's value. */
+  value?: SelectOptionProps['value']
+  /** The name property of an input element. */
+  name?: NativeSelectProps['name']
   /** An arrary of objects conforming to OptionProps interface. */
   options: SelectOptionProps[]
   size?: Size
-}
+} & FieldBaseProps &
+  Omit<
+    NativeDivProps,
+    | 'children'
+    | 'id'
+    | 'onChange'
+    | 'tabIndex'
+    | 'onFocus'
+    | 'onBlur'
+    | 'aria-controls'
+    | 'aria-expanded'
+    | 'role'
+    | 'aria-haspopup'
+    | 'aria-invalid'
+    | 'onClick'
+    | 'onKeyDown'
+  >
 
 export const Select = React.forwardRef(
   (
@@ -296,6 +314,7 @@ export const Select = React.forwardRef(
       createablePrefix = 'Add ',
       error,
       hideLabel,
+      inline,
       id: _id,
       label,
       labelSecondary,
@@ -308,15 +327,18 @@ export const Select = React.forwardRef(
       onCreate,
       options,
       emptyListMessage = 'No results',
-      value: _selected,
+      name,
+      value: _value,
       size = 'medium',
+      ...props
     }: SelectProps,
-    ref: React.Ref<HTMLDivElement>,
+    ref: React.Ref<HTMLInputElement>,
   ) => {
-    const defaultRef = React.useRef<HTMLDivElement>(null)
-    const rootRef = (ref as React.RefObject<HTMLDivElement>) || defaultRef
+    const defaultRef = React.useRef<HTMLInputElement>(null)
+    const inputRef = (ref as React.RefObject<HTMLInputElement>) || defaultRef
+    const displayRef = React.useRef<HTMLDivElement>(null)
+    const searchInputRef = React.useRef<HTMLInputElement>(null)
 
-    const inputRef = React.useRef<HTMLInputElement | null>(null)
     const [inputValue, setInputValue] = React.useState('')
 
     const [queryValue, setQueryValue] = React.useState('')
@@ -325,23 +347,43 @@ export const Select = React.forwardRef(
 
     const [id] = React.useState(_id || uniqueId())
 
-    // Internal tracker of selected
-    const [selected, setSelected] = React.useState<SelectOptionProps | null>(
-      null,
-    )
+    // Internal tracker of value
+    const [value, setValue] = React.useState<SelectProps['value']>('')
     React.useEffect(() => {
-      if (_selected?.value !== selected?.value && _selected !== undefined)
-        setSelected(_selected)
+      if (_value !== value && _value !== undefined) setValue(_value)
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [_selected])
+    }, [_value])
 
-    const changeSelectedOption = (option?: SelectOptionProps) => {
+    const selectedOption = options?.find((o) => o.value === value) || null
+
+    const changeSelectedOption = (option?: SelectOptionProps, event?: any) => {
       if (option?.disabled) return
       if (option?.value === CREATE_OPTION_VALUE) {
         onCreate && onCreate(queryValue)
-      } else if (option) {
-        setSelected(option)
-        onChange && onChange(option)
+      } else if (option?.value) {
+        setValue(option?.value)
+        if (event) {
+          const nativeEvent = event.nativeEvent || event
+          const clonedEvent = new nativeEvent.constructor(
+            nativeEvent.type,
+            nativeEvent,
+          )
+          Object.defineProperties(clonedEvent, {
+            target: {
+              writable: true,
+              value: { value: option.value, name },
+            },
+            currentTarget: {
+              writable: true,
+              value: {
+                value: option.value,
+                name,
+              },
+            },
+          })
+          onChange && onChange(clonedEvent)
+        }
+        // onChange && onChange(option)
       }
     }
 
@@ -402,9 +444,9 @@ export const Select = React.forwardRef(
       } while (visibleOptions[nextIndex])
     }
 
-    const selectHighlightedIndex = () => {
+    const selectHighlightedIndex = (event: any) => {
       const option = options[highlightedIndex]
-      option && changeSelectedOption(option)
+      option && changeSelectedOption(option, event)
       handleReset()
     }
 
@@ -451,7 +493,7 @@ export const Select = React.forwardRef(
       if (e.key === ReservedKeys.ArrowUp) incrementHighlightIndex('previous')
       else if (e.key === ReservedKeys.ArrowDown) incrementHighlightIndex('next')
       if (e.key === ReservedKeys.Enter) {
-        selectHighlightedIndex()
+        selectHighlightedIndex(e)
         setMenuOpen(false)
       }
     }
@@ -477,7 +519,7 @@ export const Select = React.forwardRef(
     const handleOptionClick =
       (option: SelectOptionProps) => (e: React.MouseEvent<HTMLDivElement>) => {
         e.stopPropagation()
-        changeSelectedOption(option)
+        changeSelectedOption(option, e)
         setMenuOpen(false)
       }
 
@@ -486,7 +528,7 @@ export const Select = React.forwardRef(
       if (!isNaN(index)) changeHighlightIndex(index)
     }
 
-    useDocumentEvent(rootRef, 'click', () => setMenuOpen(false), menuOpen)
+    useDocumentEvent(displayRef, 'click', () => setMenuOpen(false), menuOpen)
 
     const OptionElement = ({ option }: { option: SelectOptionProps | null }) =>
       option ? (
@@ -503,6 +545,7 @@ export const Select = React.forwardRef(
         error={error}
         hideLabel={hideLabel}
         id={id}
+        inline={inline}
         label={label}
         labelSecondary={labelSecondary}
         required={required}
@@ -510,21 +553,24 @@ export const Select = React.forwardRef(
       >
         <div style={{ position: 'relative' }}>
           <SelectContainer
+            {...{
+              ...props,
+              'aria-controls': `listbox-${id}`,
+              'aria-expanded': 'true',
+              'aria-haspopup': 'listbox',
+              'aria-invalid': error ? true : undefined,
+              'data-testid': 'select-container',
+              role: 'combobox',
+              onClick: handleSelectContainerClick,
+              onKeyDown: handleKeydown,
+            }}
             $disabled={disabled}
             $size={size}
-            aria-controls={`listbox-${id}`}
-            aria-expanded="true"
-            aria-haspopup="listbox"
-            aria-invalid={error ? true : undefined}
-            data-testid="select-container"
             id={`combo-${id}`}
-            ref={rootRef}
-            role="combobox"
+            ref={displayRef}
             tabIndex={tabIndex}
             onBlur={onBlur}
-            onClick={handleSelectContainerClick}
             onFocus={onFocus}
-            onKeyDown={handleKeydown}
           >
             <OptionElementContainer data-testid="selected">
               {isAutocomplete && isOpen ? (
@@ -534,8 +580,8 @@ export const Select = React.forwardRef(
                     autoComplete="off"
                     autoFocus
                     data-testid="select-input"
-                    placeholder={selected?.label}
-                    ref={inputRef}
+                    placeholder={selectedOption?.label}
+                    ref={searchInputRef}
                     spellCheck="false"
                     style={{ flex: '1', height: '100%' }}
                     value={inputValue}
@@ -549,10 +595,32 @@ export const Select = React.forwardRef(
                   </ClearIconContainer>
                 </>
               ) : (
-                <OptionElement option={selected} />
+                <OptionElement option={selectedOption} />
               )}
             </OptionElementContainer>
             <Chevron $disabled={disabled} $open={isOpen} />
+            <VisuallyHidden>
+              <input
+                aria-hidden
+                name={name}
+                ref={inputRef}
+                tabIndex={-1}
+                value={value}
+                onChange={(e) => {
+                  const newValue = e.target.value
+                  const option = options?.find((o) => o.value === newValue)
+                  if (option) {
+                    setValue(option.value)
+                    onChange && onChange(e)
+                  }
+                }}
+                onFocus={() => {
+                  searchInputRef.current
+                    ? searchInputRef.current.focus()
+                    : displayRef.current?.focus()
+                }}
+              />
+            </VisuallyHidden>
           </SelectContainer>
           <SelectOptionContainer
             $open={isOpen}
@@ -567,7 +635,7 @@ export const Select = React.forwardRef(
             {visibleOptions.map((option, index) => (
               <SelectOption
                 {...{
-                  $selected: option?.value === selected?.value,
+                  $selected: option?.value === value,
                   $disabled: option.disabled,
                   $highlighted: index === highlightedIndex,
                 }}

@@ -19,7 +19,17 @@
     "strict": true,
     "strictNullChecks": true,
     "target": "esnext",
-    "types": ["node", "webpack-env"]
+    "types": ["node", "webpack-env"],
+    "plugins": [
+      {
+        "name": "typescript-styled-plugin",
+        "tags": ["styled", "css", "mq"],
+        "validate": false,
+        "lint": {
+          "validProperties": ["flex-gap"]
+        }
+      }
+    ]
   },
   "include": ["components/**/*", "docs/**/*", "playroom/**/*"],
   "exclude": ["node_modules"]

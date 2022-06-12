@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled, { keyframes } from 'styled-components'
+import styled, { css, keyframes } from 'styled-components'
 
 import { VisuallyHidden } from '../VisuallyHidden'
 import { Colors } from '@/src/tokens'
@@ -10,33 +10,35 @@ const rotate = keyframes`
   }
 `
 
-const Container = styled.div<{ $size: 'small' | 'large'; $color: Colors }>`
-  animation: ${rotate} 1.1s linear infinite;
+const Container = styled.div<{ $size: 'small' | 'large'; $color: Colors }>(
+  ({ theme, $color, $size }) => css`
+    animation: ${rotate} 1.1s linear infinite;
 
-  ${({ theme, $color }) => `
     color: ${theme.colors[$color]};
     stroke: ${theme.colors[$color]};
-  `}
 
-  ${({ $size, theme }) => {
-    switch ($size) {
-      case 'small':
-        return `
-          height: ${theme.space['6']};
-          stroke-width: ${theme.space['1.25']};
-          width: ${theme.space['6']};
-        `
-      case 'large':
-        return `
-          height: ${theme.space['16']};
-          stroke-width: ${theme.space['1']};
-          width: ${theme.space['16']};
-        `
-      default:
-        return ``
-    }
-  }}
-`
+    ${() => {
+      switch ($size) {
+        case 'small':
+          return css`
+            height: ${theme.space['6']};
+            stroke-width: ${theme.space['1.25']};
+            width: ${theme.space['6']};
+          `
+        case 'large':
+          return css`
+            height: ${theme.space['16']};
+            stroke-width: ${theme.space['1']};
+            width: ${theme.space['16']};
+          `
+        default:
+          return ``
+      }
+    }}
+  `,
+)
+
+type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 
 type Props = {
   /** Hidden text used for accessibilty. */
@@ -44,15 +46,15 @@ type Props = {
   /** A tokens 'mode' color value */
   color?: Colors
   size?: 'small' | 'large'
-}
+} & Omit<NativeDivProps, 'children' | 'color'>
 
 export const Spinner = React.forwardRef(
   (
-    { accessibilityLabel, size = 'small', color = 'text' }: Props,
+    { accessibilityLabel, size = 'small', color = 'text', ...props }: Props,
     ref: React.Ref<HTMLElement>,
   ) => {
     return (
-      <Container $color={color} $size={size} ref={ref as any}>
+      <Container $color={color} $size={size} ref={ref as any} {...props}>
         {accessibilityLabel && (
           <VisuallyHidden>{accessibilityLabel}</VisuallyHidden>
         )}

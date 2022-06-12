@@ -50,7 +50,10 @@ describe('<Select />', () => {
   })
 
   it('should call onChange when selection made', async () => {
-    const mockCallback = jest.fn()
+    const mockCallback = jest.fn((e: any) => [
+      e.target.value,
+      e.currentTarget.value,
+    ])
     render(
       <ThemeProvider theme={lightTheme}>
         <Select
@@ -71,7 +74,7 @@ describe('<Select />', () => {
       userEvent.click(screen.getByText('One'))
     })
     await waitFor(() => {
-      expect(mockCallback).toBeCalledWith({ value: '1', label: 'One' })
+      expect(mockCallback).toHaveReturnedWith(['1', '1'])
     })
   })
 
@@ -85,7 +88,7 @@ describe('<Select />', () => {
             { value: '1', label: 'One' },
             { value: '2', label: 'Two' },
           ]}
-          value={{ value: '0', label: 'Zero' }}
+          value="0"
         />
       </ThemeProvider>,
     )
@@ -99,7 +102,7 @@ describe('<Select />', () => {
             { value: '1', label: 'One' },
             { value: '2', label: 'Two' },
           ]}
-          value={{ value: '1', label: 'One' }}
+          value="1"
         />
       </ThemeProvider>,
     )

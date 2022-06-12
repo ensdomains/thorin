@@ -112,7 +112,7 @@ describe('<Dropdown />', () => {
     expect(screen.queryByText('Dashboard')).not.toBeVisible()
   })
 
-  it('sholud not error if no dropdown items are passed in', () => {
+  it('should not error if no dropdown items are passed in', () => {
     render(
       <ThemeProvider theme={lightTheme}>
         {/*eslint-disable-next-line @typescript-eslint/ban-ts-comment*/}

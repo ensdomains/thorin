@@ -1,6 +1,6 @@
 import { useRouter } from 'next/dist/client/router'
 import * as React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import {
   Button,
@@ -8,7 +8,7 @@ import {
   MenuSVG,
   Space,
   Typography,
-  largerThan,
+  mq,
 } from '@ensdomains/thorin'
 
 import { createGitHubLink } from '~/utils/github'
@@ -30,71 +30,81 @@ const initialState = {
   open: false,
 }
 
-const Container = styled.div`
-  flex-direction: column;
-  height: ${({ theme }) => theme.space['full']};
-`
-
-const ContainerInner = styled.div`
-  ${({ theme }) => largerThan.lg`
-    padding-bottom: ${theme.space['5']};    
-  `}
-`
-
-const NavlinkContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-direction: row;
-  gap: ${({ theme }) => theme.space['5']};
-
-  ${largerThan.lg`
+const Container = styled.div(
+  ({ theme }) => css`
     flex-direction: column;
-  `}
-`
+    height: ${theme.space['full']};
+  `,
+)
 
-const NavLinkInner = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  gap: ${({ theme }) => theme.space['4']};
-`
+const ContainerInner = styled.div(
+  ({ theme }) => css`
+    ${mq.lg.min(css`
+      padding-bottom: ${theme.space['5']};
+    `)}
+  `,
+)
 
-const ENSText = styled(Typography)`
-  ${({ theme }) => `
-      color: ${theme.colors.blue};
-      font-size: ${theme.fontSizes['headingThree']};
-      font-weight: ${theme.fontWeights['semiBold']};
-  `}
-`
+const NavlinkContainer = styled.div(
+  ({ theme }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    gap: ${theme.space['5']};
 
-const ButtonContainer = styled.div`
-  ${largerThan.md`
-    display: none;
-  `}
-`
+    ${mq.lg.min(css`
+      flex-direction: column;
+    `)}
+  `,
+)
 
-const List = styled.div<{ open?: boolean }>`
-  ${({ open, theme }) => `
-    display: ${open ? 'block' : 'none'};
+const NavLinkInner = styled.div(
+  ({ theme }) => css`
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: ${theme.space['4']};
+  `,
+)
+
+const ENSText = styled(Typography)(
+  ({ theme }) => css`
+    color: ${theme.colors.blue};
+    font-size: ${theme.fontSizes['headingThree']};
+    font-weight: ${theme.fontWeights['semiBold']};
+  `,
+)
+
+const ButtonContainer = styled.div(
+  () => css`
+    ${mq.md.min(css`
+      display: none;
+    `)}
+  `,
+)
+
+const List = styled.div<{ $open?: boolean }>(
+  ({ theme, $open }) => css`
+    display: ${$open ? 'block' : 'none'};
     height: ${theme.space['full']};
     padding-top: ${theme.space['10']};
-  `}
-  ${({ theme }) => largerThan.md`
-    display: block;
-    margin-bottom: ${theme.space['24']};
-    padding-bottom: ${theme.space['24']};
-    padding-top: ${theme.space['5']};
-  `}
-`
+    ${mq.md.min(css`
+      display: block;
+      margin-bottom: ${theme.space['24']};
+      padding-bottom: ${theme.space['24']};
+      padding-top: ${theme.space['5']};
+    `)}
+  `,
+)
 
-const FlexContainer = styled.div<{ space?: Space }>`
-  ${({ space, theme }) => `
+const FlexContainer = styled.div<{ $space?: Space }>(
+  ({ theme, $space }) => css`
     display: flex;
     flex-direction: column;
-    gap: ${theme.space[space ?? '4']};
-  `}
-`
+    gap: ${theme.space[$space ?? '4']};
+  `,
+)
 
 export const Nav = ({ links }: Props) => {
   const isMounted = useIsMounted()
@@ -142,9 +152,9 @@ export const Nav = ({ links }: Props) => {
         </NavlinkContainer>
       </ContainerInner>
 
-      <List open={!!state.open} style={{ overflow: 'scroll' }}>
-        <FlexContainer space="6">
-          <FlexContainer space="3">
+      <List $open={!!state.open} style={{ overflow: 'scroll' }}>
+        <FlexContainer $space="6">
+          <FlexContainer $space="3">
             <NavLink href={createGitHubLink()}>GitHub</NavLink>
             <NavLink href={createPlayroomLink()}>Playroom</NavLink>
           </FlexContainer>
@@ -153,7 +163,7 @@ export const Nav = ({ links }: Props) => {
             <Typography variant="labelHeading" weight="bold">
               Guides
             </Typography>
-            <FlexContainer space="3">
+            <FlexContainer $space="3">
               <NavLink
                 active={
                   isMounted &&
@@ -180,9 +190,9 @@ export const Nav = ({ links }: Props) => {
               Components
             </Typography>
             {links.map((x) => (
-              <FlexContainer key={x.name} space="3">
+              <FlexContainer $space="3" key={x.name}>
                 <Typography variant="label">{x.name}</Typography>
-                <FlexContainer space="3">
+                <FlexContainer $space="3">
                   {x.links.map((y) => (
                     <NavLink
                       active={
@@ -204,26 +214,28 @@ export const Nav = ({ links }: Props) => {
   )
 }
 
-const HeaderLink = styled.div`
-  transition: all 0.15s ease-in-out;
-  width: ${({ theme }) => theme.space['max']};
-  &:hover {
-    transform: translateY(-1px);
-    filter: brightness(1.05);
-  }
+const HeaderLink = styled.div(
+  ({ theme }) => css`
+    transition: all 0.15s ease-in-out;
+    width: ${theme.space['max']};
+    &:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.05);
+    }
 
-  & a {
-    text-decoration: none;
-  }
-`
+    & a {
+      text-decoration: none;
+    }
+  `,
+)
 
-const NavLinkChildrenContainer = styled(Typography)<{ active?: boolean }>`
-  ${({ active, theme }) => `
-  font-weight: ${theme.fontWeights['semiBold']};
+const NavLinkChildrenContainer = styled(Typography)<{ $active?: boolean }>(
+  ({ theme, $active }) => css`
+    font-weight: ${theme.fontWeights['semiBold']};
 
-  color: ${active ? theme.colors.accent : theme.colors.textTertiary};
-  `}
-`
+    color: ${$active ? theme.colors.accent : theme.colors.textTertiary};
+  `,
+)
 
 const NavLink = ({
   active,
@@ -236,7 +248,7 @@ const NavLink = ({
   return (
     <HeaderLink>
       <Link href={href}>
-        <NavLinkChildrenContainer {...{ active }}>
+        <NavLinkChildrenContainer {...{ $active: active }}>
           {children}
         </NavLinkChildrenContainer>
       </Link>

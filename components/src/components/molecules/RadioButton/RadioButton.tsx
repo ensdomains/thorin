@@ -1,75 +1,82 @@
 import * as React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import { Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
+import { getTestId } from '../../../utils/utils'
 
-const Input = styled.input`
-  cursor: pointer;
-  font: inherit;
-  border-radius: 50%;
-  display: grid;
-  place-content: center;
-  transition: transform 150ms ease-in-out, filter 150ms ease-in-out;
+const Input = styled.input(
+  ({ theme }) => css`
+    cursor: pointer;
+    font: inherit;
+    border-radius: 50%;
+    display: grid;
+    place-content: center;
+    transition: transform 150ms ease-in-out, filter 150ms ease-in-out;
 
-  &:hover {
-    transform: translateY(-1px);
-    filter: contrast(0.7);
-  }
+    &:hover {
+      transform: translateY(-1px);
+      filter: contrast(0.7);
+    }
 
-  &:active {
-    transform: translateY(0px);
-    filter: contrast(1);
-  }
+    &:active {
+      transform: translateY(0px);
+      filter: contrast(1);
+    }
 
-  &:checked::before {
-    transform: scale(1);
-  }
-
-  ${({ theme }) => `
     width: ${theme.space['6']};
     height: ${theme.space['6']};
     margin: ${theme.space['2']} 0;
     background-color: ${theme.colors.backgroundHide};
-  
+
     &::before {
-        content: '';
-        width: ${theme.space['4.5']};
-        height: ${theme.space['4.5']};
-        border-radius: 50%;
-        transform: scale(0);
-        transition: transform 90ms ease-in-out;
-        background-image: ${theme.colors.gradients.blue};
-        background-size: 100% 100%;
-        background-position: center;
-      }
-  `}
-`
+      content: '';
+      width: ${theme.space['4.5']};
+      height: ${theme.space['4.5']};
+      border-radius: 50%;
+      transform: scale(0);
+      transition: transform 90ms ease-in-out;
+      background-image: ${theme.colors.gradients.blue};
+      background-size: 100% 100%;
+      background-position: center;
+    }
 
-type NativeInputProps = React.AllHTMLAttributes<HTMLInputElement>
+    &:checked::before {
+      transform: scale(1);
+    }
+  `,
+)
 
-type Props = Exclude<FieldBaseProps, 'inline'> & {
+type NativeInputProps = React.InputHTMLAttributes<HTMLInputElement>
+
+type Props = {
   /** A string or component that represents the input item. */
   label: React.ReactNode
   /** The name attribute for input elements. */
   name: NativeInputProps['name']
   /** The value attribute of input elements. */
-  value: NativeInputProps['value']
+  value: string | number
+  /** The inital value of input element */
+  defaultValue?: string | number
   /** If true, the radio button is selected. */
   checked?: NativeInputProps['checked']
   /** The id attribute of input element. */
   id?: NativeInputProps['id']
   /** If true, the input is unable to receive user input. */
-  disabled?: boolean
+  disabled?: NativeInputProps['disabled']
   /** The handler for change events. */
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
+  onChange?: NativeInputProps['onChange']
   /** The tabindex attribute for input elements. */
   tabIndex?: NativeInputProps['tabIndex']
   /** The handler for focus events. */
   onFocus?: NativeInputProps['onFocus']
   /** The handler for blur events. */
   onBlur?: NativeInputProps['onBlur']
-}
+} & FieldBaseProps &
+  Omit<
+    NativeInputProps,
+    'children' | 'value' | 'defaultValue' | 'aria-invalid' | 'type'
+  >
 
 export const RadioButton = React.forwardRef(
   (
@@ -77,6 +84,7 @@ export const RadioButton = React.forwardRef(
       description,
       disabled,
       error,
+      inline = true,
       hideLabel,
       id,
       label,
@@ -103,28 +111,28 @@ export const RadioButton = React.forwardRef(
         error={error}
         hideLabel={hideLabel}
         id={id}
-        inline
+        inline={inline}
         label={label}
         labelSecondary={labelSecondary}
         required={required}
         width={width}
       >
         <Input
-          aria-invalid={error ? true : undefined}
-          data-testid="radio"
-          ref={inputRef}
-          type="radio"
           {...{
-            disabled,
-            name,
-            tabIndex,
-            value,
-            onBlur,
-            onChange,
-            onFocus,
-            checked,
             ...props,
+            'aria-invalid': error ? true : undefined,
+            'data-testid': getTestId(props, 'radio'),
+            type: 'radio',
           }}
+          checked={checked}
+          disabled={disabled}
+          name={name}
+          ref={inputRef}
+          tabIndex={tabIndex}
+          value={value}
+          onBlur={onBlur}
+          onChange={onChange}
+          onFocus={onFocus}
         />
       </Field>
     )

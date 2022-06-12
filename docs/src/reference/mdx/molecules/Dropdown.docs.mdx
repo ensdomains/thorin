@@ -13,7 +13,7 @@ import { Dropdown } from '@ensdomains/thorin'
     { label: 'Dashboard', onClick: () => null, color: 'text' },
     { label: 'Disconnect', onClick: () => null, color: 'red' },
   ]}
-  label="Language"
+  label="Account"
 />
 ```
 
@@ -55,6 +55,22 @@ import { Dropdown } from '@ensdomains/thorin'
     },
   }}
 />
+
+## Direction
+
+```tsx live=true expand=true minHeight=300px
+<>
+  <div style={{ height: '300px' }} />
+  <Dropdown
+    direction="up"
+    items={[
+      { label: 'Dashboard', onClick: () => null, color: 'text' },
+      { label: 'Disconnect', onClick: () => null, color: 'red' },
+    ]}
+    label="Account"
+  />
+</>
+```
 
 ## Inner Dropdown
 
@@ -166,6 +182,6 @@ import { Dropdown } from '@ensdomains/thorin'
       Item2
     </Button>,
   ]}
-  label="Language"
+  label="Custom"
 />
 ```

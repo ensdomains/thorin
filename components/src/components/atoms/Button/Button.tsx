@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled, { DefaultTheme } from 'styled-components'
+import styled, { DefaultTheme, css } from 'styled-components'
 
 import { ReactNodeNoStrings } from '../../../types'
 import { Spinner } from '../Spinner'
@@ -13,7 +13,7 @@ type NativeAnchorProps = React.AllHTMLAttributes<HTMLAnchorElement>
 
 type Variant = 'primary' | 'secondary' | 'action' | 'transparent'
 
-type Tone = 'accent' | 'blue' | 'green' | 'red'
+type Tone = 'accent' | 'blue' | 'green' | 'red' | 'grey'
 
 type BaseProps = {
   /** An alternative element type to render the component as.*/
@@ -22,13 +22,13 @@ type BaseProps = {
   center?: boolean
   children: NativeButtonProps['children']
   /** If true, prevents user interaction with button. */
-  disabled?: boolean
+  disabled?: NativeButtonProps['disabled']
   /** Insert a ReactNode before the children */
   prefix?: ReactNodeNoStrings
   /** Shows loading spinner inside button */
   loading?: boolean
   /** Constrains button to specific shape */
-  shape?: 'square' | 'circle'
+  shape?: 'square' | 'rounded' | 'circle'
   /** Sets dimensions and layout  */
   size?: Size
   /** Adds ReactNode after children */
@@ -45,9 +45,11 @@ type BaseProps = {
   pressed?: boolean
   /** If true, removes the box-shadow */
   shadowless?: boolean
+  /** If true, adds an outline to the button */
+  outlined?: boolean
   /** The handler for click events. */
-  onClick?: React.MouseEventHandler<HTMLElement> | undefined
-}
+  onClick?: NativeButtonProps['onClick']
+} & Omit<NativeButtonProps, 'prefix' | 'size'>
 
 type WithTone = {
   /** Sets the color scheme when variant is 'primary' or 'action' */
@@ -62,7 +64,7 @@ type WithoutTone = {
 
 type WithAnchor = {
   /** The href attribute for the anchor element. */
-  href?: string
+  href?: NativeAnchorProps['href']
   /** The rel attribute for the anchor element. */
   rel?: NativeAnchorProps['rel']
   /** The target attribute for the anchor element. */
@@ -78,10 +80,11 @@ type WithoutAnchor = {
 interface ButtonElement {
   $pressed: boolean
   $shadowless: boolean
-  $shape?: 'circle' | 'square'
-  $size?: 'extraSmall' | 'small' | 'medium'
-  $variant: 'primary' | 'secondary' | 'action' | 'transparent'
-  $type?: NativeButtonProps['type']
+  $outlined: boolean
+  $shape?: BaseProps['shape']
+  $size?: BaseProps['size']
+  $variant: BaseProps['variant']
+  $type?: BaseProps['type']
   $center: boolean | undefined
   $tone: Tone
 }
@@ -95,9 +98,23 @@ const getAccentColour = (
     | 'accentGradient'
     | 'accentSecondary'
     | 'accentSecondaryHover',
+  type?: 'secondary',
 ) => {
   if (tone === 'accent') {
     return theme.colors[accent]
+  }
+
+  if (tone === 'grey') {
+    switch (accent) {
+      case 'accentText':
+        return theme.colors.text
+      case 'accentSecondary':
+        return theme.colors.foregroundTertiary
+      default:
+        return type === 'secondary'
+          ? theme.colors.textSecondary
+          : theme.colors[tone]
+    }
   }
 
   switch (accent) {
@@ -116,39 +133,71 @@ const getAccentColour = (
   }
 }
 
-const ButtonElement = styled.button<ButtonElement>`
-  align-items: center;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  transition-propery: all;
+const ButtonElement = styled.button<ButtonElement>(
+  ({
+    theme,
+    disabled,
+    $center,
+    $pressed,
+    $shadowless,
+    $outlined,
+    $size,
+    $variant,
+    $tone,
+    $shape,
+  }) => css`
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    transition-property: all;
 
-  ${({ theme }) => `
-  gap: ${theme.space['4']};
-  transition-duration: ${theme.transitionDuration['150']};
-  transition-timing-function: ${theme.transitionTimingFunction['inOut']};
-  letter-spacing: ${theme.letterSpacings['-0.01']};
-  width: 100%;
-  `}
+    gap: ${theme.space['4']};
+    transition-duration: ${theme.transitionDuration['150']};
+    transition-timing-function: ${theme.transitionTimingFunction['inOut']};
+    letter-spacing: ${theme.letterSpacings['-0.01']};
+    width: 100%;
 
-  &:hover {
-    transform: translateY(-1px);
-    filter: brightness(1.05);
-  }
+    &:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.05);
+    }
 
-  &:active {
-    transform: translateY(0px);
-    filter: brightness(1);
-  }
+    &:active {
+      transform: translateY(0px);
+      filter: brightness(1);
+    }
 
-  ${({ theme, disabled, $center, $pressed, $shadowless }) => `
-    ${disabled ? `cursor: not-allowed` : ``};
-    ${$center ? `position: relative` : ``};
-    ${$pressed ? `filter: brightness(0.95)` : ``};
-    ${$shadowless ? `box-shadow: none !important` : ``};
-    
+    ${disabled
+      ? css`
+          cursor: not-allowed;
+        `
+      : ``};
+    ${$center
+      ? css`
+          position: relative;
+        `
+      : ``};
+    ${$pressed
+      ? css`
+          filter: brightness(0.95);
+        `
+      : ``};
+    ${$shadowless
+      ? css`
+          box-shadow: none !important;
+        `
+      : ``};
+
+    ${$outlined
+      ? css`
+          border: ${theme.borderWidths.px} ${theme.borderStyles.solid}
+            ${theme.colors.borderTertiary};
+        `
+      : ``}
+
     box-shadow: ${theme.shadows['0.25']} ${theme.colors.grey};
-    
+
     &:disabled {
       background-color: ${theme.colors.grey};
       transform: translateY(0px);
@@ -158,110 +207,120 @@ const ButtonElement = styled.button<ButtonElement>`
     border-radius: ${theme.radii.extraLarge};
     font-size: ${theme.fontSizes.large};
     padding: ${theme.space['3.5']} ${theme.space['4']};
-  `}
 
-  ${({ $size, theme }) => {
-    switch ($size) {
-      case 'extraSmall':
-        return `
-          border-radius: ${theme.radii.large};
-          font-size: ${theme.fontSizes.small};
-          padding: ${theme.space['2']};
-        `
-      case 'small':
-        return `
-          border-radius: ${theme.radii.large};
-          font-size: ${theme.fontSizes.small};
-          height: ${theme.space['10']};
-          padding: 0 ${theme.space['4']};
-        `
-      case 'medium':
-        return ``
-      default:
-        return ``
-    }
-  }}
-  ${({ theme, $variant, $tone }) => {
-    switch ($variant) {
-      case 'primary':
-        return `
-          color: ${getAccentColour(theme, $tone, 'accentText')};
-          background: ${getAccentColour(theme, $tone, 'accent')};
-        `
-      case 'secondary':
-        return `
-          color: ${theme.colors.textSecondary};
-          background: ${theme.colors.grey};
-        `
-      case 'action':
-        return `
-          color: ${getAccentColour(theme, $tone, 'accentText')};
-          background: ${getAccentColour(theme, $tone, 'accentGradient')};
-        `
-      case 'transparent':
-        return `
-          color: ${theme.colors.textTertiary};
-          
-          &:hover {
+    ${() => {
+      switch ($size) {
+        case 'extraSmall':
+          return css`
+            border-radius: ${theme.radii.large};
+            font-size: ${theme.fontSizes.small};
+            padding: ${theme.space['2']};
+          `
+        case 'small':
+          return css`
+            border-radius: ${theme.radii.large};
+            font-size: ${theme.fontSizes.small};
+            height: ${theme.space['10']};
+            padding: 0 ${theme.space['4']};
+          `
+        case 'medium':
+          return ``
+        default:
+          return ``
+      }
+    }}
+
+    ${() => {
+      switch ($variant) {
+        case 'primary':
+          return css`
+            color: ${getAccentColour(theme, $tone, 'accentText')};
+            background: ${getAccentColour(theme, $tone, 'accent')};
+          `
+        case 'secondary':
+          return css`
+            color: ${getAccentColour(theme, $tone, 'accent', 'secondary')};
+            background: ${getAccentColour(theme, $tone, 'accentSecondary')};
+          `
+        case 'action':
+          return css`
+            color: ${getAccentColour(theme, $tone, 'accentText')};
+            background: ${getAccentColour(theme, $tone, 'accentGradient')};
+          `
+        case 'transparent':
+          return css`
+            color: ${theme.colors.textTertiary};
+
+            &:hover {
               background-color: ${theme.colors.foregroundTertiary};
-          }
-          
-          &:active {
+            }
+
+            &:active {
               background-color: ${theme.colors.foregroundTertiary};
-          }
+            }
+          `
+        default:
+          return ``
+      }
+    }}
+    
+  ${() => {
+      switch ($shape) {
+        case 'circle':
+          return css`
+            border-radius: ${theme.radii.full};
+          `
+        case 'square':
+          return css`
+            border-radius: ${$size === 'small'
+              ? theme.radii['large']
+              : theme.radii['2xLarge']};
+          `
+        case 'rounded':
+          return css`
+            border-radius: ${theme.radii.extraLarge};
+          `
+        default:
+          return ``
+      }
+    }}
+
+  ${() => {
+      if ($size === 'medium' && $center) {
+        return css`
+          padding-left: ${theme.space['14']};
+          padding-right: ${theme.space['14']};
         `
-      default:
-        return ``
-    }
-  }}
-  ${({ $size, $shape, theme }) => {
-    switch ($shape) {
-      case 'circle':
-        return `
-          border-radius: ${theme.radii.full};
+      }
+      return ''
+    }}
+
+  ${() => {
+      if ($shadowless && $pressed && $variant === 'transparent') {
+        return css`
+          background-color: ${theme.colors.backgroundSecondary};
         `
-      case 'square':
-        return `border-radius: ${
-          $size === 'small' ? theme.radii['large'] : theme.radii['2xLarge']
-        };`
-      default:
-        return ``
-    }
-  }}
+      }
+      return ''
+    }}
+  `,
+)
 
-  ${({ $size, $center, theme }) => {
-    if ($size === 'medium' && $center) {
-      return `
-        padding-left: ${theme.space['14']};
-        padding-right: ${theme.space['14']};
-      `
-    }
-    return ''
-  }}
+const PrefixContainer = styled.div<GetCenterProps>(
+  () => css`
+    ${getCenterProps}
+  `,
+)
 
-  ${({ theme, $shadowless, $pressed, $variant }) => {
-    if ($shadowless && $pressed && $variant === 'transparent') {
-      return `
-        background-color: ${theme.colors.backgroundSecondary};
-      `
-    }
-    return ''
-  }}
-`
+const LoadingContainer = styled.div(() => css``)
 
-const PrefixContainer = styled.div<GetCenterProps>`
-  ${getCenterProps}
-`
-
-const LoadingContainer = styled.div``
-
-const LabelContainer = styled(Typography)`
-  ${({ theme }) => `
-  color: inherit;
-  font-size: inherit;
-  font-weight: ${theme.fontWeights['semiBold']};
-  `}
-`
+const LabelContainer = styled(Typography)(
+  ({ theme }) => css`
+    color: inherit;
+    font-size: inherit;
+    font-weight: ${theme.fontWeights['semiBold']};
+  `,
+)
 
 export type Props = BaseProps &
   (WithTone | WithoutTone) &
@@ -289,7 +348,9 @@ export const Button = React.forwardRef(
       onClick,
       pressed = false,
       shadowless = false,
+      outlined = false,
       as: asProp,
+      ...props
     }: Props,
     ref: React.Ref<HTMLButtonElement>,
   ) => {
@@ -318,26 +379,26 @@ export const Button = React.forwardRef(
 
     return (
       <ButtonElement
-        {...{
-          as: asProp as any,
-          $variant: variant,
-          $tone: tone,
-          $size: size,
-          $shape: shape,
-          $shadowless: shadowless,
-          $pressed: pressed,
-          $center: center,
-          disabled: disabled,
-          href: href,
-          ref: ref,
-          rel: rel,
-          tabIndex: tabIndex,
-          target: target,
-          type: type,
-          onClick,
-          zIndex,
-          position: zIndex && 'relative',
-        }}
+        {...props}
+        $center={center}
+        $outlined={outlined}
+        $pressed={pressed}
+        $shadowless={shadowless}
+        $shape={shape}
+        $size={size}
+        $tone={tone}
+        $variant={variant}
+        as={asProp as any}
+        disabled={disabled}
+        href={href}
+        position={zIndex && 'relative'}
+        ref={ref}
+        rel={rel}
+        tabIndex={tabIndex}
+        target={target}
+        type={type}
+        zIndex={zIndex}
+        onClick={onClick}
       >
         {childContent}
       </ButtonElement>

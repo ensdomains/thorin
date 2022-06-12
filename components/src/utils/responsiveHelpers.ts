@@ -1,33 +1,30 @@
-import { FlattenSimpleInterpolation, css } from 'styled-components'
+import { css } from 'styled-components'
 
-import { breakpoints } from '@/src/tokens'
+import { breakpoints } from '../tokens'
 
-type Breakpoints = {
-  sm: (...args: any[]) => FlattenSimpleInterpolation
-  md: (...args: any[]) => FlattenSimpleInterpolation
-  lg: (...args: any[]) => FlattenSimpleInterpolation
-  xl: (...args: any[]) => FlattenSimpleInterpolation
+type Breakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+type BreakpointType = 'min' | 'max'
+
+const breakpointTypes: Record<BreakpointType, string> = {
+  min: 'min-width',
+  max: 'max-width',
 }
 
-type Accumulator = {
-  sm?: (args: any) => FlattenSimpleInterpolation
-  md?: (args: any) => FlattenSimpleInterpolation
-  lg?: (args: any) => FlattenSimpleInterpolation
-  xl?: (args: any) => FlattenSimpleInterpolation
-}
+type MediaQuery = (args: ReturnType<typeof css>) => ReturnType<typeof css>
 
-const largerThanAccumulator = Object.keys(breakpoints).reduce(
-  (accumulator: Accumulator, label): Accumulator => {
-    const pxSize = breakpoints[label as keyof Accumulator]
-    const newAcc = accumulator
-    newAcc[label as keyof Accumulator] = (...args) => css`
-      @media screen and (min-width: ${pxSize}px) {
-        ${css(...args)}
-      }
-    `
-    return newAcc
-  },
-  {},
-)
+const keys = Object.keys(breakpoints) as Array<Breakpoint>
+const typeKeys = Object.keys(breakpointTypes) as Array<BreakpointType>
 
-export const largerThan = largerThanAccumulator as Breakpoints
+export const mq = keys.reduce((acc, sizeLabel) => {
+  acc[sizeLabel] = typeKeys.reduce((accumulator, typeLabel) => {
+    accumulator[typeLabel] = ((args: ReturnType<typeof css>) => {
+      return css`
+        @media (${breakpointTypes[typeLabel]}: ${breakpoints[sizeLabel]}px) {
+          ${args};
+        }
+      `
+    }) as MediaQuery
+    return accumulator
+  }, {} as Record<BreakpointType, MediaQuery>)
+  return acc
+}, {} as Record<Breakpoint, Record<BreakpointType, MediaQuery>>)
