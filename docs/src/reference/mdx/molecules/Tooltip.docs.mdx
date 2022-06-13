@@ -8,8 +8,15 @@ import { Tooltip, TooltipProps } from '@ensdomains/thorin'
 ```
 
 ```tsx live=true  expand=ture minHeight=300px
-<Tooltip content={<div>Content</div>} placement="bottom-start">
-  <Button>Click me</Button>
+<Tooltip
+  content={<div>Content</div>}
+  open={getState('isOpen')}
+  placement="bottom-start"
+  onDismiss={() => setState('isOpen', false)}
+>
+  <Button pressed={getState('isOpen')} onClick={() => toggleState('isOpen')}>
+    Click me
+  </Button>
 </Tooltip>
 ```
 
@@ -19,37 +26,151 @@ import { Tooltip, TooltipProps } from '@ensdomains/thorin'
 
 ## Placement
 
-```tsx live=true  expand=ture minHeight=300px
-<Stack>
-  <Stack flexDirection="row" justifyContent="space-between">
-    <Tooltip content={<div>Content</div>} placement="bottom-start">
-      <Button>Click me</Button>
-    </Tooltip>
-    <Tooltip content={<div>Content</div>} placement="bottom-center">
-      <Button>Click me</Button>
-    </Tooltip>
-    <Tooltip content={<div>Content</div>} placement="bottom-end">
-      <Button>Click me</Button>
-    </Tooltip>
-  </Stack>
-  <Stack flexDirection="row" justifyContent="space-between">
-    <Tooltip content={<div>Content</div>} placement="right-center">
-      <Button>Click me</Button>
-    </Tooltip>
-    <Tooltip content={<div>Content</div>} placement="left-center">
-      <Button>Click me</Button>
-    </Tooltip>
-  </Stack>
-  <Stack flexDirection="row" justifyContent="space-between">
-    <Tooltip content={<div>Content</div>} placement="top-start">
-      <Button>Click me</Button>
-    </Tooltip>
-    <Tooltip content={<div>Content</div>} placement="top-center">
-      <Button>Click me</Button>
-    </Tooltip>
-    <Tooltip content={<div>Content</div>} placement="top-end">
-      <Button>Click me</Button>
-    </Tooltip>
-  </Stack>
+### Bottom
+
+```tsx live=true  expand=ture minHeight=200px
+<Stack flexDirection="row" justifyContent="space-between">
+  <Tooltip
+    content={<div>Content</div>}
+    open={getState('isOpen1')}
+    placement="bottom-start"
+    onDismiss={() => setState('isOpen1', false)}
+  >
+    <Button
+      pressed={getState('isOpen1')}
+      onClick={() => toggleState('isOpen1')}
+    >
+      Click me
+    </Button>
+  </Tooltip>
+  <Tooltip
+    content={<div>Content</div>}
+    open={getState('isOpen2')}
+    placement="bottom-center"
+    onDismiss={() => setState('isOpen2', false)}
+  >
+    <Button
+      pressed={getState('isOpen2')}
+      onClick={() => toggleState('isOpen2')}
+    >
+      Click me
+    </Button>
+  </Tooltip>
+  <Tooltip
+    content={<div>Content</div>}
+    open={getState('isOpen3')}
+    placement="bottom-end"
+    onDismiss={() => setState('isOpen3', false)}
+  >
+    <Button
+      pressed={getState('isOpen3')}
+      onClick={() => toggleState('isOpen3')}
+    >
+      Click me
+    </Button>
+  </Tooltip>
 </Stack>
+```
+
+### Horizontal
+
+```tsx live=true  expand=ture minHeight=200px
+<Stack alignItems="center" flexDirection="column">
+  <Tooltip
+    content={<div>Content</div>}
+    open={getState('isOpen1')}
+    placement={`${getState('side')}-start`}
+    onDismiss={() => setState('isOpen1', false)}
+  >
+    <Button
+      pressed={getState('isOpen1')}
+      onClick={() => toggleState('isOpen1')}
+    >
+      Click me
+    </Button>
+  </Tooltip>
+  <Tooltip
+    content={<div>Content</div>}
+    open={getState('isOpen2')}
+    placement={`${getState('side')}-center`}
+    onDismiss={() => setState('isOpen2', false)}
+  >
+    <Button
+      pressed={getState('isOpen2')}
+      onClick={() => toggleState('isOpen2')}
+    >
+      Click me
+    </Button>
+  </Tooltip>
+  <Tooltip
+    content={<div>Content</div>}
+    open={getState('isOpen3')}
+    placement={`${getState('side')}-end`}
+    onDismiss={() => setState('isOpen3', false)}
+  >
+    <Button
+      pressed={getState('isOpen3')}
+      onClick={() => toggleState('isOpen3')}
+    >
+      Click me
+    </Button>
+  </Tooltip>
+  <Button
+    onClick={() =>
+      setState('side', getState('side') === 'right' ? 'left' : 'right')
+    }
+  >
+    Switch Side
+  </Button>
+  <VisuallyHidden>{setDefaultState('side', 'left')}</VisuallyHidden>
+</Stack>
+```
+
+### Top
+
+```tsx live=true  expand=ture minHeight=200px
+<>
+  <div style={{ marginTop: '100px' }} />
+  <Stack flexDirection="row" justifyContent="space-between">
+    <Tooltip
+      content={<div>Content</div>}
+      open={getState('isOpen1')}
+      placement="top-start"
+      onDismiss={() => setState('isOpen1', false)}
+    >
+      <Button
+        pressed={getState('isOpen1')}
+        onClick={() => toggleState('isOpen1')}
+      >
+        Click me
+      </Button>
+    </Tooltip>
+    <Tooltip
+      content={<div>Content</div>}
+      open={getState('isOpen2')}
+      placement="top-center"
+      onDismiss={() => setState('isOpen2', false)}
+    >
+      <Button
+        pressed={getState('isOpen2')}
+        onClick={() => toggleState('isOpen2')}
+      >
+        Click me
+      </Button>
+    </Tooltip>
+    <Tooltip
+      content={<div>Content</div>}
+      open={getState('isOpen3')}
+      placement="top-end"
+      onDismiss={() => setState('isOpen3', false)}
+    >
+      <Button
+        pressed={getState('isOpen3')}
+        onClick={() => toggleState('isOpen3')}
+      >
+        Click me
+      </Button>
+    </Tooltip>
+  </Stack>
+</>
 ```

@@ -104,6 +104,7 @@ export const CodePreview = ({
         NextLink,
         avatars,
         Stack,
+        css,
         keyframes,
       }}
       theme={theme}
