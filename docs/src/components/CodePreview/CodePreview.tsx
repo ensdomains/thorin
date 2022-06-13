@@ -54,6 +54,20 @@ const ContainerInner = styled.div<{ $expand?: boolean; ref: any }>(
   `,
 )
 
+const LiveEditorContainer = styled.div(
+  ({ theme }) => css`
+    background-color: ${theme.colors.backgroundSecondary};
+    position: relative;
+    padding: 0.875rem 2.75rem 0.875rem 0.875rem;
+
+    .token {
+      font-family: 'iAWriter Mono', Menlo, Monaco, Consolas, 'Liberation Mono',
+        'Courier New', monospace, sans-serif !important;
+      font-size: 1.0625rem;
+      font-feature-settings: 'ss01', 'ss03';
+    }
+  `,
+)
 // const LiveErrorTypography = styled(Typography)`
 //   ${({ theme }) => `
 //     color: ${tokens.colors[theme.mode].red};
@@ -127,16 +141,18 @@ export const CodePreview = ({
         </ContainerInner>
 
         {state.expand && (
-          <div style={{ position: 'relative' }}>
+          <LiveEditorContainer>
             <LiveEditor
               prism={Prism}
+              style={{
+                fontFamily: 'Arial, sans-serif',
+              }}
               onChange={(newCode) => setCode(newCode)}
             />
-
             <div style={{ position: 'absolute', right: 3.5, top: 3.5 }}>
               <CopyButton content={code} />
             </div>
-          </div>
+          </LiveEditorContainer>
         )}
       </Container>
 
