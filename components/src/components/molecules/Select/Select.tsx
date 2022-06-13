@@ -470,6 +470,7 @@ export const Select = React.forwardRef(
       e: React.MouseEvent<HTMLDivElement>,
     ) => {
       e.stopPropagation()
+      e.preventDefault()
       if (isAutocomplete && !menuOpen) setMenuOpen(true)
       !isAutocomplete && setMenuOpen(!menuOpen)
     }
