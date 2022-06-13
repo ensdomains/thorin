@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled, { css, keyframes, useTheme } from 'styled-components'
+import styled, { css, useTheme } from 'styled-components'
 import { default as NextImage } from 'next/image'
 import { default as NextLink } from 'next/link'
 import { LiveEditor, LiveError, LivePreview, LiveProvider } from 'react-live'
@@ -104,7 +104,6 @@ export const CodePreview = ({
         NextLink,
         avatars,
         DeleteMe,
-        keyframes,
       }}
       theme={theme}
       transformCode={(code) => '/** @jsx mdx */' + code}
