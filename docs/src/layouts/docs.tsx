@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { GetLayout, NextLayout } from 'next'
 import Head from 'next/head'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
-import { largerThan } from '@ensdomains/thorin'
+import { mq } from '@ensdomains/thorin'
 
 import {
   Header,
@@ -14,82 +14,85 @@ import {
 } from '~/components'
 import { getLayout as getBaseLayout } from './site'
 
-const Container = styled.div`
-  ${({ theme }) => `
+const Container = styled.div(
+  ({ theme }) => css`
     display: block;
     justify-content: center;
     margin: 0 auto;
     max-width: ${theme.space['320']};
     min-height: ${theme.space['viewHeight']};
     padding: 0 ${theme.space['6']};
-  `}
 
-  ${largerThan.md`
-    display: flex;
-    justify-content: flex-end;
-  `}
+    ${mq.lg.min(css`
+      display: flex;
+      justify-content: flex-end;
+    `)}
 
-  ${largerThan.lg`
-    display: flex;
-    justify-content: center;
-  `}
-`
+    ${mq.xl.min(css`
+      display: flex;
+      justify-content: center;
+    `)}
+  `,
+)
 
-const Aside = styled.aside`
-  ${({ theme }) => `
+const Aside = styled.aside(
+  ({ theme }) => css`
     padding-top: ${theme.space['6']};
-  `}
 
-  ${({ theme }) => largerThan.md`
-    left: ${theme.space['4']};
-    width: ${theme.space['max']};
-    margin-right: ${theme.space['10']};
-  `}
+    ${mq.lg.min(css`
+      background-color: ${theme.colors.foregroundTertiary};
+      margin-right: ${theme.space['10']};
+      border-radius: ${theme.radii['extraLarge']};
 
-  ${({ theme }) => largerThan.lg`
-    height: ${theme.space['viewHeight']};
-    position: fixed;
-    width: ${theme.space['48']};
-  `}
+      left: ${theme.space['4']};
+      top: ${theme.space['4']};
+      bottom: ${theme.space['4']};
 
-  ${({ theme }) => largerThan.xl`
-    width: ${theme.space['56']};
-  `}
-`
+      height: calc(${theme.space['viewHeight']} - ${theme.space['8']});
+      padding: ${theme.space['4']};
+      overflow: hidden;
+      position: fixed;
+      width: ${theme.space['48']};
+    `)}
 
-const Article = styled.article`
-  ${({ theme }) => `
+    ${mq.xl.min(css`
+      width: ${theme.space['56']};
+    `)}
+  `,
+)
+
+const Article = styled.article(
+  ({ theme }) => css`
     width: 100%;
     padding-bottom: ${theme.space['20']};
     padding-top: ${theme.space['20']};
-  `}
 
-  ${({ theme }) => largerThan.md`
-    max-width: ${theme.space['224']}
-  `}
+    ${mq.lg.min(css`
+      max-width: ${theme.space['192']};
+      padding: ${theme.space['20']} ${theme.space['10']};
+    `)}
 
-  ${({ theme }) => largerThan.lg`
-    max-width: ${theme.space['192']};
-    padding: ${theme.space['20']} ${theme.space['10']};
-  `}
+    ${mq.xl.min(css`
+      max-width: ${theme.space['224']};
+    `)}
+  `,
+)
 
-  ${({ theme }) => largerThan.xl`
-    max-width: ${theme.space['224']};
-  `}
-`
-
-const Main = styled.main`
-  flex-grow: 1;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  ${largerThan.md`
-    justify-content: flex-end;
-  `}
-  ${largerThan.xl`
+const Main = styled.main(
+  ({ theme }) => css`
+    flex-grow: 1;
+    display: flex;
     justify-content: center;
-  `}
-`
+    align-items: flex-start;
+    ${mq.lg.min(css`
+      justify-content: flex-end;
+      margin-left: ${theme.space['56']};
+    `)}
+    ${mq.xl.min(css`
+      justify-content: center;
+    `)}
+  `,
+)
 
 export type Props = {
   meta: {

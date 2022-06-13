@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 type Props = {
   alignItems?: string
@@ -11,22 +11,50 @@ type Props = {
   flexWrap?: string
 }
 
-const Container = styled.div<Props>`
-  display: flex;
-  ${({ flexDirection, justifyContent, alignItems, flex, gap, flexWrap }) => `
-    flex-direction: ${flexDirection || 'column'};
-    justify-content: ${justifyContent};
-    align-items: ${alignItems};
-    flex: ${flex};
-    gap: ${gap || '16px'};
-    flex-gap: ${gap || '16px'};
-    flex-wrap: ${flexWrap};
-  `}
-`
+const Container = styled.div<{
+  $alignItems?: string
+  $flexDirection?: string
+  $flex?: string
+  $justifyContent?: string
+  $gap?: string
+  $flexWrap?: string
+}>(
+  ({
+    $flexDirection,
+    $justifyContent,
+    $alignItems,
+    $flex,
+    $gap,
+    $flexWrap,
+  }) => css`
+    display: flex;
+    flex-direction: ${$flexDirection || 'column'};
+    flex-gap: ${$gap || '16px'};
+    gap: ${$gap || '16px'};
+    ${$justifyContent && `justify-content: ${$justifyContent};`}
+    ${$alignItems && `align-items: ${$alignItems};`}
+    ${$flex && `flex: ${$flex};`}
+    ${$flexWrap && `flex-wrap: ${$flexWrap};`}
+  `,
+)
 
 export const DeleteMe = ({
   children,
-  ...props
+  alignItems,
+  flexDirection,
+  flex,
+  justifyContent,
+  gap,
+  flexWrap,
 }: React.PropsWithChildren<Props>) => (
-  <Container {...props}>{children}</Container>
+  <Container
+    $alignItems={alignItems}
+    $flex={flex}
+    $flexDirection={flexDirection}
+    $flexWrap={flexWrap}
+    $gap={gap}
+    $justifyContent={justifyContent}
+  >
+    {children}
+  </Container>
 )

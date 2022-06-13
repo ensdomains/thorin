@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useState } from 'react'
+import { RefObject, useState } from 'react'
 
 import { ThemeProvider } from 'styled-components'
 
@@ -16,8 +16,10 @@ const CheckboxWithState = (props: any) => {
         hello there
         {checked ? <div>checked</div> : <div>unchecked</div>}
         <Checkbox
+          aria-invalid="sdfasd"
           id="checkbox-id"
           label="checkbox-label"
+          ref={props.inputRef}
           onChange={(e) => {
             setChecked(e.target.checked)
           }}
@@ -73,6 +75,14 @@ describe('<Checkbox />', () => {
     userEvent.click(screen.getByText('checkbox-label'))
     await waitFor(() => {
       expect(screen.queryByText('unchecked')).toBeInTheDocument()
+    })
+  })
+
+  it('should pass a ref down', async () => {
+    const ref = { current: null } as RefObject<any>
+    render(<CheckboxWithState inputRef={ref} />)
+    await waitFor(() => {
+      expect(ref.current).toBeInstanceOf(HTMLInputElement)
     })
   })
 })

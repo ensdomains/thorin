@@ -3,10 +3,16 @@ import { defineConfig } from 'vite'
 import dts from 'vite-plugin-dts'
 import tsconfigPaths from 'vite-tsconfig-paths'
 import svgrPlugin from 'vite-plugin-svgr'
+import stylelintPlugin from 'vite-plugin-stylelint'
 
 import pkg from './package.json'
 
 export default defineConfig({
+  server: {
+    fs: {
+      allow: ['..'],
+    },
+  },
   build: {
     lib: {
       entry: 'src/index.ts',
@@ -69,5 +75,9 @@ export default defineConfig({
       outputDir: 'dist/types',
     }),
     macrosPlugin(),
+    stylelintPlugin({
+      include: './**/*.tsx',
+      exclude: 'dist',
+    }),
   ],
 })

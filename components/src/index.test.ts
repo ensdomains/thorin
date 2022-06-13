@@ -3,7 +3,7 @@ import * as Exports from './'
 const exportedKeys = Object.keys(Exports)
 
 const expectedExportedKeys = [
-  'largerThan',
+  'mq',
   'tokens',
   'baseTheme',
   'lightTheme',
@@ -43,6 +43,7 @@ const expectedExportedKeys = [
   'Tooltip',
   // organisms
   'Dialog',
+  'Toast',
   'ChevronLeftSVG',
   'ArrowCircleSVG',
   'ArrowRightSVG',

@@ -6,7 +6,7 @@ import Highlight, {
 } from 'prism-react-renderer'
 import dynamic from 'next/dynamic'
 import vsLight from 'prism-react-renderer/themes/vsLight'
-import styled, { useTheme } from 'styled-components'
+import styled, { css, useTheme } from 'styled-components'
 
 import { Colors } from '@ensdomains/thorin'
 
@@ -15,14 +15,14 @@ import { PlayroomStateProvider } from '~/playroom/PlayroomState'
 import { CopyButton } from './CopyButton'
 import type { Props as CodePreviewProps } from './CodePreview'
 
-const CodePreviewContainer = styled.div`
-  ${({ theme }) => `
+const CodePreviewContainer = styled.div(
+  ({ theme }) => css`
     background-color: ${theme.colors.foregroundSecondary};
     border-radius: ${theme.radii['large']};
     height: ${theme.space['48']};
     width: ${theme.space['full']};
-  `}
-`
+  `,
+)
 
 const CodePreview = dynamic<CodePreviewProps>(
   () => import('./CodePreview').then((mod) => mod.CodePreview),
@@ -31,36 +31,36 @@ const CodePreview = dynamic<CodePreviewProps>(
   },
 )
 
-const Pre = styled.pre`
-  ${({ theme }) => `
-  border-radius: ${theme.radii['2xLarge']};
-  padding: ${theme.space['6']};
-  position: relative;
-  `}
-`
+const Pre = styled.pre(
+  ({ theme }) => css`
+    border-radius: ${theme.radii['2xLarge']};
+    padding: ${theme.space['6']};
+    position: relative;
+  `,
+)
 
-const CopyButtonContainer = styled.div`
-  ${({ theme }) => `
-  position: absolute;
-  right: ${theme.space['3.5']};
-  top: ${theme.space['3.5']};
-  `}
-`
+const CopyButtonContainer = styled.div(
+  ({ theme }) => css`
+    position: absolute;
+    right: ${theme.space['3.5']};
+    top: ${theme.space['3.5']};
+  `,
+)
 
-const LineContainer = styled.div`
-  ${({ theme }) => `
-  padding-right: ${theme.space['8']};
-  white-space: pre-wrap;
-  `}
-`
+const LineContainer = styled.div(
+  ({ theme }) => css`
+    padding-right: ${theme.space['8']};
+    white-space: pre-wrap;
+  `,
+)
 
-const Token = styled.span`
-  ${({ theme }) => `
-  font-family: ${theme.fonts['mono']};
-  font-size: ${theme.fontSizes['base']};
-  line-height: ${theme.lineHeights['1.5']};
-  `}
-`
+const Token = styled.span(
+  ({ theme }) => css`
+    font-family: ${theme.fonts['mono']};
+    font-size: ${theme.fontSizes['base']};
+    line-height: ${theme.lineHeights['1.5']};
+  `,
+)
 
 type Props = {
   backgroundColor?: Colors
