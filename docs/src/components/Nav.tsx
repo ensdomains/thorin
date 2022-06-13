@@ -34,6 +34,7 @@ const Container = styled.div(
   ({ theme }) => css`
     flex-direction: column;
     height: ${theme.space['full']};
+    overflow: hidden;
   `,
 )
 
@@ -54,7 +55,9 @@ const NavlinkContainer = styled.div(
     gap: ${theme.space['5']};
 
     ${mq.lg.min(css`
-      flex-direction: column;
+      ${css`
+        flex-direction: column;
+      `}
     `)}
   `,
 )
@@ -78,7 +81,7 @@ const ENSText = styled(Typography)(
 
 const ButtonContainer = styled.div(
   () => css`
-    ${mq.md.min(css`
+    ${mq.lg.min(css`
       display: none;
     `)}
   `,
@@ -89,10 +92,39 @@ const List = styled.div<{ $open?: boolean }>(
     display: ${$open ? 'block' : 'none'};
     height: ${theme.space['full']};
     padding-top: ${theme.space['10']};
-    ${mq.md.min(css`
+    border-color: rgba(${theme.shadesRaw.foreground}, 0.05);
+    transition: border-color 0.15s ease-in-out;
+
+    /* stylelint-disable-next-line selector-pseudo-element-no-unknown */
+    &::-webkit-scrollbar-track {
+      background-color: transparent;
+      margin-bottom: ${theme.space['16']};
+    }
+
+    &::-webkit-scrollbar {
+      width: ${theme.space['1.5']};
+      background-color: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border: none;
+      border-radius: ${theme.radii.full};
+      border-right-style: inset;
+      border-right-width: calc(100vw + 100vh);
+      border-color: inherit;
+    }
+
+    &::-webkit-scrollbar-button {
+      display: none;
+    }
+
+    &:hover {
+      border-color: rgba(${theme.shadesRaw.foreground}, 0.2);
+    }
+
+    ${mq.lg.min(css`
       display: block;
-      margin-bottom: ${theme.space['24']};
-      padding-bottom: ${theme.space['24']};
+      padding-bottom: ${theme.space['18']};
       padding-top: ${theme.space['5']};
     `)}
   `,

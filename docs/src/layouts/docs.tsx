@@ -23,12 +23,12 @@ const Container = styled.div(
     min-height: ${theme.space['viewHeight']};
     padding: 0 ${theme.space['6']};
 
-    ${mq.md.min(css`
+    ${mq.lg.min(css`
       display: flex;
       justify-content: flex-end;
     `)}
 
-    ${mq.lg.min(css`
+    ${mq.xl.min(css`
       display: flex;
       justify-content: center;
     `)}
@@ -39,14 +39,18 @@ const Aside = styled.aside(
   ({ theme }) => css`
     padding-top: ${theme.space['6']};
 
-    ${mq.md.min(css`
-      left: ${theme.space['4']};
-      width: ${theme.space['max']};
-      margin-right: ${theme.space['10']};
-    `)}
-
     ${mq.lg.min(css`
-      height: ${theme.space['viewHeight']};
+      background-color: ${theme.colors.foregroundTertiary};
+      margin-right: ${theme.space['10']};
+      border-radius: ${theme.radii['extraLarge']};
+
+      left: ${theme.space['4']};
+      top: ${theme.space['4']};
+      bottom: ${theme.space['4']};
+
+      height: calc(${theme.space['viewHeight']} - ${theme.space['8']});
+      padding: ${theme.space['4']};
+      overflow: hidden;
       position: fixed;
       width: ${theme.space['48']};
     `)}
@@ -63,10 +67,6 @@ const Article = styled.article(
     padding-bottom: ${theme.space['20']};
     padding-top: ${theme.space['20']};
 
-    ${mq.md.min(css`
-      max-width: ${theme.space['224']};
-    `)}
-
     ${mq.lg.min(css`
       max-width: ${theme.space['192']};
       padding: ${theme.space['20']} ${theme.space['10']};
@@ -79,13 +79,14 @@ const Article = styled.article(
 )
 
 const Main = styled.main(
-  () => css`
+  ({ theme }) => css`
     flex-grow: 1;
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    ${mq.md.min(css`
+    ${mq.lg.min(css`
       justify-content: flex-end;
+      margin-left: ${theme.space['56']};
     `)}
     ${mq.xl.min(css`
       justify-content: center;
