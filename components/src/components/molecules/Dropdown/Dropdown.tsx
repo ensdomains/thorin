@@ -411,10 +411,12 @@ type PropsWithoutIsOpen = {
   setIsOpen?: never
 }
 
-const ButtonWrapper = styled.div`
-  z-index: 10;
-  position: relative;
-`
+const ButtonWrapper = styled.div(
+  () => css`
+    z-index: 10;
+    position: relative;
+  `,
+)
 
 export const Dropdown = ({
   children,

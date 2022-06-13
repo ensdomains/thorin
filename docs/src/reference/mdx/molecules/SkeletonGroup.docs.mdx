@@ -8,20 +8,20 @@ import { SkeletonGroup } from '@ensdomains/thorin'
 ```
 
 ```tsx live=true
-<SkeletonGroup loading={getState('loading')}>
-  <Stack>
+<DeleteMe>
+  <SkeletonGroup loading={getState('loading')}>
     <Skeleton>
       <Heading level="1">Foo Bar Baz</Heading>
     </Skeleton>
     <Skeleton>
       <Typography>The quick brown fox jumped over the lazy dogs.</Typography>
     </Skeleton>
-    <VisuallyHidden>{setDefaultState('loading', true)}</VisuallyHidden>
-    <Button size="small" onClick={() => toggleState('loading')}>
-      Toggle Skeleton Group
-    </Button>
-  </Stack>
-</SkeletonGroup>
+  </SkeletonGroup>
+  <VisuallyHidden>{setDefaultState('loading', true)}</VisuallyHidden>
+  <Button size="small" onClick={() => toggleState('loading')}>
+    Toggle Skeleton Group
+  </Button>
+</DeleteMe>
 ```
 
 ## Props

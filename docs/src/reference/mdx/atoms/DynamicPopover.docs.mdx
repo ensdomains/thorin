@@ -63,7 +63,7 @@ type DynamicPopoverAnimationFunc = (
 
 Returns a string of css attributes.
 
-```tsx live=true expand=ture minHeight=300px
+```tsx
 <DynamicPopover
   animationFn={(side, open) => {
     if (open)
@@ -95,19 +95,6 @@ Prevents the popover from appearing
 
 ```tsx live=true expand=ture minHeight=300px
 <DynamicPopover
-  animationFn={(side, open) => {
-    if (open)
-      return `
-      transform: scale(1);
-      visibility: visible;
-      opacity: 1;
-  `
-    return `
-    transform: scale(0.2);
-    visibility: hidden;
-    opacity: 0;  
-  `
-  }}
   disabled={getState('isDisabled')}
   open={getState('isOpen')}
   placement="bottom-start"

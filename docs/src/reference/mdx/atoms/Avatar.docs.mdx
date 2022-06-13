@@ -22,7 +22,7 @@ import { Avatar } from '@ensdomains/thorin'
 The size of the avatar is controlled by the width of it's parent component.
 
 ```tsx live=true
-<Stack alignItems="center" flexDirection="row" flexWrap="wrap">
+<DeleteMe alignItems="center" flexDirection="row" flexWrap="wrap">
   <div style={{ width: '100px' }}>
     <Avatar label="Noun 97" src={avatars.noun97} />
   </div>
@@ -35,7 +35,7 @@ The size of the avatar is controlled by the width of it's parent component.
   <div style={{ width: '25px' }}>
     <Avatar label="Noun 97" src={avatars.noun97} />
   </div>
-</Stack>
+</DeleteMe>
 ```
 
 ## Placeholder
@@ -43,33 +43,29 @@ The size of the avatar is controlled by the width of it's parent component.
 The placeholder is shown if the src property is undefined or if an error occurs loading the src.
 
 ```tsx live=true
-<Stack flexDirection="row" flexWrap="wrap">
-  <Stack>
-    <Typography variant="label">undefined src</Typography>
-    <div style={{ width: '100px' }}>
-      <Avatar />
-    </div>
-  </Stack>
-  <Stack>
-    <Typography variant="label">broken Link</Typography>
-    <div style={{ width: '100px' }}>
-      <Avatar src="http://thisisa.com/brockenLink.jpg" />
-    </div>
-  </Stack>
-</Stack>
+<DeleteMe alignItems="center" flexDirection="row" flexWrap="wrap">
+  <Typography variant="label">undefined src</Typography>
+  <div style={{ width: '100px' }}>
+    <Avatar />
+  </div>
+  <Typography variant="label">broken Link</Typography>
+  <div style={{ width: '100px' }}>
+    <Avatar src="http://thisisa.com/brockenLink.jpg" />
+  </div>
+</DeleteMe>
 ```
 
 ## Shapes
 
 ```tsx live=true
-<Stack alignItems="center" flexDirection="row" flexWrap="wrap">
+<DeleteMe alignItems="center" flexDirection="row" flexWrap="wrap">
   <div style={{ width: '100px' }}>
     <Avatar label="Noun 97 circle" shape="circle" src={avatars.noun97} />
   </div>
   <div style={{ width: '100px' }}>
     <Avatar label="Noun 97 square" shape="square" src={avatars.noun97} />
   </div>
-</Stack>
+</DeleteMe>
 ```
 
 ## Border
@@ -77,7 +73,7 @@ The placeholder is shown if the src property is undefined or if an error occurs 
 By default, there is a light border around the edge to define image edges on similarly colored backgrounds. This can be disabled by using the `noBorder` prop.
 
 ```tsx live=true
-<Stack flexDirection="row">
+<DeleteMe flexDirection="row">
   <div style={{ width: '100px' }}>
     <Avatar
       src={
@@ -97,7 +93,7 @@ By default, there is a light border around the edge to define image edges on sim
       }
     />
   </div>
-</Stack>
+</DeleteMe>
 ```
 
 <!-- ## next/image

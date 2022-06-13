@@ -71,7 +71,7 @@ const COMPONENT_GROUPS = {
 
       export type Props = {}
 
-      const Container = styled.div\`\`
+      const Container = styled.div(() => css\`\`)
     `
     const componentBasic = dedent`
       ${componentImports}
