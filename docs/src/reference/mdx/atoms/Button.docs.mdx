@@ -61,49 +61,23 @@ When `variant` is set to `primary` or `action`, you can `tone` to change the but
 ### Primary
 
 ```tsx live=true
-<Stack gap="64px">
-  <Stack>
-    <Typography variant="label">Primary</Typography>
-    <Stack flexDirection="row" flexWrap="wrap">
-      <Button tone="accent" variant="primary">
-        Accent
-      </Button>
-      <Button tone="blue" variant="primary">
-        Blue
-      </Button>
-      <Button tone="green" variant="primary">
-        Green
-      </Button>
-      <Button tone="red" variant="primary">
-        Red
-      </Button>
-      <Button tone="grey" variant="primary">
-        Grey
-      </Button>
-    </Stack>
-  </Stack>
-
-  <Stack>
-    <Typography variant="label">Secondary</Typography>
-    <Stack flexDirection="row" flexWrap="wrap">
-      <Button tone="accent" variant="secondary">
-        Accent
-      </Button>
-      <Button tone="blue" variant="secondary">
-        Blue
-      </Button>
-      <Button tone="green" variant="secondary">
-        Green
-      </Button>
-      <Button tone="red" variant="secondary">
-        Red
-      </Button>
-      <Button tone="grey" variant="secondary">
-        Grey
-      </Button>
-    </Stack>
-  </Stack>
-</Stack>
+<DeleteMe flexDirection="row" flexWrap="wrap">
+  <Button tone="accent" variant="primary">
+    Accent
+  </Button>
+  <Button tone="blue" variant="primary">
+    Blue
+  </Button>
+  <Button tone="green" variant="primary">
+    Green
+  </Button>
+  <Button tone="red" variant="primary">
+    Red
+  </Button>
+  <Button tone="grey" variant="primary">
+    Grey
+  </Button>
+</DeleteMe>
 ```
 
 ### Secondary
@@ -121,6 +95,9 @@ When `variant` is set to `primary` or `action`, you can `tone` to change the but
   </Button>
   <Button tone="red" variant="secondary">
     Red
+  </Button>
+  <Button tone="grey" variant="secondary">
+    Grey
   </Button>
 </DeleteMe>
 ```
@@ -182,17 +159,19 @@ Optional `center` prop reserves space for affixes and loading spinner.
 </DeleteMe>
 ```
 
-## Miscellaneous
+## Shapes
 
 ```tsx live=true
 <DeleteMe flexDirection="row" flexWrap="wrap">
   <Button shape="square">Square</Button>
   <Button shape="circle">Circle</Button>
-  <Typography>Shapes</Typography>
-  <Stack flexDirection="row" flexWrap="wrap">
-    <Button shape="square">Square</Button>
-    <Button shape="circle">Circle</Button>
-  </Stack>
+</DeleteMe>
+```
+
+## Outlined
+
+```tsx live=true
+<DeleteMe>
   <Button outlined shadowless variant="transparent">
     Outlined
   </Button>
