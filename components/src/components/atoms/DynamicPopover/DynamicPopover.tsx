@@ -214,10 +214,12 @@ const defaultAnimationFunc: DynamicPopoverAnimationFunc = (
   `
 }
 
-const Container = styled.div`
-  position: relative;
-  display: inline-block;
-`
+const Container = styled.div(
+  () => css`
+    position: relative;
+    display: inline-block;
+  `,
+)
 
 const PopoverContainer = styled.div<DynamicPopoverPopoverProps>(
   ({ $injectedCSS, $x, $y }) => css`

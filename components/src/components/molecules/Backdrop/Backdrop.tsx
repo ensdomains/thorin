@@ -6,6 +6,7 @@ import { Portal } from '../..'
 import { BackdropSurface } from '../../atoms/BackdropSurface'
 
 type Props = {
+  /** A function that renders the children nodes */
   children: (renderProps: { state: TransitionState }) => React.ReactNode
   /** An element that provides backdrop styling. Defaults to BackdropSurface component. */
   surface?: React.ElementType

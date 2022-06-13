@@ -3,13 +3,12 @@ import styled, { css } from 'styled-components'
 
 type Props = {
   alignItems?: string
-  children: React.ReactNode
   flexDirection?: string
   flex?: string
   justifyContent?: string
   gap?: string
   flexWrap?: string
-}
+} & React.HTMLAttributes<HTMLDivElement>
 
 const Container = styled.div<{
   $alignItems?: string
@@ -46,6 +45,7 @@ export const DeleteMe = ({
   justifyContent,
   gap,
   flexWrap,
+  ...props
 }: React.PropsWithChildren<Props>) => (
   <Container
     $alignItems={alignItems}
@@ -54,6 +54,7 @@ export const DeleteMe = ({
     $flexWrap={flexWrap}
     $gap={gap}
     $justifyContent={justifyContent}
+    {...props}
   >
     {children}
   </Container>
