@@ -48,28 +48,19 @@ export const RadioButtonGroup = React.forwardRef(
       if (onBlur) onBlur(e)
     }
 
-    const generateChangeEvent = (
-      value?: string | number,
-      name = 'radiogroup',
-    ) => {
+    const generateChangeEvent = (value?: string, name = 'radiogroup') => {
       if (onChange && value) {
+        const target = document.createElement('input')
+        target.value = value
+        target.name = name
         const event = new Event('change', { bubbles: true })
+        Object.defineProperty(event, 'target', {
+          writable: false,
+          value: target,
+        })
         const syntheticEvent = createSyntheticEvent(
           event,
         ) as React.ChangeEvent<HTMLInputElement>
-        Object.defineProperties(syntheticEvent, {
-          target: {
-            writable: true,
-            value: { value, name },
-          },
-          currentTarget: {
-            writable: true,
-            value: {
-              value,
-              name,
-            },
-          },
-        })
         onChange(syntheticEvent)
       }
     }
