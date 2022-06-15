@@ -55,9 +55,9 @@ type Props = {
   /** The name attribute for input elements. */
   name: NativeInputProps['name']
   /** The value attribute of input elements. */
-  value: string | number
+  value: string
   /** The inital value of input element */
-  defaultValue?: string | number
+  defaultValue?: string
   /** If true, the radio button is selected. */
   checked?: NativeInputProps['checked']
   /** The id attribute of input element. */
@@ -75,7 +75,7 @@ type Props = {
 } & FieldBaseProps &
   Omit<
     NativeInputProps,
-    'children' | 'value' | 'defaultValue' | 'aria-invalid' | 'type'
+    'children' | 'value' | 'defaultValue' | 'aria-invalid' | 'type' | 'role'
   >
 
 export const RadioButton = React.forwardRef(
@@ -121,8 +121,10 @@ export const RadioButton = React.forwardRef(
           {...{
             ...props,
             'aria-invalid': error ? true : undefined,
+            'aria-selected': checked ? true : undefined,
             'data-testid': getTestId(props, 'radio'),
             type: 'radio',
+            role: 'radio',
           }}
           checked={checked}
           disabled={disabled}

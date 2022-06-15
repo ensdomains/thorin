@@ -15,8 +15,8 @@ import { RadioButtonGroup } from '@ensdomains/thorin'
     }`}
   >
     <RadioButtonGroup
-      currentValue={getState('radiobuttongroup') || '30'}
-      onChange={(val) => setState('radiobuttongroup', val)}
+      value={getState('radiobuttongroup') || '30'}
+      onChange={(e) => setState('radiobuttongroup', e.target.value)}
     >
       <RadioButton label="Label 10" name="RadioButtonGroup" value="10" />
       <RadioButton label="Label 20" name="RadioButtonGroup" value="20" />
