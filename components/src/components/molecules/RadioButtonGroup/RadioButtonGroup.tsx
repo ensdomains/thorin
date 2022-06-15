@@ -2,20 +2,22 @@ import * as React from 'react'
 
 import { getTestId } from '../../../utils/utils'
 import { createSyntheticEvent } from '../../../utils/createSyntheticEvent'
+import { RadioButton } from '@/src/components'
 
 type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 type NativeInputProps = React.InputHTMLAttributes<HTMLInputElement>
-type RadioType = Pick<NativeInputProps, 'value' | 'onChange' | 'checked'>
 export type Props = {
   /** The children of the component that conform to the basic input attributes  */
-  children?: React.ReactElement<RadioType>[] | React.ReactElement<RadioType>
+  children?:
+    | React.ReactElement<typeof RadioButton>[]
+    | React.ReactElement<typeof RadioButton>
   /** The value for the radio group */
   value?: string
   /** The handler for the change event. */
   onChange?: NativeInputProps['onChange']
   /** The handler for the blur event. */
   onBlur?: NativeInputProps['onBlur']
-} & Omit<NativeDivProps, 'onFocus' | 'onChange'>
+} & Omit<NativeDivProps, 'onFocus' | 'onChange' | 'onBlur'>
 
 export const RadioButtonGroup = React.forwardRef(
   (
