@@ -35,7 +35,7 @@ describe('<Radio />', () => {
   it('renders', async () => {
     render(
       <ThemeProvider theme={lightTheme}>
-        <RadioButton label="radio" name="name" value={10} />
+        <RadioButton label="radio" name="name" value="10" />
       </ThemeProvider>,
     )
     expect(screen.getByRole('radio')).toBeInTheDocument()
