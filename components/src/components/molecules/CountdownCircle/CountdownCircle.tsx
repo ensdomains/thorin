@@ -3,6 +3,13 @@ import styled, { css } from 'styled-components'
 
 import { VisuallyHidden } from '../..'
 import { Colors } from '@/src/tokens'
+import { getTestId } from '../../../utils/utils'
+
+const CountDownContainer = styled.div(
+  () => css`
+    position: relative;
+  `,
+)
 
 interface NumberBox {
   $disabled?: boolean
@@ -98,6 +105,8 @@ const Circle = styled.circle<CircleProps>(
   `,
 )
 
+type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
+
 type Props = {
   accessibilityLabel?: string
   countdownAmount: number
@@ -105,7 +114,7 @@ type Props = {
   disabled?: boolean
   callback?: () => void
   size?: 'small' | 'large'
-}
+} & Omit<NativeDivProps, 'children' | 'color'>
 
 export const CountdownCircle = React.forwardRef(
   (
@@ -116,6 +125,7 @@ export const CountdownCircle = React.forwardRef(
       countdownAmount,
       disabled,
       callback,
+      ...props
     }: Props,
     ref: React.Ref<HTMLDivElement>,
   ) => {
@@ -140,18 +150,16 @@ export const CountdownCircle = React.forwardRef(
     }, [callback, countdownAmount, disabled])
 
     return (
-      <div data-testid="countdown-circle" style={{ position: 'relative' }}>
+      <CountDownContainer
+        {...{
+          ...props,
+          'data-testid': getTestId(props, 'countdown-circle'),
+        }}
+      >
         <NumberBox {...{ $size: size, $disabled: disabled }}>
           {disabled ? totalCount : currentCount}
         </NumberBox>
-        <Container
-          {...{
-            $size: size,
-            $disabled: disabled,
-            $color: color,
-            ref,
-          }}
-        >
+        <Container $color={color} $disabled={disabled} $size={size} ref={ref}>
           {accessibilityLabel && (
             <VisuallyHidden>{accessibilityLabel}</VisuallyHidden>
           )}
@@ -175,7 +183,7 @@ export const CountdownCircle = React.forwardRef(
             />
           </svg>
         </Container>
-      </div>
+      </CountDownContainer>
     )
   },
 )

@@ -1,6 +1,10 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 
+import { getTestId } from '../../../utils/utils'
+
+type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
+
 type Props = {
   total: number
   current: number
@@ -8,7 +12,7 @@ type Props = {
   alwaysShowFirst?: boolean
   alwaysShowLast?: boolean
   onChange: (value: number) => void
-}
+} & Omit<NativeDivProps, 'children' | 'onChange'>
 
 const Container = styled.div(
   ({ theme }) => css`
@@ -64,6 +68,7 @@ export const PageButtons = ({
   alwaysShowFirst,
   alwaysShowLast,
   onChange,
+  ...props
 }: Props) => {
   const maxPerSide = Math.floor(max / 2)
   const start = Math.max(
@@ -91,7 +96,9 @@ export const PageButtons = ({
   }
 
   return (
-    <Container data-testid="pagebuttons">
+    <Container
+      {...{ ...props, 'data-testid': getTestId(props, 'pagebuttons') }}
+    >
       {array.map((value) =>
         0 > value ? (
           <Dots data-testid="pagebutton-dots" key={value}>

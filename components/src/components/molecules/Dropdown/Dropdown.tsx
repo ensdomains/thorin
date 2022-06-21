@@ -4,6 +4,19 @@ import styled, { css } from 'styled-components'
 import { Button, ButtonProps } from '@/src/components/atoms/Button'
 import { Colors } from '@/src/tokens'
 import { ReactComponent as IconDownIndicatorSvg } from '@/src/icons/DownIndicator.svg'
+import { getTestId } from '../../../utils/utils'
+
+type Align = 'left' | 'right'
+type LabelAlign = 'flex-start' | 'flex-end' | 'center'
+type Direction = 'down' | 'up'
+type Size = 'small' | 'medium'
+
+const Container = styled.div(
+  () => css`
+    max-width: max-content;
+    position: relative;
+  `,
+)
 
 type DropdownItemObject = {
   label: string
@@ -15,20 +28,34 @@ type DropdownItemObject = {
 export type DropdownItem = DropdownItemObject | React.ReactNode
 
 interface DropdownMenuContainer {
-  $opened: boolean
+  $opened?: boolean
   $inner: boolean
   $shortThrow: boolean
-  $align: 'left' | 'right'
-  $labelAlign?: 'flex-start' | 'flex-end' | 'center'
+  $align: Align
+  $labelAlign?: LabelAlign
+  $direction: Direction
 }
 
 const DropdownMenuContainer = styled.div<DropdownMenuContainer>(
-  ({ theme, $opened, $inner, $shortThrow, $align, $labelAlign }) => css`
+  ({
+    theme,
+    $opened,
+    $inner,
+    $shortThrow,
+    $align,
+    $labelAlign,
+    $direction,
+  }) => css`
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     position: absolute;
+
+    ${$direction === 'up' &&
+    css`
+      bottom: 100%;
+    `}
 
     ${$labelAlign &&
     css`
@@ -57,57 +84,61 @@ const DropdownMenuContainer = styled.div<DropdownMenuContainer>(
     css`
       background-color: ${theme.colors.grey};
       border-radius: ${theme.radii.almostExtraLarge};
-      border-top-left-radius: none;
-      border-top-right-radius: none;
+      border-${$direction === 'down' ? 'top' : 'bottom'}-left-radius: none;
+      border-${$direction === 'down' ? 'top' : 'bottom'}-right-radius: none;
       box-shadow: 0;
       border-width: ${theme.space['px']};
-      border-top-width: 0;
+      border-${$direction === 'down' ? 'top' : 'bottom'}-width: 0;
       border-color: ${theme.colors.borderSecondary};
       padding: 0 ${theme.space['1.5']};
-      padding-top: ${theme.space['2.5']};
-      padding-bottom: ${theme.space['1.5']};
-      margin-top: -${theme.space['2.5']};
+      padding-${$direction === 'down' ? 'top' : 'bottom'}: ${
+      theme.space['2.5']
+    };
+      padding-${$direction === 'down' ? 'bottom' : 'top'}: ${
+      theme.space['1.5']
+    };
+      margin-${$direction === 'down' ? 'top' : 'bottom'}: -${
+      theme.space['2.5']
+    };
       transition: 0.35s all cubic-bezier(1, 0, 0.22, 1.6);
     `}
 
     ${() => {
-      if ($opened && !$inner)
-        return css`
-          z-index: 20;
-          margin-top: ${theme.space['1.5']};
-          transition: all 0.3s cubic-bezier(1, 0, 0.22, 1.6), width 0s linear,
-            z-index 0s linear 0.3s;
-        `
-
-      if (!$opened && !$inner)
-        return css`
-          transition: all 0.3s cubic-bezier(1, 0, 0.22, 1.6), width 0s linear,
-            z-index 0s linear 0s;
-        `
-
-      if ($opened && $inner)
+      if ($opened) {
         return css`
           transition: all 0.35s cubic-bezier(1, 0, 0.22, 1.6), width 0s linear,
             z-index 0s linear 0.35s;
         `
-
-      if (!$opened && $inner)
-        return css`
-          transition: all 0.35s cubic-bezier(1, 0, 0.22, 1.6), width 0s linear,
-            z-index 0s linear 0s;
-        `
+      }
+      return css`
+        transition: all 0.35s cubic-bezier(1, 0, 0.22, 1.6), width 0s linear,
+          z-index 0s linear 0s;
+      `
     }}
 
-  ${() => {
-      if (!$opened && $shortThrow)
+    ${() => {
+      if (!$opened && !$shortThrow) {
         return css`
-          margin-top: -${theme.space['2.5']};
+          margin-${$direction === 'down' ? 'top' : 'bottom'}: calc(-1 * ${
+          theme.space['12']
+        });
         `
-
-      if (!$opened && !$shortThrow)
+      }
+      if (!$opened && $shortThrow) {
         return css`
-          margin-top: -${theme.space['12']};
+          margin-${$direction === 'down' ? 'top' : 'bottom'}: calc(-1 * ${
+          theme.space['2.5']
+        });
         `
+      }
+      if ($opened && !$inner) {
+        return css`
+          z-index: 20;
+          margin-${$direction === 'down' ? 'top' : 'bottom'}: ${
+          theme.space['1.5']
+        };
+        `
+      }
     }}
 
   ${$align === 'left'
@@ -186,7 +217,7 @@ type DropdownMenuProps = {
   /** An array of objects conforming to the DropdownItem interface. */
   items: DropdownItem[]
   /** If true, makes the menu visible. */
-  isOpen: boolean
+  isOpen?: boolean
   /** A mutation function for the isOpen variable. */
   setIsOpen: (isOpen: boolean) => void
   /** Sets the width in the number of pixels. Must be at least 150. */
@@ -194,12 +225,13 @@ type DropdownMenuProps = {
   /** If true, renders a dropdown where the button and menu are merged. */
   inner: boolean
   /** Sets which side of the button to align the dropdown menu. */
-  align: 'left' | 'right'
+  align: Align
   /** If true, decreases the distance of the dropdown animation. */
   shortThrow: boolean
   /** If true, sets the zIndex of the dropdown menu to 100. */
   keepMenuOnTop: boolean
-  labelAlign?: 'flex-start' | 'flex-end' | 'center'
+  labelAlign?: LabelAlign
+  direction: Direction
 }
 
 const DropdownMenu = ({
@@ -212,6 +244,7 @@ const DropdownMenu = ({
   shortThrow,
   keepMenuOnTop,
   labelAlign,
+  direction,
 }: DropdownMenuProps) => {
   return (
     <DropdownMenuContainer
@@ -221,6 +254,7 @@ const DropdownMenu = ({
         $align: align,
         $shortThrow: shortThrow,
         $labelAlign: labelAlign,
+        $direction: direction,
       }}
       style={{
         width:
@@ -248,12 +282,13 @@ const DropdownMenu = ({
 }
 
 interface InnerMenuButton {
-  $size: 'small' | 'medium'
-  $open: boolean
+  $size: Size
+  $open?: boolean
+  $direction: Direction
 }
 
 const InnerMenuButton = styled.button<InnerMenuButton>(
-  ({ theme, $size, $open }) => css`
+  ({ theme, $size, $open, $direction }) => css`
     z-index: 10;
     display: flex;
     align-items: center;
@@ -283,11 +318,15 @@ const InnerMenuButton = styled.button<InnerMenuButton>(
     ${() => {
       if ($open)
         return css`
-          border-top-left-radius: ${theme.radii['almostExtraLarge']};
-          border-top-right-radius: ${theme.radii['almostExtraLarge']};
-          border-bottom-left-radius: none;
-          border-bottom-right-radius: none;
-          border-bottom-width: 0;
+          border-${$direction === 'down' ? 'top' : 'bottom'}-left-radius: ${
+          theme.radii['almostExtraLarge']
+        };
+          border-${$direction === 'down' ? 'top' : 'bottom'}-right-radius: ${
+          theme.radii['almostExtraLarge']
+        };
+          border-${$direction === 'down' ? 'bottom' : 'top'}-left-radius: none;
+          border-${$direction === 'down' ? 'bottom' : 'top'}-right-radius: none;
+          border-${$direction === 'down' ? 'bottom' : 'top'}-width: 0;
           background-color: ${theme.colors.grey};
           color: ${theme.colors.textTertiary};
           transition: 0.35s all cubic-bezier(1, 0, 0.22, 1.6),
@@ -316,8 +355,11 @@ const InnerMenuButton = styled.button<InnerMenuButton>(
   `,
 )
 
-const Chevron = styled(IconDownIndicatorSvg)<{ $open: boolean }>(
-  ({ theme, $open }) => css`
+const Chevron = styled(IconDownIndicatorSvg)<{
+  $open?: boolean
+  $direction: Direction
+}>(
+  ({ theme, $open, $direction }) => css`
     margin-left: ${theme.space['1']};
     width: ${theme.space['3']};
     margin-right: ${theme.space['0.5']};
@@ -325,7 +367,7 @@ const Chevron = styled(IconDownIndicatorSvg)<{ $open: boolean }>(
     transition-property: all;
     transition-timing-function: ${theme.transitionTimingFunction['inOut']};
     opacity: 0.3;
-    transform: rotate(0deg);
+    transform: rotate(${$direction === 'down' ? '0deg' : '180deg'});
     display: flex;
 
     & > svg {
@@ -336,25 +378,28 @@ const Chevron = styled(IconDownIndicatorSvg)<{ $open: boolean }>(
     ${$open &&
     css`
       opacity: 1;
-      transform: rotate(180deg);
+      transform: rotate(${$direction === 'down' ? '180deg' : '0deg'});
     `}
   `,
 )
+
+type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 
 type Props = {
   children?: React.ReactNode
   buttonProps?: ButtonProps
   inner?: boolean
   chevron?: boolean
-  align?: 'left' | 'right'
+  align?: Align
   shortThrow?: boolean
   keepMenuOnTop?: boolean
   items: DropdownItem[]
-  size?: 'small' | 'medium'
+  size?: Size
   label?: React.ReactNode
-  menuLabelAlign?: 'flex-start' | 'flex-end' | 'center'
+  menuLabelAlign?: LabelAlign
   isOpen?: boolean
-}
+  direction?: Direction
+} & NativeDivProps
 
 type PropsWithIsOpen = {
   isOpen: boolean
@@ -366,10 +411,12 @@ type PropsWithoutIsOpen = {
   setIsOpen?: never
 }
 
-const ButtonWrapper = styled.div`
-  z-index: 10;
-  position: relative;
-`
+const ButtonWrapper = styled.div(
+  () => css`
+    z-index: 10;
+    position: relative;
+  `,
+)
 
 export const Dropdown = ({
   children,
@@ -383,12 +430,15 @@ export const Dropdown = ({
   keepMenuOnTop = false,
   size = 'medium',
   label,
+  direction = 'down',
+  isOpen: _isOpen,
+  setIsOpen: _setIsOpen,
   ...props
 }: Props & (PropsWithIsOpen | PropsWithoutIsOpen)) => {
   const dropdownRef = React.useRef<any>()
   const [internalIsOpen, internalSetIsOpen] = React.useState(false)
-  const [isOpen, setIsOpen] = props.setIsOpen
-    ? [props.isOpen, props.setIsOpen]
+  const [isOpen, setIsOpen] = _setIsOpen
+    ? [_isOpen, _setIsOpen]
     : [internalIsOpen, internalSetIsOpen]
 
   const handleClickOutside = (e: any) => {
@@ -410,18 +460,19 @@ export const Dropdown = ({
   }, [dropdownRef, isOpen])
 
   return (
-    <div
-      data-testid="dropdown"
+    <Container
       ref={dropdownRef}
-      style={{ maxWidth: 'max-content', position: 'relative' }}
+      {...{ ...props, 'data-testid': getTestId(props, 'dropdown') }}
     >
       {!children && inner && (
         <InnerMenuButton
-          {...{ $open: isOpen, $size: size }}
+          $direction={direction}
+          $open={isOpen}
+          $size={size}
           onClick={() => setIsOpen(!isOpen)}
         >
           {label}
-          {chevron && <Chevron $open={isOpen} />}
+          {chevron && <Chevron $direction={direction} $open={isOpen} />}
         </InnerMenuButton>
       )}
 
@@ -430,7 +481,9 @@ export const Dropdown = ({
           <Button
             {...buttonProps}
             pressed={isOpen}
-            suffix={chevron && <Chevron $open={isOpen} />}
+            suffix={
+              chevron && <Chevron $direction={direction} $open={isOpen} />
+            }
             onClick={() => setIsOpen(!isOpen)}
           >
             {label}
@@ -449,22 +502,21 @@ export const Dropdown = ({
       })}
 
       <DropdownMenu
+        align={align}
+        direction={direction}
+        inner={inner}
+        isOpen={isOpen}
+        items={items}
+        keepMenuOnTop={keepMenuOnTop}
+        labelAlign={menuLabelAlign}
+        setIsOpen={setIsOpen}
+        shortThrow={shortThrow}
         width={
           dropdownRef.current &&
           dropdownRef.current.getBoundingClientRect().width.toFixed(2)
         }
-        {...{
-          align,
-          inner,
-          isOpen,
-          items,
-          setIsOpen,
-          shortThrow,
-          keepMenuOnTop,
-          labelAlign: menuLabelAlign,
-        }}
       />
-    </div>
+    </Container>
   )
 }
 

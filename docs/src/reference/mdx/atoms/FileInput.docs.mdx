@@ -11,18 +11,20 @@ import { FileInput } from '@ensdomains/thorin'
 <FileInput maxSize={1} onChange={(file) => alert(file)}>
   {(context) =>
     context.name ? (
-      <Stack alignItems="center" flexDirection="row">
+      <div style={{ display: 'flex', alignItems: 'center' }}>
         {context.name}
-        <Button
-          shape="circle"
-          size="small"
-          variant="secondary"
-          onClick={context.reset}
-        >
-          <VisuallyHidden>Remove</VisuallyHidden>
-          <CloseSVG />
-        </Button>
-      </Stack>
+        <div style={{ width: '48px' }}>
+          <Button
+            shape="circle"
+            size="small"
+            variant="secondary"
+            onClick={context.reset}
+          >
+            <VisuallyHidden>Remove</VisuallyHidden>
+            <CloseSVG />
+          </Button>
+        </div>
+      </div>
     ) : (
       <div>{context.droppable ? 'Drop file' : 'Attach file'}</div>
     )

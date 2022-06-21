@@ -42,24 +42,31 @@ const Container = styled.div<{ $state: TransitionState }>(
   `,
 )
 
+type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
+
 type Props = {
-  children: React.ReactNode
+  children: NativeDivProps['children']
   /** An element providing styling for the backdrop component. Defaults to the BackdropSurface component. */
   backdropSurface?: React.ElementType
   /** A handler for click events in the background. */
   onDismiss?: () => void
   /** If true, the modal is visible. */
   open: boolean
-}
+} & NativeDivProps
 
 export const Modal = ({
   children,
   backdropSurface,
   onDismiss,
   open,
+  ...props
 }: Props) => (
-  <Backdrop {...{ open, onDismiss, surface: backdropSurface }}>
-    {({ state }) => <Container $state={state}>{children}</Container>}
+  <Backdrop open={open} surface={backdropSurface} onDismiss={onDismiss}>
+    {({ state }) => (
+      <Container $state={state} {...props}>
+        {children}
+      </Container>
+    )}
   </Backdrop>
 )
 

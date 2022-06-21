@@ -18,6 +18,7 @@ const RadioWithState = (props: any) => {
         <RadioButton
           id="radio-id"
           label="radio-label"
+          ref={props.inputRef}
           onChange={(e) => {
             setChecked(e.target.checked)
           }}
@@ -34,7 +35,7 @@ describe('<Radio />', () => {
   it('renders', async () => {
     render(
       <ThemeProvider theme={lightTheme}>
-        <RadioButton label="radio" name="name" value={10} />
+        <RadioButton label="radio" name="name" value="10" />
       </ThemeProvider>,
     )
     expect(screen.getByRole('radio')).toBeInTheDocument()
@@ -69,6 +70,14 @@ describe('<Radio />', () => {
     userEvent.click(screen.getByText('radio-label'))
     await waitFor(() => {
       expect(screen.queryByText('unchecked')).toBeInTheDocument()
+    })
+  })
+
+  it('should pass a ref down', async () => {
+    const ref = { current: null } as React.RefObject<any>
+    render(<RadioWithState inputRef={ref} />)
+    await waitFor(() => {
+      expect(ref.current).toBeInstanceOf(HTMLInputElement)
     })
   })
 })

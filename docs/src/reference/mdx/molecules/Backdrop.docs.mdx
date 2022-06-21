@@ -9,9 +9,11 @@ import { Backdrop } from '@ensdomains/thorin'
 
 ```tsx
 <Backdrop>
-  <Card>
-    <Typography>This is a modal popup</Typography>
-  </Card>
+  {({ state }) => (
+    <Card>
+      <Typography>The state of this backdrop is {state}</Typography>
+    </Card>
+  )}
 </Backdrop>
 ```
 

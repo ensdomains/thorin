@@ -3,46 +3,11 @@ import * as React from 'react'
 import { ThemeProvider } from 'styled-components'
 import { act } from 'react-dom/test-utils'
 
-import { useForm } from 'react-hook-form'
-
 import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 
 import { Select } from './Select'
 import { lightTheme } from '@/src/tokens'
-
-const SelectWithForm = ({ submit }: { submit: (data: unknown) => void }) => {
-  const { register, handleSubmit } = useForm<{
-    select?: string
-  }>({
-    defaultValues: {
-      select: '',
-    },
-  })
-  return (
-    <ThemeProvider theme={lightTheme}>
-      <form
-        onSubmit={handleSubmit((data: any) => {
-          submit(data)
-        })}
-      >
-        <div>outside</div>
-        <Select
-          label="select"
-          {...register('select', {
-            required: true,
-          })}
-          options={[
-            { value: '0', label: 'Zero' },
-            { value: '1', label: 'One' },
-            { value: '2', label: 'Two', disabled: true },
-          ]}
-          tabIndex={2}
-        />
-        <input data-testid="submit" type="submit" />
-      </form>
-    </ThemeProvider>
-  )
-}
+import { Input } from '../Input'
 
 describe('<Select />', () => {
   afterEach(cleanup)
@@ -413,91 +378,81 @@ describe('<Select />', () => {
     })
   })
 
-  // /** React Form Hook Integration Tests */
-
-  it('should call on blur when clicking outside of element', async () => {
-    const mockCallback = jest.fn()
+  it('should pass a ref down', async () => {
+    const ref = { current: null } as React.RefObject<any>
     render(
       <ThemeProvider theme={lightTheme}>
-        <div>
-          <div>outside</div>
-          <Select
-            label="select"
-            options={[
-              { value: '0', label: 'Zero' },
-              { value: '1', label: 'One' },
-              { value: '2', label: 'Two', disabled: true },
-            ]}
-            onBlur={mockCallback}
-          />
-        </div>
+        <Select
+          label="select"
+          options={[
+            { value: '0', label: 'Zero' },
+            { value: '1', label: 'One' },
+            { value: '2', label: 'Two' },
+          ]}
+          ref={ref}
+        />
       </ThemeProvider>,
     )
+    await waitFor(() => {
+      expect(ref.current).toBeInstanceOf(HTMLInputElement)
+    })
+  })
+
+  it('should show dropdown menu when clicked and embeded in Input', async () => {
+    render(
+      <ThemeProvider theme={lightTheme}>
+        <Input
+          label="parent component"
+          placeholder="parent component"
+          prefix={
+            <Select
+              label="select"
+              options={[
+                { value: '0', label: 'Zero' },
+                { value: '1', label: 'One' },
+                { value: '2', label: 'Two' },
+              ]}
+            />
+          }
+        />
+      </ThemeProvider>,
+    )
+
     act(() => {
       userEvent.click(screen.getByTestId('selected'))
     })
-    act(() => {
-      userEvent.click(screen.getByText('outside'))
-    })
-    await waitFor(() => {
-      expect(mockCallback).toBeCalledTimes(1)
+    waitFor(() => {
+      expect(screen.getByRole('listbox')).toBeVisible()
     })
   })
 
-  it('should work with react-form-hook', async () => {
-    const mockSubmit = jest.fn()
+  it('should have focus on input when clicked and embeded in Input as autocomplete Select', async () => {
+    render(
+      <ThemeProvider theme={lightTheme}>
+        <Input
+          label="parent component"
+          placeholder="parent component"
+          prefix={
+            <Select
+              autocomplete
+              label="select"
+              options={[
+                { value: '0', label: 'Zero' },
+                { value: '1', label: 'One' },
+                { value: '2', label: 'Two' },
+              ]}
+            />
+          }
+        />
+      </ThemeProvider>,
+    )
 
-    render(<SelectWithForm submit={mockSubmit} />)
     act(() => {
       userEvent.click(screen.getByTestId('selected'))
     })
-    act(() => {
-      userEvent.click(screen.getByText('One'))
+
+    waitFor(() => {
+      expect(document.activeElement).toEqual(screen.getByTestId('select-input'))
     })
-    expect(screen.getByTestId('selected').innerHTML).toEqual('One')
-
-    act(() => {
-      userEvent.click(screen.getByTestId('submit'))
-    })
-
-    await waitFor(() => {
-      expect(mockSubmit).toBeCalledWith({
-        select: '1',
-      })
-    })
-  })
-
-  it('should not call submit if there is an validation error', async () => {
-    const mockSubmit = jest.fn()
-
-    render(<SelectWithForm submit={mockSubmit} />)
-
-    act(() => {
-      userEvent.click(screen.getByTestId('submit'))
-    })
-
-    await waitFor(() => {
-      expect(mockSubmit).toBeCalledTimes(0)
-    })
-  })
-
-  it('should have focus if there is an validation error', async () => {
-    const mockSubmit = jest.fn()
-
-    render(<SelectWithForm submit={mockSubmit} />)
-
-    act(() => {
-      userEvent.click(screen.getByTestId('submit'))
-    })
-
-    await waitFor(() => {
-      expect(mockSubmit).toBeCalledTimes(0)
-    })
-
-    await waitFor(() => {
-      expect(screen.getByTestId('select-container')).toHaveFocus()
-    })
-
-    // await waitFor(() => {})
   })
 })

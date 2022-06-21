@@ -18,18 +18,18 @@ import { Button } from '@ensdomains/thorin'
 ## Variants
 
 ```tsx live=true
-<Stack flexDirection="row" flexWrap="wrap">
+<DeleteMe flexDirection="row" flexWrap="wrap">
   <Button variant="action">Action</Button>
   <Button variant="primary">Primary</Button>
   <Button variant="secondary">Secondary</Button>
   <Button variant="transparent">Transparent</Button>
-</Stack>
+</DeleteMe>
 ```
 
 ## States
 
 ```tsx live=true
-<Stack flexDirection="row" flexWrap="wrap">
+<DeleteMe flexDirection="row" flexWrap="wrap">
   <Button loading>Loading</Button>
   <Button disabled>Disabled</Button>
   <Button
@@ -42,138 +42,154 @@ import { Button } from '@ensdomains/thorin'
   >
     Click Me
   </Button>
-</Stack>
+</DeleteMe>
 ```
 
 ## Sizes
 
 ```tsx live=true
-<Stack alignItems="center" flexDirection="row" flexWrap="wrap">
+<DeleteMe alignItems="center" flexDirection="row" flexWrap="wrap">
   <Button size="medium">Connect Wallet</Button>
   <Button size="small">Connect Wallet</Button>
-</Stack>
+</DeleteMe>
 ```
 
 ## Tones
 
 When `variant` is set to `primary` or `action`, you can `tone` to change the button accent color.
 
+### Primary
+
 ```tsx live=true
-<Stack gap="64px">
-  <Stack>
-    <Typography variant="label">Primary</Typography>
-    <Stack flexDirection="row" flexWrap="wrap">
-      <Button tone="accent" variant="primary">
-        Accent
-      </Button>
-      <Button tone="blue" variant="primary">
-        Blue
-      </Button>
-      <Button tone="green" variant="primary">
-        Green
-      </Button>
-      <Button tone="red" variant="primary">
-        Red
-      </Button>
-    </Stack>
-  </Stack>
+<DeleteMe flexDirection="row" flexWrap="wrap">
+  <Button tone="accent" variant="primary">
+    Accent
+  </Button>
+  <Button tone="blue" variant="primary">
+    Blue
+  </Button>
+  <Button tone="green" variant="primary">
+    Green
+  </Button>
+  <Button tone="red" variant="primary">
+    Red
+  </Button>
+  <Button tone="grey" variant="primary">
+    Grey
+  </Button>
+</DeleteMe>
+```
 
-  <Stack>
-    <Typography variant="label">Secondary</Typography>
-    <Stack flexDirection="row" flexWrap="wrap">
-      <Button tone="accent" variant="secondary">
-        Accent
-      </Button>
-      <Button tone="blue" variant="secondary">
-        Blue
-      </Button>
-      <Button tone="green" variant="secondary">
-        Green
-      </Button>
-      <Button tone="red" variant="secondary">
-        Red
-      </Button>
-    </Stack>
-  </Stack>
+### Secondary
 
-  <Stack>
-    <Typography variant="label">Action</Typography>
-    <Stack flexDirection="row" flexWrap="wrap">
-      <Button tone="accent" variant="action">
-        Accent
-      </Button>
-      <Button tone="blue" variant="action">
-        Blue
-      </Button>
-      <Button tone="green" variant="action">
-        Green
-      </Button>
-      <Button tone="red" variant="action">
-        Red
-      </Button>
-    </Stack>
-  </Stack>
-</Stack>
+```tsx live=true
+<DeleteMe>
+  <Button tone="accent" variant="secondary">
+    Accent
+  </Button>
+  <Button tone="blue" variant="secondary">
+    Blue
+  </Button>
+  <Button tone="green" variant="secondary">
+    Green
+  </Button>
+  <Button tone="red" variant="secondary">
+    Red
+  </Button>
+  <Button tone="grey" variant="secondary">
+    Grey
+  </Button>
+</DeleteMe>
+```
+
+### Action
+
+```tsx live=true
+<DeleteMe>
+  <Button tone="accent" variant="action">
+    Accent
+  </Button>
+  <Button tone="blue" variant="action">
+    Blue
+  </Button>
+  <Button tone="green" variant="action">
+    Green
+  </Button>
+  <Button tone="red" variant="action">
+    Red
+  </Button>
+</DeleteMe>
 ```
 
 ## Affixes
 
 Optional `center` prop reserves space for affixes and loading spinner.
 
-```tsx live=true
-<Stack gap="64px">
-  <Stack>
-    <Typography variant="label">Default</Typography>
-    <Stack flexDirection="row" flexWrap="wrap">
-      <Button prefix={<PlusSmallSVG />}>Add Entry</Button>
-      <Button suffix={<PlusSmallSVG />}>Add Entry</Button>
-      <Button prefix={<PlusSmallSVG />} suffix={<PlusSmallSVG />}>
-        Add Entry
-      </Button>
-      <Button loading prefix={<PlusSmallSVG />}>
-        Add Entry
-      </Button>
-    </Stack>
-  </Stack>
+### Default
 
-  <Stack>
-    <Typography variant="label">Center</Typography>
-    <Stack flexDirection="row" flexWrap="wrap">
-      <Button center prefix={<PlusSmallSVG />}>
-        Add Entry
-      </Button>
-      <Button center suffix={<PlusSmallSVG />}>
-        Add Entry
-      </Button>
-      <Button center prefix={<PlusSmallSVG />} suffix={<PlusSmallSVG />}>
-        Add Entry
-      </Button>
-      <Button center loading prefix={<PlusSmallSVG />}>
-        Add Entry
-      </Button>
-    </Stack>
-  </Stack>
-</Stack>
+```tsx live=true
+<DeleteMe>
+  <Button prefix={<PlusSmallSVG />}>Add Entry</Button>
+  <Button suffix={<PlusSmallSVG />}>Add Entry</Button>
+  <Button prefix={<PlusSmallSVG />} suffix={<PlusSmallSVG />}>
+    Add Entry
+  </Button>
+  <Button loading prefix={<PlusSmallSVG />}>
+    Add Entry
+  </Button>
+</DeleteMe>
+```
+
+### Center
+
+```tsx live=true
+<DeleteMe>
+  <Button center prefix={<PlusSmallSVG />}>
+    Add Entry
+  </Button>
+  <Button center suffix={<PlusSmallSVG />}>
+    Add Entry
+  </Button>
+  <Button center prefix={<PlusSmallSVG />} suffix={<PlusSmallSVG />}>
+    Add Entry
+  </Button>
+  <Button center loading prefix={<PlusSmallSVG />}>
+    Add Entry
+  </Button>
+</DeleteMe>
 ```
 
 ## Shapes
 
 ```tsx live=true
-<Stack flexDirection="row" flexWrap="wrap">
+<DeleteMe flexDirection="row" flexWrap="wrap">
   <Button shape="square">Square</Button>
   <Button shape="circle">Circle</Button>
-</Stack>
+</DeleteMe>
+```
+
+## Outlined
+
+```tsx live=true
+<DeleteMe>
+  <Button outlined shadowless variant="transparent">
+    Outlined
+  </Button>
+  <Button shadowless variant="transparent">
+    Shadowless
+  </Button>
+</DeleteMe>
 ```
 
 ## Link
 
 ```tsx live=true
-<Stack flexDirection="row" flexWrap="wrap">
+<DeleteMe flexDirection="row" flexWrap="wrap">
   <Button as="a" href="https://ens.domains" rel="noreferrer" target="_blank">
     Visit ENS
   </Button>
   <NextLink href="/" passHref>
     <Button as="a">Go to Home</Button>
   </NextLink>
-</Stack>
+</DeleteMe>
 ```

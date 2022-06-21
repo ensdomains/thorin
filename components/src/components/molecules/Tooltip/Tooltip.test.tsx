@@ -10,14 +10,26 @@ import { Tooltip } from './Tooltip'
 
 import { lightTheme } from '@/src/tokens'
 
-const TooltipHelper = ({ ...props }: any) => {
+const TooltipHelper = () => {
+  const [isOpen, setIsOpen] = React.useState(false)
   const content = <div data-testid="tooltipcontent">Content</div>
   return (
     <ThemeProvider theme={lightTheme}>
-      <div>
+      <div style={{ width: '500px', height: '500px' }}>
         <div>outside</div>
-        <Tooltip content={content} {...props}>
-          <Button>Click me</Button>
+        <Tooltip
+          content={content}
+          open={isOpen}
+          placement="right-start"
+          onDismiss={() => setIsOpen(false)}
+        >
+          <Button
+            onClick={() => {
+              setIsOpen((o) => !o)
+            }}
+          >
+            Click me
+          </Button>
         </Tooltip>
       </div>
     </ThemeProvider>
@@ -26,26 +38,34 @@ const TooltipHelper = ({ ...props }: any) => {
 
 describe('<Tooltip />', () => {
   afterEach(cleanup)
+  jest.setTimeout(10000)
 
   it('renders', () => {
     render(<TooltipHelper />)
     expect(screen.getByTestId('dynamicpopover')).toBeInTheDocument()
     expect(screen.getByText('Click me')).toBeInTheDocument()
     expect(screen.getByTestId('tooltipcontent')).toBeInTheDocument()
+    expect(screen.getByText('outside')).toBeInTheDocument()
+    expect(screen.getByTestId('dynamicpopover-popover')).toBeInTheDocument()
   })
 
-  it('should show popover when clicked', () => {
+  it('should show popover when clicked', async () => {
     render(<TooltipHelper />)
     act(() => {
       userEvent.click(screen.getByText('Click me'))
     })
-    expect(screen.getByText('Click me')).toBeVisible()
+    await waitFor(() => {
+      expect(screen.getByTestId('tooltipcontent')).toBeVisible()
+    })
   })
 
   it('should close if clicking outside of dropdown', async () => {
     render(<TooltipHelper />)
     act(() => {
       userEvent.click(screen.getByText('Click me'))
+    })
+    await waitFor(() => {
+      expect(screen.getByTestId('tooltipcontent')).toBeVisible()
     })
     act(() => {
       userEvent.click(screen.getByText('outside'))

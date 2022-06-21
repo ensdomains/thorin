@@ -45,7 +45,7 @@ const TextArea = styled.textarea<{ $error?: boolean }>(
   `,
 )
 
-type NativeTextareaProps = React.AllHTMLAttributes<HTMLTextAreaElement>
+type NativeTextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement>
 
 type Props = Omit<FieldBaseProps, 'inline'> & {
   /** If true, the input will automatically correct words it marks as spelling errors. */
@@ -55,11 +55,11 @@ type Props = Omit<FieldBaseProps, 'inline'> & {
   /** The initial value. Useful for detecting changes in value. */
   defaultValue?: string | number
   /** If true, prevents user interaction. */
-  disabled?: boolean
+  disabled?: NativeTextareaProps['disabled']
   /** The id attribute of the textarea element. */
   id?: NativeTextareaProps['id']
   /** The name attribute of the textarea element. */
-  name?: string
+  name?: NativeTextareaProps['name']
   /** The maximum number of characters allowed. */
   maxLength?: NativeTextareaProps['maxLength']
   /** The placeholder attribute for textarea. */
@@ -75,12 +75,15 @@ type Props = Omit<FieldBaseProps, 'inline'> & {
   /** The value attribute of textarea. */
   value?: string | number
   /** The handler for change events. */
-  onChange?: React.EventHandler<React.ChangeEvent<HTMLTextAreaElement>>
+  onChange?: NativeTextareaProps['onChange']
   /** The handler for blur events. */
   onBlur?: NativeTextareaProps['onBlur']
   /** The handler for focus events. */
   onFocus?: NativeTextareaProps['onFocus']
-}
+} & Omit<
+    NativeTextareaProps,
+    'children' | 'value' | 'defaultValue' | 'aria-invalid'
+  >
 
 export const Textarea = React.forwardRef(
   (
@@ -92,6 +95,7 @@ export const Textarea = React.forwardRef(
       disabled,
       error,
       hideLabel,
+      inline,
       id,
       label,
       labelSecondary,
@@ -108,6 +112,7 @@ export const Textarea = React.forwardRef(
       onChange,
       onBlur,
       onFocus,
+      ...props
     }: Props,
     ref: React.Ref<HTMLTextAreaElement>,
   ) => {
@@ -122,13 +127,18 @@ export const Textarea = React.forwardRef(
         error={error}
         hideLabel={hideLabel}
         id={id}
+        inline={inline}
         label={label}
         labelSecondary={labelSecondary}
         required={required}
         width={width}
       >
         <TextArea
-          aria-invalid={hasError}
+          {...{
+            ...props,
+            'aria-invalid': hasError,
+          }}
+          $error={hasError}
           autoCorrect={autoCorrect}
           autoFocus={autoFocus}
           defaultValue={defaultValue}
@@ -145,9 +155,6 @@ export const Textarea = React.forwardRef(
           onBlur={onBlur}
           onChange={onChange}
           onFocus={onFocus}
-          {...{
-            $error: hasError,
-          }}
         />
       </Field>
     )

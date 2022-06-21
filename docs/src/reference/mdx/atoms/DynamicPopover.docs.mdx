@@ -8,37 +8,21 @@ import { DynamicPopover } from '@ensdomains/thorin'
 ```
 
 ```tsx live=true  expand=ture minHeight=300px
-<DynamicPopover placement="bottom-start" popover="Popover Information">
-  <Button>Click Me</Button>
+<DynamicPopover
+  open={getState('isOpen')}
+  placement="bottom-start"
+  popover="Popover Information"
+  onDismiss={() => setState('isOpen', false)}
+>
+  <Button pressed={getState('isOpen')} onClick={() => toggleState('isOpen')}>
+    Click Me
+  </Button>
 </DynamicPopover>
 ```
 
 ## Props
 
 <PropsTable sourceLink={sourceLink} types={types} />
-
-## DynamicPopoverButton Props
-
-Use a Button component or a custom component that conforms to this interface. The component will clone the element and overwrite these properties.
-
-<PropsTable
-  types={{
-    pressed: {
-      name: 'pressed',
-      description: 'If true, the popover is visible.',
-      type: {
-        raw: 'boolean',
-      },
-    },
-    onClick: {
-      name: 'onClick',
-      description: 'A handler for click events.',
-      type: {
-        raw: 'MouseEventHandler<HTMLElement>',
-      },
-    },
-  }}
-/>
 
 ## DynamicPopoverAnimationFn
 
@@ -50,7 +34,7 @@ A function that provides custom animations to the popover appearing and disappea
 type DynamicPopoverAnimationFunc = (
   side: DynamicPopoverSide,
   open?: boolean,
-) => Keyframes
+) => string
 ```
 
 ### Parameters
@@ -66,7 +50,7 @@ type DynamicPopoverAnimationFunc = (
       required: true,
     },
     open: {
-      name: 'onClick',
+      name: 'open',
       description: 'If true, the popover is visible',
       type: {
         raw: 'boolean',
@@ -77,40 +61,54 @@ type DynamicPopoverAnimationFunc = (
 
 ### Return
 
-Returns a Keyframes object created from `keyframes` module of the `styled-components` library.
+Returns a string of css attributes.
 
-```tsx live=true expand=ture minHeight=300px
+```tsx
 <DynamicPopover
   animationFn={(side, open) => {
     if (open)
-      return keyframes`
-    0% {
+      return `
+        transform: scale(1);
+        visibility: visible;
+        opacity: 1;
+      `
+    return `
       transform: scale(0.2);
       visibility: hidden;
       opacity: 0;
-    }
-    100% {
-      transform: scale(1);
-      visibility: visible;
-      opacity: 1;
-    }
-  `
-    return keyframes`
-  0% {
-    transform: scale(1);
-    visibility: visible;
-    opacity: 1;  
-  }
-  100% {
-    transform: scale(0.2);
-    visibility: hidden;
-    opacity: 0;  
-  }
-  `
+    `
   }}
+  open={getState('isOpen')}
   placement="bottom-start"
   popover="Popover Information"
+  onDismiss={() => setState('isOpen', false)}
 >
-  <Button>Click Me</Button>
+  <Button pressed={getState('isOpen')} onClick={() => toggleState('isOpen')}>
+    Click Me
+  </Button>
+</DynamicPopover>
+```
+
+### Disabled
+
+Prevents the popover from appearing
+
+```tsx live=true expand=ture minHeight=300px
+<DynamicPopover
+  disabled={getState('isDisabled')}
+  open={getState('isOpen')}
+  placement="bottom-start"
+  popover="Popover Information"
+  onDismiss={() => setState('isOpen', false)}
+>
+  <Button pressed={getState('isOpen')} onClick={() => toggleState('isOpen')}>
+    Click Me
+  </Button>
+  <Button
+    pressed={getState('isDisabled')}
+    onClick={() => toggleState('isDisabled')}
+  >
+    {getState('isDisabled') ? 'Activate Me' : 'Disable Me'}
+  </Button>
 </DynamicPopover>
 ```
