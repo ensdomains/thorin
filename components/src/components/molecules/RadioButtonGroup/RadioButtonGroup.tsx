@@ -1,12 +1,26 @@
 import * as React from 'react'
 
+import styled, { css } from 'styled-components'
+
 import { getTestId } from '../../../utils/utils'
 import { createSyntheticEvent } from '../../../utils/createSyntheticEvent'
 import { RadioButton } from '@/src/components'
 
+const Container = styled.div<{ $inline?: boolean }>(
+  ({ theme, $inline }) => css`
+    display: flex;
+    flex-direction: ${$inline ? 'row' : 'column'};
+    gap: ${theme.space['2']};
+    justify-content: flex-start;
+    flex-wrap: ${$inline ? 'wrap' : 'nowrap'};
+  `,
+)
+
 type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 type NativeInputProps = React.InputHTMLAttributes<HTMLInputElement>
 export type Props = {
+  /** Display the radio buttons in a row */
+  inline?: boolean
   /** The children of the component that conform to the basic input attributes  */
   children?:
     | React.ReactElement<typeof RadioButton>[]
@@ -21,7 +35,14 @@ export type Props = {
 
 export const RadioButtonGroup = React.forwardRef(
   (
-    { value: _value, children, onChange, onBlur, ...props }: Props,
+    {
+      value: _value,
+      children,
+      inline = false,
+      onChange,
+      onBlur,
+      ...props
+    }: Props,
     ref: React.Ref<HTMLDivElement>,
   ) => {
     const defaultRef = React.useRef<HTMLDivElement>(null)
@@ -68,7 +89,8 @@ export const RadioButtonGroup = React.forwardRef(
     }
 
     return (
-      <div
+      <Container
+        $inline={inline}
         {...props}
         data-testid={getTestId(props, 'radiogroup')}
         ref={rootRef}
@@ -94,7 +116,7 @@ export const RadioButtonGroup = React.forwardRef(
             onBlur: handleBlur,
           })
         })}
-      </div>
+      </Container>
     )
   },
 )
