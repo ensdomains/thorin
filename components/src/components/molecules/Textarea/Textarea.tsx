@@ -47,7 +47,7 @@ const TextArea = styled.textarea<{ $error?: boolean }>(
 
 type NativeTextareaProps = React.AllHTMLAttributes<HTMLTextAreaElement>
 
-type Props = FieldBaseProps & {
+type Props = Omit<FieldBaseProps, 'inline'> & {
   /** If true, the input will automatically correct words it marks as spelling errors. */
   autoCorrect?: NativeTextareaProps['autoCorrect']
   /** If true, the component will attempt to get focus after it is rendered. */

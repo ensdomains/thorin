@@ -6,7 +6,7 @@ import { FieldBaseProps } from '../../atoms/Field'
 
 type NativeInputProps = React.AllHTMLAttributes<HTMLInputElement>
 
-type BaseProps = FieldBaseProps & {
+type BaseProps = Omit<FieldBaseProps, 'inline'> & {
   /** If the element should attempt to gain focus after it is rendered. */
   autoFocus?: NativeInputProps['autoFocus']
   /** If the input should display a list of suggested words. */
