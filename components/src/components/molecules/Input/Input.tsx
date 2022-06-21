@@ -6,7 +6,7 @@ import { FieldBaseProps } from '../../atoms/Field'
 
 type NativeInputProps = React.InputHTMLAttributes<HTMLInputElement>
 
-type BaseProps = FieldBaseProps & {
+type BaseProps = Omit<FieldBaseProps, 'inline'> & {
   /** If the element should attempt to gain focus after it is rendered. */
   autoFocus?: NativeInputProps['autoFocus']
   /** If the input should display a list of suggested words. */
@@ -300,7 +300,6 @@ export const Input = React.forwardRef(
       disabled,
       error,
       hideLabel,
-      inline,
       id,
       inputMode,
       label,
@@ -374,7 +373,6 @@ export const Input = React.forwardRef(
         error={error}
         hideLabel={hideLabel}
         id={id}
-        inline={inline}
         label={label}
         labelSecondary={labelSecondary}
         required={required}

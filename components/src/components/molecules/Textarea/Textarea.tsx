@@ -47,7 +47,7 @@ const TextArea = styled.textarea<{ $error?: boolean }>(
 
 type NativeTextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement>
 
-type Props = FieldBaseProps & {
+type Props = Omit<FieldBaseProps, 'inline'> & {
   /** If true, the input will automatically correct words it marks as spelling errors. */
   autoCorrect?: NativeTextareaProps['autoCorrect']
   /** If true, the component will attempt to get focus after it is rendered. */
@@ -95,7 +95,6 @@ export const Textarea = React.forwardRef(
       disabled,
       error,
       hideLabel,
-      inline,
       id,
       label,
       labelSecondary,
@@ -127,7 +126,6 @@ export const Textarea = React.forwardRef(
         error={error}
         hideLabel={hideLabel}
         id={id}
-        inline={inline}
         label={label}
         labelSecondary={labelSecondary}
         required={required}

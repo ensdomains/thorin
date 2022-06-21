@@ -29,3 +29,40 @@ import { RadioButtonGroup } from '@ensdomains/thorin'
 ## Props
 
 <PropsTable sourceLink={sourceLink} types={types} />
+
+## Inline
+
+```tsx live=true
+<Card shadow>
+  <FieldSet
+    legend={`Radio Buttons - Current Value: ${
+      getState('radiobuttongroup') || '30'
+    }`}
+  >
+    <RadioButtonGroup
+      inline
+      value={getState('radiobuttongroup') || '30'}
+      onChange={(e) => setState('radiobuttongroup', e.target.value)}
+    >
+      <RadioButton
+        label="Label 10"
+        name="RadioButtonGroup"
+        value="10"
+        width="max"
+      />
+      <RadioButton
+        label="Label 20"
+        name="RadioButtonGroup"
+        value="20"
+        width="max"
+      />
+      <RadioButton
+        label="Label 30"
+        name="RadioButtonGroup"
+        value="30"
+        width="max"
+      />
+    </RadioButtonGroup>
+  </FieldSet>
+</Card>
+```

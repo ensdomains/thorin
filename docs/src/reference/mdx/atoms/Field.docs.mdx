@@ -17,52 +17,82 @@ import { Field } from '@ensdomains/thorin'
 
 <PropsTable sourceLink={sourceLink} types={types} />
 
+## Variants
+
+```tsx live=true
+<Stack>
+  <Field label="Normal Field">
+    <div style={{ backgroundColor: 'black', height: 8 }} />
+  </Field>
+  <Field inline label="Inline Field">
+    <div style={{ backgroundColor: 'black', height: 8, width: 8 }} />
+  </Field>
+</Stack>
+```
+
 ## Required
 
 ```tsx live=true
-<Field description="Description or help text" label="Label" required>
-  <div style={{ backgroundColor: 'black', height: 8 }} />
-</Field>
+<Stack>
+  <Field description="Description or help text" label="Label" required>
+    <div style={{ backgroundColor: 'black', height: 8 }} />
+  </Field>
+  <Field description="Description or help text" inline label="Label" required>
+    <div style={{ backgroundColor: 'black', height: 8, width: 8 }} />
+  </Field>
+</Stack>
 ```
 
 ## Description
 
 ```tsx live=true
-<Field description="Description or help text" label="Label">
-  <div style={{ backgroundColor: 'black', height: 8 }} />
-</Field>
+<Stack>
+  <Field description="Description or help text" label="Label">
+    <div style={{ backgroundColor: 'black', height: 8 }} />
+  </Field>
+  <Field description="Description or help text" inline label="Label">
+    <div style={{ backgroundColor: 'black', height: 8, width: 8 }} />
+  </Field>
+</Stack>
 ```
 
 ## Error
 
 ```tsx live=true
-<Field error="Error message" label="Label">
-  <div style={{ backgroundColor: 'black', height: 8 }} />
-</Field>
+<Stack>
+  <Field error="Error message" label="Label">
+    <div style={{ backgroundColor: 'black', height: 8 }} />
+  </Field>
+  <Field error="Error message" inline label="Label">
+    <div style={{ backgroundColor: 'black', height: 8, width: 8 }} />
+  </Field>
+</Stack>
 ```
 
 ## Hide Label
 
 ```tsx live=true
-<Field hideLabel label="Label">
-  <div style={{ backgroundColor: 'black', height: 8 }} />
-</Field>
+<Stack>
+  <Field hideLabel label="Label">
+    <div style={{ backgroundColor: 'black', height: 8 }} />
+  </Field>
+  <Field hideLabel inline label="Label">
+    <div style={{ backgroundColor: 'black', height: 8, width: 8 }} />
+  </Field>
+</Stack>
 ```
 
 ## Secondary Label
 
 ```tsx live=true
-<Field label="Label" labelSecondary="Secondary Label">
-  <div style={{ backgroundColor: 'black', height: 8 }} />
-</Field>
-```
-
-## Inline
-
-```tsx live=true
-<Field inline label="Label">
-  <div style={{ backgroundColor: 'black', height: 8, width: 8 }} />
-</Field>
+<Stack>
+  <Field label="Label" labelSecondary="Secondary Label">
+    <div style={{ backgroundColor: 'black', height: 8 }} />
+  </Field>
+  <Field inline label="Label" labelSecondary="Secondary Label">
+    <div style={{ backgroundColor: 'black', height: 8, width: 8 }} />
+  </Field>
+</Stack>
 ```
 
 ## Consume ID
