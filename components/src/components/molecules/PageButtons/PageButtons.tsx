@@ -6,8 +6,10 @@ import { getTestId } from '../../../utils/utils'
 type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 
 type Props = {
+  /** Total number of pages */
   total: number
   current: number
+  /** Maximum number of buttons to show */
   max?: number
   alwaysShowFirst?: boolean
   alwaysShowLast?: boolean
