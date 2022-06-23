@@ -1,4 +1,4 @@
-# ENS Design System &middot; [![NPM version](https://img.shields.io/npm/v/thorin.svg?style=for-the-badge&labelColor=161c22)](https://www.npmjs.com/package/thorin) [![License](https://img.shields.io/npm/l/thorin.svg?style=for-the-badge&labelColor=161c22)](/LICENSE)
+# ENS Design System &middot; [![NPM version](https://img.shields.io/npm/v/thorin.svg?style=for-the-badge&labelColor=161c22)](https://www.npmjs.com/package/@ensdomains/thorin) [![License](https://img.shields.io/npm/l/thorin.svg?style=for-the-badge&labelColor=161c22)](/LICENSE)
 
 A design system for ENS built with React and styled-components.
 
