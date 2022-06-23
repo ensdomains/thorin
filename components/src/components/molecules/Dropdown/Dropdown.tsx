@@ -181,6 +181,7 @@ const MenuButton = styled.button<MenuButtonProps>(
 
     &:disabled {
       color: ${theme.colors.textTertiary};
+      cursor: not-allowed;
     }
 
     ${() => {
