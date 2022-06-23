@@ -2,7 +2,7 @@
 
 A design system for ENS built with React and styled-components.
 
-**NOTE: This project is in active development and is subject to change.**
+**NOTE: This project is in alpha stage. It is in active development and is subject to change.**
 
 ## Install
 
