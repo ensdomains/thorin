@@ -20,7 +20,8 @@ const Container = styled.div(
 
 type DropdownItemObject = {
   label: string
-  onClick(): void
+  onClick(value?: string): void
+  value?: string
   color?: Colors
   disabled?: boolean
 }
@@ -267,12 +268,16 @@ const DropdownMenu = ({
         if (React.isValidElement(item)) {
           return <div onClick={() => setIsOpen(false)}>{item}</div>
         }
-        const { color, label, onClick, disabled } = item as DropdownItemObject
+        const { color, value, label, onClick, disabled } =
+          item as DropdownItemObject
+
         return (
           <MenuButton
             {...{ $inner: inner, $hasColor: !!color, $color: color, disabled }}
-            key={label}
-            onClick={() => Promise.resolve(setIsOpen(false)).then(onClick)}
+            key={value || label}
+            onClick={() =>
+              Promise.resolve(setIsOpen(false)).then(() => onClick(value))
+            }
           >
             {label}
           </MenuButton>
