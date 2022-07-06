@@ -6,11 +6,13 @@ import { FieldBaseProps } from '../../atoms/Field'
 
 const TextArea = styled.textarea<{ $error?: boolean }>(
   ({ theme, disabled, $error }) => css`
-    background-color: ${theme.colors.transparent};
-    border-color: ${theme.colors.foregroundSecondary};
+    background-color: ${theme.colors.backgroundSecondary};
+    border-color: ${theme.colors.transparent};
     border-radius: ${theme.radii['2xLarge']};
-    border-width: ${theme.space['0.5']};
+    border-width: 1px;
     color: ${theme.colors.text};
+    box-sizing: padding-box;
+    background-clip: padding-box;
     display: flex;
     font-family: ${theme.fonts['sans']};
     font-size: ${theme.fontSizes['base']};
@@ -22,9 +24,15 @@ const TextArea = styled.textarea<{ $error?: boolean }>(
     transition-timing-function: ${theme.transitionTimingFunction['inOut']};
     width: ${theme.space['full']};
     resize: none;
+    outline: none;
+
+    &::placeholder {
+      color: ${theme.colors.textPlaceholder};
+      font-weight: ${theme.fontWeights['medium']};
+    }
 
     &:focus {
-      border-color: ${theme.colors.accent};
+      border-color: ${theme.colors.accentSecondary};
     }
 
     ${disabled &&
