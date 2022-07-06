@@ -42,7 +42,7 @@ describe('<Select />', () => {
       </ThemeProvider>,
     )
     act(() => {
-      userEvent.click(screen.getByTestId('selected'))
+      userEvent.click(screen.getByTestId('select-container'))
     })
     act(() => {
       userEvent.click(screen.getByText('One'))
@@ -69,7 +69,7 @@ describe('<Select />', () => {
       </ThemeProvider>,
     )
     act(() => {
-      userEvent.click(screen.getByTestId('selected'))
+      userEvent.click(screen.getByTestId('select-container'))
     })
     act(() => {
       userEvent.click(screen.getByText('One'))
@@ -129,7 +129,7 @@ describe('<Select />', () => {
       </ThemeProvider>,
     )
     act(() => {
-      userEvent.click(screen.getByTestId('selected'))
+      userEvent.click(screen.getByTestId('select-container'))
     })
     act(() => {
       userEvent.click(screen.getByText('Two'))
@@ -156,7 +156,7 @@ describe('<Select />', () => {
       </ThemeProvider>,
     )
     act(() => {
-      userEvent.click(screen.getByTestId('selected'))
+      userEvent.click(screen.getByTestId('select-container'))
     })
     act(() => {
       userEvent.click(screen.getByText('outside'))
@@ -189,7 +189,7 @@ describe('<Select />', () => {
     )
 
     act(() => {
-      userEvent.click(screen.getByTestId('selected'))
+      userEvent.click(screen.getByTestId('select-container'))
     })
 
     act(() => {
@@ -228,7 +228,7 @@ describe('<Select />', () => {
       </ThemeProvider>,
     )
     act(() => {
-      userEvent.click(screen.getByTestId('selected'))
+      userEvent.click(screen.getByTestId('select-container'))
     })
 
     act(() => {
@@ -264,7 +264,7 @@ describe('<Select />', () => {
     )
 
     act(() => {
-      userEvent.click(screen.getByTestId('selected'))
+      userEvent.click(screen.getByTestId('select-container'))
     })
 
     act(() => {
@@ -309,7 +309,7 @@ describe('<Select />', () => {
     )
 
     act(() => {
-      userEvent.click(screen.getByTestId('selected'))
+      userEvent.click(screen.getByTestId('select-container'))
     })
 
     act(() => {
@@ -357,7 +357,7 @@ describe('<Select />', () => {
     )
 
     act(() => {
-      userEvent.click(screen.getByTestId('selected'))
+      userEvent.click(screen.getByTestId('select-container'))
     })
 
     await act(async () => {
@@ -412,6 +412,7 @@ describe('<Select />', () => {
                 { value: '1', label: 'One' },
                 { value: '2', label: 'Two' },
               ]}
+              value="0"
             />
           }
         />
@@ -448,7 +449,7 @@ describe('<Select />', () => {
     )
 
     act(() => {
-      userEvent.click(screen.getByTestId('selected'))
+      userEvent.click(screen.getByTestId('select-container'))
     })
 
     waitFor(() => {
