@@ -75,7 +75,7 @@ const DropdownMenuContainer = styled.div<DropdownMenuContainer>(
           opacity: 1;
         `
       : css`
-          z-index: 0;
+          z-index: 1;
           visibility: hidden;
           opacity: 0;
         `}
