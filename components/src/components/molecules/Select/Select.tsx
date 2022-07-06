@@ -4,11 +4,14 @@ import uniqueId from 'lodash/uniqueId'
 
 import { useEffect } from 'react'
 
+import { TransitionState, useTransition } from 'react-transition-state'
+
 import { CloseSVG, Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
 import { ReactComponent as IconDownIndicatorSvg } from '@/src/icons/DownIndicator.svg'
 import { useDocumentEvent } from '@/src/hooks/useDocumentEvent'
 import { VisuallyHidden } from '../../atoms'
+import { Space } from '@/src/tokens'
 
 const CREATE_OPTION_VALUE = 'CREATE_OPTION_VALUE'
 
@@ -26,15 +29,14 @@ const SelectContainer = styled.div<{ $disabled?: boolean; $size: Size }>(
     align-items: center;
     justify-content: space-between;
     z-index: 10;
+    overflow: hidden;
     ${$size === 'medium'
       ? css`
-          border-radius: ${theme.radii['extraLarge']};
-          padding: ${theme.space['4']};
+          border-radius: ${theme.radii['2xLarge']};
           height: ${theme.space['14']};
         `
       : css`
           border-radius: ${theme.radii['almostExtraLarge']};
-          padding: ${theme.space['2']};
           height: ${theme.space['10']};
         `}
 
@@ -46,21 +48,71 @@ const SelectContainer = styled.div<{ $disabled?: boolean; $size: Size }>(
   `,
 )
 
-const OptionElementContainer = styled.div(
-  ({ theme }) => css`
+const SelectContentContainer = styled.div(
+  () => css`
+    flex: 1;
+  `,
+)
+
+const SelectActionContainer = styled.div(
+  () => css`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  `,
+)
+
+const OptionElementContainer = styled.div<{ $padding: Space }>(
+  ({ theme, $padding }) => css`
     align-items: center;
     display: flex;
     flex-direction: row;
     flex-grow: 1;
     gap: ${theme.space['4']};
+    padding: ${theme.space[$padding]};
+    padding-right: 0;
+  `,
+)
+
+const NoOptionContainer = styled.div<{ $padding: Space }>(
+  ({ theme, $padding }) => css`
+    padding: ${theme.space[$padding]};
+    padding-right: 0;
+    font-style: italic;
+  `,
+)
+
+const SelectInput = styled.input<{ $padding: Space }>(
+  ({ theme, $padding }) => css`
+    padding: ${theme.space[$padding]};
+    padding-right: 0;
+  `,
+)
+
+const SelectActionButton = styled.button<{ $padding: Space }>(
+  ({ theme, $padding }) => css`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: ${theme.space[$padding]};
+    svg {
+      display: block;
+      width: 12px;
+      path {
+        color: ${theme.colors.textSecondary};
+      }
+    }
   `,
 )
 
 const Chevron = styled(IconDownIndicatorSvg)<{
   $open: boolean
   $disabled?: boolean
+  $direction?: Direction
 }>(
-  ({ theme, $open, $disabled }) => css`
+  ({ theme, $open, $disabled, $direction }) => css`
     margin-left: ${theme.space['1']};
     width: ${theme.space['3']};
     margin-right: ${theme.space['0.5']};
@@ -68,7 +120,7 @@ const Chevron = styled(IconDownIndicatorSvg)<{
     transition-property: all;
     transition-timing-function: ${theme.transitionTimingFunction['inOut']};
     opacity: 0.3;
-    transform: rotate(0deg);
+    transform: ${$direction === 'up' ? 'rotate(180deg)' : 'rotate(0deg)'};
     display: flex;
 
     & > svg {
@@ -79,7 +131,7 @@ const Chevron = styled(IconDownIndicatorSvg)<{
     ${$open &&
     css`
       opacity: 1;
-      transform: rotate(180deg);
+      transform: ${$direction === 'up' ? 'rotate(0deg)' : 'rotate(180deg)'};
     `}
 
     ${$disabled &&
@@ -89,12 +141,13 @@ const Chevron = styled(IconDownIndicatorSvg)<{
   `,
 )
 
-const SelectOptionContainer = styled.div<{ $open?: boolean }>(
-  ({ theme, $open }) => css`
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: space-between;
+const SelectOptionContainer = styled.div<{
+  $state?: TransitionState
+  $direction?: Direction
+  $rows?: number
+}>(
+  ({ theme, $state, $direction, $rows }) => css`
+    display: block;
     position: absolute;
     visibility: hidden;
     opacity: 0;
@@ -102,29 +155,91 @@ const SelectOptionContainer = styled.div<{ $open?: boolean }>(
 
     margin-top: ${theme.space['1.5']};
     padding: ${theme.space['1.5']};
-    width: ${theme.space['full']};
+    min-width: ${theme.space['full']};
     height: ${theme.space['fit']};
     border-radius: ${theme.radii['medium']};
     box-shadow: ${theme.boxShadows['0.02']};
     background: ${theme.colors.background};
 
-    ${$open
+    ${$state === 'entered'
       ? css`
           z-index: 20;
           visibility: visible;
-          margin-top: ${theme.space['1.5']};
+          top: ${$direction === 'up'
+            ? `auto`
+            : `calc(100% + ${theme.space['1.5']})`};
+          bottom: ${$direction === 'up'
+            ? `calc(100% + ${theme.space['1.5']})`
+            : 'auto'};
           opacity: ${theme.opacity['100']};
-          transition: all 0.3s cubic-bezier(1, 0, 0.22, 1.6),
+          transition: all 0.3s ${theme.transitionTimingFunction.popIn},
             z-index 0s linear 0.3s;
         `
       : css`
           z-index: 0;
           visibility: hidden;
-          margin-top: -${theme.space['12']};
+          top: ${$direction === 'up'
+            ? `auto`
+            : `calc(100% - ${theme.space['12']})`};
+          bottom: ${$direction === 'up'
+            ? `calc(100% - ${theme.space['12']})`
+            : 'auto'};
           opacity: 0;
-          transition: all 0.3s cubic-bezier(1, 0, 0.22, 1.6),
+          transition: all 0.3s ${theme.transitionTimingFunction.popIn},
             z-index 0s linear 0s;
         `}
+
+    ${$rows &&
+    css`
+      padding-right: ${theme.space['1']};
+    `}
+  `,
+)
+
+const SelectOptionList = styled.div<{ $rows?: number; $direction: Direction }>(
+  ({ theme, $rows, $direction }) => css`
+    display: flex;
+    flex-direction: ${$direction === 'up' ? 'column-reverse' : 'column'};
+    align-items: flex-start;
+    justify-content: space-between;
+    overflow-y: ${$rows ? 'scroll' : 'hidden'};
+    overflow-x: hidden;
+    width: 100%;
+    height: 100%;
+
+    ${$rows &&
+    css`
+      max-height: calc(${theme.space['9']} * ${$rows});
+      border-color: rgba(${theme.shadesRaw.foreground}, 0.05);
+      transition: border-color 0.15s ease-in-out;
+      padding-right: ${theme.space['1']};
+
+      /* stylelint-disable-next-line selector-pseudo-element-no-unknown */
+      &::-webkit-scrollbar-track {
+        background-color: transparent;
+      }
+
+      &::-webkit-scrollbar {
+        width: ${theme.space['1.5']};
+        background-color: transparent;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        border: none;
+        border-radius: ${theme.radii.full};
+        border-right-style: inset;
+        border-right-width: calc(100vw + 100vh);
+        border-color: inherit;
+      }
+
+      &::-webkit-scrollbar-button {
+        display: none;
+      }
+
+      &:hover {
+        border-color: rgba(${theme.shadesRaw.foreground}, 0.2);
+      }
+    `}
   `,
 )
 
@@ -140,13 +255,14 @@ const SelectOption = styled.div<{
     gap: ${theme.space['3']};
     width: ${theme.space['full']};
     height: ${theme.space['9']};
-    padding: 0 ${theme.space['2']};
+    padding: ${theme.space['2.5']} ${theme.space['2']};
     justify-content: flex-start;
     transition-duration: ${theme.transitionDuration['150']};
     transition-property: all;
     transition-timing-function: ${theme.transitionTimingFunction['inOut']};
     border-radius: ${theme.radii['medium']};
     margin: ${theme.space['0.5']} 0;
+    white-space: nowrap;
 
     &:first-child {
       margin-top: ${theme.space['0']};
@@ -176,25 +292,6 @@ const SelectOption = styled.div<{
         background-color: ${theme.colors.transparent};
       }
     `}
-  `,
-)
-
-const ClearIconContainer = styled.div<{
-  $size: SelectProps['size']
-}>(
-  ({ theme, $size }) => css`
-    gap: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: ${$size === 'medium' ? theme.space['14'] : theme.space['10']};
-    height: ${$size === 'medium' ? theme.space['14'] : theme.space['10']};
-    svg {
-      display: block;
-      path {
-        color: ${theme.colors.textSecondary};
-      }
-    }
   `,
 )
 
@@ -250,9 +347,12 @@ type NativeSelectProps = React.InputHTMLAttributes<HTMLInputElement>
 export type SelectOptionProps = {
   value: string
   label?: string
+  node?: React.ReactNode
   prefix?: React.ReactNode
   disabled?: boolean
 }
+
+type Direction = 'up' | 'down'
 
 type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 
@@ -267,8 +367,12 @@ export type SelectProps = {
   emptyListMessage?: string
   /** If it is possible to create an option if it does not exist in the options list. */
   createable?: boolean
+  /** If the menu opens up top or bottom. */
+  direction?: Direction
   /** The string or component to prefix the value in the create value option. */
   createablePrefix?: string
+  /** The message for when there is no option selected */
+  noSelectionMessage?: string
   /** The handler for change events. */
   onChange?: NativeSelectProps['onChange']
   /** The tabindex attribute for  */
@@ -285,7 +389,14 @@ export type SelectProps = {
   name?: NativeSelectProps['name']
   /** An arrary of objects conforming to OptionProps interface. */
   options: SelectOptionProps[]
+  /** The approximate number of rows to display on menu. */
+  rows?: number
+  /** Preset size spacing settings */
   size?: Size
+  /** Overide the padding setting of the element */
+  padding?: Space
+  /** The size attribute for input element. Useful for controlling input size in flexboxes. */
+  inputSize?: number | { max?: number; min?: number }
 } & FieldBaseProps &
   Omit<
     NativeDivProps,
@@ -312,6 +423,8 @@ export const Select = React.forwardRef(
       autocomplete = false,
       createable = false,
       createablePrefix = 'Add ',
+      noSelectionMessage,
+      direction = 'down',
       error,
       hideLabel,
       inline,
@@ -326,10 +439,13 @@ export const Select = React.forwardRef(
       onFocus,
       onCreate,
       options,
+      rows,
       emptyListMessage = 'No results',
       name,
       value: _value,
       size = 'medium',
+      padding: paddingProp,
+      inputSize: inputSizeProps,
       ...props
     }: SelectProps,
     ref: React.Ref<HTMLInputElement>,
@@ -452,9 +568,49 @@ export const Select = React.forwardRef(
 
     const [menuOpen, setMenuOpen] = React.useState(false)
     const isOpen = !disabled && menuOpen
+
+    const showClearButton = queryValue !== '' && isAutocomplete
+
+    // Set the intrinsic size of the input
+    const minInputSize =
+      typeof inputSizeProps === 'number'
+        ? inputSizeProps
+        : typeof inputSizeProps?.min === 'number'
+        ? inputSizeProps.min
+        : 4
+
+    const maxInputSize =
+      typeof inputSizeProps === 'number'
+        ? inputSizeProps
+        : typeof inputSizeProps?.max === 'number'
+        ? inputSizeProps.max
+        : 20
+
+    const inputSize = Math.min(
+      Math.max(minInputSize, queryValue.length),
+      maxInputSize,
+    )
+
+    const [state, toggle] = useTransition({
+      timeout: {
+        enter: 300,
+        exit: 300,
+      },
+      mountOnEnter: true,
+      unmountOnExit: true,
+    })
+
     useEffect(() => {
-      if (!menuOpen) handleReset()
-    }, [menuOpen])
+      toggle(isOpen || false)
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isOpen])
+
+    useEffect(() => {
+      if (!menuOpen && state === 'unmounted') handleReset()
+    }, [menuOpen, state])
+
+    const sizePadding = size === 'medium' ? '4' : '2'
+    const padding = paddingProp || sizePadding
 
     /**
      * Event Handlers
@@ -491,8 +647,10 @@ export const Select = React.forwardRef(
       e.preventDefault()
       e.stopPropagation()
 
-      if (e.key === ReservedKeys.ArrowUp) incrementHighlightIndex('previous')
-      else if (e.key === ReservedKeys.ArrowDown) incrementHighlightIndex('next')
+      if (e.key === ReservedKeys.ArrowUp)
+        incrementHighlightIndex(direction === 'up' ? 'next' : 'previous')
+      else if (e.key === ReservedKeys.ArrowDown)
+        incrementHighlightIndex(direction === 'up' ? 'previous' : 'next')
       if (e.key === ReservedKeys.Enter) {
         selectHighlightedIndex(e)
         setMenuOpen(false)
@@ -506,7 +664,9 @@ export const Select = React.forwardRef(
       setHighlightedIndex(-1)
     }
 
-    const handleInputClear = (e: React.MouseEvent<HTMLDivElement>) => {
+    const handleInputClear = (
+      e: React.MouseEvent<HTMLDivElement | HTMLButtonElement>,
+    ) => {
       e.stopPropagation()
       setQueryValue('')
       setInputValue('')
@@ -535,7 +695,7 @@ export const Select = React.forwardRef(
       option ? (
         <React.Fragment>
           {option.prefix && <div>{option.prefix}</div>}
-          {option.label || option.value}
+          {option.node ? option.node : option.label || option.value}
         </React.Fragment>
       ) : null
 
@@ -573,33 +733,57 @@ export const Select = React.forwardRef(
             onBlur={onBlur}
             onFocus={onFocus}
           >
-            <OptionElementContainer data-testid="selected">
+            <SelectContentContainer>
               {isAutocomplete && isOpen ? (
-                <>
-                  <input
-                    autoCapitalize="none"
-                    autoComplete="off"
-                    autoFocus
-                    data-testid="select-input"
-                    placeholder={selectedOption?.label}
-                    ref={searchInputRef}
-                    spellCheck="false"
-                    style={{ flex: '1', height: '100%' }}
-                    value={inputValue}
-                    onChange={handleInputChange}
-                    onKeyDown={(e) =>
-                      handleKeydown(e as React.KeyboardEvent<HTMLInputElement>)
-                    }
-                  />
-                  <ClearIconContainer $size={size} onClick={handleInputClear}>
-                    <CloseSVG />
-                  </ClearIconContainer>
-                </>
+                <SelectInput
+                  $padding={padding}
+                  autoCapitalize="none"
+                  autoComplete="off"
+                  autoFocus
+                  data-testid="select-input"
+                  placeholder={selectedOption?.label}
+                  ref={searchInputRef}
+                  size={inputSize}
+                  spellCheck="false"
+                  style={{ flex: '1', height: '100%' }}
+                  value={inputValue}
+                  onChange={handleInputChange}
+                  onKeyDown={(e) =>
+                    handleKeydown(e as React.KeyboardEvent<HTMLInputElement>)
+                  }
+                />
+              ) : selectedOption ? (
+                <OptionElementContainer
+                  $padding={padding}
+                  data-testid="selected"
+                >
+                  <OptionElement option={selectedOption} />
+                </OptionElementContainer>
+              ) : noSelectionMessage ? (
+                <NoOptionContainer $padding={padding}>
+                  {noSelectionMessage}
+                </NoOptionContainer>
+              ) : null}
+            </SelectContentContainer>
+            <SelectActionContainer>
+              {showClearButton ? (
+                <SelectActionButton
+                  $padding={padding}
+                  onClick={handleInputClear}
+                >
+                  <CloseSVG />
+                </SelectActionButton>
               ) : (
-                <OptionElement option={selectedOption} />
+                <SelectActionButton $padding={padding}>
+                  <Chevron
+                    $direction={direction}
+                    $disabled={disabled}
+                    $open={isOpen}
+                    onClick={() => setMenuOpen(!menuOpen)}
+                  />
+                </SelectActionButton>
               )}
-            </OptionElementContainer>
-            <Chevron $disabled={disabled} $open={isOpen} />
+            </SelectActionContainer>
             <VisuallyHidden>
               <input
                 aria-hidden
@@ -623,33 +807,39 @@ export const Select = React.forwardRef(
               />
             </VisuallyHidden>
           </SelectContainer>
-          <SelectOptionContainer
-            $open={isOpen}
-            id={`listbox-${id}`}
-            role="listbox"
-            tabIndex={-1}
-            onMouseLeave={handleOptionsListMouseLeave}
-          >
-            {visibleOptions.length === 0 && (
-              <NoResultsContainer>{emptyListMessage}</NoResultsContainer>
-            )}
-            {visibleOptions.map((option, index) => (
-              <SelectOption
-                {...{
-                  $selected: option?.value === value,
-                  $disabled: option.disabled,
-                  $highlighted: index === highlightedIndex,
-                }}
-                data-option-index={index}
-                key={option.value}
-                role="option"
-                onClick={handleOptionClick(option)}
-                onMouseOver={handleOptionMouseover}
-              >
-                <OptionElement option={option} />
-              </SelectOption>
-            ))}
-          </SelectOptionContainer>
+          {state !== 'unmounted' && (
+            <SelectOptionContainer
+              $direction={direction}
+              $rows={rows}
+              $state={state}
+              id={`listbox-${id}`}
+              role="listbox"
+              tabIndex={-1}
+              onMouseLeave={handleOptionsListMouseLeave}
+            >
+              <SelectOptionList $direction={direction} $rows={rows}>
+                {visibleOptions.length === 0 && (
+                  <NoResultsContainer>{emptyListMessage}</NoResultsContainer>
+                )}
+                {visibleOptions.map((option, index) => (
+                  <SelectOption
+                    {...{
+                      $selected: option?.value === value,
+                      $disabled: option.disabled,
+                      $highlighted: index === highlightedIndex,
+                    }}
+                    data-option-index={index}
+                    key={option.value}
+                    role="option"
+                    onClick={handleOptionClick(option)}
+                    onMouseOver={handleOptionMouseover}
+                  >
+                    <OptionElement option={option} />
+                  </SelectOption>
+                ))}
+              </SelectOptionList>
+            </SelectOptionContainer>
+          )}
         </div>
       </Field>
     )

@@ -16,13 +16,18 @@ import {
 ```tsx live=true expand=true minHeight=350px
 <Card>
   <Select
-    createable
+    autocomplete
     options={[
       { value: '0', label: 'Zero' },
       { value: '1', label: 'One', prefix: <EthSVG /> },
       { value: '2', label: 'Two', prefix: <FlagSVG /> },
       { value: '3', label: 'Three', prefix: <MoonSVG /> },
-      { value: '4', label: 'Four', prefix: <DuplicateSVG />, disabled: true },
+      {
+        value: '4',
+        label: 'Four',
+        prefix: <DuplicateSVG />,
+        disabled: true,
+      },
       { value: '5', label: 'Four', prefix: <DuplicateSVG /> },
     ]}
     tabIndex="2"
@@ -51,6 +56,14 @@ import {
       description: 'The human readable text for the option.',
       type: {
         raw: 'string',
+      },
+    },
+    node: {
+      name: 'node',
+      description:
+        'A react node that acts as the label as an alternative to the label prop.',
+      type: {
+        raw: 'ReactNode',
       },
     },
     prefix: {
@@ -143,4 +156,87 @@ import {
     />
   </Card>
 </>
+```
+
+## Rows
+
+```tsx live=true expand=true minHeight=350px
+<Card>
+  <Select
+    autocomplete
+    options={[
+      { value: '0', label: 'Zero' },
+      { value: '1', label: 'One', prefix: <EthSVG /> },
+      { value: '2', label: 'Two', prefix: <FlagSVG /> },
+      { value: '3', label: 'Three', prefix: <MoonSVG /> },
+      {
+        value: '4',
+        label: 'Four',
+        prefix: <DuplicateSVG />,
+        disabled: true,
+      },
+      { value: '5', label: 'Four', prefix: <DuplicateSVG /> },
+    ]}
+    rows={3}
+    tabIndex="2"
+  />
+</Card>
+```
+
+## Direction
+
+```tsx live=true expand=true minHeight=350px
+<DeleteMe>
+  <div style={{ height: '200px' }} />
+
+  <Select
+    createable
+    direction="up"
+    options={[
+      { value: '0', label: 'Zero' },
+      { value: '1', label: 'One', prefix: <EthSVG /> },
+      { value: '2', label: 'Two', prefix: <FlagSVG /> },
+      { value: '3', label: 'Three', prefix: <MoonSVG /> },
+      {
+        value: '4',
+        label: 'Four',
+        prefix: <DuplicateSVG />,
+        disabled: true,
+      },
+      { value: '5', label: 'Four', prefix: <DuplicateSVG /> },
+    ]}
+    tabIndex="2"
+  />
+</DeleteMe>
+```
+
+## InputSize
+
+```tsx live=true expand=true minHeight=350px
+<DeleteMe flexDirection="row" justifyContent="flex-start">
+  <div>
+    <Select
+      createable
+      inputSize={{
+        min: 5,
+        max: 20,
+      }}
+      options={[
+        { value: '0', label: 'Zero' },
+        { value: '1', label: 'One', prefix: <EthSVG /> },
+        { value: '2', label: 'Two', prefix: <FlagSVG /> },
+        { value: '3', label: 'Three', prefix: <MoonSVG /> },
+        {
+          value: '4',
+          label: 'Four',
+          prefix: <DuplicateSVG />,
+          disabled: true,
+        },
+        { value: '5', label: 'Four', prefix: <DuplicateSVG /> },
+      ]}
+      rows={3}
+      tabIndex="2"
+    />
+  </div>
+</DeleteMe>
 ```

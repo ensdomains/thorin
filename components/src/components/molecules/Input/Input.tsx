@@ -3,6 +3,7 @@ import styled, { FlattenInterpolation, css } from 'styled-components'
 
 import { Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
+import { Space } from '../../../tokens/index'
 
 type NativeInputProps = React.InputHTMLAttributes<HTMLInputElement>
 
@@ -51,6 +52,8 @@ type BaseProps = Omit<FieldBaseProps, 'inline'> & {
   onKeyDown?: NativeInputProps['onKeyDown']
   /** Sets the height of the input element. */
   size?: 'medium' | 'large' | 'extraLarge'
+  /** Override the padding settings */
+  padding?: Space | { prefix?: Space; suffix?: Space; input?: Space }
   /** Set of styles  */
   parentStyles?: FlattenInterpolation<any>
 } & Omit<
@@ -92,17 +95,28 @@ interface InputParentProps {
   $userStyles?: FlattenInterpolation<any>
 }
 
+const getPadding = (
+  key: 'prefix' | 'suffix' | 'input',
+  fallback: Space,
+  padding: BaseProps['padding'],
+): Space => {
+  if (typeof padding === 'string') return padding
+  return padding?.[key] || fallback
+}
+
 const InputParent = styled.div<InputParentProps>(
   ({ theme, $size, $disabled, $error, $suffix, $userStyles }) => css`
     background-color: ${theme.colors.backgroundSecondary};
     border-radius: ${theme.radii['2xLarge']};
-    border-width: ${theme.space['0.75']};
+    border-width: 1px;
     border-color: ${theme.colors.transparent};
     color: ${theme.colors.text};
     display: flex;
     transition-duration: ${theme.transitionDuration['150']};
     transition-property: color, border-color, background-color;
     transition-timing-function: ${theme.transitionTimingFunction['inOut']};
+    box-sizing: content-box;
+    background-clip: content-box;
 
     &:focus-within {
       border-color: ${theme.colors.accentSecondary};
@@ -151,8 +165,8 @@ const InputParent = styled.div<InputParentProps>(
   `,
 )
 
-const Prefix = styled.label(
-  ({ theme }) => css`
+const Prefix = styled.label<{ $padding: Space }>(
+  ({ theme, $padding }) => css`
     align-items: center;
     display: flex;
     height: ${theme.space['full']};
@@ -160,13 +174,12 @@ const Prefix = styled.label(
     color: inherit;
     font-family: ${theme.fonts['sans']};
     font-weight: ${theme.fontWeights['medium']};
-    padding-left: ${theme.space['4']};
-    padding-right: ${theme.space['2']};
+    padding-left: ${theme.space[$padding]};
   `,
 )
 
-const Suffix = styled.label(
-  ({ theme }) => css`
+const Suffix = styled.label<{ $padding: Space }>(
+  ({ theme, $padding }) => css`
     align-items: center;
     display: flex;
     height: ${theme.space['full']};
@@ -174,8 +187,7 @@ const Suffix = styled.label(
     color: inherit;
     font-family: ${theme.fonts['sans']};
     font-weight: ${theme.fontWeights['medium']};
-    padding-left: ${theme.space['2']};
-    padding-right: ${theme.space['2']};
+    padding-right: ${theme.space[$padding]};
   `,
 )
 
@@ -189,15 +201,16 @@ const InputContainer = styled.div(
 
 interface InputComponentProps {
   $size: any
+  $padding: Space
 }
 
 const InputComponent = styled.input<InputComponentProps>(
-  ({ theme, disabled, type, $size }) => css`
+  ({ theme, disabled, type, $size, $padding }) => css`
     background-color: ${theme.colors.transparent};
     position: relative;
     width: ${theme.space['full']};
     height: ${theme.space['full']};
-    padding: 0 ${theme.space['4']};
+    padding: 0 ${theme.space[$padding]};
     font-weight: ${theme.fontWeights['medium']};
 
     &::placeholder {
@@ -230,7 +243,6 @@ const InputComponent = styled.input<InputComponentProps>(
         case 'extraLarge':
           return css`
             font-size: ${theme.fontSizes['headingThree']};
-            padding: 0 ${theme.space['6']};
           `
         default:
           return ``
@@ -304,6 +316,7 @@ export const Input = React.forwardRef(
       inputMode,
       label,
       labelSecondary,
+      labelPlacement,
       name,
       placeholder,
       prefix,
@@ -322,6 +335,7 @@ export const Input = React.forwardRef(
       onKeyDown,
       size = 'medium',
       parentStyles,
+      padding,
       ...props
     }: Props,
     ref: React.Ref<HTMLInputElement>,
@@ -367,6 +381,14 @@ export const Input = React.forwardRef(
       [],
     )
 
+    const prefixPadding = getPadding('prefix', '4', padding)
+    const inputPadding = getPadding(
+      'input',
+      size === 'extraLarge' ? '6' : '4',
+      padding,
+    )
+    const suffixPadding = getPadding('suffix', '2', padding)
+
     return (
       <Field
         description={description}
@@ -374,6 +396,7 @@ export const Input = React.forwardRef(
         hideLabel={hideLabel}
         id={id}
         label={label}
+        labelPlacement={labelPlacement}
         labelSecondary={labelSecondary}
         required={required}
         width={width}
@@ -389,7 +412,11 @@ export const Input = React.forwardRef(
             }}
           >
             {prefix && (
-              <Prefix aria-hidden="true" {...ids?.label}>
+              <Prefix
+                aria-hidden="true"
+                {...ids?.label}
+                $padding={prefixPadding}
+              >
                 {prefix}
               </Prefix>
             )}
@@ -405,6 +432,7 @@ export const Input = React.forwardRef(
                   onKeyDown: type === 'number' ? handleKeyDown : onKeyDown,
                   onWheel: type === 'number' ? handleWheel : undefined,
                 }}
+                $padding={inputPadding}
                 $size={size}
                 autoComplete={autoComplete}
                 autoCorrect={autoCorrect}
@@ -440,7 +468,11 @@ export const Input = React.forwardRef(
             </InputContainer>
 
             {suffix && (
-              <Suffix aria-hidden="true" {...ids?.label}>
+              <Suffix
+                aria-hidden="true"
+                {...ids?.label}
+                $padding={suffixPadding}
+              >
                 {suffix}
               </Suffix>
             )}

@@ -69,6 +69,21 @@ import { Field } from '@ensdomains/thorin'
 </Stack>
 ```
 
+## Label Placement
+
+```tsx live=true
+<Stack>
+  <Field
+    description="Description message"
+    error="Error message"
+    label="Label"
+    labelPlacement={{ error: 'top', description: 'top' }}
+  >
+    <div style={{ backgroundColor: 'black', height: 8 }} />
+  </Field>
+</Stack>
+```
+
 ## Hide Label
 
 ```tsx live=true
