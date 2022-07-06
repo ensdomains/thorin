@@ -20,13 +20,17 @@ const Container = styled.div(
 
 type DropdownItemObject = {
   label: string
-  onClick(value?: string): void
+  onClick?: (value?: string) => void
+  wrapper?: (children: React.ReactNode, key: React.Key) => JSX.Element
+  as?: 'button' | 'a'
   value?: string
   color?: Colors
   disabled?: boolean
 }
 
-export type DropdownItem = DropdownItemObject | React.ReactNode
+export type DropdownItem =
+  | DropdownItemObject
+  | React.ReactElement<React.PropsWithRef<any>>
 
 interface DropdownMenuContainer {
   $opened?: boolean
@@ -71,7 +75,7 @@ const DropdownMenuContainer = styled.div<DropdownMenuContainer>(
           opacity: 1;
         `
       : css`
-          z-index: 0;
+          z-index: 1;
           visibility: hidden;
           opacity: 0;
         `}
@@ -159,7 +163,7 @@ interface MenuButtonProps {
 }
 
 const MenuButton = styled.button<MenuButtonProps>(
-  ({ theme, $inner, $hasColor, $color }) => css`
+  ({ theme, $inner, $hasColor, $color, disabled }) => css`
     align-items: center;
     cursor: pointer;
     display: flex;
@@ -180,10 +184,11 @@ const MenuButton = styled.button<MenuButtonProps>(
 
     color: ${theme.colors[$color || 'accent']};
 
-    &:disabled {
+    ${disabled &&
+    css`
       color: ${theme.colors.textTertiary};
       cursor: not-allowed;
-    }
+    `}
 
     ${() => {
       if ($inner)
@@ -236,6 +241,31 @@ type DropdownMenuProps = {
   direction: Direction
 }
 
+const DropdownChild = ({
+  setIsOpen,
+  item,
+}: {
+  setIsOpen: (isOpen: boolean) => void
+  item: React.ReactElement<React.PropsWithRef<any>>
+}) => {
+  const ref = React.useRef<HTMLDivElement>(null)
+  const Item = React.cloneElement(item, { ...item.props, ref })
+
+  const handleClick = React.useCallback(() => {
+    setIsOpen(false)
+  }, [setIsOpen])
+
+  React.useEffect(() => {
+    const currentRef = ref.current
+    currentRef?.addEventListener('click', handleClick)
+    return () => {
+      currentRef?.removeEventListener('click', handleClick)
+    }
+  }, [handleClick, item])
+
+  return Item
+}
+
 const DropdownMenu = ({
   items,
   setIsOpen,
@@ -266,22 +296,29 @@ const DropdownMenu = ({
     >
       {items.map((item: DropdownItem) => {
         if (React.isValidElement(item)) {
-          return <div onClick={() => setIsOpen(false)}>{item}</div>
+          return DropdownChild({ item, setIsOpen })
         }
-        const { color, value, label, onClick, disabled } =
+        const { color, value, label, onClick, disabled, as, wrapper } =
           item as DropdownItemObject
 
-        return (
-          <MenuButton
-            {...{ $inner: inner, $hasColor: !!color, $color: color, disabled }}
-            key={value || label}
-            onClick={() =>
-              Promise.resolve(setIsOpen(false)).then(() => onClick(value))
-            }
-          >
-            {label}
-          </MenuButton>
-        )
+        const props: React.ComponentProps<any> = {
+          $inner: inner,
+          $hasColor: !!color,
+          $color: color,
+          disabled,
+          onClick: () => {
+            setIsOpen(false)
+            onClick?.(value)
+          },
+          as,
+          children: label,
+        }
+
+        if (wrapper) {
+          return wrapper(<MenuButton {...props} />, value || label)
+        }
+
+        return <MenuButton {...props} key={value || label} />
       })}
     </DropdownMenuContainer>
   )
