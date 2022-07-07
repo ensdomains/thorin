@@ -158,7 +158,6 @@ const SelectOptionContainer = styled.div<{
     margin-top: ${theme.space['1.5']};
     padding: ${theme.space['1.5']};
     min-width: ${theme.space['full']};
-    height: ${theme.space['fit']};
     border-radius: ${theme.radii['medium']};
     box-shadow: ${theme.boxShadows['0.02']};
     background: ${theme.colors.background};
