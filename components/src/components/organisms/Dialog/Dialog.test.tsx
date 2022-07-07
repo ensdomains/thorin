@@ -63,4 +63,35 @@ describe('<Modal />', () => {
       timeout: 300,
     }).then(() => expect(mockCallback).toHaveBeenCalled())
   })
+
+  it('should show steps if available', () => {
+    render(
+      <ThemeProvider theme={lightTheme}>
+        <Dialog currentStep={0} open stepCount={3} variant="actionable">
+          Modal
+        </Dialog>
+      </ThemeProvider>,
+    )
+    waitFor(() => expect(screen.getByTestId('step-container')).toBeVisible(), {
+      timeout: 300,
+    })
+  })
+  it('should show correct step state', async () => {
+    render(
+      <ThemeProvider theme={lightTheme}>
+        <Dialog currentStep={2} open stepCount={3} variant="actionable">
+          Modal
+        </Dialog>
+      </ThemeProvider>,
+    )
+    await waitFor(
+      () => expect(screen.getByTestId('step-container')).toBeVisible(),
+      {
+        timeout: 300,
+      },
+    )
+    expect(screen.getByTestId('step-item-1-completed')).toBeVisible()
+    expect(screen.getByTestId('step-item-2-inProgress')).toBeVisible()
+    expect(screen.getByTestId('step-item-3-notStarted')).toBeVisible()
+  })
 })
