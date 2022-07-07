@@ -52,9 +52,9 @@ type BaseProps = {
 } & Omit<NativeButtonProps, 'prefix' | 'size'>
 
 type WithTone = {
-  /** Sets the color scheme when variant is 'primary' or 'action' */
+  /** Sets the color scheme when variant is 'primary', 'action', or 'secondary' */
   tone?: Tone
-  variant?: 'primary' | 'action'
+  variant?: 'primary' | 'action' | 'secondary'
 }
 
 type WithoutTone = {
@@ -198,12 +198,6 @@ const ButtonElement = styled.button<ButtonElement>(
 
     box-shadow: ${theme.shadows['0.25']} ${theme.colors.grey};
 
-    &:disabled {
-      background-color: ${theme.colors.grey};
-      transform: translateY(0px);
-      filter: brightness(1);
-    }
-
     border-radius: ${theme.radii.extraLarge};
     font-size: ${theme.fontSizes.large};
     padding: ${theme.space['3.5']} ${theme.space['4']};
@@ -303,6 +297,16 @@ const ButtonElement = styled.button<ButtonElement>(
       }
       return ''
     }}
+
+    &:disabled {
+      background-color: ${theme.colors.grey};
+      ${$variant !== 'transparent' &&
+      css`
+        color: ${theme.colors.background};
+      `}
+      transform: translateY(0px);
+      filter: brightness(1);
+    }
   `,
 )
 
