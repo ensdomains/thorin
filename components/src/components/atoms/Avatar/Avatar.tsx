@@ -73,11 +73,17 @@ const Placeholder = styled.div(
   `,
 )
 
-const Img = styled.img(
-  () => css`
+const Img = styled.img<{ $shown: boolean }>(
+  ({ $shown }) => css`
     height: 100%;
     width: 100%;
     object-fit: cover;
+    display: none;
+
+    ${$shown &&
+    css`
+      display: block;
+    `}
   `,
 )
 
@@ -105,19 +111,22 @@ export const Avatar = ({
 }: Props) => {
   const [showImage, setShowImage] = React.useState(!!src)
 
+  React.useEffect(() => {
+    setShowImage(false)
+  }, [src])
+
   return (
     <Container $noBorder={!showImage || noBorder} $shape={shape}>
-      {showImage ? (
-        <Img
-          {...props}
-          alt={label}
-          decoding="async"
-          src={src}
-          onError={() => setShowImage(false)}
-        />
-      ) : (
-        <Placeholder aria-label={label} />
-      )}
+      {!showImage && <Placeholder aria-label={label} />}
+      <Img
+        {...props}
+        $shown={showImage}
+        alt={label}
+        decoding="async"
+        src={src}
+        onError={() => setShowImage(false)}
+        onLoad={() => setShowImage(true)}
+      />
     </Container>
   )
 }
