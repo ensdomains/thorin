@@ -630,11 +630,7 @@ export const Select = React.forwardRef(
       setHighlightedIndex(-1)
     }
 
-    const handleSelectContainerClick = (
-      e: React.MouseEvent<HTMLDivElement>,
-    ) => {
-      e.stopPropagation()
-      e.preventDefault()
+    const handleSelectContainerClick = () => {
       if (isAutocomplete && !menuOpen) setMenuOpen(true)
       !isAutocomplete && setMenuOpen(!menuOpen)
     }
