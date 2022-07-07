@@ -309,6 +309,7 @@ const NoResultsContainer = styled.div(
     border-radius: ${theme.radii['medium']};
     margin: ${theme.space['0.5']} 0;
     font-style: italic;
+    white-space: nowrap;
 
     &:first-child {
       margin-top: ${theme.space['0']};
