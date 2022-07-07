@@ -77,3 +77,74 @@ import { Dialog } from '@ensdomains/thorin'
   </>
 </DeleteMe>
 ```
+
+## Steps
+
+```tsx live=true
+<DeleteMe flexDirection="row" flexWrap="wrap">
+  <>
+    <Button onClick={() => toggleState('dialog-steps-0')}>Not Started</Button>
+    <Dialog
+      currentStep={0}
+      leading={
+        <Button shadowless variant="secondary">
+          Leading
+        </Button>
+      }
+      open={getState('dialog-steps-0')}
+      stepCount={3}
+      subtitle="This dialog has 0/3 steps complete."
+      title="Start"
+      trailing={<Button shadowless>Trailing</Button>}
+      variant="actionable"
+      onDismiss={() => toggleState('dialog-steps-0')}
+    >
+      <Typography>Dialog text content.</Typography>
+    </Dialog>
+  </>
+  <>
+    <Button onClick={() => toggleState('dialog-steps-1')}>
+      Step 1 In Progress
+    </Button>
+    <Dialog
+      currentStep={1}
+      leading={
+        <Button shadowless variant="secondary">
+          Leading
+        </Button>
+      }
+      open={getState('dialog-steps-1')}
+      stepCount={3}
+      subtitle="This dialog has step 1 in progress."
+      title="Start"
+      trailing={<Button shadowless>Trailing</Button>}
+      variant="actionable"
+      onDismiss={() => toggleState('dialog-steps-1')}
+    >
+      <Typography>Dialog text content.</Typography>
+    </Dialog>
+  </>
+  <>
+    <Button onClick={() => toggleState('dialog-steps-2')}>
+      All Steps Complete
+    </Button>
+    <Dialog
+      currentStep={4}
+      leading={
+        <Button shadowless variant="secondary">
+          Leading
+        </Button>
+      }
+      open={getState('dialog-steps-2')}
+      stepCount={3}
+      subtitle="This dialog has all steps."
+      title="Start"
+      trailing={<Button shadowless>Trailing</Button>}
+      variant="actionable"
+      onDismiss={() => toggleState('dialog-steps-2')}
+    >
+      <Typography>Dialog text content.</Typography>
+    </Dialog>
+  </>
+</DeleteMe>
+```

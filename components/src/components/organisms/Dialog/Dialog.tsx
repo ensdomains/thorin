@@ -50,6 +50,7 @@ const SubTitle = styled(Typography)(
     font-size: ${theme.fontSizes['base']};
     font-weight: ${theme.fontWeights['medium']};
     color: ${theme.colors.textSecondary};
+    text-align: center;
   `,
 )
 
@@ -65,13 +66,16 @@ const Container = styled.div<{ $center?: boolean }>(
   `,
 )
 
-const TitleContainer = styled.div(
-  ({ theme }) => css`
+const TitleContainer = styled.div<{ $hasSteps: boolean }>(
+  ({ theme, $hasSteps }) => css`
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-top: ${theme.space['1.5']};
+    ${!$hasSteps &&
+    css`
+      margin-top: ${theme.space['1.5']};
+    `}
   `,
 )
 
@@ -88,9 +92,48 @@ const ContentWrapper = styled.div(
   `,
 )
 
+const StepContainer = styled.div(
+  ({ theme }) => css`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: ${theme.space['2']};
+  `,
+)
+
+type StepType = 'notStarted' | 'inProgress' | 'completed'
+
+const StepItem = styled.div<{ $type: StepType }>(
+  ({ theme, $type }) => css`
+    border-radius: ${theme.radii.full};
+    width: ${theme.space['3.5']};
+    height: ${theme.space['3.5']};
+    ${$type === 'notStarted' &&
+    css`
+      border: ${theme.borderWidths['0.5']} ${theme.borderStyles.solid}
+        ${theme.colors.borderSecondary};
+    `}
+    ${$type === 'inProgress' &&
+    css`
+      border: ${theme.borderWidths['0.5']} ${theme.borderStyles.solid}
+        ${theme.colors.accent};
+    `}
+    ${$type === 'completed' &&
+    css`
+      background-color: ${theme.colors.accent};
+    `}
+  `,
+)
+
 type TitleProps = {
   title?: string | React.ReactNode
   subtitle?: string | React.ReactNode
+}
+
+type StepProps = {
+  currentStep?: number
+  stepCount?: number
 }
 
 type BaseProps = {
@@ -109,7 +152,8 @@ type ActionableProps = {
   trailing?: React.ReactNode
   leading?: React.ReactNode
   center?: boolean
-} & TitleProps
+} & TitleProps &
+  StepProps
 
 type BlankProps = {
   variant: 'blank'
@@ -123,24 +167,52 @@ const ModalWithTitle = ({
   title,
   subtitle,
   children,
+  currentStep,
+  stepCount,
   ...props
-}: Omit<ModalProps, 'title'> & TitleProps) => (
-  <Modal {...{ ...props, open, onDismiss }}>
-    <StyledCard>
-      <ContentWrapper>
-        <TitleContainer>
-          {title &&
-            ((typeof title !== 'string' && title) || <Title>{title}</Title>)}
-          {subtitle &&
-            ((typeof subtitle !== 'string' && subtitle) || (
-              <SubTitle>{subtitle}</SubTitle>
-            ))}
-        </TitleContainer>
-        {children}
-      </ContentWrapper>
-    </StyledCard>
-  </Modal>
-)
+}: Omit<ModalProps, 'title'> & TitleProps & StepProps) => {
+  const calcStepType = React.useCallback(
+    (step: number) => {
+      if (step === currentStep) {
+        return 'inProgress'
+      }
+      if (step < (currentStep || 0)) {
+        return 'completed'
+      }
+      return 'notStarted'
+    },
+    [currentStep],
+  )
+
+  return (
+    <Modal {...{ ...props, open, onDismiss }}>
+      <StyledCard>
+        <ContentWrapper>
+          {stepCount && (
+            <StepContainer data-testid="step-container">
+              {Array.from({ length: stepCount }, (_, i) => (
+                <StepItem
+                  $type={calcStepType(i + 1)}
+                  data-testid={`step-item-${i + 1}-${calcStepType(i + 1)}`}
+                  key={i}
+                />
+              ))}
+            </StepContainer>
+          )}
+          <TitleContainer $hasSteps={!!stepCount}>
+            {title &&
+              ((typeof title !== 'string' && title) || <Title>{title}</Title>)}
+            {subtitle &&
+              ((typeof subtitle !== 'string' && subtitle) || (
+                <SubTitle>{subtitle}</SubTitle>
+              ))}
+          </TitleContainer>
+          {children}
+        </ContentWrapper>
+      </StyledCard>
+    </Modal>
+  )
+}
 
 export const Dialog = ({
   children,
