@@ -42,6 +42,10 @@ type BaseProps = Omit<FieldBaseProps, 'inline'> & {
   units?: string
   /** The value attribute of the input element. */
   value?: string | number
+  /** If true, the input has changes */
+  validated?: boolean
+  /** If true, the value has been validated */
+  showDot?: boolean
   /** A handler for blur events. */
   onBlur?: NativeInputProps['onBlur']
   /** A handler for change events. */
@@ -92,6 +96,8 @@ interface InputParentProps {
   $disabled?: boolean
   $error?: boolean
   $suffix: boolean
+  $validated?: boolean
+  $showDot?: boolean
   $userStyles?: FlattenInterpolation<any>
 }
 
@@ -105,7 +111,17 @@ const getPadding = (
 }
 
 const InputParent = styled.div<InputParentProps>(
-  ({ theme, $size, $disabled, $error, $suffix, $userStyles }) => css`
+  ({
+    theme,
+    $size,
+    $disabled,
+    $error,
+    $suffix,
+    $userStyles,
+    $validated,
+    $showDot,
+  }) => css`
+    position: relative;
     background-color: ${theme.colors.backgroundSecondary};
     border-radius: ${theme.radii['2xLarge']};
     border-width: ${theme.space['0.75']};
@@ -118,8 +134,51 @@ const InputParent = styled.div<InputParentProps>(
     box-sizing: content-box;
     background-clip: content-box;
 
+    :after {
+      content: '';
+      position: absolute;
+      width: ${theme.space['4']};
+      height: ${theme.space['4']};
+      box-sizing: border-box;
+      border-radius: 50%;
+      right: 0;
+      transition: all 0.3s ease-out;
+      ${() => {
+        if ($error && $showDot)
+          return css`
+            background-color: ${theme.colors.red};
+            border: 2px solid ${theme.colors.white};
+            transform: translate(50%, -50%) scale(1);
+          `
+        if ($validated && $showDot)
+          return css`
+            background-color: ${theme.colors.green};
+            border: 2px solid ${theme.colors.white};
+            transform: translate(50%, -50%) scale(1);
+          `
+        return css`
+          background-color: ${theme.colors.transparent};
+          border: 2px solid ${theme.colors.transparent};
+          transform: translate(50%, -50%) scale(0.2);
+        `
+      }}
+    }
+
     &:focus-within {
-      border-color: ${theme.colors.accentSecondary};
+      ${!$error &&
+      css`
+        border-color: ${theme.colors.accentSecondary};
+      `}
+    }
+
+    &:focus-within::after {
+      ${!$error &&
+      $showDot &&
+      css`
+        background-color: ${theme.colors.blue};
+        border-color: ${theme.colors.white};
+        transform: translate(50%, -50%) scale(1);
+      `}
     }
 
     ${$disabled &&
@@ -132,10 +191,6 @@ const InputParent = styled.div<InputParentProps>(
     css`
       border-color: ${theme.colors.red};
       cursor: default;
-
-      &:focus-within {
-        border-color: ${theme.colors.red};
-      }
     `}
 
   ${$suffix &&
@@ -305,12 +360,14 @@ export const Input = React.forwardRef(
   (
     {
       autoFocus,
-      autoComplete,
+      autoComplete = 'off',
       autoCorrect,
       defaultValue,
       description,
       disabled,
       error,
+      validated,
+      showDot,
       hideLabel,
       id,
       inputMode,
@@ -406,6 +463,8 @@ export const Input = React.forwardRef(
             {...{
               $disabled: disabled,
               $error: hasError,
+              $validated: validated,
+              $showDot: showDot,
               $suffix: suffix !== undefined,
               $size: size,
               $userStyles: parentStyles,
