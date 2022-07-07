@@ -142,6 +142,7 @@ const InputParent = styled.div<InputParentProps>(
       box-sizing: border-box;
       border-radius: 50%;
       right: 0;
+      top: 0;
       transition: all 0.3s ease-out;
       ${() => {
         if ($error && $showDot)
