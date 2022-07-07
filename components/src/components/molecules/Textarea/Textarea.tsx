@@ -9,7 +9,7 @@ const TextArea = styled.textarea<{ $error?: boolean }>(
     background-color: ${theme.colors.backgroundSecondary};
     border-color: ${theme.colors.transparent};
     border-radius: ${theme.radii['2xLarge']};
-    border-width: 1px;
+    border-width: ${theme.space['0.75']};
     color: ${theme.colors.text};
     box-sizing: padding-box;
     background-clip: padding-box;

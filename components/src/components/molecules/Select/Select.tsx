@@ -62,13 +62,13 @@ const SelectActionContainer = styled.div(
   `,
 )
 
-const OptionElementContainer = styled.div<{ $padding: Space }>(
-  ({ theme, $padding }) => css`
+const OptionElementContainer = styled.div<{ $padding: Space; $gap: Space }>(
+  ({ theme, $padding, $gap }) => css`
     align-items: center;
     display: flex;
     flex-direction: row;
     flex-grow: 1;
-    gap: ${theme.space['4']};
+    gap: ${theme.space[$gap]};
     padding: ${theme.space[$padding]};
     padding-right: 0;
   `,
@@ -86,6 +86,8 @@ const SelectInput = styled.input<{ $padding: Space }>(
   ({ theme, $padding }) => css`
     padding: ${theme.space[$padding]};
     padding-right: 0;
+    width: 100%;
+    height: 100%;
   `,
 )
 
@@ -160,6 +162,7 @@ const SelectOptionContainer = styled.div<{
     border-radius: ${theme.radii['medium']};
     box-shadow: ${theme.boxShadows['0.02']};
     background: ${theme.colors.background};
+    transition: all 0.3s cubic-bezier(1, 0, 0.22, 1.6), z-index 0.3s linear;
 
     ${$state === 'entered'
       ? css`
@@ -172,11 +175,9 @@ const SelectOptionContainer = styled.div<{
             ? `calc(100% + ${theme.space['1.5']})`
             : 'auto'};
           opacity: ${theme.opacity['100']};
-          transition: all 0.3s ${theme.transitionTimingFunction.popIn},
-            z-index 0s linear 0.3s;
         `
       : css`
-          z-index: 0;
+          z-index: 1;
           visibility: hidden;
           top: ${$direction === 'up'
             ? `auto`
@@ -185,8 +186,6 @@ const SelectOptionContainer = styled.div<{
             ? `calc(100% - ${theme.space['12']})`
             : 'auto'};
           opacity: 0;
-          transition: all 0.3s ${theme.transitionTimingFunction.popIn},
-            z-index 0s linear 0s;
         `}
 
     ${$rows &&
@@ -247,12 +246,13 @@ const SelectOption = styled.div<{
   $selected?: boolean
   $disabled?: boolean
   $highlighted?: boolean
+  $gap: Space
 }>(
-  ({ theme, $selected, $disabled, $highlighted }) => css`
+  ({ theme, $selected, $disabled, $highlighted, $gap }) => css`
     align-items: center;
     cursor: pointer;
     display: flex;
-    gap: ${theme.space['3']};
+    gap: ${theme.space[$gap]};
     width: ${theme.space['full']};
     height: ${theme.space['9']};
     padding: ${theme.space['2.5']} ${theme.space['2']};
@@ -394,7 +394,7 @@ export type SelectProps = {
   /** Preset size spacing settings */
   size?: Size
   /** Overide the padding setting of the element */
-  padding?: Space
+  padding?: Space | { outer?: Space; inner?: Space }
   /** The size attribute for input element. Useful for controlling input size in flexboxes. */
   inputSize?: number | { max?: number; min?: number }
 } & FieldBaseProps &
@@ -414,6 +414,24 @@ export type SelectProps = {
     | 'onClick'
     | 'onKeyDown'
   >
+
+const getPadding = (
+  key: 'outer' | 'inner',
+  fallback: Space,
+  padding: SelectProps['padding'],
+): Space => {
+  if (typeof padding === 'string') return padding
+  return padding?.[key] || fallback
+}
+
+const getSize = (
+  key: 'max' | 'min',
+  fallback: number,
+  size: SelectProps['inputSize'],
+): number => {
+  if (typeof size === 'number') return size
+  return size?.[key] || fallback
+}
 
 export const Select = React.forwardRef(
   (
@@ -572,20 +590,8 @@ export const Select = React.forwardRef(
     const showClearButton = queryValue !== '' && isAutocomplete
 
     // Set the intrinsic size of the input
-    const minInputSize =
-      typeof inputSizeProps === 'number'
-        ? inputSizeProps
-        : typeof inputSizeProps?.min === 'number'
-        ? inputSizeProps.min
-        : 4
-
-    const maxInputSize =
-      typeof inputSizeProps === 'number'
-        ? inputSizeProps
-        : typeof inputSizeProps?.max === 'number'
-        ? inputSizeProps.max
-        : 20
-
+    const minInputSize = getSize('min', 4, inputSizeProps)
+    const maxInputSize = getSize('max', 20, inputSizeProps)
     const inputSize = Math.min(
       Math.max(minInputSize, queryValue.length),
       maxInputSize,
@@ -593,9 +599,10 @@ export const Select = React.forwardRef(
 
     const [state, toggle] = useTransition({
       timeout: {
-        enter: 300,
+        enter: 0,
         exit: 300,
       },
+      preEnter: true,
       mountOnEnter: true,
       unmountOnExit: true,
     })
@@ -609,8 +616,9 @@ export const Select = React.forwardRef(
       if (!menuOpen && state === 'unmounted') handleReset()
     }, [menuOpen, state])
 
-    const sizePadding = size === 'medium' ? '4' : '2'
-    const padding = paddingProp || sizePadding
+    const defaultPadding = size === 'medium' ? '4' : '2'
+    const outerPadding = getPadding('outer', defaultPadding, paddingProp)
+    const innerPadding = getPadding('inner', defaultPadding, paddingProp)
 
     /**
      * Event Handlers
@@ -736,7 +744,7 @@ export const Select = React.forwardRef(
             <SelectContentContainer>
               {isAutocomplete && isOpen ? (
                 <SelectInput
-                  $padding={padding}
+                  $padding={outerPadding}
                   autoCapitalize="none"
                   autoComplete="off"
                   autoFocus
@@ -754,13 +762,14 @@ export const Select = React.forwardRef(
                 />
               ) : selectedOption ? (
                 <OptionElementContainer
-                  $padding={padding}
+                  $gap={innerPadding}
+                  $padding={outerPadding}
                   data-testid="selected"
                 >
                   <OptionElement option={selectedOption} />
                 </OptionElementContainer>
               ) : noSelectionMessage ? (
-                <NoOptionContainer $padding={padding}>
+                <NoOptionContainer $padding={outerPadding}>
                   {noSelectionMessage}
                 </NoOptionContainer>
               ) : null}
@@ -768,13 +777,13 @@ export const Select = React.forwardRef(
             <SelectActionContainer>
               {showClearButton ? (
                 <SelectActionButton
-                  $padding={padding}
+                  $padding={outerPadding}
                   onClick={handleInputClear}
                 >
                   <CloseSVG />
                 </SelectActionButton>
               ) : (
-                <SelectActionButton $padding={padding}>
+                <SelectActionButton $padding={outerPadding}>
                   <Chevron
                     $direction={direction}
                     $disabled={disabled}
@@ -827,6 +836,7 @@ export const Select = React.forwardRef(
                       $selected: option?.value === value,
                       $disabled: option.disabled,
                       $highlighted: index === highlightedIndex,
+                      $gap: innerPadding,
                     }}
                     data-option-index={index}
                     key={option.value}

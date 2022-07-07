@@ -108,7 +108,7 @@ const InputParent = styled.div<InputParentProps>(
   ({ theme, $size, $disabled, $error, $suffix, $userStyles }) => css`
     background-color: ${theme.colors.backgroundSecondary};
     border-radius: ${theme.radii['2xLarge']};
-    border-width: 1px;
+    border-width: ${theme.space['0.75']};
     border-color: ${theme.colors.transparent};
     color: ${theme.colors.text};
     display: flex;
