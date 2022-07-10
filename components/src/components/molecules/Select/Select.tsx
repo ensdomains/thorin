@@ -10,8 +10,10 @@ import { CloseSVG, Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
 import { ReactComponent as IconDownIndicatorSvg } from '@/src/icons/DownIndicator.svg'
 import { useDocumentEvent } from '@/src/hooks/useDocumentEvent'
+import { useIntersectionalObserver } from '@/src/hooks/useIntersectionalObserver'
 import { VisuallyHidden } from '../../atoms'
 import { Space } from '@/src/tokens'
+import { MenuPlacement } from '../../atoms/MenuPlacement/MenuPlacement'
 
 const CREATE_OPTION_VALUE = 'CREATE_OPTION_VALUE'
 
@@ -356,6 +358,11 @@ type Direction = 'up' | 'down'
 
 type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 
+type Portal = Omit<
+  React.ComponentProps<typeof MenuPlacement>,
+  'control' | 'children'
+>
+
 export type SelectProps = {
   /** The id attribute of div element. */
   id?: NativeSelectProps['id']
@@ -397,6 +404,13 @@ export type SelectProps = {
   padding?: Space | { outer?: Space; inner?: Space }
   /** The size attribute for input element. Useful for controlling input size in flexboxes. */
   inputSize?: number | { max?: number; min?: number }
+  /** Menu portaling properties */
+  portal?: {
+    appendTo: Portal['appendTo']
+    listenTo: Portal['listenTo']
+  }
+  /** If true, will close menu if select element is not 100% visible on screen. This is useful for when select is using portal. */
+  autoDismiss?: boolean
 } & FieldBaseProps &
   Omit<
     NativeDivProps,
@@ -464,6 +478,8 @@ export const Select = React.forwardRef(
       size = 'medium',
       padding: paddingProp,
       inputSize: inputSizeProps,
+      portal,
+      autoDismiss = false,
       ...props
     }: SelectProps,
     ref: React.Ref<HTMLInputElement>,
@@ -694,6 +710,12 @@ export const Select = React.forwardRef(
     }
 
     useDocumentEvent(displayRef, 'click', () => setMenuOpen(false), menuOpen)
+    useIntersectionalObserver(
+      displayRef,
+      (intersecting) => !intersecting && setMenuOpen(false),
+      autoDismiss,
+      { threshold: 1 },
+    )
 
     const OptionElement = ({ option }: { option: SelectOptionProps | null }) =>
       option ? (
@@ -813,38 +835,44 @@ export const Select = React.forwardRef(
             </VisuallyHidden>
           </SelectContainer>
           {state !== 'unmounted' && (
-            <SelectOptionContainer
-              $direction={direction}
-              $rows={rows}
-              $state={state}
-              id={`listbox-${id}`}
-              role="listbox"
-              tabIndex={-1}
-              onMouseLeave={handleOptionsListMouseLeave}
+            <MenuPlacement
+              appendTo={portal?.appendTo}
+              control={displayRef.current}
+              listenTo={portal?.listenTo}
             >
-              <SelectOptionList $direction={direction} $rows={rows}>
-                {visibleOptions.length === 0 && (
-                  <NoResultsContainer>{emptyListMessage}</NoResultsContainer>
-                )}
-                {visibleOptions.map((option, index) => (
-                  <SelectOption
-                    {...{
-                      $selected: option?.value === value,
-                      $disabled: option.disabled,
-                      $highlighted: index === highlightedIndex,
-                      $gap: innerPadding,
-                    }}
-                    data-option-index={index}
-                    key={option.value}
-                    role="option"
-                    onClick={handleOptionClick(option)}
-                    onMouseOver={handleOptionMouseover}
-                  >
-                    <OptionElement option={option} />
-                  </SelectOption>
-                ))}
-              </SelectOptionList>
-            </SelectOptionContainer>
+              <SelectOptionContainer
+                $direction={direction}
+                $rows={rows}
+                $state={state}
+                id={`listbox-${id}`}
+                role="listbox"
+                tabIndex={-1}
+                onMouseLeave={handleOptionsListMouseLeave}
+              >
+                <SelectOptionList $direction={direction} $rows={rows}>
+                  {visibleOptions.length === 0 && (
+                    <NoResultsContainer>{emptyListMessage}</NoResultsContainer>
+                  )}
+                  {visibleOptions.map((option, index) => (
+                    <SelectOption
+                      {...{
+                        $selected: option?.value === value,
+                        $disabled: option.disabled,
+                        $highlighted: index === highlightedIndex,
+                        $gap: innerPadding,
+                      }}
+                      data-option-index={index}
+                      key={option.value}
+                      role="option"
+                      onClick={handleOptionClick(option)}
+                      onMouseOver={handleOptionMouseover}
+                    >
+                      <OptionElement option={option} />
+                    </SelectOption>
+                  ))}
+                </SelectOptionList>
+              </SelectOptionContainer>
+            </MenuPlacement>
           )}
         </div>
       </Field>

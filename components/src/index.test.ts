@@ -25,6 +25,7 @@ const expectedExportedKeys = [
   'ThorinGlobalStyles',
   'Typography',
   'VisuallyHidden',
+  'MenuPlacement',
   // molecules
   'Backdrop',
   'Checkbox',
