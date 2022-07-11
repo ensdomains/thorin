@@ -596,7 +596,7 @@ export const Select = React.forwardRef(
     }
 
     const selectHighlightedIndex = (event: any) => {
-      const option = options[highlightedIndex]
+      const option = visibleOptions[highlightedIndex]
       option && changeSelectedOption(option, event)
       handleReset()
     }

@@ -236,9 +236,13 @@ describe('<Select />', () => {
     })
 
     act(() => {
+      userEvent.type(screen.getByTestId('select-input'), '{arrowdown}')
+    })
+
+    act(() => {
       userEvent.type(screen.getByTestId('select-input'), '{enter}')
     })
-    expect(screen.getByTestId('selected').innerHTML).toEqual('Zero')
+    expect(screen.getByTestId('selected').innerHTML).toEqual('One')
   })
 
   /** Createable */
@@ -378,6 +382,39 @@ describe('<Select />', () => {
     })
   })
 
+  it('should call on create if create option is selected with arrows and enter is pressed', () => {
+    const mockCallback = jest.fn()
+    render(
+      <ThemeProvider theme={lightTheme}>
+        <div>
+          <div>outside</div>
+          <Select
+            createable
+            label="select"
+            options={[
+              { value: '0', label: 'Zero' },
+              { value: '1', label: 'One' },
+              { value: '2', label: 'Two', disabled: true },
+            ]}
+            onCreate={mockCallback}
+          />
+        </div>
+      </ThemeProvider>,
+    )
+
+    act(() => {
+      userEvent.click(screen.getByTestId('select-container'))
+    })
+
+    userEvent.type(screen.getByTestId('select-input'), 'onsies')
+    userEvent.type(screen.getByTestId('select-input'), '{arrowdown}')
+    userEvent.type(screen.getByTestId('select-input'), '{enter}')
+
+    waitFor(() => {
+      expect(mockCallback).toBeCalledWith('onsies')
+    })
+  })
+
   it('should pass a ref down', async () => {
     const ref = { current: null } as React.RefObject<any>
     render(
@@ -415,12 +452,13 @@ describe('<Select />', () => {
               value="0"
             />
           }
+          prefixAs="div"
         />
       </ThemeProvider>,
     )
 
     act(() => {
-      userEvent.click(screen.getByTestId('selected'))
+      userEvent.click(screen.getByTestId('select-container'))
     })
     waitFor(() => {
       expect(screen.getByRole('listbox')).toBeVisible()
