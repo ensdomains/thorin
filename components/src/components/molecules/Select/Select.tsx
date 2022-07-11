@@ -61,6 +61,7 @@ const SelectActionContainer = styled.div(
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
   `,
 )
 
@@ -151,7 +152,7 @@ const SelectOptionContainer = styled.div<{
   $rows?: number
 }>(
   ({ theme, $state, $direction, $rows }) => css`
-    display: block;
+    display: ${$state === 'exited' ? 'none' : 'block'};
     position: absolute;
     visibility: hidden;
     opacity: 0;
@@ -619,12 +620,10 @@ export const Select = React.forwardRef(
         exit: 300,
       },
       preEnter: true,
-      mountOnEnter: true,
-      unmountOnExit: true,
     })
 
     useEffect(() => {
-      toggle(isOpen || false)
+      toggle(isOpen)
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isOpen])
 
@@ -648,7 +647,7 @@ export const Select = React.forwardRef(
 
     const handleSelectContainerClick = () => {
       if (isAutocomplete && !menuOpen) setMenuOpen(true)
-      !isAutocomplete && setMenuOpen(!menuOpen)
+      if (!isAutocomplete) setMenuOpen(!menuOpen)
     }
 
     const handleKeydown = (
@@ -834,46 +833,45 @@ export const Select = React.forwardRef(
               />
             </VisuallyHidden>
           </SelectContainer>
-          {state !== 'unmounted' && (
-            <MenuPlacement
-              appendTo={portal?.appendTo}
-              control={displayRef.current}
-              listenTo={portal?.listenTo}
+          <MenuPlacement
+            appendTo={portal?.appendTo}
+            control={displayRef.current}
+            isListening={state !== 'exited'}
+            listenTo={portal?.listenTo}
+          >
+            <SelectOptionContainer
+              $direction={direction}
+              $rows={rows}
+              $state={state}
+              id={`listbox-${id}`}
+              role="listbox"
+              tabIndex={-1}
+              onMouseLeave={handleOptionsListMouseLeave}
             >
-              <SelectOptionContainer
-                $direction={direction}
-                $rows={rows}
-                $state={state}
-                id={`listbox-${id}`}
-                role="listbox"
-                tabIndex={-1}
-                onMouseLeave={handleOptionsListMouseLeave}
-              >
-                <SelectOptionList $direction={direction} $rows={rows}>
-                  {visibleOptions.length === 0 && (
-                    <NoResultsContainer>{emptyListMessage}</NoResultsContainer>
-                  )}
-                  {visibleOptions.map((option, index) => (
-                    <SelectOption
-                      {...{
-                        $selected: option?.value === value,
-                        $disabled: option.disabled,
-                        $highlighted: index === highlightedIndex,
-                        $gap: innerPadding,
-                      }}
-                      data-option-index={index}
-                      key={option.value}
-                      role="option"
-                      onClick={handleOptionClick(option)}
-                      onMouseOver={handleOptionMouseover}
-                    >
-                      <OptionElement option={option} />
-                    </SelectOption>
-                  ))}
-                </SelectOptionList>
-              </SelectOptionContainer>
-            </MenuPlacement>
-          )}
+              <SelectOptionList $direction={direction} $rows={rows}>
+                {visibleOptions.length === 0 && (
+                  <NoResultsContainer>{emptyListMessage}</NoResultsContainer>
+                )}
+                {visibleOptions.map((option, index) => (
+                  <SelectOption
+                    {...{
+                      $selected: option?.value === value,
+                      $disabled: option.disabled,
+                      $highlighted: index === highlightedIndex,
+                      $gap: innerPadding,
+                    }}
+                    data-option-index={index}
+                    key={option.value}
+                    role="option"
+                    onClick={handleOptionClick(option)}
+                    onMouseOver={handleOptionMouseover}
+                  >
+                    <OptionElement option={option} />
+                  </SelectOption>
+                ))}
+              </SelectOptionList>
+            </SelectOptionContainer>
+          </MenuPlacement>
         </div>
       </Field>
     )

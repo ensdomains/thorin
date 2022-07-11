@@ -7,7 +7,7 @@ description: Provides the option of using a portal to append the menu to a diffe
 import { MenuPlacement } from '@ensdomains/thorin'
 ```
 
-```tsx expand=true
+```tsx
 <MainElement ref={appendToRef}>
   <ScrollingElement ref={scrollingRef}>
     <ControlElement ref={controlRef}>
@@ -18,7 +18,9 @@ import { MenuPlacement } from '@ensdomains/thorin'
         appendTo={appendToRef.current}
         control={controlRef.current}
         listenTo={scrollingRef.current}
-      />
+      >
+        Menu
+      </MenuPlacement>
     )}
   </ScrollingElement>
 </MainElement>

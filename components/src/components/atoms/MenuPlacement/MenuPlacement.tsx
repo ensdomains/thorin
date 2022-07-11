@@ -8,6 +8,7 @@ const throttle = (callback: (...args: any[]) => void) => {
 
   const throttled = (...args: any[]) => {
     lastArgs = args
+
     if (requestId) return
     requestId = requestAnimationFrame(() => {
       requestId = null
@@ -27,12 +28,14 @@ type MenuPortalProps = {
   appendTo: HTMLElement | null
   control: HTMLElement | null
   listenTo?: HTMLElement | null
+  isListening?: boolean
 }
 
 const MenuPortal: React.FC<React.PropsWithChildren<MenuPortalProps>> = ({
   appendTo,
   control,
   listenTo,
+  isListening = false,
   children,
 }) => {
   // The position and size of the control relative to the appendTo element
@@ -71,16 +74,17 @@ const MenuPortal: React.FC<React.PropsWithChildren<MenuPortalProps>> = ({
   React.useEffect(() => {
     calculatePlacement()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [isListening])
 
   // Listen to the scroll event of the listenTo element
   React.useEffect(() => {
-    listenTo?.addEventListener('scroll', calculatePlacement)
+    if (listenTo && isListening)
+      listenTo?.addEventListener('scroll', calculatePlacement)
     return () => {
       listenTo?.removeEventListener('scroll', calculatePlacement)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [listenTo])
+  }, [listenTo, isListening])
 
   if (!appendTo || !control) return <>{children}</>
 
@@ -93,17 +97,24 @@ export type Props = {
   appendTo?: MenuPortalProps['appendTo']
   control?: MenuPortalProps['control']
   listenTo?: MenuPortalProps['listenTo']
+  isListening?: MenuPortalProps['isListening']
 }
 
 export const MenuPlacement = ({
   appendTo,
   control,
   listenTo,
+  isListening = true,
   children,
 }: React.PropsWithChildren<Props>) => {
   if (!appendTo || !control) return <>{children}</>
   return (
-    <MenuPortal appendTo={appendTo} control={control} listenTo={listenTo}>
+    <MenuPortal
+      appendTo={appendTo}
+      control={control}
+      isListening={isListening}
+      listenTo={listenTo}
+    >
       {children}
     </MenuPortal>
   )
