@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { ThemeProvider } from 'styled-components'
 
-import { cleanup, render, screen } from '@/test'
+import { cleanup, render, screen, waitFor } from '@/test'
 
 import { Avatar } from './Avatar'
 import { lightTheme } from '@/src/tokens'
@@ -19,6 +19,6 @@ describe('<Avatar />', () => {
         />
       </ThemeProvider>,
     )
-    expect(screen.getByRole(/img/i)).toBeInTheDocument()
+    waitFor(() => expect(screen.getByRole(/img/i)).toBeInTheDocument())
   })
 })
