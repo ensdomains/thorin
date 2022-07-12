@@ -134,6 +134,7 @@ type TitleProps = {
 type StepProps = {
   currentStep?: number
   stepCount?: number
+  stepStatus?: StepType
 }
 
 type BaseProps = {
@@ -169,19 +170,20 @@ const ModalWithTitle = ({
   children,
   currentStep,
   stepCount,
+  stepStatus,
   ...props
 }: Omit<ModalProps, 'title'> & TitleProps & StepProps) => {
   const calcStepType = React.useCallback(
     (step: number) => {
       if (step === currentStep) {
-        return 'inProgress'
+        return stepStatus || 'inProgress'
       }
       if (step < (currentStep || 0)) {
         return 'completed'
       }
       return 'notStarted'
     },
-    [currentStep],
+    [currentStep, stepStatus],
   )
 
   return (
@@ -192,8 +194,8 @@ const ModalWithTitle = ({
             <StepContainer data-testid="step-container">
               {Array.from({ length: stepCount }, (_, i) => (
                 <StepItem
-                  $type={calcStepType(i + 1)}
-                  data-testid={`step-item-${i + 1}-${calcStepType(i + 1)}`}
+                  $type={calcStepType(i)}
+                  data-testid={`step-item-${i}-${calcStepType(i)}`}
                   key={i}
                 />
               ))}

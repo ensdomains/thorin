@@ -146,5 +146,28 @@ import { Dialog } from '@ensdomains/thorin'
       <Typography>Dialog text content.</Typography>
     </Dialog>
   </>
+  <>
+    <Button onClick={() => toggleState('dialog-steps-3')}>
+      Custom Step Status
+    </Button>
+    <Dialog
+      currentStep={2}
+      leading={
+        <Button shadowless variant="secondary">
+          Leading
+        </Button>
+      }
+      open={getState('dialog-steps-3')}
+      stepCount={3}
+      stepStatus="notStarted"
+      subtitle="This dialog has step 3 not started."
+      title="Start"
+      trailing={<Button shadowless>Trailing</Button>}
+      variant="actionable"
+      onDismiss={() => toggleState('dialog-steps-3')}
+    >
+      <Typography>Dialog text content.</Typography>
+    </Dialog>
+  </>
 </DeleteMe>
 ```
