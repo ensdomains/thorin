@@ -86,7 +86,7 @@ describe('<Modal />', () => {
   it('should show correct step state', async () => {
     render(
       <ThemeProvider theme={lightTheme}>
-        <Dialog currentStep={2} open stepCount={3} variant="actionable">
+        <Dialog currentStep={1} open stepCount={3} variant="actionable">
           Modal
         </Dialog>
       </ThemeProvider>,
@@ -97,8 +97,32 @@ describe('<Modal />', () => {
         timeout: 300,
       },
     )
+    expect(screen.getByTestId('step-item-0-completed')).toBeVisible()
+    expect(screen.getByTestId('step-item-1-inProgress')).toBeVisible()
+    expect(screen.getByTestId('step-item-2-notStarted')).toBeVisible()
+  })
+  it('should show a custom step state', async () => {
+    render(
+      <ThemeProvider theme={lightTheme}>
+        <Dialog
+          currentStep={1}
+          open
+          stepCount={3}
+          stepStatus="completed"
+          variant="actionable"
+        >
+          Modal
+        </Dialog>
+      </ThemeProvider>,
+    )
+    await waitFor(
+      () => expect(screen.getByTestId('step-container')).toBeVisible(),
+      {
+        timeout: 300,
+      },
+    )
+    expect(screen.getByTestId('step-item-0-completed')).toBeVisible()
     expect(screen.getByTestId('step-item-1-completed')).toBeVisible()
-    expect(screen.getByTestId('step-item-2-inProgress')).toBeVisible()
-    expect(screen.getByTestId('step-item-3-notStarted')).toBeVisible()
+    expect(screen.getByTestId('step-item-2-notStarted')).toBeVisible()
   })
 })
