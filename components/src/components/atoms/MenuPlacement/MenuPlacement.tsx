@@ -2,28 +2,6 @@ import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import { CSSProperties } from 'styled-components'
 
-const throttle = (callback: (...args: any[]) => void) => {
-  let requestId: number | null = null
-  let lastArgs: any[]
-
-  const throttled = (...args: any[]) => {
-    lastArgs = args
-
-    if (requestId) return
-    requestId = requestAnimationFrame(() => {
-      requestId = null
-      callback(...lastArgs)
-    })
-  }
-
-  throttled.cancel = () => {
-    if (requestId) cancelAnimationFrame(requestId)
-    requestId = null
-  }
-
-  return throttled
-}
-
 type MenuPortalProps = {
   appendTo: HTMLElement | null
   control: HTMLElement | null
@@ -41,34 +19,20 @@ const MenuPortal: React.FC<React.PropsWithChildren<MenuPortalProps>> = ({
   // The position and size of the control relative to the appendTo element
   const [placement, setPlacement] = React.useState<CSSProperties>({})
 
-  // Calculates where the control element would be in the appendTo element.
-  // Throttle to limit the number of times the calculation is made.
-  const calculatePlacement = React.useMemo(
-    () =>
-      throttle(() => {
-        if (!appendTo || !control) return
-        const controlRect = control.getBoundingClientRect()
-        const containerRect = appendTo.getBoundingClientRect()
-        const top = controlRect.top - containerRect.top
-        const left = controlRect.left - containerRect.left
-        setPlacement({
-          position: 'absolute',
-          top: `${top}px`,
-          left: `${left}px`,
-          width: `${controlRect.width}px`,
-          height: `${controlRect.height}px`,
-        })
-      }),
-    [control, appendTo],
-  )
-
-  // Cancel the throttled function if the component unmounts
-  React.useEffect(() => {
-    return () => {
-      calculatePlacement.cancel()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  const calculatePlacement = React.useCallback(() => {
+    if (!appendTo || !control) return
+    const controlRect = control.getBoundingClientRect()
+    const containerRect = appendTo.getBoundingClientRect()
+    const top = controlRect.top - containerRect.top
+    const left = controlRect.left - containerRect.left
+    setPlacement({
+      position: 'absolute',
+      top: `${top}px`,
+      left: `${left}px`,
+      width: `${controlRect.width}px`,
+      height: `${controlRect.height}px`,
+    })
+  }, [control, appendTo])
 
   // Iniitialize the placement calculation
   React.useEffect(() => {

@@ -111,6 +111,7 @@ export const PageButtons = ({
             $selected={value === current}
             data-testid="pagebutton"
             key={value}
+            type="button"
             onClick={() => onChange(value)}
           >
             {value}

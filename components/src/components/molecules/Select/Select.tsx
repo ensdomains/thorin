@@ -800,7 +800,7 @@ export const Select = React.forwardRef(
                   <CloseSVG />
                 </SelectActionButton>
               ) : (
-                <SelectActionButton $padding={outerPadding}>
+                <SelectActionButton $padding={outerPadding} type="button">
                   <Chevron
                     $direction={direction}
                     $disabled={disabled}
