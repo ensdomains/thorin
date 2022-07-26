@@ -43,8 +43,33 @@ export const Backdrop = ({
 
   React.useEffect(() => {
     toggle(open || false)
+
+    let top = 0
+    if (typeof window !== 'undefined' && open) {
+      top = window.scrollY
+      document.body.style.position = 'fixed'
+      document.body.style.top = `-${top}px`
+    }
+
+    return () => {
+      if (typeof window !== 'undefined' && open) {
+        document.body.style.position = ''
+        document.body.style.top = ''
+        if (window.scroll)
+          window.scroll({
+            top,
+          })
+      }
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open])
+
+  React.useEffect(() => {
+    return () => {
+      document.body.style.position = ''
+      document.body.style.top = ''
+    }
+  }, [])
 
   return state !== 'unmounted' ? (
     <Portal className={className}>
