@@ -55,10 +55,9 @@ export const Backdrop = ({
       if (typeof window !== 'undefined' && open) {
         document.body.style.position = ''
         document.body.style.top = ''
-        if (window.scroll)
-          window.scroll({
-            top,
-          })
+        window.scroll({
+          top,
+        })
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
