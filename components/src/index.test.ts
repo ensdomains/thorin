@@ -19,6 +19,7 @@ const expectedExportedKeys = [
   'FileInput',
   'Heading',
   'Portal',
+  'ScrollBox',
   'Skeleton',
   'Spinner',
   'Tag',
