@@ -162,17 +162,14 @@ type BlankProps = {
 
 type Props = BaseProps & (ClosableProps | ActionableProps | BlankProps)
 type ModalProps = React.ComponentProps<typeof Modal>
-const ModalWithTitle = ({
-  open,
-  onDismiss,
-  title,
-  subtitle,
-  children,
+
+const Heading = ({
   currentStep,
   stepCount,
   stepStatus,
-  ...props
-}: Omit<ModalProps, 'title'> & TitleProps & StepProps) => {
+  title,
+  subtitle,
+}: TitleProps & StepProps) => {
   const calcStepType = React.useCallback(
     (step: number) => {
       if (step === currentStep) {
@@ -187,28 +184,63 @@ const ModalWithTitle = ({
   )
 
   return (
+    <>
+      {stepCount && (
+        <StepContainer data-testid="step-container">
+          {Array.from({ length: stepCount }, (_, i) => (
+            <StepItem
+              $type={calcStepType(i)}
+              data-testid={`step-item-${i}-${calcStepType(i)}`}
+              key={i}
+            />
+          ))}
+        </StepContainer>
+      )}
+      <TitleContainer $hasSteps={!!stepCount}>
+        {title &&
+          ((typeof title !== 'string' && title) || <Title>{title}</Title>)}
+        {subtitle &&
+          ((typeof subtitle !== 'string' && subtitle) || (
+            <SubTitle>{subtitle}</SubTitle>
+          ))}
+      </TitleContainer>
+    </>
+  )
+}
+
+const Footer = ({
+  leading,
+  trailing,
+  center,
+}: {
+  leading?: React.ReactNode
+  trailing: React.ReactNode
+  center?: boolean
+}) => (
+  <Container {...{ $center: center }}>
+    {leading || (!center && <div style={{ flexGrow: 1 }} />)}
+    {trailing || (!center && <div style={{ flexGrow: 1 }} />)}
+  </Container>
+)
+
+const ModalWithTitle = ({
+  open,
+  onDismiss,
+  title,
+  subtitle,
+  children,
+  currentStep,
+  stepCount,
+  stepStatus,
+  ...props
+}: Omit<ModalProps, 'title'> & TitleProps & StepProps) => {
+  return (
     <Modal {...{ ...props, open, onDismiss }}>
       <StyledCard>
         <ContentWrapper>
-          {stepCount && (
-            <StepContainer data-testid="step-container">
-              {Array.from({ length: stepCount }, (_, i) => (
-                <StepItem
-                  $type={calcStepType(i)}
-                  data-testid={`step-item-${i}-${calcStepType(i)}`}
-                  key={i}
-                />
-              ))}
-            </StepContainer>
-          )}
-          <TitleContainer $hasSteps={!!stepCount}>
-            {title &&
-              ((typeof title !== 'string' && title) || <Title>{title}</Title>)}
-            {subtitle &&
-              ((typeof subtitle !== 'string' && subtitle) || (
-                <SubTitle>{subtitle}</SubTitle>
-              ))}
-          </TitleContainer>
+          <Heading
+            {...{ title, subtitle, currentStep, stepCount, stepStatus }}
+          />
           {children}
         </ContentWrapper>
       </StyledCard>
@@ -236,12 +268,7 @@ export const Dialog = ({
         onDismiss={onDismiss}
       >
         {children}
-        {(leading || trailing) && (
-          <Container {...{ $center: center }}>
-            {leading || (!center && <div style={{ flexGrow: 1 }} />)}
-            {trailing || (!center && <div style={{ flexGrow: 1 }} />)}
-          </Container>
-        )}
+        {(leading || trailing) && <Footer {...{ leading, trailing, center }} />}
       </ModalWithTitle>
     )
   } else if (variant === 'closable') {
@@ -269,9 +296,13 @@ export const Dialog = ({
 
   return (
     <Modal {...{ onDismiss, open }}>
-      <StyledCard>{children}</StyledCard>
+      <StyledCard>
+        <ContentWrapper>{children}</ContentWrapper>
+      </StyledCard>
     </Modal>
   )
 }
 
 Dialog.displayName = 'Dialog'
+Dialog.Footer = Footer
+Dialog.Heading = Heading
