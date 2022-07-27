@@ -7,6 +7,8 @@ import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 import { Toast } from './Toast'
 import { lightTheme } from '@/src/tokens'
 
+window.scroll = jest.fn()
+
 describe('<Toast />', () => {
   afterEach(cleanup)
 

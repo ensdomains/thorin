@@ -20,79 +20,94 @@ import { Field } from '@ensdomains/thorin'
 ## Variants
 
 ```tsx live=true
-<Stack>
+<DeleteMe>
   <Field label="Normal Field">
     <div style={{ backgroundColor: 'black', height: 8 }} />
   </Field>
   <Field inline label="Inline Field">
     <div style={{ backgroundColor: 'black', height: 8, width: 8 }} />
   </Field>
-</Stack>
+</DeleteMe>
 ```
 
 ## Required
 
 ```tsx live=true
-<Stack>
+<DeleteMe>
   <Field description="Description or help text" label="Label" required>
     <div style={{ backgroundColor: 'black', height: 8 }} />
   </Field>
   <Field description="Description or help text" inline label="Label" required>
     <div style={{ backgroundColor: 'black', height: 8, width: 8 }} />
   </Field>
-</Stack>
+</DeleteMe>
 ```
 
 ## Description
 
 ```tsx live=true
-<Stack>
+<DeleteMe>
   <Field description="Description or help text" label="Label">
     <div style={{ backgroundColor: 'black', height: 8 }} />
   </Field>
   <Field description="Description or help text" inline label="Label">
     <div style={{ backgroundColor: 'black', height: 8, width: 8 }} />
   </Field>
-</Stack>
+</DeleteMe>
 ```
 
 ## Error
 
 ```tsx live=true
-<Stack>
+<DeleteMe>
   <Field error="Error message" label="Label">
     <div style={{ backgroundColor: 'black', height: 8 }} />
   </Field>
   <Field error="Error message" inline label="Label">
     <div style={{ backgroundColor: 'black', height: 8, width: 8 }} />
   </Field>
-</Stack>
+</DeleteMe>
+```
+
+## Label Placement
+
+```tsx live=true
+<DeleteMe>
+  <Field
+    description="Description message"
+    error="Error message"
+    label="Label"
+    labelPlacement={{ error: 'top', description: 'top' }}
+  >
+    <div style={{ backgroundColor: 'black', height: 8 }} />
+  </Field>
+</DeleteMe>
 ```
 
 ## Hide Label
 
 ```tsx live=true
-<Stack>
+<DeleteMe>
   <Field hideLabel label="Label">
     <div style={{ backgroundColor: 'black', height: 8 }} />
   </Field>
   <Field hideLabel inline label="Label">
     <div style={{ backgroundColor: 'black', height: 8, width: 8 }} />
   </Field>
-</Stack>
+</DeleteMe>
 ```
 
 ## Secondary Label
 
 ```tsx live=true
-<Stack>
+<DeleteMe>
   <Field label="Label" labelSecondary="Secondary Label">
     <div style={{ backgroundColor: 'black', height: 8 }} />
   </Field>
   <Field inline label="Label" labelSecondary="Secondary Label">
     <div style={{ backgroundColor: 'black', height: 8, width: 8 }} />
   </Field>
-</Stack>
+</DeleteMe>
 ```
 
 ## Consume ID
