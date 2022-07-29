@@ -40,6 +40,7 @@ const expectedExportedKeys = [
   'RadioButtonGroup',
   'Select',
   'SkeletonGroup',
+  'Slider',
   'Textarea',
   'Tooltip',
   // organisms
