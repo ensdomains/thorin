@@ -132,6 +132,7 @@ export const Slider = React.forwardRef(
           labelSecondary,
           required,
           width,
+          id,
         }}
       >
         {(ids) => (
@@ -144,7 +145,6 @@ export const Slider = React.forwardRef(
                 ...ids?.content,
                 defaultValue,
                 disabled,
-                id,
                 name,
                 readOnly,
                 tabIndex,
