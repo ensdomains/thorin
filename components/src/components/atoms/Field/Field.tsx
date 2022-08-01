@@ -32,6 +32,8 @@ export type FieldBaseProps = {
   inline?: boolean
   /** A tokens space key value setting the width of the parent element. */
   width?: Space
+  /** Have lavel appear on the right of the form element. */
+  labelRight?: boolean
   /** Set the placement of the error and description. Does not affect inline mode. */
   labelPlacement?: Placement | { error?: Placement; description?: Placement }
 }
@@ -47,6 +49,7 @@ const Label = styled.label<{ $inline?: boolean }>(
     color: ${theme.colors.textTertiary};
     font-weight: ${theme.fontWeights['semiBold']};
     display: flex;
+    cursor: pointer;
   `,
 )
 
@@ -110,11 +113,16 @@ const LabelContent = ({
 interface ContainerProps {
   $width: Space
   $inline?: boolean
+  $labelRight?: boolean
 }
 const Container = styled.div<ContainerProps>(
-  ({ theme, $inline, $width }) => css`
+  ({ theme, $inline, $width, $labelRight }) => css`
     display: flex;
-    flex-direction: ${$inline ? 'row' : 'column'};
+    flex-direction: ${$inline
+      ? $labelRight
+        ? 'row-reverse'
+        : 'row'
+      : 'column'};
     align-items: ${$inline ? 'center' : 'normal'};
     gap: ${$inline ? theme.space['2.5'] : theme.space['2']};
     width: ${theme.space[$width]};
@@ -164,6 +172,7 @@ export const Field = ({
   required,
   inline,
   width = 'full',
+  labelRight = false,
   labelPlacement,
   ...props
 }: Props) => {
@@ -192,7 +201,7 @@ export const Field = ({
   const errorPlacement = getPlacement('error', 'bottom', labelPlacement)
 
   return inline ? (
-    <Container $inline={inline} $width={width}>
+    <Container $inline={inline} $labelRight={labelRight} $width={width}>
       <ContainerInner>
         {hideLabel ? (
           <VisuallyHidden>
