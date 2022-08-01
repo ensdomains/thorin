@@ -113,6 +113,7 @@ const LabelContent = ({
 interface ContainerProps {
   $width: Space
   $inline?: boolean
+  $labelRight?: boolean
 }
 const Container = styled.div<ContainerProps>(
   ({ theme, $inline, $width, $labelRight }) => css`
