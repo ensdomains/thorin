@@ -7,10 +7,12 @@ import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 import { Dialog } from './Dialog'
 import { lightTheme } from '@/src/tokens'
 
+window.scroll = jest.fn()
+
 describe('<Modal />', () => {
   afterEach(cleanup)
 
-  it('renders', () => {
+  it('renders', async () => {
     render(
       <ThemeProvider theme={lightTheme}>
         <Dialog open variant="blank">
@@ -18,12 +20,13 @@ describe('<Modal />', () => {
         </Dialog>
       </ThemeProvider>,
     )
-    waitFor(() => expect(screen.getByText('Modal')).toBeVisible(), {
+
+    await waitFor(() => expect(screen.getByText('Modal')).toBeVisible(), {
       timeout: 300,
     })
   })
 
-  it('should not be visible if not open', () => {
+  it('should not be visible if not open', async () => {
     render(
       <ThemeProvider theme={lightTheme}>
         <Dialog open={false} variant="blank">
@@ -31,12 +34,12 @@ describe('<Modal />', () => {
         </Dialog>
       </ThemeProvider>,
     )
-    waitFor(() => expect(screen.getByText('Modal')).toBeNull(), {
+    await waitFor(() => expect(screen.queryByText('Modal')).toBeNull(), {
       timeout: 300,
     })
   })
 
-  it('should display close icon if callback is provided', () => {
+  it('should display close icon if callback is provided', async () => {
     const mockCallback = jest.fn()
     render(
       <ThemeProvider theme={lightTheme}>
@@ -45,12 +48,15 @@ describe('<Modal />', () => {
         </Dialog>
       </ThemeProvider>,
     )
-    waitFor(() => expect(screen.getByTestId('close-icon')).toBeVisible(), {
-      timeout: 300,
-    })
+    await waitFor(
+      () => expect(screen.getByTestId('close-icon')).toBeVisible(),
+      {
+        timeout: 300,
+      },
+    )
   })
 
-  it('should call callback if close icon is clicked', () => {
+  it('should call callback if close icon is clicked', async () => {
     const mockCallback = jest.fn()
     render(
       <ThemeProvider theme={lightTheme}>
@@ -59,12 +65,12 @@ describe('<Modal />', () => {
         </Dialog>
       </ThemeProvider>,
     )
-    waitFor(() => userEvent.click(screen.getByTestId('close-icon')), {
-      timeout: 300,
-    }).then(() => expect(mockCallback).toHaveBeenCalled())
+
+    userEvent.click(screen.getByTestId('close-icon'))
+    await waitFor(() => expect(mockCallback).toHaveBeenCalled())
   })
 
-  it('should show steps if available', () => {
+  it('should show steps if available', async () => {
     render(
       <ThemeProvider theme={lightTheme}>
         <Dialog currentStep={0} open stepCount={3} variant="actionable">
@@ -72,9 +78,12 @@ describe('<Modal />', () => {
         </Dialog>
       </ThemeProvider>,
     )
-    waitFor(() => expect(screen.getByTestId('step-container')).toBeVisible(), {
-      timeout: 300,
-    })
+    await waitFor(
+      () => expect(screen.getByTestId('step-container')).toBeVisible(),
+      {
+        timeout: 300,
+      },
+    )
   })
   it('should show correct step state', async () => {
     render(

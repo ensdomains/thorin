@@ -37,7 +37,7 @@ const Container = styled.div<{
 }>(
   ({ theme, $state, $top, $left, $right, $bottom, $mobile, $popped }) => css`
     position: fixed;
-    z-index: 1000;
+    z-index: 10000;
 
     width: 92.5%;
     left: 3.75%;

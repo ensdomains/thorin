@@ -72,6 +72,21 @@ import { Field } from '@ensdomains/thorin'
 </DeleteMe>
 ```
 
+## Label Placement
+
+```tsx live=true
+<DeleteMe>
+  <Field
+    description="Description message"
+    error="Error message"
+    label="Label"
+    labelPlacement={{ error: 'top', description: 'top' }}
+  >
+    <div style={{ backgroundColor: 'black', height: 8 }} />
+  </Field>
+</DeleteMe>
+```
+
 ## Hide Label
 
 ```tsx live=true

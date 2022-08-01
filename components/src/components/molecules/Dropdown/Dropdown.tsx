@@ -315,10 +315,13 @@ const DropdownMenu = ({
         }
 
         if (wrapper) {
-          return wrapper(<MenuButton {...props} />, value || label)
+          return wrapper(
+            <MenuButton {...props} type="button" />,
+            value || label,
+          )
         }
 
-        return <MenuButton {...props} key={value || label} />
+        return <MenuButton {...props} key={value || label} type="button" />
       })}
     </DropdownMenuContainer>
   )
@@ -512,6 +515,7 @@ export const Dropdown = ({
           $direction={direction}
           $open={isOpen}
           $size={size}
+          type="button"
           onClick={() => setIsOpen(!isOpen)}
         >
           {label}

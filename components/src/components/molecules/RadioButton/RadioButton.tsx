@@ -106,9 +106,6 @@ export const RadioButton = React.forwardRef(
     const defaultRef = React.useRef<HTMLInputElement>(null)
     const inputRef = (ref as React.RefObject<HTMLInputElement>) || defaultRef
 
-    console.log('width: ', width)
-    console.log('props: ', props)
-
     return (
       <Field
         {...{

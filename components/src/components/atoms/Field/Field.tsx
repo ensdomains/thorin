@@ -13,6 +13,7 @@ const Context = React.createContext<State>(undefined)
 
 type NativeFormProps = React.AllHTMLAttributes<HTMLFormElement>
 type NativeLabelProps = React.LabelHTMLAttributes<HTMLLabelElement>
+type Placement = 'top' | 'bottom'
 
 export type FieldBaseProps = {
   /** Description text or react component. */
@@ -33,6 +34,8 @@ export type FieldBaseProps = {
   width?: Space
   /** Have lavel appear on the right of the form element. */
   labelRight?: boolean
+  /** Set the placement of the error and description. Does not affect inline mode. */
+  labelPlacement?: Placement | { error?: Placement; description?: Placement }
 }
 
 type Props = FieldBaseProps & {
@@ -148,6 +151,15 @@ const Error = styled.div<{ $inline?: boolean }>(
 `,
 )
 
+const getPlacement = (
+  label: 'error' | 'description',
+  fallback: Placement,
+  placement?: Props['labelPlacement'],
+): Placement => {
+  if (typeof placement === 'string') return placement
+  return placement?.[label] || fallback
+}
+
 export const Field = ({
   children,
   description,
@@ -160,6 +172,7 @@ export const Field = ({
   inline,
   width = 'full',
   labelRight = false,
+  labelPlacement,
   ...props
 }: Props) => {
   const ids = useFieldIds({
@@ -178,6 +191,13 @@ export const Field = ({
     )
   else if (children) content = React.cloneElement(children, ids.content)
   else content = children
+
+  const descriptionPlacement = getPlacement(
+    'description',
+    'bottom',
+    labelPlacement,
+  )
+  const errorPlacement = getPlacement('error', 'bottom', labelPlacement)
 
   return inline ? (
     <Container $inline={inline} $labelRight={labelRight} $width={width}>
@@ -216,13 +236,23 @@ export const Field = ({
       ) : (
         <LabelContent {...{ ...props, ids, label, labelSecondary, required }} />
       )}
-      {content}
 
-      {description && (
+      {description && descriptionPlacement === 'top' && (
         <Description {...ids.description}>{description}</Description>
       )}
 
-      {error && (
+      {error && errorPlacement === 'top' && (
+        <Error aria-live="polite" {...ids.error}>
+          {error}
+        </Error>
+      )}
+      {content}
+
+      {description && descriptionPlacement === 'bottom' && (
+        <Description {...ids.description}>{description}</Description>
+      )}
+
+      {error && errorPlacement === 'bottom' && (
         <Error aria-live="polite" {...ids.error}>
           {error}
         </Error>

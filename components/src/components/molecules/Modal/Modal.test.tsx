@@ -4,8 +4,10 @@ import { ThemeProvider } from 'styled-components'
 
 import { cleanup, render, screen, waitFor } from '@/test'
 
-import { Modal } from './Modal'
 import { lightTheme } from '@/src/tokens'
+import { Modal } from './Modal'
+
+window.scroll = jest.fn()
 
 describe('<Modal />', () => {
   afterEach(cleanup)
