@@ -98,6 +98,7 @@ export const RadioButton = React.forwardRef(
       onBlur,
       onChange,
       onFocus,
+      labelRight,
       ...props
     }: Props,
     ref: React.Ref<HTMLInputElement>,
@@ -105,17 +106,23 @@ export const RadioButton = React.forwardRef(
     const defaultRef = React.useRef<HTMLInputElement>(null)
     const inputRef = (ref as React.RefObject<HTMLInputElement>) || defaultRef
 
+    console.log('width: ', width)
+    console.log('props: ', props)
+
     return (
       <Field
-        description={description}
-        error={error}
-        hideLabel={hideLabel}
-        id={id}
-        inline={inline}
-        label={label}
-        labelSecondary={labelSecondary}
-        required={required}
-        width={width}
+        {...{
+          description,
+          error,
+          hideLabel,
+          id,
+          inline,
+          label,
+          labelSecondary,
+          required,
+          width,
+          labelRight,
+        }}
       >
         <Input
           {...{

@@ -80,4 +80,9 @@ describe('<Radio />', () => {
       expect(ref.current).toBeInstanceOf(HTMLInputElement)
     })
   })
+
+  it('should display the label on the right of the form element if labelRight is true', async () => {
+    render(<RadioWithState labelRight />)
+    expect(screen.getByText('radio-label')).toBeInTheDocument()
+  })
 })
