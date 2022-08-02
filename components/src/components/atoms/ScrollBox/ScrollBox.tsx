@@ -64,20 +64,49 @@ const StyledScrollBox = styled.div<{ $showTop: boolean; $showBottom: boolean }>(
   `,
 )
 
-export const ScrollBox = (props: React.HTMLAttributes<HTMLDivElement>) => {
+type Props = {
+  topTriggerPx?: number
+  bottomTriggerPx?: number
+  onReachedTop?: () => void
+  onReachedBottom?: () => void
+} & React.HTMLAttributes<HTMLDivElement>
+
+export const ScrollBox = ({
+  topTriggerPx = 16,
+  bottomTriggerPx = 16,
+  onReachedTop,
+  onReachedBottom,
+  ...props
+}: Props) => {
   const ref = React.useRef<HTMLDivElement>(null)
 
   const [showTop, setShowTop] = React.useState(false)
   const [showBottom, setShowBottom] = React.useState(false)
 
-  const setScrollValues = (
-    scrollTop: number,
-    scrollHeight: number,
-    clientHeight: number,
-  ) => {
-    setShowTop(scrollTop > 16)
-    setShowBottom(scrollHeight - scrollTop > clientHeight + 16)
-  }
+  const setScrollValues = React.useCallback(
+    (scrollTop: number, scrollHeight: number, clientHeight: number) => {
+      const _showTop = scrollTop > topTriggerPx
+      const _showBottom =
+        scrollHeight - scrollTop > clientHeight + bottomTriggerPx
+      setShowTop((prev) => {
+        if (_showTop !== prev) {
+          if (!_showTop) {
+            onReachedTop?.()
+          }
+        }
+        return _showTop
+      })
+      setShowBottom((prev) => {
+        if (_showBottom !== prev) {
+          if (!_showBottom) {
+            onReachedBottom?.()
+          }
+        }
+        return _showBottom
+      })
+    },
+    [topTriggerPx, bottomTriggerPx, onReachedTop, onReachedBottom],
+  )
 
   const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
     const { scrollTop, scrollHeight, clientHeight } = event.currentTarget
@@ -90,7 +119,7 @@ export const ScrollBox = (props: React.HTMLAttributes<HTMLDivElement>) => {
       const { scrollTop, scrollHeight, clientHeight } = _ref
       setScrollValues(scrollTop, scrollHeight, clientHeight)
     }
-  }, [])
+  }, [setScrollValues])
 
   return (
     <StyledScrollBox
