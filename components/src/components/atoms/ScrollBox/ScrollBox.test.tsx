@@ -48,9 +48,15 @@ const mockIntersectionObserver = (
       disconnect: mockDisconnect,
     }
   })
+  const els: HTMLElement[] = []
   window.IntersectionObserver = mockIntersectionObserverCls
   mockObserve.mockImplementation((el: HTMLElement) => {
-    if (el.dataset.testid === 'scrollbox-top-intersect') {
+    if (intersectTop && intersectBottom) {
+      els.push(el)
+      if (els.length === 2) {
+        cb(els.map((el) => ({ isIntersecting: true, target: el })))
+      }
+    } else if (el.dataset.testid === 'scrollbox-top-intersect') {
       cb([{ isIntersecting: intersectTop, target: el }])
     } else if (el.dataset.testid === 'scrollbox-bottom-intersect') {
       cb([{ isIntersecting: intersectBottom, target: el }])
@@ -90,6 +96,12 @@ describe('<ScrollBox />', () => {
     render(<Component />)
     expectLine('top', true)
     expectLine('bottom', true)
+  })
+  it('should show nothing when both lines intersecting', () => {
+    mockIntersectionObserver(true, true)
+    render(<Component />)
+    expectLine('top', false)
+    expectLine('bottom', false)
   })
   it('should fire callback on intersection', () => {
     mockIntersectionObserver(true, false)

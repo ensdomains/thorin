@@ -51,6 +51,9 @@ const SubTitle = styled(Typography)(
     font-weight: ${theme.fontWeights['medium']};
     color: ${theme.colors.textSecondary};
     text-align: center;
+
+    padding: 0 ${theme.space['4']};
+    max-width: ${theme.space['72']};
   `,
 )
 
