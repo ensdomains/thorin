@@ -48,12 +48,18 @@ const mockIntersectionObserver = (
       disconnect: mockDisconnect,
     }
   })
+  const els: HTMLElement[] = []
   window.IntersectionObserver = mockIntersectionObserverCls
   mockObserve.mockImplementation((el: HTMLElement) => {
-    if (el.dataset.testid === 'scrollbox-top-intersect') {
-      cb([{ isIntersecting: intersectTop, target: el }])
+    if (intersectTop && intersectBottom) {
+      els.push(el)
+      if (els.length === 2) {
+        cb(els.map((el) => ({ isIntersecting: true, target: el, time: 1 })))
+      }
+    } else if (el.dataset.testid === 'scrollbox-top-intersect') {
+      cb([{ isIntersecting: intersectTop, target: el, time: 1 }])
     } else if (el.dataset.testid === 'scrollbox-bottom-intersect') {
-      cb([{ isIntersecting: intersectBottom, target: el }])
+      cb([{ isIntersecting: intersectBottom, target: el, time: 1 }])
     }
   })
 }
@@ -90,6 +96,46 @@ describe('<ScrollBox />', () => {
     render(<Component />)
     expectLine('top', true)
     expectLine('bottom', true)
+  })
+  it('should show nothing when both lines intersecting', () => {
+    mockIntersectionObserver(true, true)
+    render(<Component />)
+    expectLine('top', false)
+    expectLine('bottom', false)
+  })
+  it('should show most recent intersection if multiple updates', () => {
+    let cb: (entries: any) => void
+    mockIntersectionObserverCls.mockImplementation((callback: any) => {
+      cb = callback
+      return {
+        observe: mockObserve,
+        disconnect: mockDisconnect,
+      }
+    })
+    const els: HTMLElement[] = []
+    window.IntersectionObserver = mockIntersectionObserverCls
+    mockObserve.mockImplementation((el: HTMLElement) => {
+      els.push(el)
+      if (els.length === 2) {
+        cb([
+          ...els.map((el) => ({
+            isIntersecting: false,
+            target: el,
+            time: 100,
+          })),
+          ...els.map((el) => ({
+            isIntersecting: true,
+            target: el,
+            time: 1000,
+          })),
+        ])
+      }
+    })
+
+    mockIntersectionObserver(true, true)
+    render(<Component />)
+    expectLine('top', false)
+    expectLine('bottom', false)
   })
   it('should fire callback on intersection', () => {
     mockIntersectionObserver(true, false)

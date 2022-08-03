@@ -99,14 +99,21 @@ export const ScrollBox = ({
   const [showBottom, setShowBottom] = React.useState(false)
 
   const handleIntersect: IntersectionObserverCallback = (entries) => {
-    const [entry] = entries
-    if (entry.target === topRef.current) {
-      setShowTop(!entry.isIntersecting)
-      entry.isIntersecting && funcRef.current.onReachedTop?.()
-    } else if (entry.target === bottomRef.current) {
-      setShowBottom(!entry.isIntersecting)
-      entry.isIntersecting && funcRef.current.onReachedBottom?.()
+    const intersectingTop = [false, -1]
+    const intersectingBottom = [false, -1]
+    for (let i = 0; i < entries.length; i += 1) {
+      const entry = entries[i]
+      const iref =
+        entry.target === topRef.current ? intersectingTop : intersectingBottom
+      if (entry.time > iref[1]) {
+        iref[0] = entry.isIntersecting
+        iref[1] = entry.time
+      }
     }
+    intersectingTop[1] !== -1 && setShowTop(!intersectingTop[0])
+    intersectingBottom[1] !== -1 && setShowBottom(!intersectingBottom[0])
+    intersectingTop[0] && funcRef.current.onReachedTop?.()
+    intersectingBottom[0] && funcRef.current.onReachedBottom?.()
   }
 
   React.useEffect(() => {

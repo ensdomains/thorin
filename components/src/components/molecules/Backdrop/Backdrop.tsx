@@ -47,12 +47,14 @@ export const Backdrop = ({
     let top = 0
     if (typeof window !== 'undefined' && open) {
       top = window.scrollY
+      document.body.style.width = `${document.body.clientWidth}px`
       document.body.style.position = 'fixed'
       document.body.style.top = `-${top}px`
     }
 
     return () => {
       if (typeof window !== 'undefined' && open) {
+        document.body.style.width = ''
         document.body.style.position = ''
         document.body.style.top = ''
         window.scroll({
