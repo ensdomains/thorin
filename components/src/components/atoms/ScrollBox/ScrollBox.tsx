@@ -64,6 +64,13 @@ const StyledScrollBox = styled.div<{ $showTop: boolean; $showBottom: boolean }>(
   `,
 )
 
+const IntersectElement = styled.div(
+  () => css`
+    display: block;
+    height: 0px;
+  `,
+)
+
 type Props = {
   topTriggerPx?: number
   bottomTriggerPx?: number
@@ -76,58 +83,68 @@ export const ScrollBox = ({
   bottomTriggerPx = 16,
   onReachedTop,
   onReachedBottom,
+  children,
   ...props
 }: Props) => {
   const ref = React.useRef<HTMLDivElement>(null)
+  const topRef = React.useRef<HTMLDivElement>(null)
+  const bottomRef = React.useRef<HTMLDivElement>(null)
+
+  const funcRef = React.useRef<{
+    onReachedTop?: () => void
+    onReachedBottom?: () => void
+  }>({ onReachedTop, onReachedBottom })
 
   const [showTop, setShowTop] = React.useState(false)
   const [showBottom, setShowBottom] = React.useState(false)
 
-  const setScrollValues = React.useCallback(
-    (scrollTop: number, scrollHeight: number, clientHeight: number) => {
-      const _showTop = scrollTop > topTriggerPx
-      const _showBottom =
-        scrollHeight - scrollTop > clientHeight + bottomTriggerPx
-      setShowTop((prev) => {
-        if (_showTop !== prev) {
-          if (!_showTop) {
-            onReachedTop?.()
-          }
-        }
-        return _showTop
-      })
-      setShowBottom((prev) => {
-        if (_showBottom !== prev) {
-          if (!_showBottom) {
-            onReachedBottom?.()
-          }
-        }
-        return _showBottom
-      })
-    },
-    [topTriggerPx, bottomTriggerPx, onReachedTop, onReachedBottom],
-  )
-
-  const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
-    const { scrollTop, scrollHeight, clientHeight } = event.currentTarget
-    setScrollValues(scrollTop, scrollHeight, clientHeight)
+  const handleIntersect: IntersectionObserverCallback = (entries) => {
+    const [entry] = entries
+    if (entry.target === topRef.current) {
+      setShowTop(!entry.isIntersecting)
+      entry.isIntersecting && funcRef.current.onReachedTop?.()
+    } else if (entry.target === bottomRef.current) {
+      setShowBottom(!entry.isIntersecting)
+      entry.isIntersecting && funcRef.current.onReachedBottom?.()
+    }
   }
 
   React.useEffect(() => {
-    const _ref = ref.current
-    if (_ref) {
-      const { scrollTop, scrollHeight, clientHeight } = _ref
-      setScrollValues(scrollTop, scrollHeight, clientHeight)
+    const el = ref.current
+    const topEl = topRef.current
+    const bottomEl = bottomRef.current
+    let observer: IntersectionObserver
+    if (el && topEl && bottomEl) {
+      observer = new IntersectionObserver(handleIntersect, {
+        root: el,
+        threshold: 1,
+        rootMargin: `${topTriggerPx}px 0px ${bottomTriggerPx}px 0px`,
+      })
+      observer.observe(topEl)
+      observer.observe(bottomEl)
     }
-  }, [setScrollValues])
+    return () => {
+      observer.disconnect()
+    }
+  }, [bottomTriggerPx, topTriggerPx])
+
+  React.useEffect(() => {
+    funcRef.current = { onReachedTop, onReachedBottom }
+  }, [onReachedTop, onReachedBottom])
 
   return (
     <StyledScrollBox
       $showBottom={showBottom}
       $showTop={showTop}
       ref={ref}
-      onScroll={handleScroll}
       {...props}
-    />
+    >
+      <IntersectElement data-testid="scrollbox-top-intersect" ref={topRef} />
+      {children}
+      <IntersectElement
+        data-testid="scrollbox-bottom-intersect"
+        ref={bottomRef}
+      />
+    </StyledScrollBox>
   )
 }
