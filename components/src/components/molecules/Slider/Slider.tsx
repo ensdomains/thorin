@@ -100,7 +100,7 @@ export const Slider = React.forwardRef(
       labelSecondary,
       required,
       width,
-      defaultValue = 50,
+      defaultValue,
       disabled,
       id,
       name,

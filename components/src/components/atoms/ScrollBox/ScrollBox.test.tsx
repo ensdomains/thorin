@@ -2,15 +2,19 @@ import * as React from 'react'
 
 import { ThemeProvider } from 'styled-components'
 
-import { cleanup, fireEvent, render, screen } from '@/test'
+import { cleanup, render, screen } from '@/test'
 import 'jest-styled-components'
 
 import { ScrollBox } from './ScrollBox'
 import { lightTheme } from '@/src/tokens'
 
-const Component = () => (
+const Component = ({ onReachedTop }: { onReachedTop?: () => void }) => (
   <ThemeProvider theme={lightTheme}>
-    <ScrollBox data-testid="scroll-box" style={{ height: '50px' }}>
+    <ScrollBox
+      data-testid="scroll-box"
+      style={{ height: '50px' }}
+      onReachedTop={onReachedTop}
+    >
       <ul>
         <li>Item 1</li>
         <li>Item 2</li>
@@ -28,23 +32,33 @@ const Component = () => (
   </ThemeProvider>
 )
 
-const mockScrolls = (
-  scrollHeight: number,
-  scrollTop: number,
-  clientHeight: number,
+const mockIntersectionObserverCls = jest.fn()
+const mockObserve = jest.fn()
+const mockDisconnect = jest.fn()
+
+const mockIntersectionObserver = (
+  intersectTop: boolean,
+  intersectBottom: boolean,
 ) => {
-  jest
-    .spyOn(HTMLElement.prototype, 'scrollHeight', 'get')
-    .mockImplementation(() => scrollHeight)
-  jest
-    .spyOn(HTMLElement.prototype, 'scrollTop', 'get')
-    .mockImplementation(() => scrollTop)
-  jest
-    .spyOn(HTMLElement.prototype, 'clientHeight', 'get')
-    .mockImplementation(() => clientHeight)
+  let cb: (entries: any) => void
+  mockIntersectionObserverCls.mockImplementation((callback: any) => {
+    cb = callback
+    return {
+      observe: mockObserve,
+      disconnect: mockDisconnect,
+    }
+  })
+  window.IntersectionObserver = mockIntersectionObserverCls
+  mockObserve.mockImplementation((el: HTMLElement) => {
+    if (el.dataset.testid === 'scrollbox-top-intersect') {
+      cb([{ isIntersecting: intersectTop, target: el }])
+    } else if (el.dataset.testid === 'scrollbox-bottom-intersect') {
+      cb([{ isIntersecting: intersectBottom, target: el }])
+    }
+  })
 }
 
-const expectScroll = (e: 'top' | 'bottom', visible: boolean) =>
+const expectLine = (e: 'top' | 'bottom', visible: boolean) =>
   expect(screen.getByTestId('scroll-box')).toHaveStyleRule(
     'background-color',
     `rgba(0,0,0,${visible ? '0.1' : '0'})`,
@@ -57,35 +71,30 @@ describe('<ScrollBox />', () => {
   afterEach(cleanup)
 
   it('renders', () => {
+    mockIntersectionObserver(false, false)
     render(<Component />)
     expect(screen.getByTestId('scroll-box')).toBeInTheDocument()
   })
-  it('should show only bottom line when scroll at top', () => {
-    mockScrolls(100, 0, 50)
+  it('should show only bottom line when intersecting with top', () => {
+    mockIntersectionObserver(true, false)
     render(<Component />)
-    expectScroll('top', false)
-    expectScroll('bottom', true)
   })
-  it('should only show top line when scroll at bottom', () => {
-    mockScrolls(100, 50, 50)
+  it('should only show top line when intersecting with bottom', () => {
+    mockIntersectionObserver(false, true)
     render(<Component />)
-    expectScroll('top', true)
-    expectScroll('bottom', false)
+    expectLine('top', true)
+    expectLine('bottom', false)
   })
-  it('should show both lines when scroll at middle', () => {
-    mockScrolls(100, 25, 50)
+  it('should show both lines neither intersecting', () => {
+    mockIntersectionObserver(false, false)
     render(<Component />)
-    expectScroll('top', true)
-    expectScroll('bottom', true)
+    expectLine('top', true)
+    expectLine('bottom', true)
   })
-  it('should change on scroll', () => {
-    mockScrolls(100, 0, 50)
-    render(<Component />)
-    expectScroll('top', false)
-    expectScroll('bottom', true)
-    mockScrolls(100, 50, 50)
-    fireEvent.scroll(screen.getByTestId('scroll-box'))
-    expectScroll('top', true)
-    expectScroll('bottom', false)
+  it('should fire callback on intersection', () => {
+    mockIntersectionObserver(true, false)
+    const onReachedTop = jest.fn()
+    render(<Component onReachedTop={onReachedTop} />)
+    expect(onReachedTop).toHaveBeenCalled()
   })
 })
