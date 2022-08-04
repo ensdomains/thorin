@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "build": "playroom build & next build",
+    "export": "next export",
     "clean": "rimraf .next public/playroom",
     "dev": "NODE_OPTIONS='--inspect' next dev & playroom start",
     "lint": "next lint",
