@@ -199,6 +199,7 @@ importers:
       '@types/glob': ^7.2.0
       '@types/lodash': ^4.14.176
       '@types/mdx-js__react': ^1.5.5
+      '@types/node': ^16.11.6
       '@types/react': ^17.0.33
       '@types/react-dom': ^17.0.10
       '@types/rimraf': ^3.0.2
@@ -252,6 +253,7 @@ importers:
       '@types/glob': 7.2.0
       '@types/lodash': 4.14.182
       '@types/mdx-js__react': 1.5.5
+      '@types/node': 16.11.6
       '@types/react': 17.0.33
       '@types/react-dom': 17.0.17
       '@types/rimraf': 3.0.2
