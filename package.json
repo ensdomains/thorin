@@ -2,38 +2,34 @@
   "name": "thorin-parent",
   "private": true,
   "license": "MIT",
-  "workspaces": [
-    "components",
-    "docs"
-  ],
   "scripts": {
-    "build": "yarn workspaces foreach -i run build",
-    "build:components": "yarn workspace @ensdomains/thorin build",
-    "clean": "yarn workspaces foreach -p run clean",
-    "dev": "yarn workspaces foreach -pi run dev",
-    "gen:component": "yarn node scripts/generateComponent.js",
-    "gen:icons": "yarn node scripts/generateIcons.js",
+    "build": "pnpm m run build",
+    "build:components": "pnpm -F @ensdomains/thorin build",
+    "clean": "pnpm m run clean",
+    "dev": "pnpm m run dev",
+    "gen:component": "pnpm node scripts/generateComponent.js",
+    "gen:icons": "pnpm node scripts/generateIcons.js",
     "lint": "eslint . --cache",
-    "lint:fix": "yarn lint --fix",
+    "lint:fix": "pnpm lint --fix",
     "lint:format": "prettier --write .",
-    "lint:types": "yarn workspaces foreach -p run lint:types",
+    "lint:types": "pnpm m run lint:types",
     "lint:styles": "stylelint",
     "postinstall": "husky install",
-    "prepublish": "yarn clean && yarn build:components",
-    "size": "yarn build:components && yarn size-limit",
-    "test": "yarn workspaces foreach -p run test",
-    "publish:local": "yarn prepublish && yalc publish components/ --no-scripts --push --up",
-    "publish": "yarn clean && yarn workspace @ensdomains/thorin publish"
+    "prepublish": "pnpm clean && pnpm build:components",
+    "size": "pnpm build:components && pnpm size-limit",
+    "test": "pnpm m run test",
+    "publish:local": "pnpm prepublish && yalc publish components/ --no-scripts --push --up",
+    "publish": "pnpm clean && pnpm -F @ensdomains/thorin publish"
   },
   "lint-staged": {
     "*.{js,mdx,ts,tsx}": [
-      "yarn lint:fix"
+      "pnpm lint:fix"
     ],
     "*.tsx": [
-      "yarn lint:styles"
+      "pnpm lint:styles"
     ],
     "*.{json,md,yml}": [
-      "yarn lint:format"
+      "pnpm lint:format"
     ]
   },
   "devDependencies": {

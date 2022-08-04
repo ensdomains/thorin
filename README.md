@@ -74,8 +74,8 @@ The documentation is divided into two sections.
 
 ```bash
 gh clone repo @ensdomains/thorin
-yarn
-yarn dev
+pnpm install
+pnpm dev
 ```
 
 Before development, it is recommended that you read the following:

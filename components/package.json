@@ -29,8 +29,8 @@
     "build": "vite build",
     "clean": "rimraf dist src/components/icons/generated/",
     "lint:types": "tsc --noEmit",
-    "prepack": "yarn build",
-    "publish": "yarn npm publish",
+    "prepack": "pnpm build",
+    "publish": "pnpm npm publish",
     "test": "jest"
   },
   "dependencies": {
