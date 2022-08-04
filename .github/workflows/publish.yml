@@ -38,14 +38,14 @@ jobs:
 
       - name: Bump version to ${{ github.event.release.tag_name }}
         run: |
-          yarn workspace @ensdomains/thorin version ${{ github.event.release.tag_name }}
+          pnpm -F @ensdomains/thorin ver ${{ github.event.release.tag_name }}
           git add .
           git commit -m "${{ github.event.release.tag_name }}"
 
       - name: Publish
         env:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: yarn workspace @ensdomains/thorin run publish
+        run: pnpm -F @ensdomains/thorin publish
 
       - name: Push changes
         run: git push

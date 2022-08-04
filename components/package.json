@@ -31,7 +31,8 @@
     "lint:types": "tsc --noEmit",
     "prepack": "pnpm build",
     "publish": "pnpm npm publish",
-    "test": "jest"
+    "test": "jest",
+    "ver": "pnpm npm version"
   },
   "dependencies": {
     "clsx": "^1.1.1",
