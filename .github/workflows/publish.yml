@@ -38,7 +38,7 @@ jobs:
 
       - name: Bump version to ${{ github.event.release.tag_name }}
         run: |
-          pnpm -F @ensdomains/thorin ver ${{ github.event.release.tag_name }}
+          pnpm -F @ensdomains/thorin run ver ${{ github.event.release.tag_name }}
           git add .
           git commit -m "${{ github.event.release.tag_name }}"
 

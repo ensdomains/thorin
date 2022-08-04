@@ -18,7 +18,7 @@
     "postinstall": "husky install",
     "prepublish": "pnpm clean && pnpm build:components",
     "size": "pnpm build:components && pnpm size-limit",
-    "test": "pnpm m-all test",
+    "test": "pnpm -F @ensdomains/thorin run test",
     "publish:local": "pnpm prepublish && yalc publish components/ --no-scripts --push --up",
     "publish": "pnpm clean && pnpm -F @ensdomains/thorin publish"
   },
