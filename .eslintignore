@@ -6,5 +6,6 @@ components/dist/
 components/coverage/
 components/src/components/icons/generated/
 
-.yarn/*
-yarn.lock
+node_modules
+pnpm-lock.yaml
+pnpm-workspace.yaml
