@@ -4,8 +4,6 @@ export { CountdownCircle } from './CountdownCircle'
 export { Dropdown } from './Dropdown'
 export { FieldSet } from './FieldSet'
 export { Helper } from './Helper'
-export type { Props as HelperProps } from './Helper'
-
 export { Input } from './Input'
 export { Modal } from './Modal'
 export { PageButtons } from './PageButtons'
