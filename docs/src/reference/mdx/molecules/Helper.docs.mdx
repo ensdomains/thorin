@@ -1,0 +1,35 @@
+---
+title: Helper
+description: Helper information component
+---
+
+```tsx
+import { Helper } from '@ensdomains/thorin'
+```
+
+```tsx live=true expand=true
+<Helper>This is an example helper.</Helper>
+```
+
+## Props
+
+<PropsTable sourceLink={sourceLink} types={types} />
+
+## Type
+
+```tsx live=true expand=true
+<DeleteMe>
+  <Helper type="info">This is an info helper.</Helper>
+  <Helper type="warning">This is a warning helper.</Helper>
+  <Helper type="error">This is an error helper.</Helper>
+</DeleteMe>
+```
+
+## Alignment
+
+```tsx live=true expand=true
+<DeleteMe>
+  <Helper alignment="vertical">Vertically aligned helper.</Helper>
+  <Helper alignment="horizontal">Horizontally aligned helper.</Helper>
+</DeleteMe>
+```

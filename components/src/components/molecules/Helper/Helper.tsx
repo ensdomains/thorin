@@ -1,0 +1,85 @@
+import * as React from 'react'
+import styled, { css } from 'styled-components'
+
+import { AlertSVG, InfoSVG } from '@/src/icons'
+
+type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
+
+type HelperType = 'info' | 'warning' | 'error'
+type Alignment = 'horizontal' | 'vertical'
+
+export type Props = NativeDivProps & {
+  type?: HelperType
+  alignment?: Alignment
+  children: React.ReactNode
+}
+
+const Container = styled.div<{ $type: HelperType; $alignment: Alignment }>(
+  ({ theme, $type, $alignment }) => css`
+    width: ${theme.space.full};
+    padding: ${theme.space['6']} ${theme.space['4']};
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    gap: ${theme.space['2']};
+    border-radius: ${theme.radii.large};
+
+    ${$alignment === 'horizontal' &&
+    css`
+      flex-direction: row;
+      justify-content: flex-start;
+      gap: ${theme.space['4']};
+      padding: ${theme.space['4']};
+    `}
+
+    background-color: ${theme.colors.lightBlue};
+
+    ${$type === 'warning' &&
+    css`
+      background-color: ${theme.colors.lightYellow};
+    `}
+
+    ${$type === 'error' &&
+    css`
+      background-color: ${theme.colors.lightRed};
+    `}
+  `,
+)
+
+const IconElement = styled.div<{ $type: HelperType }>(
+  ({ theme, $type }) => css`
+    width: ${theme.space['6']};
+    height: ${theme.space['6']};
+
+    color: ${theme.colors.blue};
+
+    ${$type === 'warning' &&
+    css`
+      color: ${theme.colors.yellow};
+    `}
+    ${$type === 'error' &&
+    css`
+      color: ${theme.colors.red};
+    `}
+  `,
+)
+
+export const Helper = ({
+  type = 'info',
+  alignment = 'vertical',
+  children,
+  ...props
+}: Props) => {
+  const Icon = type === 'info' ? InfoSVG : AlertSVG
+
+  return (
+    <Container $alignment={alignment} $type={type} {...props}>
+      <IconElement $type={type} as={Icon} />
+      {children}
+    </Container>
+  )
+}
+
+Helper.displayName = 'Helper'
