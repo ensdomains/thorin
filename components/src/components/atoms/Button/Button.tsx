@@ -47,6 +47,8 @@ type BaseProps = {
   shadowless?: boolean
   /** If true, adds an outline to the button */
   outlined?: boolean
+  /** If true, makes inner div full width*/
+  fullWidthContent?: boolean
   /** The handler for click events. */
   onClick?: NativeButtonProps['onClick']
 } & Omit<NativeButtonProps, 'prefix' | 'size'>
@@ -318,11 +320,14 @@ const PrefixContainer = styled.div<GetCenterProps>(
 
 const LoadingContainer = styled.div(() => css``)
 
-const LabelContainer = styled(Typography)(
-  ({ theme }) => css`
+const LabelContainer = styled(Typography)<{
+  $fullWidthContent: boolean
+}>(
+  ({ theme, $fullWidthContent }) => css`
     color: inherit;
     font-size: inherit;
     font-weight: ${theme.fontWeights['semiBold']};
+    ${$fullWidthContent && `width: 100%;`}
   `,
 )
 
@@ -353,12 +358,17 @@ export const Button = React.forwardRef(
       pressed = false,
       shadowless = false,
       outlined = false,
+      fullWidthContent = false,
       as: asProp,
       ...props
     }: Props,
     ref: React.Ref<HTMLButtonElement>,
   ) => {
-    const labelContent = <LabelContainer ellipsis>{children}</LabelContainer>
+    const labelContent = (
+      <LabelContainer $fullWidthContent={fullWidthContent} ellipsis>
+        {children}
+      </LabelContainer>
+    )
     let childContent: ReactNodeNoStrings
     if (shape) {
       childContent = loading ? <Spinner color="background" /> : labelContent
@@ -371,7 +381,6 @@ export const Button = React.forwardRef(
             </PrefixContainer>
           )}
           {labelContent}
-
           {(loading || suffix) && (
             <LoadingContainer {...{ center, size, side: 'right' }}>
               {loading ? <Spinner color="background" /> : suffix}
@@ -385,6 +394,7 @@ export const Button = React.forwardRef(
       <ButtonElement
         {...props}
         $center={center}
+        $fullWidthContent={fullWidthContent}
         $outlined={outlined}
         $pressed={pressed}
         $shadowless={shadowless}
