@@ -38,15 +38,18 @@ const Container = styled.div<{ $type: HelperType; $alignment: Alignment }>(
     `}
 
     background-color: ${theme.colors.lightBlue};
+    border: ${theme.borderWidths.px} solid ${theme.colors.blue};
 
     ${$type === 'warning' &&
     css`
       background-color: ${theme.colors.lightYellow};
+      border-color: ${theme.colors.yellow};
     `}
 
     ${$type === 'error' &&
     css`
       background-color: ${theme.colors.lightRed};
+      border-color: ${theme.colors.red};
     `}
   `,
 )
