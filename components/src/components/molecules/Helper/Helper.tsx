@@ -26,24 +26,30 @@ const Container = styled.div<{ $type: HelperType; $alignment: Alignment }>(
     gap: ${theme.space['2']};
     border-radius: ${theme.radii.large};
 
+    text-align: center;
+
     ${$alignment === 'horizontal' &&
     css`
       flex-direction: row;
       justify-content: flex-start;
       gap: ${theme.space['4']};
       padding: ${theme.space['4']};
+      text-align: left;
     `}
 
     background-color: ${theme.colors.lightBlue};
+    border: ${theme.borderWidths.px} solid ${theme.colors.blue};
 
     ${$type === 'warning' &&
     css`
       background-color: ${theme.colors.lightYellow};
+      border-color: ${theme.colors.yellow};
     `}
 
     ${$type === 'error' &&
     css`
       background-color: ${theme.colors.lightRed};
+      border-color: ${theme.colors.red};
     `}
   `,
 )
