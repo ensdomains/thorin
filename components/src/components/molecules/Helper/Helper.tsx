@@ -34,6 +34,7 @@ const Container = styled.div<{ $type: HelperType; $alignment: Alignment }>(
       justify-content: flex-start;
       gap: ${theme.space['4']};
       padding: ${theme.space['4']};
+      text-align: left;
     `}
 
     background-color: ${theme.colors.lightBlue};
