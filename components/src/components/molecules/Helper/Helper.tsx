@@ -26,6 +26,8 @@ const Container = styled.div<{ $type: HelperType; $alignment: Alignment }>(
     gap: ${theme.space['2']};
     border-radius: ${theme.radii.large};
 
+    text-align: center;
+
     ${$alignment === 'horizontal' &&
     css`
       flex-direction: row;
