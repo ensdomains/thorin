@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 
-import { ExitSVG } from '@/src'
+import { CancelCircleSVG } from '@/src'
 import { mq } from '@/src/utils/responsiveHelpers'
 
 import { Modal, Typography } from '../..'
@@ -9,10 +9,10 @@ import { Modal, Typography } from '../..'
 const IconCloseContainer = styled.div(
   ({ theme }) => css`
     position: absolute;
-    top: ${theme.space['2.5']};
-    right: ${theme.space['2.5']};
-    height: ${theme.space['8']};
-    width: ${theme.space['8']};
+    top: ${theme.space['4']};
+    right: ${theme.space['4']};
+    height: ${theme.space['6']};
+    width: ${theme.space['6']};
     opacity: ${theme.opacity['50']};
     cursor: pointer;
     transition-property: all;
@@ -251,6 +251,14 @@ const ModalWithTitle = ({
   )
 }
 
+const CloseButton = ({ onClick }: { onClick: () => void }) => (
+  <IconCloseContainer
+    as={CancelCircleSVG}
+    data-testid="close-icon"
+    onClick={onClick}
+  />
+)
+
 export const Dialog = ({
   children,
   onDismiss,
@@ -286,13 +294,7 @@ export const Dialog = ({
         onDismiss={onDismiss}
       >
         {children}
-        {onDismiss && (
-          <IconCloseContainer
-            as={ExitSVG}
-            data-testid="close-icon"
-            onClick={onDismiss}
-          />
-        )}
+        {onDismiss && <CloseButton onClick={onDismiss} />}
       </ModalWithTitle>
     )
   }
@@ -309,3 +311,4 @@ export const Dialog = ({
 Dialog.displayName = 'Dialog'
 Dialog.Footer = Footer
 Dialog.Heading = Heading
+Dialog.CloseButton = CloseButton
