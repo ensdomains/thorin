@@ -4,8 +4,9 @@ import { ThemeProvider } from 'styled-components'
 
 import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 
-import { Input } from './Input'
 import { lightTheme } from '@/src/tokens'
+
+import { Input } from './Input'
 
 describe('<Input />', () => {
   afterEach(cleanup)

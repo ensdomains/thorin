@@ -1,8 +1,9 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 
-import { VisuallyHidden } from '../..'
 import { Colors } from '@/src/tokens'
+
+import { VisuallyHidden } from '../..'
 import { getTestId } from '../../../utils/utils'
 
 const CountDownContainer = styled.div(

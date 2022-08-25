@@ -4,8 +4,9 @@ import { ThemeProvider } from 'styled-components'
 
 import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 
-import { PageButtons } from './PageButtons'
 import { lightTheme } from '@/src/tokens'
+
+import { PageButtons } from './PageButtons'
 
 const ButtonsHelper = ({
   mockCallback,

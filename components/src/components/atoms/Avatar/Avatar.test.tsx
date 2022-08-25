@@ -4,8 +4,9 @@ import { ThemeProvider } from 'styled-components'
 
 import { cleanup, render, screen, waitFor } from '@/test'
 
-import { Avatar } from './Avatar'
 import { lightTheme } from '@/src/tokens'
+
+import { Avatar } from './Avatar'
 
 describe('<Avatar />', () => {
   afterEach(cleanup)

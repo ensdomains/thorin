@@ -1,12 +1,13 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 
+import { ReactComponent as IconDownIndicatorSvg } from '@/src/icons/DownIndicator.svg'
+
 import { getTestId, shortenAddress } from '../../../utils/utils'
 
 import { Typography } from '../..'
 import { Avatar, Props as AvatarProps } from '../../atoms/Avatar'
 import { Dropdown, DropdownItem } from '../Dropdown/Dropdown'
-import { ReactComponent as IconDownIndicatorSvg } from '@/src/icons/DownIndicator.svg'
 
 type Size = 'small' | 'medium' | 'large'
 

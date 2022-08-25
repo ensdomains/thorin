@@ -4,8 +4,9 @@ import { ThemeProvider } from 'styled-components'
 
 import { cleanup, render, screen, userEvent } from '@/test'
 
-import { Profile } from './Profile'
 import { lightTheme } from '@/src/tokens'
+
+import { Profile } from './Profile'
 
 const TEST_ADDRESS = '0x155097452fc6aefab3df09ca314c71bfc60ccb92'
 

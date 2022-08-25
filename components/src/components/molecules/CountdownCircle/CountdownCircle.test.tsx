@@ -4,8 +4,9 @@ import { ThemeProvider } from 'styled-components'
 
 import { cleanup, render, screen, waitFor } from '@/test'
 
-import { CountdownCircle } from './CountdownCircle'
 import { lightTheme } from '@/src/tokens'
+
+import { CountdownCircle } from './CountdownCircle'
 
 describe('<CountdownCircle />', () => {
   afterEach(cleanup)

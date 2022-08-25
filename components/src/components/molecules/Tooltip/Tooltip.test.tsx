@@ -6,9 +6,10 @@ import { act } from 'react-dom/test-utils'
 
 import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 import { Button } from '@/src/components/atoms/Button'
-import { Tooltip } from './Tooltip'
 
 import { lightTheme } from '@/src/tokens'
+
+import { Tooltip } from './Tooltip'
 
 const TooltipHelper = () => {
   const [isOpen, setIsOpen] = React.useState(false)

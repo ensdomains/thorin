@@ -3,6 +3,7 @@ import styled, { FlattenSimpleInterpolation, css } from 'styled-components'
 
 import { Colors } from '@/src/tokens'
 import { DefaultTheme } from '@/src/types'
+
 import { Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
 import { getTestId } from '../../../utils/utils'

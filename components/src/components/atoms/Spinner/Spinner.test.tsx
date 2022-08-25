@@ -3,8 +3,9 @@ import { ThemeProvider } from 'styled-components'
 
 import { cleanup, render, screen } from '@/test'
 
-import { Spinner } from './Spinner'
 import { lightTheme } from '@/src/tokens'
+
+import { Spinner } from './Spinner'
 
 describe('<Spinner />', () => {
   afterEach(cleanup)

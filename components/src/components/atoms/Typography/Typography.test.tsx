@@ -4,8 +4,9 @@ import { ThemeProvider } from 'styled-components'
 
 import { cleanup, render, screen } from '@/test'
 
-import { Typography } from './Typography'
 import { lightTheme } from '@/src/tokens'
+
+import { Typography } from './Typography'
 
 describe('<Typography />', () => {
   afterEach(cleanup)

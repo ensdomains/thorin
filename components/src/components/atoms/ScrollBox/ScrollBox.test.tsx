@@ -5,8 +5,9 @@ import { ThemeProvider } from 'styled-components'
 import { cleanup, render, screen } from '@/test'
 import 'jest-styled-components'
 
-import { ScrollBox } from './ScrollBox'
 import { lightTheme } from '@/src/tokens'
+
+import { ScrollBox } from './ScrollBox'
 
 const Component = ({ onReachedTop }: { onReachedTop?: () => void }) => (
   <ThemeProvider theme={lightTheme}>

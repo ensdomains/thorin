@@ -8,11 +8,12 @@ import { PrismTheme } from 'prism-react-renderer'
 
 import { Button, Colors, Components } from '@ensdomains/thorin'
 
-import ComponentWrapper from '../../playroom/ComponentWrapper'
-import { Prism } from '../Prism'
 import { createPlayroomLink } from '~/utils/playroom'
 import { usePlayroomStore } from '~/playroom/PlayroomState'
 import { avatars } from '~/playroom/useScope'
+
+import { Prism } from '../Prism'
+import ComponentWrapper from '../../playroom/ComponentWrapper'
 import { CopyButton } from '../CopyButton'
 import { DeleteMe } from '../DeleteMe'
 

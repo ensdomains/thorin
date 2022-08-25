@@ -4,6 +4,7 @@ import styled, { css } from 'styled-components'
 import { Button, ButtonProps } from '@/src/components/atoms/Button'
 import { Colors } from '@/src/tokens'
 import { ReactComponent as IconDownIndicatorSvg } from '@/src/icons/DownIndicator.svg'
+
 import { getTestId } from '../../../utils/utils'
 
 type Align = 'left' | 'right'

@@ -6,12 +6,16 @@ import { useEffect } from 'react'
 
 import { TransitionState, useTransition } from 'react-transition-state'
 
+import { ReactComponent as IconDownIndicatorSvg } from '@/src/icons/DownIndicator.svg'
+
+import { useDocumentEvent } from '@/src/hooks/useDocumentEvent'
+
+import { Space } from '@/src/tokens'
+
 import { CloseSVG, Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
-import { ReactComponent as IconDownIndicatorSvg } from '@/src/icons/DownIndicator.svg'
-import { useDocumentEvent } from '@/src/hooks/useDocumentEvent'
+
 import { VisuallyHidden } from '../../atoms'
-import { Space } from '@/src/tokens'
 
 const CREATE_OPTION_VALUE = 'CREATE_OPTION_VALUE'
 
