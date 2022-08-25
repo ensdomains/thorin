@@ -73,6 +73,8 @@ const expectedExportedKeys = [
   'ExclamationSVG',
   'ExitSVG',
   'FlagSVG',
+  'FlameSVG',
+  'FlameBurnedSVG',
   'GradientSVG',
   'GridSVG',
   'GridSolidSVG',
