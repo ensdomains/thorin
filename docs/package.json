@@ -3,15 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "playroom build & next build",
+    "build": "next build && playroom build",
     "export": "next export",
     "clean": "rimraf .next public/playroom",
     "dev": "NODE_OPTIONS='--inspect' next dev & playroom start",
     "lint": "next lint",
     "lint:types": "tsc --noEmit",
-    "start": "next start",
-    "playroom:start": "playroom start",
-    "playroom:build": "playroom build"
+    "start": "next start"
   },
   "dependencies": {
     "@ensdomains/thorin": "workspace:components",
@@ -23,7 +21,7 @@
     "next": "latest",
     "next-mdx-remote": "^3.0.6",
     "nookies": "^2.5.2",
-    "playroom": "0.27.7",
+    "playroom": "^0.28.0",
     "prism-react-renderer": "^1.2.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
