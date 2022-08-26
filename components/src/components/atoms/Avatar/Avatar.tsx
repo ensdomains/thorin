@@ -110,7 +110,7 @@ export const Avatar = ({
   ...props
 }: Props) => {
   const ref = React.useRef<HTMLImageElement>(null)
-  const [showImage, setShowImage] = React.useState(!!src)
+  const [showImage, setShowImage] = React.useState(false)
 
   const showImg = React.useCallback(() => {
     setShowImage(true)
