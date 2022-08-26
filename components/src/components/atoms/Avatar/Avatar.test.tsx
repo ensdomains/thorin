@@ -10,7 +10,7 @@ import { lightTheme } from '@/src/tokens'
 describe('<Avatar />', () => {
   afterEach(cleanup)
 
-  it('renders', () => {
+  it('renders', async () => {
     render(
       <ThemeProvider theme={lightTheme}>
         <Avatar
@@ -19,6 +19,6 @@ describe('<Avatar />', () => {
         />
       </ThemeProvider>,
     )
-    waitFor(() => expect(screen.getByRole(/img/i)).toBeInTheDocument())
+    await waitFor(() => expect(screen.getByRole(/img/i)).toBeInTheDocument())
   })
 })
