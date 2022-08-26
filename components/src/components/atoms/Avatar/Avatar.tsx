@@ -61,9 +61,9 @@ const Container = styled.div<Container>(
   `,
 )
 
-const Placeholder = styled.div(
-  ({ theme }) => css`
-    background: ${theme.colors.gradients.blue};
+const Placeholder = styled.div<{ $url?: string }>(
+  ({ theme, $url }) => css`
+    background: ${$url || theme.colors.gradients.blue};
 
     display: flex;
     align-items: center;
@@ -96,33 +96,55 @@ export type Props = {
   src?: NativeImgAttributes['src']
   /** The shape of the avatar. */
   shape?: Shape
-  // as?: 'img' | React.ComponentType
-} & Omit<
-  NativeImgAttributes,
-  'decoding' | 'alt' | 'onError' | 'children' | 'onError'
->
+  /** A placeholder for the image to use when not loaded, in css format (e.g. url("https://example.com")) */
+  placeholder?: string
+} & Omit<NativeImgAttributes, 'alt' | 'onError' | 'children' | 'onError'>
 
 export const Avatar = ({
   label,
   noBorder = false,
   shape = 'circle',
   src,
+  placeholder,
+  decoding = 'async',
   ...props
 }: Props) => {
+  const ref = React.useRef<HTMLImageElement>(null)
   const [showImage, setShowImage] = React.useState(!!src)
 
-  React.useEffect(() => {
+  const showImg = React.useCallback(() => {
+    setShowImage(true)
+  }, [setShowImage])
+
+  const hideImg = React.useCallback(() => {
     setShowImage(false)
-  }, [src])
+  }, [setShowImage])
+
+  React.useEffect(() => {
+    const img = ref.current
+    if (img) {
+      img.addEventListener('load', showImg)
+      img.addEventListener('loadstart', hideImg)
+      img.addEventListener('error', hideImg)
+    }
+    return () => {
+      if (img) {
+        img.removeEventListener('load', showImg)
+        img.removeEventListener('loadstart', hideImg)
+        img.removeEventListener('error', hideImg)
+      }
+    }
+  }, [ref, hideImg, showImg])
 
   return (
     <Container $noBorder={!showImage || noBorder} $shape={shape}>
-      {!showImage && <Placeholder aria-label={label} />}
+      {!showImage && <Placeholder $url={placeholder} aria-label={label} />}
       <Img
         {...props}
         $shown={showImage}
         alt={label}
-        decoding="async"
+        decoding={decoding}
+        ref={ref}
         src={src}
         onError={() => setShowImage(false)}
         onLoad={() => setShowImage(true)}

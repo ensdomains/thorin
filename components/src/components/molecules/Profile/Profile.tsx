@@ -13,9 +13,8 @@ type Size = 'small' | 'medium' | 'large'
 type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 
 type BaseProps = {
-  /** The url of the avatar icon. */
-  avatar?: AvatarProps['src']
-  // avatarAs?: AvatarProps['as']
+  /** The url of the avatar icon, or the avatar props to passthrough */
+  avatar?: AvatarProps['src'] | Omit<AvatarProps, 'label'>
   /** An array of objects conforming to the DropdownItem interface. */
   dropdownItems?: DropdownItem[]
   /** The ethereum address of the profiled user. */
@@ -152,7 +151,10 @@ const ReducedLineText = styled(Typography)(
 const ProfileInner = ({ size, avatar, address, ensName }: Props) => (
   <>
     <AvatarContainer>
-      <Avatar label="profile-avatar" src={avatar} />
+      <Avatar
+        label="profile-avatar"
+        {...(typeof avatar === 'string' ? { src: avatar } : avatar || {})}
+      />
     </AvatarContainer>
     <ProfileInnerContainer $size={size}>
       <ReducedLineText
