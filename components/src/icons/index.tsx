@@ -24,6 +24,8 @@ export { ReactComponent as EthTransparentInvertedSVG } from './EthTransparentInv
 export { ReactComponent as ExclamationSVG } from './Exclamation.svg'
 export { ReactComponent as ExitSVG } from './Exit.svg'
 export { ReactComponent as FlagSVG } from './Flag.svg'
+export { ReactComponent as FlameSVG } from './Flame.svg'
+export { ReactComponent as FlameBurnedSVG } from './FlameBurned.svg'
 export { ReactComponent as GradientSVG } from './Gradient.svg'
 export { ReactComponent as GridSVG } from './Grid.svg'
 export { ReactComponent as GridSolidSVG } from './GridSolid.svg'
