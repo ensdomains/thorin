@@ -42,24 +42,34 @@ export const Backdrop = ({
     e.target === boxRef.current && onDismiss && onDismiss()
 
   React.useEffect(() => {
-    toggle(open || false)
-
-    let top = 0
-    if (typeof window !== 'undefined' && open) {
-      top = window.scrollY
-      document.body.style.width = `${document.body.clientWidth}px`
-      document.body.style.position = 'fixed'
-      document.body.style.top = `-${top}px`
+    const { style, dataset } = document.body
+    const currBackdrops = () => parseInt(dataset.backdrops || '0')
+    const modifyBackdrops = (modifier: number) =>
+      (dataset.backdrops = String(currBackdrops() + modifier))
+    const setStyles = (w: string, p: string, t: string) => {
+      style.width = w
+      style.position = p
+      style.top = t
     }
 
-    return () => {
-      if (typeof window !== 'undefined' && open) {
-        document.body.style.width = ''
-        document.body.style.position = ''
-        document.body.style.top = ''
-        window.scroll({
-          top,
-        })
+    toggle(open || false)
+    if (typeof window !== 'undefined') {
+      if (open) {
+        if (currBackdrops() === 0) {
+          setStyles(
+            `${document.body.clientWidth}px`,
+            'fixed',
+            `-${window.scrollY}px`,
+          )
+        }
+        modifyBackdrops(1)
+        return () => {
+          if (currBackdrops() === 1) {
+            setStyles('', '', '')
+          }
+          modifyBackdrops(-1)
+          window.scroll({ top: parseFloat(style.top || '0') * -1 })
+        }
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
