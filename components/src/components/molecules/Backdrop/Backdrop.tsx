@@ -53,7 +53,7 @@ export const Backdrop = ({
     }
 
     toggle(open || false)
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && !noBackground) {
       if (open) {
         if (currBackdrops() === 0) {
           setStyles(
@@ -64,23 +64,19 @@ export const Backdrop = ({
         }
         modifyBackdrops(1)
         return () => {
+          const top = parseFloat(style.top || '0') * -1
           if (currBackdrops() === 1) {
             setStyles('', '', '')
+            window.scroll({
+              top,
+            })
           }
           modifyBackdrops(-1)
-          window.scroll({ top: parseFloat(style.top || '0') * -1 })
         }
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open])
-
-  React.useEffect(() => {
-    return () => {
-      document.body.style.position = ''
-      document.body.style.top = ''
-    }
-  }, [])
+  }, [open, noBackground])
 
   return state !== 'unmounted' ? (
     <Portal className={className}>
