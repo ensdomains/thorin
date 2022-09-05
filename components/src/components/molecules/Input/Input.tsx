@@ -41,7 +41,7 @@ type BaseProps = Omit<FieldBaseProps, 'inline'> & {
   /** The tabindex attribute of the input element. */
   tabIndex?: NativeInputProps['tabIndex']
   /** The data type the input. */
-  type?: 'number' | 'text' | 'email'
+  type?: 'number' | 'text' | 'email' | 'date' | 'datetime-local'
   /** Inserts text after the input text. */
   units?: string
   /** The value attribute of the input element. */
@@ -93,6 +93,13 @@ type WithTypeNumber = {
   max?: NativeInputProps['max']
   /** Sets the min value of number type inputs. */
   min?: NativeInputProps['min']
+}
+
+type WithTypeDate = {
+  type?: 'date' | 'datetime-local'
+  max?: NativeInputProps['max']
+  min?: NativeInputProps['min']
+  step?: NativeInputProps['step']
 }
 
 interface InputParentProps {
@@ -360,7 +367,8 @@ const Units = styled.span(
   `,
 )
 
-type Props = BaseProps & (WithTypeEmail | WithTypeText | WithTypeNumber)
+type Props = BaseProps &
+  (WithTypeEmail | WithTypeText | WithTypeNumber | WithTypeDate)
 
 export const Input = React.forwardRef(
   (
@@ -417,7 +425,7 @@ export const Input = React.forwardRef(
       : undefined
     const hasError = error ? true : undefined
 
-    const inputType = type === 'number' ? 'number' : 'text'
+    const inputType = type === 'email' ? 'text' : type
 
     const handleInput = React.useCallback(
       (event: React.FormEvent<HTMLInputElement>) => {
