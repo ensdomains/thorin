@@ -81,6 +81,14 @@ const SelectActionContainer = styled.div(
   `,
 )
 
+const SelectLabel = styled.div(
+  () => css`
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  `,
+)
+
 const OptionElementContainer = styled.div<{ $padding: Space; $gap: Space }>(
   ({ theme, $padding, $gap }) => css`
     align-items: center;
@@ -91,8 +99,6 @@ const OptionElementContainer = styled.div<{ $padding: Space; $gap: Space }>(
     padding: ${theme.space[$padding]};
     padding-right: 0;
     overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
   `,
 )
 
@@ -101,6 +107,9 @@ const NoOptionContainer = styled.div<{ $padding: Space }>(
     padding: ${theme.space[$padding]};
     padding-right: 0;
     color: ${theme.colors.textPlaceholder};
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
   `,
 )
 
@@ -741,7 +750,9 @@ export const Select = React.forwardRef(
       option ? (
         <React.Fragment>
           {option.prefix && <div>{option.prefix}</div>}
-          {option.node ? option.node : option.label || option.value}
+          <SelectLabel>
+            {option.node ? option.node : option.label || option.value}
+          </SelectLabel>
         </React.Fragment>
       ) : null
 
@@ -809,7 +820,7 @@ export const Select = React.forwardRef(
                 </OptionElementContainer>
               ) : placeholder ? (
                 <NoOptionContainer $padding={outerPadding}>
-                  {placeholder} hello
+                  {placeholder}
                 </NoOptionContainer>
               ) : null}
             </SelectContentContainer>
