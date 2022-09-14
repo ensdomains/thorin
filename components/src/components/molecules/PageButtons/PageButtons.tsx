@@ -5,12 +5,15 @@ import { getTestId } from '../../../utils/utils'
 
 type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 
+type Size = 'small' | 'medium'
+
 type Props = {
   /** Total number of pages */
   total: number
   current: number
   /** Maximum number of buttons to show */
   max?: number
+  size?: Size
   alwaysShowFirst?: boolean
   alwaysShowLast?: boolean
   onChange: (value: number) => void
@@ -27,8 +30,8 @@ const Container = styled.div(
   `,
 )
 
-const PageButton = styled.button<{ $selected?: boolean }>(
-  ({ theme, $selected }) => css`
+const PageButton = styled.button<{ $selected?: boolean; $size: Size }>(
+  ({ theme, $selected, $size }) => css`
     background-color: transparent;
     transition: all 0.15s ease-in-out;
     cursor: pointer;
@@ -37,21 +40,26 @@ const PageButton = styled.button<{ $selected?: boolean }>(
           background-color: ${theme.colors.background};
           cursor: default;
           pointer-events: none;
+          color: ${theme.colors.accent};
         `
       : css`
+          color: ${theme.colors.text};
           &:hover {
             background-color: ${theme.colors.foregroundSecondary};
           }
         `}
 
-    border-radius: ${theme.radii['extraLarge']};
+    border-radius: ${$size === 'small'
+      ? theme.space['2']
+      : theme.radii['extraLarge']};
     border: 1px solid ${theme.colors.borderSecondary};
-    min-width: ${theme.space['10']};
+    min-width: ${$size === 'small' ? theme.space['9'] : theme.space['10']};
     padding: ${theme.space['2']};
-    height: ${theme.space['10']};
-    font-size: ${theme.fontSizes['small']};
+    height: ${$size === 'small' ? theme.space['9'] : theme.space['10']};
+    font-size: ${$size === 'small'
+      ? theme.space['3.5']
+      : theme.fontSizes['small']};
     font-weight: ${theme.fontWeights['medium']};
-    color: ${theme.colors.text};
   `,
 )
 
@@ -67,6 +75,7 @@ export const PageButtons = ({
   total,
   current,
   max = 5,
+  size = 'medium',
   alwaysShowFirst,
   alwaysShowLast,
   onChange,
@@ -109,6 +118,7 @@ export const PageButtons = ({
         ) : (
           <PageButton
             $selected={value === current}
+            $size={size}
             data-testid="pagebutton"
             key={value}
             type="button"
