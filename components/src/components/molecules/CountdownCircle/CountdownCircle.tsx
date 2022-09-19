@@ -109,8 +109,9 @@ type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 
 type Props = {
   accessibilityLabel?: string
-  countdownAmount: number
   color?: Colors
+  startTimestamp?: number
+  countdownSeconds: number
   disabled?: boolean
   callback?: () => void
   size?: 'small' | 'large'
@@ -122,32 +123,43 @@ export const CountdownCircle = React.forwardRef(
       accessibilityLabel,
       color = 'textSecondary',
       size = 'small',
-      countdownAmount,
+      countdownSeconds,
+      startTimestamp,
       disabled,
       callback,
       ...props
     }: Props,
     ref: React.Ref<HTMLDivElement>,
   ) => {
-    const [totalCount, setTotalCount] = React.useState(0)
-    const [currentCount, setCurrentCount] = React.useState(0)
+    const _startTimestamp = React.useMemo(
+      () => Math.ceil((startTimestamp || Date.now()) / 1000),
+      [startTimestamp],
+    )
+    const endTimestamp = React.useMemo(
+      () => _startTimestamp + countdownSeconds,
+      [_startTimestamp, countdownSeconds],
+    )
+    const calculateCurrentCount = React.useCallback(
+      () => endTimestamp - Math.ceil(Date.now() / 1000),
+      [endTimestamp],
+    )
+
+    const [currentCount, setCurrentCount] = React.useState(countdownSeconds)
 
     React.useEffect(() => {
-      setTotalCount(countdownAmount)
       if (!disabled) {
-        setCurrentCount(countdownAmount)
+        setCurrentCount(calculateCurrentCount())
         const countInterval = setInterval(() => {
-          setCurrentCount((prevCount) => {
-            if (prevCount === 1) {
-              clearInterval(countInterval)
-              callback && callback()
-            }
-            return prevCount - 1 ? prevCount - 1 : 0
-          })
+          const currentSeconds = calculateCurrentCount()
+          if (currentSeconds === 0) {
+            clearInterval(countInterval)
+            callback && callback()
+          }
+          setCurrentCount(currentSeconds)
         }, 1000)
         return () => clearInterval(countInterval)
       }
-    }, [callback, countdownAmount, disabled])
+    }, [calculateCurrentCount, callback, countdownSeconds, disabled])
 
     return (
       <CountDownContainer
@@ -157,7 +169,7 @@ export const CountdownCircle = React.forwardRef(
         }}
       >
         <NumberBox {...{ $size: size, $disabled: disabled }}>
-          {disabled ? totalCount : currentCount}
+          {disabled ? countdownSeconds : currentCount}
         </NumberBox>
         <Container $color={color} $disabled={disabled} $size={size} ref={ref}>
           {accessibilityLabel && (
@@ -170,7 +182,7 @@ export const CountdownCircle = React.forwardRef(
               cy="12"
               fill="none"
               r="9"
-              strokeDasharray={`${48 * (currentCount / totalCount)}, 56`}
+              strokeDasharray={`${48 * (currentCount / countdownSeconds)}, 56`}
               strokeLinecap="round"
             />
             <circle
