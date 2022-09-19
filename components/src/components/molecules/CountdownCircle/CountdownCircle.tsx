@@ -4,6 +4,7 @@ import styled, { css } from 'styled-components'
 import { VisuallyHidden } from '../..'
 import { Colors } from '@/src/tokens'
 import { getTestId } from '../../../utils/utils'
+import { CheckSVG } from '@/src'
 
 const CountDownContainer = styled.div(
   () => css`
@@ -30,6 +31,12 @@ const NumberBox = styled.div<NumberBox>(
     css`
       color: ${theme.colors.textPlaceholder};
     `}
+
+    #countdown-complete-check {
+      stroke-width: ${theme.borderWidths['1.5']};
+      overflow: visible;
+      display: block;
+    }
 
     ${() => {
       switch ($size) {
@@ -140,7 +147,7 @@ export const CountdownCircle = React.forwardRef(
       [_startTimestamp, countdownSeconds],
     )
     const calculateCurrentCount = React.useCallback(
-      () => endTimestamp - Math.ceil(Date.now() / 1000),
+      () => Math.max(endTimestamp - Math.ceil(Date.now() / 1000), 0),
       [endTimestamp],
     )
 
@@ -169,7 +176,13 @@ export const CountdownCircle = React.forwardRef(
         }}
       >
         <NumberBox {...{ $size: size, $disabled: disabled }}>
-          {disabled ? countdownSeconds : currentCount}
+          {disabled && countdownSeconds}
+          {!disabled &&
+            (currentCount > 0 ? (
+              currentCount
+            ) : (
+              <CheckSVG id="countdown-complete-check" />
+            ))}
         </NumberBox>
         <Container $color={color} $disabled={disabled} $size={size} ref={ref}>
           {accessibilityLabel && (
