@@ -181,7 +181,10 @@ export const CountdownCircle = React.forwardRef(
             (currentCount > 0 ? (
               currentCount
             ) : (
-              <CheckSVG id="countdown-complete-check" />
+              <CheckSVG
+                data-testid="countdown-complete-check"
+                id="countdown-complete-check"
+              />
             ))}
         </NumberBox>
         <Container $color={color} $disabled={disabled} $size={size} ref={ref}>

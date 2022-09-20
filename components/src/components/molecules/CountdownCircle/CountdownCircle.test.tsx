@@ -72,6 +72,6 @@ describe('<CountdownCircle />', () => {
       </ThemeProvider>,
     )
     advanceTime(5000)
-    expect(screen.queryByText('0')).toBeInTheDocument()
+    expect(screen.queryByTestId('countdown-complete-check')).toBeInTheDocument()
   })
 })
