@@ -4,7 +4,7 @@ import styled, { css } from 'styled-components'
 import { VisuallyHidden } from '../..'
 import { Colors } from '@/src/tokens'
 import { getTestId } from '../../../utils/utils'
-import { CheckSVG } from '@/src'
+import { CheckSVG } from '@/src/icons'
 
 const CountDownContainer = styled.div(
   () => css`
