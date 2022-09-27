@@ -4,6 +4,7 @@ export type Accent =
   | 'blue'
   | 'lightBlue'
   | 'green'
+  | 'lightGreen'
   | 'indigo'
   | 'orange'
   | 'pink'
@@ -19,34 +20,36 @@ export type Gradients = 'blue' | 'green' | 'red'
 
 export const accentsRaw: { [key in Mode]: { [key in Accent]: string } } = {
   light: {
-    blue: '82, 152, 255',
+    blue: '56, 137, 255',
     lightBlue: '238, 245, 255',
-    green: '73, 179, 147',
+    green: '25, 156, 117',
+    lightGreen: '231, 244, 239',
     indigo: '88, 84, 214',
-    orange: '255, 149, 0',
-    pink: '255, 45, 85',
-    purple: '175, 82, 222',
-    red: '213, 85, 85',
+    orange: '243, 147, 11',
+    pink: '213, 46, 126',
+    purple: '163, 67, 211',
+    red: '198, 48, 27',
     lightRed: '249, 231, 231',
-    teal: '90, 200, 250',
-    yellow: '255, 204, 0',
-    lightYellow: '255, 248, 219',
-    grey: '232, 232, 235',
+    teal: '43, 157, 209',
+    yellow: '233, 185, 17',
+    lightYellow: '255, 245, 205',
+    grey: '232, 232, 232',
   },
   dark: {
-    blue: '82, 152, 255',
+    blue: '56, 137, 255',
     lightBlue: '238, 245, 255',
-    green: '73, 179, 147',
-    indigo: '94, 92, 230',
-    orange: '255, 159, 10',
-    pink: '255, 55, 95',
-    purple: '191, 90, 242',
-    red: '213, 85, 85',
+    green: '25, 156, 117',
+    lightGreen: '231, 244, 239',
+    indigo: '88, 84, 214',
+    orange: '243, 147, 11',
+    pink: '213, 46, 126',
+    purple: '163, 67, 211',
+    red: '198, 48, 27',
     lightRed: '249, 231, 231',
-    teal: '100, 210, 255',
-    yellow: '255, 214, 10',
-    lightYellow: '255, 248, 219',
-    grey: '59, 59, 61',
+    teal: '43, 157, 209',
+    yellow: '233, 185, 17',
+    lightYellow: '255, 245, 205',
+    grey: '232, 232, 232',
   },
 }
 
@@ -55,6 +58,7 @@ export const accents: { [key in Mode]: { [key in Accent]: string } } = {
     blue: `rgb(${accentsRaw.light.blue})`,
     lightBlue: `rgb(${accentsRaw.light.lightBlue})`,
     green: `rgb(${accentsRaw.light.green})`,
+    lightGreen: `rgb(${accentsRaw.light.lightGreen})`,
     indigo: `rgb(${accentsRaw.light.indigo})`,
     orange: `rgb(${accentsRaw.light.orange})`,
     pink: `rgb(${accentsRaw.light.pink})`,
@@ -70,6 +74,7 @@ export const accents: { [key in Mode]: { [key in Accent]: string } } = {
     blue: `rgb(${accentsRaw.dark.blue})`,
     lightBlue: `rgb(${accentsRaw.dark.lightBlue})`,
     green: `rgb(${accentsRaw.dark.green})`,
+    lightGreen: `rgb(${accentsRaw.dark.lightGreen})`,
     indigo: `rgb(${accentsRaw.dark.indigo})`,
     orange: `rgb(${accentsRaw.dark.orange})`,
     pink: `rgb(${accentsRaw.dark.pink})`,
