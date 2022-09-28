@@ -200,7 +200,7 @@ const ButtonElement = styled.button<ButtonElement>(
 
     box-shadow: ${theme.shadows['0.25']} ${theme.colors.grey};
 
-    border-radius: ${theme.radii.extraLarge};
+    border-radius: ${theme.radii.large};
     font-size: ${theme.fontSizes.large};
     padding: ${theme.space['3.5']} ${theme.space['4']};
 
@@ -356,7 +356,7 @@ export const Button = React.forwardRef(
       zIndex,
       onClick,
       pressed = false,
-      shadowless = false,
+      shadowless = true,
       outlined = false,
       fullWidthContent = false,
       as: asProp,
