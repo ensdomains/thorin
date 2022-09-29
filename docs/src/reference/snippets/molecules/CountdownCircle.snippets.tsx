@@ -7,6 +7,6 @@ import { Snippet } from '../../../types'
 export const snippets: Snippet[] = [
   {
     name: 'Basic',
-    code: <CountdownCircle countdownAmount={30} />,
+    code: <CountdownCircle countdownSeconds={30} />,
   },
 ]
