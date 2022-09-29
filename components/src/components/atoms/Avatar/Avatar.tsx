@@ -61,8 +61,8 @@ const Container = styled.div<Container>(
   `,
 )
 
-const Placeholder = styled.div<{ $url?: string }>(
-  ({ theme, $url }) => css`
+const Placeholder = styled.div<{ $url?: string; $disabled: boolean }>(
+  ({ theme, $url, $disabled }) => css`
     background: ${$url || theme.colors.gradients.blue};
 
     display: flex;
@@ -70,11 +70,16 @@ const Placeholder = styled.div<{ $url?: string }>(
     justify-content: center;
     width: 100%;
     height: 100%;
+
+    ${$disabled &&
+    css`
+      filter: grayscale(1);
+    `}
   `,
 )
 
-const Img = styled.img<{ $shown: boolean }>(
-  ({ $shown }) => css`
+const Img = styled.img<{ $shown: boolean; $disabled: boolean }>(
+  ({ $shown, $disabled }) => css`
     height: 100%;
     width: 100%;
     object-fit: cover;
@@ -83,6 +88,11 @@ const Img = styled.img<{ $shown: boolean }>(
     ${$shown &&
     css`
       display: block;
+    `}
+
+    ${$disabled &&
+    css`
+      filter: grayscale(1);
     `}
   `,
 )
@@ -98,6 +108,8 @@ export type Props = {
   shape?: Shape
   /** A placeholder for the image to use when not loaded, in css format (e.g. url("https://example.com")) */
   placeholder?: string
+  /** If true sets the component into disabled format. */
+  disabled?: boolean
 } & Omit<NativeImgAttributes, 'alt' | 'onError' | 'children' | 'onError'>
 
 export const Avatar = ({
@@ -107,6 +119,7 @@ export const Avatar = ({
   src,
   placeholder,
   decoding = 'async',
+  disabled = false,
   ...props
 }: Props) => {
   const ref = React.useRef<HTMLImageElement>(null)
@@ -138,9 +151,16 @@ export const Avatar = ({
 
   return (
     <Container $noBorder={!showImage || noBorder} $shape={shape}>
-      {!showImage && <Placeholder $url={placeholder} aria-label={label} />}
+      {!showImage && (
+        <Placeholder
+          $disabled={disabled}
+          $url={placeholder}
+          aria-label={label}
+        />
+      )}
       <Img
         {...props}
+        $disabled={disabled}
         $shown={showImage}
         alt={label}
         decoding={decoding}
