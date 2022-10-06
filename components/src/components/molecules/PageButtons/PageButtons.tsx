@@ -20,6 +20,11 @@ type Props = {
   onChange: (value: number) => void
 } & Omit<NativeDivProps, 'children' | 'onChange'>
 
+enum Elipsis {
+  left = -1,
+  right = -2,
+}
+
 const Container = styled.div(
   ({ theme }) => css`
     display: flex;
@@ -88,31 +93,31 @@ export const PageButtons = ({
     Math.min(Math.max(current - maxPerSide, 1), total - max + 1),
     1,
   )
-  const array = Array.from({ length: max }, (_, i) => start + i).filter(
+  const pageNumbers = Array.from({ length: max }, (_, i) => start + i).filter(
     (x) => x <= total,
   )
 
   if (total > max) {
     if (alwaysShowFirst && start > 1) {
       if (showElipsis) {
-        array[0] = -1
-        array.unshift(1)
+        pageNumbers[0] = Elipsis.left
+        pageNumbers.unshift(1)
       } else {
-        array[0] = 1
+        pageNumbers[0] = 1
       }
     } else if (showElipsis && start > 1) {
-      array.unshift(-1)
+      pageNumbers.unshift(Elipsis.left)
     }
 
     if (alwaysShowLast && total > current + maxPerSide) {
       if (showElipsis) {
-        array[array.length - 1] = -1 * total
-        array.push(total)
+        pageNumbers[pageNumbers.length - 1] = Elipsis.right
+        pageNumbers.push(total)
       } else {
-        array[array.length - 1] = total
+        pageNumbers[pageNumbers.length - 1] = total
       }
     } else if (showElipsis && total > current + maxPerSide) {
-      array.push(-1 * total)
+      pageNumbers.push(Elipsis.right)
     }
   }
 
@@ -120,8 +125,8 @@ export const PageButtons = ({
     <Container
       {...{ ...props, 'data-testid': getTestId(props, 'pagebuttons') }}
     >
-      {array.map((value) =>
-        0 > value ? (
+      {pageNumbers.map((value) =>
+        value < 0 ? (
           <Dots data-testid="pagebutton-dots" key={value}>
             ...
           </Dots>

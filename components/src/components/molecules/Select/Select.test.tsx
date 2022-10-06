@@ -41,8 +41,8 @@ describe('<Select />', () => {
       </ThemeProvider>,
     )
     userEvent.click(screen.getByTestId('select-container'))
-    userEvent.click(screen.getByText('One'))
-    expect(screen.getByTestId('selected').innerHTML).toEqual('One')
+    userEvent.click(screen.getByTestId('select-option-1'))
+    expect(screen.getByTestId('selected').innerHTML).toContain('One')
   })
 
   it('should call onChange when selection made', async () => {
@@ -64,7 +64,7 @@ describe('<Select />', () => {
       </ThemeProvider>,
     )
     userEvent.click(screen.getByTestId('select-container'))
-    userEvent.click(screen.getByText('One'))
+    userEvent.click(screen.getByTestId('select-option-1'))
     await waitFor(() => {
       expect(mockCallback).toHaveReturnedWith(['1', '1'])
     })
@@ -100,7 +100,7 @@ describe('<Select />', () => {
     )
 
     await waitFor(() => {
-      expect(screen.getByTestId('selected').innerHTML).toEqual('One')
+      expect(screen.getByTestId('selected').innerHTML).toContain('One')
     })
   })
 
@@ -214,7 +214,7 @@ describe('<Select />', () => {
     userEvent.type(input, '{arrowdown}')
     userEvent.type(input, '{arrowdown}')
     userEvent.type(input, '{enter}')
-    expect(screen.getByTestId('selected').innerHTML).toEqual('One')
+    expect(screen.getByTestId('selected').innerHTML).toContain('One')
   })
 
   /** Createable */
@@ -323,7 +323,9 @@ describe('<Select />', () => {
     userEvent.type(screen.getByTestId('select-input'), 'onsies')
     expect(screen.getByTestId('select-input')).toHaveValue('onsies')
 
-    const create = await screen.findByText('Add "onsies"')
+    const create = await screen.findByTestId(
+      'select-option-CREATE_OPTION_VALUE',
+    )
     userEvent.click(create)
 
     await waitFor(() => {

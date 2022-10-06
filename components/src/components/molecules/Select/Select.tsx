@@ -897,6 +897,7 @@ export const Select = React.forwardRef(
                     $gap: innerPadding,
                   }}
                   data-option-index={index}
+                  data-testid={`select-option-${option.value}`}
                   key={option.value}
                   role="option"
                   onClick={handleOptionClick(option)}
