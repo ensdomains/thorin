@@ -27,13 +27,7 @@ const GlobalStyle = createGlobalStyle(
       font-size: ${theme.fontSizes['root']};
       color: ${theme.colors.foreground};
       text-rendering: optimizeLegibility;
-      background: radial-gradient(
-          40.48% 67.6% at 50% 32.4%,
-          #ecf4ff 0%,
-          #f7f7ff 52.77%,
-          #f7f7f7 100%
-        ),
-        #ffffff;
+      background-color: ${theme.colors.background};
     }
 
     body {
