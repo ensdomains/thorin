@@ -103,6 +103,73 @@ import {
 </Card>
 ```
 
+## Align
+
+```tsx live=true expand=true minHeight=350px
+<DeleteMe flexDirection="row" justifyContent="space-between">
+  <div>
+    <Select
+      align="left"
+      label="Label text"
+      options={[
+        { value: '0', label: 'Zero' },
+        { value: '1', label: 'One', prefix: <EthSVG /> },
+        { value: '2', label: 'Two', prefix: <FlagSVG /> },
+        { value: '3', label: 'Three', prefix: <MoonSVG /> },
+        { value: '4', label: 'Four', prefix: <DuplicateSVG />, disabled: true },
+      ]}
+    />
+  </div>
+  <div>
+    <Select
+      align="right"
+      label="Label text"
+      options={[
+        { value: '0', label: 'Zero' },
+        { value: '1', label: 'One', prefix: <EthSVG /> },
+        { value: '2', label: 'Two', prefix: <FlagSVG /> },
+        { value: '3', label: 'Three', prefix: <MoonSVG /> },
+        { value: '4', label: 'Four', prefix: <DuplicateSVG />, disabled: true },
+      ]}
+    />
+  </div>
+</DeleteMe>
+```
+
+## Size
+
+```tsx live=true expand=true minHeight=350px
+<DeleteMe>
+  <Select
+    label="Small"
+    options={[
+      { value: '0', label: 'Zero' },
+      { value: '1', label: 'One', prefix: <EthSVG /> },
+      { value: '2', label: 'Two', prefix: <FlagSVG /> },
+    ]}
+    size="small"
+  />
+  <Select
+    label="Medium"
+    options={[
+      { value: '0', label: 'Zero' },
+      { value: '1', label: 'One', prefix: <EthSVG /> },
+      { value: '2', label: 'Two', prefix: <FlagSVG /> },
+    ]}
+    size="medium"
+  />
+  <Select
+    label="Large"
+    options={[
+      { value: '0', label: 'Zero' },
+      { value: '1', label: 'One', prefix: <EthSVG /> },
+      { value: '2', label: 'Two', prefix: <FlagSVG /> },
+    ]}
+    size="large"
+  />
+</DeleteMe>
+```
+
 ## Disabled
 
 ```tsx live=true expand=true minHeight=350px
