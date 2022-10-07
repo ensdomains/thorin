@@ -16,13 +16,12 @@ type Props = {
   size?: Size
   alwaysShowFirst?: boolean
   alwaysShowLast?: boolean
-  showElipsis?: boolean
+  showEllipsis?: boolean
   onChange: (value: number) => void
 } & Omit<NativeDivProps, 'children' | 'onChange'>
 
-enum Elipsis {
-  left = -1,
-  right = -2,
+enum Marker {
+  ellipsis = -1,
 }
 
 const Container = styled.div(
@@ -84,7 +83,7 @@ export const PageButtons = ({
   size = 'medium',
   alwaysShowFirst,
   alwaysShowLast,
-  showElipsis = true,
+  showEllipsis = true,
   onChange,
   ...props
 }: Props) => {
@@ -99,25 +98,25 @@ export const PageButtons = ({
 
   if (total > max) {
     if (alwaysShowFirst && start > 1) {
-      if (showElipsis) {
-        pageNumbers[0] = Elipsis.left
+      if (showEllipsis) {
+        pageNumbers[0] = Marker.ellipsis
         pageNumbers.unshift(1)
       } else {
         pageNumbers[0] = 1
       }
-    } else if (showElipsis && start > 1) {
-      pageNumbers.unshift(Elipsis.left)
+    } else if (showEllipsis && start > 1) {
+      pageNumbers.unshift(Marker.ellipsis)
     }
 
     if (alwaysShowLast && total > current + maxPerSide) {
-      if (showElipsis) {
-        pageNumbers[pageNumbers.length - 1] = Elipsis.right
+      if (showEllipsis) {
+        pageNumbers[pageNumbers.length - 1] = Marker.ellipsis
         pageNumbers.push(total)
       } else {
         pageNumbers[pageNumbers.length - 1] = total
       }
-    } else if (showElipsis && total > current + maxPerSide) {
-      pageNumbers.push(Elipsis.right)
+    } else if (showEllipsis && total > current + maxPerSide) {
+      pageNumbers.push(Marker.ellipsis)
     }
   }
 
@@ -125,9 +124,10 @@ export const PageButtons = ({
     <Container
       {...{ ...props, 'data-testid': getTestId(props, 'pagebuttons') }}
     >
-      {pageNumbers.map((value) =>
-        value < 0 ? (
-          <Dots data-testid="pagebutton-dots" key={value}>
+      {pageNumbers.map((value, i) =>
+        value === Marker.ellipsis ? (
+          // eslint-disable-next-line react/no-array-index-key
+          <Dots data-testid="pagebutton-dots" key={`${value}-${i}`}>
             ...
           </Dots>
         ) : (
