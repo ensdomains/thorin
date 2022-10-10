@@ -32,8 +32,6 @@ const StyledCard = styled.div(
     background-color: ${theme.colors.background};
     position: relative;
     width: 100%;
-    max-height: 90vh;
-    overflow-y: auto;
     ${mq.sm.min(css`
       width: initial;
     `)}
