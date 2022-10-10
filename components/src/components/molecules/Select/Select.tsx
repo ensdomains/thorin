@@ -15,13 +15,19 @@ import { Space } from '@/src/tokens'
 
 const CREATE_OPTION_VALUE = 'CREATE_OPTION_VALUE'
 
-type Size = 'small' | 'medium'
+type Size = 'small' | 'medium' | 'large'
 
-const SelectContainer = styled.div<{ $disabled?: boolean; $size: Size }>(
-  ({ theme, $disabled, $size }) => css`
-    background: ${theme.colors.background};
-    border-color: ${theme.colors.backgroundHide};
-    border-width: ${theme.space['px']};
+const SelectContainer = styled.div<{
+  $disabled?: boolean
+  $size: Size
+  $showBorder: boolean
+}>(
+  ({ theme, $disabled, $size, $showBorder }) => css`
+    background: ${theme.colors.backgroundSecondary};
+    ${$showBorder &&
+    css`
+      border: 1px solid ${theme.colors.backgroundHide};
+    `};
     cursor: pointer;
     position: relative;
     display: flex;
@@ -30,14 +36,20 @@ const SelectContainer = styled.div<{ $disabled?: boolean; $size: Size }>(
     justify-content: space-between;
     z-index: 10;
     overflow: hidden;
-    ${$size === 'medium'
+    ${$size === 'small'
       ? css`
-          border-radius: ${theme.radii['2xLarge']};
-          height: ${theme.space['14']};
+          border-radius: ${theme.space['2']};
+          height: ${theme.space['9']};
+          font-size: ${theme.space['3.5']};
         `
-      : css`
+      : $size === 'medium'
+      ? css`
           border-radius: ${theme.radii['almostExtraLarge']};
           height: ${theme.space['10']};
+        `
+      : css`
+          border-radius: ${theme.radii['2xLarge']};
+          height: ${theme.space['14']};
         `}
 
     ${$disabled &&
@@ -51,6 +63,12 @@ const SelectContainer = styled.div<{ $disabled?: boolean; $size: Size }>(
 const SelectContentContainer = styled.div(
   () => css`
     flex: 1;
+    overflow: hidden;
+    display: flex;
+
+    svg {
+      display: block;
+    }
   `,
 )
 
@@ -63,6 +81,15 @@ const SelectActionContainer = styled.div(
   `,
 )
 
+const SelectLabel = styled.div(
+  () => css`
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    line-height: 1.4;
+  `,
+)
+
 const OptionElementContainer = styled.div<{ $padding: Space; $gap: Space }>(
   ({ theme, $padding, $gap }) => css`
     align-items: center;
@@ -72,6 +99,7 @@ const OptionElementContainer = styled.div<{ $padding: Space; $gap: Space }>(
     gap: ${theme.space[$gap]};
     padding: ${theme.space[$padding]};
     padding-right: 0;
+    overflow: hidden;
   `,
 )
 
@@ -79,21 +107,25 @@ const NoOptionContainer = styled.div<{ $padding: Space }>(
   ({ theme, $padding }) => css`
     padding: ${theme.space[$padding]};
     padding-right: 0;
-    font-style: italic;
+    color: ${theme.colors.textPlaceholder};
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
   `,
 )
 
 const SelectInput = styled.input<{ $padding: Space }>(
   ({ theme, $padding }) => css`
     padding: ${theme.space[$padding]};
+    background: transparent;
     padding-right: 0;
     width: 100%;
     height: 100%;
   `,
 )
 
-const SelectActionButton = styled.button<{ $padding: Space }>(
-  ({ theme, $padding }) => css`
+const SelectActionButton = styled.button<{ $padding: Space; $size: Size }>(
+  ({ theme, $padding, $size }) => css`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -102,7 +134,7 @@ const SelectActionButton = styled.button<{ $padding: Space }>(
     padding: ${theme.space[$padding]};
     svg {
       display: block;
-      width: 12px;
+      width: ${$size === 'small' ? theme.space['2'] : theme.space['3']};
       path {
         color: ${theme.colors.textSecondary};
       }
@@ -117,7 +149,6 @@ const Chevron = styled(IconDownIndicatorSvg)<{
 }>(
   ({ theme, $open, $disabled, $direction }) => css`
     margin-left: ${theme.space['1']};
-    width: ${theme.space['3']};
     margin-right: ${theme.space['0.5']};
     transition-duration: ${theme.transitionDuration['200']};
     transition-property: all;
@@ -148,8 +179,10 @@ const SelectOptionContainer = styled.div<{
   $state?: TransitionState
   $direction?: Direction
   $rows?: number
+  $size?: Size
+  $align?: 'left' | 'right'
 }>(
-  ({ theme, $state, $direction, $rows }) => css`
+  ({ theme, $state, $direction, $rows, $size, $align }) => css`
     display: ${$state === 'exited' ? 'none' : 'block'};
     position: absolute;
     visibility: hidden;
@@ -159,10 +192,22 @@ const SelectOptionContainer = styled.div<{
     margin-top: ${theme.space['1.5']};
     padding: ${theme.space['1.5']};
     min-width: ${theme.space['full']};
+    ${$align === 'right'
+      ? css`
+          right: 0;
+        `
+      : css`
+          left: 0;
+        `}
     border-radius: ${theme.radii['medium']};
     box-shadow: ${theme.boxShadows['0.02']};
     background: ${theme.colors.background};
     transition: all 0.3s cubic-bezier(1, 0, 0.22, 1.6), z-index 0.3s linear;
+
+    ${$size === 'small' &&
+    css`
+      font-size: ${theme.space['3.5']};
+    `}
 
     ${$state === 'entered'
       ? css`
@@ -292,6 +337,10 @@ const SelectOption = styled.div<{
         background-color: ${theme.colors.transparent};
       }
     `}
+
+    svg {
+      display: block;
+    }
   `,
 )
 
@@ -372,8 +421,6 @@ export type SelectProps = {
   direction?: Direction
   /** The string or component to prefix the value in the create value option. */
   createablePrefix?: string
-  /** The message for when there is no option selected */
-  noSelectionMessage?: string
   /** The handler for change events. */
   onChange?: NativeSelectProps['onChange']
   /** The tabindex attribute for  */
@@ -398,6 +445,10 @@ export type SelectProps = {
   padding?: Space | { outer?: Space; inner?: Space }
   /** The size attribute for input element. Useful for controlling input size in flexboxes. */
   inputSize?: number | { max?: number; min?: number }
+  /** If true, show a border around the select component **/
+  showBorder?: boolean
+  /** If the option list is wider than the select, which  */
+  align?: 'left' | 'right'
 } & FieldBaseProps &
   Omit<
     NativeDivProps,
@@ -442,7 +493,7 @@ export const Select = React.forwardRef(
       autocomplete = false,
       createable = false,
       createablePrefix = 'Add ',
-      noSelectionMessage,
+      placeholder,
       direction = 'down',
       error,
       hideLabel,
@@ -465,6 +516,8 @@ export const Select = React.forwardRef(
       size = 'medium',
       padding: paddingProp,
       inputSize: inputSizeProps,
+      showBorder = false,
+      align,
       ...props
     }: SelectProps,
     ref: React.Ref<HTMLInputElement>,
@@ -615,7 +668,7 @@ export const Select = React.forwardRef(
       if (!menuOpen && state === 'unmounted') handleReset()
     }, [menuOpen, state])
 
-    const defaultPadding = size === 'medium' ? '4' : '2'
+    const defaultPadding = size === 'small' ? '3' : '4'
     const outerPadding = getPadding('outer', defaultPadding, paddingProp)
     const innerPadding = getPadding('inner', defaultPadding, paddingProp)
 
@@ -698,7 +751,9 @@ export const Select = React.forwardRef(
       option ? (
         <React.Fragment>
           {option.prefix && <div>{option.prefix}</div>}
-          {option.node ? option.node : option.label || option.value}
+          <SelectLabel>
+            {option.node ? option.node : option.label || option.value}
+          </SelectLabel>
         </React.Fragment>
       ) : null
 
@@ -729,6 +784,7 @@ export const Select = React.forwardRef(
               onKeyDown: handleKeydown,
             }}
             $disabled={disabled}
+            $showBorder={showBorder}
             $size={size}
             id={`combo-${id}`}
             ref={displayRef}
@@ -763,9 +819,9 @@ export const Select = React.forwardRef(
                 >
                   <OptionElement option={selectedOption} />
                 </OptionElementContainer>
-              ) : noSelectionMessage ? (
+              ) : placeholder ? (
                 <NoOptionContainer $padding={outerPadding}>
-                  {noSelectionMessage}
+                  {placeholder}
                 </NoOptionContainer>
               ) : null}
             </SelectContentContainer>
@@ -773,13 +829,18 @@ export const Select = React.forwardRef(
               {showClearButton ? (
                 <SelectActionButton
                   $padding={outerPadding}
+                  $size={size}
                   type="button"
                   onClick={handleInputClear}
                 >
                   <CloseSVG />
                 </SelectActionButton>
               ) : (
-                <SelectActionButton $padding={outerPadding} type="button">
+                <SelectActionButton
+                  $padding={outerPadding}
+                  $size={size}
+                  type="button"
+                >
                   <Chevron
                     $direction={direction}
                     $disabled={disabled}
@@ -813,8 +874,10 @@ export const Select = React.forwardRef(
             </VisuallyHidden>
           </SelectContainer>
           <SelectOptionContainer
+            $align={align}
             $direction={direction}
             $rows={rows}
+            $size={size}
             $state={state}
             id={`listbox-${id}`}
             role="listbox"
@@ -834,6 +897,7 @@ export const Select = React.forwardRef(
                     $gap: innerPadding,
                   }}
                   data-option-index={index}
+                  data-testid={`select-option-${option.value}`}
                   key={option.value}
                   role="option"
                   onClick={handleOptionClick(option)}

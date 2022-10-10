@@ -28,3 +28,30 @@ import { PageButtons } from '@ensdomains/thorin'
 ## Props
 
 <PropsTable sourceLink={sourceLink} types={types} />
+
+## Size
+
+```tsx live=true
+<DeleteMe>
+  <Field label="Small">
+    <PageButtons
+      alwaysShowFirst
+      alwaysShowLast
+      current={getState('pageButtons') || 1}
+      size="small"
+      total={100}
+      onChange={(value) => setState('pageButtons', value)}
+    />
+  </Field>
+  <Field label="Medium">
+    <PageButtons
+      alwaysShowFirst
+      alwaysShowLast
+      current={getState('pageButtons') || 1}
+      size="medium"
+      total={100}
+      onChange={(value) => setState('pageButtons', value)}
+    />
+  </Field>
+</DeleteMe>
+```
