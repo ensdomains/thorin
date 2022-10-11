@@ -35,6 +35,9 @@ const StyledCard = styled.div(
     ${mq.sm.min(css`
       width: initial;
     `)}
+    ${mq.md.min(css`
+      max-width: 80vw;
+    `)}
   `,
 )
 

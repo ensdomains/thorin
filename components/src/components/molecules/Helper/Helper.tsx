@@ -27,6 +27,7 @@ const Container = styled.div<{ $type: HelperType; $alignment: Alignment }>(
     border-radius: ${theme.radii.large};
 
     text-align: center;
+    overflow-x: auto;
 
     ${$alignment === 'horizontal' &&
     css`
