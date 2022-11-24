@@ -51,6 +51,8 @@ type BaseProps = {
   fullWidthContent?: boolean
   /** The handler for click events. */
   onClick?: NativeButtonProps['onClick']
+  /** The handler for click events. */
+  psuedoDisabled?: boolean
 } & Omit<NativeButtonProps, 'prefix' | 'size'>
 
 type WithTone = {
@@ -147,6 +149,7 @@ const ButtonElement = styled.button<ButtonElement>(
     $variant,
     $tone,
     $shape,
+    $psuedoDisabled,
   }) => css`
     align-items: center;
     cursor: pointer;
@@ -309,6 +312,21 @@ const ButtonElement = styled.button<ButtonElement>(
       transform: translateY(0px);
       filter: brightness(1);
     }
+
+    ${$psuedoDisabled &&
+    `
+      background-color: ${theme.colors.grey};
+      ${
+        $variant !== 'transparent' &&
+        css`
+          color: ${theme.colors.background};
+        `
+      }
+      transform: translateY(0px);
+      filter: brightness(1);
+      pointer-events: none;
+      color: ${theme.colors.grey};
+    `}
   `,
 )
 
@@ -360,6 +378,7 @@ export const Button = React.forwardRef(
       outlined = false,
       fullWidthContent = false,
       as: asProp,
+      psuedoDisabled,
       ...props
     }: Props,
     ref: React.Ref<HTMLButtonElement>,
@@ -390,6 +409,8 @@ export const Button = React.forwardRef(
       )
     }
 
+    console.log('psuedoDisabled: ', psuedoDisabled)
+
     return (
       <ButtonElement
         {...props}
@@ -402,6 +423,7 @@ export const Button = React.forwardRef(
         $size={size}
         $tone={tone}
         $variant={variant}
+        $psuedoDisabled={psuedoDisabled}
         as={asProp as any}
         disabled={disabled}
         href={href}

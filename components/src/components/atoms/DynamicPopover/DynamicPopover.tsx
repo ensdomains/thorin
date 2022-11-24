@@ -1,8 +1,8 @@
 import * as React from 'react'
-
 import styled, { css } from 'styled-components'
-
 import { useDocumentEvent } from '../../../hooks/useDocumentEvent'
+import useHover from 'react-use/lib/useHover'
+import ReactDOM from 'react-dom'
 
 export type DynamicPopoverSide = 'top' | 'right' | 'bottom' | 'left'
 
@@ -215,9 +215,10 @@ const defaultAnimationFunc: DynamicPopoverAnimationFunc = (
 }
 
 const Container = styled.div(
-  () => css`
+  ({ disabled }) => css`
     position: relative;
     display: inline-block;
+    cursor: ${disabled ? 'initial' : 'auto'};
   `,
 )
 
@@ -235,13 +236,38 @@ const PopoverContainer = styled.div<DynamicPopoverPopoverProps>(
     css`
       ${$injectedCSS}
     `}
+
+    &:before {
+      content: '';
+      position: absolute;
+      left: -17px;
+      margin-top: -2px;
+      vertical-align: middle;
+      width: 0;
+      height: 0;
+      border: 10px solid transparent;
+      border-right-color: white;
+    }
   `,
 )
+
+const DummyPopover = styled.div(
+  ({ top, left }) => css`
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background: red;
+    top: ${top}px;
+    left: ${left}px;
+  `,
+)
+
+const detectOutofBounds = () => {}
 
 export const DynamicPopover = ({
   popover,
   children,
-  placement = 'top-center',
+  placement = 'top',
   offset = 10,
   padding = 20,
   flip = true,
@@ -249,83 +275,188 @@ export const DynamicPopover = ({
   animationFn: _animationFn,
   disabled = false,
   open = false,
+  tooltipRef,
+  targetId,
   onDismiss,
 }: DynamicPopoverProps) => {
-  const animationFn = React.useMemo(() => {
-    if (_animationFn) {
+  const element = (isHovering: boolean) => {
+    const animationFn = React.useMemo(() => {
+      if (_animationFn) {
+        return (side: DynamicPopoverSide, open: boolean) =>
+          _animationFn(side, open)
+      }
       return (side: DynamicPopoverSide, open: boolean) =>
-        _animationFn(side, open)
-    }
-    return (side: DynamicPopoverSide, open: boolean) =>
-      defaultAnimationFunc(side, open)
-  }, [_animationFn])
+        defaultAnimationFunc(side, open)
+    }, [_animationFn])
 
-  const [popoverProps, setPopoverProps] =
-    React.useState<DynamicPopoverPopoverProps>({
-      $x: 0,
-      $y: 0,
-      $side: undefined,
-      $open: open,
-      $injectedCSS: '',
-    })
+    const [popoverProps, setPopoverProps] =
+      React.useState<DynamicPopoverPopoverProps>({
+        $x: 0,
+        $y: 0,
+        $side: undefined,
+        $open: open,
+        $injectedCSS: '',
+      })
 
-  const containerRef = React.useRef<HTMLDivElement | null>(null)
-  const floatingRef = React.useRef<HTMLDivElement | null>(null)
+    const containerRef = React.useRef<HTMLDivElement | null>(null)
+    const floatingRef = React.useRef<HTMLDivElement | null>(null)
 
-  const computePopoverProps = React.useCallback(
-    (container, floating) => {
-      const fRect = floating.getBoundingClientRect()
-      const rRect = container.getBoundingClientRect()
-      return computeCoordsFromPlacement(
-        rRect,
-        fRect,
-        placement,
-        padding,
-        offset,
-        flip,
-        shift,
-      )
-    },
-    [placement, padding, offset, flip, shift],
-  )
+    const computePopoverProps = React.useCallback(
+      (container, floating) => {
+        const fRect = floating.getBoundingClientRect()
+        const rRect = container.getBoundingClientRect()
+        return computeCoordsFromPlacement(
+          rRect,
+          fRect,
+          placement,
+          padding,
+          offset,
+          flip,
+          shift,
+        )
+      },
+      [placement, padding, offset, flip, shift],
+    )
+
+    React.useEffect(() => {
+      if (
+        containerRef.current &&
+        floatingRef.current &&
+        animationFn &&
+        computePopoverProps
+      ) {
+        // const isOpen = !!open && !disabled
+        // const isOpen = isHovering
+        const isOpen = true
+        const { x, y, side } = computePopoverProps(
+          containerRef.current,
+          floatingRef.current,
+        )
+        const injectedCss = animationFn(side, isOpen)
+        setPopoverProps({
+          $x: x,
+          $y: y,
+          $side: side,
+          $open: open,
+          $injectedCSS: injectedCss,
+        })
+      }
+    }, [
+      open,
+      disabled,
+      setPopoverProps,
+      computePopoverProps,
+      animationFn,
+      isHovering,
+    ])
+
+    // Handle clicks outside of the container
+    // useDocumentEvent(
+    //   containerRef,
+    //   'click',
+    //   () => onDismiss && onDismiss(),
+    //   open,
+    // )
+
+    return (
+      <Container
+        data-testid="dynamicpopover"
+        ref={containerRef}
+        disabled={disabled}
+      >
+        {children}
+        <PopoverContainer
+          data-testid="dynamicpopover-popover"
+          {...popoverProps}
+          ref={floatingRef}
+        >
+          {popover}
+        </PopoverContainer>
+      </Container>
+    )
+  }
+  const [newReactElement, isHovering] = useHover(element)
+
+  const [positionState, setPositionState] = React.useState({
+    top: 100,
+    left: 100,
+  })
 
   React.useEffect(() => {
-    if (
-      containerRef.current &&
-      floatingRef.current &&
-      animationFn &&
-      computePopoverProps
-    ) {
-      const isOpen = !!open && !disabled
-      const { x, y, side } = computePopoverProps(
-        containerRef.current,
-        floatingRef.current,
-      )
-      const injectedCss = animationFn(side, isOpen)
-      setPopoverProps({
-        $x: x,
-        $y: y,
-        $side: side,
-        $open: open,
-        $injectedCSS: injectedCss,
-      })
+    const targetElement = document.getElementById(targetId)
+    const targetRect = targetElement?.getBoundingClientRect()
+    const tooltipElement = tooltipRef.current
+    const tooltipRect = tooltipElement?.getBoundingClientRect()
+
+    console.log('targetRect: ', targetRect)
+    console.log('tooltipRect: ', tooltipRect)
+
+    addEventListener('mouseover', (event) => {
+      console.log('mouseover')
+    })
+
+    if (targetRect) {
+      if (placement === 'top') {
+        const top = targetRect?.top - tooltipRect?.height - 10
+        const left =
+          targetRect?.left + targetRect?.width / 2 - tooltipRect?.width / 2
+
+        setPositionState({
+          top,
+          left,
+        })
+        return
+      }
+      if (placement === 'bottom') {
+        const top = targetRect?.bottom + 10
+        const left =
+          targetRect?.left + targetRect?.width / 2 - tooltipRect?.width / 2
+
+        setPositionState({
+          top,
+          left,
+        })
+        return
+      }
+      if (placement === 'left') {
+        const top =
+          targetRect?.top + targetRect?.height / 2 - tooltipRect?.height / 2
+        const left = targetRect?.left - tooltipRect?.width - 10
+
+        setPositionState({
+          top,
+          left,
+        })
+        return
+      }
+      if (placement === 'right') {
+        const top =
+          targetRect?.top + targetRect?.height / 2 - tooltipRect?.height / 2
+        const left = targetRect?.right + 10
+
+        setPositionState({
+          top,
+          left,
+        })
+        return
+      }
     }
-  }, [open, disabled, setPopoverProps, computePopoverProps, animationFn])
 
-  // Handle clicks outside of the container
-  useDocumentEvent(containerRef, 'click', () => onDismiss && onDismiss(), open)
+    // console.log('position: ', children.getBoundingClientReact())
+  }, [children, targetId])
 
-  return (
-    <Container data-testid="dynamicpopover" ref={containerRef}>
-      {children}
-      <PopoverContainer
-        data-testid="dynamicpopover-popover"
-        {...popoverProps}
-        ref={floatingRef}
-      >
-        {popover}
-      </PopoverContainer>
-    </Container>
+  const injectedCss = defaultAnimationFunc('left', true)
+
+  return ReactDOM.createPortal(
+    <PopoverContainer
+      id="popoverContainer"
+      $x={positionState.left}
+      $y={positionState.top}
+      $injectedCSS={injectedCss}
+    >
+      {popover}
+    </PopoverContainer>,
+    document?.body,
   )
 }
 

@@ -36,7 +36,8 @@
   "dependencies": {
     "clsx": "^1.1.1",
     "focus-visible": "^5.2.0",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "react-use": "^17.4.0"
   },
   "devDependencies": {
     "@honkhonk/vite-plugin-svgr": "^1.1.0",
