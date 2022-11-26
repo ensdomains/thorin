@@ -1,3 +1,4 @@
+import { mq } from '@/src/utils/responsiveHelpers'
 import * as React from 'react'
 import styled, { DefaultTheme, css } from 'styled-components'
 
@@ -322,10 +323,20 @@ const ButtonElement = styled.button<ButtonElement>(
           color: ${theme.colors.background};
         `
       }
-      transform: translateY(0px);
-      filter: brightness(1);
-      pointer-events: none;
       color: ${theme.colors.grey};
+
+      &:hover {
+        transform: translateY(0px);
+        filter: brightness(1);
+        background-color: ${theme.colors.grey};
+        cursor: initial
+      }
+
+      ${mq.md.min(css`
+        &:active {
+          pointer-events: none;
+        }
+      `)}
     `}
   `,
 )
@@ -434,7 +445,14 @@ export const Button = React.forwardRef(
         target={target}
         type={type}
         zIndex={zIndex}
-        onClick={onClick}
+        onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+          if (psuedoDisabled) {
+            e.preventDefault()
+            e.stopPropagation()
+            return
+          }
+          onClick?.(e)
+        }}
       >
         {childContent}
       </ButtonElement>

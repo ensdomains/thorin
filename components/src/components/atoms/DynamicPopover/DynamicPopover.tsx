@@ -230,39 +230,15 @@ const PopoverContainer = styled.div<DynamicPopoverPopoverProps>(
     visibility: hidden;
     opacity: 0;
     transition: all 0.35s cubic-bezier(1, 0, 0.22, 1.6);
+    pointer-events: none;
     left: ${$x}px;
     top: ${$y}px;
     ${$injectedCSS &&
     css`
       ${$injectedCSS}
     `}
-
-    &:before {
-      content: '';
-      position: absolute;
-      left: -17px;
-      margin-top: -2px;
-      vertical-align: middle;
-      width: 0;
-      height: 0;
-      border: 10px solid transparent;
-      border-right-color: white;
-    }
   `,
 )
-
-const DummyPopover = styled.div(
-  ({ top, left }) => css`
-    position: absolute;
-    width: 50px;
-    height: 50px;
-    background: red;
-    top: ${top}px;
-    left: ${left}px;
-  `,
-)
-
-const detectOutofBounds = () => {}
 
 export const DynamicPopover = ({
   popover,
@@ -382,18 +358,15 @@ export const DynamicPopover = ({
     left: 100,
   })
 
-  React.useEffect(() => {
+  const [isOpen, setIsOpen] = React.useState(false)
+
+  const handleMouseenter = React.useCallback(() => {
     const targetElement = document.getElementById(targetId)
     const targetRect = targetElement?.getBoundingClientRect()
     const tooltipElement = tooltipRef.current
     const tooltipRect = tooltipElement?.getBoundingClientRect()
-
-    console.log('targetRect: ', targetRect)
+    console.log('tragetRect: ', targetRect)
     console.log('tooltipRect: ', tooltipRect)
-
-    addEventListener('mouseover', (event) => {
-      console.log('mouseover')
-    })
 
     if (targetRect) {
       if (placement === 'top') {
@@ -402,9 +375,10 @@ export const DynamicPopover = ({
           targetRect?.left + targetRect?.width / 2 - tooltipRect?.width / 2
 
         setPositionState({
-          top,
+          top: top + window.scrollY,
           left,
         })
+        setIsOpen(true)
         return
       }
       if (placement === 'bottom') {
@@ -413,9 +387,10 @@ export const DynamicPopover = ({
           targetRect?.left + targetRect?.width / 2 - tooltipRect?.width / 2
 
         setPositionState({
-          top,
+          top: top + window.scrollY,
           left,
         })
+        setIsOpen(true)
         return
       }
       if (placement === 'left') {
@@ -424,9 +399,10 @@ export const DynamicPopover = ({
         const left = targetRect?.left - tooltipRect?.width - 10
 
         setPositionState({
-          top,
+          top: top + window.scrollY,
           left,
         })
+        setIsOpen(true)
         return
       }
       if (placement === 'right') {
@@ -435,17 +411,30 @@ export const DynamicPopover = ({
         const left = targetRect?.right + 10
 
         setPositionState({
-          top,
+          top: top + window.scrollY,
           left,
         })
+        setIsOpen(true)
         return
       }
     }
+  }, [targetId])
 
-    // console.log('position: ', children.getBoundingClientReact())
-  }, [children, targetId])
+  React.useEffect(() => {
+    const targetElement = document.getElementById(targetId)
+    const handleMouseleave = (event) => {
+      setIsOpen(false)
+    }
+    targetElement?.addEventListener('mouseenter', handleMouseenter)
+    targetElement?.addEventListener('mouseleave', handleMouseleave)
 
-  const injectedCss = defaultAnimationFunc('left', true)
+    return () => {
+      targetElement?.removeEventListener('mouseover', handleMouseenter)
+      targetElement?.removeEventListener('mouseleave', handleMouseleave)
+    }
+  }, [])
+
+  const injectedCss = defaultAnimationFunc(placement, isOpen)
 
   return ReactDOM.createPortal(
     <PopoverContainer
