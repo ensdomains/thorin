@@ -1,7 +1,5 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
-import { useDocumentEvent } from '../../../hooks/useDocumentEvent'
-import useHover from 'react-use/lib/useHover'
 import ReactDOM from 'react-dom'
 
 export type DynamicPopoverSide = 'top' | 'right' | 'bottom' | 'left'
@@ -193,41 +191,38 @@ export const computeCoordsFromPlacement = (
  * @desc default function for computing the animation keyframes based on the side
  */
 const defaultAnimationFunc: DynamicPopoverAnimationFunc = (
+  horizontalClearance,
+  verticalClearance,
   side: string,
   open = false,
 ) => {
   let translate = ''
-  if (side === 'top') translate = `translate(0, 3em)`
-  else if (side === 'right') translate = `translate(-3em, 0)`
-  else if (side === 'bottom') translate = `translate(0, -3em)`
-  else translate = `translate(3em, 0);`
-  if (open)
+  if (side === 'top')
+    translate = `translate(0, -${verticalClearance - window.scrollY}px)`
+  else if (side === 'right')
+    translate = `translate(${horizontalClearance * -1 + 10}px, 0)`
+  else if (side === 'bottom')
+    translate = `translate(0, ${verticalClearance + window.scrollY}px)`
+  else translate = `translate(${horizontalClearance - 10}px, 0);`
+  if (open) {
     return `
-      transform: translate(0, 0);
+      transform: ${translate};
       opacity: 1;
       visibility: visible;
-    `
+   `
+  }
   return `
-    transform: ${translate};
+    transform: translate(0, 0);
     opacity: 0;
     visibility: hidden;
   `
 }
-
-const Container = styled.div(
-  ({ disabled }) => css`
-    position: relative;
-    display: inline-block;
-    cursor: ${disabled ? 'initial' : 'auto'};
-  `,
-)
 
 const PopoverContainer = styled.div<DynamicPopoverPopoverProps>(
   ({ $injectedCSS, $x, $y }) => css`
     position: absolute;
     box-sizing: border-box;
     z-index: 20;
-    visibility: hidden;
     opacity: 0;
     transition: all 0.35s cubic-bezier(1, 0, 0.22, 1.6);
     pointer-events: none;
@@ -242,186 +237,62 @@ const PopoverContainer = styled.div<DynamicPopoverPopoverProps>(
 
 export const DynamicPopover = ({
   popover,
-  children,
   placement = 'top',
-  offset = 10,
-  padding = 20,
-  flip = true,
-  shift = true,
   animationFn: _animationFn,
-  disabled = false,
-  open = false,
   tooltipRef,
   targetId,
-  onDismiss,
 }: DynamicPopoverProps) => {
-  const element = (isHovering: boolean) => {
-    const animationFn = React.useMemo(() => {
-      if (_animationFn) {
-        return (side: DynamicPopoverSide, open: boolean) =>
-          _animationFn(side, open)
-      }
-      return (side: DynamicPopoverSide, open: boolean) =>
-        defaultAnimationFunc(side, open)
-    }, [_animationFn])
-
-    const [popoverProps, setPopoverProps] =
-      React.useState<DynamicPopoverPopoverProps>({
-        $x: 0,
-        $y: 0,
-        $side: undefined,
-        $open: open,
-        $injectedCSS: '',
-      })
-
-    const containerRef = React.useRef<HTMLDivElement | null>(null)
-    const floatingRef = React.useRef<HTMLDivElement | null>(null)
-
-    const computePopoverProps = React.useCallback(
-      (container, floating) => {
-        const fRect = floating.getBoundingClientRect()
-        const rRect = container.getBoundingClientRect()
-        return computeCoordsFromPlacement(
-          rRect,
-          fRect,
-          placement,
-          padding,
-          offset,
-          flip,
-          shift,
-        )
-      },
-      [placement, padding, offset, flip, shift],
-    )
-
-    React.useEffect(() => {
-      if (
-        containerRef.current &&
-        floatingRef.current &&
-        animationFn &&
-        computePopoverProps
-      ) {
-        // const isOpen = !!open && !disabled
-        // const isOpen = isHovering
-        const isOpen = true
-        const { x, y, side } = computePopoverProps(
-          containerRef.current,
-          floatingRef.current,
-        )
-        const injectedCss = animationFn(side, isOpen)
-        setPopoverProps({
-          $x: x,
-          $y: y,
-          $side: side,
-          $open: open,
-          $injectedCSS: injectedCss,
-        })
-      }
-    }, [
-      open,
-      disabled,
-      setPopoverProps,
-      computePopoverProps,
-      animationFn,
-      isHovering,
-    ])
-
-    // Handle clicks outside of the container
-    // useDocumentEvent(
-    //   containerRef,
-    //   'click',
-    //   () => onDismiss && onDismiss(),
-    //   open,
-    // )
-
-    return (
-      <Container
-        data-testid="dynamicpopover"
-        ref={containerRef}
-        disabled={disabled}
-      >
-        {children}
-        <PopoverContainer
-          data-testid="dynamicpopover-popover"
-          {...popoverProps}
-          ref={floatingRef}
-        >
-          {popover}
-        </PopoverContainer>
-      </Container>
-    )
-  }
-  const [newReactElement, isHovering] = useHover(element)
-
   const [positionState, setPositionState] = React.useState({
     top: 100,
     left: 100,
+    horizontalClearance: 100,
+    verticalClearance: 100,
   })
 
-  const [isOpen, setIsOpen] = React.useState(false)
+  const animationFn = React.useMemo(() => {
+    if (_animationFn) {
+      return (
+        horizontalClearance,
+        verticalClearance,
+        side: DynamicPopoverSide,
+        open: boolean,
+      ) => _animationFn(horizontalClearance, verticalClearance, side, open)
+    }
+    return (
+      horizontalClearance,
+      verticalClearance,
+      side: DynamicPopoverSide,
+      open: boolean,
+    ) =>
+      defaultAnimationFunc(horizontalClearance, verticalClearance, side, open)
+  }, [_animationFn])
+
+  const [isOpen, setIsOpen] = React.useState(true)
 
   const handleMouseenter = React.useCallback(() => {
     const targetElement = document.getElementById(targetId)
     const targetRect = targetElement?.getBoundingClientRect()
     const tooltipElement = tooltipRef.current
     const tooltipRect = tooltipElement?.getBoundingClientRect()
-    console.log('tragetRect: ', targetRect)
-    console.log('tooltipRect: ', tooltipRect)
 
-    if (targetRect) {
-      if (placement === 'top') {
-        const top = targetRect?.top - tooltipRect?.height - 10
-        const left =
-          targetRect?.left + targetRect?.width / 2 - tooltipRect?.width / 2
+    if (targetRect && tooltipRect) {
+      const top =
+        window.scrollY +
+        targetRect.y +
+        targetRect.height / 2 -
+        tooltipRect.height / 2
+      const left = targetRect.x + targetRect.width / 2 - tooltipRect.width / 2
+      const horizontalClearance = -tooltipRect.width + (targetRect.left - left)
+      const verticalClearance = tooltipRect.height
 
-        setPositionState({
-          top: top + window.scrollY,
-          left,
-        })
-        setIsOpen(true)
-        return
-      }
-      if (placement === 'bottom') {
-        const top = targetRect?.bottom + 10
-        const left =
-          targetRect?.left + targetRect?.width / 2 - tooltipRect?.width / 2
-
-        setPositionState({
-          top: top + window.scrollY,
-          left,
-        })
-        setIsOpen(true)
-        return
-      }
-      if (placement === 'left') {
-        const top =
-          targetRect?.top + targetRect?.height / 2 - tooltipRect?.height / 2
-        const left = targetRect?.left - tooltipRect?.width - 10
-
-        setPositionState({
-          top: top + window.scrollY,
-          left,
-        })
-        setIsOpen(true)
-        return
-      }
-      if (placement === 'right') {
-        const top =
-          targetRect?.top + targetRect?.height / 2 - tooltipRect?.height / 2
-        const left = targetRect?.right + 10
-
-        setPositionState({
-          top: top + window.scrollY,
-          left,
-        })
-        setIsOpen(true)
-        return
-      }
+      setPositionState({ top, left, horizontalClearance, verticalClearance })
+      setIsOpen(true)
     }
   }, [targetId])
 
   React.useEffect(() => {
     const targetElement = document.getElementById(targetId)
+
     const handleMouseleave = (event) => {
       setIsOpen(false)
     }
@@ -434,7 +305,12 @@ export const DynamicPopover = ({
     }
   }, [])
 
-  const injectedCss = defaultAnimationFunc(placement, isOpen)
+  const injectedCss = animationFn(
+    positionState.horizontalClearance,
+    positionState.verticalClearance,
+    placement,
+    isOpen,
+  )
 
   return ReactDOM.createPortal(
     <PopoverContainer
