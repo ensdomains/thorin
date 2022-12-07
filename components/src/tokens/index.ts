@@ -1,6 +1,6 @@
 import { borderStyles, borderWidths, radii } from './border'
 import { shadows } from './shadows'
-import { accentsRaw, colors, shades, shadesRaw } from './color'
+import { colors } from './color'
 import { opacity } from './opacity'
 import { space } from './space'
 import {
@@ -40,18 +40,18 @@ export const breakpoints = {
 
 const boxShadows = {
   light: {
-    '0': `${shadows['0']} ${colors.light.foregroundSecondary}`,
-    '0.02': `${shadows['0.02']} ${colors.light.foregroundSecondary}`,
-    '0.25': `${shadows['0.25']} ${colors.light.foregroundSecondary}`,
-    '0.5': `${shadows['0.5']} ${colors.light.foregroundSecondary}`,
-    '1': `${shadows['1']} ${colors.light.foregroundSecondary}`,
+    '0': `${shadows['0']} ${colors.light.background.secondary}`,
+    '0.02': `${shadows['0.02']} ${colors.light.background.secondary}`,
+    '0.25': `${shadows['0.25']} ${colors.light.background.secondary}`,
+    '0.5': `${shadows['0.5']} ${colors.light.background.secondary}`,
+    '1': `${shadows['1']} ${colors.light.background.secondary}`,
   },
   dark: {
-    '0': `${shadows['0']} ${colors.dark.foregroundSecondary}`,
-    '0.02': `${shadows['0.02']} ${colors.dark.foregroundSecondary}`,
-    '0.25': `${shadows['0.25']} ${colors.dark.foregroundSecondary}`,
-    '0.5': `${shadows['0.5']} ${colors.dark.foregroundSecondary}`,
-    '1': `${shadows['1']} ${colors.dark.foregroundSecondary}`,
+    '0': `${shadows['0']} ${colors.dark.background.secondary}`,
+    '0.02': `${shadows['0.02']} ${colors.dark.background.secondary}`,
+    '0.25': `${shadows['0.25']} ${colors.dark.background.secondary}`,
+    '0.5': `${shadows['0.5']} ${colors.dark.background.secondary}`,
+    '1': `${shadows['1']} ${colors.dark.background.secondary}`,
   },
 }
 
@@ -66,21 +66,17 @@ export const tokens = {
   lineHeights,
   opacity,
   radii,
-  shades,
   shadows,
   space,
   breakpoints,
   transitionDuration,
   transitionTimingFunction,
   boxShadows,
-  accentsRaw,
-  shadesRaw,
 }
 
 export const baseTheme = {
   borderStyles,
   borderWidths,
-  colors: colors.base,
   fonts,
   fontSizes,
   fontWeights,
@@ -97,31 +93,19 @@ export const baseTheme = {
 
 export const lightTheme = {
   ...baseTheme,
-  colors: {
-    ...baseTheme.colors,
-    ...tokens.colors.light,
-  },
-  shades: tokens.shades.light,
+  colors: tokens.colors.light,
   boxShadows: tokens.boxShadows.light,
-  accentsRaw: tokens.accentsRaw.light,
-  shadesRaw: tokens.shadesRaw.light,
   mode: 'light',
 }
 
 export const darkTheme = {
-  ...tokens,
-  colors: {
-    ...baseTheme.colors,
-    ...tokens.colors.dark,
-  },
-  shades: tokens.shades.dark,
+  ...baseTheme,
+  colors: tokens.colors.dark,
   boxShadows: tokens.boxShadows.dark,
-  accentsRaw: tokens.accentsRaw.dark,
-  shadesRaw: tokens.shadesRaw.dark,
   mode: 'dark',
 }
 
-export type { Accent, Mode } from './color'
+export type { Hue, Mode } from './color'
 export type Tokens = typeof lightTheme
 export type Breakpoints = keyof typeof breakpoints
 export type Space = keyof typeof space
