@@ -1,37 +1,17 @@
+/**
+ * Color Variables
+ *
+ * All the following variables are used to generate color tokens.
+ * Changes made to these variables will be reflected throughout the library.
+ */
+
+// The Mode type contains all possible theme modes.
 export type Mode = 'light' | 'dark'
-
-export type Hue =
-  | 'blue'
-  | 'indigo'
-  | 'purple'
-  | 'pink'
-  | 'red'
-  | 'orange'
-  | 'yellow'
-  | 'green'
-  | 'teal'
-  | 'grey'
-
-export type Category = 'background' | 'text' | 'border' | 'accent'
 
 const shades = [50, 300, 400, 500, 750] as const
 
-export type Shade = typeof shades[number]
-
-export type Gradient = 'blue' | 'green' | 'red'
-
-export type HSLColor = [hue: number, saturation: number, lightness: number]
-
-type HueItem = [
-  ...hsl: HSLColor,
-  overrides?: {
-    [key in Shade]?: HSLColor
-  },
-]
-
-export const hues: {
-  [key in Hue]: HueItem
-} = {
+// The hues object is a map of HSL colours, with optional overrides for each shade.
+const hues = {
   blue: [216, 100, 61, { 50: [215, 100, 97] }],
   indigo: [242, 61, 58],
   purple: [280, 62, 55],
@@ -47,7 +27,94 @@ export const hues: {
     63,
     { 50: [0, 0, 96], 300: [0, 0, 91], 500: [0, 0, 35], 750: [0, 0, 15] },
   ],
+} satisfies Record<string, HueItem>
+
+// The categories object is a map of categorised colours, which can each have their own custom values.
+const categories = {
+  background: {
+    hue: 'grey',
+    items: {
+      primary: {
+        light: '0,0,100',
+        dark: '0,0,8',
+      },
+      secondary: 50,
+    },
+  },
+  text: {
+    hue: 'grey',
+    items: {
+      primary: 750,
+      secondary: 400,
+    },
+  },
+  border: {
+    hue: 'grey',
+    item: 300,
+  },
+} satisfies Record<string, CategoryItem>
+
+const gradients = {
+  blue: 'linear-gradient(330.4deg, #44BCF0 4.54%, #7298F8 59.2%, #A099FF 148.85%)',
+  green:
+    'linear-gradient(90deg, rgba(68,240,127,1) 4.54%, rgba(114,248,176,1) 59.2%, rgba(153,202,255,1) 148.85%)',
+  red: 'linear-gradient(90deg, rgba(240,68,87,1) 4.54%, rgba(248,114,149,1) 59.2%, rgba(212,153,255,1) 148.85%)',
 }
+
+/**
+ * END COLOR VARIABLES
+ */
+
+export type Shade = typeof shades[number]
+export type Hue = keyof typeof hues
+export type Category = keyof Categories | 'accent'
+export type Gradient = keyof typeof gradients
+
+type HSLColor = [hue: number, saturation: number, lightness: number]
+
+type HueItem = [
+  ...hsl: HSLColor,
+  overrides?: {
+    [key in Shade]?: HSLColor
+  },
+]
+
+type Categories = typeof categories
+
+type GeneratedCategories = {
+  [item in keyof Categories]: Categories[item] extends { items: any }
+    ? {
+        normal: {
+          [key in keyof Categories[item]['items']]: string
+        }
+        raw: {
+          [key in keyof Categories[item]['items']]: string
+        }
+      }
+    : {
+        normal: string
+        raw: string
+      }
+}
+
+type InnerCategoryItem =
+  | {
+      [key in Mode]: string
+    }
+  | Shade
+
+type CategoryItem = {
+  hue: Hue
+} & (
+  | {
+      items: {
+        [key: string]: InnerCategoryItem
+      }
+    }
+  | {
+      item: InnerCategoryItem
+    }
+)
 
 type ShadeColor = { [key in Shade]: string }
 type NameColor = {
@@ -108,63 +175,33 @@ const makeMode = (accent: Hue, mode: Mode) => {
   const calculatedColors = Object.fromEntries(
     Object.entries(hues).map(([key, value]) => [key, makeColor(mode, value)]),
   )
-  const background = `0,0,${mode === 'light' ? 100 : 8}`
 
-  const makeNamedColor = <
-    T extends (
-      | [name: string, shade: Shade]
-      | [name: string, shade: undefined, raw: string]
-    )[],
-    L extends boolean,
-  >(
-    hue: Hue,
-    namedItems: T,
-    lift: L,
-  ): L extends true
-    ? { normal: string; raw: string }
-    : {
-        normal: { [key in T[number][0]]: string }
-        raw: { [key in T[number][0]]: string }
-      } => {
-    const rawEntries = namedItems.map(([name, shade, raw]) => [
-      name,
-      shade ? calculatedColors[hue].raw[shade] : raw,
-    ])
-    const normalEntries = rawEntries.map(([name, raw]) => [name, `hsl(${raw})`])
+  const generatedCategoryColors = Object.fromEntries(
+    Object.entries(categories).map(([category, value]) => {
+      const hue = calculatedColors[value.hue]
 
-    if (lift) {
-      const lifted = {
-        normal: normalEntries[0][1] as string,
-        raw: rawEntries[0][1] as string,
+      if ('item' in value) {
+        const item = value.item
+        return [category, { normal: hue.normal[item], raw: hue.raw[item] }]
       }
-      return lifted as L extends true ? typeof lifted : never
-    }
 
-    return {
-      normal: Object.fromEntries(normalEntries),
-      raw: Object.fromEntries(rawEntries),
-    }
-  }
+      const items = Object.fromEntries(
+        Object.entries(value.items).map(([name, shade]) => {
+          if (typeof shade === 'number') {
+            return [name, hue.normal[shade as Shade]]
+          }
+
+          return [name, shade[mode]]
+        }),
+      )
+
+      return [category, items]
+    }),
+  ) as GeneratedCategories
 
   const categoryColors = {
+    ...generatedCategoryColors,
     accent: calculatedColors[accent],
-    border: makeNamedColor('grey', [['primary' as const, 300]], true),
-    text: makeNamedColor(
-      'grey',
-      [
-        ['primary' as const, 750],
-        ['secondary' as const, 400],
-      ],
-      false,
-    ),
-    background: makeNamedColor(
-      'grey',
-      [
-        ['primary' as const, undefined, background],
-        ['secondary' as const, 50],
-      ],
-      false,
-    ),
   }
 
   const splitColors = {
@@ -173,6 +210,7 @@ const makeMode = (accent: Hue, mode: Mode) => {
   }
 
   type CategoryColorObject = typeof categoryColors
+
   type CategoryColors = {
     [key in keyof CategoryColorObject]: CategoryColorObject[key]['normal']
   }
@@ -182,12 +220,7 @@ const makeMode = (accent: Hue, mode: Mode) => {
     ...(Object.fromEntries(
       Object.entries(splitColors).map(([key, value]) => [key, value.normal]),
     ) as unknown as AllColors),
-    gradients: {
-      blue: 'linear-gradient(330.4deg, #44BCF0 4.54%, #7298F8 59.2%, #A099FF 148.85%)',
-      green:
-        'linear-gradient(90deg, rgba(68,240,127,1) 4.54%, rgba(114,248,176,1) 59.2%, rgba(153,202,255,1) 148.85%)',
-      red: 'linear-gradient(90deg, rgba(240,68,87,1) 4.54%, rgba(248,114,149,1) 59.2%, rgba(212,153,255,1) 148.85%)',
-    },
+    gradients,
     raw: Object.fromEntries(
       Object.entries(splitColors).map(([key, value]) => [key, value.raw]),
     ) as unknown as AllColors,
