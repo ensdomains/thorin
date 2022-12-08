@@ -219,15 +219,13 @@ const defaultAnimationFunc: DynamicPopoverAnimationFunc = (
 }
 
 const PopoverContainer = styled.div<DynamicPopoverPopoverProps>(
-  ({ $injectedCSS, $x, $y }) => css`
+  ({ $injectedCSS, $isOpen, $hasFirstLoad }) => css`
     position: absolute;
     box-sizing: border-box;
     z-index: 20;
     opacity: 0;
-    transition: all 0.35s cubic-bezier(1, 0, 0.22, 1.6);
     pointer-events: none;
-    left: ${$x}px;
-    top: ${$y}px;
+    ${$hasFirstLoad && `transition: all 0.35s cubic-bezier(1, 0, 0.22, 1.6);`}
     ${$injectedCSS &&
     css`
       ${$injectedCSS}
@@ -248,6 +246,10 @@ export const DynamicPopover = ({
     horizontalClearance: 100,
     verticalClearance: 100,
   })
+  const popoverContainerRef = React.useRef<HTMLDivElement>(null)
+
+  // This is used to prevent animations when first setting the tooltip position
+  const [hasFirstLoad, setHasFirstLoad] = React.useState(false)
 
   const animationFn = React.useMemo(() => {
     if (_animationFn) {
@@ -274,6 +276,7 @@ export const DynamicPopover = ({
     const targetRect = targetElement?.getBoundingClientRect()
     const tooltipElement = tooltipRef.current
     const tooltipRect = tooltipElement?.getBoundingClientRect()
+    const popoverElement = popoverContainerRef.current
 
     if (targetRect && tooltipRect) {
       const top =
@@ -285,6 +288,11 @@ export const DynamicPopover = ({
       const horizontalClearance = -tooltipRect.width + (targetRect.left - left)
       const verticalClearance = tooltipRect.height
 
+      popoverElement.style.top = `${top}px`
+      popoverElement.style.left = `${left}px`
+
+      setHasFirstLoad(true)
+
       setPositionState({ top, left, horizontalClearance, verticalClearance })
       setIsOpen(true)
     }
@@ -293,7 +301,7 @@ export const DynamicPopover = ({
   React.useEffect(() => {
     const targetElement = document.getElementById(targetId)
 
-    const handleMouseleave = (event) => {
+    const handleMouseleave = () => {
       setIsOpen(false)
     }
     targetElement?.addEventListener('mouseenter', handleMouseenter)
@@ -314,10 +322,11 @@ export const DynamicPopover = ({
 
   return ReactDOM.createPortal(
     <PopoverContainer
+      ref={popoverContainerRef}
       id="popoverContainer"
-      $x={positionState.left}
-      $y={positionState.top}
       $injectedCSS={injectedCss}
+      $isOpen={isOpen}
+      $hasFirstLoad={hasFirstLoad}
     >
       {popover}
     </PopoverContainer>,
