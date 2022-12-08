@@ -15,7 +15,7 @@ const Container = styled.div<{
     background-color: ${theme.colors.backgroundSecondary};
     border-radius: ${theme.radii['2xLarge']};
     border-width: ${theme.space['0.75']};
-    border-color: ${theme.colors.transparent};
+    border-color: transparent;
     color: ${theme.colors.text};
     display: flex;
     transition-duration: ${theme.transitionDuration['150']};
@@ -38,18 +38,18 @@ const Container = styled.div<{
         if ($error && $showDot)
           return css`
             background-color: ${theme.colors.red};
-            border: 2px solid ${theme.colors.white};
+            border: 2px solid ${theme.colors.background};
             transform: translate(50%, -50%) scale(1);
           `
         if ($validated && $showDot)
           return css`
             background-color: ${theme.colors.green};
-            border: 2px solid ${theme.colors.white};
+            border: 2px solid ${theme.colors.background};
             transform: translate(50%, -50%) scale(1);
           `
         return css`
-          background-color: ${theme.colors.transparent};
-          border: 2px solid ${theme.colors.transparent};
+          background-color: transparent;
+          border: 2px solid transparent;
           transform: translate(50%, -50%) scale(0.2);
         `
       }}
@@ -58,7 +58,7 @@ const Container = styled.div<{
     &:focus-within {
       ${!$error &&
       css`
-        border-color: ${theme.colors.accentSecondary};
+        border-color: ${theme.colors.accentBright};
       `}
     }
 
@@ -67,17 +67,17 @@ const Container = styled.div<{
       $showDot &&
       css`
         background-color: ${theme.colors.blue};
-        border-color: ${theme.colors.white};
+        border-color: ${theme.colors.background};
         transform: translate(50%, -50%) scale(1);
       `}
     }
     &:focus {
-      border-color: ${theme.colors.accentSecondary};
+      border-color: ${theme.colors.accentBright};
     }
 
     ${$disabled &&
     css`
-      border-color: ${theme.colors.foregroundSecondary};
+      border-color: ${theme.colors.greySurface};
       cursor: not-allowed;
     `}
 
@@ -100,7 +100,7 @@ const TextArea = styled.textarea<{
 }>(
   ({ theme }) => css`
     position: relative;
-    background-color: ${theme.colors.transparent};
+    background-color: transparent;
     color: ${theme.colors.text};
     display: flex;
     font-family: ${theme.fonts['sans']};
@@ -113,7 +113,7 @@ const TextArea = styled.textarea<{
     outline: none;
 
     &::placeholder {
-      color: ${theme.colors.textPlaceholder};
+      color: ${theme.colors.greySurface};
       font-weight: ${theme.fontWeights['medium']};
     }
   `,

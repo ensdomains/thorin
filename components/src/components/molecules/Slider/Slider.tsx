@@ -62,7 +62,7 @@ const SliderComponent = styled.input(
     appearance: none;
     width: ${theme.space.full};
     height: ${theme.space['1.5']};
-    background: rgba(${theme.accentsRaw.blue}, 0.4);
+    background: hsla(${theme.colors.raw.accent}, 0.4);
     border-radius: ${theme.radii.full};
     outline: none;
 
@@ -76,7 +76,7 @@ const SliderComponent = styled.input(
     }
 
     &:hover {
-      background: rgba(${theme.accentsRaw.blue}, 0.45);
+      background: hsla(${theme.colors.raw.accent}, 0.45);
     }
 
     ${disabled &&

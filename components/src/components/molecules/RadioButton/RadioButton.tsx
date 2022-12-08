@@ -27,7 +27,7 @@ const Input = styled.input(
     width: ${theme.space['6']};
     height: ${theme.space['6']};
     margin: ${theme.space['2']} 0;
-    background-color: ${theme.colors.backgroundHide};
+    background-color: ${theme.colors.greySurface};
 
     &::before {
       content: '';

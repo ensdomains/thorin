@@ -81,7 +81,7 @@ const DropdownMenuContainer = styled.div<DropdownMenuContainer>(
         `}
 
     padding: ${theme.space['1.5']};
-    background-color: ${theme.colors.groupBackground};
+    background-color: ${theme.colors.backgroundSecondary};
     box-shadow: ${theme.boxShadows['0.02']};
     border-radius: ${theme.radii['2xLarge']};
 
@@ -94,7 +94,7 @@ const DropdownMenuContainer = styled.div<DropdownMenuContainer>(
       box-shadow: 0;
       border-width: ${theme.space['px']};
       border-${$direction === 'down' ? 'top' : 'bottom'}-width: 0;
-      border-color: ${theme.colors.borderSecondary};
+      border-color: ${theme.colors.border};
       padding: 0 ${theme.space['1.5']};
       padding-${$direction === 'down' ? 'top' : 'bottom'}: ${
       theme.space['2.5']
@@ -344,7 +344,7 @@ const InnerMenuButton = styled.button<InnerMenuButton>(
     font-weight: ${theme.fontWeights['semiBold']};
     cursor: pointer;
     position: relative;
-    border-color: ${theme.colors.borderSecondary};
+    border-color: ${theme.colors.border};
 
     ${() => {
       switch ($size) {
@@ -540,9 +540,9 @@ export const Dropdown = ({
 
       {React.Children.map(children, (child) => {
         if (React.isValidElement(child)) {
-          return React.cloneElement(child, {
+          return React.cloneElement(child as any, {
             ...buttonProps,
-            zindex: 10,
+            zIndex: '10',
             onClick: () => setIsOpen(!isOpen),
           })
         }

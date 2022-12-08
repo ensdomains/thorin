@@ -10,12 +10,12 @@ export type Mode = 'light' | 'dark'
 
 const shades = [50, 300, 400, 500, 750] as const
 
-const namedColorMap = {
-  surface: 50,
-  bright: 300,
-  primary: 400,
-  dim: 500,
-  active: 750,
+const namedShadeMap = {
+  Surface: 50,
+  Bright: 300,
+  Primary: 400,
+  Dim: 500,
+  Active: 750,
 } as const
 
 // The hues object is a map of HSL colors, with optional overrides for each shade.
@@ -38,8 +38,8 @@ const hues = {
 } satisfies Record<string, HueItem>
 
 const backgroundColor = {
-  light: '0,0,100',
-  dark: '0,0,8',
+  light: '0 0% 100%',
+  dark: '0 0% 8%',
 }
 
 // The categories object is a map of categorised colors, which can each have their own custom values.
@@ -48,15 +48,15 @@ const categories = {
     hue: 'grey',
     items: {
       primary: backgroundColor,
-      secondary: 50,
+      secondary: 'Surface',
     },
   },
   text: {
     hue: 'grey',
     items: {
-      primary: 750,
-      secondary: 500,
-      tertiary: 400,
+      primary: 'Active',
+      secondary: 'Dim',
+      tertiary: 'Primary',
       accent: {
         light: backgroundColor.light,
         dark: backgroundColor.light,
@@ -66,7 +66,7 @@ const categories = {
   border: {
     hue: 'grey',
     items: {
-      primary: 300,
+      primary: 'Bright',
     },
   },
 } satisfies Record<string, CategoryItem>
@@ -82,6 +82,7 @@ const gradients = {
  * END COLOR VARIABLES
  */
 
+export type NamedShade = keyof typeof namedShadeMap
 export type Shade = typeof shades[number]
 export type Hue = keyof typeof hues
 export type Category = keyof Categories | 'accent'
@@ -128,34 +129,31 @@ type CategoryItem = {
       | {
           [key in Mode]: string
         }
-      | Shade
+      | NamedShade
   }
 }
 
 type WithRaw<T> = Omit<T, 'raw'> & { raw: Omit<T, 'raw'> }
 
 type ShadeColor = { [key in Shade]: string }
-type NameColor = { [key in keyof typeof namedColorMap]: string }
-type BaseColorItem = ShadeColor & NameColor
+type NameColor = { [key in NamedShade]: string }
 type ColorItem<
   TObject extends Record<string, string>,
   TName extends string,
 > = TObject extends object
   ? {
-      [key in Exclude<keyof TObject, symbol> as `${TName}${key extends string
-        ? Capitalize<key>
-        : key}`]: string
+      [key in Exclude<keyof TObject, symbol> as `${TName}${key}`]: string
     } & {
       [T in `${TName}`]: string
     }
   : never
-type CalculatedColors = WithRaw<ColorItem<BaseColorItem, Hue | 'accent'>>
+type CalculatedColors = WithRaw<ColorItem<NameColor, Hue | 'accent'>>
 type AllColors = WithRaw<CalculatedColors & GeneratedCategories>
 
 const makeColorObject = <THue extends Hue>(
   mode: Mode,
   name: THue,
-  color: ColorItem<ShadeColor, THue>,
+  color: ShadeColor,
 ) => {
   if (mode === 'dark') {
     color = Object.fromEntries(
@@ -163,19 +161,23 @@ const makeColorObject = <THue extends Hue>(
         key,
         arr[arr.length - index - 1][1],
       ]),
-    ) as ColorItem<ShadeColor, THue>
+    ) as ShadeColor
   }
 
-  return {
-    ...color,
-    [name]: color[`${name}400`],
-    [`${name}Surface`]: color[`${name}50`],
-    [`${name}Bright`]: color[`${name}300`],
-    [`${name}Primary`]: color[`${name}400`],
-    [`${name}Dim`]: color[`${name}500`],
-    [`${name}Active`]: color[`${name}750`],
-  } as unknown as ColorItem<BaseColorItem, THue>
+  const values = Object.fromEntries(
+    Object.entries(namedShadeMap).map(([key, value]) => [
+      `${name}${key}`,
+      color[value],
+    ]),
+  )
+
+  return { ...values, [name]: values[`${name}Primary`] } as ColorItem<
+    NameColor,
+    THue
+  >
 }
+
+const makeCSSHSL = (hsl: HSLColor) => `${hsl[0]} ${hsl[1]}% ${hsl[2]}%`
 
 const makeColorRange = <THue extends Hue>(
   mode: Mode,
@@ -185,20 +187,21 @@ const makeColorRange = <THue extends Hue>(
   const color = Object.fromEntries(
     shades.map((shade) => {
       if (hue[3]?.[shade]) {
-        return [`${name}.${shade}`, hue[3]?.[shade]?.join(',')]
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        return [shade, makeCSSHSL(hue[3]![shade]!)]
       }
       const hsl = hue.slice(0, 3) as HSLColor
       hsl[2] = hsl[2] + (400 - shade) / 10
-      return [shade, hsl.join(',')]
+      return [shade, makeCSSHSL(hsl)]
     }),
-  ) as ColorItem<ShadeColor, THue>
+  ) as ShadeColor
   return {
     normal: makeColorObject(
       mode,
       name,
       Object.fromEntries(
         Object.entries(color).map(([key, value]) => [key, `hsl(${value})`]),
-      ) as ColorItem<ShadeColor, THue>,
+      ) as ShadeColor,
     ),
     raw: makeColorObject(mode, name, color),
   }
@@ -228,8 +231,8 @@ const makeMode = (accent: Hue, mode: Mode) => {
         l.toUpperCase(),
       )}` as DotNestedCategoryKeys
       const newItem =
-        typeof shade === 'number'
-          ? calculatedColors.raw[`${value.hue}${shade as Shade}`]
+        typeof shade === 'string'
+          ? calculatedColors.raw[`${value.hue}${shade as NamedShade}`]
           : shade[mode]
 
       prev[itemKey] = `hsl(${newItem})`

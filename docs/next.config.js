@@ -78,6 +78,10 @@ const config = {
         extensions: ['tsx'],
       }),
     )
+    config.resolve.alias['@ensdomains/thorin'] = path.resolve(
+      __dirname,
+      '../components/dist',
+    )
     return config
   },
   reactStrictMode: true,

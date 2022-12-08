@@ -101,9 +101,9 @@ const getAccentColour = (
     | 'accentSecondary'
     | 'accentSecondaryHover',
   type?: 'secondary',
-) => {
+): string => {
   if (tone === 'accent') {
-    return theme.colors[accent]
+    return theme.colors.textAccent
   }
 
   if (tone === 'grey') {
@@ -111,7 +111,7 @@ const getAccentColour = (
       case 'accentText':
         return theme.colors.text
       case 'accentSecondary':
-        return theme.colors.foregroundTertiary
+        return theme.colors.textSecondary
       default:
         return type === 'secondary'
           ? theme.colors.textSecondary
@@ -123,13 +123,13 @@ const getAccentColour = (
     case 'accent':
       return theme.colors[tone]
     case 'accentText':
-      return theme.colors.white
+      return theme.colors.textAccent
     case 'accentGradient':
       return theme.colors.gradients[tone]
     case 'accentSecondary':
-      return `rgba(${theme.accentsRaw[tone]}, ${theme.shades[accent]})`
+      return theme.colors[`${tone}Bright`]
     case 'accentSecondaryHover':
-      return `rgba(${theme.accentsRaw[tone]}, ${theme.shades[accent]})`
+      return theme.colors[tone]
     default:
       return ``
   }
@@ -194,7 +194,7 @@ const ButtonElement = styled.button<ButtonElement>(
     ${$outlined
       ? css`
           border: ${theme.borderWidths.px} ${theme.borderStyles.solid}
-            ${theme.colors.borderTertiary};
+            ${theme.colors.border};
         `
       : ``}
 
@@ -245,14 +245,11 @@ const ButtonElement = styled.button<ButtonElement>(
           `
         case 'transparent':
           return css`
-            color: ${theme.colors.textTertiary};
+            color: ${theme.colors.text};
 
-            &:hover {
-              background-color: ${theme.colors.foregroundTertiary};
-            }
-
+            &:hover,
             &:active {
-              background-color: ${theme.colors.foregroundTertiary};
+              background-color: ${theme.colors.textSecondary};
             }
           `
         default:
@@ -371,7 +368,11 @@ export const Button = React.forwardRef(
     )
     let childContent: ReactNodeNoStrings
     if (shape) {
-      childContent = loading ? <Spinner color="background" /> : labelContent
+      childContent = loading ? (
+        <Spinner color="backgroundPrimary" />
+      ) : (
+        labelContent
+      )
     } else {
       childContent = (
         <>
@@ -383,7 +384,7 @@ export const Button = React.forwardRef(
           {labelContent}
           {(loading || suffix) && (
             <LoadingContainer {...{ center, size, side: 'right' }}>
-              {loading ? <Spinner color="background" /> : suffix}
+              {loading ? <Spinner color="backgroundPrimary" /> : suffix}
             </LoadingContainer>
           )}
         </>

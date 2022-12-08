@@ -11,7 +11,7 @@ const Container = styled.div<ContainerProps>(
   ({ theme, $active }) => css`
     ${$active &&
     css`
-      background-color: ${theme.colors.foregroundSecondary};
+      background-color: ${theme.colors.backgroundSecondary};
       border-radius: ${theme.radii.medium};
       width: ${theme.space.fit};
     `}

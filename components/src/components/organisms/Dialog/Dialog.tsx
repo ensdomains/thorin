@@ -13,14 +13,14 @@ const IconCloseContainer = styled.div(
     right: ${theme.space['4']};
     height: ${theme.space['6']};
     width: ${theme.space['6']};
-    opacity: ${theme.opacity['50']};
+    opacity: 0.5;
     cursor: pointer;
     transition-property: all;
     transition-duration: ${theme.transitionDuration['150']};
     transition-timing-function: ${theme.transitionTimingFunction['inOut']};
 
     &:hover {
-      opacity: ${theme.opacity['70']};
+      opacity: 0.7;
     }
   `,
 )
@@ -118,7 +118,7 @@ const StepItem = styled.div<{ $type: StepType }>(
     ${$type === 'notStarted' &&
     css`
       border: ${theme.borderWidths['0.5']} ${theme.borderStyles.solid}
-        ${theme.colors.borderSecondary};
+        ${theme.colors.border};
     `}
     ${$type === 'inProgress' &&
     css`

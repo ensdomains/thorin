@@ -43,38 +43,17 @@ const Container = styled.div<ContainerProps>(
   ${() => {
       switch ($tone) {
         case 'accent':
+        case 'blue':
+        case 'green':
+        case 'red':
           return css`
-            color: ${theme.colors.accent};
-            background-color: ${theme.colors.accentTertiary};
+            color: ${theme.colors[$tone]};
+            background-color: ${theme.colors[`${$tone}Surface`]};
           `
         case 'secondary':
           return css`
             color: ${theme.colors.textTertiary};
-            background-color: ${theme.colors.foregroundTertiary};
-          `
-        case 'blue':
-          return css`
-            color: ${theme.colors.blue};
-            background-color: rgba(
-              ${theme.accentsRaw.blue},
-              calc(${theme.shades.accentSecondary} * 0.5)
-            );
-          `
-        case 'green':
-          return css`
-            color: ${theme.colors.green};
-            background-color: rgba(
-              ${theme.accentsRaw.green},
-              calc(${theme.shades.accentSecondary} * 0.5)
-            );
-          `
-        case 'red':
-          return css`
-            color: ${theme.colors.red};
-            background-color: rgba(
-              ${theme.accentsRaw.red},
-              calc(${theme.shades.accentSecondary} * 0.5)
-            );
+            background-color: ${theme.colors.greySurface};
           `
         default:
           return ``
@@ -82,49 +61,22 @@ const Container = styled.div<ContainerProps>(
     }}
   
   ${() => {
-      if ($hover && $tone === 'accent')
-        return css`
-          background-color: ${theme.colors.accentTertiary};
-
-          &:hover,
-          &:active {
-            background-color: ${theme.colors.accentSecondary};
-          }
-        `
-
       if ($hover && $tone === 'secondary')
         return css`
           color: ${theme.colors.textSecondary};
-          background-color: ${theme.colors.foregroundTertiary};
+          background-color: ${theme.colors.greySurface};
 
           &:hover,
           &:active {
             color: ${theme.colors.text};
-            background-color: ${theme.colors.foregroundSecondary};
+            background-color: ${theme.colors.greyBright};
           }
         `
-
-      if ($hover && $tone === 'blue')
+      if ($hover && $tone !== 'secondary')
         return css`
           &:hover,
           &:active {
-            background-color: ${theme.colors.blue};
-          }
-        `
-
-      if ($hover && $tone === 'green')
-        return css`
-          &:hover,
-          &:active {
-            background-color: ${theme.colors.green};
-          }
-        `
-
-      if ($hover && $tone === 'red')
-        return css`
-          &:hover,
-          &:active {
-            background-color: ${theme.colors.red};
+            background-color: ${theme.colors[`${$tone}Bright`]};
           }
         `
     }}

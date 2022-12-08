@@ -49,8 +49,8 @@ const Container = styled.div<ContainerProps>(
     padding: ${theme.space['2']} ${theme.space['4']} ${theme.space['2']}
       ${theme.space['2.5']};
     box-shadow: ${theme.shadows['0.25']};
-    color: ${theme.colors.foregroundSecondary};
-    background-color: ${theme.colors.groupBackground};
+    color: ${theme.colors.greyDim};
+    background-color: ${theme.colors.backgroundSecondary};
 
     ${$hasChevron &&
     css`
@@ -64,7 +64,7 @@ const Container = styled.div<ContainerProps>(
     ${$open &&
     css`
       box-shadow: ${theme.shadows['0']};
-      background-color: ${theme.colors.foregroundSecondary};
+      background-color: ${theme.colors.greyDim};
     `}
 
   ${() => {
@@ -122,7 +122,7 @@ const Chevron = styled.svg<{ $open: boolean }>(
     opacity: 0.3;
     transform: rotate(0deg);
     display: flex;
-    color: ${theme.colors.foreground};
+    color: ${theme.colors.greyPrimary};
 
     ${$open &&
     css`

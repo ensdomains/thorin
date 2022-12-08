@@ -50,14 +50,14 @@ const PageButton = styled.button<{ $selected?: boolean; $size: Size }>(
       : css`
           color: ${theme.colors.text};
           &:hover {
-            background-color: ${theme.colors.foregroundSecondary};
+            background-color: ${theme.colors.greyDim};
           }
         `}
 
     border-radius: ${$size === 'small'
       ? theme.space['2']
       : theme.radii['extraLarge']};
-    border: 1px solid ${theme.colors.borderSecondary};
+    border: 1px solid ${theme.colors.border};
     min-width: ${$size === 'small' ? theme.space['9'] : theme.space['10']};
     padding: ${theme.space['2']};
     height: ${$size === 'small' ? theme.space['9'] : theme.space['10']};

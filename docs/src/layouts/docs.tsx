@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { GetLayout, NextLayout } from 'next'
 import Head from 'next/head'
-import styled, { css } from 'styled-components'
+import styled, { css, useTheme } from 'styled-components'
 
 import { mq } from '@ensdomains/thorin'
 
@@ -12,6 +12,7 @@ import {
   SkipNavContent,
   SkipNavLink,
 } from '~/components'
+
 import { getLayout as getBaseLayout } from './site'
 
 const Container = styled.div(
@@ -38,9 +39,10 @@ const Container = styled.div(
 const Aside = styled.aside(
   ({ theme }) => css`
     padding-top: ${theme.space['6']};
+    background-color: ${theme.colors.greyBright};
 
     ${mq.lg.min(css`
-      background-color: ${theme.colors.foregroundTertiary};
+      background-color: ${theme.colors.greyBright};
       margin-right: ${theme.space['10']};
       border-radius: ${theme.radii['extraLarge']};
 
@@ -102,7 +104,10 @@ export type Props = {
 }
 
 const Layout: NextLayout<Props> = ({ children, meta }) => {
+  const { colors } = useTheme()
   const links = (process.env.navLinks as unknown as NavProps['links']) ?? []
+
+  console.log(colors)
   return (
     <>
       <Head>

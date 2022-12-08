@@ -9,7 +9,7 @@ import '@reach/skip-nav/styles.css'
 const Container = styled(ReachSkipNavLink)(
   ({ theme }) => css`
     background: ${theme.colors.accent};
-    color: ${theme.colors.accentText};
+    color: ${theme.colors.background};
     font-family: ${theme.fonts['sans']};
   `,
 )

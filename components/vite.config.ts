@@ -71,6 +71,10 @@ export default defineConfig({
         baseUrl: './src/',
         emitDeclarationOnly: true,
         noEmit: false,
+        paths: {
+          '!/*': ['../*'],
+          '@/*': ['./*'],
+        },
       },
       outputDir: 'dist/types',
     }),

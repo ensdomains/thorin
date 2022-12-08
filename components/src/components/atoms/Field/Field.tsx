@@ -2,11 +2,11 @@ import * as React from 'react'
 
 import styled, { css } from 'styled-components'
 
+import { Space } from '@/src/tokens'
+
 import { ReactNodeNoStrings } from '../../../types'
 import { useFieldIds } from '../../../hooks'
 import { VisuallyHidden } from '../VisuallyHidden'
-
-import { Space } from '@/src/tokens'
 
 type State = ReturnType<typeof useFieldIds> | undefined
 const Context = React.createContext<State>(undefined)

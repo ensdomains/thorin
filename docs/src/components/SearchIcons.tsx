@@ -59,9 +59,9 @@ const IconGridFlex = styled.div(
 
 const ComponentContainer = styled.div(
   ({ theme }) => css`
-    background-color: ${theme.colors.foregroundTertiary};
+    background-color: ${theme.colors.greySurface};
     border-radius: ${theme.radii['large']};
-    color: ${theme.colors.foreground};
+    color: ${theme.colors.grey};
     padding: ${theme.space['4']};
     width: ${theme.space['max']};
     transition-duration: ${theme.transitionDuration['150']};
