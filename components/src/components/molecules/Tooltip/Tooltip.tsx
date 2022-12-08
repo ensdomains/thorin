@@ -66,7 +66,6 @@ const injectedCss = {
 const TooltipPopover = styled.div(
   ({ theme, $placement }) => css`
     box-sizing: border-box;
-    max-width: 280px;
     position: relative;
     pointer-events: none;
 

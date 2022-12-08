@@ -152,6 +152,7 @@ const ButtonElement = styled.button<ButtonElement>(
     $shape,
     $psuedoDisabled,
   }) => css`
+    position: relative;
     align-items: center;
     cursor: pointer;
     display: flex;
@@ -317,13 +318,7 @@ const ButtonElement = styled.button<ButtonElement>(
     ${$psuedoDisabled &&
     `
       background-color: ${theme.colors.grey};
-      ${
-        $variant !== 'transparent' &&
-        css`
-          color: ${theme.colors.background};
-        `
-      }
-      color: ${theme.colors.grey};
+      color: ${theme.colors.textTertiary};
 
       &:hover {
         transform: translateY(0px);
@@ -360,6 +355,22 @@ const LabelContainer = styled(Typography)<{
   `,
 )
 
+const TooltipIndicator = styled.div(
+  ({ theme }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e9b911;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    right: -10px;
+    top: -10px;
+    color: white;
+  `,
+)
+
 export type Props = BaseProps &
   (WithTone | WithoutTone) &
   (WithoutAnchor | WithAnchor)
@@ -390,6 +401,7 @@ export const Button = React.forwardRef(
       fullWidthContent = false,
       as: asProp,
       psuedoDisabled,
+      shouldShowTooltipIndicator,
       ...props
     }: Props,
     ref: React.Ref<HTMLButtonElement>,
@@ -419,8 +431,6 @@ export const Button = React.forwardRef(
         </>
       )
     }
-
-    console.log('psuedoDisabled: ', psuedoDisabled)
 
     return (
       <ButtonElement
@@ -454,6 +464,9 @@ export const Button = React.forwardRef(
           onClick?.(e)
         }}
       >
+        {psuedoDisabled && shouldShowTooltipIndicator && (
+          <TooltipIndicator>?</TooltipIndicator>
+        )}
         {childContent}
       </ButtonElement>
     )

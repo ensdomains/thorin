@@ -1,6 +1,7 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 import ReactDOM from 'react-dom'
+import { mq } from '@/src'
 
 export type DynamicPopoverSide = 'top' | 'right' | 'bottom' | 'left'
 
@@ -225,6 +226,11 @@ const PopoverContainer = styled.div<DynamicPopoverPopoverProps>(
     z-index: 20;
     opacity: 0;
     pointer-events: none;
+    width: 150px;
+    ${mq.md.min(css`
+      width: 250px;
+    `)}
+
     ${$hasFirstLoad && `transition: all 0.35s cubic-bezier(1, 0, 0.22, 1.6);`}
     ${$injectedCSS &&
     css`
@@ -239,6 +245,7 @@ export const DynamicPopover = ({
   animationFn: _animationFn,
   tooltipRef,
   targetId,
+  onShowCallback,
 }: DynamicPopoverProps) => {
   const [positionState, setPositionState] = React.useState({
     top: 100,
@@ -269,7 +276,7 @@ export const DynamicPopover = ({
       defaultAnimationFunc(horizontalClearance, verticalClearance, side, open)
   }, [_animationFn])
 
-  const [isOpen, setIsOpen] = React.useState(true)
+  const [isOpen, setIsOpen] = React.useState(false)
 
   const handleMouseenter = React.useCallback(() => {
     const targetElement = document.getElementById(targetId)
@@ -295,6 +302,7 @@ export const DynamicPopover = ({
 
       setPositionState({ top, left, horizontalClearance, verticalClearance })
       setIsOpen(true)
+      onShowCallback?.()
     }
   }, [targetId])
 
