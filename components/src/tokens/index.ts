@@ -1,6 +1,6 @@
 import { borderStyles, borderWidths, radii } from './border'
 import { shadows } from './shadows'
-import { colours } from './colour'
+import { colors } from './color'
 import { opacity } from './opacity'
 import { space } from './space'
 import {
@@ -40,25 +40,25 @@ export const breakpoints = {
 
 const boxShadows = {
   light: {
-    '0': `${shadows['0']} ${colours.light.background.secondary}`,
-    '0.02': `${shadows['0.02']} ${colours.light.background.secondary}`,
-    '0.25': `${shadows['0.25']} ${colours.light.background.secondary}`,
-    '0.5': `${shadows['0.5']} ${colours.light.background.secondary}`,
-    '1': `${shadows['1']} ${colours.light.background.secondary}`,
+    '0': `${shadows['0']} ${colors.light.backgroundSecondary}`,
+    '0.02': `${shadows['0.02']} ${colors.light.backgroundSecondary}`,
+    '0.25': `${shadows['0.25']} ${colors.light.backgroundSecondary}`,
+    '0.5': `${shadows['0.5']} ${colors.light.backgroundSecondary}`,
+    '1': `${shadows['1']} ${colors.light.backgroundSecondary}`,
   },
   dark: {
-    '0': `${shadows['0']} ${colours.dark.background.secondary}`,
-    '0.02': `${shadows['0.02']} ${colours.dark.background.secondary}`,
-    '0.25': `${shadows['0.25']} ${colours.dark.background.secondary}`,
-    '0.5': `${shadows['0.5']} ${colours.dark.background.secondary}`,
-    '1': `${shadows['1']} ${colours.dark.background.secondary}`,
+    '0': `${shadows['0']} ${colors.dark.backgroundSecondary}`,
+    '0.02': `${shadows['0.02']} ${colors.dark.backgroundSecondary}`,
+    '0.25': `${shadows['0.25']} ${colors.dark.backgroundSecondary}`,
+    '0.5': `${shadows['0.5']} ${colors.dark.backgroundSecondary}`,
+    '1': `${shadows['1']} ${colors.dark.backgroundSecondary}`,
   },
 }
 
 export const tokens = {
   borderStyles,
   borderWidths,
-  colours,
+  colors,
   fonts,
   fontSizes,
   fontWeights,
@@ -93,21 +93,21 @@ export const baseTheme = {
 
 export const lightTheme = {
   ...baseTheme,
-  colours: tokens.colours.light,
+  colors: tokens.colors.light,
   boxShadows: tokens.boxShadows.light,
   mode: 'light',
 }
 
 export const darkTheme = {
   ...baseTheme,
-  colours: tokens.colours.dark,
+  colors: tokens.colors.dark,
   boxShadows: tokens.boxShadows.dark,
   mode: 'dark',
 }
 
-export type { Hue, Mode } from './colour'
+export type { Hue, Mode } from './color'
 export type Tokens = typeof lightTheme
 export type Breakpoints = keyof typeof breakpoints
 export type Space = keyof typeof space
-export type Colours = keyof typeof colours.light
+export type Colors = Exclude<keyof typeof colors.light, 'raw' | 'gradients'>
 export type Radii = keyof typeof radii

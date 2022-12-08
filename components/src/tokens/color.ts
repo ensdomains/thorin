@@ -10,7 +10,15 @@ export type Mode = 'light' | 'dark'
 
 const shades = [50, 300, 400, 500, 750] as const
 
-// The hues object is a map of HSL colours, with optional overrides for each shade.
+const namedColorMap = {
+  surface: 50,
+  bright: 300,
+  primary: 400,
+  dim: 500,
+  active: 750,
+} as const
+
+// The hues object is a map of HSL colors, with optional overrides for each shade.
 const hues = {
   blue: [216, 100, 61, { 50: [215, 100, 97] }],
   indigo: [242, 61, 58],
@@ -29,15 +37,17 @@ const hues = {
   ],
 } satisfies Record<string, HueItem>
 
-// The categories object is a map of categorised colours, which can each have their own custom values.
+const backgroundColor = {
+  light: '0,0,100',
+  dark: '0,0,8',
+}
+
+// The categories object is a map of categorised colors, which can each have their own custom values.
 const categories = {
   background: {
     hue: 'grey',
     items: {
-      primary: {
-        light: '0,0,100',
-        dark: '0,0,8',
-      },
+      primary: backgroundColor,
       secondary: 50,
     },
   },
@@ -45,12 +55,19 @@ const categories = {
     hue: 'grey',
     items: {
       primary: 750,
-      secondary: 400,
+      secondary: 500,
+      tertiary: 400,
+      accent: {
+        light: backgroundColor.light,
+        dark: backgroundColor.light,
+      },
     },
   },
   border: {
     hue: 'grey',
-    item: 300,
+    items: {
+      primary: 300,
+    },
   },
 } satisfies Record<string, CategoryItem>
 
@@ -81,149 +98,155 @@ type HueItem = [
 
 type Categories = typeof categories
 
-type GeneratedCategories = {
-  [item in keyof Categories]: Categories[item] extends { items: any }
+type CamelCaseNested<T> = (
+  T extends object
     ? {
-        normal: {
-          [key in keyof Categories[item]['items']]: string
-        }
-        raw: {
-          [key in keyof Categories[item]['items']]: string
-        }
-      }
-    : {
-        normal: string
-        raw: string
-      }
-}
+        [K in Exclude<keyof T, symbol>]: `${K}${Capitalize<
+          CamelCaseNested<T[K]>
+        >}`
+      }[Exclude<keyof T, symbol>]
+    : ''
+) extends infer D
+  ? Extract<D, string>
+  : never
 
-type InnerCategoryItem =
-  | {
-      [key in Mode]: string
-    }
-  | Shade
+type DotNestedCategoryKeys = CamelCaseNested<{
+  [item in keyof Categories]: {
+    [key in keyof Categories[item]['items']]: string
+  } & {
+    '': string
+  }
+}>
+type DotNestedCategories = { [K in DotNestedCategoryKeys]: string }
+
+type GeneratedCategories = WithRaw<DotNestedCategories>
 
 type CategoryItem = {
   hue: Hue
-} & (
-  | {
-      items: {
-        [key: string]: InnerCategoryItem
-      }
-    }
-  | {
-      item: InnerCategoryItem
-    }
-)
+  items: {
+    [key: string]:
+      | {
+          [key in Mode]: string
+        }
+      | Shade
+  }
+}
+
+type WithRaw<T> = Omit<T, 'raw'> & { raw: Omit<T, 'raw'> }
 
 type ShadeColor = { [key in Shade]: string }
-type NameColor = {
-  surface: string
-  bright: string
-  primary: string
-  dim: string
-  active: string
-}
-type ColorItem = ShadeColor & NameColor
-
-type CalculatedColors = { [key in Hue]: ColorItem }
-
-const makeColorObject = (mode: Mode, color: Record<number, string>) => {
-  if (mode === 'dark') {
-    color = {
-      50: color[750],
-      300: color[500],
-      400: color[400],
-      500: color[300],
-      750: color[50],
+type NameColor = { [key in keyof typeof namedColorMap]: string }
+type BaseColorItem = ShadeColor & NameColor
+type ColorItem<
+  TObject extends Record<string, string>,
+  TName extends string,
+> = TObject extends object
+  ? {
+      [key in Exclude<keyof TObject, symbol> as `${TName}${key extends string
+        ? Capitalize<key>
+        : key}`]: string
+    } & {
+      [T in `${TName}`]: string
     }
+  : never
+type CalculatedColors = WithRaw<ColorItem<BaseColorItem, Hue | 'accent'>>
+type AllColors = WithRaw<CalculatedColors & GeneratedCategories>
+
+const makeColorObject = <THue extends Hue>(
+  mode: Mode,
+  name: THue,
+  color: ColorItem<ShadeColor, THue>,
+) => {
+  if (mode === 'dark') {
+    color = Object.fromEntries(
+      Object.entries(color).map(([key], index, arr) => [
+        key,
+        arr[arr.length - index - 1][1],
+      ]),
+    ) as ColorItem<ShadeColor, THue>
   }
 
   return {
     ...color,
-    surface: color[50],
-    bright: color[300],
-    primary: color[400],
-    dim: color[500],
-    active: color[750],
-  } as ColorItem
+    [name]: color[`${name}400`],
+    [`${name}Surface`]: color[`${name}50`],
+    [`${name}Bright`]: color[`${name}300`],
+    [`${name}Primary`]: color[`${name}400`],
+    [`${name}Dim`]: color[`${name}500`],
+    [`${name}Active`]: color[`${name}750`],
+  } as unknown as ColorItem<BaseColorItem, THue>
 }
 
-const makeColor = (mode: Mode, hue: HueItem) => {
+const makeColorRange = <THue extends Hue>(
+  mode: Mode,
+  name: THue,
+  hue: HueItem,
+) => {
   const color = Object.fromEntries(
     shades.map((shade) => {
       if (hue[3]?.[shade]) {
-        return [shade, hue[3]?.[shade]?.join(',')] as [Shade, string]
+        return [`${name}.${shade}`, hue[3]?.[shade]?.join(',')]
       }
       const hsl = hue.slice(0, 3) as HSLColor
       hsl[2] = hsl[2] + (400 - shade) / 10
       return [shade, hsl.join(',')]
     }),
-  )
+  ) as ColorItem<ShadeColor, THue>
   return {
     normal: makeColorObject(
       mode,
+      name,
       Object.fromEntries(
         Object.entries(color).map(([key, value]) => [key, `hsl(${value})`]),
-      ),
+      ) as ColorItem<ShadeColor, THue>,
     ),
-    raw: makeColorObject(mode, color),
+    raw: makeColorObject(mode, name, color),
   }
 }
 
 const makeMode = (accent: Hue, mode: Mode) => {
-  const calculatedColors = Object.fromEntries(
-    Object.entries(hues).map(([key, value]) => [key, makeColor(mode, value)]),
-  )
+  const calculatedColors = Object.entries({
+    ...hues,
+    accent: hues[accent],
+  }).reduce((prev, curr) => {
+    const [key, value] = curr
+    const colorRange = makeColorRange(mode, key as Hue, value)
+    return {
+      ...prev,
+      ...colorRange.normal,
+      raw: {
+        ...prev.raw,
+        ...colorRange.raw,
+      },
+    }
+  }, {} as CalculatedColors)
 
-  const generatedCategoryColors = Object.fromEntries(
-    Object.entries(categories).map(([category, value]) => {
-      const hue = calculatedColors[value.hue]
+  const allColours = Object.entries(categories).reduce((prev, curr) => {
+    const [category, value] = curr
+    for (const [name, shade] of Object.entries(value.items)) {
+      const itemKey = `${category}${name.replace(/^[a-z]/, (l) =>
+        l.toUpperCase(),
+      )}` as DotNestedCategoryKeys
+      const newItem =
+        typeof shade === 'number'
+          ? calculatedColors.raw[`${value.hue}${shade as Shade}`]
+          : shade[mode]
 
-      if ('item' in value) {
-        const item = value.item
-        return [category, { normal: hue.normal[item], raw: hue.raw[item] }]
+      prev[itemKey] = `hsl(${newItem})`
+      prev.raw[itemKey] = newItem
+
+      if (name === 'primary') {
+        const categoryKey = category as keyof typeof categories
+        prev[categoryKey] = `hsl(${newItem})`
+        prev.raw[categoryKey] = newItem
       }
-
-      const items = Object.fromEntries(
-        Object.entries(value.items).map(([name, shade]) => {
-          if (typeof shade === 'number') {
-            return [name, hue.normal[shade as Shade]]
-          }
-
-          return [name, shade[mode]]
-        }),
-      )
-
-      return [category, items]
-    }),
-  ) as GeneratedCategories
-
-  const categoryColors = {
-    ...generatedCategoryColors,
-    accent: calculatedColors[accent],
-  }
-
-  const splitColors = {
-    ...calculatedColors,
-    ...categoryColors,
-  }
-
-  type CategoryColorObject = typeof categoryColors
-
-  type CategoryColors = {
-    [key in keyof CategoryColorObject]: CategoryColorObject[key]['normal']
-  }
-  type AllColors = CalculatedColors & CategoryColors
+    }
+    return prev
+  }, calculatedColors as AllColors)
 
   return {
-    ...(Object.fromEntries(
-      Object.entries(splitColors).map(([key, value]) => [key, value.normal]),
-    ) as unknown as AllColors),
+    ...allColours,
     gradients,
-    raw: Object.fromEntries(
-      Object.entries(splitColors).map(([key, value]) => [key, value.raw]),
-    ) as unknown as AllColors,
   }
 }
 
