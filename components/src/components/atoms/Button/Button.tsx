@@ -43,8 +43,8 @@ type BaseProps = {
   zIndex?: string
   /** If true, sets the style to indicate "on" state. Useful for toggles switches. */
   pressed?: boolean
-  /** If true, removes the box-shadow */
-  shadowless?: boolean
+  /** If true, adds a box-shadow */
+  shadow?: boolean
   /** If true, adds an outline to the button */
   outlined?: boolean
   /** If true, makes inner div full width*/
@@ -81,7 +81,7 @@ type WithoutAnchor = {
 
 interface ButtonElement {
   $pressed: boolean
-  $shadowless: boolean
+  $shadow: boolean
   $outlined: boolean
   $shape?: BaseProps['shape']
   $size?: BaseProps['size']
@@ -102,10 +102,6 @@ const getAccentColour = (
     | 'accentSecondaryHover',
   type?: 'secondary',
 ): string => {
-  if (tone === 'accent') {
-    return theme.colors.textAccent
-  }
-
   if (tone === 'grey') {
     switch (accent) {
       case 'accentText':
@@ -125,11 +121,11 @@ const getAccentColour = (
     case 'accentText':
       return theme.colors.textAccent
     case 'accentGradient':
-      return theme.colors.gradients[tone]
+      return theme.colors.gradients[tone === 'accent' ? 'blue' : tone]
     case 'accentSecondary':
-      return theme.colors[`${tone}Bright`]
+      return theme.colors[`${tone}Surface`]
     case 'accentSecondaryHover':
-      return theme.colors[tone]
+      return theme.colors[`${tone}Bright`]
     default:
       return ``
   }
@@ -141,7 +137,7 @@ const ButtonElement = styled.button<ButtonElement>(
     disabled,
     $center,
     $pressed,
-    $shadowless,
+    $shadow,
     $outlined,
     $size,
     $variant,
@@ -162,7 +158,10 @@ const ButtonElement = styled.button<ButtonElement>(
 
     &:hover {
       transform: translateY(-1px);
-      filter: brightness(1.05);
+      ${$variant !== 'transparent' &&
+      css`
+        filter: brightness(1.05);
+      `}
     }
 
     &:active {
@@ -185,7 +184,7 @@ const ButtonElement = styled.button<ButtonElement>(
           filter: brightness(0.95);
         `
       : ``};
-    ${$shadowless
+    ${!$shadow
       ? css`
           box-shadow: none !important;
         `
@@ -236,7 +235,7 @@ const ButtonElement = styled.button<ButtonElement>(
         case 'secondary':
           return css`
             color: ${getAccentColour(theme, $tone, 'accent', 'secondary')};
-            background: ${getAccentColour(theme, $tone, 'accentSecondary')};
+            background: ${theme.colors[`${$tone}Surface`]};
           `
         case 'action':
           return css`
@@ -247,9 +246,12 @@ const ButtonElement = styled.button<ButtonElement>(
           return css`
             color: ${theme.colors.text};
 
-            &:hover,
+            &:hover {
+              background-color: ${theme.colors.greySurface};
+            }
+
             &:active {
-              background-color: ${theme.colors.textSecondary};
+              background-color: ${theme.colors.greyBright};
             }
           `
         default:
@@ -289,7 +291,7 @@ const ButtonElement = styled.button<ButtonElement>(
     }}
 
   ${() => {
-      if ($shadowless && $pressed && $variant === 'transparent') {
+      if (!$shadow && $pressed && $variant === 'transparent') {
         return css`
           background-color: ${theme.colors.backgroundSecondary};
         `
@@ -353,7 +355,7 @@ export const Button = React.forwardRef(
       zIndex,
       onClick,
       pressed = false,
-      shadowless = false,
+      shadow = false,
       outlined = false,
       fullWidthContent = false,
       as: asProp,
@@ -398,7 +400,7 @@ export const Button = React.forwardRef(
         $fullWidthContent={fullWidthContent}
         $outlined={outlined}
         $pressed={pressed}
-        $shadowless={shadowless}
+        $shadow={shadow}
         $shape={shape}
         $size={size}
         $tone={tone}
