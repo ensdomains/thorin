@@ -160,7 +160,9 @@ const ButtonElement = styled.button<ButtonElement>(
       transform: translateY(-1px);
       ${$variant !== 'transparent' &&
       css`
-        filter: brightness(1.05);
+        filter: ${$variant === 'secondary'
+          ? 'contrast(0.95)'
+          : 'brightness(1.05)'};
       `}
     }
 
