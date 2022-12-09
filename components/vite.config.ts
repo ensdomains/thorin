@@ -32,7 +32,6 @@ export default defineConfig({
         svgProps: {
           focusable: 'false',
           shapeRendering: 'geometricPrecision',
-          viewBox: '0 0 24 24',
         },
         svgoConfig: {
           multipass: true,

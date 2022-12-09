@@ -15,7 +15,7 @@ const ICONS_DIR = path.join(__dirname, '../components/src/icons')
         const [filename, filetype] = iconParts
         if (filetype !== 'svg') return ''
         if (!/^[A-Z][a-z]+(?:[A-Z][a-z]+)*$/.test(filename))
-          throw new Error('Icon filenames must be in pascal case')
+          throw new Error('Icon filenames must be in pascal case: ' + filename)
         return filename
       })
       .filter((x) => !!x)

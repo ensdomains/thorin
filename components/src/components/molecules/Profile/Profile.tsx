@@ -3,10 +3,9 @@ import styled, { css } from 'styled-components'
 
 import { getTestId, shortenAddress } from '../../../utils/utils'
 
-import { Typography } from '../..'
+import { DownChevronSVG, Typography } from '../..'
 import { Avatar, Props as AvatarProps } from '../../atoms/Avatar'
 import { Dropdown, DropdownItem } from '../Dropdown/Dropdown'
-import { ReactComponent as IconDownIndicatorSvg } from '@/src/icons/DownIndicator.svg'
 
 type Size = 'small' | 'medium' | 'large'
 
@@ -209,7 +208,7 @@ export const Profile = ({
           onClick={() => setIsOpen(!isOpen)}
         >
           <ProfileInner {...{ size, avatar, address, ensName }} />
-          <Chevron $open={isOpen} as={IconDownIndicatorSvg} />
+          <Chevron $open={isOpen} as={DownChevronSVG} />
         </Container>
       </Dropdown>
     )

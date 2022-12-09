@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 
-import { CancelCircleSVG } from '@/src'
+import { CrossCircleSVG } from '@/src'
 import { mq } from '@/src/utils/responsiveHelpers'
 
 import { Modal, Typography } from '../..'
@@ -256,7 +256,7 @@ const ModalWithTitle = ({
 
 const CloseButton = ({ onClick }: { onClick: () => void }) => (
   <IconCloseContainer
-    as={CancelCircleSVG}
+    as={CrossCircleSVG}
     data-testid="close-icon"
     onClick={onClick}
   />

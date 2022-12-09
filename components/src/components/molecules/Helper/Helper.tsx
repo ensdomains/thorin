@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 
-import { AlertSVG, InfoSVG } from '@/src/icons'
+import { AlertSVG, InfoCircleSVG } from '@/src/icons'
 
 type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 
@@ -79,7 +79,7 @@ export const Helper = ({
   children,
   ...props
 }: Props) => {
-  const Icon = type === 'info' ? InfoSVG : AlertSVG
+  const Icon = type === 'info' ? InfoCircleSVG : AlertSVG
 
   return (
     <Container $alignment={alignment} $type={type} {...props}>

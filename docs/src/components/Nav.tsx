@@ -4,7 +4,7 @@ import styled, { css } from 'styled-components'
 
 import {
   Button,
-  LogoSVG,
+  EnsSVG,
   MenuSVG,
   Space,
   Typography,
@@ -161,7 +161,7 @@ export const Nav = ({ links }: Props) => {
         <NavlinkContainer>
           <NavLink active={router.asPath === '/'} href="/">
             <NavLinkInner>
-              <LogoSVG height={48} width={48} />
+              <EnsSVG height={48} width={48} />
               <ENSText>ENS</ENSText>
             </NavLinkInner>
           </NavLink>
@@ -169,7 +169,6 @@ export const Nav = ({ links }: Props) => {
           <ButtonContainer>
             <Button
               pressed={state.open}
-              shadowless
               size="extraSmall"
               variant="transparent"
               onClick={() => setState((x) => ({ ...x, open: !x.open }))}

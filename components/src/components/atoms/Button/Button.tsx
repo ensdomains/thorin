@@ -313,13 +313,21 @@ const ButtonElement = styled.button<ButtonElement>(
   `,
 )
 
-const PrefixContainer = styled.div<GetCenterProps>(
+const ItemContainer = styled.div(
+  ({ theme }) => css`
+    & > svg {
+      display: block;
+      width: ${theme.space['4']};
+      height: ${theme.space['4']};
+    }
+  `,
+)
+
+const PrefixContainer = styled(ItemContainer)<GetCenterProps>(
   () => css`
     ${getCenterProps}
   `,
 )
-
-const LoadingContainer = styled.div(() => css``)
 
 const LabelContainer = styled(Typography)<{
   $fullWidthContent: boolean
@@ -387,9 +395,9 @@ export const Button = React.forwardRef(
           )}
           {labelContent}
           {(loading || suffix) && (
-            <LoadingContainer {...{ center, size, side: 'right' }}>
+            <ItemContainer {...{ center, size, side: 'right' }}>
               {loading ? <Spinner color="backgroundPrimary" /> : suffix}
-            </LoadingContainer>
+            </ItemContainer>
           )}
         </>
       )

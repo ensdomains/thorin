@@ -6,13 +6,12 @@ import { useEffect } from 'react'
 
 import { TransitionState, useTransition } from 'react-transition-state'
 
-import { ReactComponent as IconDownIndicatorSvg } from '@/src/icons/DownIndicator.svg'
-
 import { useDocumentEvent } from '@/src/hooks/useDocumentEvent'
 
 import { Space } from '@/src/tokens'
 
-import { CloseSVG, Field } from '../..'
+import { CrossSVG, DownChevronSVG, Field } from '../..'
+
 import { FieldBaseProps } from '../../atoms/Field'
 
 import { VisuallyHidden } from '../../atoms'
@@ -146,7 +145,7 @@ const SelectActionButton = styled.button<{ $padding: Space; $size: Size }>(
   `,
 )
 
-const Chevron = styled(IconDownIndicatorSvg)<{
+const Chevron = styled(DownChevronSVG)<{
   $open: boolean
   $disabled?: boolean
   $direction?: Direction
@@ -837,7 +836,7 @@ export const Select = React.forwardRef(
                   type="button"
                   onClick={handleInputClear}
                 >
-                  <CloseSVG />
+                  <CrossSVG />
                 </SelectActionButton>
               ) : (
                 <SelectActionButton

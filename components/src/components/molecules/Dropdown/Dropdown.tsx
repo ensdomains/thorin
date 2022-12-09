@@ -3,7 +3,8 @@ import styled, { css } from 'styled-components'
 
 import { Button, ButtonProps } from '@/src/components/atoms/Button'
 import { Colors } from '@/src/tokens'
-import { ReactComponent as IconDownIndicatorSvg } from '@/src/icons/DownIndicator.svg'
+
+import { DownChevronSVG } from '../..'
 import { getTestId } from '../../../utils/utils'
 
 type Align = 'left' | 'right'
@@ -401,7 +402,7 @@ const InnerMenuButton = styled.button<InnerMenuButton>(
   `,
 )
 
-const Chevron = styled(IconDownIndicatorSvg)<{
+const Chevron = styled(DownChevronSVG)<{
   $open?: boolean
   $direction: Direction
 }>(
