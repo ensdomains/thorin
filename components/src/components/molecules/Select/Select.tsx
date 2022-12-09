@@ -258,7 +258,7 @@ const SelectOptionList = styled.div<{ $rows?: number; $direction: Direction }>(
     ${$rows &&
     css`
       max-height: calc(${theme.space['9']} * ${$rows});
-      border-color: hsla(${theme.colors.raw.greyActive}, 0.05);
+      border-color: hsla(${theme.colors.raw.greyActive} / 0.05);
       transition: border-color 0.15s ease-in-out;
       padding-right: ${theme.space['1']};
 
@@ -285,7 +285,7 @@ const SelectOptionList = styled.div<{ $rows?: number; $direction: Direction }>(
       }
 
       &:hover {
-        border-color: hsla(${theme.colors.raw.greyActive}, 0.2);
+        border-color: hsla(${theme.colors.raw.greyActive} / 0.2);
       }
     `}
   `,

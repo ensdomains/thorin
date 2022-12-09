@@ -6,7 +6,7 @@ const StyledScrollBox = styled.div<{ $showTop: boolean; $showBottom: boolean }>(
     overflow: auto;
     position: relative;
 
-    border-color: hsla(${theme.colors.raw.greySurface}, 1);
+    border-color: hsla(${theme.colors.raw.greySurface} / 1);
     transition: border-color 0.15s ease-in-out;
 
     /* stylelint-disable-next-line selector-pseudo-element-no-unknown */
@@ -32,7 +32,7 @@ const StyledScrollBox = styled.div<{ $showTop: boolean; $showBottom: boolean }>(
     }
 
     &:hover {
-      border-color: hsla(${theme.colors.raw.greySurface}, 1);
+      border-color: hsla(${theme.colors.raw.greyBright} / 1);
     }
 
     &::before,
@@ -43,7 +43,7 @@ const StyledScrollBox = styled.div<{ $showTop: boolean; $showBottom: boolean }>(
       width: 100%;
       display: block;
       height: ${theme.space.px};
-      background-color: hsla(${theme.colors.raw.greySurface}, 1);
+      background-color: hsla(${theme.colors.raw.greyBright} / 0);
       transition: background-color 0.15s ease-in-out;
     }
 
@@ -51,14 +51,14 @@ const StyledScrollBox = styled.div<{ $showTop: boolean; $showBottom: boolean }>(
       top: 0;
       ${$showTop &&
       css`
-        background-color: hsla(${theme.colors.raw.greySurface}, 1);
+        background-color: hsla(${theme.colors.raw.greyBright} / 1);
       `}
     }
     &::after {
       bottom: 0;
       ${$showBottom &&
       css`
-        background-color: hsla(${theme.colors.raw.greySurface}, 1);
+        background-color: hsla(${theme.colors.raw.greyBright} / 1);
       `}
     }
   `,
