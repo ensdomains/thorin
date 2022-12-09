@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 import ReactDOM from 'react-dom'
-import { mq } from '@/src'
+import { mq } from '@/src/utils/responsiveHelpers'
 
 export type DynamicPopoverSide = 'top' | 'right' | 'bottom' | 'left'
 
@@ -195,7 +195,7 @@ const defaultAnimationFunc: DynamicPopoverAnimationFunc = (
   horizontalClearance,
   verticalClearance,
   side: string,
-  open = false,
+  mobileSide: string,
 ) => {
   let translate = ''
   if (side === 'top')
@@ -205,47 +205,49 @@ const defaultAnimationFunc: DynamicPopoverAnimationFunc = (
   else if (side === 'bottom')
     translate = `translate(0, ${verticalClearance + window.scrollY}px)`
   else translate = `translate(${horizontalClearance - 10}px, 0);`
-  if (open) {
-    return `
-      transform: ${translate};
-      opacity: 1;
-      visibility: visible;
-   `
-  }
-  return `
-    transform: translate(0, 0);
-    opacity: 0;
-    visibility: hidden;
-  `
+
+  let mobileTranslate = ''
+  if (mobileSide === 'top')
+    mobileTranslate = `translate(0, -${verticalClearance - window.scrollY}px)`
+  else if (mobileSide === 'right')
+    mobileTranslate = `translate(${horizontalClearance * -1 + 10}px, 0)`
+  else if (mobileSide === 'bottom')
+    mobileTranslate = `translate(0, ${verticalClearance + window.scrollY}px)`
+  else mobileTranslate = `translate(${horizontalClearance - 10}px, 0);`
+
+  return { translate, mobileTranslate }
 }
 
 const PopoverContainer = styled.div<DynamicPopoverPopoverProps>(
-  ({ $injectedCSS, $isOpen, $hasFirstLoad }) => css`
+  ({ $isOpen, $hasFirstLoad, $translate, $mobileTranslate }) => css`
     position: absolute;
     box-sizing: border-box;
     z-index: 20;
-    opacity: 0;
     pointer-events: none;
     width: 150px;
+    transform: ${$isOpen ? $mobileTranslate : 'translate(0, 0)'};
+    opacity: ${$isOpen ? 1 : 0};
+    visibility: ${$isOpen ? 'visible' : 'hidden'};
+
     ${mq.md.min(css`
       width: 250px;
+      transform: ${$isOpen ? $translate : 'translate (0, 0)'};
     `)}
 
     ${$hasFirstLoad && `transition: all 0.35s cubic-bezier(1, 0, 0.22, 1.6);`}
-    ${$injectedCSS &&
-    css`
-      ${$injectedCSS}
-    `}
   `,
 )
 
 export const DynamicPopover = ({
   popover,
   placement = 'top',
+  mobilePlacement = 'top',
   animationFn: _animationFn,
   tooltipRef,
   targetId,
   onShowCallback,
+  width = 250,
+  mobileWidth = 150,
 }: DynamicPopoverProps) => {
   const [positionState, setPositionState] = React.useState({
     top: 100,
@@ -265,15 +267,30 @@ export const DynamicPopover = ({
         verticalClearance,
         side: DynamicPopoverSide,
         open: boolean,
-      ) => _animationFn(horizontalClearance, verticalClearance, side, open)
+        mobileSide: DynamicPopoverSide,
+      ) =>
+        _animationFn(
+          horizontalClearance,
+          verticalClearance,
+          side,
+          open,
+          mobileSide,
+        )
     }
     return (
       horizontalClearance,
       verticalClearance,
       side: DynamicPopoverSide,
       open: boolean,
+      mobileSide: DynamicPopoverSide,
     ) =>
-      defaultAnimationFunc(horizontalClearance, verticalClearance, side, open)
+      defaultAnimationFunc(
+        horizontalClearance,
+        verticalClearance,
+        side,
+        open,
+        mobileSide,
+      )
   }, [_animationFn])
 
   const [isOpen, setIsOpen] = React.useState(false)
@@ -321,20 +338,22 @@ export const DynamicPopover = ({
     }
   }, [])
 
-  const injectedCss = animationFn(
+  const { translate, mobileTranslate } = animationFn(
     positionState.horizontalClearance,
     positionState.verticalClearance,
     placement,
     isOpen,
+    mobilePlacement,
   )
 
   return ReactDOM.createPortal(
     <PopoverContainer
       ref={popoverContainerRef}
       id="popoverContainer"
-      $injectedCSS={injectedCss}
       $isOpen={isOpen}
       $hasFirstLoad={hasFirstLoad}
+      $translate={translate}
+      $mobileTranslate={mobileTranslate}
     >
       {popover}
     </PopoverContainer>,
