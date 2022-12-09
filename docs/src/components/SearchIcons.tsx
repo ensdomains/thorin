@@ -1,7 +1,12 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 
-import { Input, SearchSVG, Typography, mq } from '@ensdomains/thorin'
+import {
+  Input,
+  MagnifyingGlassSimpleSVG,
+  Typography,
+  mq,
+} from '@ensdomains/thorin'
 import * as Components from '@ensdomains/thorin'
 
 import { Link } from '~/components'
@@ -114,7 +119,7 @@ export const SearchIcons = () => {
         hideLabel
         label="Search icons"
         placeholder="Search icons"
-        prefix={<SearchSVG />}
+        prefix={<MagnifyingGlassSimpleSVG />}
         value={state.query}
         onChange={(event) =>
           setState((x) => ({ ...x, query: event.target.value }))
