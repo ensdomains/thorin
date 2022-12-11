@@ -297,6 +297,7 @@ export const Checkbox = React.forwardRef(
       id,
       label,
       labelSecondary,
+      labelRight,
       inline = true,
       name,
       required,
@@ -328,6 +329,7 @@ export const Checkbox = React.forwardRef(
         id={id}
         inline={inline}
         label={label}
+        labelRight={labelRight}
         labelSecondary={labelSecondary}
         required={required}
         width={width}
