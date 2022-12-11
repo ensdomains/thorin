@@ -4,8 +4,9 @@ import { ThemeProvider } from 'styled-components'
 
 import { cleanup, render, screen, waitFor } from '@/test'
 
-import { Backdrop } from './Backdrop'
 import { lightTheme } from '@/src/tokens'
+
+import { Backdrop } from './Backdrop'
 
 window.scroll = jest.fn()
 

@@ -3,8 +3,9 @@ import styled, { css } from 'styled-components'
 
 import type { TransitionState } from 'react-transition-state'
 
-import { Backdrop } from '../..'
 import { mq } from '@/src/utils/responsiveHelpers'
+
+import { Backdrop } from '../..'
 
 const Container = styled.div<{ $state: TransitionState }>(
   ({ theme, $state }) => css`

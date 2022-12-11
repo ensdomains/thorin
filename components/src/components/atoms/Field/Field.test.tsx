@@ -4,8 +4,9 @@ import { ThemeProvider } from 'styled-components'
 
 import { cleanup, render, screen } from '@/test'
 
-import { Field } from './Field'
 import { lightTheme } from '@/src/tokens'
+
+import { Field } from './Field'
 
 describe('<Field />', () => {
   afterEach(cleanup)

@@ -7,9 +7,10 @@ import { act } from 'react-dom/test-utils'
 
 import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 
-import { Props, RadioButtonGroup } from './RadioButtonGroup'
 import { FieldSet, RadioButton } from '@/src'
 import { lightTheme } from '@/src/tokens'
+
+import { Props, RadioButtonGroup } from './RadioButtonGroup'
 // import { RadioButton } from '@/src/components'
 
 const RadioButtonGroupWithState = (

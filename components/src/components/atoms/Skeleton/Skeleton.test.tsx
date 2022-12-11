@@ -4,8 +4,9 @@ import { ThemeProvider } from 'styled-components'
 
 import { cleanup, render, screen } from '@/test'
 
-import { Skeleton } from './Skeleton'
 import { lightTheme } from '@/src/tokens'
+
+import { Skeleton } from './Skeleton'
 
 describe('<Skeleton />', () => {
   afterEach(cleanup)

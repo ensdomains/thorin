@@ -4,8 +4,9 @@ import { ThemeProvider } from 'styled-components'
 
 import { cleanup, render } from '@/test'
 
-import { Helper } from './Helper'
 import { lightTheme } from '@/src'
+
+import { Helper } from './Helper'
 
 describe('<Helper />', () => {
   afterEach(cleanup)

@@ -4,8 +4,9 @@ import { ThemeProvider } from 'styled-components'
 
 import { cleanup, render, screen } from '@/test'
 
-import { Card } from './Card'
 import { lightTheme } from '@/src/tokens'
+
+import { Card } from './Card'
 
 describe('<Card />', () => {
   afterEach(cleanup)

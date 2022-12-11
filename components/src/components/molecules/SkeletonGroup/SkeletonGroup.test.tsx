@@ -4,9 +4,10 @@ import { ThemeProvider } from 'styled-components'
 
 import { cleanup, render, screen } from '@/test'
 
+import { lightTheme } from '@/src/tokens'
+
 import { Skeleton } from '../../atoms'
 import { SkeletonGroup } from './SkeletonGroup'
-import { lightTheme } from '@/src/tokens'
 
 describe('<SkeletonGroup />', () => {
   afterEach(cleanup)
