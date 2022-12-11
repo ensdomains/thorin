@@ -41,13 +41,12 @@ const Container = styled.div<ContainerProps>(
     border-radius: ${theme.radii['full']};
     transition-duration: ${theme.transitionDuration['150']};
     transition-property: color, border-color, background-color, transform,
-      filter, box-shadow;
+      filter;
     transition-timing-function: ${theme.transitionTimingFunction['inOut']};
     position: relative;
     z-index: 10;
     padding: ${theme.space['2']} ${theme.space['4']} ${theme.space['2']}
       ${theme.space['2.5']};
-    box-shadow: ${theme.shadows['0.25']};
     color: ${theme.colors.greyDim};
     background-color: ${theme.colors.backgroundSecondary};
 
@@ -62,7 +61,6 @@ const Container = styled.div<ContainerProps>(
 
     ${$open &&
     css`
-      box-shadow: ${theme.shadows['0']};
       background-color: ${theme.colors.greyDim};
     `}
 
