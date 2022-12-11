@@ -40,6 +40,16 @@ const PageButton = styled.button<{ $selected?: boolean; $size: Size }>(
     background-color: transparent;
     transition: all 0.15s ease-in-out;
     cursor: pointer;
+    font-size: ${theme.fontSizes.body};
+    line-height: ${theme.lineHeights.body};
+    font-weight: ${theme.fontWeights.bold};
+    border-radius: ${theme.radii['extraLarge']};
+
+    min-width: ${theme.space['10']};
+    height: ${theme.space['10']};
+    border: 1px solid ${theme.colors.border};
+    padding: ${theme.space['2']};
+
     ${$selected
       ? css`
           background-color: ${theme.colors.background};
@@ -54,17 +64,14 @@ const PageButton = styled.button<{ $selected?: boolean; $size: Size }>(
           }
         `}
 
-    border-radius: ${$size === 'small'
-      ? theme.space['2']
-      : theme.radii['extraLarge']};
-    border: 1px solid ${theme.colors.border};
-    min-width: ${$size === 'small' ? theme.space['9'] : theme.space['10']};
-    padding: ${theme.space['2']};
-    height: ${$size === 'small' ? theme.space['9'] : theme.space['10']};
-    font-size: ${$size === 'small'
-      ? theme.space['3.5']
-      : theme.fontSizes['small']};
-    font-weight: ${theme.fontWeights['medium']};
+    ${$size === 'small' &&
+    css`
+      font-size: ${theme.fontSizes.small};
+      line-height: ${theme.lineHeights.small};
+      border-radius: ${theme.space['2']};
+      min-width: ${theme.space['9']};
+      height: ${theme.space['9']};
+    `}
   `,
 )
 

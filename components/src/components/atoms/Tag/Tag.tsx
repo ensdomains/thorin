@@ -9,11 +9,12 @@ interface ContainerProps {
 
 const Container = styled.div<ContainerProps>(
   ({ theme, $hover, $size, $tone }) => css`
-    line-height: normal;
     align-items: center;
     display: flex;
     border-radius: ${theme.radii['full']};
-    font-weight: ${theme.fontWeights['medium']};
+    font-size: ${theme.fontSizes.small};
+    line-height: ${theme.lineHeights.small};
+    font-weight: ${theme.fontWeights.bold};
     width: ${theme.space['max']};
 
     ${$hover &&
@@ -23,22 +24,11 @@ const Container = styled.div<ContainerProps>(
       transition-timing-function: ${theme.transitionTimingFunction['inOut']};
     `}
 
-    ${() => {
-      switch ($size) {
-        case 'small':
-          return css`
-            height: ${theme.space['5']};
-            font-size: ${theme.fontSizes['label']};
-          `
-        case 'medium':
-          return css`
-            height: ${theme.space['6']};
-            font-size: ${theme.fontSizes['small']};
-          `
-        default:
-          return ``
-      }
-    }}
+    ${$size === 'medium' &&
+    css`
+      font-size: ${theme.fontSizes.body};
+      line-height: ${theme.lineHeights.body};
+    `}
 
   ${() => {
       switch ($tone) {
@@ -120,7 +110,7 @@ export const Tag = ({
   children,
   hover,
   label,
-  size = 'medium',
+  size = 'small',
   tone = 'secondary',
   ...props
 }: Props) => {

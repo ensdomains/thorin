@@ -237,10 +237,10 @@ const Prefix = styled.label<{ $padding: Space }>(
     align-items: center;
     display: flex;
     height: ${theme.space['full']};
-    line-height: normal;
     color: inherit;
-    font-family: ${theme.fonts['sans']};
-    font-weight: ${theme.fontWeights['medium']};
+    font-size: ${theme.fontSizes.body};
+    line-height: ${theme.lineHeights.body};
+    font-weight: ${theme.fontWeights.normal};
     padding-left: ${theme.space[$padding]};
   `,
 )
@@ -250,10 +250,10 @@ const Suffix = styled.label<{ $padding: Space }>(
     align-items: center;
     display: flex;
     height: ${theme.space['full']};
-    line-height: normal;
     color: inherit;
-    font-family: ${theme.fonts['sans']};
-    font-weight: ${theme.fontWeights['medium']};
+    font-size: ${theme.fontSizes.body};
+    line-height: ${theme.lineHeights.body};
+    font-weight: ${theme.fontWeights.normal};
     padding-right: ${theme.space[$padding]};
   `,
 )
@@ -278,12 +278,12 @@ const InputComponent = styled.input<InputComponentProps>(
     width: ${theme.space['full']};
     height: ${theme.space['full']};
     padding: 0 ${theme.space[$padding]};
-    font-weight: ${theme.fontWeights['medium']};
+    font-weight: ${theme.fontWeights.normal};
     text-overflow: ellipsis;
 
     &::placeholder {
       color: ${theme.colors.greySurface};
-      font-weight: ${theme.fontWeights['medium']};
+      font-weight: ${theme.fontWeights.normal};
     }
 
     ${disabled &&
@@ -302,15 +302,18 @@ const InputComponent = styled.input<InputComponentProps>(
       switch ($size) {
         case 'medium':
           return css`
-            font-size: ${theme.fontSizes['base']};
+            font-size: ${theme.fontSizes.body};
+            line-height: ${theme.lineHeights.body};
           `
         case 'large':
           return css`
-            font-size: ${theme.fontSizes['large']};
+            font-size: ${theme.fontSizes.large};
+            line-height: ${theme.lineHeights.large};
           `
         case 'extraLarge':
           return css`
-            font-size: ${theme.fontSizes['headingThree']};
+            font-size: ${theme.fontSizes.extraLarge};
+            line-height: ${theme.lineHeights.extraLarge};
           `
         default:
           return ``
@@ -342,15 +345,18 @@ const Ghost = styled.div<{ $type: HTMLInputElement['type']; $size: any }>(
       switch ($size) {
         case 'medium':
           return css`
-            font-size: ${theme.fontSizes['base']};
+            font-size: ${theme.fontSizes.body};
+            line-height: ${theme.lineHeights.body};
           `
         case 'large':
           return css`
-            font-size: ${theme.fontSizes['large']};
+            font-size: ${theme.fontSizes.large};
+            line-height: ${theme.lineHeights.large};
           `
         case 'extraLarge':
           return css`
-            font-size: ${theme.fontSizes['headingThree']};
+            font-size: ${theme.fontSizes.extraLarge};
+            line-height: ${theme.lineHeights.extraLarge};
             padding: 0 ${theme.space['6']};
           `
         default:
@@ -363,7 +369,7 @@ const Ghost = styled.div<{ $type: HTMLInputElement['type']; $size: any }>(
 const Units = styled.span(
   ({ theme }) => css`
     color: ${theme.colors.text};
-    font-weight: ${theme.fontWeights['medium']};
+    font-weight: ${theme.fontWeights.normal};
   `,
 )
 

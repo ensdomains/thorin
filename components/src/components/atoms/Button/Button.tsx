@@ -153,7 +153,6 @@ const ButtonElement = styled.button<ButtonElement>(
     gap: ${theme.space['4']};
     transition-duration: ${theme.transitionDuration['150']};
     transition-timing-function: ${theme.transitionTimingFunction['inOut']};
-    letter-spacing: ${theme.letterSpacings['-0.01']};
     width: 100%;
 
     &:hover {
@@ -202,7 +201,7 @@ const ButtonElement = styled.button<ButtonElement>(
     box-shadow: ${theme.shadows['0.25']} ${theme.colors.grey};
 
     border-radius: ${theme.radii.extraLarge};
-    font-size: ${theme.fontSizes.large};
+    font-size: ${theme.fontSizes.body};
     padding: ${theme.space['3.5']} ${theme.space['4']};
 
     ${() => {
@@ -210,13 +209,15 @@ const ButtonElement = styled.button<ButtonElement>(
         case 'extraSmall':
           return css`
             border-radius: ${theme.radii.large};
-            font-size: ${theme.fontSizes.small};
+            font-size: ${theme.fontSizes.extraSmall};
+            line-height: ${theme.lineHeights.extraSmall};
             padding: ${theme.space['2']};
           `
         case 'small':
           return css`
             border-radius: ${theme.radii.large};
             font-size: ${theme.fontSizes.small};
+            line-height: ${theme.lineHeights.small};
             height: ${theme.space['10']};
             padding: 0 ${theme.space['4']};
           `
@@ -335,7 +336,7 @@ const LabelContainer = styled(Typography)<{
   ({ theme, $fullWidthContent }) => css`
     color: inherit;
     font-size: inherit;
-    font-weight: ${theme.fontWeights['semiBold']};
+    font-weight: ${theme.fontWeights.bold};
     ${$fullWidthContent && `width: 100%;`}
   `,
 )

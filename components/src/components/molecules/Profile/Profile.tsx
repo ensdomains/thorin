@@ -45,12 +45,12 @@ const Container = styled.div<ContainerProps>(
     transition-timing-function: ${theme.transitionTimingFunction['inOut']};
     position: relative;
     z-index: 10;
-    padding: ${theme.space['2']} ${theme.space['4']} ${theme.space['2']}
-      ${theme.space['2.5']};
+    padding: ${theme.space[2]} ${theme.space[4]} ${theme.space[2]}
+      ${theme.space[2]};
     box-shadow: ${theme.shadows['0.25']};
     color: ${theme.colors.greyDim};
     background-color: ${theme.colors.backgroundSecondary};
-
+    height: ${theme.space['16']};
     ${$hasChevron &&
     css`
       cursor: pointer;
@@ -71,6 +71,7 @@ const Container = styled.div<ContainerProps>(
         case 'small':
           return css`
             max-width: ${theme.space['48']};
+            padding: ${theme.space['2']};
           `
         case 'medium':
           return css`
@@ -89,6 +90,8 @@ const Container = styled.div<ContainerProps>(
       if ($size === 'small' && $hasChevron)
         return css`
           max-width: ${theme.space['52']};
+          padding: ${theme.space['2']} ${theme.space['4']} ${theme.space['2']}
+            ${theme.space['2']};
         `
 
       if ($size === 'medium' && $hasChevron)
@@ -107,6 +110,7 @@ const Container = styled.div<ContainerProps>(
 const AvatarContainer = styled.div(
   ({ theme }) => css`
     width: ${theme.space['12']};
+    flex: 0 0 ${theme.space['12']};
   `,
 )
 
@@ -160,16 +164,14 @@ const ProfileInner = ({ size, avatar, address, ensName }: Props) => (
         color={ensName ? 'text' : 'textTertiary'}
         ellipsis
         forwardedAs="h3"
-        variant={ensName && size === 'large' ? 'extraLarge' : 'large'}
-        weight="bold"
+        variant={ensName && size === 'large' ? 'Heading/H3' : 'Heading/H4'}
       >
         {ensName || 'No name set'}
       </ReducedLineText>
       <ReducedLineText
         color={ensName ? 'textTertiary' : 'text'}
         forwardedAs="h4"
-        variant="small"
-        weight="bold"
+        variant="Small/Normal"
       >
         {shortenAddress(
           address,

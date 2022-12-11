@@ -47,7 +47,8 @@ type Props = FieldBaseProps & {
 const Label = styled.label<{ $inline?: boolean }>(
   ({ theme }) => css`
     color: ${theme.colors.textTertiary};
-    font-weight: ${theme.fontWeights['semiBold']};
+    font-size: ${theme.fontSizes.body};
+    font-weight: ${theme.fontWeights.bold};
     display: flex;
     cursor: pointer;
   `,
@@ -56,6 +57,8 @@ const Label = styled.label<{ $inline?: boolean }>(
 const LabelSecondary = styled.span(
   ({ theme }) => css`
     margin-left: ${theme.space['4']};
+    font-size: ${theme.fontSizes.small};
+    font-weight: ${theme.fontWeights.normal};
   `,
 )
 
@@ -142,12 +145,16 @@ const Description = styled.div<{ $inline?: boolean }>(
   ({ theme, $inline }) => css`
     padding: 0 ${$inline ? '0' : theme.space['4']};
     color: ${theme.colors.textSecondary};
+    font-size: ${theme.fontSizes.small};
+    font-weight: ${theme.fontWeights.normal};
   `,
 )
 
 const Error = styled.div<{ $inline?: boolean }>(
   ({ theme, $inline }) => `
     color: ${theme.colors.red};
+    font-size: ${theme.fontSizes.small};
+    font-weight: ${theme.fontWeights.bold};
     padding: 0 ${$inline ? '0' : theme.space[4]};
 `,
 )

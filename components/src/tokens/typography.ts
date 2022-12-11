@@ -1,26 +1,40 @@
-export const fonts = {
+export type Font = 'mono' | 'sans'
+
+export type FontSize =
+  | 'headingOne'
+  | 'headingTwo'
+  | 'headingThree'
+  | 'headingFour'
+  | 'extraLarge'
+  | 'large'
+  | 'body'
+  | 'small'
+  | 'extraSmall'
+
+export type FontWeight = 'light' | 'normal' | 'bold' | 'extraBold'
+
+export const fonts: { [key in Font]: string } = {
   mono: `"iAWriter Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace`,
   sans: `"Satoshi", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif`,
 }
 
-export const fontSizes = {
-  headingOne: '3rem',
+export const fontSizes: { [key in FontSize]: string } = {
+  headingOne: '2.25rem',
   headingTwo: '1.875rem',
   headingThree: '1.625rem',
-  extraLarge: '1.3125rem',
+  headingFour: '1.375rem',
+  extraLarge: '1.25rem',
   large: '1.125rem',
-  small: '0.9375rem',
-  label: '0.8125rem',
-  base: '1.0625rem',
-  root: '16px',
+  body: '1rem',
+  small: '0.875rem',
+  extraSmall: '0.75rem',
 }
 
-export const fontWeights = {
+export const fontWeights: { [key in FontWeight]: string } = {
   light: '300',
-  normal: '400',
-  medium: '500',
-  semiBold: '550',
-  bold: '650',
+  normal: '500',
+  bold: '700',
+  extraBold: '830',
 }
 
 export const letterSpacings = {
@@ -31,12 +45,14 @@ export const letterSpacings = {
   '0.03': '0.03em',
 }
 
-export const lineHeights = {
-  normal: 'normal',
-  none: '1',
-  '1.25': '1.25', // tight
-  '1.375': '1.375', // snug
-  '1.5': '1.5', // normal
-  '1.625': '1.625', // relaxed
-  '2': '2', // loose
+export const lineHeights: { [key in FontSize]: string } = {
+  headingOne: '3rem',
+  headingTwo: '2.5rem',
+  headingThree: '2.125rem',
+  headingFour: '1.875rem',
+  extraLarge: '1.625rem',
+  large: '1.5rem',
+  body: '1.5rem',
+  small: '1.25rem',
+  extraSmall: '1rem',
 }

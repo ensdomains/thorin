@@ -43,15 +43,17 @@ const StyledCard = styled.div(
 
 const Title = styled(Typography)(
   ({ theme }) => css`
-    font-size: ${theme.fontSizes['headingThree']};
-    font-weight: ${theme.fontWeights['bold']};
+    font-size: ${theme.fontSizes.headingFour};
+    line-height: ${theme.lineHeights.headingFour};
+    font-weight: ${theme.fontWeights.bold};
   `,
 )
 
 const SubTitle = styled(Typography)(
   ({ theme }) => css`
-    font-size: ${theme.fontSizes['base']};
-    font-weight: ${theme.fontWeights['medium']};
+    font-size: ${theme.fontSizes.body};
+    line-height: ${theme.lineHeights.body};
+    font-weight: ${theme.fontWeights.bold};
     color: ${theme.colors.textSecondary};
     text-align: center;
 

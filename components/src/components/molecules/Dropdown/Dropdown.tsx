@@ -172,11 +172,10 @@ const MenuButton = styled.button<MenuButtonProps>(
     width: ${theme.space['full']};
     height: ${theme.space['12']};
     padding: ${theme.space['3']};
-    font-weight: ${theme.fontWeights['semiBold']};
+    font-weight: ${theme.fontWeights.normal};
     transition-duration: 0.15s;
     transition-property: color, transform, filter;
     transition-timing-function: ease-in-out;
-    letter-spacing: -0.01em;
 
     &:active {
       transform: translateY(0px);
@@ -342,7 +341,7 @@ const InnerMenuButton = styled.button<InnerMenuButton>(
     justify-content: space-between;
     gap: ${theme.space['4']};
     border-width: ${theme.space['px']};
-    font-weight: ${theme.fontWeights['semiBold']};
+    font-weight: ${theme.fontWeights.normal};
     cursor: pointer;
     position: relative;
     border-color: ${theme.colors.border};

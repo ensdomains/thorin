@@ -104,8 +104,8 @@ const TextArea = styled.textarea<{
     color: ${theme.colors.text};
     display: flex;
     font-family: ${theme.fonts['sans']};
-    font-size: ${theme.fontSizes['base']};
-    font-weight: ${theme.fontWeights['medium']};
+    font-size: ${theme.fontSizes.body};
+    font-weight: ${theme.fontWeights.normal};
     min-height: ${theme.space['14']};
     padding: ${theme.space['4']};
     width: ${theme.space['full']};
@@ -114,7 +114,7 @@ const TextArea = styled.textarea<{
 
     &::placeholder {
       color: ${theme.colors.greySurface};
-      font-weight: ${theme.fontWeights['medium']};
+      font-weight: ${theme.fontWeights.normal};
     }
   `,
 )

@@ -39,21 +39,24 @@ const SelectContainer = styled.div<{
     justify-content: space-between;
     z-index: 10;
     overflow: hidden;
-    ${$size === 'small'
-      ? css`
-          border-radius: ${theme.space['2']};
-          height: ${theme.space['9']};
-          font-size: ${theme.space['3.5']};
-        `
-      : $size === 'medium'
-      ? css`
-          border-radius: ${theme.radii['almostExtraLarge']};
-          height: ${theme.space['10']};
-        `
-      : css`
-          border-radius: ${theme.radii['2xLarge']};
-          height: ${theme.space['14']};
-        `}
+    font-size: ${theme.fontSizes.body};
+    line-height: ${theme.lineHeights.body};
+    border-radius: ${theme.radii['almostExtraLarge']};
+    height: ${theme.space['10']};
+
+    ${$size === 'small' &&
+    css`
+      font-size: ${theme.fontSizes.small};
+      line-height: ${theme.lineHeights.small};
+      border-radius: ${theme.space['2']};
+      height: ${theme.space['9']};
+    `}
+
+    ${$size === 'large' &&
+    css`
+      border-radius: ${theme.radii['2xLarge']};
+      height: ${theme.space['14']};
+    `}
 
     ${$disabled &&
     css`
@@ -207,9 +210,12 @@ const SelectOptionContainer = styled.div<{
     background: ${theme.colors.background};
     transition: all 0.3s cubic-bezier(1, 0, 0.22, 1.6), z-index 0.3s linear;
 
+    font-size: ${theme.fontSizes.body};
+    line-height: ${theme.lineHeights.body};
+
     ${$size === 'small' &&
     css`
-      font-size: ${theme.space['3.5']};
+      font-size: ${theme.fontSizes.small};
     `}
 
     ${$state === 'entered'

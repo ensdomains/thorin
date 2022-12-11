@@ -34,7 +34,8 @@ const Row = styled.div(
 const Description = styled.div(
   ({ theme }) => css`
     color: ${theme.colors.textSecondary};
-    font-size: ${theme.fontSizes.base};
+    font-size: ${theme.fontSizes.body};
+    line-height: ${theme.lineHeights.body};
   `,
 )
 

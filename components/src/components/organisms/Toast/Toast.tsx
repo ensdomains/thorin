@@ -91,7 +91,8 @@ const Container = styled.div<{
 
 const Title = styled(Typography)(
   ({ theme }) => css`
-    line-height: ${theme.lineHeights.normal};
+    font-size: ${theme.fontSizes.headingFour};
+    line-height: ${theme.lineHeights.headingFour};
   `,
 )
 
