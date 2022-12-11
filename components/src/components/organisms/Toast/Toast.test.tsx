@@ -4,8 +4,9 @@ import { ThemeProvider } from 'styled-components'
 
 import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 
-import { Toast } from './Toast'
 import { lightTheme } from '@/src/tokens'
+
+import { Toast } from './Toast'
 
 window.scroll = jest.fn()
 

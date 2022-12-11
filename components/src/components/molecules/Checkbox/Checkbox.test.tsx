@@ -5,8 +5,9 @@ import { ThemeProvider } from 'styled-components'
 
 import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 
-import { Checkbox } from './Checkbox'
 import { lightTheme } from '@/src/tokens'
+
+import { Checkbox } from './Checkbox'
 
 const CheckboxWithState = (props: any) => {
   const [checked, setChecked] = useState<boolean>(false)

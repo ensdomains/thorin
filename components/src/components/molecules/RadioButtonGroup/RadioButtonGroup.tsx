@@ -2,9 +2,10 @@ import * as React from 'react'
 
 import styled, { css } from 'styled-components'
 
+import { RadioButton } from '@/src/components'
+
 import { getTestId } from '../../../utils/utils'
 import { createSyntheticEvent } from '../../../utils/createSyntheticEvent'
-import { RadioButton } from '@/src/components'
 
 const Container = styled.div<{ $inline?: boolean }>(
   ({ theme, $inline }) => css`
