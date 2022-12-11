@@ -145,7 +145,7 @@ const SelectActionButton = styled.button<{ $padding: Space; $size: Size }>(
   `,
 )
 
-const Chevron = styled(DownChevronSVG)<{
+const Chevron = styled((props) => <DownChevronSVG {...props} />)<{
   $open: boolean
   $disabled?: boolean
   $direction?: Direction

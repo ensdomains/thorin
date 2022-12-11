@@ -6,8 +6,9 @@ import { act } from 'react-dom/test-utils'
 
 import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 
-import { Dropdown } from './Dropdown'
 import { lightTheme } from '@/src/tokens'
+
+import { Dropdown } from './Dropdown'
 
 const DropdownHelper = ({ mockCallback, children, ...props }: any) => {
   return (

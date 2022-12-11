@@ -4,8 +4,9 @@ import { ThemeProvider } from 'styled-components'
 
 import { cleanup, render } from '@/test'
 
-import { Slider } from './Slider'
 import { lightTheme } from '@/src'
+
+import { Slider } from './Slider'
 
 describe('<Slider />', () => {
   afterEach(cleanup)

@@ -402,7 +402,7 @@ const InnerMenuButton = styled.button<InnerMenuButton>(
   `,
 )
 
-const Chevron = styled(DownChevronSVG)<{
+const Chevron = styled((props) => <DownChevronSVG {...props} />)<{
   $open?: boolean
   $direction: Direction
 }>(
@@ -543,7 +543,7 @@ export const Dropdown = ({
         if (React.isValidElement(child)) {
           return React.cloneElement(child as any, {
             ...buttonProps,
-            zIndex: '10',
+            zindex: '10',
             onClick: () => setIsOpen(!isOpen),
           })
         }
