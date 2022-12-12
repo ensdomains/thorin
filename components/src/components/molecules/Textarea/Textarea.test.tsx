@@ -4,8 +4,9 @@ import { ThemeProvider } from 'styled-components'
 
 import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 
-import { Textarea } from './Textarea'
 import { lightTheme } from '@/src/tokens'
+
+import { Textarea } from './Textarea'
 
 describe('<Textarea />', () => {
   afterEach(cleanup)

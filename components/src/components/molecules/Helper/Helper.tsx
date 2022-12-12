@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 
-import { AlertSVG, InfoSVG } from '@/src/icons'
+import { AlertSVG, InfoCircleSVG } from '@/src/icons'
 
 type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 
@@ -38,18 +38,18 @@ const Container = styled.div<{ $type: HelperType; $alignment: Alignment }>(
       text-align: left;
     `}
 
-    background-color: ${theme.colors.lightBlue};
+    background-color: ${theme.colors.blueSurface};
     border: ${theme.borderWidths.px} solid ${theme.colors.blue};
 
     ${$type === 'warning' &&
     css`
-      background-color: ${theme.colors.lightYellow};
+      background-color: ${theme.colors.yellowSurface};
       border-color: ${theme.colors.yellow};
     `}
 
     ${$type === 'error' &&
     css`
-      background-color: ${theme.colors.lightRed};
+      background-color: ${theme.colors.redSurface};
       border-color: ${theme.colors.red};
     `}
   `,
@@ -79,7 +79,7 @@ export const Helper = ({
   children,
   ...props
 }: Props) => {
-  const Icon = type === 'info' ? InfoSVG : AlertSVG
+  const Icon = type === 'info' ? InfoCircleSVG : AlertSVG
 
   return (
     <Container $alignment={alignment} $type={type} {...props}>

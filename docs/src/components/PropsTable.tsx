@@ -37,8 +37,8 @@ const TableHeadLabelContainer = styled.div<{
   $headers: Array<string>
 }>(
   ({ theme, $i, $headers }) => css`
-    background-color: ${theme.colors.foregroundTertiary};
-    border-color: ${theme.colors.foregroundSecondary};
+    background-color: ${theme.colors.greySurface};
+    border-color: ${theme.colors.greyBright};
     ${$i === 0 ? `border-left-radius: ${theme.radii['large']};` : ``}
     ${$i === $headers.length - 1
       ? `border-right-radius: ${theme.radii['large']};`

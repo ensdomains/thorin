@@ -1,10 +1,12 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 
-import { VisuallyHidden } from '../..'
 import { Colors } from '@/src/tokens'
-import { getTestId } from '../../../utils/utils'
+
 import { CheckSVG } from '@/src/icons'
+
+import { VisuallyHidden } from '../..'
+import { getTestId } from '../../../utils/utils'
 
 const CountDownContainer = styled.div(
   () => css`
@@ -29,7 +31,7 @@ const NumberBox = styled.div<NumberBox>(
 
     ${$disabled &&
     css`
-      color: ${theme.colors.textPlaceholder};
+      color: ${theme.colors.greyBright};
     `}
 
     #countdown-complete-check {
@@ -73,7 +75,7 @@ const Container = styled.div<ContainerProps>(
 
     ${$disabled &&
     css`
-      color: ${theme.colors.foregroundSecondary};
+      color: ${theme.colors.greyBright};
     `}
 
     ${() => {

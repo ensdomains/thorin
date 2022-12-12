@@ -4,8 +4,9 @@ import { ThemeProvider } from 'styled-components'
 
 import { cleanup, render, screen } from '@/test'
 
-import { Button } from './Button'
 import { lightTheme } from '@/src/tokens'
+
+import { Button } from './Button'
 
 describe('<Button />', () => {
   afterEach(cleanup)

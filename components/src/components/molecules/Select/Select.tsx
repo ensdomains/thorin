@@ -6,12 +6,15 @@ import { useEffect } from 'react'
 
 import { TransitionState, useTransition } from 'react-transition-state'
 
-import { CloseSVG, Field } from '../..'
-import { FieldBaseProps } from '../../atoms/Field'
-import { ReactComponent as IconDownIndicatorSvg } from '@/src/icons/DownIndicator.svg'
 import { useDocumentEvent } from '@/src/hooks/useDocumentEvent'
-import { VisuallyHidden } from '../../atoms'
+
 import { Space } from '@/src/tokens'
+
+import { CrossSVG, DownChevronSVG, Field } from '../..'
+
+import { FieldBaseProps } from '../../atoms/Field'
+
+import { VisuallyHidden } from '../../atoms'
 
 const CREATE_OPTION_VALUE = 'CREATE_OPTION_VALUE'
 
@@ -26,7 +29,7 @@ const SelectContainer = styled.div<{
     background: ${theme.colors.backgroundSecondary};
     ${$showBorder &&
     css`
-      border: 1px solid ${theme.colors.backgroundHide};
+      border: 1px solid ${theme.colors.greySurface};
     `};
     cursor: pointer;
     position: relative;
@@ -55,7 +58,7 @@ const SelectContainer = styled.div<{
     ${$disabled &&
     css`
       cursor: not-allowed;
-      background: ${theme.colors.backgroundTertiary};
+      background: ${theme.colors.backgroundSecondary};
     `}
   `,
 )
@@ -107,7 +110,7 @@ const NoOptionContainer = styled.div<{ $padding: Space }>(
   ({ theme, $padding }) => css`
     padding: ${theme.space[$padding]};
     padding-right: 0;
-    color: ${theme.colors.textPlaceholder};
+    color: ${theme.colors.greySurface};
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -142,7 +145,7 @@ const SelectActionButton = styled.button<{ $padding: Space; $size: Size }>(
   `,
 )
 
-const Chevron = styled(IconDownIndicatorSvg)<{
+const Chevron = styled((props) => <DownChevronSVG {...props} />)<{
   $open: boolean
   $disabled?: boolean
   $direction?: Direction
@@ -219,7 +222,7 @@ const SelectOptionContainer = styled.div<{
           bottom: ${$direction === 'up'
             ? `calc(100% + ${theme.space['1.5']})`
             : 'auto'};
-          opacity: ${theme.opacity['100']};
+          opacity: 1;
         `
       : css`
           z-index: 1;
@@ -254,7 +257,7 @@ const SelectOptionList = styled.div<{ $rows?: number; $direction: Direction }>(
     ${$rows &&
     css`
       max-height: calc(${theme.space['9']} * ${$rows});
-      border-color: rgba(${theme.shadesRaw.foreground}, 0.05);
+      border-color: hsla(${theme.colors.raw.greyActive} / 0.05);
       transition: border-color 0.15s ease-in-out;
       padding-right: ${theme.space['1']};
 
@@ -281,7 +284,7 @@ const SelectOptionList = styled.div<{ $rows?: number; $direction: Direction }>(
       }
 
       &:hover {
-        border-color: rgba(${theme.shadesRaw.foreground}, 0.2);
+        border-color: hsla(${theme.colors.raw.greyActive} / 0.2);
       }
     `}
   `,
@@ -320,11 +323,11 @@ const SelectOption = styled.div<{
     ${() => {
       if ($selected)
         return css`
-          background-color: ${theme.colors.foregroundSecondary};
+          background-color: ${theme.colors.greySurface};
         `
       else if ($highlighted)
         return css`
-          background-color: ${theme.colors.foregroundSecondaryHover};
+          background-color: ${theme.colors.greyBright};
         `
     }}
 
@@ -334,7 +337,7 @@ const SelectOption = styled.div<{
       cursor: not-allowed;
 
       &:hover {
-        background-color: ${theme.colors.transparent};
+        background-color: transparent;
       }
     `}
 
@@ -833,7 +836,7 @@ export const Select = React.forwardRef(
                   type="button"
                   onClick={handleInputClear}
                 >
-                  <CloseSVG />
+                  <CrossSVG />
                 </SelectActionButton>
               ) : (
                 <SelectActionButton

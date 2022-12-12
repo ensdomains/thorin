@@ -4,8 +4,9 @@ import { ThemeProvider } from 'styled-components'
 
 import { act, cleanup, render, screen, userEvent, waitFor } from '@/test'
 
-import { Select } from './Select'
 import { lightTheme } from '@/src/tokens'
+
+import { Select } from './Select'
 import { Input } from '../Input'
 
 describe('<Select />', () => {

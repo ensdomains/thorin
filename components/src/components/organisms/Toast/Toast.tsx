@@ -14,14 +14,14 @@ const IconCloseContainer = styled.div(
     right: ${theme.space['2.5']};
     height: ${theme.space['8']};
     width: ${theme.space['8']};
-    opacity: ${theme.opacity['50']};
+    opacity: 0.5;
     cursor: pointer;
     transition-property: all;
     transition-duration: ${theme.transitionDuration['150']};
     transition-timing-function: ${theme.transitionTimingFunction['inOut']};
 
     &:hover {
-      opacity: ${theme.opacity['70']};
+      opacity: 0.7;
     }
   `,
 )
@@ -68,9 +68,9 @@ const Container = styled.div<{
     justify-content: center;
     padding: ${theme.space['4.5']};
 
-    background: rgba(${theme.shadesRaw.background}, 0.8);
+    background: hsla(${theme.colors.raw.background} / 0.8);
     box-shadow: ${theme.boxShadows['0.02']};
-    border: ${theme.borderWidths.px} solid ${theme.colors.foregroundSecondary};
+    border: ${theme.borderWidths.px} solid ${theme.colors.greySurface};
     backdrop-filter: blur(16px);
     border-radius: ${theme.radii['2xLarge']};
 

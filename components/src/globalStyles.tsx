@@ -10,10 +10,10 @@ const GlobalStyle = createGlobalStyle(
       margin: 0;
       padding: 0;
       font-family: ${theme.fonts['sans']};
-      border-color: ${theme.colors.foregroundSecondary};
+      border-color: ${theme.colors.greyBright};
       border-style: ${theme.borderStyles['solid']};
       border-width: 0;
-      color: ${theme.colors.current};
+      color: currentColor;
       font-size: 100%;
       font-feature-settings: 'ss01' on, 'ss03' on;
       vertical-align: baseline;
@@ -25,7 +25,7 @@ const GlobalStyle = createGlobalStyle(
 
     html {
       font-size: ${theme.fontSizes['root']};
-      color: ${theme.colors.foreground};
+      color: ${theme.colors.text};
       text-rendering: optimizeLegibility;
       background: radial-gradient(
           40.48% 67.6% at 50% 32.4%,
@@ -79,14 +79,14 @@ const GlobalStyle = createGlobalStyle(
       appearance: none;
       outline: none;
       &:placeholder {
-        color: ${theme.colors.textTertiary};
-        opacity: ${theme.opacity['100']};
+        color: ${theme.colors.text};
+        opacity: 1;
       }
     }
 
     mark {
-      background-color: ${theme.colors.transparent};
-      color: ${theme.colors.inherit};
+      background-color: transparent;
+      color: inherit;
     }
 
     select {
@@ -94,8 +94,8 @@ const GlobalStyle = createGlobalStyle(
       appearance: none;
       outline: none;
       &:placeholder {
-        color: ${theme.colors.textTertiary};
-        opacity: ${theme.opacity['100']};
+        color: ${theme.colors.text};
+        opacity: 1;
       }
 
       &:-ms-expand {
@@ -108,8 +108,8 @@ const GlobalStyle = createGlobalStyle(
       appearance: none;
       outline: none;
       &:placeholder {
-        color: ${theme.colors.textTertiary};
-        opacity: ${theme.opacity['100']};
+        color: ${theme.colors.text};
+        opacity: 1;
       }
       &::-webkit-outer-spin-button {
         webkit-appearance: none;
@@ -131,7 +131,7 @@ const GlobalStyle = createGlobalStyle(
 
     a {
       text-decoration: none;
-      color: ${theme.colors.inherit};
+      color: inherit;
     }
   `,
 )

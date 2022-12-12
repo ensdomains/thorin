@@ -4,8 +4,9 @@ import { ThemeProvider } from 'styled-components'
 
 import { cleanup, render, screen } from '@/test'
 
-import { Tag } from './Tag'
 import { lightTheme } from '@/src/tokens'
+
+import { Tag } from './Tag'
 
 describe('<Tag />', () => {
   afterEach(cleanup)

@@ -136,7 +136,7 @@ const InputParent = styled.div<InputParentProps>(
     background-color: ${theme.colors.backgroundSecondary};
     border-radius: ${theme.radii['2xLarge']};
     border-width: ${theme.space['0.75']};
-    border-color: ${theme.colors.transparent};
+    border-color: transparent;
     color: ${theme.colors.text};
     display: flex;
     transition-duration: ${theme.transitionDuration['150']};
@@ -159,18 +159,18 @@ const InputParent = styled.div<InputParentProps>(
         if ($error && $showDot)
           return css`
             background-color: ${theme.colors.red};
-            border: 2px solid ${theme.colors.white};
+            border: 2px solid ${theme.colors.background};
             transform: translate(50%, -50%) scale(1);
           `
         if ($validated && $showDot)
           return css`
             background-color: ${theme.colors.green};
-            border: 2px solid ${theme.colors.white};
+            border: 2px solid ${theme.colors.background};
             transform: translate(50%, -50%) scale(1);
           `
         return css`
-          background-color: ${theme.colors.transparent};
-          border: 2px solid ${theme.colors.transparent};
+          background-color: transparent;
+          border: 2px solid transparent;
           transform: translate(50%, -50%) scale(0.2);
         `
       }}
@@ -179,7 +179,7 @@ const InputParent = styled.div<InputParentProps>(
     &:focus-within {
       ${!$error &&
       css`
-        border-color: ${theme.colors.accentSecondary};
+        border-color: ${theme.colors.accentBright};
       `}
     }
 
@@ -188,14 +188,14 @@ const InputParent = styled.div<InputParentProps>(
       $showDot &&
       css`
         background-color: ${theme.colors.blue};
-        border-color: ${theme.colors.white};
+        border-color: ${theme.colors.background};
         transform: translate(50%, -50%) scale(1);
       `}
     }
 
     ${$disabled &&
     css`
-      border-color: ${theme.colors.foregroundSecondary};
+      border-color: ${theme.colors.greyBright};
       background-color: ${theme.colors.background};
     `}
 
@@ -273,7 +273,7 @@ interface InputComponentProps {
 
 const InputComponent = styled.input<InputComponentProps>(
   ({ theme, disabled, type, $size, $padding }) => css`
-    background-color: ${theme.colors.transparent};
+    background-color: transparent;
     position: relative;
     width: ${theme.space['full']};
     height: ${theme.space['full']};
@@ -282,13 +282,13 @@ const InputComponent = styled.input<InputComponentProps>(
     text-overflow: ellipsis;
 
     &::placeholder {
-      color: ${theme.colors.textPlaceholder};
+      color: ${theme.colors.greySurface};
       font-weight: ${theme.fontWeights['medium']};
     }
 
     ${disabled &&
     css`
-      opacity: ${theme.opacity['50']};
+      opacity: 0.5;
       cursor: not-allowed;
     `}
 
@@ -330,7 +330,7 @@ const Ghost = styled.div<{ $type: HTMLInputElement['type']; $size: any }>(
     align-items: center;
 
     padding: 0 ${theme.space['4']};
-    border-color: ${theme.colors.transparent};
+    border-color: transparent;
 
     ${$type === 'number' &&
     css`

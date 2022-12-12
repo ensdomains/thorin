@@ -12,6 +12,7 @@ import {
   SkipNavContent,
   SkipNavLink,
 } from '~/components'
+
 import { getLayout as getBaseLayout } from './site'
 
 const Container = styled.div(
@@ -38,9 +39,10 @@ const Container = styled.div(
 const Aside = styled.aside(
   ({ theme }) => css`
     padding-top: ${theme.space['6']};
+    background-color: ${theme.colors.greyBright};
 
     ${mq.lg.min(css`
-      background-color: ${theme.colors.foregroundTertiary};
+      background-color: ${theme.colors.greyBright};
       margin-right: ${theme.space['10']};
       border-radius: ${theme.radii['extraLarge']};
 

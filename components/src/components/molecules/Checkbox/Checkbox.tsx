@@ -3,6 +3,7 @@ import styled, { FlattenSimpleInterpolation, css } from 'styled-components'
 
 import { Colors } from '@/src/tokens'
 import { DefaultTheme } from '@/src/types'
+
 import { Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
 import { getTestId } from '../../../utils/utils'
@@ -75,24 +76,20 @@ const stylesForSwitch = (
     ? valueForTokens(['1.25px', '1.25px', '1.75px'])
     : '1px'
 
-  const switchBorderColor = $border
-    ? theme.colors.border
-    : theme.colors.borderSecondary
-
   const switchBoxSizing = $border ? 'border-box' : 'content-box'
 
   const switchBackgroundClip = $border ? 'border-box' : 'content-box'
 
   return css`
     box-sizing: border-box;
-    background: ${theme.colors.foregroundSecondary};
+    background: ${theme.colors.greyBright};
     background-clip: content-box;
     width: ${containerWidth};
     height: ${containerHeight};
     border-radius: ${containerHalfHeight};
     border-width: 1px;
     border-style: solid;
-    border-color: ${theme.colors.borderSecondary};
+    border-color: ${theme.colors.border};
     transition: all 90ms ease-in-out;
 
     &:hover {
@@ -115,7 +112,7 @@ const stylesForSwitch = (
       content: '';
       border-width: ${switchBorderWidth};
       border-style: solid;
-      border-color: ${switchBorderColor};
+      border-color: ${theme.colors.border};
       background-color: ${theme.colors.background};
       background-clip: ${switchBackgroundClip};
       border-radius: ${theme.radii['full']};
@@ -130,7 +127,7 @@ const stylesForSwitch = (
     &:checked::before {
       transform: translateX(${containerHalfWidth})
         translateX(-${containerHalfHeight});
-      border-color: ${$border ? switchBorderColor : 'transparent'};
+      border-color: ${$border ? theme.colors.border : 'transparent'};
     }
 
     ${$border &&
@@ -139,7 +136,7 @@ const stylesForSwitch = (
         content: '';
         display: block;
         position: absolute;
-        background-color: ${switchBorderColor};
+        background-color: ${theme.colors.border};
         width: ${valueForTokens(['1.5px', '1.5px', '2px'])};
         border-radius: 2px;
         height: ${valueForTokens(['9px', '10px', '16px'])};
@@ -171,9 +168,7 @@ const stylesForCheckbox = (
     theme.space['12'],
   ])
 
-  const checkboxBorderColor = $border
-    ? theme.colors.borderSecondary
-    : 'transparent'
+  const checkboxBorderColor = $border ? theme.colors.border : 'transparent'
 
   const checkboxMarkSize = valueForTokens([
     theme.space['3.5'],
@@ -187,7 +182,9 @@ const stylesForCheckbox = (
     border-width: 1px;
     border-color: ${checkboxBorderColor};
     border-radius: ${theme.space['2']};
-    background-color: ${theme.colors[$background]};
+    background-color: ${$background === 'grey'
+      ? theme.colors.greyBright
+      : theme.colors.background};
     background-clip: content-box;
 
     &:hover {
@@ -274,7 +271,7 @@ type Props = {
   border?: boolean
   /** Set the input to readonly mode */
   readOnly?: NativeInputProps['readOnly']
-} & FieldBaseProps &
+} & Omit<FieldBaseProps, 'labelRight'> &
   Omit<
     NativeInputProps,
     | 'size'
@@ -297,7 +294,6 @@ export const Checkbox = React.forwardRef(
       id,
       label,
       labelSecondary,
-      labelRight,
       inline = true,
       name,
       required,
@@ -329,7 +325,7 @@ export const Checkbox = React.forwardRef(
         id={id}
         inline={inline}
         label={label}
-        labelRight={labelRight}
+        labelRight
         labelSecondary={labelSecondary}
         required={required}
         width={width}

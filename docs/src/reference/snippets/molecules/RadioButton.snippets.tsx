@@ -8,7 +8,7 @@ export const snippets: Snippet[] = [
   {
     name: 'Basic',
     code: (
-      <Card shadow>
+      <Card>
         <FieldSet legend="Radio Buttons">
           <RadioButton label="Label" name="RadioButtonGroup" value="10" />
           <RadioButton label="Label" name="RadioButtonGroup" value="10" />

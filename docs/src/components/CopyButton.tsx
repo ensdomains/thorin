@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { default as copy } from 'copy-to-clipboard'
 
-import { Button, CheckSVG, DuplicateSVG } from '@ensdomains/thorin'
+import { Button, CheckSVG, CopySVG } from '@ensdomains/thorin'
 
 type Props = {
   content: string
@@ -39,7 +39,7 @@ export const CopyButton = ({ content }: Props) => {
   return (
     <Button size="extraSmall" variant="transparent" onClick={onClick}>
       <div style={{ height: 18 }}>
-        {state.copied ? <CheckSVG /> : <DuplicateSVG />}
+        {state.copied ? <CheckSVG /> : <CopySVG />}
       </div>
     </Button>
   )

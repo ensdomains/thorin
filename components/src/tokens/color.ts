@@ -1,223 +1,261 @@
+/**
+ * Color Variables
+ *
+ * All the following variables are used to generate color tokens.
+ * Changes made to these variables will be reflected throughout the library.
+ */
+
+// The Mode type contains all possible theme modes.
 export type Mode = 'light' | 'dark'
 
-export type Accent =
-  | 'blue'
-  | 'lightBlue'
-  | 'green'
-  | 'indigo'
-  | 'orange'
-  | 'pink'
-  | 'purple'
-  | 'red'
-  | 'lightRed'
-  | 'teal'
-  | 'lightYellow'
-  | 'yellow'
-  | 'grey'
+const shades = [50, 300, 400, 500, 750] as const
 
-export type Gradients = 'blue' | 'green' | 'red'
+const namedShadeMap = {
+  Surface: 50,
+  Bright: 300,
+  Primary: 400,
+  Dim: 500,
+  Active: 750,
+} as const
 
-export const accentsRaw: { [key in Mode]: { [key in Accent]: string } } = {
-  light: {
-    blue: '82, 152, 255',
-    lightBlue: '238, 245, 255',
-    green: '73, 179, 147',
-    indigo: '88, 84, 214',
-    orange: '255, 149, 0',
-    pink: '255, 45, 85',
-    purple: '175, 82, 222',
-    red: '213, 85, 85',
-    lightRed: '249, 231, 231',
-    teal: '90, 200, 250',
-    yellow: '255, 204, 0',
-    lightYellow: '255, 248, 219',
-    grey: '232, 232, 235',
-  },
-  dark: {
-    blue: '82, 152, 255',
-    lightBlue: '238, 245, 255',
-    green: '73, 179, 147',
-    indigo: '94, 92, 230',
-    orange: '255, 159, 10',
-    pink: '255, 55, 95',
-    purple: '191, 90, 242',
-    red: '213, 85, 85',
-    lightRed: '249, 231, 231',
-    teal: '100, 210, 255',
-    yellow: '255, 214, 10',
-    lightYellow: '255, 248, 219',
-    grey: '59, 59, 61',
-  },
+// The hues object is a map of HSL colors, with optional overrides for each shade.
+const hues = {
+  blue: [216, 100, 61, { 50: [215, 100, 97] }],
+  indigo: [242, 61, 58],
+  purple: [280, 62, 55],
+  pink: [331, 67, 51],
+  red: [7, 76, 44, { 50: [0, 60, 94] }],
+  orange: [35, 91, 50],
+  yellow: [47, 86, 49, { 50: [48, 100, 90] }],
+  green: [162, 72, 40, { 50: [157, 37, 93] }],
+  teal: [199, 66, 49],
+  grey: [
+    240,
+    6,
+    63,
+    { 50: [0, 0, 96], 300: [0, 0, 91], 500: [0, 0, 35], 750: [0, 0, 15] },
+  ],
+} satisfies Record<string, HueItem>
+
+const backgroundColor = {
+  light: '0 0% 100%',
+  dark: '0 0% 8%',
 }
 
-export const accents: { [key in Mode]: { [key in Accent]: string } } = {
-  light: {
-    blue: `rgb(${accentsRaw.light.blue})`,
-    lightBlue: `rgb(${accentsRaw.light.lightBlue})`,
-    green: `rgb(${accentsRaw.light.green})`,
-    indigo: `rgb(${accentsRaw.light.indigo})`,
-    orange: `rgb(${accentsRaw.light.orange})`,
-    pink: `rgb(${accentsRaw.light.pink})`,
-    purple: `rgb(${accentsRaw.light.purple})`,
-    red: `rgb(${accentsRaw.light.red})`,
-    lightRed: `rgb(${accentsRaw.light.lightRed})`,
-    teal: `rgb(${accentsRaw.light.teal})`,
-    yellow: `rgb(${accentsRaw.light.yellow})`,
-    lightYellow: `rgb(${accentsRaw.light.lightYellow})`,
-    grey: `rgb(${accentsRaw.light.grey})`,
+// The categories object is a map of categorised colors, which can each have their own custom values.
+const categories = {
+  background: {
+    hue: 'grey',
+    items: {
+      primary: backgroundColor,
+      secondary: 'Surface',
+    },
   },
-  dark: {
-    blue: `rgb(${accentsRaw.dark.blue})`,
-    lightBlue: `rgb(${accentsRaw.dark.lightBlue})`,
-    green: `rgb(${accentsRaw.dark.green})`,
-    indigo: `rgb(${accentsRaw.dark.indigo})`,
-    orange: `rgb(${accentsRaw.dark.orange})`,
-    pink: `rgb(${accentsRaw.dark.pink})`,
-    purple: `rgb(${accentsRaw.dark.purple})`,
-    red: `rgb(${accentsRaw.dark.red})`,
-    lightRed: `rgb(${accentsRaw.dark.lightRed})`,
-    teal: `rgb(${accentsRaw.dark.teal})`,
-    yellow: `rgb(${accentsRaw.dark.yellow})`,
-    lightYellow: `rgb(${accentsRaw.dark.lightYellow})`,
-    grey: `rgb(${accentsRaw.dark.grey})`,
+  text: {
+    hue: 'grey',
+    items: {
+      primary: 'Active',
+      secondary: 'Dim',
+      tertiary: 'Primary',
+      accent: {
+        light: backgroundColor.light,
+        dark: backgroundColor.light,
+      },
+    },
   },
+  border: {
+    hue: 'grey',
+    items: {
+      primary: 'Bright',
+    },
+  },
+} satisfies Record<string, CategoryItem>
+
+const gradients = {
+  blue: 'linear-gradient(330.4deg, #44BCF0 4.54%, #7298F8 59.2%, #A099FF 148.85%)',
+  green:
+    'linear-gradient(90deg, rgba(68,240,127,1) 4.54%, rgba(114,248,176,1) 59.2%, rgba(153,202,255,1) 148.85%)',
+  red: 'linear-gradient(90deg, rgba(240,68,87,1) 4.54%, rgba(248,114,149,1) 59.2%, rgba(212,153,255,1) 148.85%)',
 }
 
-export const shadesRaw = {
-  light: {
-    background: '255, 255, 255',
-    backgroundSecondary: '246, 246, 248',
-    backgroundTertiary: '246, 246, 248',
-    foreground: '0, 0, 0',
-    groupBackground: '253, 253, 253',
+/**
+ * END COLOR VARIABLES
+ */
+
+export type NamedShade = keyof typeof namedShadeMap
+export type Shade = typeof shades[number]
+export type Hue = keyof typeof hues
+export type Category = keyof Categories | 'accent'
+export type Gradient = keyof typeof gradients
+
+type HSLColor = [hue: number, saturation: number, lightness: number]
+
+type HueItem = [
+  ...hsl: HSLColor,
+  overrides?: {
+    [key in Shade]?: HSLColor
   },
-  dark: {
-    background: '20, 20, 20',
-    backgroundSecondary: '10, 10, 10',
-    backgroundTertiary: '20, 20, 20',
-    foreground: '255, 255, 255',
-    groupBackground: '10, 10, 10',
-  },
+]
+
+type Categories = typeof categories
+
+type CamelCaseNested<T> = (
+  T extends object
+    ? {
+        [K in Exclude<keyof T, symbol>]: `${K}${Capitalize<
+          CamelCaseNested<T[K]>
+        >}`
+      }[Exclude<keyof T, symbol>]
+    : ''
+) extends infer D
+  ? Extract<D, string>
+  : never
+
+type DotNestedCategoryKeys = CamelCaseNested<{
+  [item in keyof Categories]: {
+    [key in keyof Categories[item]['items']]: string
+  } & {
+    '': string
+  }
+}>
+type DotNestedCategories = { [K in DotNestedCategoryKeys]: string }
+
+type GeneratedCategories = WithRaw<DotNestedCategories>
+
+type CategoryItem = {
+  hue: Hue
+  items: {
+    [key: string]:
+      | {
+          [key in Mode]: string
+        }
+      | NamedShade
+  }
 }
 
-const gradients: { [key in Mode]: { [key in Gradients]: string } } = {
-  light: {
-    blue: 'linear-gradient(330.4deg, #44BCF0 4.54%, #7298F8 59.2%, #A099FF 148.85%)',
-    green:
-      'linear-gradient(90deg, rgba(68,240,127,1) 4.54%, rgba(114,248,176,1) 59.2%, rgba(153,202,255,1) 148.85%)',
-    red: 'linear-gradient(90deg, rgba(240,68,87,1) 4.54%, rgba(248,114,149,1) 59.2%, rgba(212,153,255,1) 148.85%)',
-  },
-  dark: {
-    blue: 'linear-gradient(330.4deg, #44BCF0 4.54%, #7298F8 59.2%, #A099FF 148.85%)',
-    green:
-      'linear-gradient(90deg, rgba(68,240,127,1) 4.54%, rgba(114,248,176,1) 59.2%, rgba(153,202,255,1) 148.85%)',
-    red: 'linear-gradient(90deg, rgba(240,68,87,1) 4.54%, rgba(248,114,149,1) 59.2%, rgba(212,153,255,1) 148.85%)',
-  },
+type WithRaw<T> = Omit<T, 'raw'> & { raw: Omit<T, 'raw'> }
+
+type ShadeColor = { [key in Shade]: string }
+type NameColor = { [key in NamedShade]: string }
+type ColorItem<
+  TObject extends Record<string, string>,
+  TName extends string,
+> = TObject extends object
+  ? {
+      [key in Exclude<keyof TObject, symbol> as `${TName}${key}`]: string
+    } & {
+      [T in `${TName}`]: string
+    }
+  : never
+type CalculatedColors = WithRaw<ColorItem<NameColor, Hue | 'accent'>>
+type AllColors = WithRaw<CalculatedColors & GeneratedCategories>
+
+const makeColorObject = <THue extends Hue>(
+  mode: Mode,
+  name: THue,
+  color: ShadeColor,
+) => {
+  if (mode === 'dark') {
+    color = Object.fromEntries(
+      Object.entries(color).map(([key], index, arr) => [
+        key,
+        arr[arr.length - index - 1][1],
+      ]),
+    ) as ShadeColor
+  }
+
+  const values = Object.fromEntries(
+    Object.entries(namedShadeMap).map(([key, value]) => [
+      `${name}${key}`,
+      color[value],
+    ]),
+  )
+
+  return { ...values, [name]: values[`${name}Primary`] } as ColorItem<
+    NameColor,
+    THue
+  >
 }
 
-export const shades = {
-  light: {
-    accent: '0.7',
-    accentSecondary: '0.15',
-    accentSecondaryHover: '0.2',
-    backgroundHide: '0.1',
-    backgroundHideFallback: '0.5',
-    foregroundSecondary: '0.05',
-    foregroundSecondaryHover: '0.035',
-    foregroundTertiary: '0.033',
-    groupBorder: '0.075',
-    border: '0.3',
-    borderSecondary: '0.12',
-    borderTertiary: '0.05',
-    text: '0.8',
-    textSecondary: '0.65',
-    textSecondaryHover: '0.7',
-    textTertiary: '0.4',
-    textTertiaryHover: '0.5',
-    textPlaceholder: '0.25',
-  },
-  dark: {
-    accent: '0.66',
-    accentSecondary: '0.2',
-    accentSecondaryHover: '0.25',
-    backgroundHide: '0.1',
-    backgroundHideFallback: '0.5',
-    foregroundSecondary: '0.1',
-    foregroundSecondaryHover: '0.15',
-    foregroundTertiary: '0.04',
-    groupBorder: '0',
-    border: '0.3',
-    borderSecondary: '0.12',
-    borderTertiary: '0.05',
-    text: '0.7',
-    textSecondary: '0.5',
-    textSecondaryHover: '0.65',
-    textTertiary: '0.35',
-    textTertiaryHover: '0.4',
-    textPlaceholder: '0.25',
-  },
+const makeCSSHSL = (hsl: HSLColor) => `${hsl[0]} ${hsl[1]}% ${hsl[2]}%`
+
+const makeColorRange = <THue extends Hue>(
+  mode: Mode,
+  name: THue,
+  hue: HueItem,
+) => {
+  const color = Object.fromEntries(
+    shades.map((shade) => {
+      if (hue[3]?.[shade]) {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        return [shade, makeCSSHSL(hue[3]![shade]!)]
+      }
+      const hsl = hue.slice(0, 3) as HSLColor
+      hsl[2] = hsl[2] + (400 - shade) / 10
+      return [shade, makeCSSHSL(hsl)]
+    }),
+  ) as ShadeColor
+  return {
+    normal: makeColorObject(
+      mode,
+      name,
+      Object.fromEntries(
+        Object.entries(color).map(([key, value]) => [key, `hsl(${value})`]),
+      ) as ShadeColor,
+    ),
+    raw: makeColorObject(mode, name, color),
+  }
 }
 
-export const colors = {
-  base: {
-    black: 'rgb(0, 0, 0)',
-    white: 'rgb(255, 255, 255)',
-    current: 'currentColor',
-    inherit: 'inherit',
-    transparent: 'transparent',
-  },
-  light: {
-    accent: `${accents.light.blue}`,
-    accentSecondary: `rgba(${accentsRaw.light.blue}, ${shades.light.accentSecondary})`,
-    accentSecondaryHover: `rgba(${accentsRaw.light.blue}, ${shades.light.accentSecondary})`,
-    accentTertiary: `rgba(${accentsRaw.light.blue}, calc(${shades.light.accentSecondary} * 0.5))`,
-    accentText: `rgb(${shadesRaw.light.background})`,
-    accentGradient: gradients.light.blue,
-    background: `rgb(${shadesRaw.light.background})`,
-    backgroundHide: `rgba(${shadesRaw.light.foreground}, ${shades.light.backgroundHide})`,
-    backgroundSecondary: `rgb(${shadesRaw.light.backgroundSecondary})`,
-    backgroundTertiary: `rgb(${shadesRaw.light.backgroundTertiary})`,
-    border: `rgb(${shadesRaw.light.foreground}, ${shades.light.border})`,
-    borderSecondary: `rgb(${shadesRaw.light.foreground}, ${shades.light.borderSecondary})`,
-    borderTertiary: `rgb(${shadesRaw.light.foreground}, ${shades.light.borderTertiary})`,
-    foreground: `rgb(${shadesRaw.light.foreground})`,
-    foregroundSecondary: `rgba(${shadesRaw.light.foreground}, ${shades.light.foregroundSecondary})`,
-    foregroundSecondaryHover: `rgba(${shadesRaw.light.foreground}, ${shades.light.foregroundSecondaryHover})`,
-    foregroundTertiary: `rgba(${shadesRaw.light.foreground}, ${shades.light.foregroundTertiary})`,
-    groupBackground: `rgb(${shadesRaw.light.groupBackground})`,
-    groupBorder: `rgb(${shadesRaw.light.foreground})`,
-    gradients: gradients.light,
-    text: `rgb(${shadesRaw.light.foreground}, ${shades.light.text})`,
-    textPlaceholder: `rgb(${shadesRaw.light.foreground}, ${shades.light.textPlaceholder})`,
-    textSecondary: `rgb(${shadesRaw.light.foreground}, ${shades.light.textSecondary})`,
-    textTertiary: `rgb(${shadesRaw.light.foreground}, ${shades.light.textTertiary})`,
-    ...accents.light,
-  },
-  dark: {
-    accent: `${accents.dark.blue}`,
-    accentSecondary: `rgba(${accentsRaw.dark.blue}, ${shades.dark.accentSecondary})`,
-    accentSecondaryHover: `rgba(${accentsRaw.dark.blue}, ${shades.dark.accentSecondary})`,
-    accentTertiary: `rgba(${accentsRaw.dark.blue}, calc(${shades.dark.accentSecondary} * 0.5))`,
-    accentText: `rgb(${shadesRaw.dark.background})`,
-    accentGradient: gradients.dark.blue,
-    background: `rgb(${shadesRaw.dark.background})`,
-    backgroundHide: `rgba(${shadesRaw.dark.foreground}, ${shades.dark.backgroundHide})`,
-    backgroundSecondary: `rgb(${shadesRaw.dark.backgroundSecondary})`,
-    backgroundTertiary: `rgb(${shadesRaw.dark.backgroundTertiary})`,
-    border: `rgb(${shadesRaw.dark.foreground}, ${shades.dark.border})`,
-    borderSecondary: `rgb(${shadesRaw.dark.foreground}, ${shades.dark.borderSecondary})`,
-    borderTertiary: `rgb(${shadesRaw.dark.foreground}, ${shades.dark.borderTertiary})`,
-    foreground: `rgb(${shadesRaw.dark.foreground})`,
-    foregroundSecondary: `rgba(${shadesRaw.dark.foreground}, ${shades.dark.foregroundSecondary})`,
-    foregroundSecondaryHover: `rgba(${shadesRaw.dark.foreground}, ${shades.dark.foregroundSecondaryHover})`,
-    foregroundTertiary: `rgba(${shadesRaw.dark.foreground}, ${shades.dark.foregroundTertiary})`,
-    groupBackground: `rgb(${shadesRaw.dark.groupBackground})`,
-    groupBorder: `rgb(${shadesRaw.dark.foreground})`,
-    gradients: gradients.dark,
-    text: `rgb(${shadesRaw.dark.foreground}, ${shades.dark.text})`,
-    textPlaceholder: `rgb(${shadesRaw.dark.foreground}, ${shades.dark.textPlaceholder})`,
-    textSecondary: `rgb(${shadesRaw.dark.foreground}, ${shades.dark.textSecondary})`,
-    textTertiary: `rgb(${shadesRaw.dark.foreground}, ${shades.dark.textTertiary})`,
-    ...accents.dark,
-  },
+const makeMode = (accent: Hue, mode: Mode) => {
+  const calculatedColors = Object.entries({
+    ...hues,
+    accent: hues[accent],
+  }).reduce((prev, curr) => {
+    const [key, value] = curr
+    const colorRange = makeColorRange(mode, key as Hue, value)
+    return {
+      ...prev,
+      ...colorRange.normal,
+      raw: {
+        ...prev.raw,
+        ...colorRange.raw,
+      },
+    }
+  }, {} as CalculatedColors)
+
+  const allColours = Object.entries(categories).reduce((prev, curr) => {
+    const [category, value] = curr
+    for (const [name, shade] of Object.entries(value.items)) {
+      const itemKey = `${category}${name.replace(/^[a-z]/, (l) =>
+        l.toUpperCase(),
+      )}` as DotNestedCategoryKeys
+      const newItem =
+        typeof shade === 'string'
+          ? calculatedColors.raw[`${value.hue}${shade as NamedShade}`]
+          : shade[mode]
+
+      prev[itemKey] = `hsl(${newItem})`
+      prev.raw[itemKey] = newItem
+
+      if (name === 'primary') {
+        const categoryKey = category as keyof typeof categories
+        prev[categoryKey] = `hsl(${newItem})`
+        prev.raw[categoryKey] = newItem
+      }
+    }
+    return prev
+  }, calculatedColors as AllColors)
+
+  return {
+    ...allColours,
+    gradients,
+  }
 }
+
+export const makeColors = (accent: Hue) => ({
+  light: makeMode(accent, 'light'),
+  dark: makeMode(accent, 'dark'),
+})
+
+export const colors = makeColors('blue')

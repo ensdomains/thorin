@@ -1,8 +1,9 @@
 import * as React from 'react'
 import styled, { css, keyframes } from 'styled-components'
 
-import { VisuallyHidden } from '../VisuallyHidden'
 import { Colors } from '@/src/tokens'
+
+import { VisuallyHidden } from '../VisuallyHidden'
 
 const rotate = keyframes`
   100% {

@@ -5,6 +5,7 @@ import { ThemeProvider } from 'styled-components'
 import { cleanup, render, screen, waitFor } from '@/test'
 
 import { lightTheme } from '@/src/tokens'
+
 import { Modal } from './Modal'
 
 window.scroll = jest.fn()

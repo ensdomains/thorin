@@ -4,8 +4,9 @@ import { ThemeProvider } from 'styled-components'
 
 import { cleanup, render, screen } from '@/test'
 
-import { Heading } from './Heading'
 import { lightTheme } from '@/src/tokens'
+
+import { Heading } from './Heading'
 
 describe('<Heading />', () => {
   afterEach(cleanup)
