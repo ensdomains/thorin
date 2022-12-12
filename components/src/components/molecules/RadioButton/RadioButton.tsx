@@ -72,7 +72,7 @@ type Props = {
   onFocus?: NativeInputProps['onFocus']
   /** The handler for blur events. */
   onBlur?: NativeInputProps['onBlur']
-} & FieldBaseProps &
+} & Omit<FieldBaseProps, 'labelRight'> &
   Omit<
     NativeInputProps,
     'children' | 'value' | 'defaultValue' | 'aria-invalid' | 'type' | 'role'
@@ -98,7 +98,6 @@ export const RadioButton = React.forwardRef(
       onBlur,
       onChange,
       onFocus,
-      labelRight,
       ...props
     }: Props,
     ref: React.Ref<HTMLInputElement>,
@@ -118,7 +117,7 @@ export const RadioButton = React.forwardRef(
           labelSecondary,
           required,
           width,
-          labelRight,
+          labelRight: true,
         }}
       >
         <Input

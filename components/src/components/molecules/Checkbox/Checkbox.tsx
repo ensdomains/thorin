@@ -271,7 +271,7 @@ type Props = {
   border?: boolean
   /** Set the input to readonly mode */
   readOnly?: NativeInputProps['readOnly']
-} & FieldBaseProps &
+} & Omit<FieldBaseProps, 'labelRight'> &
   Omit<
     NativeInputProps,
     | 'size'
@@ -325,6 +325,7 @@ export const Checkbox = React.forwardRef(
         id={id}
         inline={inline}
         label={label}
+        labelRight
         labelSecondary={labelSecondary}
         required={required}
         width={width}
