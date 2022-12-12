@@ -147,6 +147,8 @@ export const computeCoordsFromPlacement = (
       )
     : (side as DynamicPopoverSide)
 
+  console.log('idealSide: ', idealSide)
+
   let coords
   switch (idealSide) {
     case 'top':
@@ -332,6 +334,42 @@ export const DynamicPopover = ({
       }
 
       setHasFirstLoad(true)
+
+      const reference = targetRect
+      const floating = tooltipRect
+      const placement = 'right-center'
+      const padding = 0
+      const offset = 0
+      const flip = true
+      const shift = true
+
+      const computedCoords = computeCoordsFromPlacement(
+        reference,
+        floating,
+        placement,
+        padding,
+        offset,
+        flip,
+        shift,
+      )
+
+      const idealSide = computeIdealSide(
+        'right',
+        reference,
+        floating,
+        padding,
+        offset,
+      )
+
+      console.log('idealSide: ', idealSide)
+      console.log('targetRect: ', targetRect)
+      console.log('originalCoords: ', {
+        top,
+        left,
+        horizontalClearance,
+        verticalClearance,
+      })
+      console.log('computedCoords: ', computedCoords)
 
       setPositionState({ top, left, horizontalClearance, verticalClearance })
       setIsOpen(true)
