@@ -82,32 +82,32 @@ const DropdownMenuContainer = styled.div<DropdownMenuContainer>(
         `}
 
     padding: ${theme.space['1.5']};
-    background-color: ${theme.colors.backgroundSecondary};
-    box-shadow: ${theme.boxShadows['0.02']};
+    background-color: ${theme.colors.background};
     border-radius: ${theme.radii['2xLarge']};
 
-    ${$inner &&
-    css`
-      background-color: ${theme.colors.grey};
+    ${$inner
+      ? css`
       border-radius: ${theme.radii.almostExtraLarge};
       border-${$direction === 'down' ? 'top' : 'bottom'}-left-radius: none;
       border-${$direction === 'down' ? 'top' : 'bottom'}-right-radius: none;
-      box-shadow: 0;
       border-width: ${theme.space['px']};
       border-${$direction === 'down' ? 'top' : 'bottom'}-width: 0;
       border-color: ${theme.colors.border};
       padding: 0 ${theme.space['1.5']};
       padding-${$direction === 'down' ? 'top' : 'bottom'}: ${
-      theme.space['2.5']
-    };
+          theme.space['2.5']
+        };
       padding-${$direction === 'down' ? 'bottom' : 'top'}: ${
-      theme.space['1.5']
-    };
+          theme.space['1.5']
+        };
       margin-${$direction === 'down' ? 'top' : 'bottom'}: -${
-      theme.space['2.5']
-    };
+          theme.space['2.5']
+        };
       transition: 0.35s all cubic-bezier(1, 0, 0.22, 1.6);
-    `}
+    `
+      : css`
+          border: 1px solid ${theme.colors.border};
+        `}
 
     ${() => {
       if ($opened) {
@@ -346,6 +346,7 @@ const InnerMenuButton = styled.button<InnerMenuButton>(
     cursor: pointer;
     position: relative;
     border-color: ${theme.colors.border};
+    background-color: ${theme.colors.background};
 
     ${() => {
       switch ($size) {
@@ -374,7 +375,6 @@ const InnerMenuButton = styled.button<InnerMenuButton>(
           border-${$direction === 'down' ? 'bottom' : 'top'}-left-radius: none;
           border-${$direction === 'down' ? 'bottom' : 'top'}-right-radius: none;
           border-${$direction === 'down' ? 'bottom' : 'top'}-width: 0;
-          background-color: ${theme.colors.grey};
           color: ${theme.colors.textTertiary};
           transition: 0.35s all cubic-bezier(1, 0, 0.22, 1.6),
             0.3s color ease-in-out, 0.2s border-radius ease-in-out,
@@ -386,10 +386,8 @@ const InnerMenuButton = styled.button<InnerMenuButton>(
         `
       if (!$open)
         return css`
-          background-color: ${theme.colors.background};
           color: ${theme.colors.textSecondary};
           border-radius: ${theme.radii['almostExtraLarge']};
-          box-shadow: ${theme.boxShadows['0.02']};
           transition: 0.35s all cubic-bezier(1, 0, 0.22, 1.6),
             0.15s color ease-in-out, 0s border-width 0.15s,
             0.15s border-color ease-in-out, 0s padding linear;
@@ -413,7 +411,6 @@ const Chevron = styled((props) => <DownChevronSVG {...props} />)<{
     transition-duration: ${theme.transitionDuration['200']};
     transition-property: all;
     transition-timing-function: ${theme.transitionTimingFunction['inOut']};
-    opacity: 0.3;
     transform: rotate(${$direction === 'down' ? '0deg' : '180deg'});
     display: flex;
 
@@ -424,7 +421,6 @@ const Chevron = styled((props) => <DownChevronSVG {...props} />)<{
 
     ${$open &&
     css`
-      opacity: 1;
       transform: rotate(${$direction === 'down' ? '180deg' : '0deg'});
     `}
   `,

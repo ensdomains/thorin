@@ -116,14 +116,12 @@ const Chevron = styled.svg<{ $open: boolean }>(
     transition-duration: ${theme.transitionDuration['200']};
     transition-property: all;
     transition-timing-function: ${theme.transitionTimingFunction['inOut']};
-    opacity: 0.3;
     transform: rotate(0deg);
     display: flex;
     color: ${theme.colors.greyPrimary};
 
     ${$open &&
     css`
-      opacity: 1;
       transform: rotate(180deg);
     `}
   `,
