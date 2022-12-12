@@ -72,6 +72,7 @@ const IntersectElement = styled.div(
 )
 
 type Props = {
+  hideDividers?: boolean | { top?: boolean; bottom?: boolean }
   topTriggerPx?: number
   bottomTriggerPx?: number
   onReachedTop?: () => void
@@ -79,6 +80,7 @@ type Props = {
 } & React.HTMLAttributes<HTMLDivElement>
 
 export const ScrollBox = ({
+  hideDividers = false,
   topTriggerPx = 16,
   bottomTriggerPx = 16,
   onReachedTop,
@@ -89,6 +91,11 @@ export const ScrollBox = ({
   const ref = React.useRef<HTMLDivElement>(null)
   const topRef = React.useRef<HTMLDivElement>(null)
   const bottomRef = React.useRef<HTMLDivElement>(null)
+
+  const hideTop =
+    typeof hideDividers === 'boolean' ? hideDividers : !!hideDividers?.top
+  const hideBottom =
+    typeof hideDividers === 'boolean' ? hideDividers : !!hideDividers?.bottom
 
   const funcRef = React.useRef<{
     onReachedTop?: () => void
@@ -110,8 +117,10 @@ export const ScrollBox = ({
         iref[1] = entry.time
       }
     }
-    intersectingTop[1] !== -1 && setShowTop(!intersectingTop[0])
-    intersectingBottom[1] !== -1 && setShowBottom(!intersectingBottom[0])
+    intersectingTop[1] !== -1 && !hideTop && setShowTop(!intersectingTop[0])
+    intersectingBottom[1] !== -1 &&
+      !hideBottom &&
+      setShowBottom(!intersectingBottom[0])
     intersectingTop[0] && funcRef.current.onReachedTop?.()
     intersectingBottom[0] && funcRef.current.onReachedBottom?.()
   }
@@ -133,6 +142,7 @@ export const ScrollBox = ({
     return () => {
       observer.disconnect()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bottomTriggerPx, topTriggerPx])
 
   React.useEffect(() => {
