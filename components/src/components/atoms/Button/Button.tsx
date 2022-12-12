@@ -1,6 +1,7 @@
-import { mq } from '@/src/utils/responsiveHelpers'
 import * as React from 'react'
 import styled, { DefaultTheme, css } from 'styled-components'
+
+import { mq } from '@/src/utils/responsiveHelpers'
 
 import { ReactNodeNoStrings } from '../../../types'
 import { Spinner } from '../Spinner'
@@ -355,21 +356,19 @@ const LabelContainer = styled(Typography)<{
   `,
 )
 
-const TooltipIndicator = styled.div(
-  ({ theme }) => css`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #e9b911;
-    border-radius: 50%;
-    width: 24px;
-    height: 24px;
-    position: absolute;
-    right: -10px;
-    top: -10px;
-    color: white;
-  `,
-)
+const TooltipIndicator = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e9b911;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  right: -10px;
+  top: -10px;
+  color: white;
+`
 
 export type Props = BaseProps &
   (WithTone | WithoutTone) &
@@ -439,12 +438,12 @@ export const Button = React.forwardRef(
         $fullWidthContent={fullWidthContent}
         $outlined={outlined}
         $pressed={pressed}
+        $psuedoDisabled={psuedoDisabled}
         $shadowless={shadowless}
         $shape={shape}
         $size={size}
         $tone={tone}
         $variant={variant}
-        $psuedoDisabled={psuedoDisabled}
         as={asProp as any}
         disabled={disabled}
         href={href}

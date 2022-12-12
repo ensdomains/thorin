@@ -1,6 +1,7 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
-import ReactDOM from 'react-dom'
+import { createPortal } from 'react-dom'
+
 import { mq } from '@/src/utils/responsiveHelpers'
 
 export type DynamicPopoverSide = 'top' | 'right' | 'bottom' | 'left'
@@ -22,16 +23,19 @@ export type DynamicPopoverPlacement =
   | 'bottom-end'
 
 export type DynamicPopoverAnimationFunc = (
+  horizonalClearance: number,
+  verticalClearance: number,
   side: DynamicPopoverSide,
-  open?: boolean,
-) => string
+  mobileSide: DynamicPopoverSide,
+) => { translate: string; mobileTranslate: string }
 
 type DynamicPopoverPopoverProps = {
-  $x?: number
-  $y?: number
-  $side?: DynamicPopoverSide
-  $open?: boolean
-  $injectedCSS?: string
+  $isOpen: boolean
+  $hasFirstLoad: boolean
+  $translate: string
+  $mobileTranslate: string
+  $width: number
+  $mobileWidth: number
 }
 
 export type DynamicPopoverButtonProps = {
@@ -40,12 +44,12 @@ export type DynamicPopoverButtonProps = {
 }
 
 export interface DynamicPopoverProps {
-  /** A Button component. The component will override the onClick and pressed properties of the button. */
-  children: React.ReactElement<DynamicPopoverButtonProps>
   /** A react node that has includes the styling and content of the popover. */
   popover: React.ReactNode
   /** The side and alignment of the popover in relation to the button. */
-  placement?: DynamicPopoverPlacement
+  placement?: DynamicPopoverSide
+  /** The side and alignment of the popover in relation to the button on mobile screen sizes. */
+  mobilePlacement?: DynamicPopoverSide
   /** The number of pixels between the button and the popover */
   offset?: number
   /** If shift is true, sets the minimum number of pixels between the popover and the viewport */
@@ -62,6 +66,11 @@ export interface DynamicPopoverProps {
   onDismiss?: () => void
   /** A function that returns string of the css state for open and closed popover. */
   animationFn?: DynamicPopoverAnimationFunc
+  tooltipRef?: React.RefObject<HTMLDivElement>
+  targetId: string
+  onShowCallback?: () => void
+  width?: number
+  mobileWidth?: number
 }
 
 /**
@@ -192,8 +201,8 @@ export const computeCoordsFromPlacement = (
  * @desc default function for computing the animation keyframes based on the side
  */
 const defaultAnimationFunc: DynamicPopoverAnimationFunc = (
-  horizontalClearance,
-  verticalClearance,
+  horizontalClearance: number,
+  verticalClearance: number,
   side: string,
   mobileSide: string,
 ) => {
@@ -219,18 +228,25 @@ const defaultAnimationFunc: DynamicPopoverAnimationFunc = (
 }
 
 const PopoverContainer = styled.div<DynamicPopoverPopoverProps>(
-  ({ $isOpen, $hasFirstLoad, $translate, $mobileTranslate }) => css`
+  ({
+    $isOpen,
+    $hasFirstLoad,
+    $translate,
+    $mobileTranslate,
+    $width,
+    $mobileWidth,
+  }) => css`
     position: absolute;
     box-sizing: border-box;
     z-index: 20;
     pointer-events: none;
-    width: 150px;
+    width: ${$mobileWidth}px;
     transform: ${$isOpen ? $mobileTranslate : 'translate(0, 0)'};
     opacity: ${$isOpen ? 1 : 0};
     visibility: ${$isOpen ? 'visible' : 'hidden'};
 
     ${mq.md.min(css`
-      width: 250px;
+      width: ${$width}px;
       transform: ${$isOpen ? $translate : 'translate (0, 0)'};
     `)}
 
@@ -249,7 +265,12 @@ export const DynamicPopover = ({
   width = 250,
   mobileWidth = 150,
 }: DynamicPopoverProps) => {
-  const [positionState, setPositionState] = React.useState({
+  const [positionState, setPositionState] = React.useState<{
+    top: number
+    left: number
+    horizontalClearance: number
+    verticalClearance: number
+  }>({
     top: 100,
     left: 100,
     horizontalClearance: 100,
@@ -263,32 +284,23 @@ export const DynamicPopover = ({
   const animationFn = React.useMemo(() => {
     if (_animationFn) {
       return (
-        horizontalClearance,
-        verticalClearance,
+        horizontalClearance: number,
+        verticalClearance: number,
         side: DynamicPopoverSide,
-        open: boolean,
         mobileSide: DynamicPopoverSide,
       ) =>
-        _animationFn(
-          horizontalClearance,
-          verticalClearance,
-          side,
-          open,
-          mobileSide,
-        )
+        _animationFn(horizontalClearance, verticalClearance, side, mobileSide)
     }
     return (
-      horizontalClearance,
-      verticalClearance,
+      horizontalClearance: number,
+      verticalClearance: number,
       side: DynamicPopoverSide,
-      open: boolean,
       mobileSide: DynamicPopoverSide,
     ) =>
       defaultAnimationFunc(
         horizontalClearance,
         verticalClearance,
         side,
-        open,
         mobileSide,
       )
   }, [_animationFn])
@@ -298,7 +310,7 @@ export const DynamicPopover = ({
   const handleMouseenter = React.useCallback(() => {
     const targetElement = document.getElementById(targetId)
     const targetRect = targetElement?.getBoundingClientRect()
-    const tooltipElement = tooltipRef.current
+    const tooltipElement = tooltipRef?.current
     const tooltipRect = tooltipElement?.getBoundingClientRect()
     const popoverElement = popoverContainerRef.current
 
@@ -312,8 +324,12 @@ export const DynamicPopover = ({
       const horizontalClearance = -tooltipRect.width + (targetRect.left - left)
       const verticalClearance = tooltipRect.height
 
-      popoverElement.style.top = `${top}px`
-      popoverElement.style.left = `${left}px`
+      if (popoverElement) {
+        popoverElement.style.top = `${top}px`
+        popoverElement.style.left = `${left}px`
+      } else {
+        console.error('no popover element')
+      }
 
       setHasFirstLoad(true)
 
@@ -321,7 +337,14 @@ export const DynamicPopover = ({
       setIsOpen(true)
       onShowCallback?.()
     }
-  }, [targetId])
+  }, [
+    targetId,
+    tooltipRef,
+    setHasFirstLoad,
+    setPositionState,
+    setIsOpen,
+    onShowCallback,
+  ])
 
   React.useEffect(() => {
     const targetElement = document.getElementById(targetId)
@@ -336,24 +359,25 @@ export const DynamicPopover = ({
       targetElement?.removeEventListener('mouseover', handleMouseenter)
       targetElement?.removeEventListener('mouseleave', handleMouseleave)
     }
-  }, [])
+  }, [targetId, setIsOpen, handleMouseenter])
 
   const { translate, mobileTranslate } = animationFn(
     positionState.horizontalClearance,
     positionState.verticalClearance,
     placement,
-    isOpen,
     mobilePlacement,
   )
 
-  return ReactDOM.createPortal(
+  return createPortal(
     <PopoverContainer
-      ref={popoverContainerRef}
-      id="popoverContainer"
-      $isOpen={isOpen}
       $hasFirstLoad={hasFirstLoad}
-      $translate={translate}
+      $isOpen={isOpen}
       $mobileTranslate={mobileTranslate}
+      $mobileWidth={mobileWidth}
+      $translate={translate}
+      $width={width}
+      id="popoverContainer"
+      ref={popoverContainerRef}
     >
       {popover}
     </PopoverContainer>,

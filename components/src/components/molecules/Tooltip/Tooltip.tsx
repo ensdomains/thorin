@@ -5,10 +5,12 @@ import {
   DynamicPopover,
   DynamicPopoverProps,
 } from '@/src/components/atoms/DynamicPopover'
+import { mq } from '@/src/utils/responsiveHelpers'
 
 const injectedCss = {
   top: `
     &:after {
+      display: initial;
       content: '';
       position: absolute;
       bottom: -18px;
@@ -23,6 +25,7 @@ const injectedCss = {
   `,
   bottom: `
     &:after {
+      display: initial;
       content: '';
       position: absolute;
       top: -18px;
@@ -39,6 +42,7 @@ const injectedCss = {
     display: flex;
     align-items: center;
     &:before {
+      display: initial;
       content: '';
       position: absolute;
       right: -18px;
@@ -52,6 +56,7 @@ const injectedCss = {
     display: flex;
     align-items: center;
     &:before {
+      display: initial;
       content: '';
       position: absolute;
       left: -18px;
@@ -64,7 +69,7 @@ const injectedCss = {
 }
 
 const TooltipPopover = styled.div(
-  ({ theme, $placement }) => css`
+  ({ theme, $placement, $mobilePlacement }) => css`
     box-sizing: border-box;
     position: relative;
     pointer-events: none;
@@ -77,7 +82,16 @@ const TooltipPopover = styled.div(
       ${theme.space['2.5']};
     background: ${theme.colors.background};
 
-    ${injectedCss[$placement]}
+    ${injectedCss[$mobilePlacement]}
+    ${mq.md.min(css`
+      &:before {
+        display: none;
+      }
+      &:after {
+        display: none;
+      }
+      ${injectedCss[$placement]}
+    `)}
   `,
 )
 
@@ -87,10 +101,19 @@ export interface TooltipProps
   content?: React.ReactNode
 }
 
-export const Tooltip = ({ content, placement, ...props }: TooltipProps) => {
+export const Tooltip = ({
+  content,
+  placement,
+  mobilePlacement,
+  ...props
+}: TooltipProps) => {
   const tooltipRef = React.useRef<HTMLDivElement>(null)
   const popover = (
-    <TooltipPopover ref={tooltipRef} $placement={placement}>
+    <TooltipPopover
+      $mobilePlacement={mobilePlacement}
+      $placement={placement}
+      ref={tooltipRef}
+    >
       {content}
     </TooltipPopover>
   )
@@ -98,6 +121,7 @@ export const Tooltip = ({ content, placement, ...props }: TooltipProps) => {
     popover,
     tooltipRef,
     placement,
+    mobilePlacement,
     ...props,
   })
 }
