@@ -1,6 +1,7 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 import { createPortal } from 'react-dom'
+import debounce from 'lodash.debounce'
 
 import { mq } from '@/src/utils/responsiveHelpers'
 
@@ -107,98 +108,6 @@ const computeIdealSide = (
   return side
 }
 
-/** *
- * @desc compute the coordinates for placing the floating element at the edges of the viewport
- */
-const computeCoordRange = (
-  referenceRect: DOMRect,
-  floatingRect: DOMRect,
-  padding: number,
-) => ({
-  minX: -referenceRect.x + padding,
-  maxX: window.innerWidth - floatingRect.width - referenceRect.x - padding,
-  minY: -referenceRect.y + padding,
-  maxY: window.innerHeight - floatingRect.height - referenceRect.y - padding,
-})
-
-export const computeCoordsFromPlacement = (
-  reference: DOMRect,
-  floating: DOMRect,
-  placement: DynamicPopoverPlacement,
-  padding: number,
-  offset: number,
-  flip = true,
-  shift = true,
-): { x: number; y: number; side: DynamicPopoverSide } => {
-  const [side, alignment] = placement.split('-')
-  const commonX = reference.width / 2 - floating.width / 2
-  const commonY = reference.height / 2 - floating.height / 2
-  const mainAxis = ['top', 'bottom'].includes(side) ? 'x' : 'y'
-  const length = mainAxis === 'y' ? 'height' : 'width'
-  const commonAlign = reference[length] / 2 - floating[length] / 2
-
-  const idealSide: DynamicPopoverSide = flip
-    ? computeIdealSide(
-        side as DynamicPopoverSide,
-        reference,
-        floating,
-        padding,
-        offset,
-      )
-    : (side as DynamicPopoverSide)
-
-  console.log('idealSide: ', idealSide)
-
-  let coords
-  switch (idealSide) {
-    case 'top':
-      coords = { x: commonX, y: -floating.height - offset }
-      break
-    case 'bottom':
-      coords = { x: commonX, y: reference.height + offset }
-      break
-    case 'right':
-      coords = { x: reference.width + offset, y: commonY }
-      break
-    case 'left':
-      coords = { x: -floating.width - offset, y: commonY }
-      break
-    default:
-      coords = { x: reference.x, y: reference.y }
-  }
-
-  switch (alignment) {
-    case 'start':
-      coords[mainAxis] -= commonAlign //* (rtl && isVertical ? -1 : 1)
-      break
-    case 'end':
-      coords[mainAxis] += commonAlign //* (rtl && isVertical ? -1 : 1)
-      break
-    default:
-  }
-
-  // Shift
-  if (shift) {
-    const coordsRange = computeCoordRange(reference, floating, padding)
-    switch (mainAxis) {
-      case 'x':
-        coords.x = Math.min(
-          Math.max(coords.x, coordsRange.minX),
-          coordsRange.maxX,
-        )
-        break
-      default:
-        coords.y = Math.min(
-          Math.max(coords.y, coordsRange.minY),
-          coordsRange.maxY,
-        )
-        break
-    }
-  }
-
-  return { ...coords, side: idealSide }
-}
-
 /**
  * @desc default function for computing the animation keyframes based on the side
  */
@@ -229,6 +138,8 @@ const defaultAnimationFunc: DynamicPopoverAnimationFunc = (
   return { translate, mobileTranslate }
 }
 
+// display: ${$isOpen ? 'initial' : 'none'};
+
 const PopoverContainer = styled.div<DynamicPopoverPopoverProps>(
   ({
     $isOpen,
@@ -251,8 +162,6 @@ const PopoverContainer = styled.div<DynamicPopoverPopoverProps>(
       width: ${$width}px;
       transform: ${$isOpen ? $translate : 'translate (0, 0)'};
     `)}
-
-    ${$hasFirstLoad && `transition: all 0.35s cubic-bezier(1, 0, 0.22, 1.6);`}
   `,
 )
 
@@ -279,6 +188,9 @@ export const DynamicPopover = ({
     verticalClearance: 100,
   })
   const popoverContainerRef = React.useRef<HTMLDivElement>(null)
+  // Implement this again
+  const mouseEnterTimeoutRef = React.useRef<boolean>(false)
+  const mouseLeaveTimeoutRef = React.useRef<HTMLDivElement>(null)
 
   // This is used to prevent animations when first setting the tooltip position
   const [hasFirstLoad, setHasFirstLoad] = React.useState(false)
@@ -309,87 +221,107 @@ export const DynamicPopover = ({
 
   const [isOpen, setIsOpen] = React.useState(false)
 
-  const handleMouseenter = React.useCallback(() => {
-    const targetElement = document.getElementById(targetId)
-    const targetRect = targetElement?.getBoundingClientRect()
-    const tooltipElement = tooltipRef?.current
-    const tooltipRect = tooltipElement?.getBoundingClientRect()
-    const popoverElement = popoverContainerRef.current
+  const handleMouseenter = React.useCallback(
+    debounce(
+      () => {
+        console.log('mouseenter')
+        console.log(
+          'mouseenter mouseLeaveTimeoutRef: ',
+          mouseLeaveTimeoutRef.current,
+        )
+        if (mouseLeaveTimeoutRef.current) {
+          return
+        }
+        mouseEnterTimeoutRef.current = true
+        const targetElement = document.getElementById(targetId)
+        const targetRect = targetElement?.getBoundingClientRect()
+        const tooltipElement = tooltipRef?.current
+        const tooltipRect = tooltipElement?.getBoundingClientRect()
+        const popoverElement = popoverContainerRef.current
 
-    if (targetRect && tooltipRect) {
-      const top =
-        window.scrollY +
-        targetRect.y +
-        targetRect.height / 2 -
-        tooltipRect.height / 2
-      const left = targetRect.x + targetRect.width / 2 - tooltipRect.width / 2
-      const horizontalClearance = -tooltipRect.width + (targetRect.left - left)
-      const verticalClearance = tooltipRect.height
+        if (targetRect && tooltipRect) {
+          const top =
+            window.scrollY +
+            targetRect.y +
+            targetRect.height / 2 -
+            tooltipRect.height / 2
+          const left =
+            targetRect.x + targetRect.width / 2 - tooltipRect.width / 2
+          const horizontalClearance =
+            -tooltipRect.width + (targetRect.left - left)
+          const verticalClearance = tooltipRect.height
 
-      if (popoverElement) {
-        popoverElement.style.top = `${top}px`
-        popoverElement.style.left = `${left}px`
-      } else {
-        console.error('no popover element')
-      }
+          if (popoverElement) {
+            popoverElement.style.transition = `initial`
+            popoverElement.style.top = `${top}px`
+            popoverElement.style.left = `${left}px`
+            setTimeout(() => {
+              popoverElement.style.transition = `all 0.35s cubic-bezier(1, 0, 0.22, 1.6)`
+            }, 0)
+          } else {
+            console.error('no popover element')
+          }
 
-      setHasFirstLoad(true)
+          const reference = targetRect
+          const floating = tooltipRect
+          const padding = 0
+          const offset = 0
 
-      const reference = targetRect
-      const floating = tooltipRect
-      const placement = 'right-center'
-      const padding = 0
-      const offset = 0
-      const flip = true
-      const shift = true
+          const idealSide = computeIdealSide(
+            'right',
+            reference,
+            floating,
+            padding,
+            offset,
+          )
 
-      const computedCoords = computeCoordsFromPlacement(
-        reference,
-        floating,
-        placement,
-        padding,
-        offset,
-        flip,
-        shift,
-      )
-
-      const idealSide = computeIdealSide(
-        'right',
-        reference,
-        floating,
-        padding,
-        offset,
-      )
-
-      console.log('idealSide: ', idealSide)
-      console.log('targetRect: ', targetRect)
-      console.log('originalCoords: ', {
-        top,
-        left,
-        horizontalClearance,
-        verticalClearance,
-      })
-      console.log('computedCoords: ', computedCoords)
-
-      setPositionState({ top, left, horizontalClearance, verticalClearance })
-      setIsOpen(true)
-      onShowCallback?.()
-    }
-  }, [
-    targetId,
-    tooltipRef,
-    setHasFirstLoad,
-    setPositionState,
-    setIsOpen,
-    onShowCallback,
-  ])
+          setPositionState({
+            top,
+            left,
+            horizontalClearance,
+            verticalClearance,
+          })
+          setTimeout(() => {
+            setIsOpen(true)
+            onShowCallback?.()
+            mouseEnterTimeoutRef.current = false
+          }, 200)
+        }
+      },
+      350,
+      { leading: true, trailing: false },
+    ),
+    [
+      targetId,
+      tooltipRef,
+      setHasFirstLoad,
+      setPositionState,
+      setIsOpen,
+      onShowCallback,
+    ],
+  )
 
   React.useEffect(() => {
     const targetElement = document.getElementById(targetId)
+    const popoverElement = popoverContainerRef.current
 
-    const handleMouseleave = () => {
-      setIsOpen(false)
-    }
+    const handleMouseleave = debounce(
+      () => {
+        console.log('mouseleave')
+        mouseLeaveTimeoutRef.current = true
+        setTimeout(() => {
+          setIsOpen(false)
+        }, 350)
+        setTimeout(() => {
+          popoverElement.style.top = `10px`
+          popoverElement.style.left = `10px`
+          mouseLeaveTimeoutRef.current = false
+        }, 700)
+      },
+      700,
+      { leading: true, trailing: false },
+    )
+
     targetElement?.addEventListener('mouseenter', handleMouseenter)
     targetElement?.addEventListener('mouseleave', handleMouseleave)
 

@@ -117,6 +117,7 @@ importers:
       '@testing-library/user-event': ^13.5.0
       '@types/glob': ^7.2.0
       '@types/lodash': ^4.14.176
+      '@types/lodash.debounce': ^4.0.7
       '@types/node': ^16.11.6
       '@types/react': ^17.0.33
       '@types/react-dom': ^17.0.10
@@ -133,6 +134,7 @@ importers:
       jest-styled-components: ^7.0.8
       jest-watch-typeahead: ^1.0.0
       lodash: ^4.17.21
+      lodash.debounce: ^4.0.8
       react: ^17.0.2
       react-dom: ^17.0.2
       react-transition-state: ^1.1.4
@@ -151,6 +153,7 @@ importers:
       clsx: 1.2.1
       focus-visible: 5.2.0
       lodash: 4.17.21
+      lodash.debounce: 4.0.8
       react-transition-state: 1.1.4_sfoxds7t5ydpegc3knd667wn6m
       react-use: 17.4.0_sfoxds7t5ydpegc3knd667wn6m
       styled-components: 5.3.3_v5ja746gkdtknuc6tj46sve3be
@@ -167,6 +170,7 @@ importers:
       '@testing-library/user-event': 13.5.0_gwcpuyfvwbszhlmedmugzivgzu
       '@types/glob': 7.2.0
       '@types/lodash': 4.14.182
+      '@types/lodash.debounce': 4.0.7
       '@types/node': 16.11.6
       '@types/react': 17.0.33
       '@types/react-dom': 17.0.17
@@ -3291,6 +3295,12 @@ packages:
 
   /@types/json5/0.0.29:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
+    dev: true
+
+  /@types/lodash.debounce/4.0.7:
+    resolution: {integrity: sha512-X1T4wMZ+gT000M2/91SYj0d/7JfeNZ9PeeOldSNoE/lunLeQXKvkmIumI29IaKMotU/ln/McOIvgzZcQ/3TrSA==}
+    dependencies:
+      '@types/lodash': 4.14.182
     dev: true
 
   /@types/lodash/4.14.182:
