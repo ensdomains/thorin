@@ -9,20 +9,6 @@ export type DynamicPopoverSide = 'top' | 'right' | 'bottom' | 'left'
 
 export type DynamicPopoverAlignment = 'start' | 'center' | 'end'
 
-export type DynamicPopoverPlacement =
-  | 'top-start'
-  | 'top-center'
-  | 'top-end'
-  | 'left-start'
-  | 'left-center'
-  | 'left-end'
-  | 'right-start'
-  | 'right-center'
-  | 'right-end'
-  | 'bottom-start'
-  | 'bottom-center'
-  | 'bottom-end'
-
 const ANIMATION_DURATION = 350
 
 export type DynamicPopoverAnimationFunc = (
@@ -168,17 +154,22 @@ export const DynamicPopover = ({
   onShowCallback,
   width = 250,
   mobileWidth = 150,
+  useIdealSide = false,
 }: DynamicPopoverProps) => {
   const [positionState, setPositionState] = React.useState<{
     top: number
     left: number
     horizontalClearance: number
     verticalClearance: number
+    idealPlacement: 'top' | 'right' | 'bottom' | 'left'
+    idealMobilePlacement: 'top' | 'right' | 'bottom' | 'left'
   }>({
     top: 100,
     left: 100,
     horizontalClearance: 100,
     verticalClearance: 100,
+    idealPlacement: placement,
+    idealMobilePlacement: mobilePlacement,
   })
   const popoverContainerRef = React.useRef<HTMLDivElement>(null)
   // Implement this again
@@ -251,17 +242,20 @@ export const DynamicPopover = ({
             console.error('no popover element')
           }
 
-          const reference = targetRect
-          const floating = tooltipRect
-          const padding = 0
-          const offset = 0
+          const idealPlacement = computeIdealSide(
+            placement,
+            targetRect,
+            tooltipRect,
+            0,
+            0,
+          )
 
-          const idealSide = computeIdealSide(
-            'right',
-            reference,
-            floating,
-            padding,
-            offset,
+          const idealMobilePlacement = computeIdealSide(
+            mobilePlacement,
+            targetRect,
+            tooltipRect,
+            0,
+            0,
           )
 
           setPositionState({
@@ -269,7 +263,10 @@ export const DynamicPopover = ({
             left,
             horizontalClearance,
             verticalClearance,
+            idealPlacement,
+            idealMobilePlacement,
           })
+
           setTimeout(() => {
             setIsOpen(true)
             onShowCallback?.()
@@ -296,23 +293,23 @@ export const DynamicPopover = ({
 
     const handleMouseleave = debounce(
       () => {
-        if (!mouseLeaveTimeoutRef.current) {
-          mouseLeaveTimeoutRef.current = true
-        } else {
-          mouseLeaveTimeoutRef.current = false
-        }
+        mouseLeaveTimeoutRef.current = true
         setTimeout(() => {
           setIsOpen(false)
-        }, ANIMATION_DURATION / 2)
+        }, ANIMATION_DURATION)
 
         //reset popover position to avoid intefering with screen width/height
         setTimeout(() => {
+          if (!popoverElement) {
+            console.error('no popover element')
+            return
+          }
           popoverElement.style.top = `10px`
           popoverElement.style.left = `10px`
           mouseLeaveTimeoutRef.current = false
-        }, ANIMATION_DURATION)
+        }, ANIMATION_DURATION * 2)
       },
-      ANIMATION_DURATION,
+      ANIMATION_DURATION * 2,
       { leading: true, trailing: false },
     )
 
@@ -328,8 +325,8 @@ export const DynamicPopover = ({
   const { translate, mobileTranslate } = animationFn(
     positionState.horizontalClearance,
     positionState.verticalClearance,
-    placement,
-    mobilePlacement,
+    useIdealSide ? positionState.idealPlacement : placement,
+    useIdealSide ? positionState.idealMobilePlacement : mobilePlacement,
   )
 
   return createPortal(
