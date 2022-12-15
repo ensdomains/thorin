@@ -23,6 +23,8 @@ export type DynamicPopoverPlacement =
   | 'bottom-center'
   | 'bottom-end'
 
+const ANIMATION_DURATION = 350
+
 export type DynamicPopoverAnimationFunc = (
   horizonalClearance: number,
   verticalClearance: number,
@@ -138,17 +140,8 @@ const defaultAnimationFunc: DynamicPopoverAnimationFunc = (
   return { translate, mobileTranslate }
 }
 
-// display: ${$isOpen ? 'initial' : 'none'};
-
 const PopoverContainer = styled.div<DynamicPopoverPopoverProps>(
-  ({
-    $isOpen,
-    $hasFirstLoad,
-    $translate,
-    $mobileTranslate,
-    $width,
-    $mobileWidth,
-  }) => css`
+  ({ $isOpen, $translate, $mobileTranslate, $width, $mobileWidth }) => css`
     position: absolute;
     box-sizing: border-box;
     z-index: 20;
@@ -224,14 +217,10 @@ export const DynamicPopover = ({
   const handleMouseenter = React.useCallback(
     debounce(
       () => {
-        console.log('mouseenter')
-        console.log(
-          'mouseenter mouseLeaveTimeoutRef: ',
-          mouseLeaveTimeoutRef.current,
-        )
         if (mouseLeaveTimeoutRef.current) {
           return
         }
+
         mouseEnterTimeoutRef.current = true
         const targetElement = document.getElementById(targetId)
         const targetRect = targetElement?.getBoundingClientRect()
@@ -256,7 +245,7 @@ export const DynamicPopover = ({
             popoverElement.style.top = `${top}px`
             popoverElement.style.left = `${left}px`
             setTimeout(() => {
-              popoverElement.style.transition = `all 0.35s cubic-bezier(1, 0, 0.22, 1.6)`
+              popoverElement.style.transition = `all ${ANIMATION_DURATION}ms cubic-bezier(1, 0, 0.22, 1.6)`
             }, 0)
           } else {
             console.error('no popover element')
@@ -288,7 +277,7 @@ export const DynamicPopover = ({
           }, 200)
         }
       },
-      350,
+      ANIMATION_DURATION,
       { leading: true, trailing: false },
     ),
     [
@@ -307,18 +296,23 @@ export const DynamicPopover = ({
 
     const handleMouseleave = debounce(
       () => {
-        console.log('mouseleave')
-        mouseLeaveTimeoutRef.current = true
+        if (!mouseLeaveTimeoutRef.current) {
+          mouseLeaveTimeoutRef.current = true
+        } else {
+          mouseLeaveTimeoutRef.current = false
+        }
         setTimeout(() => {
           setIsOpen(false)
-        }, 350)
+        }, ANIMATION_DURATION / 2)
+
+        //reset popover position to avoid intefering with screen width/height
         setTimeout(() => {
           popoverElement.style.top = `10px`
           popoverElement.style.left = `10px`
           mouseLeaveTimeoutRef.current = false
-        }, 700)
+        }, ANIMATION_DURATION)
       },
-      700,
+      ANIMATION_DURATION,
       { leading: true, trailing: false },
     )
 
