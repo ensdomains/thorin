@@ -50,6 +50,17 @@ export const getStaticProps: GetStaticProps<StaticProps> = async (context) => {
   const mdxSource = await serialize(content, {
     scope: data,
   })
+  if (slug.includes('miscellaneous')) {
+    return {
+      props: {
+        docsLink: '',
+        frontMatter: data,
+        source: mdxSource,
+        sourceLink: '',
+        staticTypes: {},
+      },
+    }
+  }
   const globComponentPath = glob.sync(
     `../components/src/**/${path.basename(pathname, '.docs.mdx')}.tsx`,
     {

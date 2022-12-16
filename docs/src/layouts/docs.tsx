@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { GetLayout, NextLayout } from 'next'
 import Head from 'next/head'
-import styled, { css, useTheme } from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import { mq } from '@ensdomains/thorin'
 
@@ -104,10 +104,7 @@ export type Props = {
 }
 
 const Layout: NextLayout<Props> = ({ children, meta }) => {
-  const { colors } = useTheme()
   const links = (process.env.navLinks as unknown as NavProps['links']) ?? []
-
-  console.log(colors)
   return (
     <>
       <Head>

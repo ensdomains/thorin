@@ -68,7 +68,7 @@ const mockIntersectionObserver = (
 const expectLine = (e: 'top' | 'bottom', visible: boolean) =>
   expect(screen.getByTestId('scroll-box')).toHaveStyleRule(
     'background-color',
-    `rgba(0,0,0,${visible ? '0.1' : '0'})`,
+    `hsla(0 0% 91% / ${visible ? '1' : '0'})`,
     {
       modifier: e === 'top' ? '::before' : '::after',
     },

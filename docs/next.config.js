@@ -35,10 +35,10 @@ const config = {
         name: 'organisms',
         links: getComponentPaths('organisms'),
       },
-      // {
-      //   name: 'miscellaneous',
-      //   links: componentPaths,
-      // },
+      {
+        name: 'miscellaneous',
+        links: getComponentPaths('miscellaneous'),
+      },
     ],
   },
   async rewrites() {

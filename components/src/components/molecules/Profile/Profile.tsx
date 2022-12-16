@@ -41,13 +41,12 @@ const Container = styled.div<ContainerProps>(
     border-radius: ${theme.radii['full']};
     transition-duration: ${theme.transitionDuration['150']};
     transition-property: color, border-color, background-color, transform,
-      filter, box-shadow;
+      filter;
     transition-timing-function: ${theme.transitionTimingFunction['inOut']};
     position: relative;
     z-index: 10;
-    padding: ${theme.space[2]} ${theme.space[4]} ${theme.space[2]}
-      ${theme.space[2]};
-    box-shadow: ${theme.shadows['0.25']};
+    padding: ${theme.space['2']} ${theme.space['4']} ${theme.space['2']}
+      ${theme.space['2.5']};
     color: ${theme.colors.greyDim};
     background-color: ${theme.colors.backgroundSecondary};
     height: ${theme.space['16']};
@@ -62,7 +61,6 @@ const Container = styled.div<ContainerProps>(
 
     ${$open &&
     css`
-      box-shadow: ${theme.shadows['0']};
       background-color: ${theme.colors.greyDim};
     `}
 
@@ -122,14 +120,12 @@ const Chevron = styled.svg<{ $open: boolean }>(
     transition-duration: ${theme.transitionDuration['200']};
     transition-property: all;
     transition-timing-function: ${theme.transitionTimingFunction['inOut']};
-    opacity: 0.3;
     transform: rotate(0deg);
     display: flex;
     color: ${theme.colors.greyPrimary};
 
     ${$open &&
     css`
-      opacity: 1;
       transform: rotate(180deg);
     `}
   `,

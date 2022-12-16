@@ -37,7 +37,7 @@ const Container = styled.div(
 
 const PageButton = styled.button<{ $selected?: boolean; $size: Size }>(
   ({ theme, $selected, $size }) => css`
-    background-color: transparent;
+    background-color: ${theme.colors.background};
     transition: all 0.15s ease-in-out;
     cursor: pointer;
     font-size: ${theme.fontSizes.body};
@@ -52,7 +52,6 @@ const PageButton = styled.button<{ $selected?: boolean; $size: Size }>(
 
     ${$selected
       ? css`
-          background-color: ${theme.colors.background};
           cursor: default;
           pointer-events: none;
           color: ${theme.colors.accent};
@@ -60,7 +59,7 @@ const PageButton = styled.button<{ $selected?: boolean; $size: Size }>(
       : css`
           color: ${theme.colors.text};
           &:hover {
-            background-color: ${theme.colors.greyDim};
+            background-color: ${theme.colors.greySurface};
           }
         `}
 

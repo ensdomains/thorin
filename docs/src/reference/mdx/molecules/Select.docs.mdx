@@ -4,13 +4,7 @@ description: Select element input
 ---
 
 ```tsx
-import {
-  DuplicateSVG,
-  EthSVG,
-  FlagSVG,
-  MoonSVG,
-  Select,
-} from '@ensdomains/thorin'
+import { CopySVG, EthSVG, FlagSVG, MoonSVG, Select } from '@ensdomains/thorin'
 ```
 
 ```tsx live=true expand=true minHeight=350px
@@ -20,15 +14,15 @@ import {
     options={[
       { value: '0', label: 'Zero' },
       { value: '1', label: 'One', prefix: <EthSVG /> },
-      { value: '2', label: 'Two', prefix: <FlagSVG /> },
+      { value: '2', label: 'Two', prefix: <WalletSVG /> },
       { value: '3', label: 'Three', prefix: <MoonSVG /> },
       {
         value: '4',
         label: 'Four',
-        prefix: <DuplicateSVG />,
+        prefix: <CopySVG />,
         disabled: true,
       },
-      { value: '5', label: 'Four', prefix: <DuplicateSVG /> },
+      { value: '5', label: 'Four', prefix: <CopySVG /> },
     ]}
     tabIndex="2"
   />
@@ -95,9 +89,9 @@ import {
     options={[
       { value: '0', label: 'Zero' },
       { value: '1', label: 'One', prefix: <EthSVG /> },
-      { value: '2', label: 'Two', prefix: <FlagSVG /> },
+      { value: '2', label: 'Two', prefix: <WalletSVG /> },
       { value: '3', label: 'Three', prefix: <MoonSVG /> },
-      { value: '4', label: 'Four', prefix: <DuplicateSVG />, disabled: true },
+      { value: '4', label: 'Four', prefix: <CopySVG />, disabled: true },
     ]}
   />
 </Card>
@@ -114,9 +108,9 @@ import {
       options={[
         { value: '0', label: 'Zero' },
         { value: '1', label: 'One', prefix: <EthSVG /> },
-        { value: '2', label: 'Two', prefix: <FlagSVG /> },
+        { value: '2', label: 'Two', prefix: <WalletSVG /> },
         { value: '3', label: 'Three', prefix: <MoonSVG /> },
-        { value: '4', label: 'Four', prefix: <DuplicateSVG />, disabled: true },
+        { value: '4', label: 'Four', prefix: <CopySVG />, disabled: true },
       ]}
     />
   </div>
@@ -127,9 +121,9 @@ import {
       options={[
         { value: '0', label: 'Zero' },
         { value: '1', label: 'One', prefix: <EthSVG /> },
-        { value: '2', label: 'Two', prefix: <FlagSVG /> },
+        { value: '2', label: 'Two', prefix: <WalletSVG /> },
         { value: '3', label: 'Three', prefix: <MoonSVG /> },
-        { value: '4', label: 'Four', prefix: <DuplicateSVG />, disabled: true },
+        { value: '4', label: 'Four', prefix: <CopySVG />, disabled: true },
       ]}
     />
   </div>
@@ -145,7 +139,7 @@ import {
     options={[
       { value: '0', label: 'Zero' },
       { value: '1', label: 'One', prefix: <EthSVG /> },
-      { value: '2', label: 'Two', prefix: <FlagSVG /> },
+      { value: '2', label: 'Two', prefix: <WalletSVG /> },
     ]}
     size="small"
   />
@@ -154,7 +148,7 @@ import {
     options={[
       { value: '0', label: 'Zero' },
       { value: '1', label: 'One', prefix: <EthSVG /> },
-      { value: '2', label: 'Two', prefix: <FlagSVG /> },
+      { value: '2', label: 'Two', prefix: <WalletSVG /> },
     ]}
     size="medium"
   />
@@ -163,7 +157,7 @@ import {
     options={[
       { value: '0', label: 'Zero' },
       { value: '1', label: 'One', prefix: <EthSVG /> },
-      { value: '2', label: 'Two', prefix: <FlagSVG /> },
+      { value: '2', label: 'Two', prefix: <WalletSVG /> },
     ]}
     size="large"
   />
@@ -179,9 +173,9 @@ import {
     options={[
       { value: '0', label: 'Zero' },
       { value: '1', label: 'One', prefix: <EthSVG /> },
-      { value: '2', label: 'Two', prefix: <FlagSVG /> },
+      { value: '2', label: 'Two', prefix: <WalletSVG /> },
       { value: '3', label: 'Three', prefix: <MoonSVG /> },
-      { value: '4', label: 'Four', prefix: <DuplicateSVG />, disabled: true },
+      { value: '4', label: 'Four', prefix: <CopySVG />, disabled: true },
     ]}
     selected={{ value: '1', label: 'One', prefix: <EthSVG /> }}
   />
@@ -197,9 +191,9 @@ import {
     options={[
       { value: '0', label: 'Zero' },
       { value: '1', label: 'One', prefix: <EthSVG /> },
-      { value: '2', label: 'Two', prefix: <FlagSVG /> },
+      { value: '2', label: 'Two', prefix: <WalletSVG /> },
       { value: '3', label: 'Three', prefix: <MoonSVG /> },
-      { value: '4', label: 'Four', prefix: <DuplicateSVG />, disabled: true },
+      { value: '4', label: 'Four', prefix: <CopySVG />, disabled: true },
     ]}
     selected={{ value: '1', label: 'One', prefix: <EthSVG /> }}
   />
@@ -216,9 +210,9 @@ import {
       options={[
         { value: '0', label: 'Zero' },
         { value: '1', label: 'One', prefix: <EthSVG /> },
-        { value: '2', label: 'Two', prefix: <FlagSVG /> },
+        { value: '2', label: 'Two', prefix: <WalletSVG /> },
         { value: '3', label: 'Three', prefix: <MoonSVG /> },
-        { value: '4', label: 'Four', prefix: <DuplicateSVG />, disabled: true },
+        { value: '4', label: 'Four', prefix: <CopySVG />, disabled: true },
       ]}
     />
   </Card>
@@ -234,15 +228,15 @@ import {
     options={[
       { value: '0', label: 'Zero' },
       { value: '1', label: 'One', prefix: <EthSVG /> },
-      { value: '2', label: 'Two', prefix: <FlagSVG /> },
+      { value: '2', label: 'Two', prefix: <WalletSVG /> },
       { value: '3', label: 'Three', prefix: <MoonSVG /> },
       {
         value: '4',
         label: 'Four',
-        prefix: <DuplicateSVG />,
+        prefix: <CopySVG />,
         disabled: true,
       },
-      { value: '5', label: 'Four', prefix: <DuplicateSVG /> },
+      { value: '5', label: 'Four', prefix: <CopySVG /> },
     ]}
     rows={3}
     tabIndex="2"
@@ -262,15 +256,15 @@ import {
     options={[
       { value: '0', label: 'Zero' },
       { value: '1', label: 'One', prefix: <EthSVG /> },
-      { value: '2', label: 'Two', prefix: <FlagSVG /> },
+      { value: '2', label: 'Two', prefix: <WalletSVG /> },
       { value: '3', label: 'Three', prefix: <MoonSVG /> },
       {
         value: '4',
         label: 'Four',
-        prefix: <DuplicateSVG />,
+        prefix: <CopySVG />,
         disabled: true,
       },
-      { value: '5', label: 'Four', prefix: <DuplicateSVG /> },
+      { value: '5', label: 'Four', prefix: <CopySVG /> },
     ]}
     tabIndex="2"
   />
@@ -291,15 +285,15 @@ import {
       options={[
         { value: '0', label: 'Zero' },
         { value: '1', label: 'One', prefix: <EthSVG /> },
-        { value: '2', label: 'Two', prefix: <FlagSVG /> },
+        { value: '2', label: 'Two', prefix: <WalletSVG /> },
         { value: '3', label: 'Three', prefix: <MoonSVG /> },
         {
           value: '4',
           label: 'Four',
-          prefix: <DuplicateSVG />,
+          prefix: <CopySVG />,
           disabled: true,
         },
-        { value: '5', label: 'Four', prefix: <DuplicateSVG /> },
+        { value: '5', label: 'Four', prefix: <CopySVG /> },
       ]}
       rows={3}
       tabIndex="2"
