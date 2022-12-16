@@ -60,6 +60,8 @@ export interface DynamicPopoverProps {
   onShowCallback?: () => void
   width?: number
   mobileWidth?: number
+  useIdealSide?: boolean
+  additionalGap?: number
 }
 
 /**
@@ -106,21 +108,19 @@ const defaultAnimationFunc: DynamicPopoverAnimationFunc = (
   mobileSide: string,
 ) => {
   let translate = ''
-  if (side === 'top')
-    translate = `translate(0, -${verticalClearance - window.scrollY}px)`
+  if (side === 'top') translate = `translate(0, -${verticalClearance}px)`
   else if (side === 'right')
     translate = `translate(${horizontalClearance * -1 + 10}px, 0)`
-  else if (side === 'bottom')
-    translate = `translate(0, ${verticalClearance + window.scrollY}px)`
+  else if (side === 'bottom') translate = `translate(0, ${verticalClearance}px)`
   else translate = `translate(${horizontalClearance - 10}px, 0);`
 
   let mobileTranslate = ''
   if (mobileSide === 'top')
-    mobileTranslate = `translate(0, -${verticalClearance - window.scrollY}px)`
+    mobileTranslate = `translate(0, -${verticalClearance}px)`
   else if (mobileSide === 'right')
     mobileTranslate = `translate(${horizontalClearance * -1 + 10}px, 0)`
   else if (mobileSide === 'bottom')
-    mobileTranslate = `translate(0, ${verticalClearance + window.scrollY}px)`
+    mobileTranslate = `translate(0, ${verticalClearance}px)`
   else mobileTranslate = `translate(${horizontalClearance - 10}px, 0);`
 
   return { translate, mobileTranslate }
@@ -155,6 +155,7 @@ export const DynamicPopover = ({
   width = 250,
   mobileWidth = 150,
   useIdealSide = false,
+  additionalGap = 0,
 }: DynamicPopoverProps) => {
   const [positionState, setPositionState] = React.useState<{
     top: number
@@ -172,12 +173,8 @@ export const DynamicPopover = ({
     idealMobilePlacement: mobilePlacement,
   })
   const popoverContainerRef = React.useRef<HTMLDivElement>(null)
-  // Implement this again
   const mouseEnterTimeoutRef = React.useRef<boolean>(false)
   const mouseLeaveTimeoutRef = React.useRef<HTMLDivElement>(null)
-
-  // This is used to prevent animations when first setting the tooltip position
-  const [hasFirstLoad, setHasFirstLoad] = React.useState(false)
 
   const animationFn = React.useMemo(() => {
     if (_animationFn) {
@@ -228,8 +225,8 @@ export const DynamicPopover = ({
           const left =
             targetRect.x + targetRect.width / 2 - tooltipRect.width / 2
           const horizontalClearance =
-            -tooltipRect.width + (targetRect.left - left)
-          const verticalClearance = tooltipRect.height
+            -tooltipRect.width + (targetRect.left - left) - additionalGap
+          const verticalClearance = tooltipRect.height + additionalGap
 
           if (popoverElement) {
             popoverElement.style.transition = `initial`
@@ -280,10 +277,10 @@ export const DynamicPopover = ({
     [
       targetId,
       tooltipRef,
-      setHasFirstLoad,
       setPositionState,
       setIsOpen,
       onShowCallback,
+      additionalGap,
     ],
   )
 
@@ -331,7 +328,6 @@ export const DynamicPopover = ({
 
   return createPortal(
     <PopoverContainer
-      $hasFirstLoad={hasFirstLoad}
       $isOpen={isOpen}
       $mobileTranslate={mobileTranslate}
       $mobileWidth={mobileWidth}

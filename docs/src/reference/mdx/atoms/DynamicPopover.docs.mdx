@@ -4,20 +4,29 @@ description: Abstracts the positioning of popover elements so that they are visi
 ---
 
 ```tsx
-import { DynamicPopover } from '@ensdomains/thorin'
+import { Button, DynamicPopover } from '@ensdomains/thorin'
 ```
 
-```tsx live=true  expand=ture minHeight=300px
-<DynamicPopover
-  open={getState('isOpen')}
-  placement="bottom-start"
-  popover="Popover Information"
-  onDismiss={() => setState('isOpen', false)}
->
-  <Button pressed={getState('isOpen')} onClick={() => toggleState('isOpen')}>
-    Click Me
-  </Button>
-</DynamicPopover>
+```tsx live=true expand=true minHeight=300px
+const Test = () => {
+  const tooltipRef = React.useRef(null)
+  const popover = <div ref={tooltipRef}>Hi there</div>
+
+  return (
+    <>
+      <DynamicPopover
+        open
+        placement="top"
+        popover={popover}
+        targetId="targetId"
+        tooltipRef={tooltipRef}
+      />
+      <Button id="targetId">Hi there</Button>
+    </>
+  )
+}
+
+;<Test />
 ```
 
 ## Props
