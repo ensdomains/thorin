@@ -55,6 +55,8 @@ type BaseProps = {
   onClick?: NativeButtonProps['onClick']
   /** The handler for click events. */
   psuedoDisabled?: boolean
+  /** Show indicator that button has extra info via tooltip. */
+  shouldShowTooltipIndicator?: boolean
 } & Omit<NativeButtonProps, 'prefix' | 'size'>
 
 type WithTone = {
@@ -93,6 +95,7 @@ interface ButtonElement {
   $type?: BaseProps['type']
   $center: boolean | undefined
   $tone: Tone
+  $psuedoDisabled: boolean
 }
 
 const getAccentColour = (

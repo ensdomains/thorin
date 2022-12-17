@@ -18,9 +18,8 @@ export type DynamicPopoverAnimationFunc = (
   mobileSide: DynamicPopoverSide,
 ) => { translate: string; mobileTranslate: string }
 
-type DynamicPopoverPopoverProps = {
+type PopoverContainerProps = {
   $isOpen: boolean
-  $hasFirstLoad: boolean
   $translate: string
   $mobileTranslate: string
   $width: number
@@ -33,34 +32,27 @@ export type DynamicPopoverButtonProps = {
 }
 
 export interface DynamicPopoverProps {
-  /** A react node that has includes the styling and content of the popover. */
+  /** A react node that has includes the styling and content of the popover */
   popover: React.ReactNode
-  /** The side and alignment of the popover in relation to the button. */
+  /** The side and alignment of the popover in relation to the target */
   placement?: DynamicPopoverSide
-  /** The side and alignment of the popover in relation to the button on mobile screen sizes. */
+  /** The side and alignment of the popover in relation to the target on mobile screen sizes */
   mobilePlacement?: DynamicPopoverSide
-  /** The number of pixels between the button and the popover */
-  offset?: number
-  /** If shift is true, sets the minimum number of pixels between the popover and the viewport */
-  padding?: number
-  /** If true, will flip the popover to the opposite side if there is not enough space. */
-  flip?: boolean
-  /** If true, will shift the popover alignment to be remain visible. */
-  shift?: boolean
-  /** If true, will prevent the popover from appearing */
-  disabled?: boolean
-  /** If true, will display the popover */
-  open?: boolean
-  /** The setter for the isOpen variable */
-  onDismiss?: () => void
-  /** A function that returns string of the css state for open and closed popover. */
+  /** A function that returns string of the css state for open and closed popover */
   animationFn?: DynamicPopoverAnimationFunc
+  /** A React reference to the tooltip element */
   tooltipRef?: React.RefObject<HTMLDivElement>
+  /** The id of the target element the tooltip will emerge from */
   targetId: string
+  /** Function that will be called when the DynamicPopover is shown */
   onShowCallback?: () => void
+  /** Width of the DynamicPopover*/
   width?: number
+  /** Width of the DynamicPopover on mobile*/
   mobileWidth?: number
+  /** Dynamic popover will switch sides if there is not enough room*/
   useIdealSide?: boolean
+  /** Add to the default gap between the popover and its target */
   additionalGap?: number
 }
 
@@ -126,19 +118,19 @@ const defaultAnimationFunc: DynamicPopoverAnimationFunc = (
   return { translate, mobileTranslate }
 }
 
-const PopoverContainer = styled.div<DynamicPopoverPopoverProps>(
+const PopoverContainer = styled.div<PopoverContainerProps>(
   ({ $isOpen, $translate, $mobileTranslate, $width, $mobileWidth }) => css`
     position: absolute;
     box-sizing: border-box;
     z-index: 20;
     pointer-events: none;
-    width: ${$mobileWidth}px;
+    width: ${$isOpen ? $mobileWidth : 0}px;
     transform: ${$isOpen ? $mobileTranslate : 'translate(0, 0)'};
     opacity: ${$isOpen ? 1 : 0};
     visibility: ${$isOpen ? 'visible' : 'hidden'};
 
     ${mq.md.min(css`
-      width: ${$width}px;
+      width: ${$isOpen ? $width : 0}px;
       transform: ${$isOpen ? $translate : 'translate (0, 0)'};
     `)}
   `,
@@ -174,7 +166,7 @@ export const DynamicPopover = ({
   })
   const popoverContainerRef = React.useRef<HTMLDivElement>(null)
   const mouseEnterTimeoutRef = React.useRef<boolean>(false)
-  const mouseLeaveTimeoutRef = React.useRef<HTMLDivElement>(null)
+  const mouseLeaveTimeoutRef = React.useRef<boolean>(false)
 
   const animationFn = React.useMemo(() => {
     if (_animationFn) {
@@ -329,11 +321,12 @@ export const DynamicPopover = ({
   return createPortal(
     <PopoverContainer
       $isOpen={isOpen}
-      $mobileTranslate={mobileTranslate}
-      $mobileWidth={mobileWidth}
       $translate={translate}
+      $mobileTranslate={mobileTranslate}
       $width={width}
+      $mobileWidth={mobileWidth}
       id="popoverContainer"
+      data-testid="popoverContainer"
       ref={popoverContainerRef}
     >
       {popover}

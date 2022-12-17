@@ -4,33 +4,38 @@ import { ThemeProvider } from 'styled-components'
 
 import { act } from 'react-dom/test-utils'
 
-import { cleanup, render, screen, userEvent, waitFor } from '@/test'
+import { cleanup, render, screen, userEvent, waitFor, fireEvent } from '@/test'
 import { Button } from '@/src/components/atoms/Button'
 import { Tooltip } from './Tooltip'
 
 import { lightTheme } from '@/src/tokens'
 
 const TooltipHelper = () => {
-  const [isOpen, setIsOpen] = React.useState(false)
-  const content = <div data-testid="tooltipcontent">Content</div>
+  const buttonId = 'buttonId'
   return (
     <ThemeProvider theme={lightTheme}>
-      <div style={{ width: '500px', height: '500px' }}>
+      <div style={{ width: '400px', height: '500px' }}>
         <div>outside</div>
         <Tooltip
-          content={content}
-          open={isOpen}
-          placement="right-start"
-          onDismiss={() => setIsOpen(false)}
+          {...{
+            content: <div data-testid="tooltipcontent">Tooltip content</div>,
+            targetId: buttonId,
+            placement: 'left',
+            mobilePlacement: 'left',
+            onShowCallback: () => null,
+            width: 250,
+            mobileWidth: 150,
+            open: true,
+          }}
+        />
+        <Button
+          id={buttonId}
+          psuedoDisabled
+          shadowless
+          shouldShowTooltipIndicator
         >
-          <Button
-            onClick={() => {
-              setIsOpen((o) => !o)
-            }}
-          >
-            Click me
-          </Button>
-        </Tooltip>
+          Click me
+        </Button>
       </div>
     </ThemeProvider>
   )
@@ -42,11 +47,9 @@ describe('<Tooltip />', () => {
 
   it('renders', () => {
     render(<TooltipHelper />)
-    expect(screen.getByTestId('dynamicpopover')).toBeInTheDocument()
     expect(screen.getByText('Click me')).toBeInTheDocument()
     expect(screen.getByTestId('tooltipcontent')).toBeInTheDocument()
     expect(screen.getByText('outside')).toBeInTheDocument()
-    expect(screen.getByTestId('dynamicpopover-popover')).toBeInTheDocument()
   })
 
   it('should show popover when clicked', async () => {
@@ -56,22 +59,6 @@ describe('<Tooltip />', () => {
     })
     await waitFor(() => {
       expect(screen.getByTestId('tooltipcontent')).toBeVisible()
-    })
-  })
-
-  it('should close if clicking outside of dropdown', async () => {
-    render(<TooltipHelper />)
-    act(() => {
-      userEvent.click(screen.getByText('Click me'))
-    })
-    await waitFor(() => {
-      expect(screen.getByTestId('tooltipcontent')).toBeVisible()
-    })
-    act(() => {
-      userEvent.click(screen.getByText('outside'))
-    })
-    await waitFor(() => {
-      expect(screen.getByTestId('tooltipcontent')).not.toBeVisible()
     })
   })
 
