@@ -224,7 +224,6 @@ export const DynamicPopover = ({
             popoverElement.style.transition = `initial`
             popoverElement.style.top = `${top}px`
             popoverElement.style.left = `${left}px`
-            popoverElement.style.transition = `all ${ANIMATION_DURATION}ms cubic-bezier(1, 0, 0.22, 1.6)`
           } else {
             console.error('no popover element')
           }
@@ -254,8 +253,10 @@ export const DynamicPopover = ({
             idealMobilePlacement,
           })
 
+          //Leave some time to move element into position before showing
           setTimeout(() => {
             if (!mouseLeaveTimeoutRef.current && popoverElement) {
+              popoverElement.style.transition = `all ${ANIMATION_DURATION}ms cubic-bezier(1, 0, 0.22, 1.6)`
               popoverElement.style.opacity = '1'
             }
             onShowCallback?.()
@@ -280,10 +281,16 @@ export const DynamicPopover = ({
     const targetElement = document.getElementById(targetId)
     const popoverElement = popoverContainerRef.current
 
+    if (popoverElement) {
+      popoverElement.style.opacity = '0'
+    }
+
     const handleMouseleave = debounce(
       () => {
         mouseLeaveTimeoutRef.current = true
-        popoverElement.style.opacity = '0'
+        if (popoverElement) {
+          popoverElement.style.opacity = '0'
+        }
 
         //reset popover position to avoid intefering with screen width/height
         setTimeout(() => {
@@ -298,7 +305,7 @@ export const DynamicPopover = ({
               popoverElement.style.top = `10px`
               popoverElement.style.left = `10px`
               mouseLeaveTimeoutRef.current = false
-            }, 300)
+            }, ANIMATION_DURATION)
           } else {
             popoverElement.style.transition = 'initial'
             popoverElement.style.top = `10px`
