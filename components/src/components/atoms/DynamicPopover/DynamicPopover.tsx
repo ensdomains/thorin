@@ -194,9 +194,49 @@ export const DynamicPopover = ({
     const popoverElement = popoverContainerRef.current
 
     if (popoverElement) {
+      const targetElement = document.getElementById(targetId)
+      const targetRect = targetElement?.getBoundingClientRect()
+      const tooltipElement = tooltipRef?.current
+      const tooltipRect = tooltipElement?.getBoundingClientRect()
+
       popoverElement.style.opacity = '0'
       popoverElement.style.top = `10px`
       popoverElement.style.left = `10px`
+
+      const top =
+        window.scrollY +
+        targetRect.y +
+        targetRect.height / 2 -
+        tooltipRect.height / 2
+      const left = targetRect.x + targetRect.width / 2 - tooltipRect.width / 2
+      const horizontalClearance =
+        -tooltipRect.width + (targetRect.left - left) - additionalGap
+      const verticalClearance = tooltipRect.height + additionalGap
+
+      const idealPlacement = computeIdealSide(
+        placement,
+        targetRect,
+        tooltipRect,
+        0,
+        0,
+      )
+
+      const idealMobilePlacement = computeIdealSide(
+        mobilePlacement,
+        targetRect,
+        tooltipRect,
+        0,
+        0,
+      )
+
+      setPositionState({
+        top,
+        left,
+        horizontalClearance,
+        verticalClearance,
+        idealPlacement,
+        idealMobilePlacement,
+      })
     }
 
     const handleMouseenter = debounce(
