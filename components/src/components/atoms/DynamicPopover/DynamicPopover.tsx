@@ -124,13 +124,13 @@ const PopoverContainer = styled.div<PopoverContainerProps>(
     box-sizing: border-box;
     z-index: 20;
     pointer-events: none;
-    width: ${$isOpen ? $mobileWidth : 0}px;
+    width: ${$mobileWidth}px;
     transform: ${$isOpen ? $mobileTranslate : 'translate(0, 0)'};
     opacity: ${$isOpen ? 1 : 0};
     visibility: ${$isOpen ? 'visible' : 'hidden'};
 
     ${mq.md.min(css`
-      width: ${$isOpen ? $width : 0}px;
+      width: ${$width}px;
       transform: ${$isOpen ? $translate : 'translate (0, 0)'};
     `)}
   `,
