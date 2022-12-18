@@ -19,7 +19,6 @@ export type DynamicPopoverAnimationFunc = (
 ) => { translate: string; mobileTranslate: string }
 
 type PopoverContainerProps = {
-  $isOpen: boolean
   $translate: string
   $mobileTranslate: string
   $width: number
@@ -118,10 +117,8 @@ const defaultAnimationFunc: DynamicPopoverAnimationFunc = (
   return { translate, mobileTranslate }
 }
 
-// opacity: ${$isOpen ? 1 : 1};
-
 const PopoverContainer = styled.div<PopoverContainerProps>(
-  ({ $isOpen, $translate, $mobileTranslate, $width, $mobileWidth }) => css`
+  ({ $translate, $mobileTranslate, $width, $mobileWidth }) => css`
     position: absolute;
     box-sizing: border-box;
     z-index: 20;
@@ -192,11 +189,19 @@ export const DynamicPopover = ({
       )
   }, [_animationFn])
 
-  const [isOpen, setIsOpen] = React.useState(false)
+  React.useEffect(() => {
+    const targetElement = document.getElementById(targetId)
+    const popoverElement = popoverContainerRef.current
 
-  const handleMouseenter = React.useCallback(
-    debounce(
+    if (popoverElement) {
+      popoverElement.style.opacity = '0'
+      popoverElement.style.top = `10px`
+      popoverElement.style.left = `10px`
+    }
+
+    const handleMouseenter = debounce(
       () => {
+        console.log('handleMousenter')
         if (mouseLeaveTimeoutRef.current) {
           return
         }
@@ -266,24 +271,7 @@ export const DynamicPopover = ({
       },
       ANIMATION_DURATION,
       { leading: true, trailing: false },
-    ),
-    [
-      targetId,
-      tooltipRef,
-      setPositionState,
-      setIsOpen,
-      onShowCallback,
-      additionalGap,
-    ],
-  )
-
-  React.useEffect(() => {
-    const targetElement = document.getElementById(targetId)
-    const popoverElement = popoverContainerRef.current
-
-    if (popoverElement) {
-      popoverElement.style.opacity = '0'
-    }
+    )
 
     const handleMouseleave = debounce(
       () => {
@@ -318,14 +306,33 @@ export const DynamicPopover = ({
       { leading: true, trailing: false },
     )
 
+    const handleResize = () => {
+      const targetElement = document.getElementById(targetId)
+      const targetRect = targetElement?.getBoundingClientRect()
+      const tooltipElement = tooltipRef?.current
+      const tooltipRect = tooltipElement?.getBoundingClientRect()
+      const popoverElement = popoverContainerRef.current
+      const top =
+        window.scrollY +
+        targetRect.y +
+        targetRect.height / 2 -
+        tooltipRect.height / 2
+      const left = targetRect.x + targetRect.width / 2 - tooltipRect.width / 2
+      popoverElement.style.transition = `initial`
+      popoverElement.style.top = `${top}px`
+      popoverElement.style.left = `${left}px`
+    }
+
     targetElement?.addEventListener('mouseenter', handleMouseenter)
     targetElement?.addEventListener('mouseleave', handleMouseleave)
+    addEventListener('resize', handleResize)
 
     return () => {
       targetElement?.removeEventListener('mouseover', handleMouseenter)
       targetElement?.removeEventListener('mouseleave', handleMouseleave)
+      removeEventListener('resize', handleResize)
     }
-  }, [targetId, setIsOpen, handleMouseenter])
+  }, [targetId])
 
   const { translate, mobileTranslate } = animationFn(
     positionState.horizontalClearance,
@@ -336,7 +343,6 @@ export const DynamicPopover = ({
 
   return createPortal(
     <PopoverContainer
-      $isOpen={isOpen}
       $translate={translate}
       $mobileTranslate={mobileTranslate}
       $width={width}
