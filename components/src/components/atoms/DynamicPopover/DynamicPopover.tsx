@@ -118,6 +118,8 @@ const defaultAnimationFunc: DynamicPopoverAnimationFunc = (
   return { translate, mobileTranslate }
 }
 
+// opacity: ${$isOpen ? 1 : 1};
+
 const PopoverContainer = styled.div<PopoverContainerProps>(
   ({ $isOpen, $translate, $mobileTranslate, $width, $mobileWidth }) => css`
     position: absolute;
@@ -125,13 +127,11 @@ const PopoverContainer = styled.div<PopoverContainerProps>(
     z-index: 20;
     pointer-events: none;
     width: ${$mobileWidth}px;
-    transform: ${$isOpen ? $mobileTranslate : 'translate(0, 0)'};
-    opacity: ${$isOpen ? 1 : 0};
-    visibility: ${$isOpen ? 'visible' : 'hidden'};
+    transform: ${$mobileTranslate};
 
     ${mq.md.min(css`
       width: ${$width}px;
-      transform: ${$isOpen ? $translate : 'translate (0, 0)'};
+      transform: ${$translate};
     `)}
   `,
 )
@@ -224,9 +224,7 @@ export const DynamicPopover = ({
             popoverElement.style.transition = `initial`
             popoverElement.style.top = `${top}px`
             popoverElement.style.left = `${left}px`
-            setTimeout(() => {
-              popoverElement.style.transition = `all ${ANIMATION_DURATION}ms cubic-bezier(1, 0, 0.22, 1.6)`
-            }, 0)
+            popoverElement.style.transition = `all ${ANIMATION_DURATION}ms cubic-bezier(1, 0, 0.22, 1.6)`
           } else {
             console.error('no popover element')
           }
@@ -257,7 +255,9 @@ export const DynamicPopover = ({
           })
 
           setTimeout(() => {
-            setIsOpen(true)
+            if (!mouseLeaveTimeoutRef.current && popoverElement) {
+              popoverElement.style.opacity = '1'
+            }
             onShowCallback?.()
             mouseEnterTimeoutRef.current = false
           }, 200)
@@ -283,9 +283,7 @@ export const DynamicPopover = ({
     const handleMouseleave = debounce(
       () => {
         mouseLeaveTimeoutRef.current = true
-        setTimeout(() => {
-          setIsOpen(false)
-        }, ANIMATION_DURATION)
+        popoverElement.style.opacity = '0'
 
         //reset popover position to avoid intefering with screen width/height
         setTimeout(() => {
@@ -293,12 +291,23 @@ export const DynamicPopover = ({
             console.error('no popover element')
             return
           }
-          popoverElement.style.top = `10px`
-          popoverElement.style.left = `10px`
-          mouseLeaveTimeoutRef.current = false
-        }, ANIMATION_DURATION * 2)
+
+          if (mouseEnterTimeoutRef.current) {
+            setTimeout(() => {
+              popoverElement.style.transition = 'initial'
+              popoverElement.style.top = `10px`
+              popoverElement.style.left = `10px`
+              mouseLeaveTimeoutRef.current = false
+            }, 300)
+          } else {
+            popoverElement.style.transition = 'initial'
+            popoverElement.style.top = `10px`
+            popoverElement.style.left = `10px`
+            mouseLeaveTimeoutRef.current = false
+          }
+        }, ANIMATION_DURATION)
       },
-      ANIMATION_DURATION * 2,
+      ANIMATION_DURATION,
       { leading: true, trailing: false },
     )
 
