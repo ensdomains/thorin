@@ -1,0 +1,167 @@
+---
+title: Banner
+description: A component to display information that is a link or dismissable
+---
+
+```tsx
+import { Banner } from '@ensdomains/thorin'
+```
+
+```tsx live=true expand=true
+<Banner
+  message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+  title="Heading"
+  type="info"
+/>
+```
+
+## Props
+
+<PropsTable sourceLink={sourceLink} types={types} />
+
+## Variants
+
+```tsx live=true
+<DeleteMe>
+  <Banner
+    message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    title="Heading"
+    type="info"
+    variant="desktop"
+  />
+  <Banner
+    message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    title="Heading"
+    type="warning"
+    variant="desktop"
+  />
+  <Banner
+    message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    title="Heading"
+    type="alert"
+    variant="desktop"
+  />
+  <Banner
+    message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    title="Heading"
+    type="info"
+    variant="mobile"
+  />
+  <Banner
+    message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    title="Heading"
+    type="warning"
+    variant="mobile"
+  />
+  <Banner
+    message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    title="Heading"
+    type="alert"
+    variant="mobile"
+  />
+</DeleteMe>
+```
+
+## onDismiss
+
+```tsx live=true
+<DeleteMe>
+  <Banner
+    message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    title="Heading"
+    type="info"
+    variant="desktop"
+    onDismiss={() => alert('dismissed')}
+  />
+  <Banner
+    message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    title="Heading"
+    type="warning"
+    variant="desktop"
+    onDismiss={() => alert('dismissed')}
+  />
+  <Banner
+    message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    title="Heading"
+    type="alert"
+    variant="desktop"
+    onDismiss={() => alert('dismissed')}
+  />
+  <Banner
+    message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    title="Heading"
+    type="info"
+    variant="mobile"
+    onDismiss={() => alert('dismissed')}
+  />
+  <Banner
+    message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    title="Heading"
+    type="warning"
+    variant="mobile"
+    onDismiss={() => alert('dismissed')}
+  />
+  <Banner
+    message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    title="Heading"
+    type="alert"
+    variant="mobile"
+    onDismiss={() => alert('dismissed')}
+  />
+</DeleteMe>
+```
+
+## as 'a'
+
+```tsx live=true
+<DeleteMe>
+  <Banner
+    as="a"
+    href="#"
+    message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    title="Heading"
+    type="info"
+    variant="desktop"
+  />
+  <Banner
+    as="a"
+    href="#"
+    message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    title="Heading"
+    type="warning"
+    variant="desktop"
+  />
+  <Banner
+    as="a"
+    href="#"
+    message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    title="Heading"
+    type="alert"
+    variant="desktop"
+  />
+  <Banner
+    as="a"
+    href="#"
+    message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    title="Heading"
+    type="info"
+    variant="mobile"
+  />
+  <Banner
+    as="a"
+    href="#"
+    message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    title="Heading"
+    type="warning"
+    variant="mobile"
+  />
+  <Banner
+    as="a"
+    href="#"
+    message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    title="Heading"
+    type="alert"
+    variant="mobile"
+  />
+</DeleteMe>
+```

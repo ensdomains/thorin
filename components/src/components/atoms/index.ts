@@ -1,5 +1,6 @@
 export { Avatar } from './Avatar'
 export { BackdropSurface } from './BackdropSurface'
+export { Banner } from './Banner'
 export { Button } from './Button'
 export { Card } from './Card'
 export { DynamicPopover } from './DynamicPopover'
