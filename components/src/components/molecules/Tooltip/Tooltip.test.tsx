@@ -4,7 +4,7 @@ import { ThemeProvider } from 'styled-components'
 
 import { act } from 'react-dom/test-utils'
 
-import { cleanup, render, screen, userEvent, waitFor, fireEvent } from '@/test'
+import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 import { Button } from '@/src/components/atoms/Button'
 import { Tooltip } from './Tooltip'
 
