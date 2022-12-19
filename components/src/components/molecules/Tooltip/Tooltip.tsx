@@ -132,9 +132,9 @@ export const Tooltip = ({
   const tooltipRef = React.useRef<HTMLDivElement>(null)
   const popover = (
     <TooltipPopover
-      data-testid="tooltip-popover"
       $mobilePlacement={mobilePlacement}
       $placement={placement}
+      data-testid="tooltip-popover"
       ref={tooltipRef}
     >
       {content}

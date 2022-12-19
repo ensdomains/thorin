@@ -427,12 +427,12 @@ export const DynamicPopover = ({
 
   return createPortal(
     <PopoverContainer
-      $translate={translate}
       $mobileTranslate={mobileTranslate}
-      $width={width}
       $mobileWidth={mobileWidth}
-      id="popoverContainer"
+      $translate={translate}
+      $width={width}
       data-testid="popoverContainer"
+      id="popoverContainer"
       ref={popoverContainerRef}
     >
       {popover}
