@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import 'styled-components'
-import { Hue as TokenHue, Mode as TokenMode, Tokens } from '@/src/tokens'
+import { Hue, Hue as TokenHue, Mode as TokenMode, Tokens } from '@/src/tokens'
 
 export type AllOrNone<T> = T | { [K in keyof T]?: never }
 
@@ -38,3 +38,8 @@ export type OptionalTitle = AllOrNone<{
   titleId: string
 }>
 export type IconProps = React.SVGProps<SVGSVGElement> & OptionalTitle
+
+export type WithColor = {
+  color?: Hue | 'background'
+  chroma?: 'primary' | 'secondary' | 'gradient' | 'transparent'
+}

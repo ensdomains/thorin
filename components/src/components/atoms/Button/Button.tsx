@@ -1,6 +1,8 @@
 import * as React from 'react'
 import styled, { DefaultTheme, css } from 'styled-components'
 
+import { Hue } from '@/src/tokens'
+
 import { ReactNodeNoStrings } from '../../../types'
 import { Spinner } from '../Spinner'
 import { Typography } from '../Typography'
@@ -13,7 +15,7 @@ type NativeAnchorProps = React.AllHTMLAttributes<HTMLAnchorElement>
 
 type Variant = 'primary' | 'secondary' | 'action' | 'transparent'
 
-type Tone = 'accent' | 'blue' | 'green' | 'red' | 'grey'
+type Tone = Hue
 
 type BaseProps = {
   /** An alternative element type to render the component as.*/
@@ -121,7 +123,7 @@ const getAccentColour = (
     case 'accentText':
       return theme.colors.textAccent
     case 'accentGradient':
-      return theme.colors.gradients[tone === 'accent' ? 'blue' : tone]
+      return theme.colors.gradients.blue
     case 'accentSecondary':
       return theme.colors[`${tone}Surface`]
     case 'accentSecondaryHover':
