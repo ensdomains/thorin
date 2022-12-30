@@ -146,10 +146,8 @@ const SelectContainer = styled.div<{
       color: ${theme.colors.greyPrimary};
     `}
 
-    input#${$ids?.content.id} ~ button#chevron {
-      /* svg {
-        color: ${theme.colors.textPrimary};
-      } */
+    input#${$ids?.content.id} ~ button#chevron svg {
+      color: ${theme.colors.textPrimary};
     }
 
     input#${$ids?.content.id}:placeholder-shown ~ button#chevron {
