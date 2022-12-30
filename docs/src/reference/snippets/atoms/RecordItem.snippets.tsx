@@ -6,6 +6,10 @@ import { Snippet } from '../../../types'
 export const snippets: Snippet[] = [
   {
     name: 'Basic',
-    code: <RecordItem />,
+    code: (
+      <RecordItem keyLabel="Key" value="True value">
+        Display value
+      </RecordItem>
+    ),
   },
 ]

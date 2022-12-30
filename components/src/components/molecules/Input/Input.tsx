@@ -96,6 +96,10 @@ type WithTypeText = {
   maxLength?: NativeInputProps['maxLength']
 }
 
+type WithTypeDateTimeLocal = {
+  type?: 'datetime-local'
+}
+
 type Size = NonNullable<BaseProps['size']>
 
 const SPACES: {
@@ -399,7 +403,7 @@ const InnerContainer = styled.div<{
   `,
 )
 
-type Props = BaseProps & (WithTypeEmail | WithTypeText)
+type Props = BaseProps & (WithTypeEmail | WithTypeText | WithTypeDateTimeLocal)
 
 export const Input = React.forwardRef(
   (
