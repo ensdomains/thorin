@@ -38,7 +38,7 @@ module.exports = {
       extensions: ['.js', '.ts', '.tsx', '.svg', '.mdx'],
       alias: {
         '@': path.resolve(process.cwd(), '../components'),
-        '@ensdomains/thorin': path.resolve(__dirname, '../components/dist'),
+        '@ensdomains/thorin': path.resolve(__dirname, '../components'),
       },
     },
   }),
