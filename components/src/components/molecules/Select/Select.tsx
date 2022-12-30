@@ -177,7 +177,7 @@ const RootInput = styled.input(
     height: 1px;
     overflow: hidden;
     appearance: none;
-    opacity: 0;
+    visibility: hidden;
   `,
 )
 
