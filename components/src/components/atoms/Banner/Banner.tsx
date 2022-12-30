@@ -1,6 +1,8 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 
+import { WithAlert } from '@/src/types'
+
 import { Typography } from '../Typography'
 
 import { AlertSVG, CrossSVG, EthSVG, RightArrowSVG } from '../..'
@@ -8,8 +10,7 @@ import { AlertSVG, CrossSVG, EthSVG, RightArrowSVG } from '../..'
 type BaseProps = React.PropsWithChildren<{
   message: string
   title?: string
-  type?: 'alert' | 'warning' | 'info'
-  variant?: 'mobile' | 'desktop'
+  screen?: 'mobile' | 'desktop'
   as?: 'a'
   onDismiss?: () => void
 }> &
@@ -24,43 +25,45 @@ type WithAnchor = {
 }
 
 type WithoutAnchor = {
-  as: never
-  href: never
-  target: never
-  rel: never
+  as?: never
+  href?: never
+  target?: never
+  rel?: never
   onDismiss?: () => void
 }
 
-export type Props = BaseProps & (WithAnchor | WithoutAnchor)
+export type Props = BaseProps & (WithAnchor | WithoutAnchor) & WithAlert
+
+type NonNullableAlert = NonNullable<Props['alert']>
 
 const Container = styled.div<{
-  $type?: Props['type']
-  $variant?: Props['variant']
+  $alert: NonNullableAlert
+  $screen: Props['screen']
 }>(
-  ({ theme, $type, $variant }) => css`
+  ({ theme, $alert, $screen }) => css`
     position: relative;
     background: ${theme.colors.backgroundPrimary};
     border: 1px solid ${theme.colors.border};
     border-radius: ${theme.radii.card};
     padding: ${theme.space[4]};
     display: flex;
-    align-items: flex-start;
+    align-items: stretch;
     gap: ${theme.space[4]};
     width: ${theme.space.full};
 
-    ${$type === 'alert' &&
+    ${$alert === 'error' &&
     css`
       background: ${theme.colors.redSurface};
       border: 1px solid ${theme.colors.redPrimary};
     `}
 
-    ${$type === 'warning' &&
+    ${$alert === 'warning' &&
     css`
       background: ${theme.colors.yellowSurface};
       border: 1px solid ${theme.colors.yellowPrimary};
     `};
 
-    ${$variant === 'desktop' &&
+    ${$screen === 'desktop' &&
     css`
       gap: ${theme.space[6]};
     `}
@@ -72,15 +75,16 @@ const Content = styled.div(
     flex: 1;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     gap: ${theme.space[1]};
   `,
 )
 
 const IconContainer = styled.div<{
-  $variant: Props['variant']
-  $type: Props['type']
+  $screen: Props['screen']
+  $alert: NonNullableAlert
 }>(
-  ({ theme, $variant, $type }) => css`
+  ({ theme, $screen, $alert }) => css`
     width: ${theme.space[8]};
     height: ${theme.space[8]};
     flex: 0 0 ${theme.space[8]};
@@ -91,14 +95,14 @@ const IconContainer = styled.div<{
       height: 100%;
     }
 
-    ${$variant === 'desktop' &&
+    ${$screen === 'desktop' &&
     css`
       width: ${theme.space[10]};
       height: ${theme.space[10]};
       flex: 0 0 ${theme.space[10]};
     `}
 
-    ${$type === 'alert' &&
+    ${$alert === 'error' &&
     css`
       background: ${theme.colors.redPrimary};
       color: ${theme.colors.backgroundPrimary};
@@ -109,7 +113,7 @@ const IconContainer = styled.div<{
       }
     `}
 
-    ${$type === 'warning' &&
+    ${$alert === 'warning' &&
     css`
       background: ${theme.colors.yellowPrimary};
       color: ${theme.colors.backgroundPrimary};
@@ -122,11 +126,11 @@ const IconContainer = styled.div<{
   `,
 )
 
-const Icon = ({ type, variant }: Pick<Props, 'type' | 'variant'>) => {
-  const isAlert = !!type && ['alert', 'warning'].includes(type)
+const Icon = ({ alert = 'info', screen }: Pick<Props, 'alert' | 'screen'>) => {
+  const isAlertIcon = !!alert && ['error', 'warning'].includes(alert)
   return (
-    <IconContainer $type={type} $variant={variant}>
-      {isAlert ? <AlertSVG /> : <EthSVG />}
+    <IconContainer $alert={alert} $screen={screen}>
+      {isAlertIcon ? <AlertSVG /> : <EthSVG />}
     </IconContainer>
   )
 }
@@ -140,8 +144,8 @@ const ActionButtonContainer = styled.button(
   `,
 )
 
-const ActionButtonIconWrapper = styled.div<{ $type: Props['type'] }>(
-  ({ theme, $type }) => css`
+const ActionButtonIconWrapper = styled.div<{ $alert: NonNullableAlert }>(
+  ({ theme, $alert }) => css`
     width: ${theme.space[5]};
     height: ${theme.space[5]};
     border-radius: ${theme.radii.full};
@@ -158,13 +162,13 @@ const ActionButtonIconWrapper = styled.div<{ $type: Props['type'] }>(
       height: ${theme.space[3]};
     }
 
-    ${$type === 'alert' &&
+    ${$alert === 'error' &&
     css`
       background: ${theme.colors.backgroundPrimary};
       color: ${theme.colors.redPrimary};
     `}
 
-    ${$type === 'warning' &&
+    ${$alert === 'warning' &&
     css`
       background: ${theme.colors.backgroundPrimary};
       color: ${theme.colors.yellowPrimary};
@@ -173,14 +177,14 @@ const ActionButtonIconWrapper = styled.div<{ $type: Props['type'] }>(
 )
 
 const ActionButton = ({
-  type,
+  alert = 'info',
   href,
   onDismiss,
-}: Pick<Props, 'type' | 'onDismiss' | 'href'>) => {
+}: Pick<Props, 'alert' | 'onDismiss' | 'href'>) => {
   if (href)
     return (
       <ActionButtonContainer as="div">
-        <ActionButtonIconWrapper $type={type}>
+        <ActionButtonIconWrapper $alert={alert}>
           <RightArrowSVG />
         </ActionButtonIconWrapper>
       </ActionButtonContainer>
@@ -188,7 +192,7 @@ const ActionButton = ({
   if (onDismiss)
     return (
       <ActionButtonContainer onClick={() => onDismiss?.()}>
-        <ActionButtonIconWrapper $type={type}>
+        <ActionButtonIconWrapper $alert={alert}>
           <CrossSVG />
         </ActionButtonIconWrapper>
       </ActionButtonContainer>
@@ -199,21 +203,21 @@ const ActionButton = ({
 export const Banner = ({
   message,
   title,
-  type,
-  variant,
+  alert = 'info',
+  screen: screen,
   as: asProp,
   href,
   onDismiss,
   ...props
 }: Props) => {
   return (
-    <Container {...props} $type={type} $variant={variant} as={asProp as any}>
-      <Icon type={type} variant={variant} />
+    <Container {...props} $alert={alert} $screen={screen} as={asProp as any}>
+      <Icon alert={alert} screen={screen} />
       <Content>
-        {title && <Typography variant="Large/Bold">{title}</Typography>}
-        <Typography variant="Body/Normal">{message}</Typography>
+        {title && <Typography typography="Large/Bold">{title}</Typography>}
+        <Typography typography="Body/Normal">{message}</Typography>
       </Content>
-      <ActionButton href={href} type={type} onDismiss={onDismiss} />
+      <ActionButton alert={alert} href={href} onDismiss={onDismiss} />
     </Container>
   )
 }

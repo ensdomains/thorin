@@ -21,27 +21,41 @@ import { RadioButton } from '@ensdomains/thorin'
 
 <PropsTable sourceLink={sourceLink} types={types} />
 
-## Messages
+## Colors
 
 ```tsx live=true
-<RadioButton
-  description="Description message"
-  error="Error message"
-  label="Label text"
-  name="RadioButtonGroup"
-  value="10"
-/>
+<Card padding="4" shadow>
+  <FieldSet legend="Radio Buttons">
+    <RadioButton
+      color="red"
+      colorScheme="primary"
+      label="Label"
+      name="RadioButtonGroup"
+      value="10"
+    />
+    <RadioButton
+      color="green"
+      colorScheme="primary"
+      label="Label"
+      name="RadioButtonGroup"
+      value="10"
+    />
+    <RadioButton
+      color="yellow"
+      colorScheme="primary"
+      label="Label"
+      name="RadioButtonGroup"
+      value="10"
+    />
+  </FieldSet>
+</Card>
 ```
 
 ## Disabled
 
 ```tsx live=true
-<RadioButton
-  description="Description message"
-  disabled
-  error="Error message"
-  label="Label text"
-  name="RadioButtonGroup"
-  value="10"
-/>
+<DeleteMe>
+  <RadioButton checked disabled label="Checked" />
+  <RadioButton disabled label="UnChecked" />
+</DeleteMe>
 ```

@@ -16,3 +16,5 @@ export { act as actHook } from '@testing-library/react-hooks'
 export { render }
 /* eslint-enable import/export */
 export { renderHook } from '@testing-library/react-hooks'
+
+export * from './utils'

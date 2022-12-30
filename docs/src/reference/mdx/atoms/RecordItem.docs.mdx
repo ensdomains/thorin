@@ -1,0 +1,100 @@
+---
+title: RecordItem
+description: Brief component description
+---
+
+```tsx
+import { RecordItem } from '@ensdomains/thorin'
+```
+
+```tsx live=true expand=true
+<RecordItem icon={<FlameSVG />}>user#123</RecordItem>
+```
+
+## Props
+
+<PropsTable sourceLink={sourceLink} types={types} />
+
+## Prefix
+
+```tsx live=true
+<DeleteMe>
+  <RecordItem keyLabel="FLAME_LEGACY">0xb794...9268</RecordItem>
+  <RecordItem icon={<FlameSVG />}>0xb794...9268</RecordItem>
+  <RecordItem keyLabel="FLAME" keySublabel="Legacy" size="large">
+    0xb794f5ea0ba39494ce839613fffba74279579268
+  </RecordItem>
+  <RecordItem icon={<FlameSVG />} size="large">
+    0xb794f5ea0ba39494ce839613fffba74279579268
+  </RecordItem>
+</DeleteMe>
+```
+
+## Size
+
+```tsx live=true
+<DeleteMe>
+  <RecordItem icon={<FlameSVG />} screen="desktop" size="small">
+    Small on desktop with icon
+  </RecordItem>
+  <RecordItem keyLabel="Label" screen="desktop" size="small">
+    Small on desktop with label
+  </RecordItem>
+  <RecordItem icon={<FlameSVG />} screen="mobile" size="small">
+    Small on mobile with icon
+  </RecordItem>
+  <RecordItem keyLabel="Label" screen="mobile" size="small">
+    Small on mobile with label
+  </RecordItem>
+  <RecordItem icon={<FlameSVG />} screen="desktop" size="large">
+    Large on desktop with icon
+  </RecordItem>
+  <RecordItem keyLabel="Label" screen="desktop" size="large">
+    Large on desktop with label
+  </RecordItem>
+  <RecordItem icon={<FlameSVG />} screen="mobile" size="large">
+    Large on mobile with icon
+  </RecordItem>
+  <RecordItem keyLabel="Label" screen="mobile" size="large">
+    Large on mobile with label
+  </RecordItem>
+</DeleteMe>
+```
+
+## Screen
+
+```tsx live=true
+<DeleteMe>
+  <RecordItem icon={<FlameSVG />} screen="desktop">
+    Desktop with icon
+  </RecordItem>
+  <RecordItem icon={<FlameSVG />} screen="mobile">
+    Mobile with icon
+  </RecordItem>
+  <RecordItem keyLabel="Label" screen="desktop">
+    Desktop with label
+  </RecordItem>
+  <RecordItem keyLabel="Label" screen="mobile">
+    Mobile with label
+  </RecordItem>
+</DeleteMe>
+```
+
+## Link
+
+```tsx live=true
+<DeleteMe>
+  <RecordItem icon={<FlameSVG />} link="https://ens.domains" screen="desktop">
+    Desktop with link
+  </RecordItem>
+  <RecordItem icon={<FlameSVG />} screen="desktop">
+    Desktop without link
+  </RecordItem>
+  <RecordItem keyLabel="Label" link="https://ens.domains" screen="mobile">
+    Mobile with link
+  </RecordItem>
+  <RecordItem keyLabel="Label" screen="mobile">
+    Mobile without link
+  </RecordItem>
+</DeleteMe>
+```

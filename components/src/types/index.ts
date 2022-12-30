@@ -3,6 +3,8 @@ import * as React from 'react'
 import 'styled-components'
 import { Hue, Hue as TokenHue, Mode as TokenMode, Tokens } from '@/src/tokens'
 
+import { Typography } from '../components/atoms/Typography/Typography'
+
 export type AllOrNone<T> = T | { [K in keyof T]?: never }
 
 /*
@@ -40,6 +42,37 @@ export type OptionalTitle = AllOrNone<{
 export type IconProps = React.SVGProps<SVGSVGElement> & OptionalTitle
 
 export type WithColor = {
-  color?: Hue | 'background'
-  chroma?: 'primary' | 'secondary' | 'gradient' | 'transparent'
+  color?: Hue | 'background' | 'accent'
+  colorScheme?: 'primary' | 'secondary' | 'gradient' | 'transparent' | 'text'
+}
+
+export type WithAlert = {
+  alert?: 'error' | 'warning' | 'info'
+}
+
+type LegacyTypography =
+  | 'small'
+  | 'large'
+  | 'extraLarge'
+  | 'label'
+  | 'labelHeading'
+
+export type Typography =
+  | 'Heading/H1'
+  | 'Heading/H2'
+  | 'Heading/H3'
+  | 'Heading/H4'
+  | 'Large/XL Normal'
+  | 'Large/XL Bold'
+  | 'Large/Normal'
+  | 'Large/Bold'
+  | 'Body/Normal'
+  | 'Body/Bold'
+  | 'Small/Normal'
+  | 'Small/Bold'
+  | 'Small/XS Normal'
+  | 'Small/XS Bold'
+
+export type WithTypography = {
+  typography?: Typography | LegacyTypography
 }

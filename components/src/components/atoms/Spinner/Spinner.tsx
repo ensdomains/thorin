@@ -5,13 +5,23 @@ import { Colors } from '@/src/tokens'
 
 import { VisuallyHidden } from '../VisuallyHidden'
 
+type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
+type Size = 'small' | 'medium' | 'large'
+type Props = {
+  /** Hidden text used for accessibilty. */
+  accessibilityLabel?: string
+  /** A tokens 'mode' color value */
+  color?: Colors
+  size?: Size
+} & Omit<NativeDivProps, 'children' | 'color'>
+
 const rotate = keyframes`
   100% {
     transform: rotate(1turn);
   }
 `
 
-const Container = styled.div<{ $size: 'small' | 'large'; $color: Colors }>(
+const Container = styled.div<{ $size: Size; $color: Colors }>(
   ({ theme, $color, $size }) => css`
     animation: ${rotate} 1.1s linear infinite;
 
@@ -21,6 +31,12 @@ const Container = styled.div<{ $size: 'small' | 'large'; $color: Colors }>(
     ${() => {
       switch ($size) {
         case 'small':
+          return css`
+            height: ${theme.space['4']};
+            width: ${theme.space['4']};
+            stroke-width: ${theme.space['1']};
+          `
+        case 'medium':
           return css`
             height: ${theme.space['6']};
             stroke-width: ${theme.space['1.25']};
@@ -38,16 +54,6 @@ const Container = styled.div<{ $size: 'small' | 'large'; $color: Colors }>(
     }}
   `,
 )
-
-type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
-
-type Props = {
-  /** Hidden text used for accessibilty. */
-  accessibilityLabel?: string
-  /** A tokens 'mode' color value */
-  color?: Colors
-  size?: 'small' | 'large'
-} & Omit<NativeDivProps, 'children' | 'color'>
 
 export const Spinner = React.forwardRef(
   (

@@ -12,8 +12,10 @@ const expectedExportedKeys = [
   // atoms
   'Avatar',
   'BackdropSurface',
+  'Banner',
   'Button',
   'Card',
+  'CurrencyToggle',
   'DynamicPopover',
   'Field',
   'FileInput',
@@ -39,6 +41,7 @@ const expectedExportedKeys = [
   'PageButtons',
   'RadioButton',
   'RadioButtonGroup',
+  'RecordItem',
   'Select',
   'SkeletonGroup',
   'Slider',
@@ -47,6 +50,7 @@ const expectedExportedKeys = [
   // organisms
   'Dialog',
   'Toast',
+  'Toggle',
   // icons
   'AeroplaneSVG',
   'AlertSVG',

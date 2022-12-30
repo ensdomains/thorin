@@ -28,7 +28,7 @@ describe('<Profile />', () => {
         <Profile address={TEST_ADDRESS} />
       </ThemeProvider>,
     )
-    const addressDisplay = screen.getByRole('heading', { level: 4 })
+    const addressDisplay = screen.getByTestId('profile-address')
     expect(addressDisplay.innerHTML).toEqual('0x155...ccb92')
   })
 

@@ -52,7 +52,7 @@ export const lineHeights: { [key in FontSize]: string } = {
   headingFour: '1.875rem',
   extraLarge: '1.625rem',
   large: '1.5rem',
-  body: '1.5rem',
+  body: '1.25rem',
   small: '1.25rem',
-  extraSmall: '1rem',
+  extraSmall: '0.75rem',
 }

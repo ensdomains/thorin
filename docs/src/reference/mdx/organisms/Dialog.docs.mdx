@@ -11,6 +11,8 @@ import { Dialog } from '@ensdomains/thorin'
 <>
   <Button onClick={() => toggleState('dialog')}>Open Dialog</Button>
   <Dialog
+    alert="info"
+    currentStep={1}
     open={getState('dialog')}
     subtitle="Dialog Subtitle"
     title="Dialog Title"
@@ -54,6 +56,7 @@ import { Dialog } from '@ensdomains/thorin'
         </Button>
       }
       open={getState('dialog-actionable')}
+      stepCount={3}
       subtitle="This is an actionable dialog."
       title="Actionable Dialog"
       trailing={<Button shadowless>Trailing</Button>}
@@ -170,4 +173,76 @@ import { Dialog } from '@ensdomains/thorin'
     </Dialog>
   </>
 </DeleteMe>
+```
+
+## Alerts
+
+```tsx live=true
+<DeleteMe flexDirection="row" flexWrap="wrap">
+  <>
+    <Button onClick={() => toggleState('dialog-alert-error')}>
+      Error Alert
+    </Button>
+    <Dialog
+      alert="error"
+      open={getState('dialog-alert-error')}
+      stepCount={3}
+      subtitle="This is a dialog with an error alert"
+      title="Alert title"
+      onDismiss={() => toggleState('dialog-alert-error')}
+    >
+      <Typography>Dialog text content.</Typography>
+    </Dialog>
+  </>
+  <>
+    <Button onClick={() => toggleState('dialog-alert-warning')}>
+      Warning Alert
+    </Button>
+    <Dialog
+      alert="warning"
+      open={getState('dialog-alert-warning')}
+      stepCount={3}
+      subtitle="This is a dialog with a warning alert"
+      title="Warning title"
+      onDismiss={() => toggleState('dialog-alert-warning')}
+    >
+      <Typography>Dialog text content.</Typography>
+    </Dialog>
+  </>
+  <>
+    <Button onClick={() => toggleState('dialog-alert-info')}>Info Alert</Button>
+    <Dialog
+      alert="info"
+      open={getState('dialog-alert-info')}
+      stepCount={3}
+      subtitle="This is a dialog with an info alert"
+      title="Info title"
+      onDismiss={() => toggleState('dialog-alert-info')}
+    >
+      <Typography>Dialog text content.</Typography>
+    </Dialog>
+  </>
+</DeleteMe>
+```
+
+## Dialog Components
+
+```tsx live=true
+<>
+  <Button onClick={() => toggleState('dialog-components')}>
+    Dialog Components
+  </Button>
+  <Dialog
+    open={getState('dialog-components')}
+    variant="blank"
+    onDismiss={() => toggleState('dialog-components')}
+  >
+    <Dialog.Heading title="Heading" />
+    <div style={{ width: '500px' }}>Content</div>
+    <Dialog.Footer
+      leading={<Button colorScheme="secondary">Leading</Button>}
+      trailing={<Button>Trailing</Button>}
+    />
+  </Dialog>
+</>
 ```

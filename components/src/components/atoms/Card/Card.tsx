@@ -31,7 +31,7 @@ type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 export const Card = ({ title, variant, children, ...props }: Props) => {
   return (
     <Container {...props} $variant={variant}>
-      {title && <Typography variant="Heading/H4">{title}</Typography>}
+      {title && <Typography typography="Heading/H4">{title}</Typography>}
       {children}
     </Container>
   )

@@ -1,6 +1,10 @@
 import * as React from 'react'
 
-import { cleanup, render } from '@/test'
+import { ThemeProvider } from 'styled-components'
+
+import { cleanup, render, screen } from '@/test'
+
+import { lightTheme } from '@/src/tokens'
 
 import { Banner } from './Banner'
 
@@ -8,6 +12,12 @@ describe('<Banner />', () => {
   afterEach(cleanup)
 
   it('renders', () => {
-    render(<Banner />)
+    render(
+      <ThemeProvider theme={lightTheme}>
+        <Banner alert="warning" message="Message" title="Title" />
+      </ThemeProvider>,
+    )
+    expect(screen.getByText('Title')).toBeInTheDocument()
+    expect(screen.getByText('Message')).toBeInTheDocument()
   })
 })

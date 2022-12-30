@@ -24,6 +24,7 @@ type DropdownItemObject = {
   onClick?: (value?: string) => void
   wrapper?: (children: React.ReactNode, key: React.Key) => JSX.Element
   as?: 'button' | 'a'
+  icon?: React.ReactNode
   value?: string
   color?: Colors
   disabled?: boolean
@@ -168,10 +169,11 @@ const MenuButton = styled.button<MenuButtonProps>(
     align-items: center;
     cursor: pointer;
     display: flex;
-    gap: ${theme.space['4']};
+    gap: ${theme.space['2']};
     width: ${theme.space['full']};
     height: ${theme.space['12']};
     padding: ${theme.space['3']};
+    border-radius: ${theme.radii.input};
     font-weight: ${theme.fontWeights.normal};
     transition-duration: 0.15s;
     transition-property: color, transform, filter;
@@ -182,8 +184,13 @@ const MenuButton = styled.button<MenuButtonProps>(
       filter: brightness(1);
     }
 
-    color: ${theme.colors[$color || 'accent']};
+    color: ${theme.colors[$color || 'textPrimary']};
 
+    svg {
+      width: ${theme.space['4']};
+      height: ${theme.space['4']};
+      color: ${theme.colors[$color || 'text']};
+    }
     ${disabled &&
     css`
       color: ${theme.colors.textTertiary};
@@ -205,8 +212,7 @@ const MenuButton = styled.button<MenuButtonProps>(
           justify-content: flex-start;
 
           &:hover {
-            transform: translateY(-1px);
-            filter: brightness(1.05);
+            background: ${theme.colors.greySurface};
           }
         `
     }}
@@ -298,7 +304,7 @@ const DropdownMenu = ({
         if (React.isValidElement(item)) {
           return DropdownChild({ item, setIsOpen })
         }
-        const { color, value, label, onClick, disabled, as, wrapper } =
+        const { color, value, icon, label, onClick, disabled, as, wrapper } =
           item as DropdownItemObject
 
         const props: React.ComponentProps<any> = {
@@ -311,7 +317,12 @@ const DropdownMenu = ({
             onClick?.(value)
           },
           as,
-          children: label,
+          children: (
+            <>
+              {icon}
+              {label}
+            </>
+          ),
         }
 
         if (wrapper) {
@@ -539,6 +550,7 @@ export const Dropdown = ({
           return React.cloneElement(child as any, {
             ...buttonProps,
             zindex: '10',
+            pressed: isOpen,
             onClick: () => setIsOpen(!isOpen),
           })
         }
@@ -555,6 +567,7 @@ export const Dropdown = ({
         setIsOpen={setIsOpen}
         shortThrow={shortThrow}
         width={
+          inner &&
           dropdownRef.current &&
           dropdownRef.current.getBoundingClientRect().width.toFixed(2)
         }

@@ -9,9 +9,9 @@ import { Banner } from '@ensdomains/thorin'
 
 ```tsx live=true expand=true
 <Banner
+  alert="info"
   message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
   title="Heading"
-  type="info"
 />
 ```
 
@@ -19,45 +19,45 @@ import { Banner } from '@ensdomains/thorin'
 
 <PropsTable sourceLink={sourceLink} types={types} />
 
-## Variants
+## Screen
 
 ```tsx live=true
 <DeleteMe>
   <Banner
+    alert="info"
     message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    screen="desktop"
     title="Heading"
-    type="info"
-    variant="desktop"
   />
   <Banner
+    alert="warning"
     message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    screen="desktop"
     title="Heading"
-    type="warning"
-    variant="desktop"
   />
   <Banner
+    alert="error"
     message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    screen="desktop"
     title="Heading"
-    type="alert"
-    variant="desktop"
   />
   <Banner
+    alert="info"
     message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    screen="mobile"
     title="Heading"
-    type="info"
-    variant="mobile"
   />
   <Banner
+    alert="warning"
     message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    screen="mobile"
     title="Heading"
-    type="warning"
-    variant="mobile"
   />
   <Banner
+    alert="error"
     message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    screen="mobile"
     title="Heading"
-    type="alert"
-    variant="mobile"
   />
 </DeleteMe>
 ```
@@ -67,45 +67,45 @@ import { Banner } from '@ensdomains/thorin'
 ```tsx live=true
 <DeleteMe>
   <Banner
+    alert="info"
     message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    screen="desktop"
     title="Heading"
-    type="info"
-    variant="desktop"
     onDismiss={() => alert('dismissed')}
   />
   <Banner
+    alert="warning"
     message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    screen="desktop"
     title="Heading"
-    type="warning"
-    variant="desktop"
     onDismiss={() => alert('dismissed')}
   />
   <Banner
+    alert="error"
     message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    screen="desktop"
     title="Heading"
-    type="alert"
-    variant="desktop"
     onDismiss={() => alert('dismissed')}
   />
   <Banner
+    alert="info"
     message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    screen="mobile"
     title="Heading"
-    type="info"
-    variant="mobile"
     onDismiss={() => alert('dismissed')}
   />
   <Banner
+    alert="warning"
     message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    screen="mobile"
     title="Heading"
-    type="warning"
-    variant="mobile"
     onDismiss={() => alert('dismissed')}
   />
   <Banner
+    alert="error"
     message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    screen="mobile"
     title="Heading"
-    type="alert"
-    variant="mobile"
     onDismiss={() => alert('dismissed')}
   />
 </DeleteMe>
@@ -116,52 +116,52 @@ import { Banner } from '@ensdomains/thorin'
 ```tsx live=true
 <DeleteMe>
   <Banner
+    alert="info"
     as="a"
     href="#"
     message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    screen="desktop"
     title="Heading"
-    type="info"
-    variant="desktop"
   />
   <Banner
+    alert="warning"
     as="a"
     href="#"
     message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    screen="desktop"
     title="Heading"
-    type="warning"
-    variant="desktop"
   />
   <Banner
+    alert="error"
     as="a"
     href="#"
     message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    screen="desktop"
     title="Heading"
-    type="alert"
-    variant="desktop"
   />
   <Banner
+    alert="info"
     as="a"
     href="#"
     message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    screen="mobile"
     title="Heading"
-    type="info"
-    variant="mobile"
   />
   <Banner
+    alert="warning"
     as="a"
     href="#"
     message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    screen="mobile"
     title="Heading"
-    type="warning"
-    variant="mobile"
   />
   <Banner
+    alert="error"
     as="a"
     href="#"
     message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    screen="mobile"
     title="Heading"
-    type="alert"
-    variant="mobile"
   />
 </DeleteMe>
 ```

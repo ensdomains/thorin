@@ -7,7 +7,7 @@ type Size = 'small' | 'medium' | 'large'
 
 export type Props = {
   size?: Size
-} & React.InputHTMLAttributes<HTMLInputElement>
+} & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type' | 'size'>
 
 const CONTAINER_SIZES: {
   [key in Size]: {
@@ -89,7 +89,7 @@ const Container = styled.input<{ $size?: Size }>(
 )
 
 export const Toggle = React.forwardRef<HTMLInputElement, Props>(
-  ({ size, ...props }, ref) => {
+  ({ size = 'medium', ...props }, ref) => {
     return <Container ref={ref} type="checkbox" {...props} $size={size} />
   },
 )

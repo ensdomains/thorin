@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled, { css, useTheme } from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import { WithColor } from '@/src/types'
 import { getColor } from '@/src/utils/getColor'
@@ -9,11 +9,11 @@ interface ContainerProps {
   $size: 'small' | 'medium'
   // $tone: 'accent' | 'blue' | 'green' | 'secondary' | 'red'
   $color: Props['color']
-  $chroma: Props['chroma']
+  $colorScheme: Props['colorScheme']
 }
 
 const Container = styled.div<ContainerProps>(
-  ({ theme, $hover, $size, $color, $chroma }) => css`
+  ({ theme, $hover, $size, $colorScheme, $color }) => css`
     align-items: center;
     display: flex;
     border-radius: ${theme.radii['full']};
@@ -36,14 +36,14 @@ const Container = styled.div<ContainerProps>(
       transition-timing-function: ${theme.transitionTimingFunction['inOut']};
     `}
 
-    background: ${getColor(theme, $color!, $chroma!, 'background')};
-    color: ${getColor(theme, $color!, $chroma!, 'text')};
-    border: 1px solid ${getColor(theme, $color!, $chroma!, 'border')};
+    background: ${getColor(theme, $colorScheme, $color, 'background')};
+    color: ${getColor(theme, $colorScheme, $color, 'text')};
+    border: 1px solid ${getColor(theme, $colorScheme, $color, 'border')};
 
     &:hover,
     &:active {
       color: ${theme.colors.text};
-      background-color: ${getColor(theme, $color!, $chroma!, 'hover')};
+      background-color: ${getColor(theme, $colorScheme, $color, 'hover')};
     }
   `,
 )
@@ -68,16 +68,14 @@ export const Tag = ({
   hover,
   size = 'small',
   color = 'blue',
-  chroma = 'secondary',
+  colorScheme = 'secondary',
   ...props
 }: Props) => {
-  const theme = useTheme()
-  console.log(theme.colors)
   return (
     <Container
       {...props}
-      $chroma={chroma}
       $color={color}
+      $colorScheme={colorScheme}
       $hover={hover}
       $size={size}
       as={as}

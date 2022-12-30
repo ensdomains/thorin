@@ -6,7 +6,7 @@ import { cleanup, render, screen } from '@/test'
 
 import { lightTheme } from '@/src/tokens'
 
-import { Skeleton } from '../../atoms'
+import { Skeleton } from '../../atoms/Skeleton'
 import { SkeletonGroup } from './SkeletonGroup'
 
 describe('<SkeletonGroup />', () => {

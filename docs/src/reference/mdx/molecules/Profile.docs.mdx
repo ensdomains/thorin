@@ -67,8 +67,13 @@ import { Profile } from '@ensdomains/thorin'
     address="0xb6e040c9ecaae172a89bd561c5f73e1c48d28cd9"
     avatar="https://i.imgur.com/BSJBpQE.jpg"
     dropdownItems={[
-      { label: 'Dashboard', onClick: () => null },
-      { label: 'Disconnect', onClick: () => null, color: 'red' },
+      { label: 'Dashboard', onClick: () => null, icon: <DotGridSVG /> },
+      {
+        label: 'Disconnect',
+        onClick: () => null,
+        color: 'red',
+        icon: <ExitSVG />,
+      },
     ]}
     ensName="frontend.ens.eth"
   />
@@ -78,7 +83,7 @@ import { Profile } from '@ensdomains/thorin'
 ## Sizes
 
 ```tsx live=true
-<DeleteMe flexDirection="row" flexWrap="wrap">
+<DeleteMe flexWrap="wrap">
   <Profile
     address="0xb6e040c9ecaae172a89bd561c5f73e1c48d28cd9"
     avatar="https://i.imgur.com/BSJBpQE.jpg"

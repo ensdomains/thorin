@@ -37,6 +37,7 @@ const TableHeadLabelContainer = styled.div<{
   $headers: Array<string>
 }>(
   ({ theme, $i, $headers }) => css`
+    text-transform: capitalize;
     background-color: ${theme.colors.greySurface};
     border-color: ${theme.colors.greyBright};
     ${$i === 0 ? `border-left-radius: ${theme.radii['large']};` : ``}
@@ -71,7 +72,7 @@ const RawName = styled(Typography)(
 
 const DefaultValue = styled(Typography)(
   ({ theme }) => css`
-    color: ${theme.colors.textSecondary};
+    color: ${theme.colors.greyDim};
     font-size: ${theme.fontSizes['small']};
   `,
 )
@@ -155,7 +156,7 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
                 {headers.map((x, i) => (
                   <TableHead key={x}>
                     <TableHeadLabelContainer {...{ $i: i, $headers: headers }}>
-                      <Typography variant="label">{x}</Typography>
+                      <Typography typography="Small/XS Bold">{x}</Typography>
                     </TableHeadLabelContainer>
                   </TableHead>
                 ))}
@@ -210,8 +211,8 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
           {!!props.length && (
             <div>
               <Button
+                colorScheme="secondary"
                 size="small"
-                variant="secondary"
                 onClick={() =>
                   setState((x) => ({
                     ...x,
@@ -229,7 +230,7 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
           {sourceLink && (
             <div>
               <Link href={sourceLink}>
-                <Button size="small" variant="secondary">
+                <Button colorScheme="secondary" size="small">
                   View Source on GitHub
                 </Button>
               </Link>

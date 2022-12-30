@@ -18,14 +18,68 @@ import { Textarea } from '@ensdomains/thorin'
 
 <PropsTable sourceLink={sourceLink} types={types} />
 
-## Disabled
+## Sizes
 
 ```tsx live=true
-<Textarea
-  disabled
-  label="Why are you entering $WRITE Race?"
-  placeholder="Share your story…"
-/>
+<DeleteMe>
+  <Textarea label="Medium" placeholder="Enter text here..." size="medium" />
+  <Textarea label="Small" placeholder="Enter text here..." size="small" />
+</DeleteMe>
+```
+
+## Show Dot
+
+```tsx live=true
+<DeleteMe>
+  <Textarea
+    description="Textarea with showDot"
+    label="Placeholder"
+    placeholder="Share your story…"
+    showDot
+  />
+  <Textarea
+    description="Textarea with showDot and validated"
+    label="Validated"
+    placeholder="Share your story…"
+    showDot
+    validated
+  />
+  <Textarea
+    description="Textarea with showDot and error"
+    error="Error message"
+    label="Error"
+    placeholder="Share your story…"
+    showDot
+    validated
+  />
+  <Textarea
+    description="Textarea that is disabled"
+    disabled
+    label="Disabled"
+    placeholder="Share your story…"
+    showDot
+    validated
+  />
+</DeleteMe>
+```
+
+## Clearable
+
+```tsx live=true
+<DeleteMe>
+  <Textarea
+    clearable
+    defaultValue="This textarea can be cleared by clicking the clear button."
+    label="Clearable"
+    placeholder="Share your story…"
+  />
+  <Textarea
+    clearable={false}
+    defaultValue="This textarea can be cleared by clicking the clear button."
+    label="Not clearable"
+    placeholder="Share your story…"
+  />
+</DeleteMe>
 ```
 
 ## Read Only
