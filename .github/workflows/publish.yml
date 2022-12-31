@@ -42,12 +42,21 @@ jobs:
           git add .
           git commit -m "${{ github.event.release.tag_name }}"
 
-      - name: Publish
+      - name: Publish Main
+        if: ${{ github.ref == 'refs/heads/main'}}
         env:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           pnpm config set //registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}
           pnpm -F @ensdomains/thorin publish
+
+      - name: Publish Next
+        if: ${{ github.ref != 'refs/heads/main'}}
+        env:
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          pnpm config set //registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}
+          pnpm -F @ensdomains/thorin publish --tag next --no-git-checks
 
       - name: Push changes
         run: git push
