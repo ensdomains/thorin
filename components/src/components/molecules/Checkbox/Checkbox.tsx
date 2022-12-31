@@ -36,12 +36,8 @@ type Props = {
   onFocus?: NativeInputProps['onFocus']
   /** The handler for blur events. */
   onBlur?: NativeInputProps['onBlur']
-  /** The ui styling of component. */
-  variant?: 'regular' | 'switch'
   /** Set the background color for regular variant. */
   background?: 'white' | 'grey'
-  /** Adds a border to regular variant or uses alternative styling for switch variant. */
-  border?: boolean
   /** Set the input to readonly mode */
   readOnly?: NativeInputProps['readOnly']
 } & Omit<FieldBaseProps, 'labelRight'> &

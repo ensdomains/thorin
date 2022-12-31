@@ -15,29 +15,29 @@ import { Typography } from '@ensdomains/thorin'
 
 <PropsTable sourceLink={sourceLink} types={types} />
 
-## Variants
+## Typography
 
 ```tsx live=true
 <DeleteMe>
-  <Typography variant="extraLarge">Extra Large</Typography>
-  <Typography variant="large">Large</Typography>
-  <Typography variant="base">Base</Typography>
-  <Typography variant="small">Small</Typography>
-  <Typography variant="label">Label</Typography>
-  <Typography variant="Heading/H1">Heading/H1</Typography>
-  <Typography variant="Heading/H2">Heading/H2</Typography>
-  <Typography variant="Heading/H3">Heading/H3</Typography>
-  <Typography variant="Heading/H4">Heading/H4</Typography>
-  <Typography variant="Large/XL Normal">Large/XL Normal</Typography>
-  <Typography variant="Large/XL Bold">Large/XL Bold</Typography>
-  <Typography variant="Large/Normal">Large/Normal</Typography>
-  <Typography variant="Large/Bold">Large/Bold</Typography>
-  <Typography variant="Body/Normal">Body/Normal</Typography>
-  <Typography variant="Body/Bold">Body/Bold</Typography>
-  <Typography variant="Small/Normal">Small/Normal</Typography>
-  <Typography variant="Small/Bold">Small/Bold</Typography>
-  <Typography variant="Small/XS Normal">Small/XS Normal</Typography>
-  <Typography variant="Small/XS Bold">Small/XS Bold</Typography>
+  <Typography typography="extraLarge">Extra Large</Typography>
+  <Typography typography="large">Large</Typography>
+  <Typography typography="base">Base</Typography>
+  <Typography typography="small">Small</Typography>
+  <Typography typography="label">Label</Typography>
+  <Typography typography="Heading/H1">Heading/H1</Typography>
+  <Typography typography="Heading/H2">Heading/H2</Typography>
+  <Typography typography="Heading/H3">Heading/H3</Typography>
+  <Typography typography="Heading/H4">Heading/H4</Typography>
+  <Typography typography="Large/XL Normal">Large/XL Normal</Typography>
+  <Typography typography="Large/XL Bold">Large/XL Bold</Typography>
+  <Typography typography="Large/Normal">Large/Normal</Typography>
+  <Typography typography="Large/Bold">Large/Bold</Typography>
+  <Typography typography="Body/Normal">Body/Normal</Typography>
+  <Typography typography="Body/Bold">Body/Bold</Typography>
+  <Typography typography="Small/Normal">Small/Normal</Typography>
+  <Typography typography="Small/Bold">Small/Bold</Typography>
+  <Typography typography="Small/XS Normal">Small/XS Normal</Typography>
+  <Typography typography="Small/XS Bold">Small/XS Bold</Typography>
 </DeleteMe>
 ```
 
@@ -64,11 +64,9 @@ import { Typography } from '@ensdomains/thorin'
 ## Color
 
 ```tsx live=true
-<DeleteMe>
-  <Typography color="foreground">Foreground</Typography>
-  <Typography color="text">Typography</Typography>
-  <Typography color="textSecondary">Typography Secondary</Typography>
-  <Typography color="textTertiary">Typography Tertiary</Typography>
+<DeleteMe style={{ color: 'blue' }}>
+  <Typography>Inherited</Typography>
+  <Typography color="text">Text</Typography>
   <Typography color="accent">Accent</Typography>
   <Typography color="red">Red</Typography>
   <Typography color="green">Green</Typography>

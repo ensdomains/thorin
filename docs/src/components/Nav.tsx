@@ -224,7 +224,9 @@ export const Nav = ({ links }: Props) => {
             <Typography typography="Body/Bold">Components</Typography>
             {links.map((x) => (
               <FlexContainer $space="3" key={x.name}>
-                <SubGroupLabel typography="Small/Bold">{x.name}</SubGroupLabel>
+                <SubGroupLabel color="text" typography="Small/XS Bold">
+                  {x.name}
+                </SubGroupLabel>
                 <FlexContainer $space="3">
                   {x.links.map((y) => (
                     <NavLink
