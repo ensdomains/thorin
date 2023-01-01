@@ -195,7 +195,7 @@ const ButtonElement = styled.button<ButtonElement>(
   `,
 )
 
-const LabelWrapper = styled.label<{ $fullWidth?: boolean }>(
+const ContentContainer = styled.div<{ $fullWidth?: boolean }>(
   ({ $fullWidth }) => css`
     overflow: hidden;
     text-overflow: ellipsis;
@@ -219,6 +219,7 @@ const CounterWrapper = styled.div(
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    pointer-events: none;
   `,
 )
 
@@ -278,7 +279,9 @@ export const Button = React.forwardRef(
     ref: React.Ref<HTMLButtonElement>,
   ) => {
     const labelContent = (
-      <LabelWrapper $fullWidth={fullWidthContent}>{children}</LabelWrapper>
+      <ContentContainer $fullWidth={fullWidthContent}>
+        {children}
+      </ContentContainer>
     )
     const spinnerColor = disabled ? 'greyPrimary' : 'backgroundPrimary'
 
