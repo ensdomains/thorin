@@ -156,7 +156,9 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
                 {headers.map((x, i) => (
                   <TableHead key={x}>
                     <TableHeadLabelContainer {...{ $i: i, $headers: headers }}>
-                      <Typography typography="Small/XS Bold">{x}</Typography>
+                      <Typography color="text" typography="Small/XS Bold">
+                        {x}
+                      </Typography>
                     </TableHeadLabelContainer>
                   </TableHead>
                 ))}

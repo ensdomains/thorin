@@ -42,7 +42,9 @@ export type OptionalTitle = AllOrNone<{
 export type IconProps = React.SVGProps<SVGSVGElement> & OptionalTitle
 
 export type WithColor = {
+  /** The base color of the component */
   color?: Hue | 'background' | 'accent'
+  /** The styling of the color of the component */
   colorScheme?: 'primary' | 'secondary' | 'gradient' | 'transparent' | 'text'
 }
 
@@ -75,4 +77,11 @@ export type Typography =
 
 export type WithTypography = {
   typography?: Typography | LegacyTypography
+}
+
+export type Icon = React.FunctionComponent<React.SVGProps<SVGSVGElement>>
+
+export type WithIcon = {
+  /** An svg to be used by the component */
+  icon?: Icon
 }

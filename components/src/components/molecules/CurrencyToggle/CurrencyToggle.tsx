@@ -63,6 +63,7 @@ const Container = styled.div<{ $size: Size }>(
       align-items: center;
       justify-content: center;
       transition: color 0.1s linear;
+      cursor: pointer;
     }
 
     label#eth {
@@ -99,6 +100,10 @@ const Container = styled.div<{ $size: Size }>(
 
     input[type='checkbox']:disabled:checked ~ label#eth {
       color: ${theme.colors.greyPrimary};
+    }
+
+    input[type='checkbox']:disabled ~ label {
+      cursor: not-allowed;
     }
   `,
 )

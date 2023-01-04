@@ -1,20 +1,24 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 
-import { WithAlert } from '@/src/types'
+import { WithAlert, WithIcon } from '@/src/types'
 
 import { Typography } from '../Typography'
 
 import { AlertSVG, CrossSVG, EthSVG, RightArrowSVG } from '../..'
 
-type BaseProps = React.PropsWithChildren<{
+type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
+
+type BaseProps = {
+  /** The message inside the banner */
   message: string
+  /** The title for the banner */
   title?: string
+  /** Controls the spacing of the banner */
   screen?: 'mobile' | 'desktop'
   as?: 'a'
   onDismiss?: () => void
-}> &
-  React.HTMLAttributes<HTMLDivElement>
+} & NativeDivProps
 
 type WithAnchor = {
   as: 'a'
@@ -31,8 +35,6 @@ type WithoutAnchor = {
   rel?: never
   onDismiss?: () => void
 }
-
-export type Props = BaseProps & (WithAnchor | WithoutAnchor) & WithAlert
 
 type NonNullableAlert = NonNullable<Props['alert']>
 
@@ -126,15 +128,6 @@ const IconContainer = styled.div<{
   `,
 )
 
-const Icon = ({ alert = 'info', screen }: Pick<Props, 'alert' | 'screen'>) => {
-  const isAlertIcon = !!alert && ['error', 'warning'].includes(alert)
-  return (
-    <IconContainer $alert={alert} $screen={screen}>
-      {isAlertIcon ? <AlertSVG /> : <EthSVG />}
-    </IconContainer>
-  )
-}
-
 const ActionButtonContainer = styled.button(
   ({ theme }) => css`
     position: absolute;
@@ -200,19 +193,30 @@ const ActionButton = ({
   return null
 }
 
+export type Props = BaseProps &
+  (WithAnchor | WithoutAnchor) &
+  WithAlert &
+  WithIcon
+
 export const Banner = ({
   message,
   title,
   alert = 'info',
+  icon,
   screen: screen,
   as: asProp,
   href,
   onDismiss,
   ...props
 }: Props) => {
+  const Icon =
+    icon || (alert && ['error', 'warning'].includes(alert) ? AlertSVG : EthSVG)
+
   return (
     <Container {...props} $alert={alert} $screen={screen} as={asProp as any}>
-      <Icon alert={alert} screen={screen} />
+      <IconContainer $alert={alert} $screen={screen}>
+        <Icon />
+      </IconContainer>
       <Content>
         {title && <Typography typography="Large/Bold">{title}</Typography>}
         <Typography typography="Body/Normal">{message}</Typography>

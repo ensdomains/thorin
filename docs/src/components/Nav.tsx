@@ -265,9 +265,10 @@ const HeaderLink = styled.div(
 )
 
 const NavLinkChildrenContainer = styled(Typography)<{ $active?: boolean }>(
-  ({ theme, $active }) => css`
-    font-weight: ${theme.fontWeights.bold};
-    color: ${$active ? theme.colors.accent : theme.colors.greyPrimary};
+  ({ theme }) => css`
+    &:hover {
+      color: ${theme.colors.blueBright};
+    }
   `,
 )
 
@@ -282,7 +283,10 @@ const NavLink = ({
   return (
     <HeaderLink>
       <Link href={href}>
-        <NavLinkChildrenContainer {...{ $active: active }}>
+        <NavLinkChildrenContainer
+          color={active ? 'accent' : 'grey'}
+          weight="bold"
+        >
           {children}
         </NavLinkChildrenContainer>
       </Link>

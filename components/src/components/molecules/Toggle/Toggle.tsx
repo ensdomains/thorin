@@ -62,8 +62,14 @@ const Container = styled.input<{ $size?: Size }>(
     align-items: center;
     justify-content: center;
 
+    cursor: pointer;
+
     &:checked {
       background-color: ${theme.colors.bluePrimary};
+    }
+
+    &:disabled {
+      cursor: not-allowed;
     }
 
     &::after {
