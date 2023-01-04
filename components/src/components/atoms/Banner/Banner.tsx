@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 
-import { WithAlert, WithIcon } from '@/src/types'
+import { WithAlert, WithIcon } from '../../../types'
 
 import { Typography } from '../Typography'
 
