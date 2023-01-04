@@ -56,3 +56,30 @@ import { Card } from '@ensdomains/thorin'
   </Card>
 </DeleteMe>
 ```
+
+## Divider
+
+```tsx live=true
+<DeleteMe>
+  <Card divider title="Heading" variant="desktop">
+    <Card.Divider $variant="desktop" />
+    <Typography>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    </Typography>
+    <Card.Divider $variant="desktop" />
+    <Typography>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    </Typography>
+  </Card>
+  <Card divider title="Heading" variant="mobile">
+    <Card.Divider />
+    <Typography>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    </Typography>
+    <Card.Divider />
+    <Typography>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    </Typography>
+  </Card>
+</DeleteMe>
+```

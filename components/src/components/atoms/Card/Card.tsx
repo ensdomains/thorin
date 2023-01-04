@@ -26,6 +26,20 @@ const Container = styled.div<{ $variant: Props['variant'] }>(
   `,
 )
 
+const Divider = styled.div<{ $variant: Props['variant'] }>(
+  ({ theme, $variant }) => css`
+    width: calc(100% + 2 * ${theme.space['4']});
+    height: 1px;
+    background: ${theme.colors.border};
+    margin: 0 -${theme.space['4']};
+    ${$variant === 'desktop' &&
+    css`
+      margin: 0 -${theme.space['6']};
+      width: calc(100% + 2 * ${theme.space['6']});
+    `}
+  `,
+)
+
 type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 
 export const Card = ({ title, variant, children, ...props }: Props) => {
@@ -38,3 +52,4 @@ export const Card = ({ title, variant, children, ...props }: Props) => {
 }
 
 Card.displayName = 'Card'
+Card.Divider = Divider
