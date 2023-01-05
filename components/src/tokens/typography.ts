@@ -27,7 +27,7 @@ export const fontSizes: { [key in FontSize]: string } = {
   large: '1.125rem',
   body: '1rem',
   small: '0.875rem',
-  extraSmall: '0.75rem',
+  extraSmall: '0.5625rem',
 }
 
 export const fontWeights: { [key in FontWeight]: string } = {

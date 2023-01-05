@@ -1,15 +1,16 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 
+import { mq } from '@/src/utils/responsiveHelpers'
+
 import { Typography } from '../Typography'
 
 export type Props = {
   title?: string
-  variant?: 'mobile' | 'desktop'
 } & NativeDivProps
 
-const Container = styled.div<{ $variant: Props['variant'] }>(
-  ({ theme, $variant }) => css`
+const Container = styled.div(
+  ({ theme }) => css`
     display: flex;
     flex-direction: column;
     gap: ${theme.space['4']};
@@ -19,32 +20,34 @@ const Container = styled.div<{ $variant: Props['variant'] }>(
     background-color: ${theme.colors.backgroundPrimary};
     border: 1px solid ${theme.colors.border};
 
-    ${$variant === 'desktop' &&
-    css`
-      padding: ${theme.space['6']};
-    `}
+    ${mq.md.min(
+      css`
+        padding: ${theme.space['6']};
+      `,
+    )}
   `,
 )
 
-const Divider = styled.div<{ $variant: Props['variant'] }>(
-  ({ theme, $variant }) => css`
+const Divider = styled.div(
+  ({ theme }) => css`
     width: calc(100% + 2 * ${theme.space['4']});
     height: 1px;
     background: ${theme.colors.border};
     margin: 0 -${theme.space['4']};
-    ${$variant === 'desktop' &&
-    css`
-      margin: 0 -${theme.space['6']};
-      width: calc(100% + 2 * ${theme.space['6']});
-    `}
+    ${mq.md.min(
+      css`
+        margin: 0 -${theme.space['6']};
+        width: calc(100% + 2 * ${theme.space['6']});
+      `,
+    )}
   `,
 )
 
 type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 
-export const Card = ({ title, variant, children, ...props }: Props) => {
+export const Card = ({ title, children, ...props }: Props) => {
   return (
-    <Container {...props} $variant={variant}>
+    <Container {...props}>
       {title && <Typography typography="Heading/H4">{title}</Typography>}
       {children}
     </Container>

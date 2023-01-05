@@ -19,13 +19,17 @@ import { RecordItem } from '@ensdomains/thorin'
 
 ```tsx live=true
 <DeleteMe>
-  <RecordItem keyLabel="FLAME_LEGACY">0xb794...9268</RecordItem>
-  <RecordItem icon={<FlameSVG />}>0xb794...9268</RecordItem>
-  <RecordItem keyLabel="FLAME" keySublabel="Legacy" size="large">
+  <RecordItem keyLabel="FLAME" keySublabel="Legacy">
     0xb794f5ea0ba39494ce839613fffba74279579268
   </RecordItem>
-  <RecordItem icon={<FlameSVG />} size="large">
+  <RecordItem icon={<FlameSVG />}>
     0xb794f5ea0ba39494ce839613fffba74279579268
+  </RecordItem>
+  <RecordItem inline keyLabel="FLAME_LEGACY">
+    0xb794...9268
+  </RecordItem>
+  <RecordItem icon={<FlameSVG />} inline>
+    0xb794...9268
   </RecordItem>
 </DeleteMe>
 ```
@@ -34,48 +38,48 @@ import { RecordItem } from '@ensdomains/thorin'
 
 ```tsx live=true
 <DeleteMe>
-  <RecordItem icon={<FlameSVG />} screen="desktop" size="small">
-    Small on desktop with icon
+  <RecordItem icon={<FlameSVG />} size="small">
+    Small with icon
   </RecordItem>
-  <RecordItem keyLabel="Label" screen="desktop" size="small">
-    Small on desktop with label
+  <RecordItem icon={<FlameSVG />} size="large">
+    Large with icon
   </RecordItem>
-  <RecordItem icon={<FlameSVG />} screen="mobile" size="small">
-    Small on mobile with icon
+  <RecordItem keyLabel="Label" size="small">
+    Small with label
   </RecordItem>
-  <RecordItem keyLabel="Label" screen="mobile" size="small">
-    Small on mobile with label
-  </RecordItem>
-  <RecordItem icon={<FlameSVG />} screen="desktop" size="large">
-    Large on desktop with icon
-  </RecordItem>
-  <RecordItem keyLabel="Label" screen="desktop" size="large">
-    Large on desktop with label
-  </RecordItem>
-  <RecordItem icon={<FlameSVG />} screen="mobile" size="large">
-    Large on mobile with icon
-  </RecordItem>
-  <RecordItem keyLabel="Label" screen="mobile" size="large">
-    Large on mobile with label
+  <RecordItem keyLabel="Label" size="large">
+    Large with label
   </RecordItem>
 </DeleteMe>
 ```
 
-## Screen
+## Inline
 
 ```tsx live=true
 <DeleteMe>
-  <RecordItem icon={<FlameSVG />} screen="desktop">
-    Desktop with icon
+  <RecordItem icon={<FlameSVG />} size="small">
+    Small with icon
   </RecordItem>
-  <RecordItem icon={<FlameSVG />} screen="mobile">
-    Mobile with icon
+  <RecordItem keyLabel="Label" size="small">
+    Small with label
   </RecordItem>
-  <RecordItem keyLabel="Label" screen="desktop">
-    Desktop with label
+  <RecordItem icon={<FlameSVG />} size="large">
+    Large with icon
   </RecordItem>
-  <RecordItem keyLabel="Label" screen="mobile">
-    Mobile with label
+  <RecordItem keyLabel="Label" size="large">
+    Large with label
+  </RecordItem>
+  <RecordItem icon={<FlameSVG />} inline size="small">
+    Small and inline with icon
+  </RecordItem>
+  <RecordItem inline keyLabel="Label" size="small">
+    Small and inline with label
+  </RecordItem>
+  <RecordItem icon={<FlameSVG />} inline size="large">
+    Large and inline with icon
+  </RecordItem>
+  <RecordItem inline keyLabel="Label" size="large">
+    Large and inline with label
   </RecordItem>
 </DeleteMe>
 ```
@@ -84,17 +88,39 @@ import { RecordItem } from '@ensdomains/thorin'
 
 ```tsx live=true
 <DeleteMe>
-  <RecordItem icon={<FlameSVG />} link="https://ens.domains" screen="desktop">
-    Desktop with link
+  <RecordItem icon={<FlameSVG />} link="https://ens.domains" size="small">
+    Small with icon
   </RecordItem>
-  <RecordItem icon={<FlameSVG />} screen="desktop">
-    Desktop without link
+  <RecordItem keyLabel="Label" link="https://ens.domains" size="small">
+    Small with label
   </RecordItem>
-  <RecordItem keyLabel="Label" link="https://ens.domains" screen="mobile">
-    Mobile with link
+  <RecordItem icon={<FlameSVG />} link="https://ens.domains" size="large">
+    Large with icon
   </RecordItem>
-  <RecordItem keyLabel="Label" screen="mobile">
-    Mobile without link
+  <RecordItem keyLabel="Label" link="https://ens.domains" size="large">
+    Large with label
+  </RecordItem>
+  <RecordItem
+    icon={<FlameSVG />}
+    inline
+    link="https://ens.domains"
+    size="small"
+  >
+    Small and inline with icon
+  </RecordItem>
+  <RecordItem inline keyLabel="Label" link="https://ens.domains" size="small">
+    Small and inline with label
+  </RecordItem>
+  <RecordItem
+    icon={<FlameSVG />}
+    inline
+    link="https://ens.domains"
+    size="large"
+  >
+    Large and inline with icon
+  </RecordItem>
+  <RecordItem inline keyLabel="Label" link="https://ens.domains" size="large">
+    Large and inline with label
   </RecordItem>
 </DeleteMe>
 ```

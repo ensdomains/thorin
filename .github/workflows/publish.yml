@@ -42,6 +42,10 @@ jobs:
           git add .
           git commit -m "${{ github.event.release.tag_name }}"
 
+      - name: Copy README
+        run: |
+          cp README.md components/README.md
+
       - name: Publish Main
         if: ${{ github.ref == 'refs/heads/main'}}
         env:

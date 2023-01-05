@@ -26,14 +26,30 @@ Checkout the project's [playroom](https://thorin.ens.domains/playroom) to previe
 In your App component, wrap the root of your app in a [`ThemeProvider`](https://styled-components.com/docs/advanced) module from [styled-components](https://styled-components.com). Import `ThorinGlobalStyles` and declare it as a child of `ThemeProvider` to set global styles. Set the theme by passing a theme object to `ThemeProvider`.
 
 ```tsx
-import React, { useState } from 'react'
 import { ThemeProvider } from 'styled-components'
-import { DefaultTheme, ThorinGlobalStyles } from '@ensdomains/thorin'
+import { ThorinGlobalStyles, lightTheme } from '@ensdomains/thorin'
 
 const App = () => {
-  const [theme, setTheme] = useState<DefaultTheme>({ mode: 'light' })
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={lightTheme}>
+      <ThorinGlobalStyles />
+      {children}
+    </ThemeProvider>
+  )
+}
+```
+
+### Dark Theme
+
+To use the dark theme, import darkTheme and pass it to the ThemeProvider
+
+```tsx
+import { ThemeProvider } from 'styled-components'
+import { ThorinGlobalStyles, lightTheme } from '@ensdomains/thorin'
+
+const App = () => {
+  return (
+    <ThemeProvider theme={lightTheme}>
       <ThorinGlobalStyles />
       {children}
     </ThemeProvider>

@@ -7,14 +7,13 @@ import { CheckSVG, CopySVG, UpArrowSVG } from '@/src'
 import { Typography } from '../Typography/Typography'
 import { useCopied } from '../../../hooks/useCopied'
 
-type Screen = 'desktop' | 'mobile'
 type Size = 'small' | 'large'
 
 type BaseProps = {
   value: string
   link?: string
-  screen?: Screen
   size?: Size
+  inline?: boolean
   icon?: ReactNode
   keyLabel?: string | ReactNode
   keySublabel?: string | ReactNode
@@ -25,71 +24,67 @@ type BaseProps = {
 export type Props = BaseProps
 
 const Container = styled.button<{
-  $size: Size
+  $inline: boolean
 }>(
-  ({ theme, $size }) => css`
+  ({ theme, $inline }) => css`
     display: flex;
     align-items: flex-start;
 
     gap: ${theme.space[2]};
     padding: ${theme.space['2.5']} ${theme.space[3]};
-    height: ${theme.space['10']};
-    width: fit-content;
+    width: 100%;
+    height: fit-content;
     background: ${theme.colors.greySurface};
     border: 1px solid ${theme.colors.border};
     border-radius: ${theme.radii.input};
 
-    ${$size === 'large' &&
+    ${$inline &&
     css`
-      width: 100%;
-      height: fit-content;
+      width: fit-content;
+      height: ${theme.space['10']};
     `}
   `,
 )
 
-const PrefixContainer = styled.div<{ $screen: Screen; $size: Size }>(
-  ({ theme, $size, $screen }) => css`
+const PrefixContainer = styled.div<{ $size: Size; $inline: boolean }>(
+  ({ theme, $inline, $size }) => css`
     display: flex;
     gap: ${theme.space[2]};
     align-items: flex-start;
+    width: ${$size === 'large' ? theme.space['30'] : theme.space['22.5']};
+    flex: 0 0 ${$size === 'large' ? theme.space['30'] : theme.space['22.5']};
 
-    ${$size === 'large' &&
+    ${$inline &&
     css`
-      width: ${$screen === 'desktop' ? theme.space['30'] : theme.space['22.5']};
-      flex: 0 0
-        ${$screen === 'desktop' ? theme.space['30'] : theme.space['22.5']};
+      width: fit-content;
+      flex: initial;
     `}
   `,
 )
 
-const PrefixLabelsContainer = styled.div<{ $size: Size }>(
-  ({ theme, $size }) => css`
+const PrefixLabelsContainer = styled.div<{ $inline: boolean }>(
+  ({ theme, $inline }) => css`
     display: flex;
-    gap: ${theme.space[2]};
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    overflow: hidden;
 
-    ${$size === 'large' &&
+    ${$inline &&
     css`
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0;
+      flex-direction: row;
+      gap: ${theme.space[2]};
+      align-items: center;
     `}
   `,
 )
 
 const PrefixLabel = styled(Typography)<{
-  $screen: 'desktop' | 'mobile'
-  $size: 'small' | 'large'
+  $inline: boolean
 }>(
   () => css`
     text-align: left;
-    width: 100%;
-  `,
-)
-
-const PrefixSublabel = styled(Typography)(
-  () => css`
-    text-align: left;
+    width: 100%; ;
   `,
 )
 
@@ -103,14 +98,15 @@ const PrefixIcon = styled.div(
   `,
 )
 
-const Label = styled(Typography)<{ $size: Size }>(
-  ({ $size }) => css`
+const Label = styled(Typography)<{ $inline: boolean }>(
+  ({ $inline }) => css`
     flex: 1;
     text-align: left;
+    word-break: break-all;
 
-    ${$size === 'large' &&
+    ${$inline &&
     css`
-      word-break: break-all;
+      word-break: initial;
     `}
   `,
 )
@@ -131,8 +127,8 @@ const TrailingIcon = styled.svg<{ $rotate?: boolean }>(
 
 export const RecordItem = ({
   link,
-  screen = 'mobile',
   size = 'small',
+  inline = false,
   icon,
   keyLabel,
   keySublabel,
@@ -150,12 +146,10 @@ export const RecordItem = ({
   const KeyLabel =
     typeof keyLabel === 'string' ? (
       <PrefixLabel
-        $screen={screen}
-        $size={size}
+        $inline={inline}
         color="grey"
-        colorScheme="text"
-        ellipsis
-        typography={screen === 'desktop' ? 'Body/Bold' : 'Small/Bold'}
+        ellipsis={!inline}
+        typography={size === 'large' ? 'Body/Bold' : 'Small/Bold'}
       >
         {keyLabel}
       </PrefixLabel>
@@ -165,12 +159,14 @@ export const RecordItem = ({
 
   const KeySublabel =
     typeof keySublabel === 'string' ? (
-      <PrefixSublabel
+      <PrefixLabel
+        $inline={inline}
         color="grey"
-        typography={screen === 'desktop' ? 'Small/Bold' : 'Small/XS Bold'}
+        ellipsis={!inline}
+        typography={size === 'large' ? 'Small/Bold' : 'Small/XS Bold'}
       >
         {keySublabel}
-      </PrefixSublabel>
+      </PrefixLabel>
     ) : (
       keySublabel
     )
@@ -182,7 +178,7 @@ export const RecordItem = ({
 
   return (
     <Container
-      $size={size}
+      $inline={inline}
       as={asProp}
       href={link}
       rel="nofollow noreferrer"
@@ -194,10 +190,10 @@ export const RecordItem = ({
       {...props}
     >
       {hasPrefix && (
-        <PrefixContainer $screen={screen} $size={size}>
+        <PrefixContainer $inline={inline} $size={size}>
           {icon && <PrefixIcon>{icon}</PrefixIcon>}
           {hasLabels && (
-            <PrefixLabelsContainer $size={size}>
+            <PrefixLabelsContainer $inline={inline}>
               {KeyLabel}
               {KeySublabel}
             </PrefixLabelsContainer>
@@ -205,8 +201,8 @@ export const RecordItem = ({
         </PrefixContainer>
       )}
       <Label
-        $size={size}
-        typography={screen === 'desktop' ? 'Body/Normal' : 'Small/Normal'}
+        $inline={inline}
+        typography={size === 'large' ? 'Body/Normal' : 'Small/Normal'}
       >
         {children}
       </Label>

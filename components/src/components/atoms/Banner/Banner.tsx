@@ -1,6 +1,8 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 
+import { mq } from '@/src/utils/responsiveHelpers'
+
 import { WithAlert, WithIcon } from '../../../types'
 
 import { Typography } from '../Typography'
@@ -14,8 +16,6 @@ type BaseProps = {
   message: string
   /** The title for the banner */
   title?: string
-  /** Controls the spacing of the banner */
-  screen?: 'mobile' | 'desktop'
   as?: 'a'
   onDismiss?: () => void
 } & NativeDivProps
@@ -40,9 +40,8 @@ type NonNullableAlert = NonNullable<Props['alert']>
 
 const Container = styled.div<{
   $alert: NonNullableAlert
-  $screen: Props['screen']
 }>(
-  ({ theme, $alert, $screen }) => css`
+  ({ theme, $alert }) => css`
     position: relative;
     background: ${theme.colors.backgroundPrimary};
     border: 1px solid ${theme.colors.border};
@@ -65,10 +64,11 @@ const Container = styled.div<{
       border: 1px solid ${theme.colors.yellowPrimary};
     `};
 
-    ${$screen === 'desktop' &&
-    css`
-      gap: ${theme.space[6]};
-    `}
+    ${mq.md.min(
+      css`
+        gap: ${theme.space[6]};
+      `,
+    )}
   `,
 )
 
@@ -83,10 +83,9 @@ const Content = styled.div(
 )
 
 const IconContainer = styled.div<{
-  $screen: Props['screen']
   $alert: NonNullableAlert
 }>(
-  ({ theme, $screen, $alert }) => css`
+  ({ theme, $alert }) => css`
     width: ${theme.space[8]};
     height: ${theme.space[8]};
     flex: 0 0 ${theme.space[8]};
@@ -97,12 +96,11 @@ const IconContainer = styled.div<{
       height: 100%;
     }
 
-    ${$screen === 'desktop' &&
-    css`
+    ${mq.md.min(css`
       width: ${theme.space[10]};
       height: ${theme.space[10]};
       flex: 0 0 ${theme.space[10]};
-    `}
+    `)}
 
     ${$alert === 'error' &&
     css`
@@ -203,7 +201,6 @@ export const Banner = ({
   title,
   alert = 'info',
   icon,
-  screen: screen,
   as: asProp,
   href,
   onDismiss,
@@ -213,8 +210,8 @@ export const Banner = ({
     icon || (alert && ['error', 'warning'].includes(alert) ? AlertSVG : EthSVG)
 
   return (
-    <Container {...props} $alert={alert} $screen={screen} as={asProp as any}>
-      <IconContainer $alert={alert} $screen={screen}>
+    <Container {...props} $alert={alert} as={asProp as any}>
+      <IconContainer $alert={alert}>
         <Icon />
       </IconContainer>
       <Content>
