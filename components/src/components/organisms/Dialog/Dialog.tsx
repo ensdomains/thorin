@@ -102,6 +102,12 @@ const Icon = ({ alert }: { alert: NonNullableAlert }) => {
   )
 }
 
+const Title = styled(Typography)(
+  () => css`
+    text-align: center;
+  `,
+)
+
 const SubTitle = styled(Typography)(
   ({ theme }) => css`
     font-size: ${theme.fontSizes.body};
@@ -242,7 +248,7 @@ const Heading = ({
       {alert && <Icon alert={alert} />}
       {title &&
         ((typeof title !== 'string' && title) || (
-          <Typography typography="Heading/H4">{title}</Typography>
+          <Title typography="Heading/H4">{title}</Title>
         ))}
       {subtitle &&
         ((typeof subtitle !== 'string' && subtitle) || (
