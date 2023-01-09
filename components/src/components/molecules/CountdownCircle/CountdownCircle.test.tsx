@@ -4,8 +4,9 @@ import { ThemeProvider } from 'styled-components'
 
 import { act, cleanup, render, screen } from '@/test'
 
-import { CountdownCircle } from './CountdownCircle'
 import { lightTheme } from '@/src/tokens'
+
+import { CountdownCircle } from './CountdownCircle'
 
 const advanceTime = (ms: number) => {
   act(() => {

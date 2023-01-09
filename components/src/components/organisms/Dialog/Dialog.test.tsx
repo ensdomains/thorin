@@ -4,8 +4,9 @@ import { ThemeProvider } from 'styled-components'
 
 import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 
-import { Dialog } from './Dialog'
 import { lightTheme } from '@/src/tokens'
+
+import { Dialog } from './Dialog'
 
 window.scroll = jest.fn()
 

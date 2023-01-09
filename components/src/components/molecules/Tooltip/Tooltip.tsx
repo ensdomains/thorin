@@ -83,7 +83,8 @@ const TooltipPopover = styled.div<{
 
     border-radius: ${theme.radii.large};
     padding: ${theme.space['2.5']} ${theme.space['2.5']} ${theme.space['2.5']}
-      ${theme.space['2.5']};
+      ${theme.space['3.5']};
+    border-color: ${theme.colors.border};
     background: ${theme.colors.background};
 
     ${injectedCss[$mobilePlacement]}

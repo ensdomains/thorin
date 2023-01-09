@@ -36,14 +36,14 @@ const Container = styled.div<Container>(
     ${!$noBorder &&
     css`
       &::after {
-        box-shadow: ${theme.shadows['-px']} ${theme.colors.foregroundTertiary};
+        box-shadow: ${theme.shadows['-px']} ${theme.colors.backgroundSecondary};
         content: '';
         inset: 0;
         position: absolute;
       }
     `}
 
-    background-color: ${theme.colors.foregroundSecondary};
+    background-color: ${theme.colors.backgroundSecondary};
 
     width: 100%;
     padding-bottom: 100%;

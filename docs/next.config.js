@@ -35,10 +35,10 @@ const config = {
         name: 'organisms',
         links: getComponentPaths('organisms'),
       },
-      // {
-      //   name: 'miscellaneous',
-      //   links: componentPaths,
-      // },
+      {
+        name: 'miscellaneous',
+        links: getComponentPaths('miscellaneous'),
+      },
     ],
   },
   async rewrites() {
@@ -77,6 +77,10 @@ const config = {
       new StylelintPlugin({
         extensions: ['tsx'],
       }),
+    )
+    config.resolve.alias['@ensdomains/thorin'] = path.resolve(
+      __dirname,
+      '../components/dist',
     )
     return config
   },

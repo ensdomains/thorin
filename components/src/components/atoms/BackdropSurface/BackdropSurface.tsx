@@ -19,16 +19,11 @@ export const BackdropSurface = styled.div<{
 
     ${!$empty && $state === 'entered'
       ? css`
-          background-color: rgba(
-            0,
-            0,
-            0,
-            ${theme.shades.backgroundHideFallback}
-          );
+          background-color: rgba(0, 0, 0, ${theme.opacity.overlayFallback});
 
           @supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
             backdrop-filter: blur(16px);
-            background-color: ${theme.colors.backgroundHide};
+            background-color: rgba(0, 0, 0, ${theme.opacity.overlay});
           }
         `
       : css`

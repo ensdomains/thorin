@@ -18,7 +18,7 @@ import type { Props as CodePreviewProps } from './CodePreview'
 
 const CodePreviewContainer = styled.div(
   ({ theme }) => css`
-    background-color: ${theme.colors.foregroundSecondary};
+    background-color: ${theme.colors.greySurface};
     border-radius: ${theme.radii['large']};
     height: ${theme.space['48']};
     width: ${theme.space['full']};
@@ -88,8 +88,8 @@ export const CodeBlock = ({
         ...theme,
         plain: {
           ...theme.plain,
-          color: colors.foreground,
-          backgroundColor: colors.foregroundTertiary,
+          color: colors.text,
+          backgroundColor: colors.greySurface,
         },
         styles: [
           ...theme.styles,

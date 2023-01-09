@@ -14,13 +14,13 @@ import { Typography, tokens } from '@ensdomains/thorin'
 
 import { glob } from 'glob'
 
-import path from 'path'
-
 import { Props as LayoutProps, getLayout } from '~/layouts/docs'
 import { getComponentName, getComponentPaths } from '~/utils/fs'
 import { getStaticTypes } from '~/utils/getStaticTypes'
 import { createGitHubLink } from '~/utils/github'
 import { Link } from '~/components'
+
+import path from 'path'
 
 export const getStaticPaths: GetStaticPaths = async () => ({
   paths: getComponentPaths().map((x) => ({
@@ -50,6 +50,17 @@ export const getStaticProps: GetStaticProps<StaticProps> = async (context) => {
   const mdxSource = await serialize(content, {
     scope: data,
   })
+  if (slug.includes('miscellaneous')) {
+    return {
+      props: {
+        docsLink: '',
+        frontMatter: data,
+        source: mdxSource,
+        sourceLink: '',
+        staticTypes: {},
+      },
+    }
+  }
   const globComponentPath = glob.sync(
     `../components/src/**/${path.basename(pathname, '.docs.mdx')}.tsx`,
     {

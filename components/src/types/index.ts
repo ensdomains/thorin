@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import 'styled-components'
-import { Accent as TokenAccent, Mode as TokenMode, Tokens } from '@/src/tokens'
+import { Hue as TokenHue, Mode as TokenMode, Tokens } from '@/src/tokens'
 
 export type AllOrNone<T> = T | { [K in keyof T]?: never }
 
@@ -20,7 +20,7 @@ export type ReactNodeNoStrings =
  */
 export type EmptyObject = { [k: string]: unknown }
 
-export type Accent = TokenAccent | 'foreground'
+export type Accent = TokenHue | 'foreground'
 
 export type Mode = TokenMode
 

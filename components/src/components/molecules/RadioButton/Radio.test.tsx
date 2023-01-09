@@ -5,8 +5,9 @@ import { ThemeProvider } from 'styled-components'
 
 import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 
-import { RadioButton } from './RadioButton'
 import { lightTheme } from '@/src/tokens'
+
+import { RadioButton } from './RadioButton'
 
 const RadioWithState = (props: any) => {
   const [checked, setChecked] = useState<boolean>(false)

@@ -3,10 +3,9 @@ import styled, { css } from 'styled-components'
 
 import { getTestId, shortenAddress } from '../../../utils/utils'
 
-import { Typography } from '../..'
+import { DownChevronSVG, Typography } from '../..'
 import { Avatar, Props as AvatarProps } from '../../atoms/Avatar'
 import { Dropdown, DropdownItem } from '../Dropdown/Dropdown'
-import { ReactComponent as IconDownIndicatorSvg } from '@/src/icons/DownIndicator.svg'
 
 type Size = 'small' | 'medium' | 'large'
 
@@ -42,15 +41,14 @@ const Container = styled.div<ContainerProps>(
     border-radius: ${theme.radii['full']};
     transition-duration: ${theme.transitionDuration['150']};
     transition-property: color, border-color, background-color, transform,
-      filter, box-shadow;
+      filter;
     transition-timing-function: ${theme.transitionTimingFunction['inOut']};
     position: relative;
     z-index: 10;
     padding: ${theme.space['2']} ${theme.space['4']} ${theme.space['2']}
       ${theme.space['2.5']};
-    box-shadow: ${theme.shadows['0.25']};
-    color: ${theme.colors.foregroundSecondary};
-    background-color: ${theme.colors.groupBackground};
+    color: ${theme.colors.greyDim};
+    background-color: ${theme.colors.backgroundSecondary};
 
     ${$hasChevron &&
     css`
@@ -63,8 +61,7 @@ const Container = styled.div<ContainerProps>(
 
     ${$open &&
     css`
-      box-shadow: ${theme.shadows['0']};
-      background-color: ${theme.colors.foregroundSecondary};
+      background-color: ${theme.colors.greyDim};
     `}
 
   ${() => {
@@ -119,14 +116,12 @@ const Chevron = styled.svg<{ $open: boolean }>(
     transition-duration: ${theme.transitionDuration['200']};
     transition-property: all;
     transition-timing-function: ${theme.transitionTimingFunction['inOut']};
-    opacity: 0.3;
     transform: rotate(0deg);
     display: flex;
-    color: ${theme.colors.foreground};
+    color: ${theme.colors.greyPrimary};
 
     ${$open &&
     css`
-      opacity: 1;
       transform: rotate(180deg);
     `}
   `,
@@ -209,7 +204,7 @@ export const Profile = ({
           onClick={() => setIsOpen(!isOpen)}
         >
           <ProfileInner {...{ size, avatar, address, ensName }} />
-          <Chevron $open={isOpen} as={IconDownIndicatorSvg} />
+          <Chevron $open={isOpen} as={DownChevronSVG} />
         </Container>
       </Dropdown>
     )

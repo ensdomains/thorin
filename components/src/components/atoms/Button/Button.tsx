@@ -45,8 +45,8 @@ type BaseProps = {
   zIndex?: string
   /** If true, sets the style to indicate "on" state. Useful for toggles switches. */
   pressed?: boolean
-  /** If true, removes the box-shadow */
-  shadowless?: boolean
+  /** If true, adds a box-shadow */
+  shadow?: boolean
   /** If true, adds an outline to the button */
   outlined?: boolean
   /** If true, makes inner div full width*/
@@ -87,7 +87,7 @@ type WithoutAnchor = {
 
 interface ButtonElement {
   $pressed: boolean
-  $shadowless: boolean
+  $shadow: boolean
   $outlined: boolean
   $shape?: BaseProps['shape']
   $size?: BaseProps['size']
@@ -108,17 +108,13 @@ const getAccentColour = (
     | 'accentSecondary'
     | 'accentSecondaryHover',
   type?: 'secondary',
-) => {
-  if (tone === 'accent') {
-    return theme.colors[accent]
-  }
-
+): string => {
   if (tone === 'grey') {
     switch (accent) {
       case 'accentText':
         return theme.colors.text
       case 'accentSecondary':
-        return theme.colors.foregroundTertiary
+        return theme.colors.textSecondary
       default:
         return type === 'secondary'
           ? theme.colors.textSecondary
@@ -130,13 +126,13 @@ const getAccentColour = (
     case 'accent':
       return theme.colors[tone]
     case 'accentText':
-      return theme.colors.white
+      return theme.colors.textAccent
     case 'accentGradient':
-      return theme.colors.gradients[tone]
+      return theme.colors.gradients[tone === 'accent' ? 'blue' : tone]
     case 'accentSecondary':
-      return `rgba(${theme.accentsRaw[tone]}, ${theme.shades[accent]})`
+      return theme.colors[`${tone}Surface`]
     case 'accentSecondaryHover':
-      return `rgba(${theme.accentsRaw[tone]}, ${theme.shades[accent]})`
+      return theme.colors[`${tone}Bright`]
     default:
       return ``
   }
@@ -148,7 +144,7 @@ const ButtonElement = styled.button<ButtonElement>(
     disabled,
     $center,
     $pressed,
-    $shadowless,
+    $shadow,
     $outlined,
     $size,
     $variant,
@@ -171,7 +167,12 @@ const ButtonElement = styled.button<ButtonElement>(
 
     &:hover {
       transform: translateY(-1px);
-      filter: brightness(1.05);
+      ${$variant !== 'transparent' &&
+      css`
+        filter: ${$variant === 'secondary'
+          ? 'contrast(0.95)'
+          : 'brightness(1.05)'};
+      `}
     }
 
     &:active {
@@ -194,7 +195,7 @@ const ButtonElement = styled.button<ButtonElement>(
           filter: brightness(0.95);
         `
       : ``};
-    ${$shadowless
+    ${!$shadow
       ? css`
           box-shadow: none !important;
         `
@@ -203,7 +204,7 @@ const ButtonElement = styled.button<ButtonElement>(
     ${$outlined
       ? css`
           border: ${theme.borderWidths.px} ${theme.borderStyles.solid}
-            ${theme.colors.borderTertiary};
+            ${theme.colors.border};
         `
       : ``}
 
@@ -245,7 +246,7 @@ const ButtonElement = styled.button<ButtonElement>(
         case 'secondary':
           return css`
             color: ${getAccentColour(theme, $tone, 'accent', 'secondary')};
-            background: ${getAccentColour(theme, $tone, 'accentSecondary')};
+            background: ${theme.colors[`${$tone}Surface`]};
           `
         case 'action':
           return css`
@@ -254,14 +255,14 @@ const ButtonElement = styled.button<ButtonElement>(
           `
         case 'transparent':
           return css`
-            color: ${theme.colors.textTertiary};
+            color: ${theme.colors.text};
 
             &:hover {
-              background-color: ${theme.colors.foregroundTertiary};
+              background-color: ${theme.colors.greySurface};
             }
 
             &:active {
-              background-color: ${theme.colors.foregroundTertiary};
+              background-color: ${theme.colors.greyBright};
             }
           `
         default:
@@ -301,7 +302,7 @@ const ButtonElement = styled.button<ButtonElement>(
     }}
 
   ${() => {
-      if ($shadowless && $pressed && $variant === 'transparent') {
+      if (!$shadow && $pressed && $variant === 'transparent') {
         return css`
           background-color: ${theme.colors.backgroundSecondary};
         `
@@ -322,7 +323,6 @@ const ButtonElement = styled.button<ButtonElement>(
     ${$psuedoDisabled &&
     `
       background-color: ${theme.colors.grey};
-      color: ${theme.colors.textTertiary};
 
       &:hover {
         transform: translateY(0px);
@@ -340,13 +340,21 @@ const ButtonElement = styled.button<ButtonElement>(
   `,
 )
 
-const PrefixContainer = styled.div<GetCenterProps>(
+const ItemContainer = styled.div(
+  ({ theme }) => css`
+    & > svg {
+      display: block;
+      width: ${theme.space['4']};
+      height: ${theme.space['4']};
+    }
+  `,
+)
+
+const PrefixContainer = styled(ItemContainer)<GetCenterProps>(
   () => css`
     ${getCenterProps}
   `,
 )
-
-const LoadingContainer = styled.div(() => css``)
 
 const LabelContainer = styled(Typography)<{
   $fullWidthContent: boolean
@@ -398,7 +406,7 @@ export const Button = React.forwardRef(
       zIndex,
       onClick,
       pressed = false,
-      shadowless = false,
+      shadow = false,
       outlined = false,
       fullWidthContent = false,
       as: asProp,
@@ -415,7 +423,11 @@ export const Button = React.forwardRef(
     )
     let childContent: ReactNodeNoStrings
     if (shape) {
-      childContent = loading ? <Spinner color="background" /> : labelContent
+      childContent = loading ? (
+        <Spinner color="backgroundPrimary" />
+      ) : (
+        labelContent
+      )
     } else {
       childContent = (
         <>
@@ -426,9 +438,9 @@ export const Button = React.forwardRef(
           )}
           {labelContent}
           {(loading || suffix) && (
-            <LoadingContainer {...{ center, size, side: 'right' }}>
-              {loading ? <Spinner color="background" /> : suffix}
-            </LoadingContainer>
+            <ItemContainer {...{ center, size, side: 'right' }}>
+              {loading ? <Spinner color="backgroundPrimary" /> : suffix}
+            </ItemContainer>
           )}
         </>
       )
@@ -442,7 +454,7 @@ export const Button = React.forwardRef(
         $outlined={outlined}
         $pressed={pressed}
         $psuedoDisabled={psuedoDisabled}
-        $shadowless={shadowless}
+        $shadow={shadow}
         $shape={shape}
         $size={size}
         $tone={tone}

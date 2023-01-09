@@ -264,11 +264,11 @@ export const DynamicPopover = ({
     const targetElement = document.getElementById(targetId)
     const popoverElement = popoverContainerRef.current
 
-    if (popoverElement) {
+    if (popoverElement && tooltipRef) {
       //Set initial position on mount
       setInitialPosition(
         targetId,
-        tooltipRef!,
+        tooltipRef,
         popoverElement,
         placement,
         mobilePlacement,
@@ -416,7 +416,14 @@ export const DynamicPopover = ({
       targetElement?.removeEventListener('mouseleave', handleMouseleave)
       removeEventListener('resize', handleResize)
     }
-  }, [targetId])
+  }, [
+    additionalGap,
+    mobilePlacement,
+    onShowCallback,
+    placement,
+    targetId,
+    tooltipRef,
+  ])
 
   const { translate, mobileTranslate } = animationFn(
     positionState.horizontalClearance,

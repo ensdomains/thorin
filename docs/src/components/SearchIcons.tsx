@@ -1,13 +1,17 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 
-import { Input, SearchSVG, Typography, mq } from '@ensdomains/thorin'
+import {
+  Card,
+  Input,
+  MagnifyingGlassSimpleSVG,
+  Typography,
+  mq,
+} from '@ensdomains/thorin'
 import * as Components from '@ensdomains/thorin'
 
-import { Link } from '~/components'
-
 const icons = Object.entries(Components)
-  .filter(([k]) => k.includes('Icon'))
+  .filter(([k]) => k.includes('SVG'))
   .map(([name, Component]) => ({ name, Component }))
   .sort((a, b) => (a.name > b.name ? 1 : -1))
 
@@ -22,6 +26,10 @@ const initialState: State = {
 const FlexContainer = styled.div(
   ({ theme }) => css`
     gap: ${theme.space['8']};
+
+    & > div:first-child {
+      margin-bottom: ${theme.space['8']};
+    }
   `,
 )
 
@@ -53,15 +61,19 @@ const IconGridFlex = styled.div(
   ({ theme }) => css`
     display: flex;
     align-items: center;
+    flex-direction: column;
+    justify-content: center;
     gap: ${theme.space['2']};
+
+    cursor: pointer;
   `,
 )
 
 const ComponentContainer = styled.div(
   ({ theme }) => css`
-    background-color: ${theme.colors.foregroundTertiary};
+    background-color: ${theme.colors.greySurface};
     border-radius: ${theme.radii['large']};
-    color: ${theme.colors.foreground};
+    color: ${theme.colors.grey};
     padding: ${theme.space['4']};
     width: ${theme.space['max']};
     transition-duration: ${theme.transitionDuration['150']};
@@ -109,34 +121,37 @@ export const SearchIcons = () => {
   }, [state.query])
 
   return (
-    <FlexContainer>
-      <Input
-        hideLabel
-        label="Search icons"
-        placeholder="Search icons"
-        prefix={<SearchSVG />}
-        value={state.query}
-        onChange={(event) =>
-          setState((x) => ({ ...x, query: event.target.value }))
-        }
-      />
+    <Card>
+      <FlexContainer>
+        <Input
+          hideLabel
+          label="Search icons"
+          placeholder="Search icons"
+          prefix={<MagnifyingGlassSimpleSVG />}
+          value={state.query}
+          onChange={(event) =>
+            setState((x) => ({ ...x, query: event.target.value }))
+          }
+        />
 
-      <IconGrid>
-        {filteredIcons.map((x) => (
-          <Link href={`/components/${x.name}`} key={x.name}>
-            <IconGridInner>
+        <IconGrid>
+          {filteredIcons.map((x) => (
+            <IconGridInner
+              key={x.name}
+              onClick={() => navigator.clipboard.writeText(x.name)}
+            >
               <IconGridFlex>
                 <ComponentContainer>
                   {React.createElement(x.Component as any)}
                 </ComponentContainer>
                 <IconNameContainer>
-                  <IconName ellipsis>{x.name.replace('Icon', '')}</IconName>
+                  <IconName ellipsis>{x.name.replace('SVG', '')}</IconName>
                 </IconNameContainer>
               </IconGridFlex>
             </IconGridInner>
-          </Link>
-        ))}
-      </IconGrid>
-    </FlexContainer>
+          ))}
+        </IconGrid>
+      </FlexContainer>
+    </Card>
   )
 }

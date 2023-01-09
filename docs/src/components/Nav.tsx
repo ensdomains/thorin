@@ -4,7 +4,7 @@ import styled, { css } from 'styled-components'
 
 import {
   Button,
-  LogoSVG,
+  EnsSVG,
   MenuSVG,
   Space,
   Typography,
@@ -14,6 +14,7 @@ import {
 import { createGitHubLink } from '~/utils/github'
 import { createPlayroomLink } from '~/utils/playroom'
 import { useIsMounted } from '~/utils/isMounted'
+
 import { Link } from './Link'
 
 type Link = { name: string; route: string }
@@ -92,7 +93,7 @@ const List = styled.div<{ $open?: boolean }>(
     display: ${$open ? 'block' : 'none'};
     height: ${theme.space['full']};
     padding-top: ${theme.space['10']};
-    border-color: rgba(${theme.shadesRaw.foreground}, 0.05);
+    border-color: hsla(${theme.colors.raw.background}, 0.05);
     transition: border-color 0.15s ease-in-out;
 
     /* stylelint-disable-next-line selector-pseudo-element-no-unknown */
@@ -119,7 +120,7 @@ const List = styled.div<{ $open?: boolean }>(
     }
 
     &:hover {
-      border-color: rgba(${theme.shadesRaw.foreground}, 0.2);
+      border-color: hsla(${theme.colors.raw.greyPrimary}, 0.2);
     }
 
     ${mq.lg.min(css`
@@ -160,7 +161,7 @@ export const Nav = ({ links }: Props) => {
         <NavlinkContainer>
           <NavLink active={router.asPath === '/'} href="/">
             <NavLinkInner>
-              <LogoSVG height={48} width={48} />
+              <EnsSVG height={48} width={48} />
               <ENSText>ENS</ENSText>
             </NavLinkInner>
           </NavLink>
@@ -168,7 +169,6 @@ export const Nav = ({ links }: Props) => {
           <ButtonContainer>
             <Button
               pressed={state.open}
-              shadowless
               size="extraSmall"
               variant="transparent"
               onClick={() => setState((x) => ({ ...x, open: !x.open }))}

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled, { css } from 'styled-components'
+import styled, { css, keyframes } from 'styled-components'
 
 import { Context } from '../../molecules/SkeletonGroup'
 
@@ -7,11 +7,25 @@ interface ContainerProps {
   $active?: boolean
 }
 
+const shine = keyframes`
+  to {
+    background-position-x: -200%;
+  }
+`
+
 const Container = styled.div<ContainerProps>(
   ({ theme, $active }) => css`
     ${$active &&
     css`
-      background-color: ${theme.colors.foregroundSecondary};
+      background: ${theme.colors.greyBright}
+        linear-gradient(
+          110deg,
+          ${theme.colors.greyBright} 8%,
+          ${theme.colors.greySurface} 18%,
+          ${theme.colors.greyBright} 33%
+        );
+      background-size: 200% 100%;
+      animation: 1.5s ${shine} infinite linear;
       border-radius: ${theme.radii.medium};
       width: ${theme.space.fit};
     `}
