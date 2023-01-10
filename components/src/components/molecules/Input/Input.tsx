@@ -152,10 +152,10 @@ const getSpaceValue = (
 const TYPOGRAPHIES: {
   [key in Size]: Typography
 } = {
-  small: 'Small/Normal',
-  medium: 'Body/Normal',
-  large: 'Large/Normal',
-  extraLarge: 'Heading/H3',
+  small: 'small',
+  medium: 'regular',
+  large: 'large',
+  extraLarge: 'heading3',
 }
 
 const getTypographyValue = (size: keyof typeof TYPOGRAPHIES) => {
@@ -169,9 +169,18 @@ const Container = styled.div<{
   $suffix: boolean
   $validated?: boolean
   $showDot?: boolean
+  $readOnly?: boolean
   $userStyles?: FlattenInterpolation<any>
 }>(
-  ({ theme, $size, $hasError, $userStyles, $validated, $showDot }) => css`
+  ({
+    theme,
+    $size,
+    $hasError,
+    $userStyles,
+    $validated,
+    $showDot,
+    $readOnly,
+  }) => css`
     position: relative;
     height: ${getSpaceValue(theme, $size, 'height')};
     display: flex;
@@ -196,6 +205,7 @@ const Container = styled.div<{
 
     ${$showDot &&
     $validated &&
+    !$readOnly &&
     css`
       :after {
         background: ${theme.colors.greenPrimary};
@@ -245,6 +255,7 @@ const Label = styled.label<{ $size: Size }>(
     )};
     font-weight: ${theme.fontWeights.normal};
     padding: 0 ${getSpaceValue(theme, $size, 'outerPadding')};
+    cursor: text;
 
     svg {
       display: block;
@@ -268,6 +279,7 @@ const IconWrapper = styled.div<{ $size: Size }>(
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    pointer-events: none;
     svg {
       display: block;
       width: ${getSpaceValue(theme, $size, 'icon')};
@@ -286,7 +298,7 @@ const ActionButton = styled.button<{ $size: Size }>(
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    transition: all 0.3s ease-out;
+    transition: all 0.1s ease-in-out;
     transform: scale(1);
     opacity: 1;
 
@@ -396,9 +408,11 @@ const InnerContainer = styled.div<{
     }
 
     input:disabled ~ button,
+    input:read-only ~ button,
     input:placeholder-shown ~ button {
       opacity: 0;
-      transform: scale(0.3);
+      transform: scale(0.8);
+      pointer-events: none;
     }
   `,
 )
@@ -433,7 +447,7 @@ export const Input = React.forwardRef(
       spellCheck,
       suffix,
       suffixAs,
-      clearable = true,
+      clearable = false,
       tabIndex,
       type = 'text',
       units,

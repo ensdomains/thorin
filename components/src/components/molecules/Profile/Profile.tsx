@@ -130,16 +130,16 @@ const ProfileInner = ({ size, avatar, address, ensName }: Props) => (
         color={ensName ? undefined : 'grey'}
         data-testid="profile-title"
         ellipsis
+        fontVariant={size === 'large' ? 'heading4' : 'regularBold'}
         forwardedAs="h3"
-        typography={size === 'large' ? 'Heading/H4' : 'Body/Bold'}
       >
         {ensName || 'No name set'}
       </ReducedLineText>
       <ReducedLineText
         color={ensName ? 'grey' : undefined}
         data-testid="profile-address"
+        fontVariant="small"
         forwardedAs="h4"
-        typography="Small/Normal"
       >
         {shortenAddress(
           address,

@@ -115,7 +115,7 @@ const SelectContainer = styled.div<{
 
     overflow: hidden;
     border: 1px solid ${theme.colors.border};
-    border-radius: ${theme.radii.input};
+    border-radius: ${theme.radii.large};
 
     svg {
       display: block;
@@ -285,7 +285,7 @@ const SelectOptionContainer = styled.div<{
       : css`
           left: 0;
         `}
-    border-radius: ${theme.radii.card};
+    border-radius: ${theme.radii['2xLarge']};
     background: ${theme.colors.background};
     transition: all 0.3s cubic-bezier(1, 0, 0.22, 1.6), z-index 0.3s linear;
 
@@ -402,12 +402,12 @@ const SelectOption = styled.button<{
     transition-duration: ${theme.transitionDuration['150']};
     transition-property: all;
     transition-timing-function: ${theme.transitionTimingFunction['inOut']};
-    border-radius: ${theme.radii.input};
+    border-radius: ${theme.radii.large};
     white-space: nowrap;
     color: ${theme.colors.textPrimary};
-    font-size: ${getTypography(theme, 'Body/Normal', 'fontSize')};
-    font-weight: ${getTypography(theme, 'Body/Normal', 'fontWeight')};
-    line-height: ${getTypography(theme, 'Body/Normal', 'lineHeight')};
+    font-size: ${getTypography(theme, 'regular', 'fontSize')};
+    font-weight: ${getTypography(theme, 'regular', 'fontWeight')};
+    line-height: ${getTypography(theme, 'regular', 'lineHeight')};
     text-align: left;
 
     svg {
@@ -452,9 +452,9 @@ const SelectOption = styled.button<{
     css`
       height: ${theme.space['9']};
       flex: 0 0 ${theme.space['9']};
-      font-size: ${getTypography(theme, 'Small/Normal', 'fontSize')};
-      font-weight: ${getTypography(theme, 'Small/Normal', 'fontWeight')};
-      line-height: ${getTypography(theme, 'Small/Normal', 'lineHeight')};
+      font-size: ${getTypography(theme, 'small', 'fontSize')};
+      font-weight: ${getTypography(theme, 'small', 'fontWeight')};
+      line-height: ${getTypography(theme, 'small', 'lineHeight')};
     `}
   `,
 )

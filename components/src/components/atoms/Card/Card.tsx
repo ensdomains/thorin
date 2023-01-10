@@ -16,7 +16,7 @@ const Container = styled.div(
     gap: ${theme.space['4']};
 
     padding: ${theme.space['4']};
-    border-radius: ${theme.radii.card};
+    border-radius: ${theme.radii['2xLarge']};
     background-color: ${theme.colors.backgroundPrimary};
     border: 1px solid ${theme.colors.border};
 
@@ -48,7 +48,7 @@ type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 export const Card = ({ title, children, ...props }: Props) => {
   return (
     <Container {...props}>
-      {title && <Typography typography="Heading/H4">{title}</Typography>}
+      {title && <Typography fontVariant="heading4">{title}</Typography>}
       {children}
     </Container>
   )

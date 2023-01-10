@@ -2,80 +2,80 @@ import { DefaultTheme, WithTypography } from '../types'
 
 type TypographyFunc = (
   theme: DefaultTheme,
-  typography?: WithTypography['typography'],
+  typography?: WithTypography['fontVariant'],
   field?: 'fontSize' | 'lineHeight' | 'fontWeight',
 ) => string
 
 const getFontSize: TypographyFunc = (theme, typography) => {
   if (!typography) return theme.fontSizes.body
-  if (typography === 'small') return theme.fontSizes.small
-  if (typography === 'large') return theme.fontSizes.large
-  if (typography === 'extraLarge') return theme.fontSizes.extraLarge
-  if (typography === 'label') return theme.fontSizes.extraSmall
-  if (typography === 'labelHeading') return theme.fontSizes.small
-  if (typography === 'Heading/H1') return theme.fontSizes.headingOne
-  if (typography === 'Heading/H2') return theme.fontSizes.headingTwo
-  if (typography === 'Heading/H3') return theme.fontSizes.headingThree
-  if (typography === 'Heading/H4') return theme.fontSizes.headingFour
-  if (typography === 'Large/XL Normal') return theme.fontSizes.extraLarge
-  if (typography === 'Large/XL Bold') return theme.fontSizes.extraLarge
-  if (typography === 'Large/Normal') return theme.fontSizes.large
-  if (typography === 'Large/Bold') return theme.fontSizes.large
-  if (typography === 'Body/Normal') return theme.fontSizes.body
-  if (typography === 'Body/Bold') return theme.fontSizes.body
-  if (typography === 'Small/Normal') return theme.fontSizes.small
-  if (typography === 'Small/Bold') return theme.fontSizes.small
-  if (typography === 'Small/XS Normal') return theme.fontSizes.extraSmall
-  if (typography === 'Small/XS Bold') return theme.fontSizes.extraSmall
-  return theme.fontSizes.body
+  return (
+    {
+      label: theme.fontSizes.extraSmall,
+      labelHeading: theme.fontSizes.small,
+      heading1: theme.fontSizes.headingOne,
+      heading2: theme.fontSizes.headingTwo,
+      heading3: theme.fontSizes.headingThree,
+      heading4: theme.fontSizes.headingFour,
+      extraLarge: theme.fontSizes.extraLarge,
+      extraLargeBold: theme.fontSizes.extraLarge,
+      large: theme.fontSizes.large,
+      largeBold: theme.fontSizes.large,
+      regular: theme.fontSizes.body,
+      regularBold: theme.fontSizes.body,
+      small: theme.fontSizes.small,
+      smallBold: theme.fontSizes.small,
+      extraSmall: theme.fontSizes.extraSmall,
+      extraSmallBold: theme.fontSizes.extraSmall,
+    }[typography] || theme.fontSizes.body
+  )
 }
 
 const getLineHeight: TypographyFunc = (theme, typography) => {
   if (!typography) return theme.lineHeights.body
-  if (typography === 'small') return theme.lineHeights.small
-  if (typography === 'large') return theme.lineHeights.large
-  if (typography === 'extraLarge') return theme.lineHeights.extraLarge
-  if (typography === 'label') return theme.lineHeights.extraSmall
-  if (typography === 'labelHeading') return theme.lineHeights.small
-  if (typography === 'Heading/H1') return theme.lineHeights.headingOne
-  if (typography === 'Heading/H2') return theme.lineHeights.headingTwo
-  if (typography === 'Heading/H3') return theme.lineHeights.headingThree
-  if (typography === 'Heading/H4') return theme.lineHeights.headingFour
-  if (typography === 'Large/XL Normal') return theme.lineHeights.extraLarge
-  if (typography === 'Large/XL Bold') return theme.lineHeights.extraLarge
-  if (typography === 'Large/Normal') return theme.lineHeights.large
-  if (typography === 'Large/Bold') return theme.lineHeights.large
-  if (typography === 'Body/Normal') return theme.lineHeights.body
-  if (typography === 'Body/Bold') return theme.lineHeights.body
-  if (typography === 'Small/Normal') return theme.lineHeights.small
-  if (typography === 'Small/Bold') return theme.lineHeights.small
-  if (typography === 'Small/XS Normal') return theme.lineHeights.extraSmall
-  if (typography === 'Small/XS Bold') return theme.lineHeights.extraSmall
-  return '1rem'
+  return (
+    {
+      label: theme.lineHeights.extraSmall,
+      labelHeading: theme.lineHeights.small,
+      heading1: theme.lineHeights.headingOne,
+      heading2: theme.lineHeights.headingTwo,
+      heading3: theme.lineHeights.headingThree,
+      heading4: theme.lineHeights.headingFour,
+      extraLarge: theme.lineHeights.extraLarge,
+      extraLargeBold: theme.lineHeights.extraLarge,
+      large: theme.lineHeights.large,
+      largeBold: theme.lineHeights.large,
+      regular: theme.lineHeights.body,
+      regularBold: theme.lineHeights.body,
+      small: theme.lineHeights.small,
+      smallBold: theme.lineHeights.small,
+      extraSmall: theme.lineHeights.extraSmall,
+      extraSmallBold: theme.lineHeights.extraSmall,
+    }[typography] || theme.lineHeights.body
+  )
 }
 
 const getFontWeight: TypographyFunc = (theme, typography) => {
   if (!typography) return theme.fontWeights.normal
-  if (typography === 'small') return theme.fontWeights.normal
-  if (typography === 'large') return theme.fontWeights.normal
-  if (typography === 'extraLarge') return theme.fontWeights.normal
-  if (typography === 'label') return theme.fontWeights.normal
-  if (typography === 'labelHeading') return theme.fontWeights.normal
-  if (typography === 'Heading/H1') return theme.fontWeights.extraBold
-  if (typography === 'Heading/H2') return theme.fontWeights.bold
-  if (typography === 'Heading/H3') return theme.fontWeights.bold
-  if (typography === 'Heading/H4') return theme.fontWeights.bold
-  if (typography === 'Large/XL Normal') return theme.fontWeights.normal
-  if (typography === 'Large/XL Bold') return theme.fontWeights.bold
-  if (typography === 'Large/Normal') return theme.fontWeights.normal
-  if (typography === 'Large/Bold') return theme.fontWeights.bold
-  if (typography === 'Body/Normal') return theme.fontWeights.normal
-  if (typography === 'Body/Bold') return theme.fontWeights.bold
-  if (typography === 'Small/Normal') return theme.fontWeights.normal
-  if (typography === 'Small/Bold') return theme.fontWeights.bold
-  if (typography === 'Small/XS Normal') return theme.fontWeights.normal
-  if (typography === 'Small/XS Bold') return theme.fontWeights.bold
-  return '1rem'
+  return (
+    {
+      label: theme.fontWeights.normal,
+      labelHeading: theme.fontWeights.normal,
+      heading1: theme.fontWeights.extraBold,
+      heading2: theme.fontWeights.bold,
+      heading3: theme.fontWeights.bold,
+      heading4: theme.fontWeights.bold,
+      extraLarge: theme.fontWeights.normal,
+      extraLargeBold: theme.fontWeights.bold,
+      large: theme.fontWeights.normal,
+      largeBold: theme.fontWeights.bold,
+      regular: theme.fontWeights.normal,
+      regularBold: theme.fontWeights.bold,
+      small: theme.fontWeights.normal,
+      smallBold: theme.fontWeights.bold,
+      extraSmall: theme.fontWeights.normal,
+      extraSmallBold: theme.fontWeights.bold,
+    }[typography] || theme.fontWeights.normal
+  )
 }
 
 export const getTypography: TypographyFunc = (theme, typography, field) => {

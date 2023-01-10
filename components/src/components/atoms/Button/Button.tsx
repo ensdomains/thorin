@@ -97,7 +97,7 @@ const ButtonElement = styled.button<ButtonElement>(
     transition-duration: ${theme.transitionDuration['150']};
     transition-timing-function: ${theme.transitionTimingFunction['inOut']};
     width: 100%;
-    border-radius: ${theme.radii.input};
+    border-radius: ${theme.radii.large};
     font-weight: ${theme.fontWeights.bold};
     border-width: ${theme.borderWidths.px};
     border-style: ${theme.borderStyles.solid};

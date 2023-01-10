@@ -93,7 +93,7 @@ const LabelContent = ({
         asProp="label"
         color="grey"
         colorScheme="secondary"
-        typography="Body/Bold"
+        fontVariant="regularBold"
         {...ids.label}
       >
         {label}&nbsp;
@@ -108,7 +108,7 @@ const LabelContent = ({
         <Typography
           color="grey"
           colorScheme="secondary"
-          typography="Small/XS Normal"
+          fontVariant="extraSmall"
         >
           {labelSecondary}
         </Typography>
@@ -154,7 +154,7 @@ const DecorativeContent = ({
         $inline={inline}
         color="red"
         colorScheme="secondary"
-        typography="Small/Bold"
+        fontVariant="smallBold"
       >
         {error}
       </Error>
@@ -166,7 +166,7 @@ const DecorativeContent = ({
         {...ids.description}
         color={disabled ? 'grey' : 'text'}
         colorScheme={disabled ? 'secondary' : 'primary'}
-        typography="Small/Normal"
+        fontVariant="small"
       >
         {description}
       </Description>

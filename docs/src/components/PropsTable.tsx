@@ -39,9 +39,9 @@ const TableHeadLabelContainer = styled.div<{
     text-transform: capitalize;
     background-color: ${theme.colors.greySurface};
     border-color: ${theme.colors.greyBright};
-    ${$i === 0 ? `border-top-left-radius: ${theme.radii.card};` : ``}
+    ${$i === 0 ? `border-top-left-radius: ${theme.radii['2xLarge']};` : ``}
     ${$i === $headers.length - 1
-      ? `border-top-right-radius: ${theme.radii.card};`
+      ? `border-top-right-radius: ${theme.radii['2xLarge']};`
       : ``}
       padding: ${theme.space['2.5']} ${theme.space['4']};
   `,
@@ -155,7 +155,7 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
                 {headers.map((x, i) => (
                   <TableHead key={x}>
                     <TableHeadLabelContainer {...{ $i: i, $headers: headers }}>
-                      <Typography color="text" typography="Small/XS Bold">
+                      <Typography color="text" fontVariant="extraSmallBold">
                         {x}
                       </Typography>
                     </TableHeadLabelContainer>
@@ -181,11 +181,7 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
                   </DataCell>
 
                   <DataCell>
-                    <RawName
-                      color="accent"
-                      font="mono"
-                      typography="Small/Normal"
-                    >
+                    <RawName color="accent" font="mono" fontVariant="small">
                       {formatPropType(x.type)}
                     </RawName>
                   </DataCell>

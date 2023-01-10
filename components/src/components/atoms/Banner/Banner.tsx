@@ -45,7 +45,7 @@ const Container = styled.div<{
     position: relative;
     background: ${theme.colors.backgroundPrimary};
     border: 1px solid ${theme.colors.border};
-    border-radius: ${theme.radii.card};
+    border-radius: ${theme.radii['2xLarge']};
     padding: ${theme.space[4]};
     display: flex;
     align-items: stretch;
@@ -215,8 +215,8 @@ export const Banner = ({
         <Icon />
       </IconContainer>
       <Content>
-        {title && <Typography typography="Large/Bold">{title}</Typography>}
-        <Typography typography="Body/Normal">{message}</Typography>
+        {title && <Typography fontVariant="largeBold">{title}</Typography>}
+        <Typography fontVariant="regular">{message}</Typography>
       </Content>
       <ActionButton alert={alert} href={href} onDismiss={onDismiss} />
     </Container>

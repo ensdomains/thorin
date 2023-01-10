@@ -36,7 +36,7 @@ const Container = styled.button<{
     height: fit-content;
     background: ${theme.colors.greySurface};
     border: 1px solid ${theme.colors.border};
-    border-radius: ${theme.radii.input};
+    border-radius: ${theme.radii.large};
 
     ${$inline &&
     css`
@@ -149,7 +149,7 @@ export const RecordItem = ({
         $inline={inline}
         color="grey"
         ellipsis={!inline}
-        typography={size === 'large' ? 'Body/Bold' : 'Small/Bold'}
+        fontVariant={size === 'large' ? 'regularBold' : 'smallBold'}
       >
         {keyLabel}
       </PrefixLabel>
@@ -163,7 +163,7 @@ export const RecordItem = ({
         $inline={inline}
         color="grey"
         ellipsis={!inline}
-        typography={size === 'large' ? 'Small/Bold' : 'Small/XS Bold'}
+        fontVariant={size === 'large' ? 'smallBold' : 'extraSmallBold'}
       >
         {keySublabel}
       </PrefixLabel>
@@ -202,7 +202,7 @@ export const RecordItem = ({
       )}
       <Label
         $inline={inline}
-        typography={size === 'large' ? 'Body/Normal' : 'Small/Normal'}
+        fontVariant={size === 'large' ? 'regular' : 'small'}
       >
         {children}
       </Label>

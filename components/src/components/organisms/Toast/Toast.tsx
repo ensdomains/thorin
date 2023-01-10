@@ -172,7 +172,7 @@ const DesktopToast = ({
         data-testid="close-icon"
         onClick={() => onClose()}
       />
-      <Title typography="large" weight="bold">
+      <Title fontVariant="large" weight="bold">
         {title}
       </Title>
       <Typography>{description}</Typography>
@@ -322,7 +322,7 @@ export const TouchToast = ({
       $state={state}
       ref={ref}
     >
-      <Title typography="large" weight="bold">
+      <Title fontVariant="large" weight="bold">
         {title}
       </Title>
       <Typography>{description}</Typography>

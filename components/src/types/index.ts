@@ -60,23 +60,23 @@ type LegacyTypography =
   | 'labelHeading'
 
 export type Typography =
-  | 'Heading/H1'
-  | 'Heading/H2'
-  | 'Heading/H3'
-  | 'Heading/H4'
-  | 'Large/XL Normal'
-  | 'Large/XL Bold'
-  | 'Large/Normal'
-  | 'Large/Bold'
-  | 'Body/Normal'
-  | 'Body/Bold'
-  | 'Small/Normal'
-  | 'Small/Bold'
-  | 'Small/XS Normal'
-  | 'Small/XS Bold'
+  | 'heading1'
+  | 'heading2'
+  | 'heading3'
+  | 'heading4'
+  | 'extraLarge'
+  | 'extraLargeBold'
+  | 'large'
+  | 'largeBold'
+  | 'regular'
+  | 'regularBold'
+  | 'small'
+  | 'smallBold'
+  | 'extraSmall'
+  | 'extraSmallBold'
 
 export type WithTypography = {
-  typography?: Typography | LegacyTypography
+  fontVariant?: Typography | LegacyTypography
 }
 
 export type Icon = React.FunctionComponent<React.SVGProps<SVGSVGElement>>

@@ -114,7 +114,7 @@ const InputComponent = styled.input<{ $size?: Size }>(
     background-color: ${theme.colors.greySurface};
     height: ${theme.space[CONTAINER_SIZES[$size].height]};
     width: ${theme.space[CONTAINER_SIZES[$size].width]};
-    border-radius: ${theme.radii.input};
+    border-radius: ${theme.radii.large};
 
     display: flex;
     align-items: center;

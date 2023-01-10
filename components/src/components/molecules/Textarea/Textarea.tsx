@@ -15,7 +15,7 @@ const Container = styled.div<{
   ({ theme, $error, $validated, $showDot }) => css`
     position: relative;
     background-color: ${theme.colors.backgroundSecondary};
-    border-radius: ${theme.radii.input};
+    border-radius: ${theme.radii.large};
     border-width: ${theme.space.px};
     border-color: transparent;
     color: ${theme.colors.text};
@@ -100,7 +100,7 @@ const TextArea = styled.textarea<{
       ${$clearable ? theme.space['10'] : theme.space['4']} ${theme.space['3.5']}
       ${theme.space['4']};
     width: ${theme.space['full']};
-    border-radius: ${theme.radii.input};
+    border-radius: ${theme.radii.large};
     overflow: hidden;
     resize: none;
     outline: none;

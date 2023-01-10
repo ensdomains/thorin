@@ -69,7 +69,7 @@ const Input = styled.input<InputProps>(
 
     width: ${theme.space['5']};
     height: ${theme.space['5']};
-    border-radius: ${theme.space['1']};
+    border-radius: ${theme.radii.small};
     background-color: ${theme.colors.border};
 
     &:hover {
