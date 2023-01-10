@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { ThemeProvider } from 'styled-components'
 
-import { cleanup, render, screen, userEvent, waitFor } from '@/test'
+import { cleanup, fireEvent, render, screen, userEvent, waitFor } from '@/test'
 
 import { lightTheme } from '@/src/tokens'
 
@@ -63,6 +63,7 @@ describe('<Input />', () => {
     render(
       <ThemeProvider theme={lightTheme}>
         <Input
+          clearable
           label="Funding Goal"
           name="testing"
           placeholder="10"
@@ -73,7 +74,7 @@ describe('<Input />', () => {
       </ThemeProvider>,
     )
     userEvent.type(screen.getByRole('textbox'), 'Satoshi Nakamoto')
-    userEvent.click(screen.getByTestId('input-action-button'))
+    fireEvent.click(screen.getByTestId('input-action-button'))
     expect(handleOnChange).toHaveBeenCalled()
   })
 })
