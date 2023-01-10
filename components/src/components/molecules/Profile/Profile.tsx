@@ -171,7 +171,13 @@ export const Profile = ({
   if (dropdownItems) {
     return (
       <Dropdown
-        {...{ items: dropdownItems, isOpen, setIsOpen, align: alignDropdown }}
+        {...{
+          items: dropdownItems,
+          isOpen,
+          setIsOpen,
+          align: alignDropdown,
+          inheritContentWidth: true,
+        }}
       >
         <Container
           {...props}
