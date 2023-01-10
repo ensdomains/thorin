@@ -39,7 +39,7 @@ const InlineCode = styled(Typography)(
 const P = styled(Typography)(
   ({ theme }) => css`
     color: ${theme.colors.text};
-    line-height: ${theme.lineHeights['1.625']};
+    line-height: ${theme.lineHeights.body};
   `,
 )
 

@@ -25,8 +25,7 @@ const Container = styled.div(
 )
 
 const TableHead = styled.th(
-  ({ theme }) => css`
-    background-color: ${theme.colors.background};
+  () => css`
     position: sticky;
     top: 0;
   `,
@@ -37,11 +36,12 @@ const TableHeadLabelContainer = styled.div<{
   $headers: Array<string>
 }>(
   ({ theme, $i, $headers }) => css`
+    text-transform: capitalize;
     background-color: ${theme.colors.greySurface};
     border-color: ${theme.colors.greyBright};
-    ${$i === 0 ? `border-left-radius: ${theme.radii['large']};` : ``}
+    ${$i === 0 ? `border-top-left-radius: ${theme.radii.card};` : ``}
     ${$i === $headers.length - 1
-      ? `border-right-radius: ${theme.radii['large']};`
+      ? `border-top-right-radius: ${theme.radii.card};`
       : ``}
       padding: ${theme.space['2.5']} ${theme.space['4']};
   `,
@@ -49,7 +49,7 @@ const TableHeadLabelContainer = styled.div<{
 
 const Name = styled(Typography)(
   ({ theme }) => css`
-    color: ${theme.colors.text};
+    color: ${theme.colors.textPrimary};
     font-size: ${theme.fontSizes['small']};
   `,
 )
@@ -71,21 +71,21 @@ const RawName = styled(Typography)(
 
 const DefaultValue = styled(Typography)(
   ({ theme }) => css`
-    color: ${theme.colors.textSecondary};
+    color: ${theme.colors.greyDim};
     font-size: ${theme.fontSizes['small']};
   `,
 )
 
 const Description = styled(Typography)(
   ({ theme }) => css`
-    color: ${theme.colors.textSecondary};
-    font-size: ${theme.fontSizes['small']};
+    color: ${theme.colors.greyPrimary};
+    font-size: ${theme.fontSizes.small};
   `,
 )
 
 const NoProps = styled(Typography)(
   ({ theme }) => css`
-    color: ${theme.colors.textSecondary};
+    color: ${theme.colors.greyPrimary};
   `,
 )
 
@@ -155,13 +155,14 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
                 {headers.map((x, i) => (
                   <TableHead key={x}>
                     <TableHeadLabelContainer {...{ $i: i, $headers: headers }}>
-                      <Typography variant="label">{x}</Typography>
+                      <Typography color="text" typography="Small/XS Bold">
+                        {x}
+                      </Typography>
                     </TableHeadLabelContainer>
                   </TableHead>
                 ))}
               </tr>
             </thead>
-
             <tbody>
               {props.map((x) => (
                 <tr
@@ -180,7 +181,13 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
                   </DataCell>
 
                   <DataCell>
-                    <RawName>{formatPropType(x.type)}</RawName>
+                    <RawName
+                      color="accent"
+                      font="mono"
+                      typography="Small/Normal"
+                    >
+                      {formatPropType(x.type)}
+                    </RawName>
                   </DataCell>
 
                   <DataCell>
@@ -210,8 +217,8 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
           {!!props.length && (
             <div>
               <Button
+                colorScheme="secondary"
                 size="small"
-                variant="secondary"
                 onClick={() =>
                   setState((x) => ({
                     ...x,
@@ -229,7 +236,7 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
           {sourceLink && (
             <div>
               <Link href={sourceLink}>
-                <Button size="small" variant="secondary">
+                <Button colorScheme="secondary" size="small">
                   View Source on GitHub
                 </Button>
               </Link>

@@ -72,10 +72,14 @@ const categories = {
 } satisfies Record<string, CategoryItem>
 
 const gradients = {
+  accent:
+    'linear-gradient(330.4deg, #44BCF0 4.54%, #7298F8 59.2%, #A099FF 148.85%)',
   blue: 'linear-gradient(330.4deg, #44BCF0 4.54%, #7298F8 59.2%, #A099FF 148.85%)',
   green:
     'linear-gradient(90deg, rgba(68,240,127,1) 4.54%, rgba(114,248,176,1) 59.2%, rgba(153,202,255,1) 148.85%)',
   red: 'linear-gradient(90deg, rgba(240,68,87,1) 4.54%, rgba(248,114,149,1) 59.2%, rgba(212,153,255,1) 148.85%)',
+  purple: 'linear-gradient(323.31deg, #DE82FF -15.56%, #7F6AFF 108.43%)',
+  grey: 'linear-gradient(330.4deg, #DFDFDF 4.54%, #959595 59.2%, #474747 148.85%)',
 }
 
 /**

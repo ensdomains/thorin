@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "build": "next build && playroom build",
+    "build:playroom": "playroom build",
+    "build:next": "next build",
     "export": "next export",
     "clean": "rimraf .next public/playroom",
     "dev": "NODE_OPTIONS='--inspect' next dev & playroom start",
@@ -12,7 +14,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@ensdomains/thorin": "workspace:components",
+    "@ensdomains/thorin": "workspace:*",
     "@reach/skip-nav": "^0.16.0",
     "@sindresorhus/slugify": "^2.1.0",
     "copy-to-clipboard": "^3.3.1",

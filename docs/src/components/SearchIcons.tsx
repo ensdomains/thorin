@@ -105,7 +105,7 @@ const IconNameContainer = styled.div(
 const IconName = styled(Typography)(
   ({ theme }) => css`
     text-align: center;
-    size: ${theme.fontSizes['label']};
+    size: ${theme.fontSizes.small};
     color: ${theme.colors.text};
   `,
 )

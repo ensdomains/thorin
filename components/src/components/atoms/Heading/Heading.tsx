@@ -31,16 +31,14 @@ const HeadingContainer = styled.div<HeadingContainerProps>(
         case '1':
           return css`
             font-size: ${theme.fontSizes.headingOne};
-            font-weight: ${theme.fontWeights.semiBold};
-            letter-spacing: ${theme.letterSpacings['-0.02']};
-            line-height: 4rem;
+            font-weight: ${theme.fontWeights.extraBold};
+            line-height: ${theme.lineHeights.headingOne};
           `
         case '2':
           return css`
             font-size: ${theme.fontSizes.headingTwo};
-            font-weight: ${theme.fontWeights.semiBold};
-            letter-spacing: ${theme.letterSpacings['-0.02']};
-            line-height: 2.5rem;
+            font-weight: ${theme.fontWeights.bold};
+            line-height: ${theme.lineHeights.headingTwo};
           `
         default:
           return ``
@@ -53,17 +51,19 @@ const HeadingContainer = styled.div<HeadingContainerProps>(
           case '1':
             return css`
               font-size: ${theme.fontSizes.headingTwo};
+              line-height: ${theme.lineHeights.headingTwo};
               ${mq.lg.min(css`
                 font-size: ${theme.fontSizes.headingOne};
+                line-height: ${theme.lineHeights.headingOne};
               `)}
             `
           case '2':
             return css`
               font-size: ${theme.fontSizes.extraLarge};
-              letter-spacing: normal;
+              line-height: ${theme.lineHeights.extraLarge};
               ${mq.sm.min(css`
                 font-size: ${theme.fontSizes.headingTwo};
-                letter-spacing: -0.02;
+                line-height: ${theme.lineHeights.headingTwo};
               `)}
             `
           default:

@@ -150,7 +150,13 @@ export const CodePreview = ({
               }}
               onChange={(newCode) => setCode(newCode)}
             />
-            <div style={{ position: 'absolute', right: 3.5, top: 3.5 }}>
+            <div
+              style={{
+                position: 'absolute',
+                right: themeValue.space['3.5'],
+                top: themeValue.space['3.5'],
+              }}
+            >
               <CopyButton content={code} />
             </div>
           </LiveEditorContainer>
@@ -161,8 +167,8 @@ export const CodePreview = ({
         <ButtonContainer>
           <div>
             <Button
+              colorScheme="secondary"
               size="small"
-              variant="secondary"
               onClick={() => setState((x) => ({ ...x, expand: !x.expand }))}
             >
               {state.expand ? 'Hide Code' : 'View Code'}
@@ -172,10 +178,10 @@ export const CodePreview = ({
           <div>
             <Button
               as="a"
+              colorScheme="secondary"
               href={createPlayroomLink({ code })}
               size="small"
               target="_blank"
-              variant="secondary"
             >
               Open in Playroom
             </Button>

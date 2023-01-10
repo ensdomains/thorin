@@ -9,9 +9,20 @@ import { Dropdown } from '@ensdomains/thorin'
 
 ```tsx live=true  expand=ture minHeight=300px
 <Dropdown
+  align="left"
   items={[
-    { label: 'Dashboard', onClick: () => null, color: 'text' },
-    { label: 'Disconnect', onClick: () => null, color: 'red' },
+    {
+      label: 'Dashboard',
+      onClick: () => null,
+      color: 'text',
+      icon: <DotGridSVG />,
+    },
+    {
+      label: 'Disconnect',
+      onClick: () => null,
+      color: 'red',
+      icon: <ExitSVG />,
+    },
   ]}
   label="Account"
 />

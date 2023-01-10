@@ -1,9 +1,13 @@
 import * as React from 'react'
 import styled, { FlattenInterpolation, css } from 'styled-components'
 
-import { Field } from '../..'
+import { setNativeValue } from '@/src/utils/setNativeValue'
+
+import { CrossCircleSVG, Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
 import { Space } from '../../../tokens/index'
+import { DefaultTheme, Typography } from '../../../types/index'
+import { getTypography } from '../../../utils/getTypography'
 
 type NativeInputProps = React.InputHTMLAttributes<HTMLInputElement>
 
@@ -14,6 +18,7 @@ type BaseProps = Omit<FieldBaseProps, 'inline'> & {
   autoComplete?: NativeInputProps['autoComplete']
   /** If the imput should automatically fix spelling errors. */
   autoCorrect?: NativeInputProps['autoCorrect']
+  clearable?: boolean
   /** The initial value of the input. Useful for checking if the value of the input has changed. */
   defaultValue?: string | number
   /** Disables input from receiving user input. */
@@ -28,6 +33,10 @@ type BaseProps = Omit<FieldBaseProps, 'inline'> & {
   placeholder?: NativeInputProps['placeholder']
   /** A string or component inserted in front of the input element. */
   prefix?: React.ReactNode
+  /** An icon that leads the input. */
+  icon?: React.ReactNode
+  /** An icon that trails the input. By default is the clear icon. */
+  actionIcon?: React.ReactNode
   /** Set the element type that wraps the prefix. Useful when you do not want clicks on the prefix to cause the input to focus */
   prefixAs?: 'div'
   /** Sets the input in read only mode. */
@@ -58,10 +67,10 @@ type BaseProps = Omit<FieldBaseProps, 'inline'> & {
   onFocus?: NativeInputProps['onFocus']
   /** A handler for keydown events. */
   onKeyDown?: NativeInputProps['onKeyDown']
+  /** A handler for clicking the action icon */
+  onClickAction?: () => void
   /** Sets the height of the input element. */
-  size?: 'medium' | 'large' | 'extraLarge'
-  /** Override the padding settings */
-  padding?: Space | { prefix?: Space; suffix?: Space; input?: Space }
+  size?: 'small' | 'medium' | 'large' | 'extraLarge'
   /** Set of styles  */
   parentStyles?: FlattenInterpolation<any>
 } & Omit<
@@ -87,288 +96,314 @@ type WithTypeText = {
   maxLength?: NativeInputProps['maxLength']
 }
 
-type WithTypeNumber = {
-  type?: 'number'
-  /** Sets the max value of number type inputs as well as a tag to the label and a mx button at the end of the input element. */
-  max?: NativeInputProps['max']
-  /** Sets the min value of number type inputs. */
-  min?: NativeInputProps['min']
+type WithTypeDateTimeLocal = {
+  type?: 'datetime-local'
 }
 
-type WithTypeDate = {
-  type?: 'date' | 'datetime-local'
-  max?: NativeInputProps['max']
-  min?: NativeInputProps['min']
-  step?: NativeInputProps['step']
+type Size = NonNullable<BaseProps['size']>
+
+const SPACES: {
+  [key in Size]: {
+    outerPadding: Space
+    icon: Space
+    iconPadding: Space
+    height: Space
+    radius: Space
+  }
+} = {
+  small: {
+    outerPadding: '3.5',
+    icon: '3',
+    iconPadding: '8.5',
+    height: '10',
+    radius: '2',
+  },
+  medium: {
+    outerPadding: '4',
+    icon: '4',
+    iconPadding: '10',
+    height: '12',
+    radius: '2',
+  },
+  large: {
+    outerPadding: '4',
+    icon: '5',
+    iconPadding: '11',
+    height: '16',
+    radius: '5.5',
+  },
+  extraLarge: {
+    outerPadding: '6',
+    icon: '6',
+    iconPadding: '14',
+    height: '20',
+    radius: '5.5',
+  },
 }
 
-interface InputParentProps {
-  $size: 'medium' | 'large' | 'extraLarge'
+const getSpaceValue = (
+  theme: DefaultTheme,
+  size: keyof typeof SPACES,
+  key: keyof (typeof SPACES)['small'],
+): string => {
+  return theme.space[SPACES[size][key]]
+}
+
+const TYPOGRAPHIES: {
+  [key in Size]: Typography
+} = {
+  small: 'Small/Normal',
+  medium: 'Body/Normal',
+  large: 'Large/Normal',
+  extraLarge: 'Heading/H3',
+}
+
+const getTypographyValue = (size: keyof typeof TYPOGRAPHIES) => {
+  return TYPOGRAPHIES[size]
+}
+
+const Container = styled.div<{
+  $size: Size
   $disabled?: boolean
-  $error?: boolean
+  $hasError?: boolean
   $suffix: boolean
   $validated?: boolean
   $showDot?: boolean
   $userStyles?: FlattenInterpolation<any>
-}
-
-const getPadding = (
-  key: 'prefix' | 'suffix' | 'input',
-  fallback: Space,
-  padding: BaseProps['padding'],
-): Space => {
-  if (typeof padding === 'string') return padding
-  return padding?.[key] || fallback
-}
-
-const InputParent = styled.div<InputParentProps>(
-  ({
-    theme,
-    $size,
-    $disabled,
-    $error,
-    $suffix,
-    $userStyles,
-    $validated,
-    $showDot,
-  }) => css`
+}>(
+  ({ theme, $size, $hasError, $userStyles, $validated, $showDot }) => css`
     position: relative;
-    background-color: ${theme.colors.backgroundSecondary};
-    border-radius: ${theme.radii['2xLarge']};
-    border-width: ${theme.space['0.75']};
-    border-color: transparent;
-    color: ${theme.colors.text};
+    height: ${getSpaceValue(theme, $size, 'height')};
     display: flex;
     transition-duration: ${theme.transitionDuration['150']};
     transition-property: color, border-color, background-color;
     transition-timing-function: ${theme.transitionTimingFunction['inOut']};
-    box-sizing: content-box;
-    background-clip: content-box;
 
     :after {
       content: '';
       position: absolute;
       width: ${theme.space['4']};
       height: ${theme.space['4']};
+      border: 2px solid ${theme.colors.backgroundPrimary};
       box-sizing: border-box;
       border-radius: 50%;
-      right: 0;
-      top: 0;
+      right: -${theme.space['1.5']};
+      top: -${theme.space['1.5']};
       transition: all 0.3s ease-out;
-      ${() => {
-        if ($error && $showDot)
-          return css`
-            background-color: ${theme.colors.red};
-            border: 2px solid ${theme.colors.background};
-            transform: translate(50%, -50%) scale(1);
-          `
-        if ($validated && $showDot)
-          return css`
-            background-color: ${theme.colors.green};
-            border: 2px solid ${theme.colors.background};
-            transform: translate(50%, -50%) scale(1);
-          `
-        return css`
-          background-color: transparent;
-          border: 2px solid transparent;
-          transform: translate(50%, -50%) scale(0.2);
-        `
-      }}
+      transform: scale(0.3);
+      opacity: 0;
     }
 
-    &:focus-within {
-      ${!$error &&
-      css`
-        border-color: ${theme.colors.accentBright};
-      `}
-    }
-
-    &:focus-within::after {
-      ${!$error &&
-      $showDot &&
-      css`
-        background-color: ${theme.colors.blue};
-        border-color: ${theme.colors.background};
-        transform: translate(50%, -50%) scale(1);
-      `}
-    }
-
-    ${$disabled &&
+    ${$showDot &&
+    $validated &&
     css`
-      border-color: ${theme.colors.greyBright};
-      background-color: ${theme.colors.background};
-    `}
-
-    ${$error &&
-    css`
-      border-color: ${theme.colors.red};
-      cursor: default;
-    `}
-
-  ${$suffix &&
-    css`
-      height: ${theme.space['16']};
-    `}
-
-  ${() => {
-      switch ($size) {
-        case 'medium':
-          return css`
-            height: ${theme.space['14']};
-          `
-        case 'large':
-          return css`
-            height: ${theme.space['16']};
-          `
-        case 'extraLarge':
-          return css`
-            height: ${theme.space['18']};
-          `
-        default:
-          return ``
+      :after {
+        background: ${theme.colors.greenPrimary};
+        transform: scale(1);
+        opacity: 1;
       }
-    }}
+    `}
+
+    ${$showDot &&
+    !$hasError &&
+    css`
+      &:focus-within:after {
+        background: ${theme.colors.bluePrimary};
+        transform: scale(1);
+        opacity: 1;
+      }
+    `}
+
+    ${$hasError &&
+    $showDot &&
+    css`
+      :after {
+        background: ${theme.colors.redPrimary};
+        transform: scale(1);
+        opacity: 1;
+      }
+    `}
+
   ${$userStyles}
   `,
 )
 
-const Prefix = styled.label<{ $padding: Space }>(
-  ({ theme, $padding }) => css`
-    align-items: center;
+const Label = styled.label<{ $size: Size }>(
+  ({ theme, $size }) => css`
     display: flex;
-    height: ${theme.space['full']};
-    line-height: normal;
-    color: inherit;
-    font-family: ${theme.fonts['sans']};
-    font-weight: ${theme.fontWeights['medium']};
-    padding-left: ${theme.space[$padding]};
-  `,
-)
-
-const Suffix = styled.label<{ $padding: Space }>(
-  ({ theme, $padding }) => css`
     align-items: center;
+    gap: ${theme.space[2]};
+
+    height: ${theme.space.full};
+    color: ${theme.colors.greyPrimary};
+    background: ${theme.colors.greySurface};
+    font-size: ${getTypography(theme, getTypographyValue($size), 'fontSize')};
+    line-height: ${getTypography(
+      theme,
+      getTypographyValue($size),
+      'lineHeight',
+    )};
+    font-weight: ${theme.fontWeights.normal};
+    padding: 0 ${getSpaceValue(theme, $size, 'outerPadding')};
+
+    svg {
+      display: block;
+      color: ${theme.colors.greyPrimary};
+    }
+  `,
+)
+
+const Prefix = styled(Label)(
+  () => css`
+    order: -2;
+  `,
+)
+
+const IconWrapper = styled.div<{ $size: Size }>(
+  ({ theme, $size }) => css`
+    order: -1;
+    padding-left: ${getSpaceValue(theme, $size, 'outerPadding')};
+    flex: 0 0 ${getSpaceValue(theme, $size, 'iconPadding')};
+    margin-right: -${getSpaceValue(theme, $size, 'iconPadding')};
     display: flex;
-    height: ${theme.space['full']};
-    line-height: normal;
-    color: inherit;
-    font-family: ${theme.fonts['sans']};
-    font-weight: ${theme.fontWeights['medium']};
-    padding-right: ${theme.space[$padding]};
+    align-items: center;
+    justify-content: flex-start;
+    svg {
+      display: block;
+      width: ${getSpaceValue(theme, $size, 'icon')};
+      height: ${getSpaceValue(theme, $size, 'icon')};
+      color: ${theme.colors.greyPrimary};
+    }
+    z-index: 1;
   `,
 )
 
-const InputContainer = styled.div(
-  ({ theme }) => css`
-    overflow: hidden;
-    position: relative;
-    width: ${theme.space['full']};
+const ActionButton = styled.button<{ $size: Size }>(
+  ({ theme, $size }) => css`
+    padding-right: ${getSpaceValue(theme, $size, 'outerPadding')};
+    margin-left: -${getSpaceValue(theme, $size, 'iconPadding')};
+    flex: 0 0 ${getSpaceValue(theme, $size, 'iconPadding')};
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    transition: all 0.3s ease-out;
+    transform: scale(1);
+    opacity: 1;
+
+    svg {
+      display: block;
+      width: ${getSpaceValue(theme, $size, 'icon')};
+      height: ${getSpaceValue(theme, $size, 'icon')};
+      color: ${theme.colors.greyPrimary};
+    }
   `,
 )
 
-interface InputComponentProps {
-  $size: any
-  $padding: Space
-}
-
-const InputComponent = styled.input<InputComponentProps>(
-  ({ theme, disabled, type, $size, $padding }) => css`
+const InputComponent = styled.input<{
+  $size: Size
+  $hasAction: boolean
+  $hasIcon: boolean
+  $hasError: boolean
+}>(
+  ({ theme, $size, $hasIcon, $hasAction, $hasError }) => css`
     background-color: transparent;
     position: relative;
     width: ${theme.space['full']};
     height: ${theme.space['full']};
-    padding: 0 ${theme.space[$padding]};
-    font-weight: ${theme.fontWeights['medium']};
+    font-weight: ${theme.fontWeights.normal};
     text-overflow: ellipsis;
+    color: ${theme.colors.textPrimary};
+    padding: 0 ${getSpaceValue(theme, $size, 'outerPadding')};
+    font-size: ${getTypography(theme, getTypographyValue($size), 'fontSize')};
+    line-height: ${getTypography(
+      theme,
+      getTypographyValue($size),
+      'lineHeight',
+    )};
+
+    ${$hasIcon &&
+    css`
+      padding-left: ${getSpaceValue(theme, $size, 'iconPadding')};
+    `}
+
+    ${$hasAction &&
+    css`
+      padding-right: ${getSpaceValue(theme, $size, 'iconPadding')};
+    `}
 
     &::placeholder {
-      color: ${theme.colors.greySurface};
-      font-weight: ${theme.fontWeights['medium']};
+      color: ${theme.colors.greyPrimary};
+      font-weight: ${$size === 'large' || $size === 'extraLarge'
+        ? theme.fontWeights.bold
+        : theme.fontWeights.normal};
     }
 
-    ${disabled &&
-    css`
-      opacity: 0.5;
+    &:disabled {
+      background: ${theme.colors.greyBright};
       cursor: not-allowed;
-    `}
+      color: ${theme.colors.greyPrimary};
+    }
 
-    ${type === 'number' &&
+    ${$hasError &&
     css`
-      font-feature-settings: 'kern' 1, 'tnum' 1, 'calt' 0;
-      font-variant-numeric: tabular-nums;
+      color: ${theme.colors.redPrimary};
     `}
-
-  ${() => {
-      switch ($size) {
-        case 'medium':
-          return css`
-            font-size: ${theme.fontSizes['base']};
-          `
-        case 'large':
-          return css`
-            font-size: ${theme.fontSizes['large']};
-          `
-        case 'extraLarge':
-          return css`
-            font-size: ${theme.fontSizes['headingThree']};
-          `
-        default:
-          return ``
-      }
-    }}
   `,
 )
 
-const Ghost = styled.div<{ $type: HTMLInputElement['type']; $size: any }>(
-  ({ theme, $type, $size }) => css`
-    inset: 0;
-    position: absolute;
-    pointer-events: none;
-    white-space: pre;
-    line-height: normal;
+const InnerContainer = styled.div<{
+  $size: Size
+  $hasError: boolean
+  $disabled: boolean
+}>(
+  ({ theme, $size, $hasError, $disabled }) => css`
+    position: relative;
+    background-color: ${theme.colors.backgroundPrimary};
+    border-radius: ${getSpaceValue(theme, $size, 'radius')};
+    border-width: ${theme.space.px};
+    border-color: ${theme.colors.border};
+    color: ${theme.colors.textPrimary};
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
     display: flex;
-    align-items: center;
+    transition-duration: ${theme.transitionDuration['150']};
+    transition-property: color, border-color, background-color;
+    transition-timing-function: ${theme.transitionTimingFunction['inOut']};
 
-    padding: 0 ${theme.space['4']};
-    border-color: transparent;
-
-    ${$type === 'number' &&
+    ${$disabled &&
     css`
-      font-feature-settings: 'kern' 1, 'tnum' 1, 'calt' 0;
-      font-variant-numeric: tabular-nums;
+      border-color: ${theme.colors.border};
+      background-color: ${theme.colors.greyBright};
     `}
 
-    ${() => {
-      switch ($size) {
-        case 'medium':
-          return css`
-            font-size: ${theme.fontSizes['base']};
-          `
-        case 'large':
-          return css`
-            font-size: ${theme.fontSizes['large']};
-          `
-        case 'extraLarge':
-          return css`
-            font-size: ${theme.fontSizes['headingThree']};
-            padding: 0 ${theme.space['6']};
-          `
-        default:
-          return ``
+    ${$hasError &&
+    css`
+      border-color: ${theme.colors.redPrimary};
+      cursor: default;
+    `}
+
+    ${!$hasError &&
+    css`
+      &:focus-within {
+        border-color: ${theme.colors.accentBright};
       }
-    }}
+    `}
+
+    input:disabled ~ label, input:disabled ~ button {
+      background: ${theme.colors.greyBright};
+      cursor: not-allowed;
+    }
+
+    input:disabled ~ button,
+    input:placeholder-shown ~ button {
+      opacity: 0;
+      transform: scale(0.3);
+    }
   `,
 )
 
-const Units = styled.span(
-  ({ theme }) => css`
-    color: ${theme.colors.text};
-    font-weight: ${theme.fontWeights['medium']};
-  `,
-)
-
-type Props = BaseProps &
-  (WithTypeEmail | WithTypeText | WithTypeNumber | WithTypeDate)
+type Props = BaseProps & (WithTypeEmail | WithTypeText | WithTypeDateTimeLocal)
 
 export const Input = React.forwardRef(
   (
@@ -385,10 +420,11 @@ export const Input = React.forwardRef(
       hideLabel,
       id,
       inputMode,
+      icon,
+      actionIcon,
       label,
       labelSecondary,
-      labelPlacement,
-      name,
+      name = 'clear-button',
       placeholder,
       prefix,
       prefixAs,
@@ -397,6 +433,7 @@ export const Input = React.forwardRef(
       spellCheck,
       suffix,
       suffixAs,
+      clearable = true,
       tabIndex,
       type = 'text',
       units,
@@ -405,20 +442,15 @@ export const Input = React.forwardRef(
       onBlur,
       onChange,
       onFocus,
-      onKeyDown,
+      onClickAction,
       size = 'medium',
       parentStyles,
-      padding,
       ...props
     }: Props,
     ref: React.Ref<HTMLInputElement>,
   ) => {
     const defaultRef = React.useRef<HTMLInputElement>(null)
     const inputRef = (ref as React.RefObject<HTMLInputElement>) || defaultRef
-
-    const [state, setState] = React.useState<{
-      ghostValue?: Props['value']
-    }>({ ghostValue: value || defaultValue })
 
     const placeholderText = placeholder
       ? `${placeholder ?? ''}${units ? ` ${units}` : ''}`
@@ -427,88 +459,66 @@ export const Input = React.forwardRef(
 
     const inputType = type === 'email' ? 'text' : type
 
-    const handleInput = React.useCallback(
-      (event: React.FormEvent<HTMLInputElement>) => {
-        const value = (event.target as HTMLInputElement).value
-        setState((x) => ({ ...x, ghostValue: value }))
-      },
-      [],
-    )
+    const hasAction = clearable || !!onClickAction
 
-    const handleKeyDown = React.useCallback(
-      (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (type === 'number') {
-          const key = event.key
-          const filteredKeys = ['E', 'e', '+']
-          if (filteredKeys.includes(key)) event.preventDefault()
-        }
-        onKeyDown && onKeyDown(event)
-      },
-      [type, onKeyDown],
-    )
+    const handleClickAction = (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault()
+      e.stopPropagation()
 
-    const handleWheel = React.useCallback(
-      (event: React.WheelEvent<HTMLElement>) => {
-        ;(event.target as HTMLElement)?.blur()
-      },
-      [],
-    )
+      if (onClickAction) {
+        onClickAction()
+        return inputRef.current?.focus()
+      }
 
-    const prefixPadding = getPadding('prefix', '4', padding)
-    const inputPadding = getPadding(
-      'input',
-      size === 'extraLarge' ? '6' : '4',
-      padding,
-    )
-    const suffixPadding = getPadding('suffix', '2', padding)
+      // Default handler is to clear the input
+      // Is uncontrolled input, update the value through the ref
+      if (inputRef.current) {
+        setNativeValue<HTMLInputElement>(inputRef.current, '')
+        inputRef.current.dispatchEvent(new Event('input', { bubbles: true }))
+        inputRef.current.focus()
+      }
+    }
 
     return (
       <Field
         description={description}
+        disabled={disabled}
         error={error}
         hideLabel={hideLabel}
         id={id}
         label={label}
-        labelPlacement={labelPlacement}
         labelSecondary={labelSecondary}
         required={required}
         width={width}
       >
         {(ids) => (
-          <InputParent
+          <Container
             {...{
               $disabled: disabled,
-              $error: hasError,
+              $hasError: hasError,
               $validated: validated,
               $showDot: showDot,
               $suffix: suffix !== undefined,
               $size: size,
               $userStyles: parentStyles,
+              $ids: ids,
             }}
           >
-            {prefix && (
-              <Prefix
-                aria-hidden="true"
-                as={prefixAs}
-                {...ids?.label}
-                $padding={prefixPadding}
-              >
-                {prefix}
-              </Prefix>
-            )}
-
-            <InputContainer>
+            <InnerContainer
+              $disabled={!!disabled}
+              $hasError={!!error}
+              $size={size}
+            >
               <InputComponent
                 ref={inputRef}
                 {...{
                   ...props,
                   ...ids?.content,
                   'aria-invalid': hasError,
-                  onInput: handleInput,
-                  onKeyDown: type === 'number' ? handleKeyDown : onKeyDown,
-                  onWheel: type === 'number' ? handleWheel : undefined,
                 }}
-                $padding={inputPadding}
+                $hasAction={hasAction}
+                $hasError={!!error}
+                $hasIcon={!!icon}
                 $size={size}
                 autoComplete={autoComplete}
                 autoCorrect={autoCorrect}
@@ -527,33 +537,39 @@ export const Input = React.forwardRef(
                 onChange={onChange}
                 onFocus={onFocus}
               />
-
-              {units && state.ghostValue && (
-                <Ghost
-                  $size={size}
-                  $type={inputType}
+              {prefix && (
+                <Prefix
                   aria-hidden="true"
-                  data-testid="ghost"
+                  as={prefixAs}
+                  {...ids?.label}
+                  $size={size}
                 >
-                  <span style={{ visibility: 'hidden' }}>
-                    {state.ghostValue}{' '}
-                  </span>
-                  <Units>{units}</Units>
-                </Ghost>
+                  {prefix}
+                </Prefix>
               )}
-            </InputContainer>
-
-            {suffix && (
-              <Suffix
-                aria-hidden="true"
-                as={suffixAs}
-                {...ids?.label}
-                $padding={suffixPadding}
-              >
-                {suffix}
-              </Suffix>
-            )}
-          </InputParent>
+              {icon && <IconWrapper $size={size}>{icon}</IconWrapper>}
+              {hasAction && (
+                <ActionButton
+                  $size={size}
+                  data-testid="input-action-button"
+                  onClick={handleClickAction}
+                  onMouseDown={(e) => e.preventDefault()}
+                >
+                  {actionIcon ? actionIcon : <CrossCircleSVG />}
+                </ActionButton>
+              )}
+              {suffix && (
+                <Label
+                  $size={size}
+                  aria-hidden="true"
+                  {...ids?.label}
+                  {...(suffixAs ? { as: suffixAs } : {})}
+                >
+                  {suffix}
+                </Label>
+              )}
+            </InnerContainer>
+          </Container>
         )}
       </Field>
     )

@@ -1,7 +1,9 @@
 import * as React from 'react'
 
 import 'styled-components'
-import { Hue as TokenHue, Mode as TokenMode, Tokens } from '@/src/tokens'
+import { Hue, Hue as TokenHue, Mode as TokenMode, Tokens } from '@/src/tokens'
+
+import { Typography } from '../components/atoms/Typography/Typography'
 
 export type AllOrNone<T> = T | { [K in keyof T]?: never }
 
@@ -38,3 +40,48 @@ export type OptionalTitle = AllOrNone<{
   titleId: string
 }>
 export type IconProps = React.SVGProps<SVGSVGElement> & OptionalTitle
+
+export type WithColor = {
+  /** The base color of the component */
+  color?: Hue | 'background' | 'accent'
+  /** The styling of the color of the component */
+  colorScheme?: 'primary' | 'secondary' | 'gradient' | 'transparent' | 'text'
+}
+
+export type WithAlert = {
+  alert?: 'error' | 'warning' | 'info'
+}
+
+type LegacyTypography =
+  | 'small'
+  | 'large'
+  | 'extraLarge'
+  | 'label'
+  | 'labelHeading'
+
+export type Typography =
+  | 'Heading/H1'
+  | 'Heading/H2'
+  | 'Heading/H3'
+  | 'Heading/H4'
+  | 'Large/XL Normal'
+  | 'Large/XL Bold'
+  | 'Large/Normal'
+  | 'Large/Bold'
+  | 'Body/Normal'
+  | 'Body/Bold'
+  | 'Small/Normal'
+  | 'Small/Bold'
+  | 'Small/XS Normal'
+  | 'Small/XS Bold'
+
+export type WithTypography = {
+  typography?: Typography | LegacyTypography
+}
+
+export type Icon = React.FunctionComponent<React.SVGProps<SVGSVGElement>>
+
+export type WithIcon = {
+  /** An svg to be used by the component */
+  icon?: Icon
+}

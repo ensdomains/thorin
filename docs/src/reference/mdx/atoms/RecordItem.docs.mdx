@@ -1,0 +1,126 @@
+---
+title: RecordItem
+description: Brief component description
+---
+
+```tsx
+import { RecordItem } from '@ensdomains/thorin'
+```
+
+```tsx live=true expand=true
+<RecordItem icon={<FlameSVG />}>user#123</RecordItem>
+```
+
+## Props
+
+<PropsTable sourceLink={sourceLink} types={types} />
+
+## Prefix
+
+```tsx live=true
+<DeleteMe>
+  <RecordItem keyLabel="FLAME" keySublabel="Legacy">
+    0xb794f5ea0ba39494ce839613fffba74279579268
+  </RecordItem>
+  <RecordItem icon={<FlameSVG />}>
+    0xb794f5ea0ba39494ce839613fffba74279579268
+  </RecordItem>
+  <RecordItem inline keyLabel="FLAME_LEGACY">
+    0xb794...9268
+  </RecordItem>
+  <RecordItem icon={<FlameSVG />} inline>
+    0xb794...9268
+  </RecordItem>
+</DeleteMe>
+```
+
+## Size
+
+```tsx live=true
+<DeleteMe>
+  <RecordItem icon={<FlameSVG />} size="small">
+    Small with icon
+  </RecordItem>
+  <RecordItem icon={<FlameSVG />} size="large">
+    Large with icon
+  </RecordItem>
+  <RecordItem keyLabel="Label" size="small">
+    Small with label
+  </RecordItem>
+  <RecordItem keyLabel="Label" size="large">
+    Large with label
+  </RecordItem>
+</DeleteMe>
+```
+
+## Inline
+
+```tsx live=true
+<DeleteMe>
+  <RecordItem icon={<FlameSVG />} size="small">
+    Small with icon
+  </RecordItem>
+  <RecordItem keyLabel="Label" size="small">
+    Small with label
+  </RecordItem>
+  <RecordItem icon={<FlameSVG />} size="large">
+    Large with icon
+  </RecordItem>
+  <RecordItem keyLabel="Label" size="large">
+    Large with label
+  </RecordItem>
+  <RecordItem icon={<FlameSVG />} inline size="small">
+    Small and inline with icon
+  </RecordItem>
+  <RecordItem inline keyLabel="Label" size="small">
+    Small and inline with label
+  </RecordItem>
+  <RecordItem icon={<FlameSVG />} inline size="large">
+    Large and inline with icon
+  </RecordItem>
+  <RecordItem inline keyLabel="Label" size="large">
+    Large and inline with label
+  </RecordItem>
+</DeleteMe>
+```
+
+## Link
+
+```tsx live=true
+<DeleteMe>
+  <RecordItem icon={<FlameSVG />} link="https://ens.domains" size="small">
+    Small with icon
+  </RecordItem>
+  <RecordItem keyLabel="Label" link="https://ens.domains" size="small">
+    Small with label
+  </RecordItem>
+  <RecordItem icon={<FlameSVG />} link="https://ens.domains" size="large">
+    Large with icon
+  </RecordItem>
+  <RecordItem keyLabel="Label" link="https://ens.domains" size="large">
+    Large with label
+  </RecordItem>
+  <RecordItem
+    icon={<FlameSVG />}
+    inline
+    link="https://ens.domains"
+    size="small"
+  >
+    Small and inline with icon
+  </RecordItem>
+  <RecordItem inline keyLabel="Label" link="https://ens.domains" size="small">
+    Small and inline with label
+  </RecordItem>
+  <RecordItem
+    icon={<FlameSVG />}
+    inline
+    link="https://ens.domains"
+    size="large"
+  >
+    Large and inline with icon
+  </RecordItem>
+  <RecordItem inline keyLabel="Label" link="https://ens.domains" size="large">
+    Large and inline with label
+  </RecordItem>
+</DeleteMe>
+```

@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components'
 
 import { getTestId, shortenAddress } from '../../../utils/utils'
 
-import { DownChevronSVG, Typography } from '../..'
+import { Typography } from '../..'
 import { Avatar, Props as AvatarProps } from '../../atoms/Avatar'
 import { Dropdown, DropdownItem } from '../Dropdown/Dropdown'
 
@@ -24,20 +24,23 @@ type BaseProps = {
   alignDropdown?: 'left' | 'right'
   /** The size and styling of the profile button. */
   size?: Size
+  /** If true, will maintain an active styling on the component */
 } & Omit<NativeDivProps, 'children'>
 
 interface ContainerProps {
   $size: Size
-  $hasChevron?: boolean
+  $hasDropdown?: boolean
   $open: boolean
 }
 
 const Container = styled.div<ContainerProps>(
-  ({ theme, $size, $hasChevron, $open }) => css`
+  ({ theme, $size, $hasDropdown, $open }) => css`
     align-items: center;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: ${theme.space['2']};
+    border: 1px solid ${theme.colors.border};
     border-radius: ${theme.radii['full']};
     transition-duration: ${theme.transitionDuration['150']};
     transition-property: color, border-color, background-color, transform,
@@ -45,12 +48,11 @@ const Container = styled.div<ContainerProps>(
     transition-timing-function: ${theme.transitionTimingFunction['inOut']};
     position: relative;
     z-index: 10;
-    padding: ${theme.space['2']} ${theme.space['4']} ${theme.space['2']}
-      ${theme.space['2.5']};
-    color: ${theme.colors.greyDim};
-    background-color: ${theme.colors.backgroundSecondary};
+    padding: ${theme.space['1']};
+    background-color: ${theme.colors.backgroundPrimary};
+    width: fit-content;
 
-    ${$hasChevron &&
+    ${$hasDropdown &&
     css`
       cursor: pointer;
       &:hover {
@@ -61,68 +63,41 @@ const Container = styled.div<ContainerProps>(
 
     ${$open &&
     css`
-      background-color: ${theme.colors.greyDim};
+      background-color: ${theme.colors.border};
     `}
 
-  ${() => {
-      switch ($size) {
-        case 'small':
-          return css`
-            max-width: ${theme.space['48']};
-          `
-        case 'medium':
-          return css`
-            max-width: ${theme.space['52']};
-          `
-        case 'large':
-          return css`
-            max-width: ${theme.space['80']};
-          `
-        default:
-          return ``
-      }
-    }}
-
-  ${() => {
-      if ($size === 'small' && $hasChevron)
-        return css`
-          max-width: ${theme.space['52']};
-        `
-
-      if ($size === 'medium' && $hasChevron)
-        return css`
-          max-width: ${theme.space['56']};
-        `
-
-      if ($size === 'large' && $hasChevron)
-        return css`
-          max-width: calc(${theme.space['80']} + ${theme.space['4']});
-        `
-    }}
-  `,
-)
-
-const AvatarContainer = styled.div(
-  ({ theme }) => css`
-    width: ${theme.space['12']};
-  `,
-)
-
-const Chevron = styled.svg<{ $open: boolean }>(
-  ({ theme, $open }) => css`
-    margin-left: ${theme.space['1']};
-    width: ${theme.space['3']};
-    margin-right: ${theme.space['0.5']};
-    transition-duration: ${theme.transitionDuration['200']};
-    transition-property: all;
-    transition-timing-function: ${theme.transitionTimingFunction['inOut']};
-    transform: rotate(0deg);
-    display: flex;
-    color: ${theme.colors.greyPrimary};
-
-    ${$open &&
+    ${$size === 'small' &&
     css`
-      transform: rotate(180deg);
+      height: ${theme.space['10']};
+      width: ${theme.space['10']};
+      padding: 0;
+      border: none;
+    `}
+
+    ${$size === 'medium' &&
+    css`
+      height: ${theme.space['12']};
+      width: ${theme.space['45']};
+      padding-right: ${theme.space['4']};
+    `}
+
+    ${$size === 'large' &&
+    css`
+      height: ${theme.space['14']};
+      max-width: ${theme.space['80']};
+      padding-right: ${theme.space['5']};
+    `}
+  `,
+)
+
+const AvatarContainer = styled.div<{ $size?: 'small' | 'medium' | 'large' }>(
+  ({ theme, $size }) => css`
+    width: ${theme.space['10']};
+    flex: 0 0 ${theme.space['10']};
+    ${$size === 'large' &&
+    css`
+      width: ${theme.space['12']};
+      flex: 0 0 ${theme.space['12']};
     `}
   `,
 )
@@ -132,7 +107,6 @@ const ProfileInnerContainer = styled.div<{
 }>(
   ({ theme, $size }) => css`
     display: ${$size === 'small' ? 'none' : 'block'};
-    margin: 0 ${theme.space['1.5']};
     min-width: ${theme.space['none']};
   `,
 )
@@ -145,7 +119,7 @@ const ReducedLineText = styled(Typography)(
 
 const ProfileInner = ({ size, avatar, address, ensName }: Props) => (
   <>
-    <AvatarContainer>
+    <AvatarContainer $size={size}>
       <Avatar
         label="profile-avatar"
         {...(typeof avatar === 'string' ? { src: avatar } : avatar || {})}
@@ -153,19 +127,19 @@ const ProfileInner = ({ size, avatar, address, ensName }: Props) => (
     </AvatarContainer>
     <ProfileInnerContainer $size={size}>
       <ReducedLineText
-        color={ensName ? 'text' : 'textTertiary'}
+        color={ensName ? undefined : 'grey'}
+        data-testid="profile-title"
         ellipsis
         forwardedAs="h3"
-        variant={ensName && size === 'large' ? 'extraLarge' : 'large'}
-        weight="bold"
+        typography={size === 'large' ? 'Heading/H4' : 'Body/Bold'}
       >
         {ensName || 'No name set'}
       </ReducedLineText>
       <ReducedLineText
-        color={ensName ? 'textTertiary' : 'text'}
+        color={ensName ? 'grey' : undefined}
+        data-testid="profile-address"
         forwardedAs="h4"
-        variant="small"
-        weight="bold"
+        typography="Small/Normal"
       >
         {shortenAddress(
           address,
@@ -186,7 +160,7 @@ export const Profile = ({
   dropdownItems,
   address,
   ensName,
-  alignDropdown = 'left',
+  alignDropdown = 'right',
   ...props
 }: Props) => {
   const [isOpen, setIsOpen] = React.useState(false)
@@ -198,13 +172,12 @@ export const Profile = ({
       >
         <Container
           {...props}
-          $hasChevron
+          $hasDropdown
           $open={isOpen}
           $size={size}
           onClick={() => setIsOpen(!isOpen)}
         >
           <ProfileInner {...{ size, avatar, address, ensName }} />
-          <Chevron $open={isOpen} as={DownChevronSVG} />
         </Container>
       </Dropdown>
     )

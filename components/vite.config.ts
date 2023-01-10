@@ -15,9 +15,9 @@ export default defineConfig({
   },
   build: {
     lib: {
-      entry: 'src/index.ts',
-      fileName: 'index',
-      formats: ['cjs', 'es'],
+      entry: './src/index.ts',
+      fileName: (format) => `index.${format}.js`,
+      formats: ['es', 'cjs'],
     },
     rollupOptions: {
       external: Object.keys(pkg.peerDependencies),

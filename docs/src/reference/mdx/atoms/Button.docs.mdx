@@ -19,10 +19,10 @@ import { Button } from '@ensdomains/thorin'
 
 ```tsx live=true
 <DeleteMe flexDirection="row" flexWrap="wrap">
-  <Button variant="action">Action</Button>
-  <Button variant="primary">Primary</Button>
-  <Button variant="secondary">Secondary</Button>
-  <Button variant="transparent">Transparent</Button>
+  <Button colorScheme="gradient">Gradient</Button>
+  <Button colorScheme="primary">Primary</Button>
+  <Button colorScheme="secondary">Secondary</Button>
+  <Button colorScheme="transparent">Transparent</Button>
 </DeleteMe>
 ```
 
@@ -56,25 +56,29 @@ import { Button } from '@ensdomains/thorin'
 
 ## Tones
 
-When `variant` is set to `primary` or `action`, you can `tone` to change the button accent color.
+When `colorScheme` is set to `primary` or `gradient`, you can `color` to change the button accent color.
 
 ### Primary
 
 ```tsx live=true
 <DeleteMe flexDirection="row" flexWrap="wrap">
-  <Button tone="accent" variant="primary">
+  <Button color="accent" colorScheme="primary">
     Accent
   </Button>
-  <Button tone="blue" variant="primary">
+  <Button color="blue" colorScheme="primary">
     Blue
   </Button>
-  <Button tone="green" variant="primary">
+  <Button color="indigo">Indigo</Button>
+  <Button color="purple">Purple</Button>
+  <Button color="pink">Pink</Button>
+  <Button color="red">Red</Button>
+  <Button color="orange">Orange</Button>
+  <Button color="yellow">Yellow</Button>
+  <Button color="green" colorScheme="primary">
     Green
   </Button>
-  <Button tone="red" variant="primary">
-    Red
-  </Button>
-  <Button tone="grey" variant="primary">
+  <Button color="teal">Teal</Button>
+  <Button color="grey" colorScheme="primary">
     Grey
   </Button>
 </DeleteMe>
@@ -84,76 +88,110 @@ When `variant` is set to `primary` or `action`, you can `tone` to change the but
 
 ```tsx live=true
 <DeleteMe>
-  <Button tone="accent" variant="secondary">
+  <Button color="accent" colorScheme="secondary">
     Accent
   </Button>
-  <Button tone="blue" variant="secondary">
+  <Button color="blue" colorScheme="secondary">
     Blue
   </Button>
-  <Button tone="green" variant="secondary">
-    Green
+  <Button color="indigo" colorScheme="secondary">
+    Indigo
   </Button>
-  <Button tone="red" variant="secondary">
+  <Button color="purple" colorScheme="secondary">
+    Purple
+  </Button>
+  <Button color="pink" colorScheme="secondary">
+    Pink
+  </Button>
+  <Button color="red" colorScheme="secondary">
     Red
   </Button>
-  <Button tone="grey" variant="secondary">
+  <Button color="orange" colorScheme="secondary">
+    Orange
+  </Button>
+  <Button color="yellow" colorScheme="secondary">
+    Yellow
+  </Button>
+  <Button color="green" colorScheme="secondary">
+    Green
+  </Button>
+  <Button color="teal" colorScheme="secondary">
+    Teal
+  </Button>
+  <Button color="grey" colorScheme="secondary">
     Grey
   </Button>
 </DeleteMe>
 ```
 
-### Action
+### Gradient
 
 ```tsx live=true
 <DeleteMe>
-  <Button tone="accent" variant="action">
+  <Button color="accent" colorScheme="gradient">
     Accent
   </Button>
-  <Button tone="blue" variant="action">
+  <Button color="blue" colorScheme="gradient">
     Blue
   </Button>
-  <Button tone="green" variant="action">
-    Green
+  <Button color="indigo" colorScheme="gradient">
+    Indigo
   </Button>
-  <Button tone="red" variant="action">
+  <Button color="purple" colorScheme="gradient">
+    Purple
+  </Button>
+  <Button color="pink" colorScheme="gradient">
+    Pink
+  </Button>
+  <Button color="red" colorScheme="gradient">
     Red
   </Button>
-</DeleteMe>
-```
-
-## Affixes
-
-Optional `center` prop reserves space for affixes and loading spinner.
-
-### Default
-
-```tsx live=true
-<DeleteMe>
-  <Button prefix={<PlusSVG />}>Add Entry</Button>
-  <Button suffix={<PlusSVG />}>Add Entry</Button>
-  <Button prefix={<PlusSVG />} suffix={<PlusSVG />}>
-    Add Entry
+  <Button color="orange" colorScheme="gradient">
+    Orange
   </Button>
-  <Button loading prefix={<PlusSVG />}>
-    Add Entry
+  <Button color="yellow" colorScheme="gradient">
+    Yellow
+  </Button>
+  <Button color="green" colorScheme="gradient">
+    Green
+  </Button>
+  <Button color="teal" colorScheme="gradient">
+    Teal
+  </Button>
+  <Button color="grey" colorScheme="gradient">
+    Grey
   </Button>
 </DeleteMe>
 ```
 
-### Center
+## Loading
+
+The loading icon will replace either the prefix or suffix in that order. If no prefix or suffix is set it will inject itself into the prefix
 
 ```tsx live=true
 <DeleteMe>
-  <Button center prefix={<PlusSVG />}>
+  <Button loading={getState('loading')} prefix={<PlusSVG />}>
+    With Prefix
+  </Button>
+  <Button loading={getState('loading')} suffix={<PlusSVG />}>
+    With Suffix
+  </Button>
+  <Button loading={getState('loading')}>No Prefix or Suffix</Button>
+  <Button onClick={() => toggleState('loading')}>Toggle Loading</Button>
+</DeleteMe>
+```
+
+## Count
+
+```tsx live=true
+<DeleteMe>
+  <Button center count={3} prefix={<PlusSVG />}>
     Add Entry
   </Button>
-  <Button center suffix={<PlusSVG />}>
+  <Button center count={3} suffix={<PlusSVG />}>
     Add Entry
   </Button>
-  <Button center prefix={<PlusSVG />} suffix={<PlusSVG />}>
-    Add Entry
-  </Button>
-  <Button center loading prefix={<PlusSVG />}>
+  <Button center count={300} prefix={<PlusSVG />} suffix={<PlusSVG />}>
     Add Entry
   </Button>
 </DeleteMe>
@@ -163,21 +201,16 @@ Optional `center` prop reserves space for affixes and loading spinner.
 
 ```tsx live=true
 <DeleteMe flexDirection="row" flexWrap="wrap">
-  <Button shape="square">Square</Button>
-  <Button shape="circle">Circle</Button>
-</DeleteMe>
-```
-
-## Outlined
-
-```tsx live=true
-<DeleteMe>
-  <Button outlined variant="transparent">
-    Outlined
+  <Button loading={getState('loading')} shape="square">
+    Square
   </Button>
-  <Button shadow variant="transparent">
-    Shadow
+  <Button loading={getState('loading')} shape="circle">
+    Circle
   </Button>
+  <Button loading={getState('loading')} shape="rounded">
+    Rounded
+  </Button>
+  <Button onClick={() => toggleState('loading')}>Toggle Loading</Button>
 </DeleteMe>
 ```
 
@@ -192,4 +225,12 @@ Optional `center` prop reserves space for affixes and loading spinner.
     <Button as="a">Go to Home</Button>
   </NextLink>
 </DeleteMe>
+```
+
+## Width
+
+```tsx live=true
+<Button shape="rounded" width="45">
+  Connect
+</Button>
 ```

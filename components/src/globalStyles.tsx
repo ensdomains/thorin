@@ -24,7 +24,7 @@ const GlobalStyle = createGlobalStyle(
     }
 
     html {
-      font-size: ${theme.fontSizes['root']};
+      font-size: ${theme.fontSizes.body};
       color: ${theme.colors.text};
       text-rendering: optimizeLegibility;
       background: radial-gradient(
@@ -37,7 +37,7 @@ const GlobalStyle = createGlobalStyle(
     }
 
     body {
-      line-height: ${theme.lineHeights.none};
+      line-height: normal;
     }
 
     article,

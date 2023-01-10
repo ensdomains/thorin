@@ -72,14 +72,6 @@ const NavLinkInner = styled.div(
   `,
 )
 
-const ENSText = styled(Typography)(
-  ({ theme }) => css`
-    color: ${theme.colors.blue};
-    font-size: ${theme.fontSizes['headingThree']};
-    font-weight: ${theme.fontWeights['semiBold']};
-  `,
-)
-
 const ButtonContainer = styled.div(
   () => css`
     ${mq.lg.min(css`
@@ -93,7 +85,7 @@ const List = styled.div<{ $open?: boolean }>(
     display: ${$open ? 'block' : 'none'};
     height: ${theme.space['full']};
     padding-top: ${theme.space['10']};
-    border-color: hsla(${theme.colors.raw.background}, 0.05);
+    border-color: ${theme.colors.border};
     transition: border-color 0.15s ease-in-out;
 
     /* stylelint-disable-next-line selector-pseudo-element-no-unknown */
@@ -131,6 +123,12 @@ const List = styled.div<{ $open?: boolean }>(
   `,
 )
 
+const SubGroupLabel = styled(Typography)(
+  () => css`
+    text-transform: capitalize;
+  `,
+)
+
 const FlexContainer = styled.div<{ $space?: Space }>(
   ({ theme, $space }) => css`
     display: flex;
@@ -162,20 +160,27 @@ export const Nav = ({ links }: Props) => {
           <NavLink active={router.asPath === '/'} href="/">
             <NavLinkInner>
               <EnsSVG height={48} width={48} />
-              <ENSText>ENS</ENSText>
+              <Typography color="blue" typography="Heading/H3">
+                ENS
+              </Typography>
             </NavLinkInner>
           </NavLink>
-
           <ButtonContainer>
             <Button
+              colorScheme="transparent"
               pressed={state.open}
-              size="extraSmall"
-              variant="transparent"
+              size="flexible"
               onClick={() => setState((x) => ({ ...x, open: !x.open }))}
             >
               <div
                 aria-label={state.open ? 'Close menu' : 'Open menu'}
-                style={{ height: 24 }}
+                style={{
+                  height: 40,
+                  width: 40,
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
               >
                 <MenuSVG alt="Menu" height={24} width={24} />
               </div>
@@ -192,9 +197,7 @@ export const Nav = ({ links }: Props) => {
           </FlexContainer>
 
           <FlexContainer>
-            <Typography variant="labelHeading" weight="bold">
-              Guides
-            </Typography>
+            <Typography typography="Body/Bold">Guides</Typography>
             <FlexContainer $space="3">
               <NavLink
                 active={
@@ -218,12 +221,12 @@ export const Nav = ({ links }: Props) => {
           </FlexContainer>
 
           <FlexContainer>
-            <Typography variant="labelHeading" weight="bold">
-              Components
-            </Typography>
+            <Typography typography="Body/Bold">Components</Typography>
             {links.map((x) => (
               <FlexContainer $space="3" key={x.name}>
-                <Typography variant="label">{x.name}</Typography>
+                <SubGroupLabel color="text" typography="Small/Bold">
+                  {x.name}
+                </SubGroupLabel>
                 <FlexContainer $space="3">
                   {x.links.map((y) => (
                     <NavLink
@@ -262,10 +265,10 @@ const HeaderLink = styled.div(
 )
 
 const NavLinkChildrenContainer = styled(Typography)<{ $active?: boolean }>(
-  ({ theme, $active }) => css`
-    font-weight: ${theme.fontWeights['semiBold']};
-
-    color: ${$active ? theme.colors.accent : theme.colors.textTertiary};
+  ({ theme }) => css`
+    &:hover {
+      color: ${theme.colors.blueBright};
+    }
   `,
 )
 
@@ -280,7 +283,10 @@ const NavLink = ({
   return (
     <HeaderLink>
       <Link href={href}>
-        <NavLinkChildrenContainer {...{ $active: active }}>
+        <NavLinkChildrenContainer
+          color={active ? 'accent' : 'grey'}
+          weight="bold"
+        >
           {children}
         </NavLinkChildrenContainer>
       </Link>

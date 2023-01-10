@@ -7,13 +7,13 @@ import { Space } from '@/src/tokens'
 import { ReactNodeNoStrings } from '../../../types'
 import { useFieldIds } from '../../../hooks'
 import { VisuallyHidden } from '../VisuallyHidden'
+import { Typography } from '../Typography/Typography'
 
-type State = ReturnType<typeof useFieldIds> | undefined
+export type State = ReturnType<typeof useFieldIds> | undefined
 const Context = React.createContext<State>(undefined)
 
 type NativeFormProps = React.AllHTMLAttributes<HTMLFormElement>
 type NativeLabelProps = React.LabelHTMLAttributes<HTMLLabelElement>
-type Placement = 'top' | 'bottom'
 
 export type FieldBaseProps = {
   /** Description text or react component. */
@@ -32,49 +32,30 @@ export type FieldBaseProps = {
   inline?: boolean
   /** A tokens space key value setting the width of the parent element. */
   width?: Space
-  /** Have lavel appear on the right of the form element. */
-  labelRight?: boolean
-  /** Set the placement of the error and description. Does not affect inline mode. */
-  labelPlacement?: Placement | { error?: Placement; description?: Placement }
+  /** Have lavel appear on the left of the form element. */
+  reverse?: boolean
 }
 
 type Props = FieldBaseProps & {
   children: React.ReactElement | ((context: State) => ReactNodeNoStrings)
   /** The id attribute of the label element */
   id?: NativeFormProps['id']
+  disabled?: boolean
 } & Omit<NativeLabelProps, 'id' | 'children'>
 
-const Label = styled.label<{ $inline?: boolean }>(
-  ({ theme }) => css`
-    color: ${theme.colors.textTertiary};
-    font-weight: ${theme.fontWeights['semiBold']};
+const Label = styled(Typography)<{ $disabled?: boolean }>(
+  ({ $disabled }) => css`
     display: flex;
-    cursor: pointer;
+    flex: 1;
+    cursor: ${$disabled ? 'not-allowed' : 'pointer'};
   `,
 )
-
-const LabelSecondary = styled.span(
-  ({ theme }) => css`
-    margin-left: ${theme.space['4']};
-  `,
-)
-
-type LabelContentProps = {
-  ids: any
-  label: React.ReactNode
-  labelSecondary: React.ReactNode
-  required: boolean | undefined
-  $inline?: boolean
-}
 
 const LabelContentContainer = styled.div<{ $inline?: boolean }>(
   ({ theme, $inline }) => css`
     display: flex;
-    align-items: flex-end;
-    padding-left: ${$inline ? '0' : theme.space['4']};
-    padding-right: ${$inline ? '0' : theme.space['4']};
-    padding-top: 0;
-    padding-bottom: 0;
+    align-items: center;
+    padding: 0 ${$inline ? '0' : theme.space['2']};
   `,
 )
 
@@ -93,39 +74,126 @@ const LabelContent = ({
   label,
   labelSecondary,
   required,
-  $inline,
-  ...props
-}: LabelContentProps) => (
-  <LabelContentContainer {...{ ...props, ...ids.label }} $inline={$inline}>
-    <Label {...ids.label} $inline={$inline}>
-      {label}{' '}
-      {required && (
-        <>
-          <RequiredWrapper>*</RequiredWrapper>
-          <VisuallyHidden>required</VisuallyHidden>
-        </>
+  hideLabel,
+  inline,
+  disabled,
+}: {
+  ids: any
+  label: React.ReactNode
+  labelSecondary?: React.ReactNode
+  required?: boolean | undefined
+  inline?: boolean
+  hideLabel?: boolean
+  disabled?: boolean
+}) => {
+  const content = (
+    <LabelContentContainer $inline={inline}>
+      <Label
+        $disabled={disabled}
+        asProp="label"
+        color="grey"
+        colorScheme="secondary"
+        typography="Body/Bold"
+        {...ids.label}
+      >
+        {label}&nbsp;
+        {required && (
+          <>
+            <RequiredWrapper>*</RequiredWrapper>
+            <VisuallyHidden>required</VisuallyHidden>
+          </>
+        )}
+      </Label>
+      {labelSecondary && (
+        <Typography
+          color="grey"
+          colorScheme="secondary"
+          typography="Small/XS Normal"
+        >
+          {labelSecondary}
+        </Typography>
       )}
-    </Label>
-    {labelSecondary && <LabelSecondary>{labelSecondary}</LabelSecondary>}
-  </LabelContentContainer>
+    </LabelContentContainer>
+  )
+  if (hideLabel) return <VisuallyHidden>{content}</VisuallyHidden>
+  return content
+}
+
+const Description = styled(Typography)<{ $inline?: boolean }>(
+  ({ theme, $inline }) => css`
+    padding: 0 ${$inline ? '0' : theme.space['2']};
+  `,
 )
+
+const Error = styled(Typography)<{ $inline?: boolean }>(
+  ({ theme, $inline }) => `
+    padding: 0 ${$inline ? '0' : theme.space[2]};
+`,
+)
+const DecorativeContent = ({
+  ids,
+  error,
+  description,
+  hideLabel,
+  inline,
+  disabled,
+}: {
+  error: Props['error']
+  description: Props['description']
+  hideLabel: Props['hideLabel']
+  inline: Props['inline']
+  ids: any
+  disabled?: boolean
+}) => {
+  if (hideLabel) return null
+  if (error)
+    return (
+      <Error
+        aria-live="polite"
+        {...ids.error}
+        $inline={inline}
+        color="red"
+        colorScheme="secondary"
+        typography="Small/Bold"
+      >
+        {error}
+      </Error>
+    )
+  if (description)
+    return (
+      <Description
+        $inline={inline}
+        {...ids.description}
+        color={disabled ? 'grey' : 'text'}
+        colorScheme={disabled ? 'secondary' : 'primary'}
+        typography="Small/Normal"
+      >
+        {description}
+      </Description>
+    )
+  return null
+}
 
 interface ContainerProps {
   $width: Space
   $inline?: boolean
-  $labelRight?: boolean
+  $reverse?: boolean
 }
+
 const Container = styled.div<ContainerProps>(
-  ({ theme, $inline, $width, $labelRight }) => css`
+  ({ theme, $inline, $width, $reverse }) => css`
     display: flex;
-    flex-direction: ${$inline
-      ? $labelRight
-        ? 'row-reverse'
-        : 'row'
-      : 'column'};
-    align-items: ${$inline ? 'center' : 'normal'};
-    gap: ${$inline ? theme.space['2.5'] : theme.space['2']};
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: 'normal';
+    gap: ${theme.space['2']};
     width: ${theme.space[$width]};
+
+    ${$inline &&
+    css`
+      flex-direction: ${$reverse ? 'row-reverse' : 'row'};
+      align-items: 'flex-start';
+    `}
   `,
 )
 
@@ -133,33 +201,10 @@ const ContainerInner = styled.div(
   ({ theme }) => css`
     display: flex;
     flex-direction: column;
-    gap: ${theme.space[2]};
+    gap: ${theme.space[1]};
     flex: 1;
   `,
 )
-
-const Description = styled.div<{ $inline?: boolean }>(
-  ({ theme, $inline }) => css`
-    padding: 0 ${$inline ? '0' : theme.space['4']};
-    color: ${theme.colors.textSecondary};
-  `,
-)
-
-const Error = styled.div<{ $inline?: boolean }>(
-  ({ theme, $inline }) => `
-    color: ${theme.colors.red};
-    padding: 0 ${$inline ? '0' : theme.space[4]};
-`,
-)
-
-const getPlacement = (
-  label: 'error' | 'description',
-  fallback: Placement,
-  placement?: Props['labelPlacement'],
-): Placement => {
-  if (typeof placement === 'string') return placement
-  return placement?.[label] || fallback
-}
 
 export const Field = ({
   children,
@@ -172,8 +217,8 @@ export const Field = ({
   required,
   inline,
   width = 'full',
-  labelRight = false,
-  labelPlacement,
+  reverse = false,
+  disabled,
   ...props
 }: Props) => {
   const ids = useFieldIds({
@@ -193,71 +238,43 @@ export const Field = ({
   else if (children) content = React.cloneElement(children, ids.content)
   else content = children
 
-  const descriptionPlacement = getPlacement(
-    'description',
-    'bottom',
-    labelPlacement,
+  const labelContent = (
+    <LabelContent
+      {...{
+        ...props,
+        ids,
+        label,
+        labelSecondary,
+        required,
+        hideLabel,
+        inline,
+        disabled,
+      }}
+    />
   )
-  const errorPlacement = getPlacement('error', 'bottom', labelPlacement)
 
-  return inline ? (
-    <Container $inline={inline} $labelRight={labelRight} $width={width}>
-      <ContainerInner>
-        {hideLabel ? (
-          <VisuallyHidden>
-            <LabelContent
-              {...{ ...props, ids, label, labelSecondary, required }}
-            />
-          </VisuallyHidden>
-        ) : (
-          <LabelContent
-            {...{ ...props, ids, label, labelSecondary, required }}
-            $inline={inline}
-          />
-        )}
-        {description && (
-          <Description $inline={inline}>{description}</Description>
-        )}
-        {error && (
-          <Error aria-live="polite" {...ids.error} $inline={inline}>
-            {error}
-          </Error>
-        )}
-      </ContainerInner>
-      <div>{content}</div>
-    </Container>
-  ) : (
+  const decorativeContent = (
+    <DecorativeContent
+      {...{ ids, error, description, hideLabel, inline, disabled }}
+    />
+  )
+
+  if (inline)
+    return (
+      <Container $inline={inline} $reverse={reverse} $width={width}>
+        <div>{content}</div>
+        <ContainerInner>
+          {labelContent}
+          {decorativeContent}
+        </ContainerInner>
+      </Container>
+    )
+
+  return (
     <Container $width={width}>
-      {hideLabel ? (
-        <VisuallyHidden>
-          <LabelContent
-            {...{ ...props, ids, label, labelSecondary, required }}
-          />
-        </VisuallyHidden>
-      ) : (
-        <LabelContent {...{ ...props, ids, label, labelSecondary, required }} />
-      )}
-
-      {description && descriptionPlacement === 'top' && (
-        <Description {...ids.description}>{description}</Description>
-      )}
-
-      {error && errorPlacement === 'top' && (
-        <Error aria-live="polite" {...ids.error}>
-          {error}
-        </Error>
-      )}
+      {labelContent}
       {content}
-
-      {description && descriptionPlacement === 'bottom' && (
-        <Description {...ids.description}>{description}</Description>
-      )}
-
-      {error && errorPlacement === 'bottom' && (
-        <Error aria-live="polite" {...ids.error}>
-          {error}
-        </Error>
-      )}
+      {decorativeContent}
     </Container>
   )
 }

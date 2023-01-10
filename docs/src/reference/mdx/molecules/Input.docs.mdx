@@ -8,18 +8,18 @@ import { Input, SearchSVG } from '@ensdomains/thorin'
 ```
 
 ```tsx live=true expand=true
-<Input label="Wallet Address" placeholder="0xA0Cf…251e" />
+<Input
+  icon={<MagnifyingGlassSimpleSVG />}
+  label="Wallet Address"
+  placeholder="0xA0Cf…251e"
+  prefix="hello"
+  suffix="world"
+/>
 ```
 
 ## Props
 
 <PropsTable sourceLink={sourceLink} types={types} />
-
-## Disabled
-
-```tsx live=true
-<Input disabled label="Wallet Address" placeholder="0xA0Cf…251e" />
-```
 
 ## Description
 
@@ -34,11 +34,75 @@ import { Input, SearchSVG } from '@ensdomains/thorin'
 ## Error
 
 ```tsx live=true
-<Input
-  error="Wallet address is required"
-  label="Wallet Address"
-  placeholder="0xA0Cf…251e"
-/>
+<DeleteMe>
+  <Input
+    description="Default input"
+    error="Error message"
+    label="Default"
+    placeholder="Placeholder"
+    value="Invalid input"
+  />
+  <Input
+    description="Input with icon"
+    error="Error message"
+    icon={<MagnifyingGlassSimpleSVG />}
+    label="Icon"
+    placeholder="Placeholder"
+    showDot
+    value="Invalid input"
+  />
+  <Input
+    description="Input with prefix"
+    error="Error message"
+    icon={<MagnifyingGlassSimpleSVG />}
+    label="Prefix"
+    placeholder="Placeholder"
+    prefix={
+      <>
+        <MagnifyingGlassSVG />
+        Prefix
+      </>
+    }
+    showDot
+    value="Invalid input"
+  />
+  <Input
+    description="Input with suffix"
+    error="Error message"
+    icon={<MagnifyingGlassSimpleSVG />}
+    label="Suffix"
+    placeholder="Placeholder"
+    showDot
+    suffix={
+      <>
+        Suffix
+        <EyeSVG />
+      </>
+    }
+    value="Invalid input"
+  />
+  <Input
+    description="Input with prefix and suffix"
+    error="Error message"
+    icon={<MagnifyingGlassSimpleSVG />}
+    label="Multiple"
+    placeholder="Placeholder"
+    prefix={
+      <>
+        <MagnifyingGlassSVG />
+        Prefix
+      </>
+    }
+    showDot
+    suffix={
+      <>
+        Suffix
+        <EyeSVG />
+      </>
+    }
+    value="Invalid input"
+  />
+</DeleteMe>
 ```
 
 ## Affixes
@@ -47,46 +111,123 @@ import { Input, SearchSVG } from '@ensdomains/thorin'
 <DeleteMe>
   <Input
     description="Prefix using a svg component."
+    icon={<MagnifyingGlassSimpleSVG />}
     label="Search"
     placeholder="Name or wallet address"
-    prefix={<SearchSVG />}
-  />
-  <Input
-    description="Prefix using a string."
-    label="Funding Goal"
-    placeholder="10"
-    prefix="Ξ"
-    type="number"
-  />
-  <Input
-    description="Suffix using a string."
-    label="Subdomain"
-    placeholder="subdomain"
-    suffix=".mirror.xyz"
-    type="text"
+    prefix={
+      <>
+        <MagnifyingGlassSVG />
+        Prefix
+      </>
+    }
+    suffix={
+      <>
+        Suffix
+        <EyeSVG />
+      </>
+    }
   />
 </DeleteMe>
 ```
 
-## Units
-
-```tsx live=true
-<Input label="Funding Goal" placeholder="10" type="number" units="ETH" />
-```
-
-## Types
+## Show Dot
 
 ```tsx live=true
 <DeleteMe>
-  <Input label="Text" maxLength={140} placeholder="Foo bar baz" type="text" />
   <Input
-    label="Number"
-    labelSecondary={<Tag>100 ETH max</Tag>}
-    max={100}
-    min={0}
-    placeholder="10"
-    type="number"
-    units="ETH"
+    icon={<MagnifyingGlassSimpleSVG />}
+    label="Placeholder"
+    placeholder="Enter text here..."
+    prefix={
+      <>
+        <MagnifyingGlassSVG />
+        Prefix
+      </>
+    }
+    showDot
+    suffix={
+      <>
+        Suffix
+        <EyeSVG />
+      </>
+    }
+  />
+  <Input
+    icon={<MagnifyingGlassSimpleSVG />}
+    label="Validated"
+    placeholder="Enter text here..."
+    prefix={
+      <>
+        <MagnifyingGlassSVG />
+        Prefix
+      </>
+    }
+    showDot
+    suffix={
+      <>
+        Suffix
+        <EyeSVG />
+      </>
+    }
+    validated
+  />
+  <Input
+    error="Error messsage"
+    icon={<MagnifyingGlassSimpleSVG />}
+    label="Error"
+    placeholder="Enter text here..."
+    prefix={
+      <>
+        <MagnifyingGlassSVG />
+        Prefix
+      </>
+    }
+    showDot
+    suffix={
+      <>
+        Suffix
+        <EyeSVG />
+      </>
+    }
+  />
+</DeleteMe>
+```
+
+## Disabled
+
+```tsx live=true
+<DeleteMe>
+  <Input
+    description="Prefix using a svg component."
+    disabled
+    icon={<MagnifyingGlassSimpleSVG />}
+    label="Search"
+    placeholder="Name or wallet address"
+    prefix={
+      <>
+        <MagnifyingGlassSVG />
+        Prefix
+      </>
+    }
+    suffix={
+      <>
+        Suffix
+        <EyeSVG />
+      </>
+    }
+  />
+</DeleteMe>
+```
+
+## Clearable
+
+```tsx live=true
+<DeleteMe>
+  <Input label="Clearable input" placeholder="Foo bar baz" type="text" />
+  <Input
+    clearable={false}
+    label="Not clearable input"
+    placeholder="Foo bar baz"
   />
 </DeleteMe>
 ```
@@ -95,9 +236,10 @@ import { Input, SearchSVG } from '@ensdomains/thorin'
 
 ```tsx live=true
 <DeleteMe>
-  <Input label="Medium" size="medium" />
-  <Input label="Large" size="large" />
-  <Input label="Extra Large" size="extraLarge" />
+  <Input label="Small" placeholder="Placeholder" size="small" />
+  <Input label="Medium" placeholder="Placeholder" size="medium" />
+  <Input label="Large" placeholder="Placeholder" size="large" />
+  <Input label="Extra Large" placeholder="Placeholder" size="extraLarge" />
 </DeleteMe>
 ```
 
@@ -105,4 +247,15 @@ import { Input, SearchSVG } from '@ensdomains/thorin'
 
 ```tsx live=true
 <Input hideLabel label="Wallet Address" placeholder="Wallet Address" />
+```
+
+## onClickAction
+
+```tsx live=true
+<Input
+  actionIcon={getState('show-password') ? <EyeSVG /> : <EyeStrikethroughSVG />}
+  type={getState('show-password') ? 'text' : 'password'}
+  value="password"
+  onClickAction={() => toggleState('show-password')}
+/>
 ```

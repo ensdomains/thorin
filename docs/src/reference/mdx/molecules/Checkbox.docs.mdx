@@ -19,125 +19,22 @@ import { Checkbox } from '@ensdomains/thorin'
 
 <PropsTable sourceLink={sourceLink} types={types} />
 
-## Variants
-
-```tsx live=true
-<FieldSet legend="Variants">
-  <Checkbox label="Checkbox" variant="regular" />
-  <Checkbox label="Switch" size="regular" variant="switch" />
-</FieldSet>
-```
-
 ## Color
-
-### Checkbox
 
 ```tsx live=true
 <DeleteMe padding="4" shadow>
   <Checkbox color="red" label="Red" />
   <Checkbox color="blue" label="Blue" />
   <Checkbox color="green" label="Green" />
+  <Checkbox color="yellow" colorScheme="gradient" label="Yellow" />
 </DeleteMe>
 ```
 
-### Switch
+## Disabled
 
 ```tsx live=true
 <DeleteMe padding="4" shadow>
-  <Checkbox color="red" label="Red" variant="switch" />
-  <Checkbox color="blue" label="Blue" variant="switch" />
-  <Checkbox color="green" label="Green" variant="switch" />
-</DeleteMe>
-```
-
-## Sizes
-
-### Checkbox
-
-```tsx live=true
-<DeleteMe flexDirection="row" flexWrap="wrap">
-  <Checkbox background="grey" label="Small" size="small" />
-  <Checkbox label="Medium" size="medium" />
-  <Checkbox label="Large" size="large" />
-</DeleteMe>
-```
-
-### Switch
-
-```tsx live=true
-<DeleteMe flexDirection="row" flexWrap="wrap">
-  <Checkbox label="Small" size="small" variant="switch" />
-  <Checkbox label="Medium" size="medium" variant="switch" />
-  <Checkbox label="Large" size="large" variant="switch" />
-</DeleteMe>
-```
-
-## Border
-
-### Checkbox
-
-```tsx live=true
-<DeleteMe>
-  <Checkbox
-    background="white"
-    border
-    label="Small"
-    size="small"
-    variant="checkbox"
-  />
-  <Checkbox
-    background="white"
-    border
-    label="Medium"
-    size="medium"
-    variant="checkbox"
-  />
-  <Checkbox
-    background="white"
-    border
-    label="Large"
-    size="large"
-    variant="checkbox"
-  />
-</DeleteMe>
-```
-
-### Switch
-
-```tsx live=true
-<DeleteMe>
-  <Checkbox border label="Small" size="small" variant="switch" />
-  <Checkbox border label="Medium" size="medium" variant="switch" />
-  <Checkbox border label="Large" size="large" variant="switch" />
-</DeleteMe>
-```
-
-## Background
-
-A checkbox only property to control background color
-
-```tsx live=true
-<DeleteMe>
-  <div style={{ background: 'lightgrey', padding: '20px' }}>
-    <Checkbox background="white" label="White" />
-  </div>
-  <div style={{ bakground: 'white', padding: '20px' }}>
-    <Checkbox background="grey" label="Grey" />
-  </div>
-</DeleteMe>
-```
-
-## Gradient
-
-A switch only property
-
-```tsx live=true
-<DeleteMe>
-  <Checkbox color="blue" gradient label="Blue" variant="switch" />
-  <Checkbox color="red" gradient label="Red" variant="switch" />
-  <Checkbox color="green" gradient label="Green" variant="switch" />
-  <Checkbox border color="blue" gradient label="Blue" variant="switch" />
-  <Checkbox border color="red" gradient label="Red" variant="switch" />
-  <Checkbox border color="green" gradient label="Green" variant="switch" />
+  <Checkbox disabled label="Disabled" />
+  <Checkbox checked disabled label="Disabled" />
 </DeleteMe>
 ```

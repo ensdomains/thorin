@@ -22,6 +22,7 @@ describe('<Select />', () => {
             { value: '1', label: 'One' },
             { value: '2', label: 'Two' },
           ]}
+          placeholder="Select an option"
         />
       </ThemeProvider>,
     )
