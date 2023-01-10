@@ -197,7 +197,7 @@ export const Nav = ({ links }: Props) => {
           </FlexContainer>
 
           <FlexContainer>
-            <Typography variant="regularBold">Guides</Typography>
+            <Typography fontVariant="regularBold">Guides</Typography>
             <FlexContainer $space="3">
               <NavLink
                 active={
