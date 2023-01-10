@@ -223,7 +223,12 @@ import { Input, SearchSVG } from '@ensdomains/thorin'
 
 ```tsx live=true
 <DeleteMe>
-  <Input label="Clearable input" placeholder="Foo bar baz" type="text" />
+  <Input
+    clearable
+    label="Clearable input"
+    placeholder="Foo bar baz"
+    type="text"
+  />
   <Input
     clearable={false}
     label="Not clearable input"
@@ -258,4 +263,16 @@ import { Input, SearchSVG } from '@ensdomains/thorin'
   value="password"
   onClickAction={() => toggleState('show-password')}
 />
+```
+
+## alwaysShowAction
+
+```tsx live=true
+<Input alwaysShowAction clearable />
+```
+
+## Read Only
+
+```tsx live=true
+<Input readOnly value="Read only input" />
 ```

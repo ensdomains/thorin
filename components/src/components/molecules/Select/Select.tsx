@@ -30,8 +30,18 @@ const Container = styled.div<{
   $hasError: boolean
   $validated: boolean
   $showDot: boolean
+  $readOnly: boolean
 }>(
-  ({ theme, $size, $showDot, $hasError, $validated, $open, $disabled }) => css`
+  ({
+    theme,
+    $size,
+    $showDot,
+    $hasError,
+    $validated,
+    $open,
+    $disabled,
+    $readOnly,
+  }) => css`
     cursor: pointer;
     position: relative;
 
@@ -95,8 +105,15 @@ const Container = styled.div<{
         opacity: 1;
       }
     `}
+
+    ${$readOnly &&
+    css`
+      cursor: default;
+      pointer-events: none;
+    `}
   `,
 )
+
 const SelectContainer = styled.div<{
   $open: boolean
   $hasError: boolean
@@ -134,7 +151,6 @@ const SelectContainer = styled.div<{
       }
     `}
 
-
     ${$size === 'small' &&
     css`
       padding-left: ${theme.space['3.5']};
@@ -144,6 +160,7 @@ const SelectContainer = styled.div<{
     css`
       background: ${theme.colors.greyBright};
       color: ${theme.colors.greyPrimary};
+      cursor: not-allowed;
     `}
 
     input#${$ids?.content.id} ~ button#chevron svg {
@@ -181,7 +198,7 @@ const RootInput = styled.input(
   `,
 )
 
-const SelectLabel = styled.label(
+const SelectLabel = styled.div(
   () => css`
     flex: 1;
     white-space: nowrap;
@@ -193,6 +210,7 @@ const SelectLabel = styled.label(
 const PlaceholderLabel = styled(SelectLabel)(
   ({ theme }) => css`
     color: ${theme.colors.greyPrimary};
+    pointer-events: none;
   `,
 )
 
@@ -242,6 +260,7 @@ const ToggleMenuButton = styled(SelectActionButton)<{
 }>(
   ({ theme, $open, $direction }) => css`
     display: flex;
+    cursor: pointer;
 
     svg {
       fill: currentColor;
@@ -343,6 +362,7 @@ const SelectOptionList = styled.div<{
     flex-direction: ${$direction === 'up' ? 'column-reverse' : 'column'};
     align-items: flex-start;
     justify-content: space-between;
+    gap: ${theme.space['1']};
     overflow-y: ${$rows ? 'scroll' : 'hidden'};
     overflow-x: hidden;
     width: 100%;
@@ -561,6 +581,8 @@ export type SelectProps = {
   showDot?: boolean
   /** If true and showDot is true, will show a green indicator */
   validated?: boolean
+  /** If true, sets the select component into read only mode */
+  readOnly?: boolean
 } & FieldBaseProps &
   Omit<
     NativeDivProps,
@@ -615,6 +637,7 @@ export const Select = React.forwardRef(
       labelSecondary,
       required,
       tabIndex = -1,
+      readOnly = false,
       width,
       onBlur,
       onChange,
@@ -885,6 +908,7 @@ export const Select = React.forwardRef(
         inline={inline}
         label={label}
         labelSecondary={labelSecondary}
+        readOnly={readOnly}
         required={required}
         width={width}
       >
@@ -904,6 +928,7 @@ export const Select = React.forwardRef(
             $disabled={!!disabled}
             $hasError={!!error}
             $open={isOpen}
+            $readOnly={readOnly}
             $showDot={showDot}
             $size={size}
             $validated={!!validated}
@@ -929,6 +954,7 @@ export const Select = React.forwardRef(
                 disabled={disabled}
                 name={name}
                 placeholder={placeholder}
+                readOnly={readOnly}
                 tabIndex={-1}
                 value={value}
                 onChange={(e) => {
@@ -975,7 +1001,7 @@ export const Select = React.forwardRef(
                 >
                   <CrossCircleSVG />
                 </SelectActionButton>
-              ) : (
+              ) : !readOnly ? (
                 <ToggleMenuButton
                   $direction={direction}
                   $open={isOpen}
@@ -986,7 +1012,7 @@ export const Select = React.forwardRef(
                 >
                   <DownChevronSVG />
                 </ToggleMenuButton>
-              )}
+              ) : null}
             </SelectContainer>
             <SelectOptionContainer
               $align={align}

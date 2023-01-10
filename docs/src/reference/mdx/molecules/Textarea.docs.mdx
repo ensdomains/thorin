@@ -114,6 +114,17 @@ import { Textarea } from '@ensdomains/thorin'
 />
 ```
 
+## ReadOnly
+
+```tsx live=true
+<Textarea
+  hideLabel
+  label="Read only"
+  readOnly
+  value="This is some read only text"
+/>
+```
+
 ## Error
 
 ```tsx live=true
@@ -144,4 +155,10 @@ import { Textarea } from '@ensdomains/thorin'
   maxLength={100}
   placeholder="Share your story…"
 />
+```
+
+## AlwaysShowAction
+
+```tsx live=true
+<Textarea alwaysShowAction clearable hideLabel label="Always show action" />
 ```

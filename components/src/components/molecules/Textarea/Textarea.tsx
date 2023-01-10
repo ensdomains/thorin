@@ -11,8 +11,9 @@ const Container = styled.div<{
   $error?: boolean
   $showDot?: boolean
   $disabled?: boolean
+  $alwaysShowAction?: boolean
 }>(
-  ({ theme, $error, $validated, $showDot }) => css`
+  ({ theme, $error, $validated, $showDot, $alwaysShowAction }) => css`
     position: relative;
     background-color: ${theme.colors.backgroundSecondary};
     border-radius: ${theme.radii.large};
@@ -33,7 +34,7 @@ const Container = styled.div<{
       right: -${theme.space['1.5']};
       top: -${theme.space['1.5']};
       border-radius: ${theme.radii.full};
-      transition: all 0.3s ease-out;
+      transition: all 0.3s ease-in-out;
       transform: scale(0.3);
       opacity: 0;
     }
@@ -69,11 +70,18 @@ const Container = styled.div<{
       }
     `}
 
-    textarea:placeholder-shown ~ button,
     textarea:disabled ~ button {
       opacity: 0;
-      transform: scale(0.3);
+      transform: scale(0.8);
     }
+
+    ${!$alwaysShowAction &&
+    css`
+      textarea:placeholder-shown ~ button {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+    `}
   `,
 )
 
@@ -104,6 +112,7 @@ const TextArea = styled.textarea<{
     overflow: hidden;
     resize: none;
     outline: none;
+    transition: all 0.3s ease-in-out;
 
     &::placeholder {
       color: ${theme.colors.greyPrimary};
@@ -135,6 +144,11 @@ const TextArea = styled.textarea<{
         border-color: ${theme.colors.bluePrimary};
       }
     `}
+
+    &:read-only {
+      border-color: ${theme.colors.border};
+      cursor: default;
+    }
   `,
 )
 
@@ -145,7 +159,7 @@ const ClearButton = styled.button<{ $size: Props['size'] }>(
     right: 0;
     width: ${$size === 'small' ? theme.space[10] : theme.space[12]};
     height: ${$size === 'small' ? theme.space[10] : theme.space[12]};
-    transition: all 0.3s ease-out;
+    transition: all 0.1s ease-in-out;
 
     display: flex;
     justify-content: center;
@@ -167,6 +181,7 @@ type Props = Omit<FieldBaseProps, 'inline'> & {
   autoCorrect?: NativeTextareaProps['autoCorrect']
   /** If true, the component will attempt to get focus after it is rendered. */
   autoFocus?: NativeTextareaProps['autoFocus']
+  /** If true, will show a clear button when the input has value */
   clearable?: boolean
   /** The initial value. Useful for detecting changes in value. */
   defaultValue?: string | number
@@ -196,6 +211,8 @@ type Props = Omit<FieldBaseProps, 'inline'> & {
   validated?: boolean
   /** If true, shows a status dot of the current state of validation */
   showDot?: boolean
+  /** If true, will show the action button even when there is not input */
+  alwaysShowAction?: boolean
   /** The handler for change events. */
   onChange?: NativeTextareaProps['onChange']
   /** The handler for blur events. */
@@ -212,7 +229,7 @@ export const Textarea = React.forwardRef(
     {
       autoCorrect,
       autoFocus,
-      clearable = true,
+      clearable = false,
       defaultValue,
       description,
       disabled,
@@ -234,6 +251,7 @@ export const Textarea = React.forwardRef(
       tabIndex,
       value,
       width,
+      alwaysShowAction = false,
       onChange,
       onBlur,
       onFocus,
@@ -283,11 +301,13 @@ export const Textarea = React.forwardRef(
         id={id}
         label={label}
         labelSecondary={labelSecondary}
+        readOnly={readOnly}
         required={required}
         width={width}
       >
         {(ids) => (
           <Container
+            $alwaysShowAction={alwaysShowAction}
             $disabled={disabled}
             $error={!!error}
             $showDot={showDot}

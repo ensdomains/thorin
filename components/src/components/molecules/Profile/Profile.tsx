@@ -108,6 +108,9 @@ const ProfileInnerContainer = styled.div<{
   ({ theme, $size }) => css`
     display: ${$size === 'small' ? 'none' : 'block'};
     min-width: ${theme.space['none']};
+    > div:first-child {
+      margin-bottom: -${theme.space['0.5']};
+    }
   `,
 )
 

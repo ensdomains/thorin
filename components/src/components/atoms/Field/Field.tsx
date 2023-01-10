@@ -34,6 +34,8 @@ export type FieldBaseProps = {
   width?: Space
   /** Have lavel appear on the left of the form element. */
   reverse?: boolean
+  /** If true, will set the Fields component to read only mode */
+  readOnly?: boolean
 }
 
 type Props = FieldBaseProps & {
@@ -43,11 +45,22 @@ type Props = FieldBaseProps & {
   disabled?: boolean
 } & Omit<NativeLabelProps, 'id' | 'children'>
 
-const Label = styled(Typography)<{ $disabled?: boolean }>(
-  ({ $disabled }) => css`
+const Label = styled(Typography)<{ $disabled?: boolean; $readOnly?: boolean }>(
+  ({ $disabled, $readOnly }) => css`
     display: flex;
     flex: 1;
-    cursor: ${$disabled ? 'not-allowed' : 'pointer'};
+    cursor: pointer;
+
+    ${$readOnly &&
+    css`
+      cursor: default;
+      pointer-events: none;
+    `}
+
+    ${$disabled &&
+    css`
+      cursor: not-allowed;
+    `}
   `,
 )
 
@@ -77,6 +90,7 @@ const LabelContent = ({
   hideLabel,
   inline,
   disabled,
+  readOnly,
 }: {
   ids: any
   label: React.ReactNode
@@ -85,11 +99,13 @@ const LabelContent = ({
   inline?: boolean
   hideLabel?: boolean
   disabled?: boolean
+  readOnly?: boolean
 }) => {
   const content = (
     <LabelContentContainer $inline={inline}>
       <Label
         $disabled={disabled}
+        $readOnly={readOnly}
         asProp="label"
         color="grey"
         colorScheme="secondary"
@@ -216,6 +232,7 @@ export const Field = ({
   labelSecondary,
   required,
   inline,
+  readOnly,
   width = 'full',
   reverse = false,
   disabled,
@@ -249,6 +266,7 @@ export const Field = ({
         hideLabel,
         inline,
         disabled,
+        readOnly,
       }}
     />
   )

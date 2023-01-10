@@ -37,6 +37,8 @@ type BaseProps = Omit<FieldBaseProps, 'inline'> & {
   icon?: React.ReactNode
   /** An icon that trails the input. By default is the clear icon. */
   actionIcon?: React.ReactNode
+  /** If true, will not hide the action or clear button when the input is empty */
+  alwaysShowAction?: boolean
   /** Set the element type that wraps the prefix. Useful when you do not want clicks on the prefix to cause the input to focus */
   prefixAs?: 'div'
   /** Sets the input in read only mode. */
@@ -169,18 +171,9 @@ const Container = styled.div<{
   $suffix: boolean
   $validated?: boolean
   $showDot?: boolean
-  $readOnly?: boolean
   $userStyles?: FlattenInterpolation<any>
 }>(
-  ({
-    theme,
-    $size,
-    $hasError,
-    $userStyles,
-    $validated,
-    $showDot,
-    $readOnly,
-  }) => css`
+  ({ theme, $size, $hasError, $userStyles, $validated, $showDot }) => css`
     position: relative;
     height: ${getSpaceValue(theme, $size, 'height')};
     display: flex;
@@ -205,7 +198,6 @@ const Container = styled.div<{
 
     ${$showDot &&
     $validated &&
-    !$readOnly &&
     css`
       :after {
         background: ${theme.colors.greenPrimary};
@@ -255,7 +247,6 @@ const Label = styled.label<{ $size: Size }>(
     )};
     font-weight: ${theme.fontWeights.normal};
     padding: 0 ${getSpaceValue(theme, $size, 'outerPadding')};
-    cursor: text;
 
     svg {
       display: block;
@@ -350,6 +341,10 @@ const InputComponent = styled.input<{
         : theme.fontWeights.normal};
     }
 
+    &:read-only {
+      cursor: default;
+    }
+
     &:disabled {
       background: ${theme.colors.greyBright};
       cursor: not-allowed;
@@ -367,8 +362,10 @@ const InnerContainer = styled.div<{
   $size: Size
   $hasError: boolean
   $disabled: boolean
+  $readOnly: boolean
+  $alwaysShowAction: boolean
 }>(
-  ({ theme, $size, $hasError, $disabled }) => css`
+  ({ theme, $size, $hasError, $disabled, $readOnly, $alwaysShowAction }) => css`
     position: relative;
     background-color: ${theme.colors.backgroundPrimary};
     border-radius: ${getSpaceValue(theme, $size, 'radius')};
@@ -396,24 +393,43 @@ const InnerContainer = styled.div<{
     `}
 
     ${!$hasError &&
+    !$readOnly &&
     css`
       &:focus-within {
         border-color: ${theme.colors.accentBright};
       }
     `}
 
-    input:disabled ~ label, input:disabled ~ button {
+    input ~ label {
+      cursor: text;
+    }
+
+    input:read-only ~ label,
+    input:read-only ~ button {
+      cursor: default;
+    }
+
+    input:disabled ~ label,
+    input:disabled ~ button {
       background: ${theme.colors.greyBright};
       cursor: not-allowed;
     }
 
     input:disabled ~ button,
-    input:read-only ~ button,
-    input:placeholder-shown ~ button {
+    input:read-only ~ button {
       opacity: 0;
       transform: scale(0.8);
       pointer-events: none;
     }
+
+    ${!$alwaysShowAction &&
+    css`
+      input:placeholder-shown ~ button {
+        opacity: 0;
+        transform: scale(0.8);
+        pointer-events: none;
+      }
+    `}
   `,
 )
 
@@ -436,6 +452,7 @@ export const Input = React.forwardRef(
       inputMode,
       icon,
       actionIcon,
+      alwaysShowAction = false,
       label,
       labelSecondary,
       name = 'clear-button',
@@ -502,6 +519,7 @@ export const Input = React.forwardRef(
         id={id}
         label={label}
         labelSecondary={labelSecondary}
+        readOnly={readOnly}
         required={required}
         width={width}
       >
@@ -519,8 +537,10 @@ export const Input = React.forwardRef(
             }}
           >
             <InnerContainer
+              $alwaysShowAction={alwaysShowAction}
               $disabled={!!disabled}
               $hasError={!!error}
+              $readOnly={!!readOnly}
               $size={size}
             >
               <InputComponent
