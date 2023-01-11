@@ -140,7 +140,6 @@ importers:
       vite: ^3.2.5
       vite-plugin-babel-macros: ^1.0.6
       vite-plugin-dts: 1.7.1
-      vite-plugin-lib: ^1.2.0
       vite-plugin-stylelint: ^2.2.3
       vite-plugin-svgr: ^1.1.0
       vite-tsconfig-paths: ^4.0.1
@@ -184,7 +183,6 @@ importers:
       vite: 3.2.5_@types+node@16.11.6
       vite-plugin-babel-macros: 1.0.6_vite@3.2.5
       vite-plugin-dts: 1.7.1_vite@3.2.5
-      vite-plugin-lib: 1.2.0_7g3uriyb4kqeq2yf2bucr7z2ea
       vite-plugin-stylelint: 2.3.1_vite@3.2.5
       vite-plugin-svgr: 1.1.0_vite@3.2.5
       vite-tsconfig-paths: 4.0.1_7g3uriyb4kqeq2yf2bucr7z2ea
@@ -13580,21 +13578,6 @@ packages:
       kolorist: 1.6.0
       ts-morph: 17.0.1
       vite: 3.2.5_@types+node@16.11.6
-    transitivePeerDependencies:
-      - rollup
-      - supports-color
-    dev: true
-
-  /vite-plugin-lib/1.2.0_7g3uriyb4kqeq2yf2bucr7z2ea:
-    resolution: {integrity: sha512-Pn/e5uVv1l1NOIoaufDLQ5yCDILss3nAlHMMy7aXt7gaa9iapFFwREnMADyX+73YcQYgYmCW5GpYoJlY84QuxA==}
-    peerDependencies:
-      typescript: '*'
-      vite: ^2.0.0 || ^3.0.0 || ^4.0.0
-    dependencies:
-      picocolors: 1.0.0
-      typescript: 4.9.4
-      vite: 3.2.5_@types+node@16.11.6
-      vite-plugin-dts: 1.7.1_vite@3.2.5
     transitivePeerDependencies:
       - rollup
       - supports-color
