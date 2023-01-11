@@ -3,8 +3,10 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "baseUrl": "./",
+    "baseUrl": ".",
     "declaration": true,
+    "emitDeclarationOnly": true,
+    "noEmit": false,
     "jsx": "react",
     "outDir": "./dist/types",
     "paths": {
