@@ -66,8 +66,6 @@ const expectedExportedKeys = [
   'DocumentSVG',
   'DotGridActiveSVG',
   'DotGridSVG',
-  'DotsActiveSVG',
-  'DotsSVG',
   'DownArrowSVG',
   'DownChevronSVG',
   'DownCircleSVG',
