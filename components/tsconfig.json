@@ -3,7 +3,7 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "baseUrl": "./",
+    "baseUrl": ".",
     "declaration": true,
     "jsx": "react",
     "outDir": "./dist/types",
@@ -18,5 +18,6 @@
       "vite-plugin-svgr/client"
     ]
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
 }
