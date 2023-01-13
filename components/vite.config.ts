@@ -6,6 +6,7 @@ import svgrPlugin from 'vite-plugin-svgr'
 import stylelintPlugin from 'vite-plugin-stylelint'
 
 import pkg from './package.json'
+import path from 'path'
 
 export default defineConfig({
   server: {
@@ -22,6 +23,18 @@ export default defineConfig({
     rollupOptions: {
       external: Object.keys(pkg.peerDependencies),
     },
+  },
+  resolve: {
+    alias: [
+      {
+        find: '@',
+        replacement: path.resolve(__dirname),
+      },
+      {
+        find: '!',
+        replacement: path.resolve(__dirname, '..'),
+      },
+    ],
   },
   plugins: [
     svgrPlugin({
@@ -57,17 +70,18 @@ export default defineConfig({
     }),
     tsconfigPaths(),
     dts({
+      entryRoot: path.resolve(__dirname),
       exclude: [
         'src/**/*.docs.mdx',
         'src/**/*.snippets.tsx',
         'src/**/*.test.ts*',
       ],
       beforeWriteFile: (filePath, content) => ({
-        content,
+        content: content.replace(/\/\.\.\/src/g, ''),
         filePath: filePath.replace('src', ''),
       }),
       compilerOptions: {
-        baseUrl: './src/',
+        baseUrl: '.',
         emitDeclarationOnly: true,
         noEmit: false,
         paths: {
@@ -75,6 +89,7 @@ export default defineConfig({
           '@/*': ['./*'],
         },
       },
+      staticImport: true,
       outputDir: 'dist/types',
     }),
     macrosPlugin(),
