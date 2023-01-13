@@ -1,9 +1,10 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 
-import { getColor } from '@/src/utils/getColor'
-
-import { WithColor } from '@/src/types'
+import {
+  WithColorStyle,
+  getColorStyle,
+} from '@/src/types/withColorOrColorStyle'
 
 import { Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
@@ -39,13 +40,12 @@ type Props = {
     NativeInputProps,
     'children' | 'value' | 'defaultValue' | 'aria-invalid' | 'type' | 'role'
   > &
-  WithColor
+  WithColorStyle
 
 const Input = styled.input<{
-  $color: Props['color']
-  $colorScheme: Props['colorScheme']
+  $colorStyle: NonNullable<Props['colorStyle']>
 }>(
-  ({ theme, $colorScheme, $color }) => css`
+  ({ theme, $colorStyle }) => css`
     cursor: pointer;
     font: inherit;
     border-radius: 50%;
@@ -74,7 +74,7 @@ const Input = styled.input<{
       border-radius: 50%;
       transform: scale(0);
       transition: transform 90ms ease-in-out;
-      background: ${getColor(theme, $colorScheme, $color, 'background')};
+      background: ${getColorStyle(theme, $colorStyle, 'background')};
       background-size: 100% 100%;
       background-position: center;
     }
@@ -115,8 +115,7 @@ export const RadioButton = React.forwardRef(
       value,
       checked,
       width,
-      color,
-      colorScheme: colorScheme,
+      colorStyle = 'accentPrimary',
       onBlur,
       onChange,
       onFocus,
@@ -143,8 +142,7 @@ export const RadioButton = React.forwardRef(
         }}
       >
         <Input
-          $color={color}
-          $colorScheme={colorScheme}
+          $colorStyle={colorStyle}
           {...{
             ...props,
             'aria-invalid': error ? true : undefined,

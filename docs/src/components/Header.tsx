@@ -27,7 +27,7 @@ export const Header = ({ description, title }: Props) => {
   return (
     <header style={{ marginBottom: description ? 16 : 10 }}>
       <Container>
-        <Heading color="foreground" level="1">
+        <Heading color="text" level="1">
           {title}
         </Heading>
 

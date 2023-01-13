@@ -37,12 +37,18 @@ const Container = styled.button<{
     background: ${theme.colors.greySurface};
     border: 1px solid ${theme.colors.border};
     border-radius: ${theme.radii.large};
+    transform: all 150ms ease-in-out;
 
     ${$inline &&
     css`
       width: fit-content;
       height: ${theme.space['10']};
     `}
+
+    &:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.02);
+    }
   `,
 )
 

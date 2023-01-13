@@ -40,8 +40,9 @@ type NonNullableAlert = NonNullable<Props['alert']>
 
 const Container = styled.div<{
   $alert: NonNullableAlert
+  $hover: boolean
 }>(
-  ({ theme, $alert }) => css`
+  ({ theme, $alert, $hover }) => css`
     position: relative;
     background: ${theme.colors.backgroundPrimary};
     border: 1px solid ${theme.colors.border};
@@ -51,6 +52,7 @@ const Container = styled.div<{
     align-items: stretch;
     gap: ${theme.space[4]};
     width: ${theme.space.full};
+    transition: all 150ms ease-in-out;
 
     ${$alert === 'error' &&
     css`
@@ -64,9 +66,18 @@ const Container = styled.div<{
       border: 1px solid ${theme.colors.yellowPrimary};
     `};
 
+    ${$hover &&
+    css`
+      &:hover {
+        transform: translateY(-1px);
+        filter: brightness(1.02);
+      }
+    `}
+
     ${mq.md.min(
       css`
         gap: ${theme.space[6]};
+        align-items: center;
       `,
     )}
   `,
@@ -209,8 +220,15 @@ export const Banner = ({
   const Icon =
     icon || (alert && ['error', 'warning'].includes(alert) ? AlertSVG : EthSVG)
 
+  const shouldHover = !!href || !!onDismiss
+
   return (
-    <Container {...props} $alert={alert} as={asProp as any}>
+    <Container
+      {...props}
+      $alert={alert}
+      $hover={shouldHover}
+      as={asProp as any}
+    >
       <IconContainer $alert={alert}>
         <Icon />
       </IconContainer>

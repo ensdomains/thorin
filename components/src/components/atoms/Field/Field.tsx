@@ -107,8 +107,7 @@ const LabelContent = ({
         $disabled={disabled}
         $readOnly={readOnly}
         asProp="label"
-        color="grey"
-        colorScheme="secondary"
+        color="greyPrimary"
         fontVariant="regularBold"
         {...ids.label}
       >
@@ -121,11 +120,7 @@ const LabelContent = ({
         )}
       </Label>
       {labelSecondary && (
-        <Typography
-          color="grey"
-          colorScheme="secondary"
-          fontVariant="extraSmall"
-        >
+        <Typography color="greyPrimary" fontVariant="extraSmall">
           {labelSecondary}
         </Typography>
       )}
@@ -168,8 +163,7 @@ const DecorativeContent = ({
         aria-live="polite"
         {...ids.error}
         $inline={inline}
-        color="red"
-        colorScheme="secondary"
+        color="redPrimary"
         fontVariant="smallBold"
       >
         {error}
@@ -180,7 +174,7 @@ const DecorativeContent = ({
       <Description
         $inline={inline}
         {...ids.description}
-        color={disabled ? 'grey' : 'text'}
+        color={disabled ? 'greyPrimary' : 'textPrimary'}
         colorScheme={disabled ? 'secondary' : 'primary'}
         fontVariant="small"
       >

@@ -130,7 +130,7 @@ const ProfileInner = ({ size, avatar, address, ensName }: Props) => (
     </AvatarContainer>
     <ProfileInnerContainer $size={size}>
       <ReducedLineText
-        color={ensName ? undefined : 'grey'}
+        color={ensName ? 'text' : 'grey'}
         data-testid="profile-title"
         ellipsis
         fontVariant={size === 'large' ? 'heading4' : 'regularBold'}
@@ -139,7 +139,7 @@ const ProfileInner = ({ size, avatar, address, ensName }: Props) => (
         {ensName || 'No name set'}
       </ReducedLineText>
       <ReducedLineText
-        color={ensName ? 'grey' : undefined}
+        color={ensName ? 'grey' : 'text'}
         data-testid="profile-address"
         fontVariant="small"
         forwardedAs="h4"

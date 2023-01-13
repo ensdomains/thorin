@@ -1,9 +1,10 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 
-import { WithColor } from '@/src/types'
-
-import { getColor } from '@/src/utils/getColor'
+import {
+  WithColorStyle,
+  getColorStyle,
+} from '@/src/types/withColorOrColorStyle'
 
 import { Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
@@ -52,14 +53,13 @@ type Props = {
     | 'type'
     | 'aria-invalid'
   > &
-  WithColor
+  WithColorStyle
 interface InputProps {
-  $color: Props['color']
-  $colorScheme: Props['colorScheme']
+  $colorStyle: Props['colorStyle']
 }
 
 const Input = styled.input<InputProps>(
-  ({ theme, $colorScheme, $color }) => css`
+  ({ theme, $colorStyle = 'accentPrimary' }) => css`
     font: inherit;
     display: grid;
     position: relative;
@@ -84,7 +84,7 @@ const Input = styled.input<InputProps>(
 
     &::before {
       content: '';
-      background: ${getColor(theme, $colorScheme, $color, 'background')};
+      background: ${getColorStyle(theme, $colorStyle, 'background')};
       mask-image: ${`url('data:image/svg+xml; utf8, <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 12.625L10.125 20.125L22 3.875" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" /></svg>')`};
       mask-repeat: no-repeat;
       width: ${theme.space['3']};
@@ -102,7 +102,7 @@ const Input = styled.input<InputProps>(
     }
 
     &:disabled::before {
-      background: ${theme.colors.greyPrimary};
+      background: ${getColorStyle(theme, 'disabled', 'text')};
     }
 
     &:disabled:hover {
@@ -132,8 +132,7 @@ export const Checkbox = React.forwardRef(
       onBlur,
       onChange,
       onFocus,
-      color = 'accent',
-      colorScheme: colorScheme = 'primary',
+      colorStyle = 'accentPrimary',
       ...props
     }: Props,
     ref: React.Ref<HTMLInputElement>,
@@ -161,8 +160,7 @@ export const Checkbox = React.forwardRef(
             'aria-invalid': error ? true : undefined,
             type: 'checkbox',
           }}
-          $color={color}
-          $colorScheme={colorScheme}
+          $colorStyle={colorStyle}
           checked={checked}
           disabled={disabled}
           name={name}

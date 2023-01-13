@@ -1,11 +1,18 @@
 import * as React from 'react'
 
 import 'styled-components'
-import { Hue, Hue as TokenHue, Mode as TokenMode, Tokens } from '@/src/tokens'
+import { Hue as TokenHue, Mode as TokenMode, Tokens } from '@/src/tokens'
 
 import { Typography } from '../components/atoms/Typography/Typography'
 
 export type AllOrNone<T> = T | { [K in keyof T]?: never }
+
+export type {
+  Color,
+  ColorStyle,
+  WithColor,
+  WithColorStyle,
+} from './withColorOrColorStyle'
 
 /*
  * Disallow string from React.ReactNode
@@ -40,13 +47,6 @@ export type OptionalTitle = AllOrNone<{
   titleId: string
 }>
 export type IconProps = React.SVGProps<SVGSVGElement> & OptionalTitle
-
-export type WithColor = {
-  /** The base color of the component */
-  color?: Hue | 'background' | 'accent'
-  /** The styling of the color of the component */
-  colorScheme?: 'primary' | 'secondary' | 'gradient' | 'transparent' | 'text'
-}
 
 export type WithAlert = {
   alert?: 'error' | 'warning' | 'info'

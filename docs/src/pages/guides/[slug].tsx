@@ -63,7 +63,7 @@ const Page: NextPageWithLayout<Props> = ({ docsLink, source }: Props) => {
 
       <div style={{ marginTop: tokens.space['20'] }}>
         <Link href={docsLink}>
-          <Typography color="textTertiary" size="small">
+          <Typography color="grey" size="small">
             Edit on GitHub
           </Typography>
         </Link>
