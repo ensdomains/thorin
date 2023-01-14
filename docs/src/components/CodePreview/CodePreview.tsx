@@ -69,12 +69,6 @@ const LiveEditorContainer = styled.div(
     }
   `,
 )
-// const LiveErrorTypography = styled(Typography)`
-//   ${({ theme }) => `
-//     color: ${tokens.colors[theme.mode].red};
-//     font-family: ${tokens.fonts['mono']};
-//   `}
-// `
 
 const ButtonContainer = styled.div(
   ({ theme }) => css`
@@ -167,7 +161,7 @@ export const CodePreview = ({
         <ButtonContainer>
           <div>
             <Button
-              colorScheme="secondary"
+              colorStyle="accentSecondary"
               size="small"
               onClick={() => setState((x) => ({ ...x, expand: !x.expand }))}
             >
@@ -178,7 +172,7 @@ export const CodePreview = ({
           <div>
             <Button
               as="a"
-              colorScheme="secondary"
+              colorStyle="accentSecondary"
               href={createPlayroomLink({ code })}
               size="small"
               target="_blank"

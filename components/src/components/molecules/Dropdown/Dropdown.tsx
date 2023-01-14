@@ -57,6 +57,7 @@ const DropdownMenuContainer = styled.div<DropdownMenuContainer>(
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: ${theme.space['1']};
     position: absolute;
 
     ${$direction === 'up' &&

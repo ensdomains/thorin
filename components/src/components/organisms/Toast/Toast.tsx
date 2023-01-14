@@ -68,7 +68,7 @@ const Container = styled.div<{
     justify-content: center;
     padding: ${theme.space['4.5']};
 
-    background: hsla(${theme.colors.raw.background} / 0.8);
+    background: hsla(${theme.colors.raw.backgroundPrimary} / 0.8);
     box-shadow: ${theme.boxShadows['0.02']};
     border: ${theme.borderWidths.px} solid ${theme.colors.greySurface};
     backdrop-filter: blur(16px);

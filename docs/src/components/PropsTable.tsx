@@ -213,7 +213,7 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
           {!!props.length && (
             <div>
               <Button
-                colorScheme="secondary"
+                colorStyle="accentSecondary"
                 size="small"
                 onClick={() =>
                   setState((x) => ({
@@ -232,7 +232,7 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
           {sourceLink && (
             <div>
               <Link href={sourceLink}>
-                <Button colorScheme="secondary" size="small">
+                <Button colorStyle="accentSecondary" size="small">
                   View Source on GitHub
                 </Button>
               </Link>

@@ -72,42 +72,46 @@ const Input = styled.input<InputProps>(
     border-radius: ${theme.radii.small};
     background-color: ${theme.colors.border};
 
-    &:hover {
-      transform: translateY(-1px);
-      filter: contrast(0.7);
-    }
-
-    &:active {
-      transform: translateY(0px);
-      filter: contrast(1);
+    &:checked {
+      background: ${getColorStyle(theme, $colorStyle, 'background')};
     }
 
     &::before {
       content: '';
-      background: ${getColorStyle(theme, $colorStyle, 'background')};
+      background: ${theme.colors.border};
       mask-image: ${`url('data:image/svg+xml; utf8, <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 12.625L10.125 20.125L22 3.875" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" /></svg>')`};
       mask-repeat: no-repeat;
       width: ${theme.space['3']};
       height: ${theme.space['3']};
-      transform: scale(0);
       transition: all 90ms ease-in-out;
     }
 
+    &:hover {
+      transform: translateY(-1px);
+    }
+
+    &:hover::before,
     &:checked::before {
-      transform: scale(1);
+      background: ${getColorStyle(theme, $colorStyle, 'text')};
     }
 
     &:disabled {
       cursor: not-allowed;
     }
 
-    &:disabled::before {
-      background: ${getColorStyle(theme, 'disabled', 'text')};
+    &:disabled::before,
+    &:disabled:hover::before {
+      background: ${theme.colors.border};
     }
 
-    &:disabled:hover {
-      transform: initial;
-      filter: initial;
+    &:disabled:checked,
+    &:disabled:checked:hover {
+      background: ${theme.colors.border};
+    }
+
+    &:disabled:checked::before,
+    &:disabled:checked:hover::before {
+      background: ${theme.colors.greyPrimary};
     }
   `,
 )

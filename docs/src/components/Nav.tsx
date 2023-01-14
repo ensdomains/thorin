@@ -167,7 +167,7 @@ export const Nav = ({ links }: Props) => {
           </NavLink>
           <ButtonContainer>
             <Button
-              colorScheme="transparent"
+              colorStyle="transparent"
               pressed={state.open}
               size="flexible"
               onClick={() => setState((x) => ({ ...x, open: !x.open }))}

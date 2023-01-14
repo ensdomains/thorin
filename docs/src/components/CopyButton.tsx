@@ -37,7 +37,7 @@ export const CopyButton = ({ content }: Props) => {
   }, [content])
 
   return (
-    <Button colorScheme="transparent" size="small" onClick={onClick}>
+    <Button colorStyle="transparent" size="small" onClick={onClick}>
       {state.copied ? <CheckSVG /> : <CopySVG />}
     </Button>
   )

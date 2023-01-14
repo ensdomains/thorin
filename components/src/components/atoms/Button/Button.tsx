@@ -109,25 +109,23 @@ const ButtonElement = styled.button<ButtonElement>(
 
     &:hover {
       transform: translateY(-1px);
-      filter: ${getColorStyle(theme, $colorStyle, 'hoverFilter')};
       background: ${getColorStyle(theme, $colorStyle, 'hover')};
     }
 
     &:active {
       transform: translateY(0px);
-      filter: brightness(1);
     }
 
     &:disabled {
       cursor: not-allowed;
       background: ${getColorStyle(theme, 'disabled', 'background')};
+      transform: none;
       color: ${getColorStyle(theme, 'disabled', 'text')};
       border-color: transparent;
     }
 
     ${$pressed &&
     css`
-      filter: ${getColorStyle(theme, $colorStyle, 'hoverFilter')};
       background: ${getColorStyle(theme, $colorStyle, 'hover')};
     `};
 

@@ -43,7 +43,6 @@ const Container = styled.div<ContainerProps>(
       &:active {
         transform: translateY(-1px);
         background-color: ${getColorStyle(theme, $colorStyle, 'hover')};
-        filter: ${getColorStyle(theme, $colorStyle, 'hoverFilter')};
       }
     `}
   `,

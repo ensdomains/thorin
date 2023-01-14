@@ -37,7 +37,7 @@ const Container = styled.button<{
     background: ${theme.colors.greySurface};
     border: 1px solid ${theme.colors.border};
     border-radius: ${theme.radii.large};
-    transform: all 150ms ease-in-out;
+    transition: all 150ms ease-in-out;
 
     ${$inline &&
     css`

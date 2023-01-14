@@ -1,0 +1,44 @@
+---
+title: CheckboxRow
+description: An alternative checkbox component
+---
+
+```tsx
+import { CheckboxRow } from '@ensdomains/thorin'
+```
+
+```tsx live=true expand=true
+<CheckboxRow label="Label" />
+```
+
+## Props
+
+<PropsTable sourceLink={sourceLink} types={types} />
+
+## States
+
+```tsx live=true expand=true
+<DeleteMe>
+  <CheckboxRow checked label="Checked" />
+  <CheckboxRow label="Unchecked" />
+  <CheckboxRow checked disabled label="Checked & Disabled" />
+  <CheckboxRow disabled label="Unchecked & Disabled" />
+</DeleteMe>
+```
+
+## Color
+
+```tsx live=true expand=true
+<DeleteMe>
+  <CheckboxRow color="blue" label="Blue" />
+  <CheckboxRow color="indigo" label="Indigo" />
+  <CheckboxRow color="purple" label="Purple" />
+  <CheckboxRow color="pink" label="Pink" />
+  <CheckboxRow color="red" label="Red" />
+  <CheckboxRow color="orange" label="Orange" />
+  <CheckboxRow color="yellow" label="Yellow" />
+  <CheckboxRow color="green" label="Green" />
+  <CheckboxRow color="teal" label="Teal" />
+  <CheckboxRow color="grey" label="Grey" />
+</DeleteMe>
+```

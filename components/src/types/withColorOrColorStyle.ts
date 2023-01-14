@@ -72,7 +72,6 @@ type ColorStyleItem = {
   text: ColorPath
   background: ColorPath
   border: ColorPath
-  hoverFilter: string
   hover: ColorPath
 }
 
@@ -86,8 +85,7 @@ const makeColorStyleMap = (colorObj: ColorObj) => {
         text: `backgroundPrimary`,
         background: `${color}Primary`,
         border: 'transparent',
-        hoverFilter: 'brightness(1.1)',
-        hover: `${color}Primary`,
+        hover: `${color}Bright`,
       },
     ]),
   ) as {
@@ -100,8 +98,7 @@ const makeColorStyleMap = (colorObj: ColorObj) => {
         text: `${color}Primary`,
         background: `${color}Surface`,
         border: 'transparent',
-        hoverFilter: 'contrast(0.95)',
-        hover: `${color}Surface`,
+        hover: `${color}Light`,
       },
     ]),
   ) as {
@@ -115,7 +112,6 @@ const makeColorStyleMap = (colorObj: ColorObj) => {
         text: `backgroundPrimary`,
         background: `gradients.${color}`,
         border: 'transparent',
-        hoverFilter: 'contrast(0.95)',
         hover: `gradients.${color}`,
       },
     ]),
@@ -130,15 +126,13 @@ const makeColorStyleMap = (colorObj: ColorObj) => {
     text: 'initial',
     background: 'transparent',
     border: 'transparent',
-    hoverFilter: 'contrast(0.95)',
-    hover: 'greyBright',
+    hover: 'greyLight',
   }
 
   const disabled: ColorStyleItem = {
     text: 'greyPrimary',
     background: 'greyBright',
     border: 'transparent',
-    hoverFilter: 'initial',
     hover: 'greyBright',
   }
 
@@ -146,7 +140,6 @@ const makeColorStyleMap = (colorObj: ColorObj) => {
     text: 'textPrimary',
     background: 'backgroundPrimary',
     border: 'border',
-    hoverFilter: 'initial',
     hover: 'backgroundSecondary',
   }
 
@@ -175,8 +168,7 @@ const getColorFromPath = (theme: DefaultTheme, path = '') => {
     path
       .split('.')
       .reduce(
-        (currentObj: any, currentPath: keyof typeof currentObj) =>
-          currentObj?.[currentPath],
+        (currentObj: any, currentPath: string) => currentObj?.[currentPath],
         theme.colors as object,
       ) || path
   )
@@ -192,6 +184,6 @@ export const getColorStyle = (
   colorStyle: ColorStyle,
   attribute: ColorAttribute,
 ) => {
-  const path = colorStyleMap[colorStyle][attribute] as ColorPath
+  const path = colorStyleMap[colorStyle]?.[attribute] as ColorPath
   return getColorFromPath(theme, path)
 }
