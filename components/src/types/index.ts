@@ -3,8 +3,6 @@ import * as React from 'react'
 import 'styled-components'
 import { Hue as TokenHue, Mode as TokenMode, Tokens } from '@/src/tokens'
 
-import { Typography } from '../components/atoms/Typography/Typography'
-
 export type AllOrNone<T> = T | { [K in keyof T]?: never }
 
 export type {
@@ -13,6 +11,8 @@ export type {
   WithColor,
   WithColorStyle,
 } from './withColorOrColorStyle'
+
+export type { FontVariant, WithTypography } from './withTypography'
 
 /*
  * Disallow string from React.ReactNode
@@ -50,33 +50,6 @@ export type IconProps = React.SVGProps<SVGSVGElement> & OptionalTitle
 
 export type WithAlert = {
   alert?: 'error' | 'warning' | 'info'
-}
-
-type LegacyTypography =
-  | 'small'
-  | 'large'
-  | 'extraLarge'
-  | 'label'
-  | 'labelHeading'
-
-export type Typography =
-  | 'heading1'
-  | 'heading2'
-  | 'heading3'
-  | 'heading4'
-  | 'extraLarge'
-  | 'extraLargeBold'
-  | 'large'
-  | 'largeBold'
-  | 'regular'
-  | 'regularBold'
-  | 'small'
-  | 'smallBold'
-  | 'extraSmall'
-  | 'extraSmallBold'
-
-export type WithTypography = {
-  fontVariant?: Typography | LegacyTypography
 }
 
 export type Icon = React.FunctionComponent<React.SVGProps<SVGSVGElement>>

@@ -108,7 +108,7 @@ const LabelContent = ({
         $readOnly={readOnly}
         asProp="label"
         color="greyPrimary"
-        fontVariant="regularBold"
+        fontVariant="bodyBold"
         {...ids.label}
       >
         {label}&nbsp;

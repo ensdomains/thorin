@@ -103,13 +103,13 @@ const ButtonElement = styled.button<ButtonElement>(
     border-width: ${theme.borderWidths.px};
     border-style: ${theme.borderStyles.solid};
 
-    background: ${getColorStyle(theme, $colorStyle, 'background')};
-    color: ${getColorStyle(theme, $colorStyle, 'text')};
-    border-color: ${getColorStyle(theme, $colorStyle, 'border')};
+    background: ${getColorStyle($colorStyle, 'background')};
+    color: ${getColorStyle($colorStyle, 'text')};
+    border-color: ${getColorStyle($colorStyle, 'border')};
 
     &:hover {
       transform: translateY(-1px);
-      background: ${getColorStyle(theme, $colorStyle, 'hover')};
+      background: ${getColorStyle($colorStyle, 'hover')};
     }
 
     &:active {
@@ -118,15 +118,15 @@ const ButtonElement = styled.button<ButtonElement>(
 
     &:disabled {
       cursor: not-allowed;
-      background: ${getColorStyle(theme, 'disabled', 'background')};
+      background: ${getColorStyle('disabled', 'background')};
       transform: none;
-      color: ${getColorStyle(theme, 'disabled', 'text')};
+      color: ${getColorStyle('disabled', 'text')};
       border-color: transparent;
     }
 
     ${$pressed &&
     css`
-      background: ${getColorStyle(theme, $colorStyle, 'hover')};
+      background: ${getColorStyle($colorStyle, 'hover')};
     `};
 
     ${$shadow &&
@@ -144,7 +144,7 @@ const ButtonElement = styled.button<ButtonElement>(
         display: block;
         width: ${theme.space['3']};
         height: ${theme.space['3']};
-        color: ${getColorStyle(theme, $colorStyle, 'text')};
+        color: ${getColorStyle($colorStyle, 'text')};
       }
     `}
 
@@ -158,12 +158,12 @@ const ButtonElement = styled.button<ButtonElement>(
         display: block;
         width: ${theme.space['4']};
         height: ${theme.space['4']};
-        color: ${getColorStyle(theme, $colorStyle, 'text')};
+        color: ${getColorStyle($colorStyle, 'text')};
       }
     `}
 
     &:disabled svg {
-      color: ${getColorStyle(theme, 'disabled', 'text')};
+      color: ${getColorStyle('disabled', 'text')};
     }
 
     ${($shape === 'circle' || $shape === 'rounded') &&

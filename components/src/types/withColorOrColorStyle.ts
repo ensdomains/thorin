@@ -1,39 +1,34 @@
 import { Colors } from '../tokens'
 import { colors as colorObj } from '../tokens/color'
-import { DefaultTheme } from './index'
 
 type ColorObj = typeof colorObj.light
 
-type Join<K, P> = K extends string | number
-  ? P extends string | number
-    ? `${K}${'' extends P ? '' : '.'}${P}`
-    : never
-  : never
+type ColorMode = keyof typeof colorObj
 
-type Leaves<T> = T extends object
-  ? { [K in keyof T]-?: Join<K, Leaves<T[K]>> }[keyof T]
-  : ''
+type ColorGradient = keyof typeof colorObj.light.gradients
 
-type ColorPath = Leaves<ColorObj> | 'transparent' | 'initial' | 'inherit'
+const makeColorMap = (mode: ColorMode) => {
+  const gradientKeys = Object.keys(
+    colorObj[mode]['gradients'],
+  ) as ColorGradient[]
 
-const makeColorMap = (colorObj: ColorObj) => {
   const gradientValues = Object.fromEntries(
-    Object.keys(colorObj.gradients).map((color) => [
+    gradientKeys.map((color: ColorGradient) => [
       `${color}Gradient`,
-      `gradients.${color}`,
+      colorObj[mode]['gradients'][color],
     ]),
   ) as {
-    [key in Exclude<
-      keyof ColorObj['gradients'],
-      symbol
-    > as `${key}Gradient`]: ColorPath
+    [key in `${ColorGradient}Gradient`]: string
   }
 
+  const colorKeys = Object.keys(colorObj[mode]).filter(
+    ([color]) => color !== 'gradients' && color !== 'raw',
+  ) as Colors[]
+
   const colorValues = Object.fromEntries(
-    Object.keys(colorObj)
-      .filter(([color]) => color !== 'gradients' && color !== 'raw')
-      .map((color) => [color, color]),
-  ) as { [key in Colors]: ColorPath }
+    colorKeys.map((color) => [color, colorObj[mode][color]]),
+  ) as { [key in Colors]: string }
+
   return {
     ...gradientValues,
     ...colorValues,
@@ -43,7 +38,7 @@ const makeColorMap = (colorObj: ColorObj) => {
   }
 }
 
-export const colorMap = makeColorMap(colorObj.light)
+export const colorMap = makeColorMap('light')
 
 export type Color = keyof typeof colorMap
 
@@ -69,50 +64,53 @@ const BASE_COLORS = [
 type BaseColor = typeof BASE_COLORS[number]
 
 type ColorStyleItem = {
-  text: ColorPath
-  background: ColorPath
-  border: ColorPath
-  hover: ColorPath
+  text: string
+  background: string
+  border: string
+  hover: string
 }
 
 type ColorAttribute = keyof ColorStyleItem
 
-const makeColorStyleMap = (colorObj: ColorObj) => {
+const makeColorStyleMap = (mode: ColorMode) => {
   const primaryStyles = Object.fromEntries(
     BASE_COLORS.map((color) => [
       `${color}Primary`,
       {
-        text: `backgroundPrimary`,
-        background: `${color}Primary`,
+        text: colorObj[mode][`backgroundPrimary`],
+        background: colorObj[mode][`${color}Primary`],
         border: 'transparent',
-        hover: `${color}Bright`,
+        hover: colorObj[mode][`${color}Bright`],
       },
     ]),
   ) as {
-    [key in Exclude<BaseColor, symbol> as `${key}Primary`]: ColorStyleItem
+    [key in `${BaseColor}Primary`]: ColorStyleItem
   }
   const secondaryStyles = Object.fromEntries(
     BASE_COLORS.map((color) => [
       `${color}Secondary`,
       {
-        text: `${color}Primary`,
-        background: `${color}Surface`,
+        text: colorObj[mode][`${color}Primary`],
+        background: colorObj[mode][`${color}Surface`],
         border: 'transparent',
-        hover: `${color}Light`,
+        hover: colorObj[mode][`${color}Light`],
       },
     ]),
   ) as {
-    [key in Exclude<BaseColor, symbol> as `${key}Secondary`]: ColorStyleItem
+    [key in `${BaseColor}Secondary`]: ColorStyleItem
   }
 
+  const gradientKeys = Object.keys(
+    colorObj[mode]['gradients'],
+  ) as ColorGradient[]
   const gradientValues = Object.fromEntries(
-    Object.keys(colorObj.gradients).map((color) => [
+    gradientKeys.map((color) => [
       `${color}Gradient`,
       {
-        text: `backgroundPrimary`,
-        background: `gradients.${color}`,
+        text: colorObj[mode][`backgroundPrimary`],
+        background: colorObj[mode]['gradients'][color],
         border: 'transparent',
-        hover: `gradients.${color}`,
+        hover: colorObj[mode]['gradients'][color],
       },
     ]),
   ) as {
@@ -126,21 +124,21 @@ const makeColorStyleMap = (colorObj: ColorObj) => {
     text: 'initial',
     background: 'transparent',
     border: 'transparent',
-    hover: 'greyLight',
+    hover: colorObj[mode]['greyLight'],
   }
 
   const disabled: ColorStyleItem = {
-    text: 'greyPrimary',
-    background: 'greyLight',
-    border: 'greyLight',
-    hover: 'greyLight',
+    text: colorObj[mode]['greyPrimary'],
+    background: colorObj[mode]['greyLight'],
+    border: colorObj[mode]['greyLight'],
+    hover: colorObj[mode]['greyLight'],
   }
 
   const background: ColorStyleItem = {
-    text: 'textPrimary',
-    background: 'backgroundPrimary',
-    border: 'border',
-    hover: 'backgroundSecondary',
+    text: colorObj[mode]['textPrimary'],
+    background: colorObj[mode]['backgroundPrimary'],
+    border: colorObj[mode]['border'],
+    hover: colorObj[mode]['backgroundSecondary'],
   }
 
   return {
@@ -153,7 +151,7 @@ const makeColorStyleMap = (colorObj: ColorObj) => {
   }
 }
 
-const colorStyleMap = makeColorStyleMap(colorObj.light)
+const colorStyleMap = makeColorStyleMap('light')
 
 export type ColorStyle = keyof typeof colorStyleMap
 
@@ -162,28 +160,13 @@ export type WithColorStyle = {
   colorStyle?: ColorStyle
 }
 
-// If method fails to find a color, return the path instead.
-const getColorFromPath = (theme: DefaultTheme, path = '') => {
-  return (
-    path
-      .split('.')
-      .reduce(
-        (currentObj: any, currentPath: string) => currentObj?.[currentPath],
-        theme.colors as object,
-      ) || path
-  )
-}
-
-export const getColor = (theme: DefaultTheme, color: Color) => {
-  const path = colorMap[color]
-  return getColorFromPath(theme, path)
+export const getColor = (color: Color) => {
+  return colorMap[color]
 }
 
 export const getColorStyle = (
-  theme: DefaultTheme,
   colorStyle: ColorStyle,
   attribute: ColorAttribute,
 ) => {
-  const path = colorStyleMap[colorStyle]?.[attribute] as ColorPath
-  return getColorFromPath(theme, path)
+  return colorStyleMap[colorStyle]?.[attribute]
 }

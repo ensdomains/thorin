@@ -7,10 +7,6 @@ import {
   getColorStyle,
 } from './withColorOrColorStyle'
 
-const theme = {
-  colors: colors.light,
-} as any
-
 const colorMapKeys = Object.keys(colorMap).filter(
   (color) => color != 'raw' && color != 'gradients',
 ) as Color[]
@@ -20,14 +16,14 @@ const gradientKeys = Object.keys(colors.light.gradients)
 describe('WithColor', () => {
   colorMapKeys.forEach((color) => {
     it('should resolve ' + color + ' to a string', () => {
-      const attribute = getColor(theme, color as any)
+      const attribute = getColor(color as any)
       expect(typeof attribute).toBe('string')
     })
   })
 
   gradientKeys.forEach((color) => {
     it('should resolve ' + color + ' to a string', () => {
-      const attribute = getColor(theme, color as any)
+      const attribute = getColor(color as any)
       expect(typeof attribute).toBe('string')
     })
   })
@@ -49,7 +45,7 @@ const colorStyleColors = [
 
 const specialColorStyles = ['transparent', 'disabled']
 
-const attributes = ['background', 'border', 'text', 'hover', 'hoverFilter']
+const attributes = ['background', 'border', 'text', 'hover']
 
 describe('WithColorStyle', () => {
   colorStyleColors.forEach((color) => {
@@ -58,7 +54,6 @@ describe('WithColorStyle', () => {
         'should resolve ' + color + 'Primary ' + attribute + ' to a string',
         () => {
           const value = getColorStyle(
-            theme,
             `${color}Primary` as any,
             attribute as any,
           )
@@ -76,7 +71,6 @@ describe('WithColorStyle', () => {
         'should resolve ' + color + 'Secondary ' + attribute + ' to a string',
         () => {
           const value = getColorStyle(
-            theme,
             `${color}Secondary` as any,
             attribute as any,
           )
@@ -91,7 +85,7 @@ describe('WithColorStyle', () => {
   specialColorStyles.forEach((style) => {
     attributes.forEach((attribute) => {
       it('should resolve ' + style + ' ' + attribute + ' to a string', () => {
-        const value = getColorStyle(theme, `${style}` as any, attribute as any)
+        const value = getColorStyle(`${style}` as any, attribute as any)
         expect(typeof value).toBe('string')
         if (attribute !== 'hoverFilter')
           expect(value).toMatch(/^(hsl\(|transparent|initial|inherit)/)

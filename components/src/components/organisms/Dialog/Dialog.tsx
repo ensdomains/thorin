@@ -248,7 +248,7 @@ const Heading = ({
       {alert && <Icon alert={alert} />}
       {title &&
         ((typeof title !== 'string' && title) || (
-          <Title fontVariant="heading4">{title}</Title>
+          <Title fontVariant="headingFour">{title}</Title>
         ))}
       {subtitle &&
         ((typeof subtitle !== 'string' && subtitle) || (

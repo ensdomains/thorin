@@ -22,9 +22,9 @@ const Container = styled.div<ContainerProps>(
     font-weight: ${theme.fontWeights.bold};
     width: ${theme.space['max']};
     padding: ${theme.space['0.5']} ${theme.space['2']};
-    background: ${getColorStyle(theme, $colorStyle, 'background')};
-    color: ${getColorStyle(theme, $colorStyle, 'text')};
-    border: 1px solid ${getColorStyle(theme, $colorStyle, 'border')};
+    background: ${getColorStyle($colorStyle, 'background')};
+    color: ${getColorStyle($colorStyle, 'text')};
+    border: 1px solid ${getColorStyle($colorStyle, 'border')};
     cursor: default;
 
     ${$size === 'small' &&
@@ -42,7 +42,7 @@ const Container = styled.div<ContainerProps>(
       &:hover,
       &:active {
         transform: translateY(-1px);
-        background-color: ${getColorStyle(theme, $colorStyle, 'hover')};
+        background-color: ${getColorStyle($colorStyle, 'hover')};
       }
     `}
   `,

@@ -149,7 +149,7 @@ export const CheckboxRow = React.forwardRef<HTMLInputElement, Props>(
             <CheckSVG />
           </Circle>
           <Content>
-            <Typography color="text" fontVariant="regularBold">
+            <Typography color="text" fontVariant="bodyBold">
               {title}
             </Typography>
           </Content>

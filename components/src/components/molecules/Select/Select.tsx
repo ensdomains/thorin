@@ -12,7 +12,11 @@ import { Colors, Space } from '@/src/tokens'
 
 import { CrossCircleSVG } from '@/src'
 
-import { getTypography } from '@/src/utils/getTypography'
+import {
+  getFontSize,
+  getFontWeight,
+  getLineHeight,
+} from '@/src/types/withTypography'
 
 import { DownChevronSVG, Field } from '../..'
 
@@ -425,9 +429,9 @@ const SelectOption = styled.button<{
     border-radius: ${theme.radii.large};
     white-space: nowrap;
     color: ${theme.colors.textPrimary};
-    font-size: ${getTypography(theme, 'regular', 'fontSize')};
-    font-weight: ${getTypography(theme, 'regular', 'fontWeight')};
-    line-height: ${getTypography(theme, 'regular', 'lineHeight')};
+    font-size: ${getFontSize('body')};
+    font-weight: ${getFontWeight('body')};
+    line-height: ${getLineHeight('body')};
     text-align: left;
 
     svg {
@@ -472,9 +476,9 @@ const SelectOption = styled.button<{
     css`
       height: ${theme.space['9']};
       flex: 0 0 ${theme.space['9']};
-      font-size: ${getTypography(theme, 'small', 'fontSize')};
-      font-weight: ${getTypography(theme, 'small', 'fontWeight')};
-      line-height: ${getTypography(theme, 'small', 'lineHeight')};
+      font-size: ${getFontSize('small')};
+      font-weight: ${getFontWeight('small')};
+      line-height: ${getLineHeight('small')};
     `}
   `,
 )

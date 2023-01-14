@@ -3,14 +3,17 @@ import styled, { css } from 'styled-components'
 
 import { Font, FontSize, FontWeight } from '@/src/tokens/typography'
 
-import { getTypography } from '@/src/utils/getTypography'
+import {
+  WithTypography,
+  getFontSize,
+  getFontWeight,
+  getLineHeight,
+} from '@/src/types/withTypography'
 import { WithColor, getColor } from '@/src/types/withColorOrColorStyle'
-
-import { WithTypography } from '@/src/types/index'
 
 type ContainerProps = {
   $ellipsis?: boolean
-  $typography: WithTypography['fontVariant']
+  $fontVariant: WithTypography['fontVariant']
   $size?: FontSize
   $color: NonNullable<WithColor['color']>
   $weight?: FontWeight
@@ -18,17 +21,10 @@ type ContainerProps = {
 }
 
 const Container = styled.div<ContainerProps>(
-  ({
-    theme,
-    $ellipsis,
-    $typography = 'regular',
-    $color,
-    $font,
-    $weight,
-  }) => css`
+  ({ theme, $ellipsis, $fontVariant = 'body', $color, $font, $weight }) => css`
     font-family: ${theme.fonts.sans};
     line-height: ${theme.lineHeights.body};
-    color: ${getColor(theme, $color)};
+    color: ${getColor($color)};
 
     ${$ellipsis &&
     css`
@@ -37,11 +33,11 @@ const Container = styled.div<ContainerProps>(
       white-space: nowrap;
     `}
 
-    ${$typography &&
+    ${$fontVariant &&
     css`
-      font-size: ${getTypography(theme, $typography, 'fontSize')};
-      font-weight: ${getTypography(theme, $typography, 'fontWeight')};
-      line-height: ${getTypography(theme, $typography, 'lineHeight')};
+      font-size: ${getFontSize($fontVariant)};
+      font-weight: ${getFontWeight($fontVariant)};
+      line-height: ${getLineHeight($fontVariant)};
     `}
 
     ${$font === 'mono' &&
@@ -93,7 +89,7 @@ export const Typography = React.forwardRef<HTMLElement, Props>(
       children,
       ellipsis,
       className,
-      fontVariant = 'regular',
+      fontVariant = 'body',
       font = 'sans',
       color = 'text',
       weight,
@@ -107,7 +103,7 @@ export const Typography = React.forwardRef<HTMLElement, Props>(
         $color={color}
         $ellipsis={ellipsis ? true : undefined}
         $font={font}
-        $typography={fontVariant}
+        $fontVariant={fontVariant}
         $weight={weight}
         as={asProp}
         className={className}

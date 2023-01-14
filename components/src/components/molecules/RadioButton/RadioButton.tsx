@@ -68,7 +68,7 @@ const Input = styled.input<{
     }
 
     &:checked::before {
-      background: ${getColorStyle(theme, $colorStyle, 'background')};
+      background: ${getColorStyle($colorStyle, 'background')};
     }
 
     &:disabled {
@@ -84,7 +84,7 @@ const Input = styled.input<{
     }
 
     &:checked:hover::before {
-      background: ${getColorStyle(theme, $colorStyle, 'hover')};
+      background: ${getColorStyle($colorStyle, 'hover')};
     }
 
     &:disabled:checked::before,

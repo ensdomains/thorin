@@ -6,8 +6,12 @@ import { setNativeValue } from '@/src/utils/setNativeValue'
 import { CrossCircleSVG, Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
 import { Space } from '../../../tokens/index'
-import { DefaultTheme, Typography } from '../../../types/index'
-import { getTypography } from '../../../utils/getTypography'
+import { DefaultTheme } from '../../../types/index'
+import {
+  FontVariant,
+  getFontSize,
+  getLineHeight,
+} from '../../../types/withTypography'
 
 type NativeInputProps = React.InputHTMLAttributes<HTMLInputElement>
 
@@ -152,12 +156,12 @@ const getSpaceValue = (
 }
 
 const TYPOGRAPHIES: {
-  [key in Size]: Typography
+  [key in Size]: FontVariant
 } = {
   small: 'small',
-  medium: 'regular',
+  medium: 'body',
   large: 'large',
-  extraLarge: 'heading3',
+  extraLarge: 'headingThree',
 }
 
 const getTypographyValue = (size: keyof typeof TYPOGRAPHIES) => {
@@ -239,12 +243,8 @@ const Label = styled.label<{ $size: Size }>(
     height: ${theme.space.full};
     color: ${theme.colors.greyPrimary};
     background: ${theme.colors.greySurface};
-    font-size: ${getTypography(theme, getTypographyValue($size), 'fontSize')};
-    line-height: ${getTypography(
-      theme,
-      getTypographyValue($size),
-      'lineHeight',
-    )};
+    font-size: ${getFontSize(getTypographyValue($size))};
+    line-height: ${getLineHeight(getTypographyValue($size))};
     font-weight: ${theme.fontWeights.normal};
     padding: 0 ${getSpaceValue(theme, $size, 'outerPadding')};
 
@@ -317,12 +317,8 @@ const InputComponent = styled.input<{
     text-overflow: ellipsis;
     color: ${theme.colors.textPrimary};
     padding: 0 ${getSpaceValue(theme, $size, 'outerPadding')};
-    font-size: ${getTypography(theme, getTypographyValue($size), 'fontSize')};
-    line-height: ${getTypography(
-      theme,
-      getTypographyValue($size),
-      'lineHeight',
-    )};
+    font-size: ${getFontSize(getTypographyValue($size))};
+    line-height: ${getLineHeight(getTypographyValue($size))};
 
     ${$hasIcon &&
     css`

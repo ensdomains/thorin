@@ -133,7 +133,7 @@ const ProfileInner = ({ size, avatar, address, ensName }: Props) => (
         color={ensName ? 'text' : 'grey'}
         data-testid="profile-title"
         ellipsis
-        fontVariant={size === 'large' ? 'heading4' : 'regularBold'}
+        fontVariant={size === 'large' ? 'headingFour' : 'bodyBold'}
         forwardedAs="h3"
       >
         {ensName || 'No name set'}

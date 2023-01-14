@@ -73,7 +73,7 @@ const HeadingContainer = styled.div<HeadingContainerProps>(
 
   ${$color &&
     css`
-      color: ${getColor(theme, $color)};
+      color: ${getColor($color)};
     `}
   
   font-family: ${theme.fonts['sans']};

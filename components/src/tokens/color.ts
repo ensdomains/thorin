@@ -78,8 +78,6 @@ const categories = {
 } satisfies Record<string, CategoryItem>
 
 const gradients = {
-  accent:
-    'linear-gradient(330.4deg, #44BCF0 4.54%, #7298F8 59.2%, #A099FF 148.85%)',
   blue: 'linear-gradient(330.4deg, #44BCF0 4.54%, #7298F8 59.2%, #A099FF 148.85%)',
   green:
     'linear-gradient(90deg, rgba(68,240,127,1) 4.54%, rgba(114,248,176,1) 59.2%, rgba(153,202,255,1) 148.85%)',
@@ -217,6 +215,13 @@ const makeColorRange = <THue extends Hue>(
   }
 }
 
+const makeGradients = (accent: unknown, colors: AllColors) => {
+  return {
+    ...gradients,
+    accent: gradients[accent as Gradient] || colors[accent as Hue],
+  }
+}
+
 const makeMode = (accent: Hue, mode: Mode) => {
   const calculatedColors = Object.entries({
     ...hues,
@@ -259,7 +264,7 @@ const makeMode = (accent: Hue, mode: Mode) => {
 
   return {
     ...allColours,
-    gradients,
+    gradients: makeGradients(accent, allColours),
   }
 }
 

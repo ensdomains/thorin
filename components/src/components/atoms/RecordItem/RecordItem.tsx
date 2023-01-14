@@ -155,7 +155,7 @@ export const RecordItem = ({
         $inline={inline}
         color="grey"
         ellipsis={!inline}
-        fontVariant={size === 'large' ? 'regularBold' : 'smallBold'}
+        fontVariant={size === 'large' ? 'bodyBold' : 'smallBold'}
       >
         {keyLabel}
       </PrefixLabel>
@@ -206,10 +206,7 @@ export const RecordItem = ({
           )}
         </PrefixContainer>
       )}
-      <Label
-        $inline={inline}
-        fontVariant={size === 'large' ? 'regular' : 'small'}
-      >
+      <Label $inline={inline} fontVariant={size === 'large' ? 'body' : 'small'}>
         {children}
       </Label>
       <TrailingIcon {...PostfixProps} />

@@ -197,7 +197,7 @@ export const Nav = ({ links }: Props) => {
           </FlexContainer>
 
           <FlexContainer>
-            <Typography fontVariant="regularBold">Guides</Typography>
+            <Typography fontVariant="bodyBold">Guides</Typography>
             <FlexContainer $space="3">
               <NavLink
                 active={
@@ -221,7 +221,7 @@ export const Nav = ({ links }: Props) => {
           </FlexContainer>
 
           <FlexContainer>
-            <Typography fontVariant="regularBold">Components</Typography>
+            <Typography fontVariant="bodyBold">Components</Typography>
             {links.map((x) => (
               <FlexContainer $space="3" key={x.name}>
                 <SubGroupLabel color="text" fontVariant="extraSmallBold">

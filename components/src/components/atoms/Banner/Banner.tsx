@@ -242,7 +242,7 @@ export const Banner = ({
       </IconContainer>
       <Content>
         {title && <Typography fontVariant="largeBold">{title}</Typography>}
-        <Typography fontVariant="regular">{message}</Typography>
+        <Typography>{message}</Typography>
       </Content>
       <ActionButton alert={alert} href={href} onDismiss={onDismiss} />
     </Container>
