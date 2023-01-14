@@ -31,6 +31,7 @@ const expectedExportedKeys = [
   // molecules
   'Backdrop',
   'Checkbox',
+  'CheckboxRow',
   'CountdownCircle',
   'Dropdown',
   'FieldSet',

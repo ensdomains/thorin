@@ -160,7 +160,7 @@ export const Nav = ({ links }: Props) => {
           <NavLink active={router.asPath === '/'} href="/">
             <NavLinkInner>
               <EnsSVG height={48} width={48} />
-              <Typography color="blue" fontVariant="heading3">
+              <Typography color="blue" fontVariant="headingThree">
                 ENS
               </Typography>
             </NavLinkInner>

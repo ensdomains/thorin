@@ -120,7 +120,7 @@ const TextArea = styled.textarea<{
 
     &:disabled {
       color: ${theme.colors.greyPrimary};
-      background: ${theme.colors.greyBright};
+      background: ${theme.colors.greyLight};
     }
 
     ${$size === 'small' &&

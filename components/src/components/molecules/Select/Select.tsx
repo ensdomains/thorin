@@ -162,7 +162,7 @@ const SelectContainer = styled.div<{
 
     ${$disabled &&
     css`
-      background: ${theme.colors.greyBright};
+      background: ${theme.colors.greyLight};
       color: ${theme.colors.greyPrimary};
       cursor: not-allowed;
     `}
@@ -185,7 +185,7 @@ const SelectContainer = styled.div<{
 
     input#${$ids?.content.id}:disabled ~ * {
       color: ${theme.colors.greyPrimary};
-      background: ${theme.colors.greyBright};
+      background: ${theme.colors.greyLight};
       cursor: not-allowed;
     }
   `,
@@ -469,7 +469,7 @@ const SelectOption = styled.button<{
 
     ${$selected &&
     css`
-      background-color: ${theme.colors.greyBright};
+      background-color: ${theme.colors.greyLight};
     `}
 
     ${$size === 'small' &&

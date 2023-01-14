@@ -31,7 +31,7 @@ const NumberBox = styled.div<NumberBox>(
 
     ${$disabled &&
     css`
-      color: ${theme.colors.greyBright};
+      color: ${theme.colors.greyLight};
     `}
 
     #countdown-complete-check {
@@ -76,7 +76,7 @@ const Container = styled.div<ContainerProps>(
 
     ${$disabled &&
     css`
-      color: ${theme.colors.greyBright};
+      color: ${theme.colors.greyLight};
     `}
 
     ${() => {
