@@ -47,7 +47,7 @@ const Container = styled.button<{
 
     &:hover {
       transform: translateY(-1px);
-      filter: brightness(1.02);
+      background: ${theme.colors.greyLight};
     }
   `,
 )

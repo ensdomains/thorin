@@ -18,6 +18,10 @@ const Container = styled.div<{
     position: relative;
     width: 100%;
 
+    input ~ label:hover {
+      transform: translateY(-1px);
+    }
+
     input ~ label:hover div#circle {
       background: ${theme.colors.border};
     }
@@ -48,6 +52,7 @@ const Container = styled.div<{
     input:disabled ~ label,
     input:disabled ~ label:hover {
       background: ${theme.colors.greySurface};
+      transform: initial;
     }
 
     input:disabled ~ label div#circle svg,

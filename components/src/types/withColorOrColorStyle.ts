@@ -131,9 +131,9 @@ const makeColorStyleMap = (colorObj: ColorObj) => {
 
   const disabled: ColorStyleItem = {
     text: 'greyPrimary',
-    background: 'greyBright',
-    border: 'transparent',
-    hover: 'greyBright',
+    background: 'greyLight',
+    border: 'greyLight',
+    hover: 'greyLight',
   }
 
   const background: ColorStyleItem = {

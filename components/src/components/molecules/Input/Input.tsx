@@ -346,7 +346,7 @@ const InputComponent = styled.input<{
     }
 
     &:disabled {
-      background: ${theme.colors.greyBright};
+      background: ${theme.colors.greyLight};
       cursor: not-allowed;
       color: ${theme.colors.greyPrimary};
     }
@@ -383,7 +383,7 @@ const InnerContainer = styled.div<{
     ${$disabled &&
     css`
       border-color: ${theme.colors.border};
-      background-color: ${theme.colors.greyBright};
+      background-color: ${theme.colors.greyLight};
     `}
 
     ${$hasError &&
@@ -411,7 +411,7 @@ const InnerContainer = styled.div<{
 
     input:disabled ~ label,
     input:disabled ~ button {
-      background: ${theme.colors.greyBright};
+      background: ${theme.colors.greyLight};
       cursor: not-allowed;
     }
 

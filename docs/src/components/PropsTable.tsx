@@ -38,7 +38,7 @@ const TableHeadLabelContainer = styled.div<{
   ({ theme, $i, $headers }) => css`
     text-transform: capitalize;
     background-color: ${theme.colors.greySurface};
-    border-color: ${theme.colors.greyBright};
+    border-color: ${theme.colors.border};
     ${$i === 0 ? `border-top-left-radius: ${theme.radii['2xLarge']};` : ``}
     ${$i === $headers.length - 1
       ? `border-top-right-radius: ${theme.radii['2xLarge']};`
@@ -167,7 +167,10 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
               {props.map((x) => (
                 <tr
                   key={x.name}
-                  style={{ borderBottomWidth: theme.space['px'] }}
+                  style={{
+                    borderBottomWidth: theme.space['px'],
+                    borderColor: theme.colors.border,
+                  }}
                 >
                   <DataCell>
                     <Name>

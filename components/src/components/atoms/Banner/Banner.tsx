@@ -54,6 +54,22 @@ const Container = styled.div<{
     width: ${theme.space.full};
     transition: all 150ms ease-in-out;
 
+    ${$hover &&
+    css`
+      &:hover {
+        transform: translateY(-1px);
+        background: ${theme.colors.greySurface};
+        ${$alert === 'error' &&
+        css`
+          background: ${theme.colors.redLight};
+        `}
+        ${$alert === 'warning' &&
+        css`
+          background: ${theme.colors.yellowLight};
+        `}
+      }
+    `}
+
     ${$alert === 'error' &&
     css`
       background: ${theme.colors.redSurface};
@@ -65,14 +81,6 @@ const Container = styled.div<{
       background: ${theme.colors.yellowSurface};
       border: 1px solid ${theme.colors.yellowPrimary};
     `};
-
-    ${$hover &&
-    css`
-      &:hover {
-        transform: translateY(-1px);
-        filter: brightness(1.02);
-      }
-    `}
 
     ${mq.md.min(
       css`
