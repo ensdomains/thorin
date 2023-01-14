@@ -57,7 +57,7 @@ const PageButton = styled.button<{ $selected?: boolean; $size: Size }>(
           color: ${theme.colors.accent};
         `
       : css`
-          color: ${theme.colors.text};
+          color: ${theme.colors.greyPrimary};
           &:hover {
             background-color: ${theme.colors.greySurface};
           }
@@ -78,7 +78,7 @@ const Dots = styled.p(
   ({ theme }) => css`
     font-size: ${theme.fontSizes['small']};
     font-weight: ${theme.fontWeights['bold']};
-    color: ${theme.colors.textTertiary};
+    color: ${theme.colors.greyPrimary};
   `,
 )
 
