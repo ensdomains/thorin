@@ -20,7 +20,7 @@ type BaseProps = Omit<FieldBaseProps, 'inline'> & {
   autoFocus?: NativeInputProps['autoFocus']
   /** If the input should display a list of suggested words. */
   autoComplete?: NativeInputProps['autoComplete']
-  /** If the imput should automatically fix spelling errors. */
+  /** If the input should automatically fix spelling errors. */
   autoCorrect?: NativeInputProps['autoCorrect']
   clearable?: boolean
   /** The initial value of the input. Useful for checking if the value of the input has changed. */

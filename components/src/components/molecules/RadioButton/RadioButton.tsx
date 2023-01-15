@@ -19,7 +19,7 @@ type Props = {
   name: NativeInputProps['name']
   /** The value attribute of input elements. */
   value: string
-  /** The inital value of input element */
+  /** The initial value of input element */
   defaultValue?: string
   /** If true, the radio button is selected. */
   checked?: NativeInputProps['checked']

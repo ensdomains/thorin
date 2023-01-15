@@ -117,7 +117,7 @@ const TooltipPopover = ({
 
 export interface TooltipProps
   extends Omit<DynamicPopoverProps, 'popover' | 'animationFn' | 'anchorRef'> {
-  /** A text or component containg the content of the popover. */
+  /** A text or component containing the content of the popover. */
   content?: React.ReactNode
   /** The anchor element for the popover */
   children: React.ReactElement

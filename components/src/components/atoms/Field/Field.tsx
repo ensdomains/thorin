@@ -32,7 +32,7 @@ export type FieldBaseProps = {
   inline?: boolean
   /** A tokens space key value setting the width of the parent element. */
   width?: Space
-  /** Have lavel appear on the left of the form element. */
+  /** Have label appear on the left of the form element. */
   reverse?: boolean
   /** If true, will set the Fields component to read only mode */
   readOnly?: boolean

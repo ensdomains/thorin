@@ -567,13 +567,13 @@ export type SelectProps = {
   value?: SelectOptionProps['value']
   /** The name property of an input element. */
   name?: NativeSelectProps['name']
-  /** An arrary of objects conforming to OptionProps interface. */
+  /** An array of objects conforming to OptionProps interface. */
   options: SelectOptionProps[]
   /** The approximate number of rows to display on menu. */
   rows?: number
   /** Preset size spacing settings */
   size?: Size
-  /** Overide the padding setting of the element */
+  /** Override the padding setting of the element */
   padding?: Space | { outer?: Space; inner?: Space }
   /** The size attribute for input element. Useful for controlling input size in flexboxes. */
   inputSize?: number | { max?: number; min?: number }

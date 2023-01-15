@@ -69,9 +69,9 @@ type Props = {
     | 'p'
     | 'span'
     | 'i'
-  /** If true, will truncate text with an elipsis on overflow. If false, text will break on the next word. */
+  /** If true, will truncate text with an ellipsis on overflow. If false, text will break on the next word. */
   ellipsis?: boolean
-  /** The classname attribute of contianer. */
+  /** The classname attribute of container. */
   className?: NativeDivProps['className']
   /** The tokens.fontWeight value */
   /** A font value that overrides the existing font property  */

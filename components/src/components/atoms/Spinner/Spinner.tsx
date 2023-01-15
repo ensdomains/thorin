@@ -8,7 +8,7 @@ import { VisuallyHidden } from '../VisuallyHidden'
 type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 type Size = 'small' | 'medium' | 'large'
 type Props = {
-  /** Hidden text used for accessibilty. */
+  /** Hidden text used for accessibility. */
   accessibilityLabel?: string
   /** A tokens 'mode' color value */
   color?: Colors

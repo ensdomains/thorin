@@ -32,7 +32,7 @@ const makeColorMap = (mode: ColorMode) => {
   return {
     ...gradientValues,
     ...colorValues,
-    tranparent: 'transparent',
+    transparent: 'transparent',
     initial: 'initial',
     inherit: 'inherit',
   }

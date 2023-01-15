@@ -385,7 +385,7 @@ describe('<Select />', () => {
     })
   })
 
-  it('should show dropdown menu when clicked and embeded in Input', async () => {
+  it('should show dropdown menu when clicked and embedded in Input', async () => {
     render(
       <ThemeProvider theme={lightTheme}>
         <Input
@@ -414,7 +414,7 @@ describe('<Select />', () => {
     })
   })
 
-  it('should have focus on input when clicked and embeded in Input as autocomplete Select', async () => {
+  it('should have focus on input when clicked and embedded in Input as autocomplete Select', async () => {
     render(
       <ThemeProvider theme={lightTheme}>
         <Input
