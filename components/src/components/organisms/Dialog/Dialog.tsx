@@ -1,19 +1,20 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 
-import { CrossCircleSVG } from '@/src'
+import { AlertSVG, CrossCircleSVG, EthSVG } from '@/src'
 import { mq } from '@/src/utils/responsiveHelpers'
+
+import { WithAlert } from '@/src/types'
 
 import { Modal, Typography } from '../..'
 
-const IconCloseContainer = styled.div(
+const IconCloseContainer = styled.button(
   ({ theme }) => css`
     position: absolute;
-    top: ${theme.space['4']};
-    right: ${theme.space['4']};
-    height: ${theme.space['6']};
-    width: ${theme.space['6']};
-    opacity: 0.5;
+    top: ${theme.space['1']};
+    right: ${theme.space['1']};
+    padding: ${theme.space['3']};
+    color: ${theme.colors.greyPrimary};
     cursor: pointer;
     transition-property: all;
     transition-duration: ${theme.transitionDuration['150']};
@@ -22,11 +23,22 @@ const IconCloseContainer = styled.div(
     &:hover {
       opacity: 0.7;
     }
+
+    svg {
+      display: block;
+      width: ${theme.space['6']};
+      height: ${theme.space['6']};
+    }
   `,
 )
 
 const StyledCard = styled.div(
   ({ theme }) => css`
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: ${theme.space['6']};
+
     padding: ${theme.space['3.5']};
     border-radius: ${theme.radii['3xLarge']};
     background-color: ${theme.colors.background};
@@ -41,17 +53,66 @@ const StyledCard = styled.div(
   `,
 )
 
+type NonNullableAlert = NonNullable<WithAlert['alert']>
+
+const IconContainer = styled.div<{
+  $alert: NonNullableAlert
+}>(
+  ({ theme, $alert }) => css`
+    width: ${theme.space[8]};
+    height: ${theme.space[8]};
+    flex: 0 0 ${theme.space[8]};
+
+    svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    ${$alert === 'error' &&
+    css`
+      background: ${theme.colors.redPrimary};
+      color: ${theme.colors.backgroundPrimary};
+      border-radius: ${theme.radii.full};
+
+      svg {
+        transform: scale(0.5);
+      }
+    `}
+
+    ${$alert === 'warning' &&
+    css`
+      background: ${theme.colors.yellowPrimary};
+      color: ${theme.colors.backgroundPrimary};
+      border-radius: ${theme.radii.full};
+
+      svg {
+        transform: scale(0.5);
+      }
+    `}
+  `,
+)
+
+const Icon = ({ alert }: { alert: NonNullableAlert }) => {
+  const isAlertIcon = !!alert && ['error', 'warning'].includes(alert)
+  return (
+    <IconContainer $alert={alert}>
+      {isAlertIcon ? <AlertSVG /> : <EthSVG />}
+    </IconContainer>
+  )
+}
+
 const Title = styled(Typography)(
-  ({ theme }) => css`
-    font-size: ${theme.fontSizes['headingThree']};
-    font-weight: ${theme.fontWeights['bold']};
+  () => css`
+    text-align: center;
   `,
 )
 
 const SubTitle = styled(Typography)(
   ({ theme }) => css`
-    font-size: ${theme.fontSizes['base']};
-    font-weight: ${theme.fontWeights['medium']};
+    font-size: ${theme.fontSizes.body};
+    line-height: ${theme.lineHeights.body};
+    font-weight: ${theme.fontWeights.bold};
     color: ${theme.colors.textSecondary};
     text-align: center;
 
@@ -60,7 +121,7 @@ const SubTitle = styled(Typography)(
   `,
 )
 
-const Container = styled.div<{ $center?: boolean }>(
+const ButtonsContainer = styled.div<{ $center?: boolean }>(
   ({ theme, $center }) => css`
     display: flex;
     align-items: center;
@@ -72,16 +133,23 @@ const Container = styled.div<{ $center?: boolean }>(
   `,
 )
 
-const TitleContainer = styled.div<{ $hasSteps: boolean }>(
-  ({ theme, $hasSteps }) => css`
+const FooterContainer = styled.div(
+  ({ theme }) => css`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: ${theme.space['4']};
+  `,
+)
+
+const TitleContainer = styled.div(
+  ({ theme }) => css`
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    ${!$hasSteps &&
-    css`
-      margin-top: ${theme.space['1.5']};
-    `}
+    gap: ${theme.space['1']};
   `,
 )
 
@@ -135,7 +203,7 @@ const StepItem = styled.div<{ $type: StepType }>(
 type TitleProps = {
   title?: string | React.ReactNode
   subtitle?: string | React.ReactNode
-}
+} & WithAlert
 
 type StepProps = {
   currentStep?: number
@@ -167,15 +235,41 @@ type BlankProps = {
 }
 
 type Props = BaseProps & (ClosableProps | ActionableProps | BlankProps)
+
 type ModalProps = React.ComponentProps<typeof Modal>
 
 const Heading = ({
+  title,
+  subtitle,
+  alert,
+}: TitleProps & StepProps & WithAlert) => {
+  return (
+    <TitleContainer>
+      {alert && <Icon alert={alert} />}
+      {title &&
+        ((typeof title !== 'string' && title) || (
+          <Title fontVariant="headingFour">{title}</Title>
+        ))}
+      {subtitle &&
+        ((typeof subtitle !== 'string' && subtitle) || (
+          <SubTitle>{subtitle}</SubTitle>
+        ))}
+    </TitleContainer>
+  )
+}
+
+const Footer = ({
+  leading,
+  trailing,
+  center,
   currentStep,
   stepCount,
   stepStatus,
-  title,
-  subtitle,
-}: TitleProps & StepProps) => {
+}: {
+  leading?: React.ReactNode
+  trailing: React.ReactNode
+  center?: boolean
+} & StepProps) => {
   const calcStepType = React.useCallback(
     (step: number) => {
       if (step === currentStep) {
@@ -189,8 +283,13 @@ const Heading = ({
     [currentStep, stepStatus],
   )
 
+  const showButtons = leading || trailing
+  const showSteps = !!stepCount
+  const showFooter = showButtons || showSteps
+
+  if (!showFooter) return null
   return (
-    <>
+    <FooterContainer>
       {stepCount && (
         <StepContainer data-testid="step-container">
           {Array.from({ length: stepCount }, (_, i) => (
@@ -202,36 +301,20 @@ const Heading = ({
           ))}
         </StepContainer>
       )}
-      <TitleContainer $hasSteps={!!stepCount}>
-        {title &&
-          ((typeof title !== 'string' && title) || <Title>{title}</Title>)}
-        {subtitle &&
-          ((typeof subtitle !== 'string' && subtitle) || (
-            <SubTitle>{subtitle}</SubTitle>
-          ))}
-      </TitleContainer>
-    </>
+      {showButtons && (
+        <ButtonsContainer {...{ $center: center }}>
+          {leading || (!center && <div style={{ flexGrow: 1 }} />)}
+          {trailing || (!center && <div style={{ flexGrow: 1 }} />)}
+        </ButtonsContainer>
+      )}
+    </FooterContainer>
   )
 }
-
-const Footer = ({
-  leading,
-  trailing,
-  center,
-}: {
-  leading?: React.ReactNode
-  trailing: React.ReactNode
-  center?: boolean
-}) => (
-  <Container {...{ $center: center }}>
-    {leading || (!center && <div style={{ flexGrow: 1 }} />)}
-    {trailing || (!center && <div style={{ flexGrow: 1 }} />)}
-  </Container>
-)
 
 const ModalWithTitle = ({
   open,
   onDismiss,
+  alert,
   title,
   subtitle,
   children,
@@ -239,13 +322,13 @@ const ModalWithTitle = ({
   stepCount,
   stepStatus,
   ...props
-}: Omit<ModalProps, 'title'> & TitleProps & StepProps) => {
+}: Omit<ModalProps, 'title'> & TitleProps & StepProps & WithAlert) => {
   return (
     <Modal {...{ ...props, open, onDismiss }}>
       <StyledCard>
         <ContentWrapper>
           <Heading
-            {...{ title, subtitle, currentStep, stepCount, stepStatus }}
+            {...{ alert, title, subtitle, currentStep, stepCount, stepStatus }}
           />
           {children}
         </ContentWrapper>
@@ -255,11 +338,9 @@ const ModalWithTitle = ({
 }
 
 const CloseButton = ({ onClick }: { onClick: () => void }) => (
-  <IconCloseContainer
-    as={CrossCircleSVG}
-    data-testid="close-icon"
-    onClick={onClick}
-  />
+  <IconCloseContainer data-testid="close-icon" onClick={onClick}>
+    <CrossCircleSVG />
+  </IconCloseContainer>
 )
 
 export const Dialog = ({
@@ -270,27 +351,49 @@ export const Dialog = ({
   ...props
 }: Props) => {
   if (variant === 'actionable') {
-    const { trailing, leading, title, subtitle, center, ...actionProps } =
-      props as ActionableProps
+    const {
+      trailing,
+      leading,
+      alert,
+      title,
+      subtitle,
+      center,
+      currentStep,
+      stepCount,
+      stepStatus,
+      ...actionProps
+    } = props as ActionableProps
 
     return (
       <ModalWithTitle
         {...actionProps}
+        alert={alert}
         open={open}
         subtitle={subtitle}
         title={title}
         onDismiss={onDismiss}
       >
         {children}
-        {(leading || trailing) && <Footer {...{ leading, trailing, center }} />}
+        <Footer
+          {...{
+            leading,
+            trailing,
+            center,
+            currentStep,
+            stepCount,
+            stepStatus,
+          }}
+        />
+        {onDismiss && <CloseButton onClick={onDismiss} />}
       </ModalWithTitle>
     )
   } else if (variant === 'closable') {
-    const { title, subtitle, ...closableProps } = props as ClosableProps
+    const { alert, title, subtitle, ...closableProps } = props as ClosableProps
 
     return (
       <ModalWithTitle
         {...closableProps}
+        alert={alert}
         open={open}
         subtitle={subtitle}
         title={title}
@@ -306,6 +409,7 @@ export const Dialog = ({
     <Modal {...{ onDismiss, open }}>
       <StyledCard>
         <ContentWrapper>{children}</ContentWrapper>
+        {onDismiss && <CloseButton onClick={onDismiss} />}
       </StyledCard>
     </Modal>
   )

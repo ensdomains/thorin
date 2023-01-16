@@ -24,6 +24,7 @@ type DropdownItemObject = {
   onClick?: (value?: string) => void
   wrapper?: (children: React.ReactNode, key: React.Key) => JSX.Element
   as?: 'button' | 'a'
+  icon?: React.ReactNode
   value?: string
   color?: Colors
   disabled?: boolean
@@ -56,6 +57,7 @@ const DropdownMenuContainer = styled.div<DropdownMenuContainer>(
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: ${theme.space['1']};
     position: absolute;
 
     ${$direction === 'up' &&
@@ -168,23 +170,28 @@ const MenuButton = styled.button<MenuButtonProps>(
     align-items: center;
     cursor: pointer;
     display: flex;
-    gap: ${theme.space['4']};
+    gap: ${theme.space['2']};
     width: ${theme.space['full']};
     height: ${theme.space['12']};
     padding: ${theme.space['3']};
-    font-weight: ${theme.fontWeights['semiBold']};
+    border-radius: ${theme.radii.large};
+    font-weight: ${theme.fontWeights.normal};
     transition-duration: 0.15s;
     transition-property: color, transform, filter;
     transition-timing-function: ease-in-out;
-    letter-spacing: -0.01em;
 
     &:active {
       transform: translateY(0px);
       filter: brightness(1);
     }
 
-    color: ${theme.colors[$color || 'accent']};
+    color: ${theme.colors[$color || 'textPrimary']};
 
+    svg {
+      width: ${theme.space['4']};
+      height: ${theme.space['4']};
+      color: ${theme.colors[$color || 'text']};
+    }
     ${disabled &&
     css`
       color: ${theme.colors.textTertiary};
@@ -206,8 +213,7 @@ const MenuButton = styled.button<MenuButtonProps>(
           justify-content: flex-start;
 
           &:hover {
-            transform: translateY(-1px);
-            filter: brightness(1.05);
+            background: ${theme.colors.greySurface};
           }
         `
     }}
@@ -215,7 +221,7 @@ const MenuButton = styled.button<MenuButtonProps>(
     ${() => {
       if ($inner && !$hasColor)
         return css`
-          color: ${theme.colors.textSecondary};
+          color: ${theme.colors.greyPrimary};
         `
     }}
   `,
@@ -299,7 +305,7 @@ const DropdownMenu = ({
         if (React.isValidElement(item)) {
           return DropdownChild({ item, setIsOpen })
         }
-        const { color, value, label, onClick, disabled, as, wrapper } =
+        const { color, value, icon, label, onClick, disabled, as, wrapper } =
           item as DropdownItemObject
 
         const props: React.ComponentProps<any> = {
@@ -312,7 +318,12 @@ const DropdownMenu = ({
             onClick?.(value)
           },
           as,
-          children: label,
+          children: (
+            <>
+              {icon}
+              {label}
+            </>
+          ),
         }
 
         if (wrapper) {
@@ -342,7 +353,7 @@ const InnerMenuButton = styled.button<InnerMenuButton>(
     justify-content: space-between;
     gap: ${theme.space['4']};
     border-width: ${theme.space['px']};
-    font-weight: ${theme.fontWeights['semiBold']};
+    font-weight: ${theme.fontWeights.normal};
     cursor: pointer;
     position: relative;
     border-color: ${theme.colors.border};
@@ -442,6 +453,7 @@ type Props = {
   menuLabelAlign?: LabelAlign
   isOpen?: boolean
   direction?: Direction
+  inheritContentWidth?: boolean
 } & NativeDivProps
 
 type PropsWithIsOpen = {
@@ -476,6 +488,7 @@ export const Dropdown = ({
   direction = 'down',
   isOpen: _isOpen,
   setIsOpen: _setIsOpen,
+  inheritContentWidth = false,
   ...props
 }: Props & (PropsWithIsOpen | PropsWithoutIsOpen)) => {
   const dropdownRef = React.useRef<any>()
@@ -536,13 +549,13 @@ export const Dropdown = ({
       )}
 
       {React.Children.map(children, (child) => {
-        if (React.isValidElement(child)) {
-          return React.cloneElement(child as any, {
-            ...buttonProps,
-            zindex: '10',
-            onClick: () => setIsOpen(!isOpen),
-          })
-        }
+        if (!React.isValidElement(child)) return null
+        return React.cloneElement(child as any, {
+          ...buttonProps,
+          zindex: '10',
+          pressed: isOpen ? 'true' : undefined,
+          onClick: () => setIsOpen(!isOpen),
+        })
       })}
 
       <DropdownMenu
@@ -556,6 +569,7 @@ export const Dropdown = ({
         setIsOpen={setIsOpen}
         shortThrow={shortThrow}
         width={
+          (inner || inheritContentWidth) &&
           dropdownRef.current &&
           dropdownRef.current.getBoundingClientRect().width.toFixed(2)
         }

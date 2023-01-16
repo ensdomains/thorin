@@ -11,7 +11,6 @@ import { FieldSet, RadioButton } from '@/src'
 import { lightTheme } from '@/src/tokens'
 
 import { Props, RadioButtonGroup } from './RadioButtonGroup'
-// import { RadioButton } from '@/src/components'
 
 const RadioButtonGroupWithState = (
   props: Omit<Props, 'onChange' | 'value'>,

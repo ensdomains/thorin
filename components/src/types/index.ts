@@ -5,6 +5,15 @@ import { Hue as TokenHue, Mode as TokenMode, Tokens } from '@/src/tokens'
 
 export type AllOrNone<T> = T | { [K in keyof T]?: never }
 
+export type {
+  Color,
+  ColorStyle,
+  WithColor,
+  WithColorStyle,
+} from './withColorOrColorStyle'
+
+export type { FontVariant, WithTypography } from './withTypography'
+
 /*
  * Disallow string from React.ReactNode
  */
@@ -38,3 +47,14 @@ export type OptionalTitle = AllOrNone<{
   titleId: string
 }>
 export type IconProps = React.SVGProps<SVGSVGElement> & OptionalTitle
+
+export type WithAlert = {
+  alert?: 'error' | 'warning' | 'info'
+}
+
+export type Icon = React.FunctionComponent<React.SVGProps<SVGSVGElement>>
+
+export type WithIcon = {
+  /** An svg to be used by the component */
+  icon?: Icon
+}

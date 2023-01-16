@@ -34,7 +34,8 @@ const Row = styled.div(
 const Description = styled.div(
   ({ theme }) => css`
     color: ${theme.colors.textSecondary};
-    font-size: ${theme.fontSizes.base};
+    font-size: ${theme.fontSizes.body};
+    line-height: ${theme.lineHeights.body};
   `,
 )
 
@@ -68,7 +69,7 @@ export type Props = {
     | 'complete'
     | {
         name: string
-        tone: TagProps['tone']
+        tone: TagProps['color']
       }
 } & Omit<NativeFieldSetProps, 'children'>
 
@@ -83,7 +84,7 @@ export const FieldSet = ({
   ...props
 }: Props) => {
   let statusText: string | undefined
-  let statusTone: TagProps['tone']
+  let statusTone: TagProps['color']
   switch (status) {
     case 'complete': {
       statusText = 'Complete'
@@ -98,7 +99,7 @@ export const FieldSet = ({
     }
     case 'optional': {
       statusText = 'Optional'
-      statusTone = 'secondary'
+      statusTone = 'grey'
       break
     }
   }
@@ -115,7 +116,7 @@ export const FieldSet = ({
             {legend}
           </Heading>
           {statusTone && statusText && (
-            <Tag tone={statusTone}>{statusText}</Tag>
+            <Tag color={statusTone}>{statusText}</Tag>
           )}
         </Row>
 

@@ -18,6 +18,8 @@ export const borderWidths = {
 
 export const radii = {
   none: '0',
+  extraSmall: '2px',
+  small: '4px',
   medium: '6px',
   large: '8px',
   almostExtraLarge: '10px',
@@ -27,4 +29,7 @@ export const radii = {
   '3xLarge': '24px',
   '4xLarge': '40px',
   full: '9999px',
+  input: '0.5rem',
+  card: '1rem',
+  checkbox: '0.25rem',
 }

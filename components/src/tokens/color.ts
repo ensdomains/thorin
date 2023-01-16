@@ -8,10 +8,11 @@
 // The Mode type contains all possible theme modes.
 export type Mode = 'light' | 'dark'
 
-const shades = [50, 300, 400, 500, 750] as const
+const shades = [50, 100, 300, 400, 500, 750] as const
 
 const namedShadeMap = {
   Surface: 50,
+  Light: 100,
   Bright: 300,
   Primary: 400,
   Dim: 500,
@@ -23,17 +24,22 @@ const hues = {
   blue: [216, 100, 61, { 50: [215, 100, 97] }],
   indigo: [242, 61, 58],
   purple: [280, 62, 55],
-  pink: [331, 67, 51],
-  red: [7, 76, 44, { 50: [0, 60, 94] }],
-  orange: [35, 91, 50],
-  yellow: [47, 86, 49, { 50: [48, 100, 90] }],
-  green: [162, 72, 40, { 50: [157, 37, 93] }],
+  pink: [331, 67, 51, { 100: [331, 64, 88] }],
+  red: [7, 76, 44, { 50: [0, 60, 94], 100: [360, 60, 85] }],
+  orange: [35, 91, 50, { 100: [36, 89, 86] }],
+  yellow: [47, 86, 49, { 50: [48, 100, 90], 100: [48, 100, 85] }],
+  green: [162, 72, 40, { 50: [157, 37, 93], 100: [157, 37, 85] }],
   teal: [199, 66, 49],
   grey: [
     240,
     6,
     63,
-    { 50: [0, 0, 96], 300: [0, 0, 91], 500: [0, 0, 35], 750: [0, 0, 15] },
+    {
+      50: [0, 0, 96],
+      100: [0, 0, 91],
+      500: [0, 0, 35],
+      750: [0, 0, 15],
+    },
   ],
 } satisfies Record<string, HueItem>
 
@@ -66,7 +72,7 @@ const categories = {
   border: {
     hue: 'grey',
     items: {
-      primary: 'Bright',
+      primary: 'Light',
     },
   },
 } satisfies Record<string, CategoryItem>
@@ -76,6 +82,8 @@ const gradients = {
   green:
     'linear-gradient(90deg, rgba(68,240,127,1) 4.54%, rgba(114,248,176,1) 59.2%, rgba(153,202,255,1) 148.85%)',
   red: 'linear-gradient(90deg, rgba(240,68,87,1) 4.54%, rgba(248,114,149,1) 59.2%, rgba(212,153,255,1) 148.85%)',
+  purple: 'linear-gradient(323.31deg, #DE82FF -15.56%, #7F6AFF 108.43%)',
+  grey: 'linear-gradient(330.4deg, #DFDFDF 4.54%, #959595 59.2%, #474747 148.85%)',
 }
 
 /**
@@ -207,6 +215,13 @@ const makeColorRange = <THue extends Hue>(
   }
 }
 
+const makeGradients = (accent: unknown, colors: AllColors) => {
+  return {
+    ...gradients,
+    accent: gradients[accent as Gradient] || colors[accent as Hue],
+  }
+}
+
 const makeMode = (accent: Hue, mode: Mode) => {
   const calculatedColors = Object.entries({
     ...hues,
@@ -249,7 +264,7 @@ const makeMode = (accent: Hue, mode: Mode) => {
 
   return {
     ...allColours,
-    gradients,
+    gradients: makeGradients(accent, allColours),
   }
 }
 

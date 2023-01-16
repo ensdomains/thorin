@@ -1,7 +1,9 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 
-import { Field } from '../..'
+import { createSyntheticEvent } from '@/src/utils/createSyntheticEvent'
+
+import { CrossCircleSVG, Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
 
 const Container = styled.div<{
@@ -9,85 +11,75 @@ const Container = styled.div<{
   $error?: boolean
   $showDot?: boolean
   $disabled?: boolean
+  $alwaysShowAction?: boolean
 }>(
-  ({ theme, $error, $validated, $showDot, $disabled }) => css`
+  ({ theme, $error, $validated, $showDot, $alwaysShowAction }) => css`
     position: relative;
     background-color: ${theme.colors.backgroundSecondary};
-    border-radius: ${theme.radii['2xLarge']};
-    border-width: ${theme.space['0.75']};
+    border-radius: ${theme.radii.large};
+    border-width: ${theme.space.px};
     border-color: transparent;
     color: ${theme.colors.text};
     display: flex;
     transition-duration: ${theme.transitionDuration['150']};
     transition-property: color, border-color, background-color;
     transition-timing-function: ${theme.transitionTimingFunction['inOut']};
-    box-sizing: content-box;
-    background-clip: content-box;
 
     :after {
       content: '';
       position: absolute;
       width: ${theme.space['4']};
       height: ${theme.space['4']};
-      box-sizing: border-box;
-      border-radius: 50%;
-      right: 0;
-      top: 0;
-      transition: all 0.3s ease-out;
-      ${() => {
-        if ($error && $showDot)
-          return css`
-            background-color: ${theme.colors.red};
-            border: 2px solid ${theme.colors.background};
-            transform: translate(50%, -50%) scale(1);
-          `
-        if ($validated && $showDot)
-          return css`
-            background-color: ${theme.colors.green};
-            border: 2px solid ${theme.colors.background};
-            transform: translate(50%, -50%) scale(1);
-          `
-        return css`
-          background-color: transparent;
-          border: 2px solid transparent;
-          transform: translate(50%, -50%) scale(0.2);
-        `
-      }}
+      border: 2px solid ${theme.colors.backgroundPrimary};
+      right: -${theme.space['1.5']};
+      top: -${theme.space['1.5']};
+      border-radius: ${theme.radii.full};
+      transition: all 0.3s ease-in-out;
+      transform: scale(0.3);
+      opacity: 0;
     }
 
-    &:focus-within {
-      ${!$error &&
-      css`
-        border-color: ${theme.colors.accentBright};
-      `}
-    }
-
-    &:focus-within::after {
-      ${!$error &&
-      $showDot &&
-      css`
-        background-color: ${theme.colors.blue};
-        border-color: ${theme.colors.background};
-        transform: translate(50%, -50%) scale(1);
-      `}
-    }
-    &:focus {
-      border-color: ${theme.colors.accentBright};
-    }
-
-    ${$disabled &&
+    ${$showDot &&
+    $error &&
     css`
-      border-color: ${theme.colors.greySurface};
-      cursor: not-allowed;
+      &:after {
+        background-color: ${theme.colors.redPrimary};
+        transform: scale(1);
+        opacity: 1;
+      }
     `}
 
-    ${$error &&
+    ${$showDot &&
+    $validated &&
+    !$error &&
     css`
-      border-color: ${theme.colors.red};
-      cursor: default;
+      &:after {
+        background-color: ${theme.colors.greenPrimary};
+        transform: scale(1);
+        opacity: 1;
+      }
+    `}
 
-      &:focus-within {
-        border-color: ${theme.colors.red};
+    ${$showDot &&
+    !$error &&
+    css`
+      &:focus-within::after {
+        background-color: ${theme.colors.bluePrimary};
+        transform: scale(1);
+        opacity: 1;
+      }
+    `}
+
+    textarea:disabled ~ button {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+
+    ${!$alwaysShowAction &&
+    css`
+      textarea:placeholder-shown ~ button {
+        opacity: 0;
+        transform: scale(0.8);
       }
     `}
   `,
@@ -97,24 +89,87 @@ const TextArea = styled.textarea<{
   $error?: boolean
   $validated?: boolean
   $showDot?: boolean
+  $size: Props['size']
+  $clearable?: boolean
 }>(
-  ({ theme }) => css`
+  ({ theme, $size, $clearable, $error }) => css`
     position: relative;
-    background-color: transparent;
-    color: ${theme.colors.text};
+    background-color: ${theme.colors.backgroundPrimary};
+    color: ${theme.colors.textPrimary};
+    border-width: 1px;
+    border-style: solid;
+
     display: flex;
     font-family: ${theme.fonts['sans']};
-    font-size: ${theme.fontSizes['base']};
-    font-weight: ${theme.fontWeights['medium']};
+    font-size: ${theme.fontSizes.body};
+    font-weight: ${theme.fontWeights.normal};
     min-height: ${theme.space['14']};
-    padding: ${theme.space['4']};
+    padding: ${theme.space['3.5']}
+      ${$clearable ? theme.space['10'] : theme.space['4']} ${theme.space['3.5']}
+      ${theme.space['4']};
     width: ${theme.space['full']};
+    border-radius: ${theme.radii.large};
+    overflow: hidden;
     resize: none;
     outline: none;
+    transition: all 0.3s ease-in-out;
 
     &::placeholder {
-      color: ${theme.colors.greySurface};
-      font-weight: ${theme.fontWeights['medium']};
+      color: ${theme.colors.greyPrimary};
+    }
+
+    &:disabled {
+      color: ${theme.colors.greyPrimary};
+      background: ${theme.colors.greyLight};
+    }
+
+    ${$size === 'small' &&
+    css`
+      font-size: ${theme.fontSizes.small};
+      line-height: ${theme.lineHeights.small};
+      padding: ${theme.space['2.5']}
+        ${$clearable ? theme.space['9'] : theme.space['3.5']}
+        ${theme.space['2.5']} ${theme.space['3.5']};
+    `}
+
+    ${$error &&
+    css`
+      border-color: ${theme.colors.redPrimary};
+      color: ${theme.colors.redPrimary};
+    `}
+
+    ${!$error &&
+    css`
+      &:focus-within {
+        border-color: ${theme.colors.bluePrimary};
+      }
+    `}
+
+    &:read-only {
+      border-color: ${theme.colors.border};
+      cursor: default;
+    }
+  `,
+)
+
+const ClearButton = styled.button<{ $size: Props['size'] }>(
+  ({ theme, $size }) => css`
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: ${$size === 'small' ? theme.space[10] : theme.space[12]};
+    height: ${$size === 'small' ? theme.space[10] : theme.space[12]};
+    transition: all 0.1s ease-in-out;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    svg {
+      display: block;
+      width: ${$size === 'small' ? theme.space[3] : theme.space[4]};
+      height: ${$size === 'small' ? theme.space[3] : theme.space[4]};
+      color: ${theme.colors.greyPrimary};
     }
   `,
 )
@@ -126,6 +181,8 @@ type Props = Omit<FieldBaseProps, 'inline'> & {
   autoCorrect?: NativeTextareaProps['autoCorrect']
   /** If true, the component will attempt to get focus after it is rendered. */
   autoFocus?: NativeTextareaProps['autoFocus']
+  /** If true, will show a clear button when the input has value */
+  clearable?: boolean
   /** The initial value. Useful for detecting changes in value. */
   defaultValue?: string | number
   /** If true, prevents user interaction. */
@@ -142,6 +199,8 @@ type Props = Omit<FieldBaseProps, 'inline'> & {
   readOnly?: NativeTextareaProps['readOnly']
   /** Specifies the height of the text area in rows. */
   rows?: NativeTextareaProps['rows']
+  /** The size of the textarea. */
+  size?: 'small' | 'medium'
   /** Textarea will mark words which it thinks are misspellings. */
   spellCheck?: NativeTextareaProps['spellCheck']
   /** The tabindex attribute of textarea. */
@@ -152,6 +211,8 @@ type Props = Omit<FieldBaseProps, 'inline'> & {
   validated?: boolean
   /** If true, shows a status dot of the current state of validation */
   showDot?: boolean
+  /** If true, will show the action button even when there is not input */
+  alwaysShowAction?: boolean
   /** The handler for change events. */
   onChange?: NativeTextareaProps['onChange']
   /** The handler for blur events. */
@@ -168,6 +229,7 @@ export const Textarea = React.forwardRef(
     {
       autoCorrect,
       autoFocus,
+      clearable = false,
       defaultValue,
       description,
       disabled,
@@ -179,15 +241,17 @@ export const Textarea = React.forwardRef(
       label,
       labelSecondary,
       maxLength,
-      name,
+      name = 'textarea',
       placeholder,
       readOnly,
       required,
       rows = 5,
+      size = 'medium',
       spellCheck,
       tabIndex,
       value,
       width,
+      alwaysShowAction = false,
       onChange,
       onBlur,
       onFocus,
@@ -200,19 +264,50 @@ export const Textarea = React.forwardRef(
 
     const hasError = error ? true : undefined
 
+    const handleClickClear = () => {
+      // uncontrolled input
+      if (!onChange) {
+        if (inputRef.current) inputRef.current.value = ''
+        return inputRef.current?.focus()
+      }
+      // Controlled input
+      const target = document.createElement('input')
+      target.value = ''
+      target.name = name
+      const event = new Event('change', { bubbles: true })
+      Object.defineProperties(event, {
+        target: {
+          writable: false,
+          value: target,
+        },
+        currentTarget: {
+          writable: false,
+          value: target,
+        },
+      })
+      const syntheticEvent = createSyntheticEvent(
+        event,
+      ) as React.ChangeEvent<HTMLTextAreaElement>
+      onChange(syntheticEvent)
+      inputRef.current?.focus()
+    }
+
     return (
       <Field
         description={description}
+        disabled={disabled}
         error={error}
         hideLabel={hideLabel}
         id={id}
         label={label}
         labelSecondary={labelSecondary}
+        readOnly={readOnly}
         required={required}
         width={width}
       >
         {(ids) => (
           <Container
+            $alwaysShowAction={alwaysShowAction}
             $disabled={disabled}
             $error={!!error}
             $showDot={showDot}
@@ -224,8 +319,10 @@ export const Textarea = React.forwardRef(
                 ...ids?.content,
                 'aria-invalid': hasError,
               }}
+              $clearable={clearable}
               $error={hasError}
               $showDot={showDot}
+              $size={size}
               $validated={validated}
               autoCorrect={autoCorrect}
               autoFocus={autoFocus}
@@ -244,6 +341,15 @@ export const Textarea = React.forwardRef(
               onChange={onChange}
               onFocus={onFocus}
             />
+            {clearable && (
+              <ClearButton
+                $size={size}
+                type="button"
+                onClick={handleClickClear}
+              >
+                <CrossCircleSVG />
+              </ClearButton>
+            )}
           </Container>
         )}
       </Field>

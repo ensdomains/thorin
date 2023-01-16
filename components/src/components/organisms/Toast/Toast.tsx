@@ -68,7 +68,7 @@ const Container = styled.div<{
     justify-content: center;
     padding: ${theme.space['4.5']};
 
-    background: hsla(${theme.colors.raw.background} / 0.8);
+    background: hsla(${theme.colors.raw.backgroundPrimary} / 0.8);
     box-shadow: ${theme.boxShadows['0.02']};
     border: ${theme.borderWidths.px} solid ${theme.colors.greySurface};
     backdrop-filter: blur(16px);
@@ -91,7 +91,8 @@ const Container = styled.div<{
 
 const Title = styled(Typography)(
   ({ theme }) => css`
-    line-height: ${theme.lineHeights.normal};
+    font-size: ${theme.fontSizes.headingFour};
+    line-height: ${theme.lineHeights.headingFour};
   `,
 )
 
@@ -171,7 +172,7 @@ const DesktopToast = ({
         data-testid="close-icon"
         onClick={() => onClose()}
       />
-      <Title variant="large" weight="bold">
+      <Title fontVariant="large" weight="bold">
         {title}
       </Title>
       <Typography>{description}</Typography>
@@ -321,7 +322,7 @@ export const TouchToast = ({
       $state={state}
       ref={ref}
     >
-      <Title variant="large" weight="bold">
+      <Title fontVariant="large" weight="bold">
         {title}
       </Title>
       <Typography>{description}</Typography>

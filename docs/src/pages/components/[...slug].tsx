@@ -109,7 +109,9 @@ const Page: NextPageWithLayout<Props> = ({
       {!docsLink.includes('generated') && (
         <div style={{ marginTop: tokens.space['20'] }}>
           <Link href={docsLink}>
-            <Typography>Edit on GitHub</Typography>
+            <Typography color="inherit" fontVariant="bodyBold">
+              Edit on GitHub
+            </Typography>
           </Link>
         </div>
       )}

@@ -24,6 +24,7 @@ import { CopySVG, EthSVG, FlagSVG, MoonSVG, Select } from '@ensdomains/thorin'
       },
       { value: '5', label: 'Four', prefix: <CopySVG /> },
     ]}
+    placeholder="Select an option..."
     tabIndex="2"
   />
 </Card>
@@ -74,18 +75,23 @@ import { CopySVG, EthSVG, FlagSVG, MoonSVG, Select } from '@ensdomains/thorin'
         raw: 'boolean',
       },
     },
+    color: {
+      name: 'color',
+      description: 'The color of the option.',
+      type: {
+        raw: 'Colors',
+      },
+    },
   }}
 />
 
-## Messages
+## Show Dot
 
 ```tsx live=true expand=true minHeight=350px
-<Card>
+<DeleteMe>
   <Select
-    description="Description message"
-    error="Error message"
-    label="Label text"
-    labelSecondary="Label secondary text"
+    description="Select with placeholder"
+    label="Placeholder"
     options={[
       { value: '0', label: 'Zero' },
       { value: '1', label: 'One', prefix: <EthSVG /> },
@@ -93,8 +99,53 @@ import { CopySVG, EthSVG, FlagSVG, MoonSVG, Select } from '@ensdomains/thorin'
       { value: '3', label: 'Three', prefix: <MoonSVG /> },
       { value: '4', label: 'Four', prefix: <CopySVG />, disabled: true },
     ]}
+    placeholder="Select option..."
+    showDot
   />
-</Card>
+  <Select
+    description="Select with placeholder"
+    label="Validated"
+    options={[
+      { value: '0', label: 'Zero' },
+      { value: '1', label: 'One', prefix: <EthSVG /> },
+      { value: '2', label: 'Two', prefix: <WalletSVG /> },
+      { value: '3', label: 'Three', prefix: <MoonSVG /> },
+      { value: '4', label: 'Four', prefix: <CopySVG />, disabled: true },
+    ]}
+    placeholder="Select option..."
+    showDot
+    validated
+    value="2"
+  />
+  <Select
+    description="Select with placeholder"
+    error="Error message"
+    label="Error"
+    options={[
+      { value: '0', label: 'Zero' },
+      { value: '1', label: 'One', prefix: <EthSVG /> },
+      { value: '2', label: 'Two', prefix: <WalletSVG /> },
+      { value: '3', label: 'Three', prefix: <MoonSVG /> },
+      { value: '4', label: 'Four', prefix: <CopySVG />, disabled: true },
+    ]}
+    placeholder="Select option..."
+    showDot
+  />
+  <Select
+    description="Select with placeholder"
+    disabled
+    label="Disabled"
+    options={[
+      { value: '0', label: 'Zero' },
+      { value: '1', label: 'One', prefix: <EthSVG /> },
+      { value: '2', label: 'Two', prefix: <WalletSVG /> },
+      { value: '3', label: 'Three', prefix: <MoonSVG /> },
+      { value: '4', label: 'Four', prefix: <CopySVG />, disabled: true },
+    ]}
+    placeholder="Select option..."
+    showDot
+  />
+</DeleteMe>
 ```
 
 ## Align
@@ -152,15 +203,6 @@ import { CopySVG, EthSVG, FlagSVG, MoonSVG, Select } from '@ensdomains/thorin'
     ]}
     size="medium"
   />
-  <Select
-    label="Large"
-    options={[
-      { value: '0', label: 'Zero' },
-      { value: '1', label: 'One', prefix: <EthSVG /> },
-      { value: '2', label: 'Two', prefix: <WalletSVG /> },
-    ]}
-    size="large"
-  />
 </DeleteMe>
 ```
 
@@ -192,7 +234,7 @@ import { CopySVG, EthSVG, FlagSVG, MoonSVG, Select } from '@ensdomains/thorin'
       { value: '0', label: 'Zero' },
       { value: '1', label: 'One', prefix: <EthSVG /> },
       { value: '2', label: 'Two', prefix: <WalletSVG /> },
-      { value: '3', label: 'Three', prefix: <MoonSVG /> },
+      { value: '3', label: 'Three', prefix: <MoonSVG />, color: 'redPrimary' },
       { value: '4', label: 'Four', prefix: <CopySVG />, disabled: true },
     ]}
     selected={{ value: '1', label: 'One', prefix: <EthSVG /> }}
@@ -299,5 +341,31 @@ import { CopySVG, EthSVG, FlagSVG, MoonSVG, Select } from '@ensdomains/thorin'
       tabIndex="2"
     />
   </div>
+</DeleteMe>
+```
+
+## Read Only
+
+```tsx live=true expand=true minHeight=350px
+<DeleteMe>
+  <Select
+    createable
+    options={[
+      { value: '0', label: 'Zero' },
+      { value: '1', label: 'One', prefix: <EthSVG /> },
+      { value: '2', label: 'Two', prefix: <WalletSVG /> },
+      { value: '3', label: 'Three', prefix: <MoonSVG /> },
+      {
+        value: '4',
+        label: 'Four',
+        prefix: <CopySVG />,
+        disabled: true,
+      },
+      { value: '5', label: 'Four', prefix: <CopySVG /> },
+    ]}
+    readOnly
+    tabIndex="2"
+    value="1"
+  />
 </DeleteMe>
 ```

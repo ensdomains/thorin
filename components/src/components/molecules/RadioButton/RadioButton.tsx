@@ -1,51 +1,14 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 
+import {
+  WithColorStyle,
+  getColorStyle,
+} from '@/src/types/withColorOrColorStyle'
+
 import { Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
 import { getTestId } from '../../../utils/utils'
-
-const Input = styled.input(
-  ({ theme }) => css`
-    cursor: pointer;
-    font: inherit;
-    border-radius: 50%;
-    display: grid;
-    place-content: center;
-    transition: transform 150ms ease-in-out, filter 150ms ease-in-out;
-
-    &:hover {
-      transform: translateY(-1px);
-      filter: contrast(0.7);
-    }
-
-    &:active {
-      transform: translateY(0px);
-      filter: contrast(1);
-    }
-
-    width: ${theme.space['6']};
-    height: ${theme.space['6']};
-    margin: ${theme.space['2']} 0;
-    background-color: ${theme.colors.greySurface};
-
-    &::before {
-      content: '';
-      width: ${theme.space['4.5']};
-      height: ${theme.space['4.5']};
-      border-radius: 50%;
-      transform: scale(0);
-      transition: transform 90ms ease-in-out;
-      background-image: ${theme.colors.gradients.blue};
-      background-size: 100% 100%;
-      background-position: center;
-    }
-
-    &:checked::before {
-      transform: scale(1);
-    }
-  `,
-)
 
 type NativeInputProps = React.InputHTMLAttributes<HTMLInputElement>
 
@@ -76,7 +39,68 @@ type Props = {
   Omit<
     NativeInputProps,
     'children' | 'value' | 'defaultValue' | 'aria-invalid' | 'type' | 'role'
-  >
+  > &
+  WithColorStyle
+
+const Input = styled.input<{
+  $colorStyle: NonNullable<Props['colorStyle']>
+}>(
+  ({ theme, $colorStyle }) => css`
+    cursor: pointer;
+    font: inherit;
+    border-radius: 50%;
+    display: grid;
+    place-content: center;
+    transition: transform 150ms ease-in-out;
+    width: ${theme.space['5']};
+    height: ${theme.space['5']};
+    background-color: ${theme.colors.border};
+
+    &::before {
+      content: '';
+      width: ${theme.space['3']};
+      height: ${theme.space['3']};
+      border-radius: 50%;
+      transition: all 150ms ease-in-out;
+      background: ${theme.colors.border};
+      background-size: 100% 100%;
+      background-position: center;
+    }
+
+    &:checked::before {
+      background: ${getColorStyle($colorStyle, 'background')};
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+    }
+
+    &:hover::before {
+      background: ${theme.colors.greyBright};
+    }
+
+    &:disabled::before {
+      background: ${theme.colors.border};
+    }
+
+    &:checked:hover::before {
+      background: ${getColorStyle($colorStyle, 'hover')};
+    }
+
+    &:disabled:checked::before,
+    &:disabled:checked:hover::before {
+      background: ${theme.colors.greyPrimary};
+    }
+
+    &:hover {
+      transform: translateY(-1px);
+    }
+
+    &:disabled:hover {
+      transform: initial;
+    }
+  `,
+)
 
 export const RadioButton = React.forwardRef(
   (
@@ -95,6 +119,7 @@ export const RadioButton = React.forwardRef(
       value,
       checked,
       width,
+      colorStyle = 'accentPrimary',
       onBlur,
       onChange,
       onFocus,
@@ -117,10 +142,11 @@ export const RadioButton = React.forwardRef(
           labelSecondary,
           required,
           width,
-          labelRight: true,
+          disabled,
         }}
       >
         <Input
+          $colorStyle={colorStyle}
           {...{
             ...props,
             'aria-invalid': error ? true : undefined,

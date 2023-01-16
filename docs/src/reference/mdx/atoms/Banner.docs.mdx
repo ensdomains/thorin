@@ -1,0 +1,120 @@
+---
+title: Banner
+description: A component to display information that is a link or dismissable
+---
+
+```tsx
+import { Banner } from '@ensdomains/thorin'
+```
+
+```tsx live=true expand=true
+<Banner
+  alert="info"
+  message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+  title="Heading"
+/>
+```
+
+## Props
+
+<PropsTable sourceLink={sourceLink} types={types} />
+
+## Alert
+
+```tsx live=true
+<DeleteMe>
+  <Banner
+    alert="info"
+    message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    title="Heading"
+  />
+  <Banner
+    alert="warning"
+    message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    title="Heading"
+  />
+  <Banner
+    alert="error"
+    message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    title="Heading"
+  />
+</DeleteMe>
+```
+
+## onDismiss
+
+```tsx live=true
+<DeleteMe>
+  <Banner
+    alert="info"
+    message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    title="Heading"
+    onDismiss={() => alert('dismissed')}
+  />
+  <Banner
+    alert="warning"
+    message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    title="Heading"
+    onDismiss={() => alert('dismissed')}
+  />
+  <Banner
+    alert="error"
+    message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    title="Heading"
+    onDismiss={() => alert('dismissed')}
+  />
+</DeleteMe>
+```
+
+## as 'a'
+
+```tsx live=true
+<DeleteMe>
+  <Banner
+    alert="info"
+    as="a"
+    href="#"
+    message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    title="Heading"
+  />
+  <Banner
+    alert="warning"
+    as="a"
+    href="#"
+    message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    title="Heading"
+  />
+  <Banner
+    alert="error"
+    as="a"
+    href="#"
+    message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    title="Heading"
+  />
+</DeleteMe>
+```
+
+## Icon
+
+```tsx live=true
+<DeleteMe>
+  <Banner
+    alert="info"
+    icon={FlameSVG}
+    message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    title="Heading"
+  />
+  <Banner
+    alert="warning"
+    icon={FlameSVG}
+    message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    title="Heading"
+  />
+  <Banner
+    alert="error"
+    icon={FlameSVG}
+    message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    title="Heading"
+  />
+</DeleteMe>
+```

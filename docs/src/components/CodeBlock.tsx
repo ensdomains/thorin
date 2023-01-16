@@ -58,8 +58,8 @@ const LineContainer = styled.div(
 const Token = styled.span(
   ({ theme }) => css`
     font-family: ${theme.fonts['mono']};
-    font-size: ${theme.fontSizes['base']};
-    line-height: ${theme.lineHeights['1.5']};
+    font-size: ${theme.fontSizes.body};
+    line-height: ${theme.lineHeights.body};
   `,
 )
 

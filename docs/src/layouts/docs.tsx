@@ -39,10 +39,9 @@ const Container = styled.div(
 const Aside = styled.aside(
   ({ theme }) => css`
     padding-top: ${theme.space['6']};
-    background-color: ${theme.colors.greyBright};
 
     ${mq.lg.min(css`
-      background-color: ${theme.colors.greyBright};
+      background-color: ${theme.colors.greyLight};
       margin-right: ${theme.space['10']};
       border-radius: ${theme.radii['extraLarge']};
 

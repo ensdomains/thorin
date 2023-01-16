@@ -1,25 +1,24 @@
 import * as React from 'react'
-import styled, { DefaultTheme, css } from 'styled-components'
+import styled, { css } from 'styled-components'
+
+import { Space } from '@/src/tokens'
+
+import {
+  WithColorStyle,
+  getColorStyle,
+} from '@/src/types/withColorOrColorStyle'
 
 import { ReactNodeNoStrings } from '../../../types'
 import { Spinner } from '../Spinner'
-import { Typography } from '../Typography'
-import { GetCenterProps, getCenterProps } from './utils'
 
-export type Size = 'extraSmall' | 'small' | 'medium'
+export type Size = 'small' | 'medium' | 'flexible'
 
 type NativeButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement>
 type NativeAnchorProps = React.AllHTMLAttributes<HTMLAnchorElement>
 
-type Variant = 'primary' | 'secondary' | 'action' | 'transparent'
-
-type Tone = 'accent' | 'blue' | 'green' | 'red' | 'grey'
-
 type BaseProps = {
   /** An alternative element type to render the component as.*/
   as?: 'a'
-  /** Centers text and reserves space for icon and spinner */
-  center?: boolean
   children: NativeButtonProps['children']
   /** If true, prevents user interaction with button. */
   disabled?: NativeButtonProps['disabled']
@@ -33,36 +32,21 @@ type BaseProps = {
   size?: Size
   /** Adds ReactNode after children */
   suffix?: ReactNodeNoStrings
-  /** The tabIndex attribute for button elemnt. */
-  tabIndex?: NativeButtonProps['tabIndex']
-  /** The type attribute for button element. */
-  type?: NativeButtonProps['type']
-  /** Sets the styling of the component.  */
-  variant?: Variant
   /** The zIndex attribute for button element. */
   zIndex?: string
   /** If true, sets the style to indicate "on" state. Useful for toggles switches. */
   pressed?: boolean
   /** If true, adds a box-shadow */
   shadow?: boolean
-  /** If true, adds an outline to the button */
-  outlined?: boolean
-  /** If true, makes inner div full width*/
+  /** A space value for the width of the button */
+  width?: Space
+  /** If true, makes inner div full width */
   fullWidthContent?: boolean
+  /** When set, shows a count indicator on the button */
+  count?: number
   /** The handler for click events. */
   onClick?: NativeButtonProps['onClick']
 } & Omit<NativeButtonProps, 'prefix' | 'size'>
-
-type WithTone = {
-  /** Sets the color scheme when variant is 'primary', 'action', or 'secondary' */
-  tone?: Tone
-  variant?: 'primary' | 'action' | 'secondary'
-}
-
-type WithoutTone = {
-  tone?: never
-  variant?: Variant
-}
 
 type WithAnchor = {
   /** The href attribute for the anchor element. */
@@ -85,269 +69,189 @@ interface ButtonElement {
   $outlined: boolean
   $shape?: BaseProps['shape']
   $size?: BaseProps['size']
-  $variant: BaseProps['variant']
   $type?: BaseProps['type']
   $center: boolean | undefined
-  $tone: Tone
-}
-
-const getAccentColour = (
-  theme: DefaultTheme,
-  tone: Tone,
-  accent:
-    | 'accent'
-    | 'accentText'
-    | 'accentGradient'
-    | 'accentSecondary'
-    | 'accentSecondaryHover',
-  type?: 'secondary',
-): string => {
-  if (tone === 'grey') {
-    switch (accent) {
-      case 'accentText':
-        return theme.colors.text
-      case 'accentSecondary':
-        return theme.colors.textSecondary
-      default:
-        return type === 'secondary'
-          ? theme.colors.textSecondary
-          : theme.colors[tone]
-    }
-  }
-
-  switch (accent) {
-    case 'accent':
-      return theme.colors[tone]
-    case 'accentText':
-      return theme.colors.textAccent
-    case 'accentGradient':
-      return theme.colors.gradients[tone === 'accent' ? 'blue' : tone]
-    case 'accentSecondary':
-      return theme.colors[`${tone}Surface`]
-    case 'accentSecondaryHover':
-      return theme.colors[`${tone}Bright`]
-    default:
-      return ``
-  }
+  $colorStyle: WithColorStyle['colorStyle']
+  $hasCounter?: boolean
+  $width: BaseProps['width']
 }
 
 const ButtonElement = styled.button<ButtonElement>(
   ({
     theme,
-    disabled,
-    $center,
     $pressed,
     $shadow,
-    $outlined,
     $size,
-    $variant,
-    $tone,
+    $colorStyle = 'accentPrimary',
     $shape,
+    $hasCounter,
+    $width,
   }) => css`
-    align-items: center;
+    position: relative;
     cursor: pointer;
     display: flex;
+    align-items: center;
     justify-content: center;
-    transition-property: all;
+    gap: ${theme.space['2']};
 
-    gap: ${theme.space['4']};
+    transition-property: all;
     transition-duration: ${theme.transitionDuration['150']};
     transition-timing-function: ${theme.transitionTimingFunction['inOut']};
-    letter-spacing: ${theme.letterSpacings['-0.01']};
     width: 100%;
+    border-radius: ${theme.radii.large};
+    font-weight: ${theme.fontWeights.bold};
+    border-width: ${theme.borderWidths.px};
+    border-style: ${theme.borderStyles.solid};
+
+    background: ${getColorStyle($colorStyle, 'background')};
+    color: ${getColorStyle($colorStyle, 'text')};
+    border-color: ${getColorStyle($colorStyle, 'border')};
 
     &:hover {
       transform: translateY(-1px);
-      ${$variant !== 'transparent' &&
-      css`
-        filter: ${$variant === 'secondary'
-          ? 'contrast(0.95)'
-          : 'brightness(1.05)'};
-      `}
+      background: ${getColorStyle($colorStyle, 'hover')};
     }
 
     &:active {
       transform: translateY(0px);
-      filter: brightness(1);
     }
-
-    ${disabled
-      ? css`
-          cursor: not-allowed;
-        `
-      : ``};
-    ${$center
-      ? css`
-          position: relative;
-        `
-      : ``};
-    ${$pressed
-      ? css`
-          filter: brightness(0.95);
-        `
-      : ``};
-    ${!$shadow
-      ? css`
-          box-shadow: none !important;
-        `
-      : ``};
-
-    ${$outlined
-      ? css`
-          border: ${theme.borderWidths.px} ${theme.borderStyles.solid}
-            ${theme.colors.border};
-        `
-      : ``}
-
-    box-shadow: ${theme.shadows['0.25']} ${theme.colors.grey};
-
-    border-radius: ${theme.radii.extraLarge};
-    font-size: ${theme.fontSizes.large};
-    padding: ${theme.space['3.5']} ${theme.space['4']};
-
-    ${() => {
-      switch ($size) {
-        case 'extraSmall':
-          return css`
-            border-radius: ${theme.radii.large};
-            font-size: ${theme.fontSizes.small};
-            padding: ${theme.space['2']};
-          `
-        case 'small':
-          return css`
-            border-radius: ${theme.radii.large};
-            font-size: ${theme.fontSizes.small};
-            height: ${theme.space['10']};
-            padding: 0 ${theme.space['4']};
-          `
-        case 'medium':
-          return ``
-        default:
-          return ``
-      }
-    }}
-
-    ${() => {
-      switch ($variant) {
-        case 'primary':
-          return css`
-            color: ${getAccentColour(theme, $tone, 'accentText')};
-            background: ${getAccentColour(theme, $tone, 'accent')};
-          `
-        case 'secondary':
-          return css`
-            color: ${getAccentColour(theme, $tone, 'accent', 'secondary')};
-            background: ${theme.colors[`${$tone}Surface`]};
-          `
-        case 'action':
-          return css`
-            color: ${getAccentColour(theme, $tone, 'accentText')};
-            background: ${getAccentColour(theme, $tone, 'accentGradient')};
-          `
-        case 'transparent':
-          return css`
-            color: ${theme.colors.text};
-
-            &:hover {
-              background-color: ${theme.colors.greySurface};
-            }
-
-            &:active {
-              background-color: ${theme.colors.greyBright};
-            }
-          `
-        default:
-          return ``
-      }
-    }}
-    
-  ${() => {
-      switch ($shape) {
-        case 'circle':
-          return css`
-            border-radius: ${theme.radii.full};
-          `
-        case 'square':
-          return css`
-            border-radius: ${$size === 'small'
-              ? theme.radii['large']
-              : theme.radii['2xLarge']};
-          `
-        case 'rounded':
-          return css`
-            border-radius: ${theme.radii.extraLarge};
-          `
-        default:
-          return ``
-      }
-    }}
-
-  ${() => {
-      if ($size === 'medium' && $center) {
-        return css`
-          padding-left: ${theme.space['14']};
-          padding-right: ${theme.space['14']};
-        `
-      }
-      return ''
-    }}
-
-  ${() => {
-      if (!$shadow && $pressed && $variant === 'transparent') {
-        return css`
-          background-color: ${theme.colors.backgroundSecondary};
-        `
-      }
-      return ''
-    }}
 
     &:disabled {
-      background-color: ${theme.colors.grey};
-      ${$variant !== 'transparent' &&
-      css`
-        color: ${theme.colors.background};
-      `}
-      transform: translateY(0px);
-      filter: brightness(1);
+      cursor: not-allowed;
+      background: ${getColorStyle('disabled', 'background')};
+      transform: none;
+      color: ${getColorStyle('disabled', 'text')};
+      border-color: transparent;
     }
+
+    ${$pressed &&
+    css`
+      background: ${getColorStyle($colorStyle, 'hover')};
+    `};
+
+    ${$shadow &&
+    css`
+      box-shadow: ${theme.shadows['0.25']} ${theme.colors.grey};
+    `};
+
+    ${$size === 'small' &&
+    css`
+      font-size: ${theme.fontSizes.small};
+      line-height: ${theme.lineHeights.small};
+      height: ${theme.space['10']};
+      padding: 0 ${theme.space['3.5']};
+      svg {
+        display: block;
+        width: ${theme.space['3']};
+        height: ${theme.space['3']};
+        color: ${getColorStyle($colorStyle, 'text')};
+      }
+    `}
+
+    ${$size === 'medium' &&
+    css`
+      font-size: ${theme.fontSizes.body};
+      line-height: ${theme.lineHeights.body};
+      height: ${theme.space['12']};
+      padding: 0 ${theme.space['4']};
+      svg {
+        display: block;
+        width: ${theme.space['4']};
+        height: ${theme.space['4']};
+        color: ${getColorStyle($colorStyle, 'text')};
+      }
+    `}
+
+    &:disabled svg {
+      color: ${getColorStyle('disabled', 'text')};
+    }
+
+    ${($shape === 'circle' || $shape === 'rounded') &&
+    css`
+      border-radius: ${theme.radii.full};
+    `}
+
+    ${($shape === 'circle' || $shape === 'square') &&
+    $size === 'small' &&
+    css`
+      width: ${theme.space['10']};
+    `}
+
+    ${($shape === 'circle' || $shape === 'square') &&
+    $size === 'medium' &&
+    css`
+      width: ${theme.space['12']};
+    `}
+
+    ${$hasCounter &&
+    css`
+      padding: 0 ${theme.space['12']};
+    `}
+
+    ${$width &&
+    css`
+      width: ${theme.space[$width]};
+    `}
   `,
 )
 
-const ItemContainer = styled.div(
+const ContentContainer = styled.div<{ $fullWidth?: boolean }>(
+  ({ $fullWidth }) => css`
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    ${$fullWidth &&
+    css`
+      width: 100%;
+    `}
+  `,
+)
+
+const CounterWrapper = styled.div(
   ({ theme }) => css`
-    & > svg {
-      display: block;
-      width: ${theme.space['4']};
-      height: ${theme.space['4']};
-    }
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    padding-right: ${theme.space[3]};
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    pointer-events: none;
   `,
 )
 
-const PrefixContainer = styled(ItemContainer)<GetCenterProps>(
-  () => css`
-    ${getCenterProps}
+const Counter = styled.div<{ $visible: boolean }>(
+  ({ theme, $visible }) => css`
+    display: flex;
+    padding: 0 ${theme.space[1]};
+    justify-content: center;
+    align-items: center;
+    border: 2px solid white;
+    border-radius: ${theme.radii.full};
+    font-size: ${theme.space[3]};
+    min-width: ${theme.space[6]};
+    height: ${theme.space[6]};
+    box-sizing: border-box;
+    transform: scale(1);
+    opacity: 1;
+    transition: all 0.3s ease-in-out;
+
+    ${!$visible &&
+    css`
+      transform: scale(0.3);
+      opacity: 0;
+    `}
   `,
 )
 
-const LabelContainer = styled(Typography)<{
-  $fullWidthContent: boolean
-}>(
-  ({ theme, $fullWidthContent }) => css`
-    color: inherit;
-    font-size: inherit;
-    font-weight: ${theme.fontWeights['semiBold']};
-    ${$fullWidthContent && `width: 100%;`}
-  `,
-)
-
-export type Props = BaseProps &
-  (WithTone | WithoutTone) &
-  (WithoutAnchor | WithAnchor)
+export type Props = BaseProps & (WithoutAnchor | WithAnchor) & WithColorStyle
 
 export const Button = React.forwardRef(
   (
     {
-      center,
       children,
       disabled,
       href,
@@ -359,46 +263,50 @@ export const Button = React.forwardRef(
       suffix,
       tabIndex,
       target,
-      tone = 'accent',
+      colorStyle = 'accentPrimary',
       type = 'button',
-      variant = 'primary',
       zIndex,
       onClick,
       pressed = false,
       shadow = false,
-      outlined = false,
-      fullWidthContent = false,
+      width,
+      fullWidthContent,
+      count,
       as: asProp,
       ...props
     }: Props,
     ref: React.Ref<HTMLButtonElement>,
   ) => {
     const labelContent = (
-      <LabelContainer $fullWidthContent={fullWidthContent} ellipsis>
+      <ContentContainer $fullWidth={fullWidthContent}>
         {children}
-      </LabelContainer>
+      </ContentContainer>
     )
+    const spinnerColor = disabled ? 'greyPrimary' : 'backgroundPrimary'
+
     let childContent: ReactNodeNoStrings
-    if (shape) {
-      childContent = loading ? (
-        <Spinner color="backgroundPrimary" />
-      ) : (
-        labelContent
-      )
+    if (shape === 'circle' || shape === 'square') {
+      childContent = loading ? <Spinner color={spinnerColor} /> : labelContent
     } else {
+      const hasPrefix = !!prefix
+      const hasNoPrefixNoSuffix = !hasPrefix && !suffix
+      const hasSuffixNoPrefix = !hasPrefix && !!suffix
+
+      let prefixOrLoading = prefix
+      if (loading && hasPrefix)
+        prefixOrLoading = <Spinner color={spinnerColor} />
+      else if (loading && hasNoPrefixNoSuffix)
+        prefixOrLoading = <Spinner color={spinnerColor} />
+
+      let suffixOrLoading = suffix
+      if (loading && hasSuffixNoPrefix)
+        suffixOrLoading = <Spinner color={spinnerColor} />
+
       childContent = (
         <>
-          {prefix && (
-            <PrefixContainer {...{ center, size, side: 'left' }}>
-              {prefix}
-            </PrefixContainer>
-          )}
+          {!!prefixOrLoading && prefixOrLoading}
           {labelContent}
-          {(loading || suffix) && (
-            <ItemContainer {...{ center, size, side: 'right' }}>
-              {loading ? <Spinner color="backgroundPrimary" /> : suffix}
-            </ItemContainer>
-          )}
+          {!!suffixOrLoading && suffixOrLoading}
         </>
       )
     }
@@ -406,15 +314,13 @@ export const Button = React.forwardRef(
     return (
       <ButtonElement
         {...props}
-        $center={center}
-        $fullWidthContent={fullWidthContent}
-        $outlined={outlined}
+        $colorStyle={colorStyle}
+        $hasCounter={!!count}
         $pressed={pressed}
         $shadow={shadow}
         $shape={shape}
         $size={size}
-        $tone={tone}
-        $variant={variant}
+        $width={width}
         as={asProp as any}
         disabled={disabled}
         href={href}
@@ -428,6 +334,9 @@ export const Button = React.forwardRef(
         onClick={onClick}
       >
         {childContent}
+        <CounterWrapper>
+          <Counter $visible={!!count}>{count}</Counter>
+        </CounterWrapper>
       </ButtonElement>
     )
   },

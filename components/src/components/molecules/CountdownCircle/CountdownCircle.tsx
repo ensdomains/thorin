@@ -25,13 +25,13 @@ const NumberBox = styled.div<NumberBox>(
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: bold;
+    font-weight: ${theme.fontWeights.extraBold};
 
     color: ${theme.colors.accent};
 
     ${$disabled &&
     css`
-      color: ${theme.colors.greyBright};
+      color: ${theme.colors.greyLight};
     `}
 
     #countdown-complete-check {
@@ -50,6 +50,7 @@ const NumberBox = styled.div<NumberBox>(
         case 'large':
           return css`
             font-size: ${theme.fontSizes.extraLarge};
+            line-height: ${theme.lineHeights.extraLarge};
             margin-top: -${theme.space['0.5']};
             height: ${theme.space['24']};
             width: ${theme.space['24']};
@@ -75,7 +76,7 @@ const Container = styled.div<ContainerProps>(
 
     ${$disabled &&
     css`
-      color: ${theme.colors.greyBright};
+      color: ${theme.colors.greyLight};
     `}
 
     ${() => {

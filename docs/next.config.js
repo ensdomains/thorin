@@ -80,7 +80,7 @@ const config = {
     )
     config.resolve.alias['@ensdomains/thorin'] = path.resolve(
       __dirname,
-      '../components/dist',
+      '../components',
     )
     return config
   },

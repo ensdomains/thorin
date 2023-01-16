@@ -1,16 +1,15 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 
-import { Colors } from '@/src/tokens'
-
 import { mq } from '@/src/utils/responsiveHelpers'
+import { WithColor, getColor } from '@/src/types/withColorOrColorStyle'
 
 interface HeadingContainerProps {
   $textAlign?: React.CSSProperties['textAlign']
   $textTransform: React.CSSProperties['textTransform']
   $level: '1' | '2'
   $responsive?: boolean
-  $color?: Colors
+  $color: NonNullable<WithColor['color']>
 }
 
 const HeadingContainer = styled.div<HeadingContainerProps>(
@@ -31,16 +30,14 @@ const HeadingContainer = styled.div<HeadingContainerProps>(
         case '1':
           return css`
             font-size: ${theme.fontSizes.headingOne};
-            font-weight: ${theme.fontWeights.semiBold};
-            letter-spacing: ${theme.letterSpacings['-0.02']};
-            line-height: 4rem;
+            font-weight: ${theme.fontWeights.extraBold};
+            line-height: ${theme.lineHeights.headingOne};
           `
         case '2':
           return css`
             font-size: ${theme.fontSizes.headingTwo};
-            font-weight: ${theme.fontWeights.semiBold};
-            letter-spacing: ${theme.letterSpacings['-0.02']};
-            line-height: 2.5rem;
+            font-weight: ${theme.fontWeights.bold};
+            line-height: ${theme.lineHeights.headingTwo};
           `
         default:
           return ``
@@ -53,17 +50,19 @@ const HeadingContainer = styled.div<HeadingContainerProps>(
           case '1':
             return css`
               font-size: ${theme.fontSizes.headingTwo};
+              line-height: ${theme.lineHeights.headingTwo};
               ${mq.lg.min(css`
                 font-size: ${theme.fontSizes.headingOne};
+                line-height: ${theme.lineHeights.headingOne};
               `)}
             `
           case '2':
             return css`
               font-size: ${theme.fontSizes.extraLarge};
-              letter-spacing: normal;
+              line-height: ${theme.lineHeights.extraLarge};
               ${mq.sm.min(css`
                 font-size: ${theme.fontSizes.headingTwo};
-                letter-spacing: -0.02;
+                line-height: ${theme.lineHeights.headingTwo};
               `)}
             `
           default:
@@ -74,7 +73,7 @@ const HeadingContainer = styled.div<HeadingContainerProps>(
 
   ${$color &&
     css`
-      color: ${theme.colors[$color]};
+      color: ${getColor($color)};
     `}
   
   font-family: ${theme.fonts['sans']};
@@ -89,7 +88,6 @@ type Props = {
   /** JSX element to render. */
   as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'legend'
   children?: NativeDivAttributes['children']
-  color?: Colors
   /** The id attribute of element */
   id?: NativeDivAttributes['id']
   /** CSS property of text-transform */
@@ -97,7 +95,8 @@ type Props = {
   /**  */
   responsive?: boolean
   level?: '1' | '2'
-} & Omit<NativeDivAttributes, 'color'>
+} & WithColor &
+  Omit<NativeDivAttributes, 'color'>
 
 export const Heading = React.forwardRef(
   (
@@ -109,7 +108,7 @@ export const Heading = React.forwardRef(
       level = '2',
       responsive,
       transform,
-      color,
+      color = 'text',
       ...props
     }: Props,
     ref: React.ForwardedRef<HTMLDivElement>,

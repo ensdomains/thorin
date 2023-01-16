@@ -15,7 +15,7 @@ const GlobalStyle = createGlobalStyle(
       padding: 1.5rem;
       box-sizing: border-box;
       min-height: 100%;
-      background: ${theme.colors.greyBright};
+      background: ${theme.colors.greyLight};
     }
   `,
 )

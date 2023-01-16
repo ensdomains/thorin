@@ -8,172 +8,278 @@ import { TransitionState, useTransition } from 'react-transition-state'
 
 import { useDocumentEvent } from '@/src/hooks/useDocumentEvent'
 
-import { Space } from '@/src/tokens'
+import { Colors, Space } from '@/src/tokens'
 
-import { CrossSVG, DownChevronSVG, Field } from '../..'
+import { CrossCircleSVG } from '@/src'
 
-import { FieldBaseProps } from '../../atoms/Field'
+import {
+  getFontSize,
+  getFontWeight,
+  getLineHeight,
+} from '@/src/types/withTypography'
 
-import { VisuallyHidden } from '../../atoms'
+import { DownChevronSVG, Field } from '../..'
+
+import { FieldBaseProps, State as FieldState } from '../../atoms/Field'
+import { DefaultTheme } from '../../../types/index'
 
 const CREATE_OPTION_VALUE = 'CREATE_OPTION_VALUE'
 
-type Size = 'small' | 'medium' | 'large'
+type Size = 'small' | 'medium'
 
-const SelectContainer = styled.div<{
-  $disabled?: boolean
+const Container = styled.div<{
   $size: Size
-  $showBorder: boolean
+  $open: boolean
+  $disabled: boolean
+  $hasError: boolean
+  $validated: boolean
+  $showDot: boolean
+  $readOnly: boolean
 }>(
-  ({ theme, $disabled, $size, $showBorder }) => css`
-    background: ${theme.colors.backgroundSecondary};
-    ${$showBorder &&
-    css`
-      border: 1px solid ${theme.colors.greySurface};
-    `};
+  ({
+    theme,
+    $size,
+    $showDot,
+    $hasError,
+    $validated,
+    $open,
+    $disabled,
+    $readOnly,
+  }) => css`
     cursor: pointer;
     position: relative;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    z-index: 10;
-    overflow: hidden;
-    ${$size === 'small'
-      ? css`
-          border-radius: ${theme.space['2']};
-          height: ${theme.space['9']};
-          font-size: ${theme.space['3.5']};
-        `
-      : $size === 'medium'
-      ? css`
-          border-radius: ${theme.radii['almostExtraLarge']};
-          height: ${theme.space['10']};
-        `
-      : css`
-          border-radius: ${theme.radii['2xLarge']};
-          height: ${theme.space['14']};
-        `}
 
-    ${$disabled &&
+    height: ${theme.space['12']};
+    font-size: ${theme.fontSizes.body};
+    line-height: ${theme.lineHeights.body};
+
+    :after {
+      content: '';
+      position: absolute;
+      width: ${theme.space['4']};
+      height: ${theme.space['4']};
+      border: 2px solid ${theme.colors.backgroundPrimary};
+      box-sizing: border-box;
+      border-radius: 50%;
+      right: -${theme.space['1.5']};
+      top: -${theme.space['1.5']};
+      transition: all 0.3s ease-out;
+      transform: scale(0.3);
+      opacity: 0;
+    }
+
+    ${$size === 'small' &&
     css`
-      cursor: not-allowed;
-      background: ${theme.colors.backgroundSecondary};
+      font-size: ${theme.fontSizes.small};
+      line-height: ${theme.lineHeights.small};
+      height: ${theme.space['10']};
+    `}
+
+    ${$showDot &&
+    !$disabled &&
+    $validated &&
+    !$open &&
+    css`
+      :after {
+        background: ${theme.colors.greenPrimary};
+        transform: scale(1);
+        opacity: 1;
+      }
+    `}
+
+    ${$showDot &&
+    !$disabled &&
+    !$hasError &&
+    $open &&
+    css`
+      :after {
+        background: ${theme.colors.bluePrimary};
+        transform: scale(1);
+        opacity: 1;
+      }
+    `}
+
+    ${$hasError &&
+    !$disabled &&
+    $showDot &&
+    css`
+      :after {
+        background: ${theme.colors.redPrimary};
+        transform: scale(1);
+        opacity: 1;
+      }
+    `}
+
+    ${$readOnly &&
+    css`
+      cursor: default;
+      pointer-events: none;
     `}
   `,
 )
 
-const SelectContentContainer = styled.div(
-  () => css`
+const SelectContainer = styled.div<{
+  $open: boolean
+  $hasError: boolean
+  $disabled: boolean
+  $size: Size
+  $ids: FieldState
+}>(
+  ({ theme, $open, $hasError, $disabled, $size, $ids }) => css`
     flex: 1;
-    overflow: hidden;
     display: flex;
+    align-items: center;
+    height: 100%;
+    gap: ${theme.space['2']};
+    padding-left: ${theme.space['4']};
+    background: ${theme.colors.backgroundPrimary};
+
+    overflow: hidden;
+    border: 1px solid ${theme.colors.border};
+    border-radius: ${theme.radii.large};
 
     svg {
       display: block;
     }
+
+    ${$open &&
+    css`
+      border-color: ${theme.colors.bluePrimary};
+    `}
+
+    ${$hasError &&
+    css`
+      border-color: ${theme.colors.redPrimary};
+      label {
+        color: ${theme.colors.redPrimary};
+      }
+    `}
+
+    ${$size === 'small' &&
+    css`
+      padding-left: ${theme.space['3.5']};
+    `}
+
+    ${$disabled &&
+    css`
+      background: ${theme.colors.greyLight};
+      color: ${theme.colors.greyPrimary};
+      cursor: not-allowed;
+    `}
+
+    input#${$ids?.content.id} ~ button#chevron svg {
+      color: ${theme.colors.textPrimary};
+    }
+
+    input#${$ids?.content.id}:placeholder-shown ~ button#chevron {
+      svg {
+        color: ${theme.colors.greyPrimary};
+      }
+    }
+
+    input#${$ids?.content.id}:disabled ~ button#chevron {
+      svg {
+        color: ${theme.colors.greyPrimary};
+      }
+    }
+
+    input#${$ids?.content.id}:disabled ~ * {
+      color: ${theme.colors.greyPrimary};
+      background: ${theme.colors.greyLight};
+      cursor: not-allowed;
+    }
   `,
 )
 
-const SelectActionContainer = styled.div(
+const RootInput = styled.input(
   () => css`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    appearance: none;
+    visibility: hidden;
   `,
 )
 
 const SelectLabel = styled.div(
   () => css`
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    line-height: 1.4;
-  `,
-)
-
-const OptionElementContainer = styled.div<{ $padding: Space; $gap: Space }>(
-  ({ theme, $padding, $gap }) => css`
-    align-items: center;
-    display: flex;
-    flex-direction: row;
-    flex-grow: 1;
-    gap: ${theme.space[$gap]};
-    padding: ${theme.space[$padding]};
-    padding-right: 0;
-    overflow: hidden;
-  `,
-)
-
-const NoOptionContainer = styled.div<{ $padding: Space }>(
-  ({ theme, $padding }) => css`
-    padding: ${theme.space[$padding]};
-    padding-right: 0;
-    color: ${theme.colors.greySurface};
+    flex: 1;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
   `,
 )
 
-const SelectInput = styled.input<{ $padding: Space }>(
-  ({ theme, $padding }) => css`
-    padding: ${theme.space[$padding]};
+const PlaceholderLabel = styled(SelectLabel)(
+  ({ theme }) => css`
+    color: ${theme.colors.greyPrimary};
+    pointer-events: none;
+  `,
+)
+
+const SelectInput = styled.input(
+  ({ theme }) => css`
+    flex: 1;
     background: transparent;
     padding-right: 0;
-    width: 100%;
     height: 100%;
-  `,
-)
+    color: ${theme.colors.textPrimary};
 
-const SelectActionButton = styled.button<{ $padding: Space; $size: Size }>(
-  ({ theme, $padding, $size }) => css`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    padding: ${theme.space[$padding]};
-    svg {
-      display: block;
-      width: ${$size === 'small' ? theme.space['2'] : theme.space['3']};
-      path {
-        color: ${theme.colors.textSecondary};
-      }
+    &::placeholder {
+      color: ${theme.colors.greyPrimary};
     }
   `,
 )
 
-const Chevron = styled((props) => <DownChevronSVG {...props} />)<{
+const SelectActionButton = styled.button<{ $size: Size }>(
+  ({ theme, $size }) => css`
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    padding-right: ${theme.space['4']};
+    padding-left: ${theme.space['2']};
+
+    svg {
+      display: block;
+      width: ${$size === 'small' ? theme.space['3'] : theme.space['4']};
+      path {
+        color: ${theme.colors.greyPrimary};
+      }
+    }
+
+    ${$size === 'small' &&
+    css`
+      padding-right: ${theme.space['3.5']};
+    `}
+  `,
+)
+
+const ToggleMenuButton = styled(SelectActionButton)<{
   $open: boolean
-  $disabled?: boolean
   $direction?: Direction
 }>(
-  ({ theme, $open, $disabled, $direction }) => css`
-    margin-left: ${theme.space['1']};
-    margin-right: ${theme.space['0.5']};
-    transition-duration: ${theme.transitionDuration['200']};
-    transition-property: all;
-    transition-timing-function: ${theme.transitionTimingFunction['inOut']};
-    opacity: 0.3;
-    transform: ${$direction === 'up' ? 'rotate(180deg)' : 'rotate(0deg)'};
+  ({ theme, $open, $direction }) => css`
     display: flex;
+    cursor: pointer;
 
-    & > svg {
+    svg {
       fill: currentColor;
+      transform: ${$direction === 'up' ? 'rotate(180deg)' : 'rotate(0deg)'};
+      transition-duration: ${theme.transitionDuration['200']};
+      transition-property: all;
+      transition-timing-function: ${theme.transitionTimingFunction['inOut']};
     }
     fill: currentColor;
 
     ${$open &&
     css`
-      opacity: 1;
-      transform: ${$direction === 'up' ? 'rotate(0deg)' : 'rotate(180deg)'};
-    `}
-
-    ${$disabled &&
-    css`
-      opacity: 0.1;
+      svg {
+        transform: ${$direction === 'up' ? 'rotate(0deg)' : 'rotate(180deg)'};
+      }
     `}
   `,
 )
@@ -192,8 +298,8 @@ const SelectOptionContainer = styled.div<{
     opacity: 0;
     overflow: hidden;
 
-    margin-top: ${theme.space['1.5']};
-    padding: ${theme.space['1.5']};
+    border: 1px solid ${theme.colors.border};
+    padding: ${theme.space['2']};
     min-width: ${theme.space['full']};
     ${$align === 'right'
       ? css`
@@ -202,14 +308,16 @@ const SelectOptionContainer = styled.div<{
       : css`
           left: 0;
         `}
-    border-radius: ${theme.radii['medium']};
-    box-shadow: ${theme.boxShadows['0.02']};
+    border-radius: ${theme.radii['2xLarge']};
     background: ${theme.colors.background};
     transition: all 0.3s cubic-bezier(1, 0, 0.22, 1.6), z-index 0.3s linear;
 
+    font-size: ${theme.fontSizes.body};
+    line-height: ${theme.lineHeights.body};
+
     ${$size === 'small' &&
     css`
-      font-size: ${theme.space['3.5']};
+      font-size: ${theme.fontSizes.small};
     `}
 
     ${$state === 'entered'
@@ -218,9 +326,9 @@ const SelectOptionContainer = styled.div<{
           visibility: visible;
           top: ${$direction === 'up'
             ? `auto`
-            : `calc(100% + ${theme.space['1.5']})`};
+            : `calc(100% + ${theme.space['2']})`};
           bottom: ${$direction === 'up'
-            ? `calc(100% + ${theme.space['1.5']})`
+            ? `calc(100% + ${theme.space['2']})`
             : 'auto'};
           opacity: 1;
         `
@@ -243,20 +351,29 @@ const SelectOptionContainer = styled.div<{
   `,
 )
 
-const SelectOptionList = styled.div<{ $rows?: number; $direction: Direction }>(
-  ({ theme, $rows, $direction }) => css`
+const getMaxHeight = (theme: DefaultTheme, $rows: number, $size: Size) => {
+  if ($size === 'small') return `calc(${theme.space['9']} * ${$rows})`
+  return `calc(${theme.space['11']} * ${$rows})`
+}
+
+const SelectOptionList = styled.div<{
+  $rows?: number
+  $direction: Direction
+  $size: Size
+}>(
+  ({ theme, $rows, $direction, $size }) => css`
     display: flex;
     flex-direction: ${$direction === 'up' ? 'column-reverse' : 'column'};
     align-items: flex-start;
     justify-content: space-between;
+    gap: ${theme.space['1']};
     overflow-y: ${$rows ? 'scroll' : 'hidden'};
     overflow-x: hidden;
     width: 100%;
     height: 100%;
-
     ${$rows &&
     css`
-      max-height: calc(${theme.space['9']} * ${$rows});
+      max-height: ${getMaxHeight(theme, $rows, $size)};
       border-color: hsla(${theme.colors.raw.greyActive} / 0.05);
       transition: border-color 0.15s ease-in-out;
       padding-right: ${theme.space['1']};
@@ -286,64 +403,83 @@ const SelectOptionList = styled.div<{ $rows?: number; $direction: Direction }>(
       &:hover {
         border-color: hsla(${theme.colors.raw.greyActive} / 0.2);
       }
-    `}
+    `};
   `,
 )
 
-const SelectOption = styled.div<{
+const SelectOption = styled.button<{
   $selected?: boolean
-  $disabled?: boolean
+  $color?: Colors
   $highlighted?: boolean
-  $gap: Space
+  $size: Size
 }>(
-  ({ theme, $selected, $disabled, $highlighted, $gap }) => css`
+  ({ theme, $selected, $highlighted, $color, $size }) => css`
     align-items: center;
     cursor: pointer;
     display: flex;
-    gap: ${theme.space[$gap]};
+    gap: ${theme.space['2']};
     width: ${theme.space['full']};
-    height: ${theme.space['9']};
-    padding: ${theme.space['2.5']} ${theme.space['2']};
+    height: ${theme.space['11']};
+    flex: 0 0 ${theme.space['11']};
+    padding: 0 ${theme.space['3']};
     justify-content: flex-start;
     transition-duration: ${theme.transitionDuration['150']};
     transition-property: all;
     transition-timing-function: ${theme.transitionTimingFunction['inOut']};
-    border-radius: ${theme.radii['medium']};
-    margin: ${theme.space['0.5']} 0;
+    border-radius: ${theme.radii.large};
     white-space: nowrap;
+    color: ${theme.colors.textPrimary};
+    font-size: ${getFontSize('body')};
+    font-weight: ${getFontWeight('body')};
+    line-height: ${getLineHeight('body')};
+    text-align: left;
 
-    &:first-child {
-      margin-top: ${theme.space['0']};
+    svg {
+      display: block;
+      width: ${theme.space['4']};
+      height: ${theme.space['4']};
+      color: ${theme.colors.textPrimary};
     }
 
-    &:last-child {
-      margin-bottom: ${theme.space['0']};
-    }
-
-    ${() => {
-      if ($selected)
-        return css`
-          background-color: ${theme.colors.greySurface};
-        `
-      else if ($highlighted)
-        return css`
-          background-color: ${theme.colors.greyBright};
-        `
-    }}
-
-    ${$disabled &&
+    ${$color &&
     css`
-      color: ${theme.colors.textTertiary};
+      color: ${theme.colors[$color]};
+      svg {
+        color: ${theme.colors[$color]};
+      }
+    `}
+
+    &:disabled {
+      color: ${theme.colors.greyPrimary};
       cursor: not-allowed;
 
       &:hover {
         background-color: transparent;
       }
+
+      svg {
+        color: ${theme.colors.greyPrimary};
+      }
+    }
+
+    ${$highlighted &&
+    css`
+      background-color: ${theme.colors.greySurface};
     `}
 
-    svg {
-      display: block;
-    }
+    ${$selected &&
+    css`
+      background-color: ${theme.colors.greyLight};
+    `}
+
+    ${$size === 'small' &&
+    css`
+      height: ${theme.space['9']};
+      flex: 0 0 ${theme.space['9']};
+      font-size: ${getFontSize('small')};
+      font-weight: ${getFontWeight('small')};
+      line-height: ${getLineHeight('small')};
+    `}
   `,
 )
 
@@ -363,14 +499,6 @@ const NoResultsContainer = styled.div(
     margin: ${theme.space['0.5']} 0;
     font-style: italic;
     white-space: nowrap;
-
-    &:first-child {
-      margin-top: ${theme.space['0']};
-    }
-
-    &:last-child {
-      margin-bottom: ${theme.space['0']};
-    }
   `,
 )
 
@@ -403,6 +531,7 @@ export type SelectOptionProps = {
   node?: React.ReactNode
   prefix?: React.ReactNode
   disabled?: boolean
+  color?: Colors
 }
 
 type Direction = 'up' | 'down'
@@ -452,6 +581,12 @@ export type SelectProps = {
   showBorder?: boolean
   /** If the option list is wider than the select, which  */
   align?: 'left' | 'right'
+  /** If true will show the indicator dot */
+  showDot?: boolean
+  /** If true and showDot is true, will show a green indicator */
+  validated?: boolean
+  /** If true, sets the select component into read only mode */
+  readOnly?: boolean
 } & FieldBaseProps &
   Omit<
     NativeDivProps,
@@ -506,6 +641,7 @@ export const Select = React.forwardRef(
       labelSecondary,
       required,
       tabIndex = -1,
+      readOnly = false,
       width,
       onBlur,
       onChange,
@@ -519,8 +655,9 @@ export const Select = React.forwardRef(
       size = 'medium',
       padding: paddingProp,
       inputSize: inputSizeProps,
-      showBorder = false,
       align,
+      validated,
+      showDot = false,
       ...props
     }: SelectProps,
     ref: React.Ref<HTMLInputElement>,
@@ -574,7 +711,6 @@ export const Select = React.forwardRef(
           })
           onChange && onChange(clonedEvent)
         }
-        // onChange && onChange(option)
       }
     }
 
@@ -672,7 +808,6 @@ export const Select = React.forwardRef(
     }, [menuOpen, state])
 
     const defaultPadding = size === 'small' ? '3' : '4'
-    const outerPadding = getPadding('outer', defaultPadding, paddingProp)
     const innerPadding = getPadding('inner', defaultPadding, paddingProp)
 
     /**
@@ -737,44 +872,52 @@ export const Select = React.forwardRef(
     }
 
     const handleOptionClick =
-      (option: SelectOptionProps) => (e: React.MouseEvent<HTMLDivElement>) => {
+      (option: SelectOptionProps) =>
+      (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation()
         changeSelectedOption(option, e)
         setMenuOpen(false)
       }
 
-    const handleOptionMouseover = (e: React.MouseEvent<HTMLDivElement>) => {
+    const handleOptionMouseover = (e: React.MouseEvent<HTMLButtonElement>) => {
       const index = Number(e.currentTarget.getAttribute('data-option-index'))
       if (!isNaN(index)) changeHighlightIndex(index)
     }
 
     useDocumentEvent(displayRef, 'click', () => setMenuOpen(false), menuOpen)
 
-    const OptionElement = ({ option }: { option: SelectOptionProps | null }) =>
+    const OptionElement = ({
+      option,
+      ...props
+    }: {
+      option: SelectOptionProps | null
+    }) =>
       option ? (
-        <React.Fragment>
+        <>
           {option.prefix && <div>{option.prefix}</div>}
-          <SelectLabel>
+          <SelectLabel {...props}>
             {option.node ? option.node : option.label || option.value}
           </SelectLabel>
-        </React.Fragment>
+        </>
       ) : null
 
     return (
       <Field
         data-testid="select"
         description={description}
+        disabled={disabled}
         error={error}
         hideLabel={hideLabel}
         id={id}
         inline={inline}
         label={label}
         labelSecondary={labelSecondary}
+        readOnly={readOnly}
         required={required}
         width={width}
       >
-        <div style={{ position: 'relative' }}>
-          <SelectContainer
+        {(ids: FieldState) => (
+          <Container
             {...{
               ...props,
               'aria-controls': `listbox-${id}`,
@@ -786,78 +929,36 @@ export const Select = React.forwardRef(
               onClick: handleSelectContainerClick,
               onKeyDown: handleKeydown,
             }}
-            $disabled={disabled}
-            $showBorder={showBorder}
+            $disabled={!!disabled}
+            $hasError={!!error}
+            $open={isOpen}
+            $readOnly={readOnly}
+            $showDot={showDot}
             $size={size}
+            $validated={!!validated}
             id={`combo-${id}`}
             ref={displayRef}
             tabIndex={tabIndex}
             onBlur={onBlur}
             onFocus={onFocus}
           >
-            <SelectContentContainer>
-              {isAutocomplete && isOpen ? (
-                <SelectInput
-                  $padding={outerPadding}
-                  autoCapitalize="none"
-                  autoComplete="off"
-                  autoFocus
-                  data-testid="select-input"
-                  placeholder={selectedOption?.label}
-                  ref={searchInputRef}
-                  size={inputSize}
-                  spellCheck="false"
-                  style={{ flex: '1', height: '100%' }}
-                  value={inputValue}
-                  onChange={handleInputChange}
-                  onKeyDown={(e) =>
-                    handleKeydown(e as React.KeyboardEvent<HTMLInputElement>)
-                  }
-                />
-              ) : selectedOption ? (
-                <OptionElementContainer
-                  $gap={innerPadding}
-                  $padding={outerPadding}
-                  data-testid="selected"
-                >
-                  <OptionElement option={selectedOption} />
-                </OptionElementContainer>
-              ) : placeholder ? (
-                <NoOptionContainer $padding={outerPadding}>
-                  {placeholder}
-                </NoOptionContainer>
-              ) : null}
-            </SelectContentContainer>
-            <SelectActionContainer>
-              {showClearButton ? (
-                <SelectActionButton
-                  $padding={outerPadding}
-                  $size={size}
-                  type="button"
-                  onClick={handleInputClear}
-                >
-                  <CrossSVG />
-                </SelectActionButton>
-              ) : (
-                <SelectActionButton
-                  $padding={outerPadding}
-                  $size={size}
-                  type="button"
-                >
-                  <Chevron
-                    $direction={direction}
-                    $disabled={disabled}
-                    $open={isOpen}
-                    onClick={() => setMenuOpen(!menuOpen)}
-                  />
-                </SelectActionButton>
-              )}
-            </SelectActionContainer>
-            <VisuallyHidden>
-              <input
-                aria-hidden
-                name={name}
+            <SelectContainer
+              $disabled={!!disabled}
+              $hasError={!!error}
+              $ids={ids}
+              $open={isOpen}
+              $size={size}
+            >
+              <RootInput
                 ref={inputRef}
+                {...{
+                  ...ids?.content,
+                }}
+                aria-hidden
+                disabled={disabled}
+                name={name}
+                placeholder={placeholder}
+                readOnly={readOnly}
                 tabIndex={-1}
                 value={value}
                 onChange={(e) => {
@@ -874,44 +975,93 @@ export const Select = React.forwardRef(
                     : displayRef.current?.focus()
                 }}
               />
-            </VisuallyHidden>
-          </SelectContainer>
-          <SelectOptionContainer
-            $align={align}
-            $direction={direction}
-            $rows={rows}
-            $size={size}
-            $state={state}
-            id={`listbox-${id}`}
-            role="listbox"
-            tabIndex={-1}
-            onMouseLeave={handleOptionsListMouseLeave}
-          >
-            <SelectOptionList $direction={direction} $rows={rows}>
-              {visibleOptions.length === 0 && (
-                <NoResultsContainer>{emptyListMessage}</NoResultsContainer>
+              {isAutocomplete && isOpen ? (
+                <SelectInput
+                  autoCapitalize="none"
+                  autoComplete="off"
+                  autoFocus
+                  data-testid="select-input"
+                  placeholder={selectedOption?.label || placeholder}
+                  ref={searchInputRef}
+                  size={inputSize}
+                  spellCheck="false"
+                  style={{ flex: '1', height: '100%' }}
+                  value={inputValue}
+                  onChange={handleInputChange}
+                  onKeyDown={(e) =>
+                    handleKeydown(e as React.KeyboardEvent<HTMLInputElement>)
+                  }
+                />
+              ) : selectedOption ? (
+                <OptionElement data-testid="selected" option={selectedOption} />
+              ) : (
+                <PlaceholderLabel>{placeholder}</PlaceholderLabel>
               )}
-              {visibleOptions.map((option, index) => (
-                <SelectOption
-                  {...{
-                    $selected: option?.value === value,
-                    $disabled: option.disabled,
-                    $highlighted: index === highlightedIndex,
-                    $gap: innerPadding,
-                  }}
-                  data-option-index={index}
-                  data-testid={`select-option-${option.value}`}
-                  key={option.value}
-                  role="option"
-                  onClick={handleOptionClick(option)}
-                  onMouseOver={handleOptionMouseover}
+              {showClearButton ? (
+                <SelectActionButton
+                  $size={size}
+                  type="button"
+                  onClick={handleInputClear}
                 >
-                  <OptionElement option={option} />
-                </SelectOption>
-              ))}
-            </SelectOptionList>
-          </SelectOptionContainer>
-        </div>
+                  <CrossCircleSVG />
+                </SelectActionButton>
+              ) : !readOnly ? (
+                <ToggleMenuButton
+                  $direction={direction}
+                  $open={isOpen}
+                  $size={size}
+                  id="chevron"
+                  type="button"
+                  onClick={() => setMenuOpen(!menuOpen)}
+                >
+                  <DownChevronSVG />
+                </ToggleMenuButton>
+              ) : null}
+            </SelectContainer>
+            <SelectOptionContainer
+              $align={align}
+              $direction={direction}
+              $rows={rows}
+              $size={size}
+              $state={state}
+              id={`listbox-${id}`}
+              role="listbox"
+              tabIndex={-1}
+              onMouseLeave={handleOptionsListMouseLeave}
+            >
+              <SelectOptionList
+                $direction={direction}
+                $rows={rows}
+                $size={size}
+              >
+                {visibleOptions.length === 0 && (
+                  <NoResultsContainer>{emptyListMessage}</NoResultsContainer>
+                )}
+                {visibleOptions.map((option, index) => (
+                  <SelectOption
+                    {...{
+                      $selected: option?.value === value,
+                      $highlighted: index === highlightedIndex,
+                      $gap: innerPadding,
+                      $color: option.color,
+                      $size: size,
+                    }}
+                    data-option-index={index}
+                    data-testid={`select-option-${option.value}`}
+                    disabled={option.disabled}
+                    key={option.value}
+                    role="option"
+                    type="button"
+                    onClick={handleOptionClick(option)}
+                    onMouseOver={handleOptionMouseover}
+                  >
+                    <OptionElement option={option} />
+                  </SelectOption>
+                ))}
+              </SelectOptionList>
+            </SelectOptionContainer>
+          </Container>
+        )}
       </Field>
     )
   },

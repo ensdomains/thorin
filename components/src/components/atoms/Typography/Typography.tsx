@@ -1,28 +1,30 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 
-import { Colors } from '@/src/tokens'
+import { Font, FontSize, FontWeight } from '@/src/tokens/typography'
 
-type Variants = 'small' | 'large' | 'extraLarge' | 'label' | 'labelHeading'
+import {
+  WithTypography,
+  getFontSize,
+  getFontWeight,
+  getLineHeight,
+} from '@/src/types/withTypography'
+import { WithColor, getColor } from '@/src/types/withColorOrColorStyle'
 
-type Weights = 'bold' | 'semiBold' | 'medium' | 'normal' | 'light'
-type Fonts = 'sans' | 'mono'
-
-interface ContainerProps {
+type ContainerProps = {
   $ellipsis?: boolean
-  $variant?: Variants
-  $size?: 'small' | 'base'
-  $color?: Colors
-  $weight?: Weights
-  $font: Fonts
+  $fontVariant: WithTypography['fontVariant']
+  $size?: FontSize
+  $color: NonNullable<WithColor['color']>
+  $weight?: FontWeight
+  $font: Font
 }
 
 const Container = styled.div<ContainerProps>(
-  ({ theme, $ellipsis, $variant, $size, $color, $weight, $font }) => css`
-    font-family: ${theme.fonts[$font]};
-    letter-spacing: ${theme.letterSpacings['-0.01']};
-    letter-spacing: ${theme.letterSpacings['-0.015']};
-    line-height: ${theme.lineHeights.normal};
+  ({ theme, $ellipsis, $fontVariant = 'body', $color, $font, $weight }) => css`
+    font-family: ${theme.fonts.sans};
+    line-height: ${theme.lineHeights.body};
+    color: ${getColor($color)};
 
     ${$ellipsis &&
     css`
@@ -31,64 +33,22 @@ const Container = styled.div<ContainerProps>(
       white-space: nowrap;
     `}
 
-    ${() => {
-      switch ($variant) {
-        case 'small':
-          return css`
-            font-size: ${theme.fontSizes['small']};
-            font-weight: ${theme.fontWeights['normal']};
-            letter-spacing: ${theme.letterSpacings['-0.01']};
-            line-height: ${theme.lineHeights.normal};
-          `
-        case 'large':
-          return css`
-            font-size: ${theme.fontSizes['large']};
-            font-weight: ${theme.fontWeights['normal']};
-            letter-spacing: ${theme.letterSpacings['-0.02']};
-            line-height: ${theme.lineHeights['2']};
-          `
-        case 'extraLarge':
-          return css`
-            font-size: ${theme.fontSizes['extraLarge']};
-            font-weight: ${theme.fontWeights['medium']};
-            letter-spacing: ${theme.letterSpacings['-0.02']};
-            line-height: ${theme.lineHeights['2']};
-          `
-        case 'label':
-          return css`
-            color: ${theme.colors.text};
-            font-size: ${theme.fontSizes['label']};
-            font-weight: ${theme.fontWeights['bold']};
-            letter-spacing: ${theme.letterSpacings['-0.01']};
-            text-transform: capitalize;
-          `
-        case 'labelHeading':
-          return css`
-            color: ${theme.colors.text};
-            font-size: ${theme.fontSizes['small']};
-            font-weight: ${theme.fontWeights['bold']};
-            letter-spacing: ${theme.letterSpacings['-0.01']};
-            text-transform: capitalize;
-          `
-        default:
-          return ``
-      }
-    }}
-
-  ${$color &&
+    ${$fontVariant &&
     css`
-      color: ${theme.colors[$color]};
+      font-size: ${getFontSize($fontVariant)};
+      font-weight: ${getFontWeight($fontVariant)};
+      line-height: ${getLineHeight($fontVariant)};
     `}
 
-  ${$size &&
+    ${$font === 'mono' &&
     css`
-      font-size: ${theme.fontSizes[$size]};
+      font-family: ${theme.fonts.mono};
     `}
 
-  ${$weight &&
+    ${$weight &&
     css`
       font-weight: ${theme.fontWeights[$weight]};
-    `}
+    `};
   `,
 )
 
@@ -96,7 +56,7 @@ type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 
 type Props = {
   /** element type of container */
-  as?:
+  asProp?:
     | 'code'
     | 'div'
     | 'h1'
@@ -111,30 +71,28 @@ type Props = {
     | 'i'
   /** If true, will truncate text with an elipsis on overflow. If false, text will break on the next word. */
   ellipsis?: boolean
-  /** Font size and */
-  variant?: Variants
   /** The classname attribute of contianer. */
   className?: NativeDivProps['className']
   /** The tokens.fontWeight value */
-  weight?: Weights
-  /** The  */
-  font?: Fonts
-  color?: Colors
-  size?: 'small' | 'base'
-} & Omit<NativeDivProps, 'color'>
+  /** A font value that overrides the existing font property  */
+  font?: Font
+  /** A weight value that overrides existing weight property */
+  weight?: FontWeight
+} & Omit<NativeDivProps, 'color' | 'as'> &
+  WithTypography &
+  WithColor
 
 export const Typography = React.forwardRef<HTMLElement, Props>(
   (
     {
-      as = 'div',
+      asProp,
       children,
       ellipsis,
-      variant,
       className,
-      weight,
+      fontVariant = 'body',
       font = 'sans',
-      color,
-      size,
+      color = 'text',
+      weight,
       ...props
     },
     ref,
@@ -145,10 +103,9 @@ export const Typography = React.forwardRef<HTMLElement, Props>(
         $color={color}
         $ellipsis={ellipsis ? true : undefined}
         $font={font}
-        $size={size}
-        $variant={variant}
+        $fontVariant={fontVariant}
         $weight={weight}
-        as={as}
+        as={asProp}
         className={className}
         ref={ref}
       >
