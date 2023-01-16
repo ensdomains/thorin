@@ -8,9 +8,23 @@ import { Field } from '@ensdomains/thorin'
 ```
 
 ```tsx live=true expand=true
-<Field description="Description" label="Label" labelSecondary="Secondary">
-  <div style={{ backgroundColor: 'black', height: 20 }} />
-</Field>
+<DeleteMe>
+  <Field
+    description="Descriptionasdfasdfasdfasdfasdfasd"
+    label="Labelasdfasdfasdfasdfasdf"
+    labelSecondary="Secondaryasdfasdfasdfas"
+  >
+    <div style={{ backgroundColor: 'black', height: 20 }} />
+  </Field>
+  <Field
+    description="Descriptionasdfasdfasdfasdfasdf"
+    inline
+    label="Labelasdfasdfasdfasdfasdfasd"
+    labelSecondary="Secondaryasdfasdfasdfasdfasfdasd"
+  >
+    <div style={{ backgroundColor: 'black', width: 20, height: 20 }} />
+  </Field>
+</DeleteMe>
 ```
 
 ## Props

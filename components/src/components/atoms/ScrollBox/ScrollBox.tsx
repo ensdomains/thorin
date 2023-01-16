@@ -6,7 +6,7 @@ const StyledScrollBox = styled.div<{ $showTop: boolean; $showBottom: boolean }>(
     overflow: auto;
     position: relative;
 
-    border-color: hsla(${theme.colors.raw.greySurface} / 1);
+    border-color: ${theme.colors.greyLight};
     transition: border-color 0.15s ease-in-out;
 
     /* stylelint-disable-next-line selector-pseudo-element-no-unknown */
@@ -15,15 +15,32 @@ const StyledScrollBox = styled.div<{ $showTop: boolean; $showBottom: boolean }>(
     }
 
     &::-webkit-scrollbar {
+      background-color: transparent;
+    }
+
+    &::-webkit-scrollbar:vertical {
       width: ${theme.space['1.5']};
       background-color: transparent;
     }
 
-    &::-webkit-scrollbar-thumb {
+    &::-webkit-scrollbar:horizontal {
+      height: ${theme.space['1.5']};
+      background-color: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb:vertical {
       border: none;
       border-radius: ${theme.radii.full};
       border-right-style: inset;
       border-right-width: calc(100vw + 100vh);
+      border-color: inherit;
+    }
+
+    &::-webkit-scrollbar-thumb:horizontal {
+      border: none;
+      border-radius: ${theme.radii.full};
+      border-bottom-style: inset;
+      border-bottom-width: calc(100vw + 100vh);
       border-color: inherit;
     }
 
@@ -32,7 +49,7 @@ const StyledScrollBox = styled.div<{ $showTop: boolean; $showBottom: boolean }>(
     }
 
     &:hover {
-      border-color: hsla(${theme.colors.raw.greyLight} / 1);
+      border-color: ${theme.colors.greyBright};
     }
 
     &::before,

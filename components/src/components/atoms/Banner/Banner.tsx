@@ -13,7 +13,7 @@ type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 
 type BaseProps = {
   /** The message inside the banner */
-  message: string
+  message: React.ReactNode
   /** The title for the banner */
   title?: string
   as?: 'a'

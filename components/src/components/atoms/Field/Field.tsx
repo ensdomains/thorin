@@ -47,8 +47,9 @@ type Props = FieldBaseProps & {
 
 const Label = styled(Typography)<{ $disabled?: boolean; $readOnly?: boolean }>(
   ({ $disabled, $readOnly }) => css`
-    display: flex;
-    flex: 1;
+    display: inline-block;
+    flex: 66%;
+    overflow: hidden;
     cursor: pointer;
 
     ${$readOnly &&
@@ -64,11 +65,18 @@ const Label = styled(Typography)<{ $disabled?: boolean; $readOnly?: boolean }>(
   `,
 )
 
+const SecondaryLabel = styled(Typography)(
+  () => css`
+    flex: 33%;
+  `,
+)
+
 const LabelContentContainer = styled.div<{ $inline?: boolean }>(
   ({ theme, $inline }) => css`
     display: flex;
     align-items: center;
     padding: 0 ${$inline ? '0' : theme.space['2']};
+    overflow: hidden;
   `,
 )
 
@@ -108,6 +116,7 @@ const LabelContent = ({
         $readOnly={readOnly}
         asProp="label"
         color="greyPrimary"
+        ellipsis
         fontVariant="bodyBold"
         {...ids.label}
       >
@@ -120,9 +129,9 @@ const LabelContent = ({
         )}
       </Label>
       {labelSecondary && (
-        <Typography color="greyPrimary" fontVariant="extraSmall">
+        <SecondaryLabel color="greyPrimary" ellipsis fontVariant="extraSmall">
           {labelSecondary}
-        </Typography>
+        </SecondaryLabel>
       )}
     </LabelContentContainer>
   )
@@ -133,6 +142,8 @@ const LabelContent = ({
 const Description = styled(Typography)<{ $inline?: boolean }>(
   ({ theme, $inline }) => css`
     padding: 0 ${$inline ? '0' : theme.space['2']};
+    width: 100%;
+    overflow: hidden;
   `,
 )
 
@@ -176,6 +187,7 @@ const DecorativeContent = ({
         {...ids.description}
         color={disabled ? 'greyPrimary' : 'textPrimary'}
         colorScheme={disabled ? 'secondary' : 'primary'}
+        ellipsis
         fontVariant="small"
       >
         {description}
@@ -192,12 +204,14 @@ interface ContainerProps {
 
 const Container = styled.div<ContainerProps>(
   ({ theme, $inline, $width, $reverse }) => css`
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: 'normal';
     gap: ${theme.space['2']};
     width: ${theme.space[$width]};
+    overflow: hidden;
 
     ${$inline &&
     css`
@@ -213,6 +227,7 @@ const ContainerInner = styled.div(
     flex-direction: column;
     gap: ${theme.space[1]};
     flex: 1;
+    overflow: hidden;
   `,
 )
 
