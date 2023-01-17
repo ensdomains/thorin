@@ -47,7 +47,7 @@ type Props = FieldBaseProps & {
 
 const Label = styled(Typography)<{ $disabled?: boolean; $readOnly?: boolean }>(
   ({ $disabled, $readOnly }) => css`
-    display: inline-block;
+    display: flex;
     flex: 66%;
     overflow: hidden;
     cursor: pointer;
@@ -120,7 +120,7 @@ const LabelContent = ({
         fontVariant="bodyBold"
         {...ids.label}
       >
-        {label}&nbsp;
+        {label}
         {required && (
           <>
             <RequiredWrapper>*</RequiredWrapper>
@@ -211,7 +211,6 @@ const Container = styled.div<ContainerProps>(
     align-items: 'normal';
     gap: ${theme.space['2']};
     width: ${theme.space[$width]};
-    overflow: hidden;
 
     ${$inline &&
     css`

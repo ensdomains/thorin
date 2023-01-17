@@ -226,7 +226,8 @@ export const Banner = ({
   ...props
 }: Props) => {
   const Icon =
-    icon || (alert && ['error', 'warning'].includes(alert) ? AlertSVG : EthSVG)
+    icon ||
+    (alert && ['error', 'warning'].includes(alert) ? <AlertSVG /> : <EthSVG />)
 
   const shouldHover = !!href || !!onDismiss
 
@@ -237,9 +238,7 @@ export const Banner = ({
       $hover={shouldHover}
       as={asProp as any}
     >
-      <IconContainer $alert={alert}>
-        <Icon />
-      </IconContainer>
+      <IconContainer $alert={alert}>{Icon}</IconContainer>
       <Content>
         {title && <Typography fontVariant="largeBold">{title}</Typography>}
         <Typography>{message}</Typography>

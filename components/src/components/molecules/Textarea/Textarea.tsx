@@ -152,7 +152,7 @@ const TextArea = styled.textarea<{
   `,
 )
 
-const ClearButton = styled.button<{ $size: Props['size'] }>(
+const ActionButton = styled.button<{ $size: Props['size'] }>(
   ({ theme, $size }) => css`
     position: absolute;
     top: 0;
@@ -211,8 +211,12 @@ type Props = Omit<FieldBaseProps, 'inline'> & {
   validated?: boolean
   /** If true, shows a status dot of the current state of validation */
   showDot?: boolean
+  /** A replacement icon for the action button */
+  actionIcon?: React.ReactNode
   /** If true, will show the action button even when there is not input */
   alwaysShowAction?: boolean
+  /** A custom handler that replaces the clear handler */
+  onClickAction?: () => void
   /** The handler for change events. */
   onChange?: NativeTextareaProps['onChange']
   /** The handler for blur events. */
@@ -251,7 +255,9 @@ export const Textarea = React.forwardRef(
       tabIndex,
       value,
       width,
+      actionIcon,
       alwaysShowAction = false,
+      onClickAction,
       onChange,
       onBlur,
       onFocus,
@@ -290,6 +296,13 @@ export const Textarea = React.forwardRef(
       ) as React.ChangeEvent<HTMLTextAreaElement>
       onChange(syntheticEvent)
       inputRef.current?.focus()
+    }
+
+    const handleClickAction = () => {
+      if (onClickAction) {
+        return onClickAction()
+      }
+      handleClickClear()
     }
 
     return (
@@ -341,14 +354,14 @@ export const Textarea = React.forwardRef(
               onChange={onChange}
               onFocus={onFocus}
             />
-            {clearable && (
-              <ClearButton
+            {(clearable || onClickAction) && (
+              <ActionButton
                 $size={size}
                 type="button"
-                onClick={handleClickClear}
+                onClick={handleClickAction}
               >
-                <CrossCircleSVG />
-              </ClearButton>
+                {actionIcon || <CrossCircleSVG />}
+              </ActionButton>
             )}
           </Container>
         )}
