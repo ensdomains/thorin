@@ -14,7 +14,9 @@ describe('<Banner />', () => {
   it('renders', () => {
     render(
       <ThemeProvider theme={lightTheme}>
-        <Banner alert="warning" message="Message" title="Title" />
+        <Banner alert="warning" title="Title">
+          Message
+        </Banner>
       </ThemeProvider>,
     )
     expect(screen.getByText('Title')).toBeInTheDocument()
