@@ -5,7 +5,7 @@ import { setNativeValue } from '@/src/utils/setNativeValue'
 
 import { CrossCircleSVG, Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
-import { Space } from '../../../tokens/index'
+import { Radii, Space } from '../../../tokens/index'
 import { DefaultTheme } from '../../../types/index'
 import {
   FontVariant,
@@ -114,7 +114,6 @@ const SPACES: {
     icon: Space
     iconPadding: Space
     height: Space
-    radius: Space
   }
 } = {
   small: {
@@ -122,28 +121,24 @@ const SPACES: {
     icon: '3',
     iconPadding: '8.5',
     height: '10',
-    radius: '2',
   },
   medium: {
     outerPadding: '4',
     icon: '4',
     iconPadding: '10',
     height: '12',
-    radius: '2',
   },
   large: {
     outerPadding: '4',
     icon: '5',
     iconPadding: '11',
     height: '16',
-    radius: '5.5',
   },
   extraLarge: {
     outerPadding: '6',
     icon: '6',
     iconPadding: '14',
     height: '20',
-    radius: '5.5',
   },
 }
 
@@ -153,6 +148,19 @@ const getSpaceValue = (
   key: keyof typeof SPACES['small'],
 ): string => {
   return theme.space[SPACES[size][key]]
+}
+
+const RADII: {
+  [key in Size]: Radii
+} = {
+  small: 'large',
+  medium: 'large',
+  large: '2.5xLarge',
+  extraLarge: '2.5xLarge',
+}
+
+const getRadiusValue = (theme: DefaultTheme, size: keyof typeof RADII) => {
+  return theme.radii[RADII[size]]
 }
 
 const TYPOGRAPHIES: {
@@ -364,7 +372,7 @@ const InnerContainer = styled.div<{
   ({ theme, $size, $hasError, $disabled, $readOnly, $alwaysShowAction }) => css`
     position: relative;
     background-color: ${theme.colors.backgroundPrimary};
-    border-radius: ${getSpaceValue(theme, $size, 'radius')};
+    border-radius: ${getRadiusValue(theme, $size)};
     border-width: ${theme.space.px};
     border-color: ${theme.colors.border};
     color: ${theme.colors.textPrimary};

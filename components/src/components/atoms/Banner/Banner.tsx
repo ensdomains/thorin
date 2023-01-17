@@ -12,8 +12,6 @@ import { AlertSVG, CrossSVG, EthSVG, RightArrowSVG } from '../..'
 type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 
 type BaseProps = {
-  /** The message inside the banner */
-  message: React.ReactNode
   /** The title for the banner */
   title?: string
   as?: 'a'
@@ -216,15 +214,15 @@ export type Props = BaseProps &
   WithIcon
 
 export const Banner = ({
-  message,
   title,
   alert = 'info',
   icon,
   as: asProp,
   href,
+  children,
   onDismiss,
   ...props
-}: Props) => {
+}: React.PropsWithChildren<Props>) => {
   const Icon =
     icon ||
     (alert && ['error', 'warning'].includes(alert) ? <AlertSVG /> : <EthSVG />)
@@ -241,7 +239,7 @@ export const Banner = ({
       <IconContainer $alert={alert}>{Icon}</IconContainer>
       <Content>
         {title && <Typography fontVariant="largeBold">{title}</Typography>}
-        <Typography>{message}</Typography>
+        <Typography>{children}</Typography>
       </Content>
       <ActionButton alert={alert} href={href} onDismiss={onDismiss} />
     </Container>
