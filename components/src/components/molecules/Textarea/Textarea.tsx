@@ -168,6 +168,7 @@ const ActionButton = styled.button<{ $size: Props['size'] }>(
     width: ${$size === 'small' ? theme.space[10] : theme.space[12]};
     height: ${$size === 'small' ? theme.space[10] : theme.space[12]};
     transition: all 0.1s ease-in-out;
+    cursor: pointer;
 
     display: flex;
     justify-content: center;
@@ -178,6 +179,12 @@ const ActionButton = styled.button<{ $size: Props['size'] }>(
       width: ${$size === 'small' ? theme.space[3] : theme.space[4]};
       height: ${$size === 'small' ? theme.space[3] : theme.space[4]};
       color: ${theme.colors.greyPrimary};
+      transition: all 0.1s ease-in-out;
+    }
+
+    &:hover svg {
+      color: ${theme.colors.greyBright};
+      transform: translateY(-1px);
     }
   `,
 )

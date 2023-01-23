@@ -20,7 +20,7 @@ type BaseProps = {
 
 type WithAnchor = {
   as: 'a'
-  href: string
+  href?: string
   target?: string
   rel?: string
   onDismiss?: never
@@ -38,9 +38,9 @@ type NonNullableAlert = NonNullable<Props['alert']>
 
 const Container = styled.div<{
   $alert: NonNullableAlert
-  $hover: boolean
+  $hasAction: boolean
 }>(
-  ({ theme, $alert, $hover }) => css`
+  ({ theme, $alert, $hasAction }) => css`
     position: relative;
     background: ${theme.colors.backgroundPrimary};
     border: 1px solid ${theme.colors.border};
@@ -52,8 +52,9 @@ const Container = styled.div<{
     width: ${theme.space.full};
     transition: all 150ms ease-in-out;
 
-    ${$hover &&
+    ${$hasAction &&
     css`
+      padding-right: ${theme.space[8]};
       &:hover {
         transform: translateY(-1px);
         background: ${theme.colors.greySurface};
@@ -186,10 +187,10 @@ const ActionButtonIconWrapper = styled.div<{ $alert: NonNullableAlert }>(
 
 const ActionButton = ({
   alert = 'info',
-  href,
+  hasHref,
   onDismiss,
-}: Pick<Props, 'alert' | 'onDismiss' | 'href'>) => {
-  if (href)
+}: Pick<Props, 'alert' | 'onDismiss'> & { hasHref: boolean }) => {
+  if (hasHref)
     return (
       <ActionButtonContainer as="div">
         <ActionButtonIconWrapper $alert={alert}>
@@ -218,7 +219,6 @@ export const Banner = ({
   alert = 'info',
   icon,
   as: asProp,
-  href,
   children,
   onDismiss,
   ...props
@@ -227,13 +227,14 @@ export const Banner = ({
     icon ||
     (alert && ['error', 'warning'].includes(alert) ? <AlertSVG /> : <EthSVG />)
 
-  const shouldHover = !!href || !!onDismiss
+  const hasHref = !!props.href
+  const hasAction = hasHref || !!onDismiss
 
   return (
     <Container
       {...props}
       $alert={alert}
-      $hover={shouldHover}
+      $hasAction={hasAction}
       as={asProp as any}
     >
       <IconContainer $alert={alert}>{Icon}</IconContainer>
@@ -241,7 +242,7 @@ export const Banner = ({
         {title && <Typography fontVariant="largeBold">{title}</Typography>}
         <Typography>{children}</Typography>
       </Content>
-      <ActionButton alert={alert} href={href} onDismiss={onDismiss} />
+      <ActionButton alert={alert} hasHref={hasHref} onDismiss={onDismiss} />
     </Container>
   )
 }

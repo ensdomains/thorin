@@ -150,7 +150,6 @@ export const Avatar = ({
   }, [ref, hideImg, showImg])
 
   const isImageVisible = showImage && !!src
-  console.log('>>>', isImageVisible, src)
   return (
     <Container $noBorder={!showImage || noBorder} $shape={shape}>
       {!isImageVisible && (

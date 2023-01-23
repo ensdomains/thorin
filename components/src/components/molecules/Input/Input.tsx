@@ -330,6 +330,7 @@ const ActionButton = styled.button<{ $size: Size }>(
     transition: all 0.1s ease-in-out;
     transform: scale(1);
     opacity: 1;
+    cursor: pointer;
 
     svg {
       display: block;
