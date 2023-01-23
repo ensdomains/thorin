@@ -7,7 +7,7 @@ import { WithAlert, WithIcon } from '../../../types'
 
 import { Typography } from '../Typography'
 
-import { AlertSVG, CrossSVG, EthSVG, RightArrowSVG } from '../..'
+import { AlertSVG, CrossSVG, EthSVG, UpRightArrowSVG } from '../..'
 
 type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 
@@ -16,6 +16,7 @@ type BaseProps = {
   title?: string
   as?: 'a'
   onDismiss?: () => void
+  actionIcon?: React.ReactNode
 } & NativeDivProps
 
 type WithAnchor = {
@@ -24,6 +25,7 @@ type WithAnchor = {
   target?: string
   rel?: string
   onDismiss?: never
+  actionIcon?: React.ReactNode
 }
 
 type WithoutAnchor = {
@@ -51,6 +53,14 @@ const Container = styled.div<{
     gap: ${theme.space[4]};
     width: ${theme.space.full};
     transition: all 150ms ease-in-out;
+
+    ${mq.md.min(
+      css`
+        padding: ${theme.space['6']};
+        gap: ${theme.space[6]};
+        align-items: center;
+      `,
+    )}
 
     ${$hasAction &&
     css`
@@ -80,13 +90,6 @@ const Container = styled.div<{
       background: ${theme.colors.yellowSurface};
       border: 1px solid ${theme.colors.yellowPrimary};
     `};
-
-    ${mq.md.min(
-      css`
-        gap: ${theme.space[6]};
-        align-items: center;
-      `,
-    )}
   `,
 )
 
@@ -153,13 +156,17 @@ const ActionButtonContainer = styled.button(
   `,
 )
 
-const ActionButtonIconWrapper = styled.div<{ $alert: NonNullableAlert }>(
-  ({ theme, $alert }) => css`
+const ActionButtonIconWrapper = styled.div<{
+  $alert: NonNullableAlert
+  $hasAction?: boolean
+}>(
+  ({ theme, $alert, $hasAction }) => css`
     width: ${theme.space[5]};
     height: ${theme.space[5]};
     border-radius: ${theme.radii.full};
     background: ${theme.colors.accentSurface};
     color: ${theme.colors.accentPrimary};
+    transition: all 150ms ease-in-out;
 
     display: flex;
     align-items: center;
@@ -182,27 +189,48 @@ const ActionButtonIconWrapper = styled.div<{ $alert: NonNullableAlert }>(
       background: ${theme.colors.backgroundPrimary};
       color: ${theme.colors.yellowPrimary};
     `}
+
+    ${$hasAction &&
+    css`
+      cursor: pointer;
+      &:hover {
+        transform: translateY(-1px);
+        background: ${theme.colors.accentLight};
+        color: ${theme.colors.accentDim};
+        ${$alert === 'error' &&
+        css`
+          background: ${theme.colors.redLight};
+          color: ${theme.colors.redDim};
+        `}
+        ${$alert === 'warning' &&
+        css`
+          background: ${theme.colors.yellowLight};
+          color: ${theme.colors.yellowDim};
+        `}
+      }
+    `}
   `,
 )
 
 const ActionButton = ({
   alert = 'info',
+  icon,
   hasHref,
   onDismiss,
-}: Pick<Props, 'alert' | 'onDismiss'> & { hasHref: boolean }) => {
-  if (hasHref)
+}: Pick<Props, 'alert' | 'onDismiss'> & { hasHref: boolean } & WithIcon) => {
+  if (onDismiss)
     return (
-      <ActionButtonContainer as="div">
-        <ActionButtonIconWrapper $alert={alert}>
-          <RightArrowSVG />
+      <ActionButtonContainer onClick={() => onDismiss()}>
+        <ActionButtonIconWrapper $alert={alert} $hasAction>
+          {icon || <CrossSVG />}
         </ActionButtonIconWrapper>
       </ActionButtonContainer>
     )
-  if (onDismiss)
+  if (hasHref || icon)
     return (
-      <ActionButtonContainer onClick={() => onDismiss?.()}>
+      <ActionButtonContainer as="div">
         <ActionButtonIconWrapper $alert={alert}>
-          <CrossSVG />
+          {icon || <UpRightArrowSVG />}
         </ActionButtonIconWrapper>
       </ActionButtonContainer>
     )
@@ -228,7 +256,7 @@ export const Banner = ({
     (alert && ['error', 'warning'].includes(alert) ? <AlertSVG /> : <EthSVG />)
 
   const hasHref = !!props.href
-  const hasAction = hasHref || !!onDismiss
+  const hasAction = hasHref || !!props.onClick
 
   return (
     <Container
@@ -242,7 +270,12 @@ export const Banner = ({
         {title && <Typography fontVariant="largeBold">{title}</Typography>}
         <Typography>{children}</Typography>
       </Content>
-      <ActionButton alert={alert} hasHref={hasHref} onDismiss={onDismiss} />
+      <ActionButton
+        alert={alert}
+        hasHref={hasHref}
+        icon={props.actionIcon}
+        onDismiss={onDismiss}
+      />
     </Container>
   )
 }
