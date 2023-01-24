@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components'
 
 import { mq } from '@/src/utils/responsiveHelpers'
 
-import { WithAlert, WithIcon } from '../../../types'
+import { WithAlert } from '../../../types'
 
 import { Typography } from '../Typography'
 
@@ -11,13 +11,27 @@ import { AlertSVG, CrossSVG, EthSVG, UpRightArrowSVG } from '../..'
 
 type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 
+type IconTypes = 'filledCircle' | 'normal' | 'none'
+
 type BaseProps = {
   /** The title for the banner */
   title?: string
   as?: 'a'
   onDismiss?: () => void
   actionIcon?: React.ReactNode
+  icon?: React.ReactNode
+  iconType?: IconTypes
 } & NativeDivProps
+
+type WithIcon = {
+  icon?: React.ReactNode
+  iconType?: Omit<IconTypes, 'none'>
+}
+
+type WithoutIcon = {
+  icon?: never
+  iconType: 'none'
+}
 
 type WithAnchor = {
   as: 'a'
@@ -105,8 +119,9 @@ const Content = styled.div(
 
 const IconContainer = styled.div<{
   $alert: NonNullableAlert
+  $type: Omit<IconTypes, 'none'>
 }>(
-  ({ theme, $alert }) => css`
+  ({ theme, $alert, $type }) => css`
     width: ${theme.space[8]};
     height: ${theme.space[8]};
     flex: 0 0 ${theme.space[8]};
@@ -123,26 +138,29 @@ const IconContainer = styled.div<{
       flex: 0 0 ${theme.space[10]};
     `)}
 
-    ${$alert === 'error' &&
+    ${$type === 'filledCircle' &&
     css`
-      background: ${theme.colors.redPrimary};
       color: ${theme.colors.backgroundPrimary};
       border-radius: ${theme.radii.full};
 
       svg {
         transform: scale(0.5);
       }
+
+      ${$alert === 'info' &&
+      css`
+        background: ${theme.colors.text};
+      `}
+    `}
+
+    ${$alert === 'error' &&
+    css`
+      background: ${theme.colors.redPrimary};
     `}
 
     ${$alert === 'warning' &&
     css`
       background: ${theme.colors.yellowPrimary};
-      color: ${theme.colors.backgroundPrimary};
-      border-radius: ${theme.radii.full};
-
-      svg {
-        transform: scale(0.5);
-      }
     `}
   `,
 )
@@ -239,13 +257,23 @@ const ActionButton = ({
 
 export type Props = BaseProps &
   (WithAnchor | WithoutAnchor) &
-  WithAlert &
-  WithIcon
+  (WithIcon | WithoutIcon) &
+  WithAlert
+
+const defaultIconType = (
+  alert: NonNullableAlert,
+  icon: React.ReactNode | undefined,
+): IconTypes => {
+  if (alert !== 'info') return 'filledCircle'
+  if (icon) return 'normal'
+  return 'none'
+}
 
 export const Banner = ({
   title,
   alert = 'info',
   icon,
+  iconType,
   as: asProp,
   children,
   onDismiss,
@@ -257,6 +285,7 @@ export const Banner = ({
 
   const hasHref = !!props.href
   const hasAction = hasHref || !!props.onClick
+  const _iconType = iconType || defaultIconType(alert, icon)
 
   return (
     <Container
@@ -265,7 +294,11 @@ export const Banner = ({
       $hasAction={hasAction}
       as={asProp as any}
     >
-      <IconContainer $alert={alert}>{Icon}</IconContainer>
+      {_iconType !== 'none' && (
+        <IconContainer $alert={alert} $type={_iconType}>
+          {Icon}
+        </IconContainer>
+      )}
       <Content>
         {title && <Typography fontVariant="largeBold">{title}</Typography>}
         <Typography>{children}</Typography>
