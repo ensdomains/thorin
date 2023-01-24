@@ -56,5 +56,5 @@ export type Icon = React.FunctionComponent<React.SVGProps<SVGSVGElement>>
 
 export type WithIcon = {
   /** An svg to be used by the component */
-  icon?: Icon
+  icon?: React.ReactNode
 }

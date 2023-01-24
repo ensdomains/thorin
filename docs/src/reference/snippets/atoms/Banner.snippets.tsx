@@ -6,6 +6,6 @@ import { Snippet } from '../../../types'
 export const snippets: Snippet[] = [
   {
     name: 'Basic',
-    code: <Banner message="Content here" />,
+    code: <Banner title="Banner">Message</Banner>,
   },
 ]

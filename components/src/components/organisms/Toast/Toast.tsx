@@ -169,7 +169,7 @@ const DesktopToast = ({
     >
       <IconCloseContainer
         as={ExitSVG}
-        data-testid="close-icon"
+        data-testid="toast-close-icon"
         onClick={() => onClose()}
       />
       <Title fontVariant="large" weight="bold">
@@ -331,7 +331,7 @@ export const TouchToast = ({
           {children && <ActionWrapper>{children}</ActionWrapper>}
           <IconCloseContainer
             as={ExitSVG}
-            data-testid="close-icon"
+            data-testid="toast-close-icon"
             onClick={(e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
               e.stopPropagation()
               onClose()

@@ -5,7 +5,7 @@ import { setNativeValue } from '@/src/utils/setNativeValue'
 
 import { CrossCircleSVG, Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
-import { Space } from '../../../tokens/index'
+import { Radii, Space } from '../../../tokens/index'
 import { DefaultTheme } from '../../../types/index'
 import {
   FontVariant,
@@ -39,6 +39,8 @@ type BaseProps = Omit<FieldBaseProps, 'inline'> & {
   prefix?: React.ReactNode
   /** An icon that leads the input. */
   icon?: React.ReactNode
+  /** A custom width for the icon component */
+  iconWidth?: Space
   /** An icon that trails the input. By default is the clear icon. */
   actionIcon?: React.ReactNode
   /** If true, will not hide the action or clear button when the input is empty */
@@ -111,39 +113,39 @@ type Size = NonNullable<BaseProps['size']>
 const SPACES: {
   [key in Size]: {
     outerPadding: Space
+    gap: Space
     icon: Space
     iconPadding: Space
     height: Space
-    radius: Space
   }
 } = {
   small: {
     outerPadding: '3.5',
+    gap: '2',
     icon: '3',
     iconPadding: '8.5',
     height: '10',
-    radius: '2',
   },
   medium: {
     outerPadding: '4',
+    gap: '2',
     icon: '4',
     iconPadding: '10',
     height: '12',
-    radius: '2',
   },
   large: {
     outerPadding: '4',
+    gap: '2',
     icon: '5',
     iconPadding: '11',
     height: '16',
-    radius: '5.5',
   },
   extraLarge: {
     outerPadding: '6',
+    gap: '2',
     icon: '6',
     iconPadding: '14',
     height: '20',
-    radius: '5.5',
   },
 }
 
@@ -153,6 +155,38 @@ const getSpaceValue = (
   key: keyof typeof SPACES['small'],
 ): string => {
   return theme.space[SPACES[size][key]]
+}
+
+const getIconPadding = (
+  theme: DefaultTheme,
+  size: keyof typeof SPACES,
+  iconWidth?: Space,
+  negative?: boolean,
+) => {
+  if (iconWidth)
+    return negative
+      ? `calc(-${theme.space[SPACES[size].outerPadding]} - ${
+          theme.space[iconWidth]
+        } - ${theme.space[SPACES[size].gap]})`
+      : `calc(${theme.space[SPACES[size].outerPadding]} + ${
+          theme.space[iconWidth]
+        } + ${theme.space[SPACES[size].gap]})`
+  return negative
+    ? `-${theme.space[SPACES[size].iconPadding]}`
+    : theme.space[SPACES[size].iconPadding]
+}
+
+const RADII: {
+  [key in Size]: Radii
+} = {
+  small: 'large',
+  medium: 'large',
+  large: '2.5xLarge',
+  extraLarge: '2.5xLarge',
+}
+
+const getRadiusValue = (theme: DefaultTheme, size: keyof typeof RADII) => {
+  return theme.radii[RADII[size]]
 }
 
 const TYPOGRAPHIES: {
@@ -261,20 +295,24 @@ const Prefix = styled(Label)(
   `,
 )
 
-const IconWrapper = styled.div<{ $size: Size }>(
-  ({ theme, $size }) => css`
+const IconWrapper = styled.div<{ $size: Size; $iconWidth?: Space }>(
+  ({ theme, $size, $iconWidth }) => css`
     order: -1;
     padding-left: ${getSpaceValue(theme, $size, 'outerPadding')};
-    flex: 0 0 ${getSpaceValue(theme, $size, 'iconPadding')};
-    margin-right: -${getSpaceValue(theme, $size, 'iconPadding')};
+    flex: 0 0 ${getIconPadding(theme, $size, $iconWidth)};
+    margin-right: ${getIconPadding(theme, $size, $iconWidth, true)};
     display: flex;
     align-items: center;
     justify-content: flex-start;
     pointer-events: none;
     svg {
       display: block;
-      width: ${getSpaceValue(theme, $size, 'icon')};
-      height: ${getSpaceValue(theme, $size, 'icon')};
+      width: ${$iconWidth
+        ? theme.space[$iconWidth]
+        : getSpaceValue(theme, $size, 'icon')};
+      height: ${$iconWidth
+        ? theme.space[$iconWidth]
+        : getSpaceValue(theme, $size, 'icon')};
       color: ${theme.colors.greyPrimary};
     }
     z-index: 1;
@@ -292,12 +330,19 @@ const ActionButton = styled.button<{ $size: Size }>(
     transition: all 0.1s ease-in-out;
     transform: scale(1);
     opacity: 1;
+    cursor: pointer;
 
     svg {
       display: block;
       width: ${getSpaceValue(theme, $size, 'icon')};
       height: ${getSpaceValue(theme, $size, 'icon')};
       color: ${theme.colors.greyPrimary};
+      transition: all 150ms ease-in-out;
+    }
+
+    &:hover svg {
+      color: ${theme.colors.greyBright};
+      transform: translateY(-1px);
     }
   `,
 )
@@ -307,8 +352,9 @@ const InputComponent = styled.input<{
   $hasAction: boolean
   $hasIcon: boolean
   $hasError: boolean
+  $iconWidth?: Space
 }>(
-  ({ theme, $size, $hasIcon, $hasAction, $hasError }) => css`
+  ({ theme, $size, $hasIcon, $hasAction, $hasError, $iconWidth }) => css`
     background-color: transparent;
     position: relative;
     width: ${theme.space['full']};
@@ -322,7 +368,7 @@ const InputComponent = styled.input<{
 
     ${$hasIcon &&
     css`
-      padding-left: ${getSpaceValue(theme, $size, 'iconPadding')};
+      padding-left: ${getIconPadding(theme, $size, $iconWidth)};
     `}
 
     ${$hasAction &&
@@ -364,7 +410,7 @@ const InnerContainer = styled.div<{
   ({ theme, $size, $hasError, $disabled, $readOnly, $alwaysShowAction }) => css`
     position: relative;
     background-color: ${theme.colors.backgroundPrimary};
-    border-radius: ${getSpaceValue(theme, $size, 'radius')};
+    border-radius: ${getRadiusValue(theme, $size)};
     border-width: ${theme.space.px};
     border-color: ${theme.colors.border};
     color: ${theme.colors.textPrimary};
@@ -447,6 +493,7 @@ export const Input = React.forwardRef(
       id,
       inputMode,
       icon,
+      iconWidth,
       actionIcon,
       alwaysShowAction = false,
       label,
@@ -549,6 +596,7 @@ export const Input = React.forwardRef(
                 $hasAction={hasAction}
                 $hasError={!!error}
                 $hasIcon={!!icon}
+                $iconWidth={iconWidth}
                 $size={size}
                 autoComplete={autoComplete}
                 autoCorrect={autoCorrect}
@@ -577,7 +625,11 @@ export const Input = React.forwardRef(
                   {prefix}
                 </Prefix>
               )}
-              {icon && <IconWrapper $size={size}>{icon}</IconWrapper>}
+              {icon && (
+                <IconWrapper $iconWidth={iconWidth} $size={size}>
+                  {icon}
+                </IconWrapper>
+              )}
               {hasAction && (
                 <ActionButton
                   $size={size}

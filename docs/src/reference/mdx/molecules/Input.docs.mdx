@@ -276,3 +276,16 @@ import { Input, SearchSVG } from '@ensdomains/thorin'
 ```tsx live=true
 <Input readOnly value="Read only input" />
 ```
+
+## Icon Width
+
+```tsx live=true
+<DeleteMe>
+  <Input
+    icon={<div style={{ width: '32px', height: '32px', background: 'red' }} />}
+    iconWidth="8"
+    label="Custom icon width"
+  />
+  <Input icon={<FlameSVG />} iconWidth="8" label="Custom icon width" />
+</DeleteMe>
+```

@@ -13,12 +13,17 @@ const Container = styled.div<{
   $disabled?: boolean
   $alwaysShowAction?: boolean
 }>(
-  ({ theme, $error, $validated, $showDot, $alwaysShowAction }) => css`
+  ({
+    theme,
+    $error,
+    $validated,
+    $showDot,
+    $alwaysShowAction,
+    $disabled,
+  }) => css`
     position: relative;
     background-color: ${theme.colors.backgroundSecondary};
     border-radius: ${theme.radii.large};
-    border-width: ${theme.space.px};
-    border-color: transparent;
     color: ${theme.colors.text};
     display: flex;
     transition-duration: ${theme.transitionDuration['150']};
@@ -40,6 +45,7 @@ const Container = styled.div<{
     }
 
     ${$showDot &&
+    !$disabled &&
     $error &&
     css`
       &:after {
@@ -50,6 +56,7 @@ const Container = styled.div<{
     `}
 
     ${$showDot &&
+    !$disabled &&
     $validated &&
     !$error &&
     css`
@@ -90,12 +97,13 @@ const TextArea = styled.textarea<{
   $validated?: boolean
   $showDot?: boolean
   $size: Props['size']
-  $clearable?: boolean
+  $hasAction?: boolean
 }>(
-  ({ theme, $size, $clearable, $error }) => css`
+  ({ theme, $size, $hasAction, $error }) => css`
     position: relative;
-    background-color: ${theme.colors.backgroundPrimary};
     color: ${theme.colors.textPrimary};
+    background-color: ${theme.colors.backgroundPrimary};
+    border-color: ${theme.colors.border};
     border-width: 1px;
     border-style: solid;
 
@@ -105,7 +113,7 @@ const TextArea = styled.textarea<{
     font-weight: ${theme.fontWeights.normal};
     min-height: ${theme.space['14']};
     padding: ${theme.space['3.5']}
-      ${$clearable ? theme.space['10'] : theme.space['4']} ${theme.space['3.5']}
+      ${$hasAction ? theme.space['10'] : theme.space['4']} ${theme.space['3.5']}
       ${theme.space['4']};
     width: ${theme.space['full']};
     border-radius: ${theme.radii.large};
@@ -128,7 +136,7 @@ const TextArea = styled.textarea<{
       font-size: ${theme.fontSizes.small};
       line-height: ${theme.lineHeights.small};
       padding: ${theme.space['2.5']}
-        ${$clearable ? theme.space['9'] : theme.space['3.5']}
+        ${$hasAction ? theme.space['9'] : theme.space['3.5']}
         ${theme.space['2.5']} ${theme.space['3.5']};
     `}
 
@@ -152,7 +160,7 @@ const TextArea = styled.textarea<{
   `,
 )
 
-const ClearButton = styled.button<{ $size: Props['size'] }>(
+const ActionButton = styled.button<{ $size: Props['size'] }>(
   ({ theme, $size }) => css`
     position: absolute;
     top: 0;
@@ -160,6 +168,7 @@ const ClearButton = styled.button<{ $size: Props['size'] }>(
     width: ${$size === 'small' ? theme.space[10] : theme.space[12]};
     height: ${$size === 'small' ? theme.space[10] : theme.space[12]};
     transition: all 0.1s ease-in-out;
+    cursor: pointer;
 
     display: flex;
     justify-content: center;
@@ -170,6 +179,12 @@ const ClearButton = styled.button<{ $size: Props['size'] }>(
       width: ${$size === 'small' ? theme.space[3] : theme.space[4]};
       height: ${$size === 'small' ? theme.space[3] : theme.space[4]};
       color: ${theme.colors.greyPrimary};
+      transition: all 0.1s ease-in-out;
+    }
+
+    &:hover svg {
+      color: ${theme.colors.greyBright};
+      transform: translateY(-1px);
     }
   `,
 )
@@ -211,8 +226,12 @@ type Props = Omit<FieldBaseProps, 'inline'> & {
   validated?: boolean
   /** If true, shows a status dot of the current state of validation */
   showDot?: boolean
+  /** A replacement icon for the action button */
+  actionIcon?: React.ReactNode
   /** If true, will show the action button even when there is not input */
   alwaysShowAction?: boolean
+  /** A custom handler that replaces the clear handler */
+  onClickAction?: () => void
   /** The handler for change events. */
   onChange?: NativeTextareaProps['onChange']
   /** The handler for blur events. */
@@ -251,7 +270,9 @@ export const Textarea = React.forwardRef(
       tabIndex,
       value,
       width,
+      actionIcon,
       alwaysShowAction = false,
+      onClickAction,
       onChange,
       onBlur,
       onFocus,
@@ -263,6 +284,7 @@ export const Textarea = React.forwardRef(
     const inputRef = (ref as React.RefObject<HTMLTextAreaElement>) || defaultRef
 
     const hasError = error ? true : undefined
+    const hasAction = clearable || !!onClickAction
 
     const handleClickClear = () => {
       // uncontrolled input
@@ -292,6 +314,13 @@ export const Textarea = React.forwardRef(
       inputRef.current?.focus()
     }
 
+    const handleClickAction = () => {
+      if (onClickAction) {
+        return onClickAction()
+      }
+      handleClickClear()
+    }
+
     return (
       <Field
         description={description}
@@ -319,8 +348,8 @@ export const Textarea = React.forwardRef(
                 ...ids?.content,
                 'aria-invalid': hasError,
               }}
-              $clearable={clearable}
               $error={hasError}
+              $hasAction={hasAction}
               $showDot={showDot}
               $size={size}
               $validated={validated}
@@ -341,14 +370,14 @@ export const Textarea = React.forwardRef(
               onChange={onChange}
               onFocus={onFocus}
             />
-            {clearable && (
-              <ClearButton
+            {(clearable || onClickAction) && (
+              <ActionButton
                 $size={size}
                 type="button"
-                onClick={handleClickClear}
+                onClick={handleClickAction}
               >
-                <CrossCircleSVG />
-              </ClearButton>
+                {actionIcon || <CrossCircleSVG />}
+              </ActionButton>
             )}
           </Container>
         )}
