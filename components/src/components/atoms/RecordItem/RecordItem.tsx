@@ -38,6 +38,7 @@ const Container = styled.button<{
     border: 1px solid ${theme.colors.border};
     border-radius: ${theme.radii.large};
     transition: all 150ms ease-in-out;
+    cursor: pointer;
 
     ${$inline &&
     css`
