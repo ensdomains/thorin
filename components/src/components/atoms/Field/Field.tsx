@@ -45,11 +45,18 @@ type Props = FieldBaseProps & {
   disabled?: boolean
 } & Omit<NativeLabelProps, 'id' | 'children'>
 
-const Label = styled(Typography)<{ $disabled?: boolean; $readOnly?: boolean }>(
-  ({ $disabled, $readOnly }) => css`
+const Label = styled.label<{
+  $disabled?: boolean
+  $readOnly?: boolean
+  $required?: boolean
+}>(
+  ({ theme, $disabled, $readOnly, $required }) => css`
     display: flex;
-    flex: 66%;
+    flex-basis: auto;
+    flex-grow: 2;
+    flex-shrink: 1;
     overflow: hidden;
+    position: relative;
     cursor: pointer;
 
     ${$readOnly &&
@@ -62,12 +69,28 @@ const Label = styled(Typography)<{ $disabled?: boolean; $readOnly?: boolean }>(
     css`
       cursor: not-allowed;
     `}
+
+    ${$required &&
+    css`
+      ::after {
+        content: ' *';
+        white-space: pre;
+        color: ${theme.colors.red};
+      }
+    `}
   `,
 )
 
+const InnerLabel = styled(Typography)(() => css``)
+
 const SecondaryLabel = styled(Typography)(
   () => css`
-    flex: 33%;
+    flex-basis: auto;
+    flex-grow: 0;
+    flex-shrink: 2;
+    text-align: right;
+    overflow: hidden;
+    position: relative;
   `,
 )
 
@@ -77,16 +100,7 @@ const LabelContentContainer = styled.div<{ $inline?: boolean }>(
     align-items: center;
     padding: 0 ${$inline ? '0' : theme.space['2']};
     overflow: hidden;
-  `,
-)
-
-const RequiredWrapper = styled.span(
-  ({ theme }) => css`
-    color: ${theme.colors.red};
-    ::before {
-      content: ' ';
-      white-space: pre;
-    }
+    gap: ${theme.space['2']};
   `,
 )
 
@@ -114,19 +128,13 @@ const LabelContent = ({
       <Label
         $disabled={disabled}
         $readOnly={readOnly}
-        asProp="label"
-        color="greyPrimary"
-        ellipsis
-        fontVariant="bodyBold"
+        $required={required}
         {...ids.label}
       >
-        {label}
-        {required && (
-          <>
-            <RequiredWrapper>*</RequiredWrapper>
-            <VisuallyHidden>required</VisuallyHidden>
-          </>
-        )}
+        <InnerLabel color="greyPrimary" ellipsis fontVariant="bodyBold">
+          {label}
+          {required && <VisuallyHidden>required</VisuallyHidden>}
+        </InnerLabel>
       </Label>
       {labelSecondary && (
         <SecondaryLabel color="greyPrimary" ellipsis fontVariant="extraSmall">
