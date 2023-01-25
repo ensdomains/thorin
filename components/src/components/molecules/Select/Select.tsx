@@ -12,7 +12,11 @@ import { Colors, Space } from '@/src/tokens'
 
 import { CrossCircleSVG } from '@/src'
 
-import { getTypography } from '@/src/utils/getTypography'
+import {
+  getFontSize,
+  getFontWeight,
+  getLineHeight,
+} from '@/src/types/withTypography'
 
 import { DownChevronSVG, Field } from '../..'
 
@@ -30,8 +34,18 @@ const Container = styled.div<{
   $hasError: boolean
   $validated: boolean
   $showDot: boolean
+  $readOnly: boolean
 }>(
-  ({ theme, $size, $showDot, $hasError, $validated, $open, $disabled }) => css`
+  ({
+    theme,
+    $size,
+    $showDot,
+    $hasError,
+    $validated,
+    $open,
+    $disabled,
+    $readOnly,
+  }) => css`
     cursor: pointer;
     position: relative;
 
@@ -95,8 +109,15 @@ const Container = styled.div<{
         opacity: 1;
       }
     `}
+
+    ${$readOnly &&
+    css`
+      cursor: default;
+      pointer-events: none;
+    `}
   `,
 )
+
 const SelectContainer = styled.div<{
   $open: boolean
   $hasError: boolean
@@ -115,7 +136,7 @@ const SelectContainer = styled.div<{
 
     overflow: hidden;
     border: 1px solid ${theme.colors.border};
-    border-radius: ${theme.radii.input};
+    border-radius: ${theme.radii.large};
 
     svg {
       display: block;
@@ -134,7 +155,6 @@ const SelectContainer = styled.div<{
       }
     `}
 
-
     ${$size === 'small' &&
     css`
       padding-left: ${theme.space['3.5']};
@@ -142,8 +162,9 @@ const SelectContainer = styled.div<{
 
     ${$disabled &&
     css`
-      background: ${theme.colors.greyBright};
+      background: ${theme.colors.greyLight};
       color: ${theme.colors.greyPrimary};
+      cursor: not-allowed;
     `}
 
     input#${$ids?.content.id} ~ button#chevron svg {
@@ -164,7 +185,7 @@ const SelectContainer = styled.div<{
 
     input#${$ids?.content.id}:disabled ~ * {
       color: ${theme.colors.greyPrimary};
-      background: ${theme.colors.greyBright};
+      background: ${theme.colors.greyLight};
       cursor: not-allowed;
     }
   `,
@@ -181,7 +202,7 @@ const RootInput = styled.input(
   `,
 )
 
-const SelectLabel = styled.label(
+const SelectLabel = styled.div(
   () => css`
     flex: 1;
     white-space: nowrap;
@@ -193,6 +214,7 @@ const SelectLabel = styled.label(
 const PlaceholderLabel = styled(SelectLabel)(
   ({ theme }) => css`
     color: ${theme.colors.greyPrimary};
+    pointer-events: none;
   `,
 )
 
@@ -242,6 +264,7 @@ const ToggleMenuButton = styled(SelectActionButton)<{
 }>(
   ({ theme, $open, $direction }) => css`
     display: flex;
+    cursor: pointer;
 
     svg {
       fill: currentColor;
@@ -285,7 +308,7 @@ const SelectOptionContainer = styled.div<{
       : css`
           left: 0;
         `}
-    border-radius: ${theme.radii.card};
+    border-radius: ${theme.radii['2xLarge']};
     background: ${theme.colors.background};
     transition: all 0.3s cubic-bezier(1, 0, 0.22, 1.6), z-index 0.3s linear;
 
@@ -343,6 +366,7 @@ const SelectOptionList = styled.div<{
     flex-direction: ${$direction === 'up' ? 'column-reverse' : 'column'};
     align-items: flex-start;
     justify-content: space-between;
+    gap: ${theme.space['1']};
     overflow-y: ${$rows ? 'scroll' : 'hidden'};
     overflow-x: hidden;
     width: 100%;
@@ -402,12 +426,12 @@ const SelectOption = styled.button<{
     transition-duration: ${theme.transitionDuration['150']};
     transition-property: all;
     transition-timing-function: ${theme.transitionTimingFunction['inOut']};
-    border-radius: ${theme.radii.input};
+    border-radius: ${theme.radii.large};
     white-space: nowrap;
     color: ${theme.colors.textPrimary};
-    font-size: ${getTypography(theme, 'Body/Normal', 'fontSize')};
-    font-weight: ${getTypography(theme, 'Body/Normal', 'fontWeight')};
-    line-height: ${getTypography(theme, 'Body/Normal', 'lineHeight')};
+    font-size: ${getFontSize('body')};
+    font-weight: ${getFontWeight('body')};
+    line-height: ${getLineHeight('body')};
     text-align: left;
 
     svg {
@@ -445,16 +469,16 @@ const SelectOption = styled.button<{
 
     ${$selected &&
     css`
-      background-color: ${theme.colors.greyBright};
+      background-color: ${theme.colors.greyLight};
     `}
 
     ${$size === 'small' &&
     css`
       height: ${theme.space['9']};
       flex: 0 0 ${theme.space['9']};
-      font-size: ${getTypography(theme, 'Small/Normal', 'fontSize')};
-      font-weight: ${getTypography(theme, 'Small/Normal', 'fontWeight')};
-      line-height: ${getTypography(theme, 'Small/Normal', 'lineHeight')};
+      font-size: ${getFontSize('small')};
+      font-weight: ${getFontWeight('small')};
+      line-height: ${getLineHeight('small')};
     `}
   `,
 )
@@ -561,6 +585,8 @@ export type SelectProps = {
   showDot?: boolean
   /** If true and showDot is true, will show a green indicator */
   validated?: boolean
+  /** If true, sets the select component into read only mode */
+  readOnly?: boolean
 } & FieldBaseProps &
   Omit<
     NativeDivProps,
@@ -615,6 +641,7 @@ export const Select = React.forwardRef(
       labelSecondary,
       required,
       tabIndex = -1,
+      readOnly = false,
       width,
       onBlur,
       onChange,
@@ -885,6 +912,7 @@ export const Select = React.forwardRef(
         inline={inline}
         label={label}
         labelSecondary={labelSecondary}
+        readOnly={readOnly}
         required={required}
         width={width}
       >
@@ -904,6 +932,7 @@ export const Select = React.forwardRef(
             $disabled={!!disabled}
             $hasError={!!error}
             $open={isOpen}
+            $readOnly={readOnly}
             $showDot={showDot}
             $size={size}
             $validated={!!validated}
@@ -929,6 +958,7 @@ export const Select = React.forwardRef(
                 disabled={disabled}
                 name={name}
                 placeholder={placeholder}
+                readOnly={readOnly}
                 tabIndex={-1}
                 value={value}
                 onChange={(e) => {
@@ -975,7 +1005,7 @@ export const Select = React.forwardRef(
                 >
                   <CrossCircleSVG />
                 </SelectActionButton>
-              ) : (
+              ) : !readOnly ? (
                 <ToggleMenuButton
                   $direction={direction}
                   $open={isOpen}
@@ -986,7 +1016,7 @@ export const Select = React.forwardRef(
                 >
                   <DownChevronSVG />
                 </ToggleMenuButton>
-              )}
+              ) : null}
             </SelectContainer>
             <SelectOptionContainer
               $align={align}

@@ -36,13 +36,20 @@ const Container = styled.button<{
     height: fit-content;
     background: ${theme.colors.greySurface};
     border: 1px solid ${theme.colors.border};
-    border-radius: ${theme.radii.input};
+    border-radius: ${theme.radii.large};
+    transition: all 150ms ease-in-out;
+    cursor: pointer;
 
     ${$inline &&
     css`
       width: fit-content;
       height: ${theme.space['10']};
     `}
+
+    &:hover {
+      transform: translateY(-1px);
+      background: ${theme.colors.greyLight};
+    }
   `,
 )
 
@@ -149,7 +156,7 @@ export const RecordItem = ({
         $inline={inline}
         color="grey"
         ellipsis={!inline}
-        typography={size === 'large' ? 'Body/Bold' : 'Small/Bold'}
+        fontVariant={size === 'large' ? 'bodyBold' : 'smallBold'}
       >
         {keyLabel}
       </PrefixLabel>
@@ -163,7 +170,7 @@ export const RecordItem = ({
         $inline={inline}
         color="grey"
         ellipsis={!inline}
-        typography={size === 'large' ? 'Small/Bold' : 'Small/XS Bold'}
+        fontVariant={size === 'large' ? 'smallBold' : 'extraSmallBold'}
       >
         {keySublabel}
       </PrefixLabel>
@@ -200,10 +207,7 @@ export const RecordItem = ({
           )}
         </PrefixContainer>
       )}
-      <Label
-        $inline={inline}
-        typography={size === 'large' ? 'Body/Normal' : 'Small/Normal'}
-      >
+      <Label $inline={inline} fontVariant={size === 'large' ? 'body' : 'small'}>
         {children}
       </Label>
       <TrailingIcon {...PostfixProps} />

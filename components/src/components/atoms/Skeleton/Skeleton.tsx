@@ -17,12 +17,12 @@ const Container = styled.div<ContainerProps>(
   ({ theme, $active }) => css`
     ${$active &&
     css`
-      background: ${theme.colors.greyBright}
+      background: ${theme.colors.greyLight}
         linear-gradient(
           110deg,
-          ${theme.colors.greyBright} 8%,
+          ${theme.colors.greyLight} 8%,
           ${theme.colors.greySurface} 18%,
-          ${theme.colors.greyBright} 33%
+          ${theme.colors.greyLight} 33%
         );
       background-size: 200% 100%;
       animation: 1.5s ${shine} infinite linear;

@@ -160,14 +160,14 @@ export const Nav = ({ links }: Props) => {
           <NavLink active={router.asPath === '/'} href="/">
             <NavLinkInner>
               <EnsSVG height={48} width={48} />
-              <Typography color="blue" typography="Heading/H3">
+              <Typography color="blue" fontVariant="headingThree">
                 ENS
               </Typography>
             </NavLinkInner>
           </NavLink>
           <ButtonContainer>
             <Button
-              colorScheme="transparent"
+              colorStyle="transparent"
               pressed={state.open}
               size="flexible"
               onClick={() => setState((x) => ({ ...x, open: !x.open }))}
@@ -197,7 +197,7 @@ export const Nav = ({ links }: Props) => {
           </FlexContainer>
 
           <FlexContainer>
-            <Typography typography="Body/Bold">Guides</Typography>
+            <Typography fontVariant="bodyBold">Guides</Typography>
             <FlexContainer $space="3">
               <NavLink
                 active={
@@ -221,10 +221,10 @@ export const Nav = ({ links }: Props) => {
           </FlexContainer>
 
           <FlexContainer>
-            <Typography typography="Body/Bold">Components</Typography>
+            <Typography fontVariant="bodyBold">Components</Typography>
             {links.map((x) => (
               <FlexContainer $space="3" key={x.name}>
-                <SubGroupLabel color="text" typography="Small/Bold">
+                <SubGroupLabel color="text" fontVariant="extraSmallBold">
                   {x.name}
                 </SubGroupLabel>
                 <FlexContainer $space="3">

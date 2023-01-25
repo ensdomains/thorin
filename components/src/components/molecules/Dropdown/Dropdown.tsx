@@ -57,6 +57,7 @@ const DropdownMenuContainer = styled.div<DropdownMenuContainer>(
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: ${theme.space['1']};
     position: absolute;
 
     ${$direction === 'up' &&
@@ -173,7 +174,7 @@ const MenuButton = styled.button<MenuButtonProps>(
     width: ${theme.space['full']};
     height: ${theme.space['12']};
     padding: ${theme.space['3']};
-    border-radius: ${theme.radii.input};
+    border-radius: ${theme.radii.large};
     font-weight: ${theme.fontWeights.normal};
     transition-duration: 0.15s;
     transition-property: color, transform, filter;
@@ -220,7 +221,7 @@ const MenuButton = styled.button<MenuButtonProps>(
     ${() => {
       if ($inner && !$hasColor)
         return css`
-          color: ${theme.colors.textSecondary};
+          color: ${theme.colors.greyPrimary};
         `
     }}
   `,
@@ -452,6 +453,7 @@ type Props = {
   menuLabelAlign?: LabelAlign
   isOpen?: boolean
   direction?: Direction
+  inheritContentWidth?: boolean
 } & NativeDivProps
 
 type PropsWithIsOpen = {
@@ -486,6 +488,7 @@ export const Dropdown = ({
   direction = 'down',
   isOpen: _isOpen,
   setIsOpen: _setIsOpen,
+  inheritContentWidth = false,
   ...props
 }: Props & (PropsWithIsOpen | PropsWithoutIsOpen)) => {
   const dropdownRef = React.useRef<any>()
@@ -546,14 +549,13 @@ export const Dropdown = ({
       )}
 
       {React.Children.map(children, (child) => {
-        if (React.isValidElement(child)) {
-          return React.cloneElement(child as any, {
-            ...buttonProps,
-            zindex: '10',
-            pressed: isOpen,
-            onClick: () => setIsOpen(!isOpen),
-          })
-        }
+        if (!React.isValidElement(child)) return null
+        return React.cloneElement(child as any, {
+          ...buttonProps,
+          zindex: '10',
+          pressed: isOpen ? 'true' : undefined,
+          onClick: () => setIsOpen(!isOpen),
+        })
       })}
 
       <DropdownMenu
@@ -567,7 +569,7 @@ export const Dropdown = ({
         setIsOpen={setIsOpen}
         shortThrow={shortThrow}
         width={
-          inner &&
+          (inner || inheritContentWidth) &&
           dropdownRef.current &&
           dropdownRef.current.getBoundingClientRect().width.toFixed(2)
         }

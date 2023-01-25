@@ -10,7 +10,7 @@ const GlobalStyle = createGlobalStyle(
       margin: 0;
       padding: 0;
       font-family: ${theme.fonts['sans']};
-      border-color: ${theme.colors.greyBright};
+      border-color: ${theme.colors.greyLight};
       border-style: ${theme.borderStyles['solid']};
       border-width: 0;
       color: currentColor;

@@ -5,9 +5,12 @@ import { mq } from '@/src/utils/responsiveHelpers'
 
 import { Space } from '@/src/tokens'
 
-import { getColor, getPresetColor } from '@/src/utils/getColor'
+import {
+  WithColorStyle,
+  getColorStyle,
+} from '@/src/types/withColorOrColorStyle'
 
-import { ReactNodeNoStrings, WithColor } from '../../../types'
+import { ReactNodeNoStrings } from '../../../types'
 import { Spinner } from '../Spinner'
 
 export type Size = 'small' | 'medium' | 'flexible'
@@ -74,8 +77,7 @@ interface ButtonElement {
   $size?: BaseProps['size']
   $type?: BaseProps['type']
   $center: boolean | undefined
-  $color: WithColor['color']
-  $colorScheme: WithColor['colorScheme']
+  $colorStyle: WithColorStyle['colorStyle']
   $hasCounter?: boolean
   $width: BaseProps['width']
   $psuedoDisabled?: boolean
@@ -87,8 +89,7 @@ const ButtonElement = styled.button<ButtonElement>(
     $pressed,
     $shadow,
     $size,
-    $color,
-    $colorScheme,
+    $colorStyle = 'accentPrimary',
     $shape,
     $hasCounter,
     $width,
@@ -105,36 +106,35 @@ const ButtonElement = styled.button<ButtonElement>(
     transition-duration: ${theme.transitionDuration['150']};
     transition-timing-function: ${theme.transitionTimingFunction['inOut']};
     width: 100%;
-    border-radius: ${theme.radii.input};
+    border-radius: ${theme.radii.large};
     font-weight: ${theme.fontWeights.bold};
     border-width: ${theme.borderWidths.px};
     border-style: ${theme.borderStyles.solid};
 
-    background: ${getColor(theme, $colorScheme, $color, 'background')};
-    color: ${getColor(theme, $colorScheme, $color, 'text')};
-    border-color: ${getColor(theme, $colorScheme, $color, 'border')};
+    background: ${getColorStyle($colorStyle, 'background')};
+    color: ${getColorStyle($colorStyle, 'text')};
+    border-color: ${getColorStyle($colorStyle, 'border')};
 
     &:hover {
-      filter: ${getColor(theme, $colorScheme, $color, 'hoverFilter')};
-      background: ${getColor(theme, $colorScheme, $color, 'hover')};
+      transform: translateY(-1px);
+      background: ${getColorStyle($colorStyle, 'hover')};
     }
 
     &:active {
       transform: translateY(0px);
-      filter: brightness(1);
     }
 
     &:disabled {
       cursor: not-allowed;
-      background: ${getPresetColor(theme, 'disabled', 'background')};
-      color: ${getPresetColor(theme, 'disabled', 'text')};
+      background: ${getColorStyle('disabled', 'background')};
+      transform: none;
+      color: ${getColorStyle('disabled', 'text')};
       border-color: transparent;
     }
 
     ${$pressed &&
     css`
-      filter: ${getColor(theme, $colorScheme, $color, 'hoverFilter')};
-      background: ${getColor(theme, $colorScheme, $color, 'hover')};
+      background: ${getColorStyle($colorStyle, 'hover')};
     `};
 
     ${$shadow &&
@@ -152,7 +152,7 @@ const ButtonElement = styled.button<ButtonElement>(
         display: block;
         width: ${theme.space['3']};
         height: ${theme.space['3']};
-        color: ${getColor(theme, $colorScheme, $color, 'text')};
+        color: ${getColorStyle($colorStyle, 'text')};
       }
     `}
 
@@ -166,12 +166,12 @@ const ButtonElement = styled.button<ButtonElement>(
         display: block;
         width: ${theme.space['4']};
         height: ${theme.space['4']};
-        color: ${getColor(theme, $colorScheme, $color, 'text')};
+        color: ${getColorStyle($colorStyle, 'text')};
       }
     `}
 
     &:disabled svg {
-      color: ${getPresetColor(theme, 'disabled', 'text')};
+      color: ${getColorStyle('disabled', 'text')};
     }
 
     ${($shape === 'circle' || $shape === 'rounded') &&
@@ -287,7 +287,7 @@ const TooltipIndicator = styled.div`
   color: white;
 `
 
-export type Props = BaseProps & (WithoutAnchor | WithAnchor) & WithColor
+export type Props = BaseProps & (WithoutAnchor | WithAnchor) & WithColorStyle
 
 export const Button = React.forwardRef(
   (
@@ -303,8 +303,7 @@ export const Button = React.forwardRef(
       suffix,
       tabIndex,
       target,
-      color = 'accent',
-      colorScheme = 'primary',
+      colorStyle = 'accentPrimary',
       type = 'button',
       zIndex,
       onClick,
@@ -357,8 +356,7 @@ export const Button = React.forwardRef(
     return (
       <ButtonElement
         {...props}
-        $color={color}
-        $colorScheme={colorScheme}
+        $colorStyle={colorStyle}
         $hasCounter={!!count}
         $pressed={pressed}
         $psuedoDisabled={psuedoDisabled}

@@ -108,6 +108,9 @@ const ProfileInnerContainer = styled.div<{
   ({ theme, $size }) => css`
     display: ${$size === 'small' ? 'none' : 'block'};
     min-width: ${theme.space['none']};
+    > div:first-child {
+      margin-bottom: -${theme.space['0.5']};
+    }
   `,
 )
 
@@ -127,19 +130,19 @@ const ProfileInner = ({ size, avatar, address, ensName }: Props) => (
     </AvatarContainer>
     <ProfileInnerContainer $size={size}>
       <ReducedLineText
-        color={ensName ? undefined : 'grey'}
+        color={ensName ? 'text' : 'grey'}
         data-testid="profile-title"
         ellipsis
+        fontVariant={size === 'large' ? 'headingFour' : 'bodyBold'}
         forwardedAs="h3"
-        typography={size === 'large' ? 'Heading/H4' : 'Body/Bold'}
       >
         {ensName || 'No name set'}
       </ReducedLineText>
       <ReducedLineText
-        color={ensName ? 'grey' : undefined}
+        color={ensName ? 'grey' : 'text'}
         data-testid="profile-address"
+        fontVariant="small"
         forwardedAs="h4"
-        typography="Small/Normal"
       >
         {shortenAddress(
           address,
@@ -168,7 +171,13 @@ export const Profile = ({
   if (dropdownItems) {
     return (
       <Dropdown
-        {...{ items: dropdownItems, isOpen, setIsOpen, align: alignDropdown }}
+        {...{
+          items: dropdownItems,
+          isOpen,
+          setIsOpen,
+          align: alignDropdown,
+          inheritContentWidth: true,
+        }}
       >
         <Container
           {...props}

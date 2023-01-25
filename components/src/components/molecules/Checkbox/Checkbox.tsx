@@ -1,9 +1,10 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 
-import { WithColor } from '@/src/types'
-
-import { getColor } from '@/src/utils/getColor'
+import {
+  WithColorStyle,
+  getColorStyle,
+} from '@/src/types/withColorOrColorStyle'
 
 import { Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
@@ -52,14 +53,13 @@ type Props = {
     | 'type'
     | 'aria-invalid'
   > &
-  WithColor
+  WithColorStyle
 interface InputProps {
-  $color: Props['color']
-  $colorScheme: Props['colorScheme']
+  $colorStyle: Props['colorStyle']
 }
 
 const Input = styled.input<InputProps>(
-  ({ theme, $colorScheme, $color }) => css`
+  ({ theme, $colorStyle = 'accentPrimary' }) => css`
     font: inherit;
     display: grid;
     position: relative;
@@ -69,45 +69,49 @@ const Input = styled.input<InputProps>(
 
     width: ${theme.space['5']};
     height: ${theme.space['5']};
-    border-radius: ${theme.space['1']};
+    border-radius: ${theme.radii.small};
     background-color: ${theme.colors.border};
 
-    &:hover {
-      transform: translateY(-1px);
-      filter: contrast(0.7);
-    }
-
-    &:active {
-      transform: translateY(0px);
-      filter: contrast(1);
+    &:checked {
+      background: ${getColorStyle($colorStyle, 'background')};
     }
 
     &::before {
       content: '';
-      background: ${getColor(theme, $colorScheme, $color, 'background')};
+      background: ${theme.colors.border};
       mask-image: ${`url('data:image/svg+xml; utf8, <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 12.625L10.125 20.125L22 3.875" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" /></svg>')`};
       mask-repeat: no-repeat;
       width: ${theme.space['3']};
       height: ${theme.space['3']};
-      transform: scale(0);
       transition: all 90ms ease-in-out;
     }
 
+    &:hover {
+      transform: translateY(-1px);
+    }
+
+    &:hover::before,
     &:checked::before {
-      transform: scale(1);
+      background: ${getColorStyle($colorStyle, 'text')};
     }
 
     &:disabled {
       cursor: not-allowed;
     }
 
-    &:disabled::before {
-      background: ${theme.colors.greyPrimary};
+    &:disabled::before,
+    &:disabled:hover::before {
+      background: ${theme.colors.border};
     }
 
-    &:disabled:hover {
-      transform: initial;
-      filter: initial;
+    &:disabled:checked,
+    &:disabled:checked:hover {
+      background: ${theme.colors.border};
+    }
+
+    &:disabled:checked::before,
+    &:disabled:checked:hover::before {
+      background: ${theme.colors.greyPrimary};
     }
   `,
 )
@@ -132,8 +136,7 @@ export const Checkbox = React.forwardRef(
       onBlur,
       onChange,
       onFocus,
-      color = 'accent',
-      colorScheme: colorScheme = 'primary',
+      colorStyle = 'accentPrimary',
       ...props
     }: Props,
     ref: React.Ref<HTMLInputElement>,
@@ -161,8 +164,7 @@ export const Checkbox = React.forwardRef(
             'aria-invalid': error ? true : undefined,
             type: 'checkbox',
           }}
-          $color={color}
-          $colorScheme={colorScheme}
+          $colorStyle={colorStyle}
           checked={checked}
           disabled={disabled}
           name={name}

@@ -1,5 +1,6 @@
 export { Backdrop } from './Backdrop'
 export { Checkbox } from './Checkbox'
+export { CheckboxRow } from './CheckboxRow'
 export { CountdownCircle } from './CountdownCircle'
 export { CurrencyToggle } from './CurrencyToggle'
 export { Dropdown } from './Dropdown'

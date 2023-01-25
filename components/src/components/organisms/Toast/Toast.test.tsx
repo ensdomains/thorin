@@ -46,9 +46,12 @@ describe('<Toast />', () => {
         <Toast open title="Test" variant="desktop" onClose={() => void 0} />
       </ThemeProvider>,
     )
-    waitFor(() => expect(screen.getByTestId('close-icon')).toBeVisible(), {
-      timeout: 300,
-    })
+    waitFor(
+      () => expect(screen.getByTestId('toast-close-icon')).toBeVisible(),
+      {
+        timeout: 300,
+      },
+    )
   })
 
   it('should call callback if close icon is clicked', () => {
@@ -58,7 +61,7 @@ describe('<Toast />', () => {
         <Toast open title="Test" variant="desktop" onClose={mockCallback} />
       </ThemeProvider>,
     )
-    waitFor(() => userEvent.click(screen.getByTestId('close-icon')), {
+    waitFor(() => userEvent.click(screen.getByTestId('toast-close-icon')), {
       timeout: 300,
     }).then(() => expect(mockCallback).toHaveBeenCalled())
   })

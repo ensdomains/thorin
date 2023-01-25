@@ -8,11 +8,9 @@ import { Banner } from '@ensdomains/thorin'
 ```
 
 ```tsx live=true expand=true
-<Banner
-  alert="info"
-  message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-  title="Heading"
-/>
+<Banner alert="info" title="Heading">
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+</Banner>
 ```
 
 ## Props
@@ -23,21 +21,15 @@ import { Banner } from '@ensdomains/thorin'
 
 ```tsx live=true
 <DeleteMe>
-  <Banner
-    alert="info"
-    message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-    title="Heading"
-  />
-  <Banner
-    alert="warning"
-    message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-    title="Heading"
-  />
-  <Banner
-    alert="error"
-    message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-    title="Heading"
-  />
+  <Banner alert="info" title="Heading">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  </Banner>
+  <Banner alert="warning" title="Heading">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  </Banner>
+  <Banner alert="error" title="Heading">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  </Banner>
 </DeleteMe>
 ```
 
@@ -45,24 +37,15 @@ import { Banner } from '@ensdomains/thorin'
 
 ```tsx live=true
 <DeleteMe>
-  <Banner
-    alert="info"
-    message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-    title="Heading"
-    onDismiss={() => alert('dismissed')}
-  />
-  <Banner
-    alert="warning"
-    message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-    title="Heading"
-    onDismiss={() => alert('dismissed')}
-  />
-  <Banner
-    alert="error"
-    message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-    title="Heading"
-    onDismiss={() => alert('dismissed')}
-  />
+  <Banner alert="info" title="Heading" onDismiss={() => alert('dismissed')}>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  </Banner>
+  <Banner alert="warning" title="Heading" onDismiss={() => alert('dismissed')}>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  </Banner>
+  <Banner alert="error" title="Heading" onDismiss={() => alert('dismissed')}>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  </Banner>
 </DeleteMe>
 ```
 
@@ -70,27 +53,15 @@ import { Banner } from '@ensdomains/thorin'
 
 ```tsx live=true
 <DeleteMe>
-  <Banner
-    alert="info"
-    as="a"
-    href="#"
-    message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-    title="Heading"
-  />
-  <Banner
-    alert="warning"
-    as="a"
-    href="#"
-    message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-    title="Heading"
-  />
-  <Banner
-    alert="error"
-    as="a"
-    href="#"
-    message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-    title="Heading"
-  />
+  <Banner alert="info" as="a" href="#" title="Heading">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  </Banner>
+  <Banner alert="warning" as="a" href="#" title="Heading">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  </Banner>
+  <Banner alert="error" as="a" href="#" title="Heading">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  </Banner>
 </DeleteMe>
 ```
 
@@ -98,23 +69,46 @@ import { Banner } from '@ensdomains/thorin'
 
 ```tsx live=true
 <DeleteMe>
-  <Banner
-    alert="info"
-    icon={FlameSVG}
-    message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-    title="Heading"
-  />
-  <Banner
-    alert="warning"
-    icon={FlameSVG}
-    message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-    title="Heading"
-  />
-  <Banner
-    alert="error"
-    icon={FlameSVG}
-    message="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-    title="Heading"
-  />
+  <Banner alert="info" icon={<FlameSVG />} title="Heading">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  </Banner>
+  <Banner alert="warning" icon={<FlameSVG />} title="Heading">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  </Banner>
+  <Banner alert="error" icon={<FlameSVG />} title="Heading">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  </Banner>
+</DeleteMe>
+```
+
+## Action Icon
+
+```tsx live=true
+<DeleteMe>
+  <Banner actionIcon={<FlameSVG />} alert="info" title="Heading">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  </Banner>
+  <Banner actionIcon={<FlameSVG />} alert="warning" title="Heading">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  </Banner>
+  <Banner actionIcon={<FlameSVG />} alert="error" title="Heading">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  </Banner>
+</DeleteMe>
+```
+
+## Icon Type
+
+```tsx live=true
+<DeleteMe>
+  <Banner actionIcon={<FlameSVG />} iconType="none" title="Heading">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  </Banner>
+  <Banner actionIcon={<FlameSVG />} iconType="normal" title="Heading">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  </Banner>
+  <Banner actionIcon={<FlameSVG />} iconType="filledCircle" title="Heading">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  </Banner>
 </DeleteMe>
 ```

@@ -3,34 +3,28 @@ import styled, { css } from 'styled-components'
 
 import { Font, FontSize, FontWeight } from '@/src/tokens/typography'
 
-import { getTypography } from '@/src/utils/getTypography'
-import { getColor } from '@/src/utils/getColor'
-
-import { WithColor, WithTypography } from '@/src/types/index'
+import {
+  WithTypography,
+  getFontSize,
+  getFontWeight,
+  getLineHeight,
+} from '@/src/types/withTypography'
+import { WithColor, getColor } from '@/src/types/withColorOrColorStyle'
 
 type ContainerProps = {
   $ellipsis?: boolean
-  $typography: WithTypography['typography']
+  $fontVariant: WithTypography['fontVariant']
   $size?: FontSize
-  $color: WithColor['color']
-  $colorScheme: WithColor['colorScheme']
+  $color: NonNullable<WithColor['color']>
   $weight?: FontWeight
   $font: Font
 }
 
 const Container = styled.div<ContainerProps>(
-  ({
-    theme,
-    $ellipsis,
-    $typography = 'Body/Normal',
-    $color,
-    $colorScheme,
-    $font,
-    $weight,
-  }) => css`
+  ({ theme, $ellipsis, $fontVariant = 'body', $color, $font, $weight }) => css`
     font-family: ${theme.fonts.sans};
     line-height: ${theme.lineHeights.body};
-    color: inherit;
+    color: ${getColor($color)};
 
     ${$ellipsis &&
     css`
@@ -38,21 +32,20 @@ const Container = styled.div<ContainerProps>(
       overflow: hidden;
       white-space: nowrap;
     `}
-    ${$typography &&
+
+    ${$fontVariant &&
     css`
-      font-size: ${getTypography(theme, $typography, 'fontSize')};
-      font-weight: ${getTypography(theme, $typography, 'fontWeight')};
-      line-height: ${getTypography(theme, $typography, 'lineHeight')};
+      font-size: ${getFontSize($fontVariant)};
+      font-weight: ${getFontWeight($fontVariant)};
+      line-height: ${getLineHeight($fontVariant)};
     `}
-      ${$font === 'mono' &&
+
+    ${$font === 'mono' &&
     css`
       font-family: ${theme.fonts.mono};
     `}
-      ${($color || $colorScheme) &&
-    css`
-      color: ${getColor(theme, $colorScheme || 'text', $color, 'text')};
-    `}
-      ${$weight &&
+
+    ${$weight &&
     css`
       font-weight: ${theme.fontWeights[$weight]};
     `};
@@ -96,10 +89,9 @@ export const Typography = React.forwardRef<HTMLElement, Props>(
       children,
       ellipsis,
       className,
-      typography = 'Body/Normal',
+      fontVariant = 'body',
       font = 'sans',
-      color,
-      colorScheme,
+      color = 'text',
       weight,
       ...props
     },
@@ -109,10 +101,9 @@ export const Typography = React.forwardRef<HTMLElement, Props>(
       <Container
         {...props}
         $color={color}
-        $colorScheme={colorScheme}
         $ellipsis={ellipsis ? true : undefined}
         $font={font}
-        $typography={typography}
+        $fontVariant={fontVariant}
         $weight={weight}
         as={asProp}
         className={className}

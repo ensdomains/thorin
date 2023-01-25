@@ -31,6 +31,7 @@ const expectedExportedKeys = [
   // molecules
   'Backdrop',
   'Checkbox',
+  'CheckboxRow',
   'CountdownCircle',
   'Dropdown',
   'FieldSet',
@@ -70,8 +71,6 @@ const expectedExportedKeys = [
   'DocumentSVG',
   'DotGridActiveSVG',
   'DotGridSVG',
-  'DotsActiveSVG',
-  'DotsSVG',
   'DownArrowSVG',
   'DownChevronSVG',
   'DownCircleSVG',

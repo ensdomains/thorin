@@ -23,10 +23,10 @@ import { Checkbox } from '@ensdomains/thorin'
 
 ```tsx live=true
 <DeleteMe padding="4" shadow>
-  <Checkbox color="red" label="Red" />
-  <Checkbox color="blue" label="Blue" />
-  <Checkbox color="green" label="Green" />
-  <Checkbox color="yellow" colorScheme="gradient" label="Yellow" />
+  <Checkbox colorStyle="redPrimary" label="Red" />
+  <Checkbox colorStyle="bluePrimary" label="Blue" />
+  <Checkbox colorStyle="greenPrimary" label="Green" />
+  <Checkbox colorStyle="yellowPrimary" label="Yellow" />
 </DeleteMe>
 ```
 
@@ -34,7 +34,7 @@ import { Checkbox } from '@ensdomains/thorin'
 
 ```tsx live=true
 <DeleteMe padding="4" shadow>
-  <Checkbox disabled label="Disabled" />
-  <Checkbox checked disabled label="Disabled" />
+  <Checkbox disabled label="Disabled Unchecked" />
+  <Checkbox checked disabled label="Disabled Checked" />
 </DeleteMe>
 ```

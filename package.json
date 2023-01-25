@@ -86,5 +86,10 @@
     "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-react": "^7.26.0",
     "eslint-plugin-react-hooks": "^4.2.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "ts-morph": "17.0.1"
+    }
   }
 }

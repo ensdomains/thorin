@@ -41,7 +41,7 @@ const Aside = styled.aside(
     padding-top: ${theme.space['6']};
 
     ${mq.lg.min(css`
-      background-color: ${theme.colors.greyBright};
+      background-color: ${theme.colors.greyLight};
       margin-right: ${theme.space['10']};
       border-radius: ${theme.radii['extraLarge']};
 

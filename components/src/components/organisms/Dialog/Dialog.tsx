@@ -215,6 +215,7 @@ type BaseProps = {
   variant?: 'closable' | 'actionable' | 'blank'
   children: React.ReactNode
   onDismiss?: () => void
+  onClose?: () => void
   open: boolean
 }
 
@@ -248,7 +249,7 @@ const Heading = ({
       {alert && <Icon alert={alert} />}
       {title &&
         ((typeof title !== 'string' && title) || (
-          <Title typography="Heading/H4">{title}</Title>
+          <Title fontVariant="headingFour">{title}</Title>
         ))}
       {subtitle &&
         ((typeof subtitle !== 'string' && subtitle) || (
@@ -346,6 +347,7 @@ const CloseButton = ({ onClick }: { onClick: () => void }) => (
 export const Dialog = ({
   children,
   onDismiss,
+  onClose = onDismiss,
   open,
   variant = 'closable',
   ...props
@@ -384,7 +386,7 @@ export const Dialog = ({
             stepStatus,
           }}
         />
-        {onDismiss && <CloseButton onClick={onDismiss} />}
+        {onClose && <CloseButton onClick={onClose} />}
       </ModalWithTitle>
     )
   } else if (variant === 'closable') {
@@ -400,7 +402,7 @@ export const Dialog = ({
         onDismiss={onDismiss}
       >
         {children}
-        {onDismiss && <CloseButton onClick={onDismiss} />}
+        {onClose && <CloseButton onClick={onClose} />}
       </ModalWithTitle>
     )
   }
@@ -409,7 +411,7 @@ export const Dialog = ({
     <Modal {...{ onDismiss, open }}>
       <StyledCard>
         <ContentWrapper>{children}</ContentWrapper>
-        {onDismiss && <CloseButton onClick={onDismiss} />}
+        {onClose && <CloseButton onClick={onClose} />}
       </StyledCard>
     </Modal>
   )

@@ -343,3 +343,29 @@ import { CopySVG, EthSVG, FlagSVG, MoonSVG, Select } from '@ensdomains/thorin'
   </div>
 </DeleteMe>
 ```
+
+## Read Only
+
+```tsx live=true expand=true minHeight=350px
+<DeleteMe>
+  <Select
+    createable
+    options={[
+      { value: '0', label: 'Zero' },
+      { value: '1', label: 'One', prefix: <EthSVG /> },
+      { value: '2', label: 'Two', prefix: <WalletSVG /> },
+      { value: '3', label: 'Three', prefix: <MoonSVG /> },
+      {
+        value: '4',
+        label: 'Four',
+        prefix: <CopySVG />,
+        disabled: true,
+      },
+      { value: '5', label: 'Four', prefix: <CopySVG /> },
+    ]}
+    readOnly
+    tabIndex="2"
+    value="1"
+  />
+</DeleteMe>
+```

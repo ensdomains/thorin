@@ -15,17 +15,6 @@ import { Button } from '@ensdomains/thorin'
 
 <PropsTable sourceLink={sourceLink} types={types} />
 
-## Variants
-
-```tsx live=true
-<DeleteMe flexDirection="row" flexWrap="wrap">
-  <Button colorScheme="gradient">Gradient</Button>
-  <Button colorScheme="primary">Primary</Button>
-  <Button colorScheme="secondary">Secondary</Button>
-  <Button colorScheme="transparent">Transparent</Button>
-</DeleteMe>
-```
-
 ## States
 
 ```tsx live=true
@@ -54,33 +43,32 @@ import { Button } from '@ensdomains/thorin'
 </DeleteMe>
 ```
 
-## Tones
+## Color Style
 
-When `colorScheme` is set to `primary` or `gradient`, you can `color` to change the button accent color.
+### States
+
+```tsx live=true
+<DeleteMe>
+  <Button colorStyle="transparent">Transparent</Button>
+  <Button colorStyle="background">Background</Button>
+</DeleteMe>
+```
 
 ### Primary
 
 ```tsx live=true
 <DeleteMe flexDirection="row" flexWrap="wrap">
-  <Button color="accent" colorScheme="primary">
-    Accent
-  </Button>
-  <Button color="blue" colorScheme="primary">
-    Blue
-  </Button>
-  <Button color="indigo">Indigo</Button>
-  <Button color="purple">Purple</Button>
-  <Button color="pink">Pink</Button>
-  <Button color="red">Red</Button>
-  <Button color="orange">Orange</Button>
-  <Button color="yellow">Yellow</Button>
-  <Button color="green" colorScheme="primary">
-    Green
-  </Button>
-  <Button color="teal">Teal</Button>
-  <Button color="grey" colorScheme="primary">
-    Grey
-  </Button>
+  <Button colorStyle="accentPrimary">Accent</Button>
+  <Button colorStyle="bluePrimary">Blue</Button>
+  <Button colorStyle="indigoPrimary">Indigo</Button>
+  <Button colorStyle="purplePrimary">Purple</Button>
+  <Button colorStyle="pinkPrimary">Pink</Button>
+  <Button colorStyle="redPrimary">Red</Button>
+  <Button colorStyle="orangePrimary">Orange</Button>
+  <Button colorStyle="yellowPrimary">Yellow</Button>
+  <Button colorStyle="greenPrimary">Green</Button>
+  <Button colorStyle="tealPrimary">Teal</Button>
+  <Button colorStyle="greyPrimary">Grey</Button>
 </DeleteMe>
 ```
 
@@ -88,39 +76,17 @@ When `colorScheme` is set to `primary` or `gradient`, you can `color` to change 
 
 ```tsx live=true
 <DeleteMe>
-  <Button color="accent" colorScheme="secondary">
-    Accent
-  </Button>
-  <Button color="blue" colorScheme="secondary">
-    Blue
-  </Button>
-  <Button color="indigo" colorScheme="secondary">
-    Indigo
-  </Button>
-  <Button color="purple" colorScheme="secondary">
-    Purple
-  </Button>
-  <Button color="pink" colorScheme="secondary">
-    Pink
-  </Button>
-  <Button color="red" colorScheme="secondary">
-    Red
-  </Button>
-  <Button color="orange" colorScheme="secondary">
-    Orange
-  </Button>
-  <Button color="yellow" colorScheme="secondary">
-    Yellow
-  </Button>
-  <Button color="green" colorScheme="secondary">
-    Green
-  </Button>
-  <Button color="teal" colorScheme="secondary">
-    Teal
-  </Button>
-  <Button color="grey" colorScheme="secondary">
-    Grey
-  </Button>
+  <Button colorStyle="accentSecondary">Accent</Button>
+  <Button colorStyle="blueSecondary">Blue</Button>
+  <Button colorStyle="indigoSecondary">Indigo</Button>
+  <Button colorStyle="purpleSecondary">Purple</Button>
+  <Button colorStyle="pinkSecondary">Pink</Button>
+  <Button colorStyle="redSecondary">Red</Button>
+  <Button colorStyle="orangeSecondary">Orange</Button>
+  <Button colorStyle="yellowSecondary">Yellow</Button>
+  <Button colorStyle="greenSecondary">Green</Button>
+  <Button colorStyle="tealSecondary">Teal</Button>
+  <Button colorStyle="greySecondary">Grey</Button>
 </DeleteMe>
 ```
 
@@ -128,39 +94,12 @@ When `colorScheme` is set to `primary` or `gradient`, you can `color` to change 
 
 ```tsx live=true
 <DeleteMe>
-  <Button color="accent" colorScheme="gradient">
-    Accent
-  </Button>
-  <Button color="blue" colorScheme="gradient">
-    Blue
-  </Button>
-  <Button color="indigo" colorScheme="gradient">
-    Indigo
-  </Button>
-  <Button color="purple" colorScheme="gradient">
-    Purple
-  </Button>
-  <Button color="pink" colorScheme="gradient">
-    Pink
-  </Button>
-  <Button color="red" colorScheme="gradient">
-    Red
-  </Button>
-  <Button color="orange" colorScheme="gradient">
-    Orange
-  </Button>
-  <Button color="yellow" colorScheme="gradient">
-    Yellow
-  </Button>
-  <Button color="green" colorScheme="gradient">
-    Green
-  </Button>
-  <Button color="teal" colorScheme="gradient">
-    Teal
-  </Button>
-  <Button color="grey" colorScheme="gradient">
-    Grey
-  </Button>
+  <Button colorStyle="accentGradient">Accent</Button>
+  <Button colorStyle="blueGradient">Blue</Button>
+  <Button colorStyle="purpleGradient">Purple</Button>
+  <Button colorStyle="redGradient">Red</Button>
+  <Button colorStyle="greenGradient">Green</Button>
+  <Button colorStyle="greyGradient">Grey</Button>
 </DeleteMe>
 ```
 

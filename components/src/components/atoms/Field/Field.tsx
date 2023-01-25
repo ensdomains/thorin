@@ -34,6 +34,8 @@ export type FieldBaseProps = {
   width?: Space
   /** Have lavel appear on the left of the form element. */
   reverse?: boolean
+  /** If true, will set the Fields component to read only mode */
+  readOnly?: boolean
 }
 
 type Props = FieldBaseProps & {
@@ -43,11 +45,29 @@ type Props = FieldBaseProps & {
   disabled?: boolean
 } & Omit<NativeLabelProps, 'id' | 'children'>
 
-const Label = styled(Typography)<{ $disabled?: boolean }>(
-  ({ $disabled }) => css`
+const Label = styled(Typography)<{ $disabled?: boolean; $readOnly?: boolean }>(
+  ({ $disabled, $readOnly }) => css`
     display: flex;
-    flex: 1;
-    cursor: ${$disabled ? 'not-allowed' : 'pointer'};
+    flex: 66%;
+    overflow: hidden;
+    cursor: pointer;
+
+    ${$readOnly &&
+    css`
+      cursor: default;
+      pointer-events: none;
+    `}
+
+    ${$disabled &&
+    css`
+      cursor: not-allowed;
+    `}
+  `,
+)
+
+const SecondaryLabel = styled(Typography)(
+  () => css`
+    flex: 33%;
   `,
 )
 
@@ -56,6 +76,7 @@ const LabelContentContainer = styled.div<{ $inline?: boolean }>(
     display: flex;
     align-items: center;
     padding: 0 ${$inline ? '0' : theme.space['2']};
+    overflow: hidden;
   `,
 )
 
@@ -77,6 +98,7 @@ const LabelContent = ({
   hideLabel,
   inline,
   disabled,
+  readOnly,
 }: {
   ids: any
   label: React.ReactNode
@@ -85,18 +107,20 @@ const LabelContent = ({
   inline?: boolean
   hideLabel?: boolean
   disabled?: boolean
+  readOnly?: boolean
 }) => {
   const content = (
     <LabelContentContainer $inline={inline}>
       <Label
         $disabled={disabled}
+        $readOnly={readOnly}
         asProp="label"
-        color="grey"
-        colorScheme="secondary"
-        typography="Body/Bold"
+        color="greyPrimary"
+        ellipsis
+        fontVariant="bodyBold"
         {...ids.label}
       >
-        {label}&nbsp;
+        {label}
         {required && (
           <>
             <RequiredWrapper>*</RequiredWrapper>
@@ -105,13 +129,9 @@ const LabelContent = ({
         )}
       </Label>
       {labelSecondary && (
-        <Typography
-          color="grey"
-          colorScheme="secondary"
-          typography="Small/XS Normal"
-        >
+        <SecondaryLabel color="greyPrimary" ellipsis fontVariant="extraSmall">
           {labelSecondary}
-        </Typography>
+        </SecondaryLabel>
       )}
     </LabelContentContainer>
   )
@@ -122,6 +142,8 @@ const LabelContent = ({
 const Description = styled(Typography)<{ $inline?: boolean }>(
   ({ theme, $inline }) => css`
     padding: 0 ${$inline ? '0' : theme.space['2']};
+    width: 100%;
+    overflow: hidden;
   `,
 )
 
@@ -152,9 +174,8 @@ const DecorativeContent = ({
         aria-live="polite"
         {...ids.error}
         $inline={inline}
-        color="red"
-        colorScheme="secondary"
-        typography="Small/Bold"
+        color="redPrimary"
+        fontVariant="smallBold"
       >
         {error}
       </Error>
@@ -164,9 +185,10 @@ const DecorativeContent = ({
       <Description
         $inline={inline}
         {...ids.description}
-        color={disabled ? 'grey' : 'text'}
+        color={disabled ? 'greyPrimary' : 'textPrimary'}
         colorScheme={disabled ? 'secondary' : 'primary'}
-        typography="Small/Normal"
+        ellipsis
+        fontVariant="small"
       >
         {description}
       </Description>
@@ -182,6 +204,7 @@ interface ContainerProps {
 
 const Container = styled.div<ContainerProps>(
   ({ theme, $inline, $width, $reverse }) => css`
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -203,6 +226,7 @@ const ContainerInner = styled.div(
     flex-direction: column;
     gap: ${theme.space[1]};
     flex: 1;
+    overflow: hidden;
   `,
 )
 
@@ -216,6 +240,7 @@ export const Field = ({
   labelSecondary,
   required,
   inline,
+  readOnly,
   width = 'full',
   reverse = false,
   disabled,
@@ -249,6 +274,7 @@ export const Field = ({
         hideLabel,
         inline,
         disabled,
+        readOnly,
       }}
     />
   )

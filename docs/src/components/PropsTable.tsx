@@ -38,10 +38,10 @@ const TableHeadLabelContainer = styled.div<{
   ({ theme, $i, $headers }) => css`
     text-transform: capitalize;
     background-color: ${theme.colors.greySurface};
-    border-color: ${theme.colors.greyBright};
-    ${$i === 0 ? `border-top-left-radius: ${theme.radii.card};` : ``}
+    border-color: ${theme.colors.border};
+    ${$i === 0 ? `border-top-left-radius: ${theme.radii['2xLarge']};` : ``}
     ${$i === $headers.length - 1
-      ? `border-top-right-radius: ${theme.radii.card};`
+      ? `border-top-right-radius: ${theme.radii['2xLarge']};`
       : ``}
       padding: ${theme.space['2.5']} ${theme.space['4']};
   `,
@@ -155,7 +155,7 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
                 {headers.map((x, i) => (
                   <TableHead key={x}>
                     <TableHeadLabelContainer {...{ $i: i, $headers: headers }}>
-                      <Typography color="text" typography="Small/XS Bold">
+                      <Typography color="text" fontVariant="extraSmallBold">
                         {x}
                       </Typography>
                     </TableHeadLabelContainer>
@@ -167,7 +167,10 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
               {props.map((x) => (
                 <tr
                   key={x.name}
-                  style={{ borderBottomWidth: theme.space['px'] }}
+                  style={{
+                    borderBottomWidth: theme.space['px'],
+                    borderColor: theme.colors.border,
+                  }}
                 >
                   <DataCell>
                     <Name>
@@ -181,11 +184,7 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
                   </DataCell>
 
                   <DataCell>
-                    <RawName
-                      color="accent"
-                      font="mono"
-                      typography="Small/Normal"
-                    >
+                    <RawName color="accent" font="mono" fontVariant="small">
                       {formatPropType(x.type)}
                     </RawName>
                   </DataCell>
@@ -217,7 +216,7 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
           {!!props.length && (
             <div>
               <Button
-                colorScheme="secondary"
+                colorStyle="accentSecondary"
                 size="small"
                 onClick={() =>
                   setState((x) => ({
@@ -236,7 +235,7 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
           {sourceLink && (
             <div>
               <Link href={sourceLink}>
-                <Button colorScheme="secondary" size="small">
+                <Button colorStyle="accentSecondary" size="small">
                   View Source on GitHub
                 </Button>
               </Link>

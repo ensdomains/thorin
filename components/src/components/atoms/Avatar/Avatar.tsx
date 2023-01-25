@@ -149,9 +149,10 @@ export const Avatar = ({
     }
   }, [ref, hideImg, showImg])
 
+  const isImageVisible = showImage && !!src
   return (
     <Container $noBorder={!showImage || noBorder} $shape={shape}>
-      {!showImage && (
+      {!isImageVisible && (
         <Placeholder
           $disabled={disabled}
           $url={placeholder}
@@ -161,7 +162,7 @@ export const Avatar = ({
       <Img
         {...props}
         $disabled={disabled}
-        $shown={showImage}
+        $shown={isImageVisible}
         alt={label}
         decoding={decoding}
         ref={ref}

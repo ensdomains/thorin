@@ -68,7 +68,7 @@ const Container = styled.div<{
     justify-content: center;
     padding: ${theme.space['4.5']};
 
-    background: hsla(${theme.colors.raw.background} / 0.8);
+    background: hsla(${theme.colors.raw.backgroundPrimary} / 0.8);
     box-shadow: ${theme.boxShadows['0.02']};
     border: ${theme.borderWidths.px} solid ${theme.colors.greySurface};
     backdrop-filter: blur(16px);
@@ -169,10 +169,10 @@ const DesktopToast = ({
     >
       <IconCloseContainer
         as={ExitSVG}
-        data-testid="close-icon"
+        data-testid="toast-close-icon"
         onClick={() => onClose()}
       />
-      <Title typography="large" weight="bold">
+      <Title fontVariant="large" weight="bold">
         {title}
       </Title>
       <Typography>{description}</Typography>
@@ -322,7 +322,7 @@ export const TouchToast = ({
       $state={state}
       ref={ref}
     >
-      <Title typography="large" weight="bold">
+      <Title fontVariant="large" weight="bold">
         {title}
       </Title>
       <Typography>{description}</Typography>
@@ -331,7 +331,7 @@ export const TouchToast = ({
           {children && <ActionWrapper>{children}</ActionWrapper>}
           <IconCloseContainer
             as={ExitSVG}
-            data-testid="close-icon"
+            data-testid="toast-close-icon"
             onClick={(e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
               e.stopPropagation()
               onClose()
