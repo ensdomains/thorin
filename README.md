@@ -13,6 +13,8 @@ npm install @ensdomains/thorin
 
 ```
 
+whatever
+
 To install this package using yarn:
 
 ```bash
