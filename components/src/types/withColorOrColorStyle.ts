@@ -61,7 +61,7 @@ const BASE_COLORS = [
   'grey',
 ] as const
 
-type BaseColor = (typeof BASE_COLORS)[number]
+type BaseColor = typeof BASE_COLORS[number]
 
 type ColorStyleItem = {
   text: string

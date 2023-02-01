@@ -152,7 +152,7 @@ const SPACES: {
 const getSpaceValue = (
   theme: DefaultTheme,
   size: keyof typeof SPACES,
-  key: keyof (typeof SPACES)['small'],
+  key: keyof typeof SPACES['small'],
 ): string => {
   return theme.space[SPACES[size][key]]
 }
