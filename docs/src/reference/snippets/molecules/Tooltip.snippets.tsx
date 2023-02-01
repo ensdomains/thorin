@@ -8,9 +8,10 @@ export const snippets: Snippet[] = [
   {
     name: 'Atoms',
     code: (
-      <Tooltip content={<span>Tooltip Content</span>}>
-        <Button>Button</Button>
-      </Tooltip>
+      <>
+        <Tooltip content={<span>Tooltip Content</span>} targetId="buttonId" />
+        <Button id="buttonId">Button</Button>
+      </>
     ),
   },
 ]

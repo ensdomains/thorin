@@ -1,114 +1,37 @@
 ---
 title: DynamicPopover
-description: Abstracts the positioning of popover elements so that they are visible on the screen
+description: Abstracts the positioning of popover elements so that they are visible on the screen. You probably want to use Tooltip instead of using this directly.
 ---
 
 ```tsx
-import { DynamicPopover } from '@ensdomains/thorin'
-```
+import { Button, DynamicPopover } from '@ensdomains/thorin'
 
-```tsx live=true  expand=ture minHeight=300px
-<DynamicPopover
-  open={getState('isOpen')}
-  placement="bottom-start"
-  popover="Popover Information"
-  onDismiss={() => setState('isOpen', false)}
->
-  <Button pressed={getState('isOpen')} onClick={() => toggleState('isOpen')}>
-    Click Me
-  </Button>
-</DynamicPopover>
+const Tooltip = ({
+  content,
+  placement,
+  mobilePlacement,
+  ...props
+}: TooltipProps) => {
+  const tooltipRef = React.useRef<HTMLDivElement>(null)
+  const popover = (
+    <TooltipPopover
+      $mobilePlacement={mobilePlacement}
+      $placement={placement}
+      ref={tooltipRef}
+    >
+      {content}
+    </TooltipPopover>
+  )
+  return DynamicPopover({
+    popover,
+    tooltipRef,
+    placement,
+    mobilePlacement,
+    ...props,
+  })
+}
 ```
 
 ## Props
 
 <PropsTable sourceLink={sourceLink} types={types} />
-
-## DynamicPopoverAnimationFn
-
-A function that provides custom animations to the popover appearing and disappearing.
-
-### Type
-
-```tsx
-type DynamicPopoverAnimationFunc = (
-  side: DynamicPopoverSide,
-  open?: boolean,
-) => string
-```
-
-### Parameters
-
-<PropsTable
-  types={{
-    side: {
-      name: 'side',
-      description: 'The side of the button that the popover will appear.',
-      type: {
-        raw: '"top" | "left" | "bottom" | "right"',
-      },
-      required: true,
-    },
-    open: {
-      name: 'open',
-      description: 'If true, the popover is visible',
-      type: {
-        raw: 'boolean',
-      },
-    },
-  }}
-/>
-
-### Return
-
-Returns a string of css attributes.
-
-```tsx
-<DynamicPopover
-  animationFn={(side, open) => {
-    if (open)
-      return `
-        transform: scale(1);
-        visibility: visible;
-        opacity: 1;
-      `
-    return `
-      transform: scale(0.2);
-      visibility: hidden;
-      opacity: 0;
-    `
-  }}
-  open={getState('isOpen')}
-  placement="bottom-start"
-  popover="Popover Information"
-  onDismiss={() => setState('isOpen', false)}
->
-  <Button pressed={getState('isOpen')} onClick={() => toggleState('isOpen')}>
-    Click Me
-  </Button>
-</DynamicPopover>
-```
-
-### Disabled
-
-Prevents the popover from appearing
-
-```tsx live=true expand=ture minHeight=300px
-<DynamicPopover
-  disabled={getState('isDisabled')}
-  open={getState('isOpen')}
-  placement="bottom-start"
-  popover="Popover Information"
-  onDismiss={() => setState('isOpen', false)}
->
-  <Button pressed={getState('isOpen')} onClick={() => toggleState('isOpen')}>
-    Click Me
-  </Button>
-  <Button
-    pressed={getState('isDisabled')}
-    onClick={() => toggleState('isDisabled')}
-  >
-    {getState('isDisabled') ? 'Activate Me' : 'Disable Me'}
-  </Button>
-</DynamicPopover>
-```

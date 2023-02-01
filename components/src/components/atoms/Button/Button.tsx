@@ -1,6 +1,8 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 
+import { mq } from '@/src/utils/responsiveHelpers'
+
 import { Space } from '@/src/tokens'
 
 import {
@@ -46,6 +48,10 @@ type BaseProps = {
   count?: number
   /** The handler for click events. */
   onClick?: NativeButtonProps['onClick']
+  /** The handler for click events. */
+  psuedoDisabled?: boolean
+  /** Show indicator that button has extra info via tooltip. */
+  shouldShowTooltipIndicator?: boolean
 } & Omit<NativeButtonProps, 'prefix' | 'size'>
 
 type WithAnchor = {
@@ -74,6 +80,7 @@ interface ButtonElement {
   $colorStyle: WithColorStyle['colorStyle']
   $hasCounter?: boolean
   $width: BaseProps['width']
+  $psuedoDisabled?: boolean
 }
 
 const ButtonElement = styled.button<ButtonElement>(
@@ -86,6 +93,7 @@ const ButtonElement = styled.button<ButtonElement>(
     $shape,
     $hasCounter,
     $width,
+    $psuedoDisabled,
   }) => css`
     position: relative;
     cursor: pointer;
@@ -192,6 +200,24 @@ const ButtonElement = styled.button<ButtonElement>(
     css`
       width: ${theme.space[$width]};
     `}
+
+    ${$psuedoDisabled &&
+    `
+      background-color: ${theme.colors.grey};
+
+      &:hover {
+        transform: translateY(0px);
+        filter: brightness(1);
+        background-color: ${theme.colors.grey};
+        cursor: initial
+      }
+
+      ${mq.md.min(css`
+        &:active {
+          pointer-events: none;
+        }
+      `)}
+      `}
   `,
 )
 
@@ -247,6 +273,20 @@ const Counter = styled.div<{ $visible: boolean }>(
   `,
 )
 
+const TooltipIndicator = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e9b911;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  right: -10px;
+  top: -10px;
+  color: white;
+`
+
 export type Props = BaseProps & (WithoutAnchor | WithAnchor) & WithColorStyle
 
 export const Button = React.forwardRef(
@@ -273,6 +313,8 @@ export const Button = React.forwardRef(
       fullWidthContent,
       count,
       as: asProp,
+      psuedoDisabled,
+      shouldShowTooltipIndicator,
       ...props
     }: Props,
     ref: React.Ref<HTMLButtonElement>,
@@ -317,6 +359,7 @@ export const Button = React.forwardRef(
         $colorStyle={colorStyle}
         $hasCounter={!!count}
         $pressed={pressed}
+        $psuedoDisabled={psuedoDisabled}
         $shadow={shadow}
         $shape={shape}
         $size={size}
@@ -331,8 +374,18 @@ export const Button = React.forwardRef(
         target={target}
         type={type}
         zIndex={zIndex}
-        onClick={onClick}
+        onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+          if (psuedoDisabled) {
+            e.preventDefault()
+            e.stopPropagation()
+            return
+          }
+          onClick?.(e)
+        }}
       >
+        {psuedoDisabled && shouldShowTooltipIndicator && (
+          <TooltipIndicator>?</TooltipIndicator>
+        )}
         {childContent}
         <CounterWrapper>
           <Counter $visible={!!count}>{count}</Counter>
