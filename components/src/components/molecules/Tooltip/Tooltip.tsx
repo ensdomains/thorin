@@ -74,13 +74,11 @@ const TooltipPopover = styled.div<{
   $mobilePlacement: DynamicPopoverSide
 }>(
   ({ theme, $placement, $mobilePlacement }) => css`
-    box-sizing: border-box;
     position: relative;
     pointer-events: none;
 
     filter: drop-shadow(0px 0px 1px #e8e8e8)
       drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.2));
-
     border-radius: ${theme.radii.large};
     padding: ${theme.space['2.5']} ${theme.space['2.5']} ${theme.space['2.5']}
       ${theme.space['3.5']};

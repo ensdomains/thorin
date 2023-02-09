@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 import { createPortal } from 'react-dom'
-import debounce from 'lodash/debounce'
+import { TransitionState, useTransition } from 'react-transition-state'
 
 import { mq } from '@/src/utils/responsiveHelpers'
 
@@ -17,13 +17,6 @@ export type DynamicPopoverAnimationFunc = (
   side: DynamicPopoverSide,
   mobileSide: DynamicPopoverSide,
 ) => { translate: string; mobileTranslate: string }
-
-type PopoverContainerProps = {
-  $translate: string
-  $mobileTranslate: string
-  $width: number
-  $mobileWidth: number
-}
 
 export type DynamicPopoverButtonProps = {
   pressed?: boolean
@@ -117,92 +110,81 @@ const defaultAnimationFunc: DynamicPopoverAnimationFunc = (
   return { translate, mobileTranslate }
 }
 
-const PopoverContainer = styled.div<PopoverContainerProps>(
-  ({ $translate, $mobileTranslate, $width, $mobileWidth }) => css`
-    position: absolute;
+const PopoverContainer = styled.div<{
+  $state: TransitionState
+  $translate: string
+  $mobileTranslate: string
+  $width: number
+  $mobileWidth: number
+  $x: number
+  $y: number
+}>(({ $state, $translate, $mobileTranslate, $width, $mobileWidth, $x, $y }) => [
+  css`
+    /* stylelint-disable */
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -webkit-transform: translate3d(0, 0, 0);
+    -moz-transform: translate3d(0, 0, 0);
+    /* stylelint-enable */
+
+    /* Default state is unmounted */
+    display: block;
     box-sizing: border-box;
+    visibility: hidden;
+    position: absolute;
     z-index: 20;
-    pointer-events: none;
     width: ${$mobileWidth}px;
-    transform: ${$mobileTranslate};
+    transform: translate3d(0, 0, 0) ${$mobileTranslate};
+    transition: none;
+    opacity: 0;
+    transition-duration: 0;
+    pointer-events: none;
+    top: 0;
+    left: 0;
 
-    ${mq.md.min(css`
-      width: ${$width}px;
-      transform: ${$translate};
-    `)}
+    ${$state === 'preEnter' &&
+    css`
+      display: block;
+      visibility: visible;
+      top: ${$y}px;
+      left: ${$x}px;
+    `}
+
+    ${$state === 'entering' &&
+    css`
+      display: block;
+      visibility: visible;
+      opacity: 1;
+      transition: opacity ${ANIMATION_DURATION}ms ease-in-out;
+      top: ${$y}px;
+      left: ${$x}px;
+    `}
+
+      ${$state === 'entered' &&
+    css`
+      display: block;
+      visibility: visible;
+      opacity: 1;
+      transition: opacity ${ANIMATION_DURATION}ms ease-in-out;
+      top: ${$y}px;
+      left: ${$x}px;
+    `}
+
+      ${$state === 'exiting' &&
+    css`
+      display: block;
+      visibility: visible;
+      opacity: 0;
+      transition: all ${ANIMATION_DURATION}ms ease-in-out;
+      top: ${$y}px;
+      left: ${$x}px;
+    `}
   `,
-)
-
-const setInitialPosition = (
-  targetId: string,
-  tooltipRef: React.RefObject<HTMLDivElement>,
-  popoverElement: HTMLDivElement,
-  placement: DynamicPopoverSide,
-  mobilePlacement: DynamicPopoverSide,
-  additionalGap: number,
-  setPositionState: React.Dispatch<
-    React.SetStateAction<{
-      top: number
-      left: number
-      horizontalClearance: number
-      verticalClearance: number
-      idealPlacement: 'top' | 'right' | 'bottom' | 'left'
-      idealMobilePlacement: 'top' | 'right' | 'bottom' | 'left'
-    }>
-  >,
-) => {
-  //Set initial position on mount
-  const targetElement = document.getElementById(targetId)
-  const targetRect = targetElement?.getBoundingClientRect()
-  const tooltipElement = tooltipRef?.current
-  const tooltipRect = tooltipElement?.getBoundingClientRect()
-
-  if (!tooltipRect) {
-    console.error('No tooltipRect')
-    return
-  }
-
-  popoverElement.style.opacity = '0'
-  popoverElement.style.top = `10px`
-  popoverElement.style.left = `10px`
-
-  if (targetRect) {
-    const top =
-      window.scrollY +
-      targetRect.y +
-      targetRect.height / 2 -
-      tooltipRect.height / 2
-    const left = targetRect.x + targetRect.width / 2 - tooltipRect.width / 2
-    const horizontalClearance =
-      -tooltipRect.width + (targetRect.left - left) - additionalGap
-    const verticalClearance = tooltipRect.height + additionalGap
-
-    const idealPlacement = computeIdealSide(
-      placement,
-      targetRect,
-      tooltipRect,
-      0,
-      0,
-    )
-
-    const idealMobilePlacement = computeIdealSide(
-      mobilePlacement,
-      targetRect,
-      tooltipRect,
-      0,
-      0,
-    )
-
-    setPositionState({
-      top,
-      left,
-      horizontalClearance,
-      verticalClearance,
-      idealPlacement,
-      idealMobilePlacement,
-    })
-  }
-}
+  mq.md.min(css`
+    width: ${$width}px;
+    transform: translate(0, 0, 0) ${$translate};
+  `),
+])
 
 export const DynamicPopover = ({
   popover,
@@ -217,6 +199,8 @@ export const DynamicPopover = ({
   useIdealSide = false,
   additionalGap = 0,
 }: DynamicPopoverProps) => {
+  const popoverContainerRef = React.useRef<HTMLDivElement>(null)
+
   const [positionState, setPositionState] = React.useState<{
     top: number
     left: number
@@ -232,9 +216,52 @@ export const DynamicPopover = ({
     idealPlacement: placement,
     idealMobilePlacement: mobilePlacement,
   })
-  const popoverContainerRef = React.useRef<HTMLDivElement>(null)
-  const mouseEnterTimeoutRef = React.useRef<boolean>(false)
-  const mouseLeaveTimeoutRef = React.useRef<boolean>(false)
+
+  const setPosition = React.useCallback(() => {
+    const targetElement = document.getElementById(targetId)
+    const targetRect = targetElement?.getBoundingClientRect()
+    const popoverElement = popoverContainerRef?.current
+    const popoverRect = popoverElement?.getBoundingClientRect()
+
+    if (!popoverRect || !targetRect) {
+      return
+    }
+
+    const top =
+      window.scrollY +
+      targetRect.y +
+      targetRect.height / 2 -
+      popoverRect.height / 2
+    const left = targetRect.x + targetRect.width / 2 - popoverRect.width / 2
+    const horizontalClearance =
+      -popoverRect.width + (targetRect.left - left) - additionalGap
+    const verticalClearance = popoverRect.height + additionalGap
+
+    const idealPlacement = computeIdealSide(
+      placement,
+      targetRect,
+      popoverRect,
+      0,
+      0,
+    )
+
+    const idealMobilePlacement = computeIdealSide(
+      mobilePlacement,
+      targetRect,
+      popoverRect,
+      0,
+      0,
+    )
+
+    setPositionState({
+      top,
+      left,
+      horizontalClearance,
+      verticalClearance,
+      idealPlacement,
+      idealMobilePlacement,
+    })
+  }, [targetId, placement, mobilePlacement, additionalGap])
 
   const animationFn = React.useMemo(() => {
     if (_animationFn) {
@@ -262,149 +289,19 @@ export const DynamicPopover = ({
 
   React.useEffect(() => {
     const targetElement = document.getElementById(targetId)
-    const popoverElement = popoverContainerRef.current
 
-    if (popoverElement && tooltipRef) {
-      //Set initial position on mount
-      setInitialPosition(
-        targetId,
-        tooltipRef,
-        popoverElement,
-        placement,
-        mobilePlacement,
-        additionalGap,
-        setPositionState,
-      )
+    setPosition()
+
+    const handleMouseenter = () => {
+      toggle(true)
     }
 
-    const handleMouseenter = debounce(
-      () => {
-        if (mouseLeaveTimeoutRef.current) {
-          return
-        }
-        mouseEnterTimeoutRef.current = true
-
-        const targetElement = document.getElementById(targetId)
-        const targetRect = targetElement?.getBoundingClientRect()
-        const tooltipElement = tooltipRef?.current
-        const tooltipRect = tooltipElement?.getBoundingClientRect()
-        const popoverElement = popoverContainerRef.current
-
-        if (targetRect && tooltipRect) {
-          const top =
-            window.scrollY +
-            targetRect.y +
-            targetRect.height / 2 -
-            tooltipRect.height / 2
-          const left =
-            targetRect.x + targetRect.width / 2 - tooltipRect.width / 2
-          const horizontalClearance =
-            -tooltipRect.width + (targetRect.left - left) - additionalGap
-          const verticalClearance = tooltipRect.height + additionalGap
-
-          if (popoverElement) {
-            popoverElement.style.transition = `initial`
-            popoverElement.style.top = `${top}px`
-            popoverElement.style.left = `${left}px`
-          } else {
-            console.error('no popover element')
-          }
-
-          const idealPlacement = computeIdealSide(
-            placement,
-            targetRect,
-            tooltipRect,
-            0,
-            0,
-          )
-
-          const idealMobilePlacement = computeIdealSide(
-            mobilePlacement,
-            targetRect,
-            tooltipRect,
-            0,
-            0,
-          )
-
-          setPositionState({
-            top,
-            left,
-            horizontalClearance,
-            verticalClearance,
-            idealPlacement,
-            idealMobilePlacement,
-          })
-
-          //Leave some time to move element into position before showing
-          setTimeout(() => {
-            if (!mouseLeaveTimeoutRef.current && popoverElement) {
-              popoverElement.style.transition = `all ${ANIMATION_DURATION}ms cubic-bezier(1, 0, 0.22, 1.6)`
-              popoverElement.style.opacity = '1'
-            }
-            onShowCallback?.()
-            mouseEnterTimeoutRef.current = false
-          }, 200)
-        }
-      },
-      ANIMATION_DURATION,
-      { leading: true, trailing: false },
-    )
-
-    const handleMouseleave = debounce(
-      () => {
-        mouseLeaveTimeoutRef.current = true
-        if (popoverElement) {
-          popoverElement.style.opacity = '0'
-        }
-
-        //reset popover position to avoid intefering with screen width/height
-        setTimeout(() => {
-          if (!popoverElement) {
-            console.error('no popover element')
-            return
-          }
-
-          //Wait for mouseenter to finish before resetting position
-          if (mouseEnterTimeoutRef.current) {
-            setTimeout(() => {
-              popoverElement.style.transition = 'initial'
-              popoverElement.style.top = `10px`
-              popoverElement.style.left = `10px`
-              mouseLeaveTimeoutRef.current = false
-            }, ANIMATION_DURATION)
-          } else {
-            popoverElement.style.transition = 'initial'
-            popoverElement.style.top = `10px`
-            popoverElement.style.left = `10px`
-            mouseLeaveTimeoutRef.current = false
-          }
-        }, ANIMATION_DURATION)
-      },
-      ANIMATION_DURATION,
-      { leading: true, trailing: false },
-    )
+    const handleMouseleave = () => {
+      toggle(false)
+    }
 
     const handleResize = () => {
-      const targetElement = document.getElementById(targetId)
-      const targetRect = targetElement?.getBoundingClientRect()
-      const tooltipElement = tooltipRef?.current
-      const tooltipRect = tooltipElement?.getBoundingClientRect()
-      const popoverElement = popoverContainerRef.current
-
-      if (!targetRect || !tooltipRect || !popoverElement) {
-        console.error('Cannot find required elments for resize handler')
-        return
-      }
-
-      const top =
-        window.scrollY +
-        targetRect.y +
-        targetRect.height / 2 -
-        tooltipRect.height / 2
-      const left = targetRect.x + targetRect.width / 2 - tooltipRect.width / 2
-      popoverElement.style.transition = `initial`
-      popoverElement.style.top = `${top}px`
-      popoverElement.style.left = `${left}px`
+      setPosition()
     }
 
     targetElement?.addEventListener('mouseenter', handleMouseenter)
@@ -412,11 +309,12 @@ export const DynamicPopover = ({
     addEventListener('resize', handleResize)
 
     return () => {
-      targetElement?.removeEventListener('mouseover', handleMouseenter)
+      targetElement?.removeEventListener('mouseenter', handleMouseenter)
       targetElement?.removeEventListener('mouseleave', handleMouseleave)
       removeEventListener('resize', handleResize)
     }
   }, [
+    setPosition,
     additionalGap,
     mobilePlacement,
     onShowCallback,
@@ -424,6 +322,17 @@ export const DynamicPopover = ({
     targetId,
     tooltipRef,
   ])
+
+  const [state, toggle] = useTransition({
+    preEnter: true,
+    exit: true,
+    mountOnEnter: true,
+    unmountOnExit: true,
+    timeout: {
+      enter: ANIMATION_DURATION,
+      exit: ANIMATION_DURATION,
+    },
+  })
 
   const { translate, mobileTranslate } = animationFn(
     positionState.horizontalClearance,
@@ -436,8 +345,11 @@ export const DynamicPopover = ({
     <PopoverContainer
       $mobileTranslate={mobileTranslate}
       $mobileWidth={mobileWidth}
+      $state={state}
       $translate={translate}
       $width={width}
+      $x={positionState.left}
+      $y={positionState.top}
       data-testid="popoverContainer"
       id="popoverContainer"
       ref={popoverContainerRef}
