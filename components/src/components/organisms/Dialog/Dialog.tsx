@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 
-import { AlertSVG, CrossCircleSVG, EthSVG } from '@/src'
+import { AlertSVG, CrossSVG, EthSVG } from '@/src'
 import { mq } from '@/src/utils/responsiveHelpers'
 
 import { WithAlert } from '@/src/types'
@@ -11,9 +11,8 @@ import { Modal, Typography } from '../..'
 const IconCloseContainer = styled.button(
   ({ theme }) => css`
     position: absolute;
-    top: ${theme.space['1']};
-    right: ${theme.space['1']};
-    padding: ${theme.space['3']};
+    top: ${theme.space['3']};
+    right: ${theme.space['3']};
     color: ${theme.colors.greyPrimary};
     cursor: pointer;
     transition-property: all;
@@ -26,8 +25,9 @@ const IconCloseContainer = styled.button(
 
     svg {
       display: block;
-      width: ${theme.space['6']};
-      height: ${theme.space['6']};
+      width: ${theme.space['9']};
+      height: ${theme.space['9']};
+      padding: ${theme.space['1.5']};
     }
   `,
 )
@@ -340,7 +340,7 @@ const ModalWithTitle = ({
 
 const CloseButton = ({ onClick }: { onClick: () => void }) => (
   <IconCloseContainer data-testid="close-icon" onClick={onClick}>
-    <CrossCircleSVG />
+    <CrossSVG />
   </IconCloseContainer>
 )
 
