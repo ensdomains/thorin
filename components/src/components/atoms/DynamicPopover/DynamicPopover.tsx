@@ -2,7 +2,6 @@ import * as React from 'react'
 import styled, { css } from 'styled-components'
 import { createPortal } from 'react-dom'
 import { TransitionState, useTransition } from 'react-transition-state'
-import debounce from 'lodash/debounce'
 
 import { mq } from '@/src/utils/responsiveHelpers'
 
@@ -297,6 +296,7 @@ export const DynamicPopover = ({
     setPosition()
 
     const handleMouseenter = () => {
+      setPosition()
       toggle(true)
     }
 
@@ -308,22 +308,15 @@ export const DynamicPopover = ({
       setPosition()
     }
 
-    const debouncedSetPosition = debounce(setPosition, 300)
-    const handleScroll = () => {
-      debouncedSetPosition()
-    }
-
     const targetElement = anchorRef?.current
     targetElement?.addEventListener('mouseenter', handleMouseenter)
     targetElement?.addEventListener('mouseleave', handleMouseleave)
     addEventListener('resize', handleResize)
-    window.addEventListener('scroll', handleScroll)
 
     return () => {
       targetElement?.removeEventListener('mouseenter', handleMouseenter)
       targetElement?.removeEventListener('mouseleave', handleMouseleave)
       removeEventListener('resize', handleResize)
-      window.removeEventListener('scroll', handleScroll)
     }
   }, [
     placement,
