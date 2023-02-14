@@ -5,6 +5,7 @@ import {
   DynamicPopover,
   DynamicPopoverProps,
   DynamicPopoverSide,
+  PopoverProps,
 } from '@/src/components/atoms/DynamicPopover'
 import { mq } from '@/src/utils/responsiveHelpers'
 
@@ -69,20 +70,20 @@ const injectedCss = {
   `,
 }
 
-const TooltipPopover = styled.div<{
+const TooltipPopoverElement = styled.div<{
   $placement: DynamicPopoverSide
   $mobilePlacement: DynamicPopoverSide
 }>(
   ({ theme, $placement, $mobilePlacement }) => css`
     position: relative;
     pointer-events: none;
-
+    box-sizing: border-box;
     filter: drop-shadow(0px 0px 1px #e8e8e8)
       drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.2));
     border-radius: ${theme.radii.large};
     padding: ${theme.space['2.5']} ${theme.space['2.5']} ${theme.space['2.5']}
       ${theme.space['3.5']};
-    border-color: ${theme.colors.border};
+    /* border-color: ${theme.colors.border}; */
     background: ${theme.colors.background};
 
     ${injectedCss[$mobilePlacement]}
@@ -98,54 +99,60 @@ const TooltipPopover = styled.div<{
   `,
 )
 
+const TooltipPopover = ({
+  placement,
+  mobilePlacement,
+  children,
+}: PopoverProps) => {
+  return (
+    <TooltipPopoverElement
+      $mobilePlacement={mobilePlacement}
+      $placement={placement}
+      data-testid="tooltip-popover"
+    >
+      {children}
+    </TooltipPopoverElement>
+  )
+}
+
 export interface TooltipProps
-  extends Omit<DynamicPopoverProps, 'popover' | 'animationFn'> {
-  /** The side and alignment of the popover in relation to the target */
-  placement?: DynamicPopoverSide
-  /** The side and alignment of the popover in relation to the target on mobile screen sizes */
-  mobilePlacement?: DynamicPopoverSide
-  /** A React reference to the tooltip element */
-  tooltipRef?: React.RefObject<HTMLDivElement>
-  /** The id of the target element the tooltip will emerge from */
-  targetId: string
-  /** Function that will be called when the DynamicPopover is shown */
-  onShowCallback?: () => void
-  /** Width of the DynamicPopover*/
-  width?: number
-  /** Width of the DynamicPopover on mobile*/
-  mobileWidth?: number
-  /** Dynamic popover will switch sides if there is not enough room*/
-  useIdealSide?: boolean
-  /** Add to the default gap between the popover and its target */
-  additionalGap?: number
+  extends Omit<DynamicPopoverProps, 'popover' | 'animationFn' | 'anchorRef'> {
   /** A text or component containg the content of the popover. */
   content?: React.ReactNode
+  /** The anchor element for the popover */
+  children: React.ReactElement
 }
 
 export const Tooltip = ({
   content,
   placement = 'top',
   mobilePlacement = 'top',
+  children,
   ...props
 }: TooltipProps) => {
-  const tooltipRef = React.useRef<HTMLDivElement>(null)
+  // Setup anchor element
+  const anchorRef = React.useRef<HTMLDivElement>(null)
+  const child = React.Children.only(children)
+  const AnchorElement = React.cloneElement(child, { ref: anchorRef })
+
   const popover = (
-    <TooltipPopover
-      $mobilePlacement={mobilePlacement}
-      $placement={placement}
-      data-testid="tooltip-popover"
-      ref={tooltipRef}
-    >
+    <TooltipPopover mobilePlacement={mobilePlacement} placement={placement}>
       {content}
     </TooltipPopover>
   )
-  return DynamicPopover({
-    popover,
-    tooltipRef,
-    placement,
-    mobilePlacement,
-    ...props,
-  })
+
+  return (
+    <>
+      <DynamicPopover
+        anchorRef={anchorRef}
+        mobilePlacement={mobilePlacement}
+        placement={placement}
+        popover={popover}
+        {...props}
+      />
+      {AnchorElement}
+    </>
+  )
 }
 
 Tooltip.displayName = 'Tooltip'

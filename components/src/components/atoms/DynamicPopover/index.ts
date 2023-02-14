@@ -3,4 +3,5 @@ export type {
   DynamicPopoverSide,
   DynamicPopoverAlignment,
   DynamicPopoverProps,
+  PopoverProps,
 } from './DynamicPopover'
