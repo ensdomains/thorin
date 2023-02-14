@@ -18,42 +18,42 @@ import { Tooltip, TooltipProps } from '@ensdomains/thorin'
   }}
 >
   <Tooltip
-    additionalGap={20}
+    additionalGap={0}
     content={<div>Content</div>}
     mobilePlacement="top"
     mobileWidth={250}
-    open
     placement="top"
     targetId="buttonIdTop"
     width={250}
-  />
-  <Button
-    id="buttonIdTop"
-    psuedoDisabled
-    shadowless
-    shouldShowTooltipIndicator
-    style={{ width: 250 }}
   >
-    Top
-  </Button>
+    <Button
+      id="buttonIdTop"
+      psuedoDisabled
+      shadowless
+      shouldShowTooltipIndicator
+      style={{ width: 250 }}
+    >
+      Top
+    </Button>
+  </Tooltip>
   <Tooltip
     content={<div>Content</div>}
     mobilePlacement="left"
     mobileWidth={50}
-    open
     placement="left"
     targetId="buttonIdLeft"
     width={100}
-  />
-  <Button
-    id="buttonIdLeft"
-    psuedoDisabled
-    shadowless
-    shouldShowTooltipIndicator
-    style={{ width: 250 }}
   >
-    Left
-  </Button>
+    <Button
+      id="buttonIdLeft"
+      psuedoDisabled
+      shadowless
+      shouldShowTooltipIndicator
+      style={{ width: 250 }}
+    >
+      Left
+    </Button>
+  </Tooltip>
   <Tooltip
     additionalGap={20}
     content={<div>Content</div>}
@@ -63,16 +63,17 @@ import { Tooltip, TooltipProps } from '@ensdomains/thorin'
     placement="bottom"
     targetId="buttonIdBottom"
     width={250}
-  />
-  <Button
-    id="buttonIdBottom"
-    psuedoDisabled
-    shadowless
-    shouldShowTooltipIndicator
-    style={{ width: 250 }}
   >
-    Bottom
-  </Button>
+    <Button
+      id="buttonIdBottom"
+      psuedoDisabled
+      shadowless
+      shouldShowTooltipIndicator
+      style={{ width: 250 }}
+    >
+      Bottom
+    </Button>
+  </Tooltip>
   <Tooltip
     content={<div>Content</div>}
     mobilePlacement="right"
@@ -81,16 +82,17 @@ import { Tooltip, TooltipProps } from '@ensdomains/thorin'
     placement="right"
     targetId="buttonIdRight"
     width={100}
-  />
-  <Button
-    id="buttonIdRight"
-    psuedoDisabled
-    shadowless
-    shouldShowTooltipIndicator
-    style={{ width: 250 }}
   >
-    Right
-  </Button>
+    <Button
+      id="buttonIdRight"
+      psuedoDisabled
+      shadowless
+      shouldShowTooltipIndicator
+      style={{ width: 250 }}
+    >
+      Right
+    </Button>
+  </Tooltip>
 </div>
 ```
 
