@@ -298,6 +298,7 @@ export const DynamicPopover = ({
     const handleMouseenter = () => {
       setPosition()
       toggle(true)
+      onShowCallback?.()
     }
 
     const handleMouseleave = () => {
