@@ -8,6 +8,7 @@ import { useId } from '../../../hooks/useId'
 
 export type Props = {
   label: string
+  subLabel?: string
   color?: Hue
 } & React.InputHTMLAttributes<HTMLInputElement>
 
@@ -130,14 +131,18 @@ const Content = styled.div(
 )
 
 export const CheckboxRow = React.forwardRef<HTMLInputElement, Props>(
-  ({ label: title, name, color = 'blue', ...props }, ref) => {
+  ({ label, subLabel, name, color = 'blue', disabled, ...props }, ref) => {
     const defaultRef = React.useRef<HTMLInputElement>(null)
     const inputRef = ref || defaultRef
 
     const id = useId()
+
+    const textColor = disabled ? 'grey' : 'text'
+
     return (
       <Container $color={color}>
         <RootInput
+          disabled={disabled}
           id={id}
           name={name}
           type="checkbox"
@@ -149,9 +154,14 @@ export const CheckboxRow = React.forwardRef<HTMLInputElement, Props>(
             <CheckSVG />
           </Circle>
           <Content>
-            <Typography color="text" fontVariant="bodyBold">
-              {title}
+            <Typography color={textColor} fontVariant="bodyBold">
+              {label}
             </Typography>
+            {subLabel && (
+              <Typography color={textColor} fontVariant="small">
+                {subLabel}
+              </Typography>
+            )}
           </Content>
         </Label>
       </Container>
