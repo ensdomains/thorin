@@ -4,16 +4,17 @@ import styled, { css, useTheme } from 'styled-components'
 
 import { Space } from '@/src'
 
-import { Backdrop, ExitSVG, Typography } from '../..'
+import { Backdrop, CrossSVG, Typography } from '../..'
 import { getTestId } from '../../../utils/utils'
 
-const IconCloseContainer = styled.div(
+const IconCloseContainer = styled.svg(
   ({ theme }) => css`
     position: absolute;
     top: ${theme.space['2.5']};
     right: ${theme.space['2.5']};
-    height: ${theme.space['8']};
-    width: ${theme.space['8']};
+    width: ${theme.space['9']};
+    height: ${theme.space['9']};
+    padding: ${theme.space['1.5']};
     opacity: 0.5;
     cursor: pointer;
     transition-property: all;
@@ -168,7 +169,7 @@ const DesktopToast = ({
       $top={top}
     >
       <IconCloseContainer
-        as={ExitSVG}
+        as={CrossSVG}
         data-testid="toast-close-icon"
         onClick={() => onClose()}
       />
@@ -330,7 +331,7 @@ export const TouchToast = ({
         <>
           {children && <ActionWrapper>{children}</ActionWrapper>}
           <IconCloseContainer
-            as={ExitSVG}
+            as={CrossSVG}
             data-testid="toast-close-icon"
             onClick={(e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
               e.stopPropagation()

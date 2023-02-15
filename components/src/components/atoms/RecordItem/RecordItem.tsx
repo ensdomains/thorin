@@ -91,7 +91,7 @@ const PrefixLabel = styled(Typography)<{
 }>(
   () => css`
     text-align: left;
-    width: 100%; ;
+    width: 100%;
   `,
 )
 

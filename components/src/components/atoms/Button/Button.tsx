@@ -46,6 +46,8 @@ type BaseProps = {
   count?: number
   /** The handler for click events. */
   onClick?: NativeButtonProps['onClick']
+  /** Show indicator that button has extra info via tooltip. */
+  shouldShowTooltipIndicator?: boolean
 } & Omit<NativeButtonProps, 'prefix' | 'size'>
 
 type WithAnchor = {
@@ -247,6 +249,20 @@ const Counter = styled.div<{ $visible: boolean }>(
   `,
 )
 
+const TooltipIndicator = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e9b911;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  right: -10px;
+  top: -10px;
+  color: white;
+`
+
 export type Props = BaseProps & (WithoutAnchor | WithAnchor) & WithColorStyle
 
 export const Button = React.forwardRef(
@@ -272,6 +288,7 @@ export const Button = React.forwardRef(
       width,
       fullWidthContent,
       count,
+      shouldShowTooltipIndicator,
       as: asProp,
       ...props
     }: Props,
@@ -333,6 +350,10 @@ export const Button = React.forwardRef(
         zIndex={zIndex}
         onClick={onClick}
       >
+        {shouldShowTooltipIndicator && (
+          <TooltipIndicator data-testid="tooltip-indicator">?</TooltipIndicator>
+        )}
+
         {childContent}
         <CounterWrapper>
           <Counter $visible={!!count}>{count}</Counter>
