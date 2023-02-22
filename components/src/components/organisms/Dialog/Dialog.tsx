@@ -121,15 +121,18 @@ const SubTitle = styled(Typography)(
   `,
 )
 
-const ButtonsContainer = styled.div<{ $center?: boolean }>(
-  ({ theme, $center }) => css`
+const ButtonsContainer = styled.div(
+  ({ theme }) => css`
     display: flex;
     align-items: center;
     justify-content: stretch;
-    flex-direction: ${$center ? 'column' : 'row'};
+    flex-direction: column;
     gap: ${theme.space['2']};
     width: ${theme.space.full};
     max-width: ${theme.space['96']};
+    ${mq.sm.min(css`
+      flex-direction: row;
+    `)}
   `,
 )
 
@@ -262,14 +265,12 @@ const Heading = ({
 const Footer = ({
   leading,
   trailing,
-  center,
   currentStep,
   stepCount,
   stepStatus,
 }: {
   leading?: React.ReactNode
   trailing: React.ReactNode
-  center?: boolean
 } & StepProps) => {
   const calcStepType = React.useCallback(
     (step: number) => {
@@ -303,9 +304,9 @@ const Footer = ({
         </StepContainer>
       )}
       {showButtons && (
-        <ButtonsContainer {...{ $center: center }}>
-          {leading || (!center && <div style={{ flexGrow: 1 }} />)}
-          {trailing || (!center && <div style={{ flexGrow: 1 }} />)}
+        <ButtonsContainer>
+          {leading}
+          {trailing}
         </ButtonsContainer>
       )}
     </FooterContainer>
