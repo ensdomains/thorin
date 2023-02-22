@@ -129,7 +129,6 @@ const ButtonsContainer = styled.div(
     flex-direction: column;
     gap: ${theme.space['2']};
     width: ${theme.space.full};
-    max-width: ${theme.space['96']};
     ${mq.sm.min(css`
       flex-direction: row;
     `)}
