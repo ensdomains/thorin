@@ -135,7 +135,7 @@ const PopoverContainer = styled.div<{
     box-sizing: border-box;
     visibility: hidden;
     position: absolute;
-    z-index: 20;
+    z-index: 99999;
     width: ${$mobileWidth}px;
     transform: translate3d(0, 0, 0) ${$mobileTranslate};
     transition: none;
