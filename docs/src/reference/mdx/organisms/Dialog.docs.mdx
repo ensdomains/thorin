@@ -50,16 +50,12 @@ import { Dialog } from '@ensdomains/thorin'
       Open Actionable Dialog
     </Button>
     <Dialog
-      leading={
-        <Button shadowless variant="secondary">
-          Leading
-        </Button>
-      }
+      leading={<Button variant="secondary">Leading</Button>}
       open={getState('dialog-actionable')}
       stepCount={3}
       subtitle="This is an actionable dialog."
       title="Actionable Dialog"
-      trailing={<Button shadowless>Trailing</Button>}
+      trailing={<Button>Trailing</Button>}
       variant="actionable"
       onDismiss={() => toggleState('dialog-actionable')}
     >
@@ -89,16 +85,12 @@ import { Dialog } from '@ensdomains/thorin'
     <Button onClick={() => toggleState('dialog-steps-0')}>Not Started</Button>
     <Dialog
       currentStep={0}
-      leading={
-        <Button shadowless variant="secondary">
-          Leading
-        </Button>
-      }
+      leading={<Button variant="secondary">Leading</Button>}
       open={getState('dialog-steps-0')}
       stepCount={3}
       subtitle="This dialog has 0/3 steps complete."
       title="Start"
-      trailing={<Button shadowless>Trailing</Button>}
+      trailing={<Button>Trailing</Button>}
       variant="actionable"
       onDismiss={() => toggleState('dialog-steps-0')}
     >
@@ -111,16 +103,12 @@ import { Dialog } from '@ensdomains/thorin'
     </Button>
     <Dialog
       currentStep={1}
-      leading={
-        <Button shadowless variant="secondary">
-          Leading
-        </Button>
-      }
+      leading={<Button variant="secondary">Leading</Button>}
       open={getState('dialog-steps-1')}
       stepCount={3}
       subtitle="This dialog has step 1 in progress."
       title="Start"
-      trailing={<Button shadowless>Trailing</Button>}
+      trailing={<Button>Trailing</Button>}
       variant="actionable"
       onDismiss={() => toggleState('dialog-steps-1')}
     >
@@ -133,16 +121,12 @@ import { Dialog } from '@ensdomains/thorin'
     </Button>
     <Dialog
       currentStep={4}
-      leading={
-        <Button shadowless variant="secondary">
-          Leading
-        </Button>
-      }
+      leading={<Button variant="secondary">Leading</Button>}
       open={getState('dialog-steps-2')}
       stepCount={3}
       subtitle="This dialog has all steps."
       title="Start"
-      trailing={<Button shadowless>Trailing</Button>}
+      trailing={<Button>Trailing</Button>}
       variant="actionable"
       onDismiss={() => toggleState('dialog-steps-2')}
     >
@@ -155,17 +139,13 @@ import { Dialog } from '@ensdomains/thorin'
     </Button>
     <Dialog
       currentStep={2}
-      leading={
-        <Button shadowless variant="secondary">
-          Leading
-        </Button>
-      }
+      leading={<Button variant="secondary">Leading</Button>}
       open={getState('dialog-steps-3')}
       stepCount={3}
       stepStatus="notStarted"
       subtitle="This dialog has step 3 not started."
       title="Start"
-      trailing={<Button shadowless>Trailing</Button>}
+      trailing={<Button>Trailing</Button>}
       variant="actionable"
       onDismiss={() => toggleState('dialog-steps-3')}
     >
