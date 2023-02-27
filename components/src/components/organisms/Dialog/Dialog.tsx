@@ -347,7 +347,7 @@ const CloseButton = ({ onClick }: { onClick: () => void }) => (
 export const Dialog = ({
   children,
   onDismiss,
-  onClose = onDismiss,
+  onClose,
   open,
   variant = 'closable',
   ...props
@@ -366,6 +366,7 @@ export const Dialog = ({
       ...actionProps
     } = props as ActionableProps
 
+    const onCloseOrDismiss = onClose || onDismiss
     return (
       <ModalWithTitle
         {...actionProps}
@@ -386,12 +387,12 @@ export const Dialog = ({
             stepStatus,
           }}
         />
-        {onClose && <CloseButton onClick={onClose} />}
+        {onCloseOrDismiss && <CloseButton onClick={onCloseOrDismiss} />}
       </ModalWithTitle>
     )
   } else if (variant === 'closable') {
     const { alert, title, subtitle, ...closableProps } = props as ClosableProps
-
+    const onCloseOrDismiss = onClose || onDismiss
     return (
       <ModalWithTitle
         {...closableProps}
@@ -402,7 +403,7 @@ export const Dialog = ({
         onDismiss={onDismiss}
       >
         {children}
-        {onClose && <CloseButton onClick={onClose} />}
+        {onCloseOrDismiss && <CloseButton onClick={onCloseOrDismiss} />}
       </ModalWithTitle>
     )
   }

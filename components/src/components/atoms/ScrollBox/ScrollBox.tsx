@@ -69,6 +69,7 @@ const StyledScrollBox = styled.div<{ $showTop: boolean; $showBottom: boolean }>(
       ${$showTop &&
       css`
         background-color: hsla(${theme.colors.raw.greyLight} / 1);
+        z-index: 100;
       `}
     }
     &::after {
@@ -76,6 +77,7 @@ const StyledScrollBox = styled.div<{ $showTop: boolean; $showBottom: boolean }>(
       ${$showBottom &&
       css`
         background-color: hsla(${theme.colors.raw.greyLight} / 1);
+        z-index: 100;
       `}
     }
   `,
