@@ -109,15 +109,14 @@ const ButtonElement = styled.button<ButtonElement>(
     color: ${getColorStyle($colorStyle, 'text')};
     border-color: ${getColorStyle($colorStyle, 'border')};
 
-    &:active {
-      transform: translateY(0px);
-    }
-
     /* solves sticky problem */
     @media (hover: hover) {
       &:hover {
         transform: translateY(-1px);
         background: ${getColorStyle($colorStyle, 'hover')};
+      }
+      &:active {
+        transform: translateY(0px);
       }
     }
     @media (hover: none) {
