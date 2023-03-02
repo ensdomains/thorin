@@ -28,8 +28,18 @@ describe('<Profile />', () => {
         <Profile address={TEST_ADDRESS} />
       </ThemeProvider>,
     )
-    const addressDisplay = screen.getByTestId('profile-address')
+    const addressDisplay = screen.getByTestId('profile-title')
     expect(addressDisplay.innerHTML).toEqual('0x155...ccb92')
+  })
+
+  it('should display only ensName if provided', () => {
+    render(
+      <ThemeProvider theme={lightTheme}>
+        <Profile address={TEST_ADDRESS} ensName="nick.eth" />
+      </ThemeProvider>,
+    )
+    const addressDisplay = screen.getByTestId('profile-title')
+    expect(addressDisplay.innerHTML).toEqual('nick.eth')
   })
 
   it('should display dropdown if items are provided', () => {
