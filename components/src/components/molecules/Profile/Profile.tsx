@@ -40,7 +40,6 @@ const Container = styled.div<ContainerProps>(
     flex-direction: row;
     justify-content: flex-start;
     gap: ${theme.space['2']};
-    border: 1px solid ${theme.colors.border};
     border-radius: ${theme.radii['full']};
     transition-duration: ${theme.transitionDuration['150']};
     transition-property: color, border-color, background-color, transform,
@@ -108,9 +107,6 @@ const ProfileInnerContainer = styled.div<{
   ({ theme, $size }) => css`
     display: ${$size === 'small' ? 'none' : 'block'};
     min-width: ${theme.space['none']};
-    > div:first-child {
-      margin-bottom: -${theme.space['0.5']};
-    }
   `,
 )
 
@@ -130,26 +126,19 @@ const ProfileInner = ({ size, avatar, address, ensName }: Props) => (
     </AvatarContainer>
     <ProfileInnerContainer $size={size}>
       <ReducedLineText
-        color={ensName ? 'text' : 'grey'}
+        color="text"
         data-testid="profile-title"
         ellipsis
         fontVariant={size === 'large' ? 'headingFour' : 'bodyBold'}
         forwardedAs="h3"
       >
-        {ensName || 'No name set'}
-      </ReducedLineText>
-      <ReducedLineText
-        color={ensName ? 'grey' : 'text'}
-        data-testid="profile-address"
-        fontVariant="small"
-        forwardedAs="h4"
-      >
-        {shortenAddress(
-          address,
-          size === 'large' ? 30 : 10,
-          size === 'large' ? 10 : 5,
-          size === 'large' ? 10 : 5,
-        )}
+        {ensName ||
+          shortenAddress(
+            address,
+            size === 'large' ? 30 : 10,
+            size === 'large' ? 10 : 5,
+            size === 'large' ? 10 : 5,
+          )}
       </ReducedLineText>
     </ProfileInnerContainer>
   </>

@@ -7,14 +7,21 @@ import { mq } from '@/src/utils/responsiveHelpers'
 
 import { Backdrop } from '../..'
 
-const Container = styled.div<{ $state: TransitionState }>(
-  ({ theme, $state }) => css`
-    width: 95%;
+const Container = styled.div<{ $state: TransitionState; $alignTop?: boolean }>(
+  ({ theme, $state, $alignTop }) => css`
+    width: 100%;
 
     position: fixed;
-    left: 2.5%;
+    left: 0;
     z-index: 9999;
-    bottom: ${theme.space['4']};
+
+    ${$alignTop
+      ? css`
+          top: 0;
+        `
+      : css`
+          bottom: 0;
+        `}
 
     display: flex;
     flex-direction: row;
@@ -38,7 +45,7 @@ const Container = styled.div<{ $state: TransitionState }>(
         `
       : css`
           opacity: 0;
-          transform: translateY(128px);
+          transform: translateY(${$alignTop ? '-' : ''}128px);
         `}
   `,
 )
@@ -53,6 +60,8 @@ type Props = {
   onDismiss?: () => void
   /** If true, the modal is visible. */
   open: boolean
+  /** Aligns the modal to the top of the page. Only applies to mobile views. */
+  alignTop?: boolean
 } & NativeDivProps
 
 export const Modal = ({
@@ -60,11 +69,12 @@ export const Modal = ({
   backdropSurface,
   onDismiss,
   open,
+  alignTop,
   ...props
 }: Props) => (
   <Backdrop open={open} surface={backdropSurface} onDismiss={onDismiss}>
     {({ state }) => (
-      <Container $state={state} {...props}>
+      <Container $alignTop={alignTop} $state={state} {...props}>
         {children}
       </Container>
     )}

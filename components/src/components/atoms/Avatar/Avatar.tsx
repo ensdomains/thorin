@@ -110,6 +110,8 @@ export type Props = {
   placeholder?: string
   /** If true sets the component into disabled format. */
   disabled?: boolean
+  /** An element that overlays the avatar */
+  overlay?: React.ReactNode
 } & Omit<NativeImgAttributes, 'alt' | 'onError' | 'children' | 'onError'>
 
 export const Avatar = ({
@@ -120,6 +122,7 @@ export const Avatar = ({
   placeholder,
   decoding = 'async',
   disabled = false,
+  overlay,
   ...props
 }: Props) => {
   const ref = React.useRef<HTMLImageElement>(null)
@@ -152,6 +155,7 @@ export const Avatar = ({
   const isImageVisible = showImage && !!src
   return (
     <Container $noBorder={!showImage || noBorder} $shape={shape}>
+      {overlay}
       {!isImageVisible && (
         <Placeholder
           $disabled={disabled}

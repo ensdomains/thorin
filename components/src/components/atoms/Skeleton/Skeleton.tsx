@@ -38,6 +38,9 @@ const ContainerInner = styled.span<{ $active?: boolean }>(
     ${$active
       ? css`
           visibility: hidden;
+          * {
+            visibility: hidden !important;
+          }
         `
       : ``}
   `,

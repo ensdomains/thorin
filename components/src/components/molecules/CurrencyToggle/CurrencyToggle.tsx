@@ -5,10 +5,11 @@ import type { Space } from '@/src/tokens'
 
 import { useId } from '../../../hooks/useId'
 
-type Size = 'small' | 'medium'
+type Size = 'extraSmall' | 'small' | 'medium'
 
 export type Props = {
   size?: Size
+  fiat?: string
 } & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'>
 
 const CONTAINER_SIZES: {
@@ -17,6 +18,10 @@ const CONTAINER_SIZES: {
     height: Space
   }
 } = {
+  extraSmall: {
+    width: '22.5',
+    height: '7',
+  },
   small: {
     width: '26',
     height: '10',
@@ -34,6 +39,11 @@ const KNOB_SIZES: {
     translateX: Space
   }
 } = {
+  extraSmall: {
+    width: '10',
+    height: '5.5',
+    translateX: '5',
+  },
   small: {
     width: '12',
     height: '8',
@@ -58,7 +68,9 @@ const Container = styled.div<{ $size: Size }>(
       width: ${theme.space[KNOB_SIZES[$size].width]};
       height: ${theme.space[KNOB_SIZES[$size].height]};
       font-size: ${theme.fontSizes.small};
-      font-weight: ${theme.fontWeights.bold};
+      font-weight: ${$size === 'extraSmall'
+        ? theme.fontWeights.normal
+        : theme.fontWeights.bold};
       display: flex;
       align-items: center;
       justify-content: center;
@@ -114,7 +126,9 @@ const InputComponent = styled.input<{ $size?: Size }>(
     background-color: ${theme.colors.greySurface};
     height: ${theme.space[CONTAINER_SIZES[$size].height]};
     width: ${theme.space[CONTAINER_SIZES[$size].width]};
-    border-radius: ${theme.radii.large};
+    border-radius: ${$size === 'extraSmall'
+      ? theme.radii.full
+      : theme.radii.large};
 
     display: flex;
     align-items: center;
@@ -127,7 +141,9 @@ const InputComponent = styled.input<{ $size?: Size }>(
       background-color: ${theme.colors.bluePrimary};
       width: ${theme.space[KNOB_SIZES[$size].width]};
       height: ${theme.space[KNOB_SIZES[$size].height]};
-      border-radius: ${theme.space['1.5']};
+      border-radius: ${$size === 'extraSmall'
+        ? theme.radii.full
+        : theme.space['1.5']};
       transform: translateX(-${theme.space[KNOB_SIZES[$size].translateX]});
       transition: transform 0.3s ease-in-out, background-color 0.1s ease-in-out;
     }
@@ -143,7 +159,7 @@ const InputComponent = styled.input<{ $size?: Size }>(
 )
 
 export const CurrencyToggle = React.forwardRef<HTMLInputElement, Props>(
-  ({ size = 'medium', disabled, ...props }, ref) => {
+  ({ size = 'medium', disabled, fiat = 'usd', ...props }, ref) => {
     const id = useId()
     return (
       <Container $size={size}>
@@ -159,7 +175,7 @@ export const CurrencyToggle = React.forwardRef<HTMLInputElement, Props>(
           ETH
         </label>
         <label htmlFor={id} id="fiat">
-          USD
+          {fiat.toLocaleUpperCase()}
         </label>
       </Container>
     )
