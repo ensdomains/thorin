@@ -111,6 +111,7 @@ const expectedExportedKeys = [
   'OutlinkSVG',
   'PersonPlusSVG',
   'PersonSVG',
+  'PersonActiveSVG',
   'PlusCircleSVG',
   'PlusSVG',
   'QuestionBubbleSVG',
