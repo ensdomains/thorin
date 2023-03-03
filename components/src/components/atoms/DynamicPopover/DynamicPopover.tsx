@@ -420,10 +420,15 @@ export const DynamicPopover = ({
     _mobilePlacement,
   )
 
+  const renderCallback = React.useCallback(() => {
+    setPosition()
+    onShowCallback?.()
+  }, [setPosition, onShowCallback])
+
   if (state === 'unmounted') return null
 
   return (
-    <Portal renderCallback={setPosition}>
+    <Portal renderCallback={renderCallback}>
       <PopoverContainer
         $isControlled={isControlled}
         $mobileTranslate={mobileTranslate}
