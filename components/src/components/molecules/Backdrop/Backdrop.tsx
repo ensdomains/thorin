@@ -17,6 +17,8 @@ type Props = {
   /** If true, removes background */
   noBackground?: boolean
   className?: string
+  /** A callback fired on the render of children */
+  renderCallback?: () => void
 }
 
 export const Backdrop = ({
@@ -26,6 +28,7 @@ export const Backdrop = ({
   noBackground = false,
   className = 'modal',
   open,
+  renderCallback,
 }: Props) => {
   const [state, toggle] = useTransition({
     timeout: {
@@ -79,7 +82,7 @@ export const Backdrop = ({
   }, [open, noBackground])
 
   return state !== 'unmounted' ? (
-    <Portal className={className}>
+    <Portal className={className} renderCallback={renderCallback}>
       {onDismiss && (
         <Background
           $empty={noBackground}

@@ -62,6 +62,8 @@ type Props = {
   open: boolean
   /** Aligns the modal to the top of the page. Only applies to mobile views. */
   alignTop?: boolean
+  /** A callback fired on the render of children */
+  renderCallback?: () => void
 } & NativeDivProps
 
 export const Modal = ({
@@ -70,9 +72,15 @@ export const Modal = ({
   onDismiss,
   open,
   alignTop,
+  renderCallback,
   ...props
 }: Props) => (
-  <Backdrop open={open} surface={backdropSurface} onDismiss={onDismiss}>
+  <Backdrop
+    open={open}
+    renderCallback={renderCallback}
+    surface={backdropSurface}
+    onDismiss={onDismiss}
+  >
     {({ state }) => (
       <Container $alignTop={alignTop} $state={state} {...props}>
         {children}

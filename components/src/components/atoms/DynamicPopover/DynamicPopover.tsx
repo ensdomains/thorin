@@ -1,9 +1,10 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
-import { createPortal } from 'react-dom'
 import { TransitionState, useTransition } from 'react-transition-state'
 
 import { mq } from '@/src/utils/responsiveHelpers'
+
+import { Portal } from '../Portal'
 
 export type DynamicPopoverSide = 'top' | 'right' | 'bottom' | 'left'
 
@@ -226,7 +227,7 @@ export const DynamicPopover = ({
   isOpen,
   align = 'center',
 }: DynamicPopoverProps) => {
-  const popoverContainerRef = React.useRef<HTMLDivElement>(null)
+  const popoverContainerRef = React.useRef<HTMLDivElement>()
 
   const isControlled = isOpen !== undefined
 
@@ -308,6 +309,16 @@ export const DynamicPopover = ({
       idealMobilePlacement,
     })
   }, [placement, mobilePlacement, additionalGap, anchorRef, align])
+
+  const refFunc = React.useCallback(
+    (e: HTMLDivElement) => {
+      if (e) {
+        popoverContainerRef.current = e
+        setPosition()
+      }
+    },
+    [setPosition],
+  )
 
   const animationFn = React.useMemo(() => {
     if (_animationFn) {
@@ -409,27 +420,30 @@ export const DynamicPopover = ({
     _mobilePlacement,
   )
 
-  return createPortal(
-    <PopoverContainer
-      $isControlled={isControlled}
-      $mobileTranslate={mobileTranslate}
-      $mobileWidth={mobileWidth}
-      $state={state}
-      $transitionDuration={transitionDuration}
-      $translate={translate}
-      $width={width}
-      $x={positionState.left}
-      $y={positionState.top}
-      data-testid="popoverContainer"
-      id="popoverContainer"
-      ref={popoverContainerRef}
-    >
-      {React.cloneElement(popover, {
-        placement: _placement,
-        mobilePlacement: _mobilePlacement,
-      })}
-    </PopoverContainer>,
-    document?.body,
+  if (state === 'unmounted') return null
+
+  return (
+    <Portal renderCallback={setPosition}>
+      <PopoverContainer
+        $isControlled={isControlled}
+        $mobileTranslate={mobileTranslate}
+        $mobileWidth={mobileWidth}
+        $state={state}
+        $transitionDuration={transitionDuration}
+        $translate={translate}
+        $width={width}
+        $x={positionState.left}
+        $y={positionState.top}
+        data-testid="popoverContainer"
+        id="popoverContainer"
+        ref={refFunc}
+      >
+        {React.cloneElement(popover, {
+          placement: _placement,
+          mobilePlacement: _mobilePlacement,
+        })}
+      </PopoverContainer>
+    </Portal>
   )
 }
 

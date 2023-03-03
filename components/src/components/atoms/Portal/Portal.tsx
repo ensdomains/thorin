@@ -7,12 +7,15 @@ type Props = {
   /** The element tag of the container element */
   el?: string
   children: React.ReactNode
+  /** A callback fired on the render of children */
+  renderCallback?: () => void
 }
 
 export const Portal: React.FC<Props> = ({
   children,
   className,
   el = 'div',
+  renderCallback,
 }: Props) => {
   const [container] = React.useState(document.createElement(el))
 
@@ -20,11 +23,12 @@ export const Portal: React.FC<Props> = ({
 
   React.useEffect(() => {
     document.body.appendChild(container)
+    renderCallback?.()
     return () => {
       document.body.removeChild(container)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [renderCallback])
 
   return ReactDOM.createPortal(children, container)
 }
