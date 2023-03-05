@@ -68,6 +68,20 @@ The placeholder is shown if the src property is undefined or if an error occurs 
 </DeleteMe>
 ```
 
+## Overlay
+
+```tsx live=true
+<DeleteMe alignItems="center" flexDirection="row" flexWrap="wrap">
+  <div style={{ width: '100px' }}>
+    <Avatar
+      label="Noun 97"
+      overlay={<div style={{ background: 'rgba(0,0,0,0.25)', zIndex: 1 }} />}
+      src={avatars.noun97}
+    />
+  </div>
+</DeleteMe>
+```
+
 ## Border
 
 By default, there is a light border around the edge to define image edges on similarly colored backgrounds. This can be disabled by using the `noBorder` prop.
