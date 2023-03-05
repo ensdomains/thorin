@@ -1,11 +1,10 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
-import { createPortal } from 'react-dom'
 import { TransitionState, useTransition } from 'react-transition-state'
 
 import { mq } from '@/src/utils/responsiveHelpers'
 
-const ANIMATION_DURATION = 350
+import { Portal } from '../Portal'
 
 export type DynamicPopoverSide = 'top' | 'right' | 'bottom' | 'left'
 
@@ -38,7 +37,7 @@ export interface DynamicPopoverProps {
   /** A function that returns string of the css state for open and closed popover */
   animationFn?: DynamicPopoverAnimationFunc
   /** The id of the target element the tooltip will emerge from */
-  anchorRef: React.RefObject<HTMLDivElement>
+  anchorRef: React.RefObject<HTMLElement>
   /** Function that will be called when the DynamicPopover is shown */
   onShowCallback?: () => void
   /** Width of the DynamicPopover*/
@@ -49,6 +48,12 @@ export interface DynamicPopoverProps {
   useIdealPlacement?: boolean
   /** Add to the default gap between the popover and its target */
   additionalGap?: number
+  /** Aligns the popover */
+  align?: DynamicPopoverAlignment
+  /** The duration of the transition */
+  transitionDuration?: number
+  /** If this is not undefined, popover becomes externally controlled */
+  isOpen?: boolean
 }
 
 /**
@@ -121,72 +126,91 @@ const PopoverContainer = styled.div<{
   $mobileWidth: number
   $x: number
   $y: number
-}>(({ $state, $translate, $mobileTranslate, $width, $mobileWidth, $x, $y }) => [
-  css`
-    /* stylelint-disable */
-    -webkit-backface-visibility: hidden;
-    -moz-backface-visibility: hidden;
-    -webkit-transform: translate3d(0, 0, 0);
-    -moz-transform: translate3d(0, 0, 0);
-    /* stylelint-enable */
-
-    /* Default state is unmounted */
-    display: block;
-    box-sizing: border-box;
-    visibility: hidden;
-    position: absolute;
-    z-index: 99999;
-    width: ${$mobileWidth}px;
-    transform: translate3d(0, 0, 0) ${$mobileTranslate};
-    transition: none;
-    opacity: 0;
-    pointer-events: none;
-    top: 0;
-    left: 0;
-
-    ${$state === 'preEnter' &&
+  $isControlled: boolean
+  $transitionDuration: number
+}>(
+  ({
+    $state,
+    $translate,
+    $mobileTranslate,
+    $width,
+    $mobileWidth,
+    $x,
+    $y,
+    $isControlled,
+    $transitionDuration,
+  }) => [
     css`
-      display: block;
-      visibility: visible;
-      top: ${$y}px;
-      left: ${$x}px;
-    `}
+      /* stylelint-disable */
+      -webkit-backface-visibility: hidden;
+      -moz-backface-visibility: hidden;
+      -webkit-transform: translate3d(0, 0, 0);
+      -moz-transform: translate3d(0, 0, 0);
+      /* stylelint-enable */
 
-    ${$state === 'entering' &&
-    css`
+      /* Default state is unmounted */
       display: block;
-      visibility: visible;
-      opacity: 1;
-      transition: opacity ${ANIMATION_DURATION}ms ease-in-out;
-      top: ${$y}px;
-      left: ${$x}px;
-    `}
+      box-sizing: border-box;
+      visibility: hidden;
+      position: absolute;
+      z-index: 99999;
+      width: ${$mobileWidth}px;
+      transform: translate3d(0, 0, 0) ${$mobileTranslate};
+      transition: none;
+      opacity: 0;
+      pointer-events: none;
+      top: 0;
+      left: 0;
+
+      ${$state === 'preEnter' &&
+      css`
+        display: block;
+        visibility: visible;
+        top: ${$y}px;
+        left: ${$x}px;
+      `}
+
+      ${$state === 'entering' &&
+      css`
+        display: block;
+        visibility: visible;
+        opacity: 1;
+        transition: opacity ${$transitionDuration}ms ease-in-out;
+        top: ${$y}px;
+        left: ${$x}px;
+      `}
 
       ${$state === 'entered' &&
-    css`
-      display: block;
-      visibility: visible;
-      opacity: 1;
-      transition: opacity ${ANIMATION_DURATION}ms ease-in-out;
-      top: ${$y}px;
-      left: ${$x}px;
-    `}
+      css`
+        display: block;
+        visibility: visible;
+        opacity: 1;
+        transition: opacity ${$transitionDuration}ms ease-in-out;
+        top: ${$y}px;
+        left: ${$x}px;
+
+        ${$isControlled &&
+        css`
+          pointer-events: auto;
+        `}
+      `}
 
       ${$state === 'exiting' &&
-    css`
-      display: block;
-      visibility: visible;
-      opacity: 0;
-      transition: all ${ANIMATION_DURATION}ms ease-in-out;
-      top: ${$y}px;
-      left: ${$x}px;
-    `}
-  `,
-  mq.md.min(css`
-    width: ${$width}px;
-    transform: translate3d(0, 0, 0) ${$translate};
-  `),
-])
+      css`
+        display: block;
+        visibility: visible;
+        opacity: 0;
+        transition: all ${$transitionDuration}ms ease-in-out;
+        top: ${$y}px;
+        left: ${$x}px;
+      `}
+    `,
+    mq.md.min(css`
+      width: ${$width}px;
+      transform: translate3d(0, 0, 0) ${$translate};
+    `),
+  ],
+)
 
 export const DynamicPopover = ({
   popover,
@@ -199,8 +223,13 @@ export const DynamicPopover = ({
   mobileWidth = 150,
   useIdealPlacement = false,
   additionalGap = 0,
+  transitionDuration = 350,
+  isOpen,
+  align = 'center',
 }: DynamicPopoverProps) => {
-  const popoverContainerRef = React.useRef<HTMLDivElement>(null)
+  const popoverContainerRef = React.useRef<HTMLDivElement>()
+
+  const isControlled = isOpen !== undefined
 
   const [positionState, setPositionState] = React.useState<{
     top: number
@@ -228,20 +257,33 @@ export const DynamicPopover = ({
       return
     }
 
-    const top =
-      window.scrollY +
-      anchorRect.y +
-      anchorRect.height / 2 -
-      popoverRect.height / 2
-    const left = anchorRect.x + anchorRect.width / 2 - popoverRect.width / 2
-    const horizontalClearance =
-      popoverRect.width / 2 + anchorRect.width / 2 + additionalGap + 10
-    const verticalClearance =
-      popoverRect.height / 2 + anchorRect.height / 2 + additionalGap + 10
-
-    if (placement === 'bottom') {
-      console.log(popoverRect.height, anchorRect.height, additionalGap)
+    let popoverWidth = popoverRect.width / 2
+    let anchorWidth = anchorRect.width / 2
+    let popoverHeight = popoverRect.height / 2
+    let anchorHeight = anchorRect.height / 2
+    if (placement === 'top' || placement === 'bottom') {
+      if (align === 'start') {
+        popoverWidth = 0
+        anchorWidth = -anchorWidth
+      } else if (align === 'end') {
+        popoverWidth = popoverRect.width
+        anchorWidth = anchorRect.width
+      }
+    } else {
+      if (align === 'start') {
+        popoverHeight = 0
+        anchorHeight = 0
+      } else if (align === 'end') {
+        popoverHeight = popoverRect.height
+        anchorHeight = anchorRect.height
+      }
     }
+
+    const top = window.scrollY + anchorRect.y + anchorHeight - popoverHeight
+    const left = anchorRect.x + anchorWidth - popoverWidth
+    const horizontalClearance = popoverWidth + anchorWidth + additionalGap + 10
+    const verticalClearance = popoverHeight + anchorHeight + additionalGap + 10
+
     const idealPlacement = computeIdealSide(
       placement,
       anchorRect,
@@ -266,7 +308,17 @@ export const DynamicPopover = ({
       idealPlacement,
       idealMobilePlacement,
     })
-  }, [placement, mobilePlacement, additionalGap, anchorRef])
+  }, [placement, mobilePlacement, additionalGap, anchorRef, align])
+
+  const refFunc = React.useCallback(
+    (e: HTMLDivElement) => {
+      if (e) {
+        popoverContainerRef.current = e
+        setPosition()
+      }
+    },
+    [setPosition],
+  )
 
   const animationFn = React.useMemo(() => {
     if (_animationFn) {
@@ -295,28 +347,36 @@ export const DynamicPopover = ({
   React.useEffect(() => {
     setPosition()
 
-    const handleMouseenter = () => {
-      setPosition()
-      toggle(true)
-      onShowCallback?.()
-    }
-
-    const handleMouseleave = () => {
-      toggle(false)
-    }
-
     const handleResize = () => {
       setPosition()
     }
 
     const targetElement = anchorRef?.current
-    targetElement?.addEventListener('mouseenter', handleMouseenter)
-    targetElement?.addEventListener('mouseleave', handleMouseleave)
+    let handleMouseEnter: () => void
+    let handleMouseLeave: () => void
+
+    if (!isControlled) {
+      handleMouseEnter = () => {
+        setPosition()
+        toggle(true)
+        onShowCallback?.()
+      }
+
+      handleMouseLeave = () => {
+        toggle(false)
+      }
+
+      targetElement?.addEventListener('mouseenter', handleMouseEnter)
+      targetElement?.addEventListener('mouseleave', handleMouseLeave)
+    }
+
     addEventListener('resize', handleResize)
 
     return () => {
-      targetElement?.removeEventListener('mouseenter', handleMouseenter)
-      targetElement?.removeEventListener('mouseleave', handleMouseleave)
+      if (!isControlled) {
+        targetElement?.removeEventListener('mouseenter', handleMouseEnter)
+        targetElement?.removeEventListener('mouseleave', handleMouseLeave)
+      }
       removeEventListener('resize', handleResize)
     }
   }, [
@@ -326,7 +386,14 @@ export const DynamicPopover = ({
     additionalGap,
     onShowCallback,
     anchorRef,
+    isControlled,
   ])
+
+  React.useEffect(() => {
+    if (isControlled) {
+      toggle(isOpen)
+    }
+  }, [isControlled, isOpen])
 
   const [state, toggle] = useTransition({
     preEnter: true,
@@ -334,8 +401,8 @@ export const DynamicPopover = ({
     mountOnEnter: true,
     unmountOnExit: true,
     timeout: {
-      enter: ANIMATION_DURATION,
-      exit: ANIMATION_DURATION,
+      enter: transitionDuration,
+      exit: transitionDuration,
     },
   })
 
@@ -353,25 +420,35 @@ export const DynamicPopover = ({
     _mobilePlacement,
   )
 
-  return createPortal(
-    <PopoverContainer
-      $mobileTranslate={mobileTranslate}
-      $mobileWidth={mobileWidth}
-      $state={state}
-      $translate={translate}
-      $width={width}
-      $x={positionState.left}
-      $y={positionState.top}
-      data-testid="popoverContainer"
-      id="popoverContainer"
-      ref={popoverContainerRef}
-    >
-      {React.cloneElement(popover, {
-        placement: _placement,
-        mobilePlacement: _mobilePlacement,
-      })}
-    </PopoverContainer>,
-    document?.body,
+  const renderCallback = React.useCallback(() => {
+    setPosition()
+    onShowCallback?.()
+  }, [setPosition, onShowCallback])
+
+  if (state === 'unmounted') return null
+
+  return (
+    <Portal renderCallback={renderCallback}>
+      <PopoverContainer
+        $isControlled={isControlled}
+        $mobileTranslate={mobileTranslate}
+        $mobileWidth={mobileWidth}
+        $state={state}
+        $transitionDuration={transitionDuration}
+        $translate={translate}
+        $width={width}
+        $x={positionState.left}
+        $y={positionState.top}
+        data-testid="popoverContainer"
+        id="popoverContainer"
+        ref={refFunc}
+      >
+        {React.cloneElement(popover, {
+          placement: _placement,
+          mobilePlacement: _mobilePlacement,
+        })}
+      </PopoverContainer>
+    </Portal>
   )
 }
 
