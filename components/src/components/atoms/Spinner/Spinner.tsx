@@ -52,6 +52,12 @@ const Container = styled.div<{ $size: Size; $color: Colors }>(
           return ``
       }
     }}
+
+    svg {
+      display: block;
+      height: 100%;
+      width: 100%;
+    }
   `,
 )
 
