@@ -13,6 +13,7 @@ export type DynamicPopoverAlignment = 'start' | 'center' | 'end'
 export type PopoverProps = React.PropsWithChildren<{
   placement: DynamicPopoverSide
   mobilePlacement: DynamicPopoverSide
+  state?: TransitionState
 }>
 
 export type DynamicPopoverAnimationFunc = (
@@ -54,6 +55,8 @@ export interface DynamicPopoverProps {
   transitionDuration?: number
   /** If this is not undefined, popover becomes externally controlled */
   isOpen?: boolean
+  /** Hides the overflow of the content */
+  hideOverflow?: boolean
 }
 
 /**
@@ -128,6 +131,7 @@ const PopoverContainer = styled.div<{
   $y: number
   $isControlled: boolean
   $transitionDuration: number
+  $hideOverflow: boolean | undefined
 }>(
   ({
     $state,
@@ -139,6 +143,7 @@ const PopoverContainer = styled.div<{
     $y,
     $isControlled,
     $transitionDuration,
+    $hideOverflow,
   }) => [
     css`
       /* stylelint-disable */
@@ -161,6 +166,11 @@ const PopoverContainer = styled.div<{
       pointer-events: none;
       top: 0;
       left: 0;
+
+      ${$hideOverflow &&
+      css`
+        overflow: hidden;
+      `}
 
       ${$state === 'preEnter' &&
       css`
@@ -226,6 +236,7 @@ export const DynamicPopover = ({
   transitionDuration = 350,
   isOpen,
   align = 'center',
+  hideOverflow,
 }: DynamicPopoverProps) => {
   const popoverContainerRef = React.useRef<HTMLDivElement>()
 
@@ -264,7 +275,7 @@ export const DynamicPopover = ({
     if (placement === 'top' || placement === 'bottom') {
       if (align === 'start') {
         popoverWidth = 0
-        anchorWidth = -anchorWidth
+        anchorWidth = 0
       } else if (align === 'end') {
         popoverWidth = popoverRect.width
         anchorWidth = anchorRect.width
@@ -430,6 +441,7 @@ export const DynamicPopover = ({
   return (
     <Portal renderCallback={renderCallback}>
       <PopoverContainer
+        $hideOverflow={hideOverflow}
         $isControlled={isControlled}
         $mobileTranslate={mobileTranslate}
         $mobileWidth={mobileWidth}
@@ -446,6 +458,7 @@ export const DynamicPopover = ({
         {React.cloneElement(popover, {
           placement: _placement,
           mobilePlacement: _mobilePlacement,
+          state,
         })}
       </PopoverContainer>
     </Portal>
