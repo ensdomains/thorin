@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { ThemeProvider } from 'styled-components'
 
-import { cleanup, render, screen, userEvent } from '@/test'
+import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 
 import { lightTheme } from '@/src/tokens'
 
@@ -42,7 +42,7 @@ describe('<Profile />', () => {
     expect(addressDisplay.innerHTML).toEqual('nick.eth')
   })
 
-  it('should display dropdown if items are provided', () => {
+  it('should display dropdown if items are provided', async () => {
     render(
       <ThemeProvider theme={lightTheme}>
         <Profile
@@ -55,7 +55,9 @@ describe('<Profile />', () => {
       </ThemeProvider>,
     )
     userEvent.click(screen.getByText('nick.eth'))
-    expect(screen.queryByText('Disconnect')).toBeVisible()
+    await waitFor(() => {
+      expect(screen.queryByText('Disconnect')).toBeVisible()
+    })
   })
 
   it('should hide text if size is small', () => {
