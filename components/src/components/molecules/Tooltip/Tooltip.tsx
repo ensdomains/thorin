@@ -86,7 +86,7 @@ const TooltipPopoverElement = styled.div<{
     background: ${theme.colors.background};
 
     ${injectedCss[$mobilePlacement]}
-    ${mq.md.min(css`
+    ${mq.sm.min(css`
       &:before {
         display: none;
       }

@@ -68,7 +68,7 @@ const Container = styled.div<{
     width: ${theme.space.full};
     transition: all 150ms ease-in-out;
 
-    ${mq.md.min(
+    ${mq.sm.min(
       css`
         padding: ${theme.space['6']};
         gap: ${theme.space[6]};
@@ -132,7 +132,7 @@ const IconContainer = styled.div<{
       height: 100%;
     }
 
-    ${mq.md.min(css`
+    ${mq.sm.min(css`
       width: ${theme.space[10]};
       height: ${theme.space[10]};
       flex: 0 0 ${theme.space[10]};

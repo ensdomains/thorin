@@ -215,7 +215,7 @@ const PopoverContainer = styled.div<{
         left: ${$x}px;
       `}
     `,
-    mq.md.min(css`
+    mq.sm.min(css`
       width: ${$width}px;
       transform: translate3d(0, 0, 0) ${$translate};
     `),
