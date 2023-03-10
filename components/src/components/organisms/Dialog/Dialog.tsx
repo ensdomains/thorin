@@ -39,7 +39,7 @@ const StyledCard = styled.div(
     align-items: stretch;
     gap: ${theme.space['6']};
 
-    padding: ${theme.space['3.5']};
+    padding: ${theme.space['6']};
     border-radius: ${theme.radii['3xLarge']};
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
