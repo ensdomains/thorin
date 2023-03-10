@@ -50,7 +50,7 @@ import { Dialog } from '@ensdomains/thorin'
       Open Actionable Dialog
     </Button>
     <Dialog
-      leading={<Button variant="secondary">Leading</Button>}
+      leading={<Button colorStyle="accentSecondary">Leading</Button>}
       open={getState('dialog-actionable')}
       stepCount={3}
       subtitle="This is an actionable dialog."
@@ -85,7 +85,7 @@ import { Dialog } from '@ensdomains/thorin'
     <Button onClick={() => toggleState('dialog-steps-0')}>Not Started</Button>
     <Dialog
       currentStep={0}
-      leading={<Button variant="secondary">Leading</Button>}
+      leading={<Button colorStyle="accentSecondary">Leading</Button>}
       open={getState('dialog-steps-0')}
       stepCount={3}
       subtitle="This dialog has 0/3 steps complete."
@@ -103,7 +103,7 @@ import { Dialog } from '@ensdomains/thorin'
     </Button>
     <Dialog
       currentStep={1}
-      leading={<Button variant="secondary">Leading</Button>}
+      leading={<Button colorStyle="accentSecondary">Leading</Button>}
       open={getState('dialog-steps-1')}
       stepCount={3}
       subtitle="This dialog has step 1 in progress."
@@ -121,7 +121,7 @@ import { Dialog } from '@ensdomains/thorin'
     </Button>
     <Dialog
       currentStep={4}
-      leading={<Button variant="secondary">Leading</Button>}
+      leading={<Button colorStyle="accentSecondary">Leading</Button>}
       open={getState('dialog-steps-2')}
       stepCount={3}
       subtitle="This dialog has all steps."
@@ -139,7 +139,7 @@ import { Dialog } from '@ensdomains/thorin'
     </Button>
     <Dialog
       currentStep={2}
-      leading={<Button variant="secondary">Leading</Button>}
+      leading={<Button colorStyle="accentSecondary">Leading</Button>}
       open={getState('dialog-steps-3')}
       stepCount={3}
       stepStatus="notStarted"
@@ -220,7 +220,7 @@ import { Dialog } from '@ensdomains/thorin'
     <Dialog.Heading title="Heading" />
     <div style={{ width: '500px' }}>Content</div>
     <Dialog.Footer
-      leading={<Button colorScheme="secondary">Leading</Button>}
+      leading={<Button colorStyle="accentSecondary">Leading</Button>}
       trailing={<Button>Trailing</Button>}
     />
   </Dialog>
