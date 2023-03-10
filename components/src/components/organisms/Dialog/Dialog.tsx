@@ -47,9 +47,6 @@ const StyledCard = styled.div(
     position: relative;
     width: 100%;
     ${mq.sm.min(css`
-      width: initial;
-    `)}
-    ${mq.md.min(css`
       max-width: 80vw;
       border-radius: ${theme.radii['3xLarge']};
     `)}

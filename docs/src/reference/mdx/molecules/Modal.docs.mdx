@@ -11,7 +11,7 @@ import { Modal } from '@ensdomains/thorin'
 <>
   <Button onClick={() => toggleState('modal')}>Open Modal</Button>
   <Modal open={getState('modal')} onDismiss={() => toggleState('modal')}>
-    <Card>
+    <Card style={{ width: '100%' }}>
       <Typography>This is a modal popup.</Typography>
     </Card>
   </Modal>

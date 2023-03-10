@@ -20,7 +20,7 @@ const Container = styled.div(
     background-color: ${theme.colors.backgroundPrimary};
     border: 1px solid ${theme.colors.border};
 
-    ${mq.md.min(
+    ${mq.sm.min(
       css`
         padding: ${theme.space['6']};
       `,
@@ -34,7 +34,7 @@ const Divider = styled.div(
     height: 1px;
     background: ${theme.colors.border};
     margin: 0 -${theme.space['4']};
-    ${mq.md.min(
+    ${mq.sm.min(
       css`
         margin: 0 -${theme.space['6']};
         width: calc(100% + 2 * ${theme.space['6']});
