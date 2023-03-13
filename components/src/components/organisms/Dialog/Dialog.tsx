@@ -11,23 +11,30 @@ import { Modal, Typography } from '../..'
 const IconCloseContainer = styled.button(
   ({ theme }) => css`
     position: absolute;
-    top: ${theme.space['3']};
-    right: ${theme.space['3']};
-    color: ${theme.colors.greyPrimary};
+    top: ${theme.space['2']};
+    right: ${theme.space['2']};
+    width: ${theme.space['8']};
+    height: ${theme.space['8']};
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
     transition-property: all;
     transition-duration: ${theme.transitionDuration['150']};
     transition-timing-function: ${theme.transitionTimingFunction['inOut']};
+    border-radius: ${theme.radii.full};
+    background-color: transparent;
 
     &:hover {
-      opacity: 0.7;
+      background-color: ${theme.colors.greySurface};
+      transform: translateY(-1px);
     }
 
     svg {
       display: block;
-      width: ${theme.space['9']};
-      height: ${theme.space['9']};
-      padding: ${theme.space['1.5']};
+      width: ${theme.space['4']};
+      height: ${theme.space['4']};
+      color: ${theme.colors.greyPrimary};
     }
   `,
 )
@@ -36,10 +43,9 @@ const StyledCard = styled.div(
   ({ theme }) => css`
     display: flex;
     flex-direction: column;
-    align-items: stretch;
-    gap: ${theme.space['6']};
-
-    padding: ${theme.space['6']};
+    align-items: center;
+    gap: ${theme.space['4']};
+    padding: ${theme.space['4']};
     border-radius: ${theme.radii['3xLarge']};
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
@@ -47,8 +53,11 @@ const StyledCard = styled.div(
     position: relative;
     width: 100%;
     ${mq.sm.min(css`
+      min-width: ${theme.space['64']};
       max-width: 80vw;
       border-radius: ${theme.radii['3xLarge']};
+      padding: ${theme.space['6']};
+      gap: ${theme.space['6']};
     `)}
   `,
 )
@@ -152,19 +161,6 @@ const TitleContainer = styled.div(
     align-items: center;
     justify-content: center;
     gap: ${theme.space['1']};
-  `,
-)
-
-const ContentWrapper = styled.div(
-  ({ theme }) => css`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: ${theme.space['5']};
-    ${mq.sm.min(css`
-      min-width: ${theme.space['64']};
-    `)}
   `,
 )
 
@@ -327,12 +323,10 @@ const ModalWithTitle = ({
   return (
     <Modal {...{ ...props, open, onDismiss }}>
       <StyledCard>
-        <ContentWrapper>
-          <Heading
-            {...{ alert, title, subtitle, currentStep, stepCount, stepStatus }}
-          />
-          {children}
-        </ContentWrapper>
+        <Heading
+          {...{ alert, title, subtitle, currentStep, stepCount, stepStatus }}
+        />
+        {children}
       </StyledCard>
     </Modal>
   )
@@ -411,7 +405,7 @@ export const Dialog = ({
   return (
     <Modal {...{ onDismiss, open }}>
       <StyledCard>
-        <ContentWrapper>{children}</ContentWrapper>
+        {children}
         {onClose && <CloseButton onClick={onClose} />}
       </StyledCard>
     </Modal>
