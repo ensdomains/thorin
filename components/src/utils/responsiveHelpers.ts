@@ -18,8 +18,12 @@ const typeKeys = Object.keys(breakpointTypes) as Array<BreakpointType>
 export const mq = keys.reduce((acc, sizeLabel) => {
   acc[sizeLabel] = typeKeys.reduce((accumulator, typeLabel) => {
     accumulator[typeLabel] = ((args: ReturnType<typeof css>) => {
+      const sizeValue =
+        typeLabel === 'max'
+          ? breakpoints[sizeLabel] - 1
+          : breakpoints[sizeLabel]
       return css`
-        @media (${breakpointTypes[typeLabel]}: ${breakpoints[sizeLabel]}px) {
+        @media (${breakpointTypes[typeLabel]}: ${sizeValue}px) {
           ${args};
         }
       `
