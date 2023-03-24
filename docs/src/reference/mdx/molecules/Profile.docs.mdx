@@ -55,16 +55,10 @@ import { Profile } from '@ensdomains/thorin'
   }}
 />
 
-## Variants
+## With Dropdown
 
 ```tsx live=true minHeight=300px
-<DeleteMe flexDirection="row" flexWrap="wrap">
-  <Profile address="0xb6e040c9ecaae172a89bd561c5f73e1c48d28cd9" />
-  <Profile
-    address="0xb6e040c9ecaae172a89bd561c5f73e1c48d28cd9"
-    avatar="https://i.imgur.com/BSJBpQE.jpg"
-    ensName="frontend.ens.eth"
-  />
+<Card style={{ backgroundColor: 'grey' }}>
   <Profile
     address="0xb6e040c9ecaae172a89bd561c5f73e1c48d28cd9"
     avatar="https://i.imgur.com/BSJBpQE.jpg"
@@ -79,30 +73,61 @@ import { Profile } from '@ensdomains/thorin'
     ]}
     ensName="frontend.ens.eth"
   />
-</DeleteMe>
+</Card>
+```
+
+## Variants
+
+```tsx live=true minHeight=300px
+<Card style={{ backgroundColor: 'grey' }}>
+  <DeleteMe flexDirection="row" flexWrap="wrap">
+    <Profile address="0xb6e040c9ecaae172a89bd561c5f73e1c48d28cd9" />
+    <Profile
+      address="0xb6e040c9ecaae172a89bd561c5f73e1c48d28cd9"
+      avatar="https://i.imgur.com/BSJBpQE.jpg"
+      ensName="frontend.ens.eth"
+    />
+    <Profile
+      address="0xb6e040c9ecaae172a89bd561c5f73e1c48d28cd9"
+      avatar="https://i.imgur.com/BSJBpQE.jpg"
+      dropdownItems={[
+        { label: 'Dashboard', onClick: () => null, icon: <DotGridSVG /> },
+        {
+          label: 'Disconnect',
+          onClick: () => null,
+          color: 'red',
+          icon: <ExitSVG />,
+        },
+      ]}
+      ensName="frontend.ens.eth"
+    />
+  </DeleteMe>
+</Card>
 ```
 
 ## Sizes
 
 ```tsx live=true
-<DeleteMe flexWrap="wrap">
-  <Profile
-    address="0xb6e040c9ecaae172a89bd561c5f73e1c48d28cd9"
-    avatar="https://i.imgur.com/BSJBpQE.jpg"
-    ensName="frontend.ens.eth"
-    size="small"
-  />
-  <Profile
-    address="0xb6e040c9ecaae172a89bd561c5f73e1c48d28cd9"
-    avatar="https://i.imgur.com/BSJBpQE.jpg"
-    ensName="frontend.ens.eth"
-    size="medium"
-  />
-  <Profile
-    address="0xb6e040c9ecaae172a89bd561c5f73e1c48d28cd9"
-    avatar="https://i.imgur.com/BSJBpQE.jpg"
-    ensName="frontend.ens.eth"
-    size="large"
-  />
-</DeleteMe>
+<Card style={{ backgroundColor: 'grey' }}>
+  <DeleteMe flexWrap="wrap">
+    <Profile
+      address="0xb6e040c9ecaae172a89bd561c5f73e1c48d28cd9"
+      avatar="https://i.imgur.com/BSJBpQE.jpg"
+      ensName="frontend.ens.eth"
+      size="small"
+    />
+    <Profile
+      address="0xb6e040c9ecaae172a89bd561c5f73e1c48d28cd9"
+      avatar="https://i.imgur.com/BSJBpQE.jpg"
+      ensName="frontend.ens.eth"
+      size="medium"
+    />
+    <Profile
+      address="0xb6e040c9ecaae172a89bd561c5f73e1c48d28cd9"
+      avatar="https://i.imgur.com/BSJBpQE.jpg"
+      ensName="frontend.ens.eth"
+      size="large"
+    />
+  </DeleteMe>
+</Card>
 ```

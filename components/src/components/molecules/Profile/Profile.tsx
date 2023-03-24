@@ -1,5 +1,7 @@
 import * as React from 'react'
-import styled, { css } from 'styled-components'
+import styled, { css, useTheme } from 'styled-components'
+
+import { Tokens } from '@/src/tokens'
 
 import { getTestId, shortenAddress } from '../../../utils/utils'
 
@@ -31,6 +33,12 @@ interface ContainerProps {
   $size: Size
   $hasDropdown?: boolean
   $open: boolean
+}
+
+const calculateWidth = (space: Tokens['space'], size: Size) => {
+  if (size === 'small') return space['10']
+  if (size === 'medium') return space['45']
+  return space['80']
 }
 
 const Container = styled.div<ContainerProps>(
@@ -65,10 +73,11 @@ const Container = styled.div<ContainerProps>(
       background-color: ${theme.colors.border};
     `}
 
+    width: ${calculateWidth(theme.space, $size)};
+
     ${$size === 'small' &&
     css`
       height: ${theme.space['10']};
-      width: ${theme.space['10']};
       padding: 0;
       border: none;
     `}
@@ -76,12 +85,12 @@ const Container = styled.div<ContainerProps>(
     ${$size === 'medium' &&
     css`
       height: ${theme.space['12']};
-      width: ${theme.space['45']};
       padding-right: ${theme.space['4']};
     `}
 
     ${$size === 'large' &&
     css`
+      width: fit-content;
       height: ${theme.space['14']};
       max-width: ${theme.space['80']};
       padding-right: ${theme.space['5']};
@@ -152,20 +161,21 @@ export const Profile = ({
   dropdownItems,
   address,
   ensName,
-  alignDropdown = 'right',
+  alignDropdown = 'left',
   ...props
 }: Props) => {
+  const { space } = useTheme()
   const [isOpen, setIsOpen] = React.useState(false)
 
   if (dropdownItems) {
     return (
       <Dropdown
+        width={calculateWidth(space, size)}
         {...{
           items: dropdownItems,
           isOpen,
           setIsOpen,
           align: alignDropdown,
-          inheritContentWidth: true,
         }}
       >
         <Container
