@@ -51,7 +51,7 @@ type Props = {
   /** The direction that the dropdown menu will open from */
   direction?: Direction
   /** The width of the dropdown menu, in px */
-  width?: number
+  width?: string | number
 } & NativeDivProps
 
 type PropsWithIsOpen = {
@@ -76,7 +76,7 @@ type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 type DropdownMenuProps = {
   items: DropdownItem[]
   setIsOpen: (isOpen: boolean) => void
-  width?: number
+  width?: number | string
   shortThrow: boolean
   labelAlign?: LabelAlign
   direction: Direction

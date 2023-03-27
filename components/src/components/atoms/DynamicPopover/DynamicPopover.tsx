@@ -42,9 +42,9 @@ export interface DynamicPopoverProps {
   /** Function that will be called when the DynamicPopover is shown */
   onShowCallback?: () => void
   /** Width of the DynamicPopover*/
-  width?: number
+  width?: number | string
   /** Width of the DynamicPopover on mobile*/
-  mobileWidth?: number
+  mobileWidth?: number | string
   /** Dynamic popover will switch sides if there is not enough room*/
   useIdealPlacement?: boolean
   /** Add to the default gap between the popover and its target */
@@ -121,12 +121,15 @@ const defaultAnimationFunc: DynamicPopoverAnimationFunc = (
   return { translate, mobileTranslate }
 }
 
+const makeWidth = (width: number | string) =>
+  typeof width === 'number' ? `${width}px` : width
+
 const PopoverContainer = styled.div<{
   $state: TransitionState
   $translate: string
   $mobileTranslate: string
-  $width: number
-  $mobileWidth: number
+  $width: number | string
+  $mobileWidth: number | string
   $x: number
   $y: number
   $isControlled: boolean
@@ -159,7 +162,7 @@ const PopoverContainer = styled.div<{
       visibility: hidden;
       position: absolute;
       z-index: 99999;
-      width: ${$mobileWidth}px;
+      width: ${makeWidth($mobileWidth)};
       transform: translate3d(0, 0, 0) ${$mobileTranslate};
       transition: none;
       opacity: 0;
@@ -216,7 +219,7 @@ const PopoverContainer = styled.div<{
       `}
     `,
     mq.sm.min(css`
-      width: ${$width}px;
+      width: ${makeWidth($width)};
       transform: translate3d(0, 0, 0) ${$translate};
     `),
   ],
