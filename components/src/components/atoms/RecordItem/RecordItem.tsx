@@ -4,6 +4,8 @@ import { ReactNode } from 'react'
 
 import { CheckSVG, CopySVG, UpArrowSVG } from '@/src'
 
+import { Neverable } from '@/src/types'
+
 import { Typography } from '../Typography/Typography'
 import { useCopied } from '../../../hooks/useCopied'
 
@@ -11,7 +13,6 @@ type Size = 'small' | 'large'
 
 type BaseProps = {
   value: string
-  link?: string
   size?: Size
   inline?: boolean
   icon?: ReactNode
@@ -19,9 +20,37 @@ type BaseProps = {
   keySublabel?: string | ReactNode
   children: string
   onClick?: () => void
+  as?: 'button' | 'a'
 }
 
-export type Props = BaseProps
+type NativeElementProps = Omit<
+  React.HTMLAttributes<HTMLElement>,
+  keyof BaseProps
+>
+type NativeButtonProps = Omit<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  keyof NativeElementProps | keyof BaseProps
+>
+type NativeAnchorProps = Omit<
+  React.AnchorHTMLAttributes<HTMLAnchorElement>,
+  keyof NativeElementProps | keyof BaseProps
+>
+
+type AsAnchorProps = {
+  as: 'a'
+  link?: string
+} & Neverable<NativeButtonProps, NativeAnchorProps> &
+  NativeAnchorProps
+
+type AsButtonProps = {
+  as?: 'button'
+  link?: never
+} & Neverable<NativeAnchorProps, NativeButtonProps> &
+  NativeButtonProps
+
+export type Props = BaseProps &
+  NativeElementProps &
+  (AsAnchorProps | AsButtonProps)
 
 const Container = styled.button<{
   $inline: boolean
@@ -133,6 +162,7 @@ const TrailingIcon = styled.svg<{ $rotate?: boolean }>(
 )
 
 export const RecordItem = ({
+  as: asProp = 'button',
   link,
   size = 'small',
   inline = false,
@@ -145,7 +175,20 @@ export const RecordItem = ({
 }: Props) => {
   const { copy, copied } = useCopied()
 
-  const asProp = link ? 'a' : undefined
+  const generatedProps =
+    asProp === 'a'
+      ? ({
+          href: link,
+          rel: 'nofollow noreferrer',
+          target: '_blank',
+          ...props,
+        } as NativeElementProps & NativeAnchorProps)
+      : ({
+          onClick: () => {
+            copy(value)
+          },
+          ...props,
+        } as NativeElementProps & NativeButtonProps)
 
   const hasPrefix = !!icon || !!keyLabel
   const hasLabels = !!keyLabel || !!keySublabel
@@ -184,18 +227,7 @@ export const RecordItem = ({
     : { as: CopySVG }
 
   return (
-    <Container
-      $inline={inline}
-      as={asProp}
-      href={link}
-      rel="nofollow noreferrer"
-      target="_blank"
-      type="button"
-      onClick={() => {
-        if (!link) copy(value)
-      }}
-      {...props}
-    >
+    <Container $inline={inline} as={asProp} {...generatedProps}>
       {hasPrefix && (
         <PrefixContainer $inline={inline} $size={size}>
           {icon && <PrefixIcon>{icon}</PrefixIcon>}

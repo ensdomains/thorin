@@ -58,10 +58,30 @@ describe('<RecordItem />', () => {
     expect(mockCopied).toHaveBeenCalledWith('Real value')
   })
 
-  it('should render anchor if link is provided', () => {
+  it('should render anchor if as is a', () => {
     render(
       <ThemeProvider theme={lightTheme}>
         <RecordItem
+          as="a"
+          data-testid="record-item"
+          icon={<FlameSVG />}
+          keyLabel="Title"
+          keySublabel="Subtitle"
+          value="Real value"
+        >
+          Display value
+        </RecordItem>
+        ,
+      </ThemeProvider>,
+    )
+    expect(screen.getByTestId('record-item').nodeName).toBe('A')
+  })
+
+  it('should have link as href if as is a', () => {
+    render(
+      <ThemeProvider theme={lightTheme}>
+        <RecordItem
+          as="a"
           data-testid="record-item"
           icon={<FlameSVG />}
           keyLabel="Title"
@@ -78,6 +98,47 @@ describe('<RecordItem />', () => {
       'href',
       'https://ens.domains',
     )
-    expect(screen.getByTestId('record-item').nodeName).toBe('A')
+  })
+
+  it('should passthrough custom target prop if as is a', () => {
+    render(
+      <ThemeProvider theme={lightTheme}>
+        <RecordItem
+          as="a"
+          data-testid="record-item"
+          icon={<FlameSVG />}
+          keyLabel="Title"
+          keySublabel="Subtitle"
+          target="_parent"
+          value="Real value"
+        >
+          Display value
+        </RecordItem>
+        ,
+      </ThemeProvider>,
+    )
+    expect(screen.getByTestId('record-item')).toHaveAttribute(
+      'target',
+      '_parent',
+    )
+  })
+
+  it('should render button if as is button', () => {
+    render(
+      <ThemeProvider theme={lightTheme}>
+        <RecordItem
+          as="button"
+          data-testid="record-item"
+          icon={<FlameSVG />}
+          keyLabel="Title"
+          keySublabel="Subtitle"
+          value="Real value"
+        >
+          Display value
+        </RecordItem>
+        ,
+      </ThemeProvider>,
+    )
+    expect(screen.getByTestId('record-item').nodeName).toBe('BUTTON')
   })
 })

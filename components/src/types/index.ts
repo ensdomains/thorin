@@ -58,3 +58,7 @@ export type WithIcon = {
   /** An svg to be used by the component */
   icon?: React.ReactNode
 }
+
+export type Neverable<TNever, TOmit> = {
+  [P in keyof Omit<TNever, keyof TOmit>]?: never
+}
