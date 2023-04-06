@@ -2,7 +2,14 @@ import * as React from 'react'
 
 import { ThemeProvider } from 'styled-components'
 
-import { cleanup, render, screen, userEvent, waitFor } from '@/test'
+import {
+  cleanup,
+  makeMockIntersectionObserver,
+  render,
+  screen,
+  userEvent,
+  waitFor,
+} from '@/test'
 
 import { lightTheme } from '@/src/tokens'
 
@@ -28,6 +35,16 @@ const DropdownHelper = ({ mockCallback, children, ...props }: any) => {
     </ThemeProvider>
   )
 }
+
+const mockIntersectionObserverCls = jest.fn()
+const mockObserve = jest.fn()
+const mockDisconnect = jest.fn()
+
+const mockIntersectionObserver = makeMockIntersectionObserver(
+  mockIntersectionObserverCls,
+  mockObserve,
+  mockDisconnect,
+)
 
 describe('<Dropdown />', () => {
   afterEach(cleanup)
@@ -111,5 +128,15 @@ describe('<Dropdown />', () => {
       </ThemeProvider>,
     )
     expect(screen.getByTestId('dropdown-btn')).toBeInTheDocument()
+  })
+
+  it('should use scrollbox if height is passed in', async () => {
+    mockIntersectionObserver(true, false)
+    render(<DropdownHelper height={100} label="menu" />)
+    userEvent.click(screen.getByText('menu'))
+    await waitFor(() => {
+      expect(screen.getByText('Dashboard')).toBeVisible()
+    })
+    expect(screen.getByTestId('scrollbox-bottom-intersect')).toBeVisible()
   })
 })

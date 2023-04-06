@@ -1,12 +1,12 @@
 import * as React from 'react'
-import styled, { css } from 'styled-components'
+import styled, { DefaultTheme, css } from 'styled-components'
 
 import { TransitionState } from 'react-transition-state'
 
 import { Button, ButtonProps } from '@/src/components/atoms/Button'
 import { Colors } from '@/src/tokens'
 
-import { DownChevronSVG, DynamicPopover } from '../..'
+import { DownChevronSVG, DynamicPopover, ScrollBox } from '../..'
 
 type Align = 'left' | 'right'
 type LabelAlign = 'flex-start' | 'flex-end' | 'center'
@@ -52,6 +52,10 @@ type Props = {
   direction?: Direction
   /** The width of the dropdown menu, in px */
   width?: string | number
+  /** The width of the dropdown menu on mobile, in px */
+  mobileWidth?: string | number
+  /** The height of the dropdown menu. If specified, dropdown will be scrollable */
+  height?: string | number
 } & NativeDivProps
 
 type PropsWithIsOpen = {
@@ -64,13 +68,6 @@ type PropsWithoutIsOpen = {
   setIsOpen?: never
 }
 
-type DropdownMenuContainer = {
-  $shortThrow: boolean
-  $labelAlign?: LabelAlign
-  $direction: Direction
-  $state?: TransitionState
-}
-
 type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 
 type DropdownMenuProps = {
@@ -81,70 +78,97 @@ type DropdownMenuProps = {
   labelAlign?: LabelAlign
   direction: Direction
   state?: TransitionState
+  height?: string | number
 } & NativeDivProps
 
-const DropdownMenuContainer = styled.div<DropdownMenuContainer>(
-  ({ theme, $shortThrow, $labelAlign, $direction, $state }) => css`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: ${theme.space['1']};
+type DropdownMenuContainerProps = {
+  $shortThrow: boolean
+  $direction: Direction
+  $state?: TransitionState
+}
 
-    ${
-      $direction === 'up' &&
-      css`
-        bottom: 100%;
-      `
-    }
+type DropdownMenuInnerProps = {
+  $labelAlign?: LabelAlign
+}
 
-    ${
-      $labelAlign &&
-      css`
-        & > button {
-          justify-content: ${$labelAlign};
-        }
-      `
-    }
+const DropdownMenuContainer = styled.div<DropdownMenuContainerProps>(
+  ({ theme, $shortThrow, $direction, $state }) => css`
+  padding: ${theme.space['1.5']};
+  width: 100%;
 
-    z-index: 0;
-    opacity: 0;
+  ${
+    $direction === 'up' &&
+    css`
+      bottom: 100%;
+    `
+  }
 
-    ${
-      $state === 'entered' &&
-      css`
-        z-index: 1;
-      `
-    }
+  z-index: 0;
+  opacity: 0;
 
-    padding: ${theme.space['1.5']};
-    background-color: ${theme.colors.background};
-    border-radius: ${theme.radii['2xLarge']};
+  ${
+    $state === 'entered' &&
+    css`
+      z-index: 1;
+    `
+  }
 
-    border: 1px solid ${theme.colors.border};
-    transition: all 0.35s cubic-bezier(1, 0, 0.22, 1.6);
-    margin-${$direction === 'down' ? 'top' : 'bottom'}: ${theme.space['1.5']};
+  background-color: ${theme.colors.background};
+  border-radius: ${theme.radii['2xLarge']};
 
-    transform: translateY(calc(${$direction === 'down' ? '-1' : '1'} * ${
+  border: 1px solid ${theme.colors.border};
+  transition: all 0.35s cubic-bezier(1, 0, 0.22, 1.6);
+  margin-${$direction === 'down' ? 'top' : 'bottom'}: ${theme.space['1.5']};
+
+  transform: translateY(calc(${$direction === 'down' ? '-1' : '1'} * ${
     theme.space['12']
   }));
 
-    ${
-      $shortThrow &&
-      css`
-        transform: translateY(
-          calc(${$direction === 'down' ? '-1' : '1'} * ${theme.space['2.5']})
-        );
-      `
-    }
+  ${
+    $shortThrow &&
+    css`
+      transform: translateY(
+        calc(${$direction === 'down' ? '-1' : '1'} * ${theme.space['2.5']})
+      );
+    `
+  }
 
-    ${
-      ($state === 'entering' || $state === 'entered') &&
-      css`
-        transform: translateY(0);
-        opacity: 1;
-      `
+  ${
+    ($state === 'entering' || $state === 'entered') &&
+    css`
+      transform: translateY(0);
+      opacity: 1;
+    `
+  }
+`,
+)
+
+const dropdownInnerStyles = ({
+  theme,
+  $labelAlign,
+}: DropdownMenuInnerProps & { theme: DefaultTheme }) => css`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: ${theme.space['1']};
+  width: 100%;
+
+  ${$labelAlign &&
+  css`
+    & > * {
+      justify-content: ${$labelAlign};
     }
+  `}
+`
+
+const DropdownMenuInner =
+  styled.div<DropdownMenuInnerProps>(dropdownInnerStyles)
+
+const StyledScrollBox = styled(ScrollBox)<DropdownMenuInnerProps>(
+  dropdownInnerStyles,
+  ({ theme }) => css`
+    padding-right: ${theme.space['1']};
   `,
 )
 
@@ -223,63 +247,73 @@ const DropdownMenu = React.forwardRef<HTMLDivElement, DropdownMenuProps>(
     {
       items,
       setIsOpen,
-      width,
       shortThrow,
       labelAlign,
       direction,
       state,
+      height,
       ...props
     },
     ref,
   ) => {
+    const Content = items.map((item: DropdownItem) => {
+      if (React.isValidElement(item)) {
+        return DropdownChild({ item, setIsOpen })
+      }
+      const { color, value, icon, label, onClick, disabled, as, wrapper } =
+        item as DropdownItemObject
+
+      const props: React.ComponentProps<any> = {
+        $hasColor: !!color,
+        $color: color,
+        disabled,
+        onClick: () => {
+          setIsOpen(false)
+          onClick?.(value)
+        },
+        as,
+        children: (
+          <>
+            {icon}
+            {label}
+          </>
+        ),
+      }
+
+      if (wrapper) {
+        return wrapper(<MenuButton {...props} type="button" />, value || label)
+      }
+
+      return <MenuButton {...props} key={value || label} type="button" />
+    })
+
+    const menuProps = React.useMemo(
+      () => ({
+        $shortThrow: shortThrow,
+        $direction: direction,
+        $state: state,
+        ...props,
+        'data-testid': 'dropdown-menu',
+        ref,
+      }),
+      [shortThrow, direction, state, props, ref],
+    )
+
+    if (height) {
+      return (
+        <DropdownMenuContainer {...menuProps}>
+          <StyledScrollBox $labelAlign={labelAlign} style={{ height }}>
+            {Content}
+          </StyledScrollBox>
+        </DropdownMenuContainer>
+      )
+    }
+
     return (
-      <DropdownMenuContainer
-        {...{
-          $shortThrow: shortThrow,
-          $labelAlign: labelAlign,
-          $direction: direction,
-          $state: state,
-          ...props,
-        }}
-        data-testid="dropdown-menu"
-        ref={ref}
-        style={{
-          width,
-        }}
-      >
-        {items.map((item: DropdownItem) => {
-          if (React.isValidElement(item)) {
-            return DropdownChild({ item, setIsOpen })
-          }
-          const { color, value, icon, label, onClick, disabled, as, wrapper } =
-            item as DropdownItemObject
-
-          const props: React.ComponentProps<any> = {
-            $hasColor: !!color,
-            $color: color,
-            disabled,
-            onClick: () => {
-              setIsOpen(false)
-              onClick?.(value)
-            },
-            as,
-            children: (
-              <>
-                {icon}
-                {label}
-              </>
-            ),
-          }
-
-          if (wrapper) {
-            return wrapper(
-              <MenuButton {...props} type="button" />,
-              value || label,
-            )
-          }
-
-          return <MenuButton {...props} key={value || label} type="button" />
-        })}
+      <DropdownMenuContainer {...menuProps}>
+        <DropdownMenuInner $labelAlign={labelAlign}>
+          {Content}
+        </DropdownMenuInner>
       </DropdownMenuContainer>
     )
   },
@@ -319,6 +353,7 @@ export const Dropdown = ({
   align = 'left',
   menuLabelAlign,
   width = 150,
+  mobileWidth = width,
   shortThrow = false,
   keepMenuOnTop = false,
   label,
@@ -386,6 +421,8 @@ export const Dropdown = ({
         anchorRef={buttonRef}
         hideOverflow={!keepMenuOnTop}
         isOpen={isOpen}
+        mobilePlacement={direction === 'down' ? 'bottom' : 'top'}
+        mobileWidth={mobileWidth}
         placement={direction === 'down' ? 'bottom' : 'top'}
         popover={
           <DropdownMenu
@@ -394,7 +431,6 @@ export const Dropdown = ({
             labelAlign={menuLabelAlign}
             setIsOpen={setIsOpen}
             shortThrow={shortThrow}
-            width={width}
             {...props}
             ref={dropdownRef}
           />
