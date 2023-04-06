@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { ThemeProvider } from 'styled-components'
 
-import { cleanup, render, screen } from '@/test'
+import { cleanup, makeMockIntersectionObserver, render, screen } from '@/test'
 import 'jest-styled-components'
 
 import { lightTheme } from '@/src/tokens'
@@ -37,33 +37,11 @@ const mockIntersectionObserverCls = jest.fn()
 const mockObserve = jest.fn()
 const mockDisconnect = jest.fn()
 
-const mockIntersectionObserver = (
-  intersectTop: boolean,
-  intersectBottom: boolean,
-) => {
-  let cb: (entries: any) => void
-  mockIntersectionObserverCls.mockImplementation((callback: any) => {
-    cb = callback
-    return {
-      observe: mockObserve,
-      disconnect: mockDisconnect,
-    }
-  })
-  const els: HTMLElement[] = []
-  window.IntersectionObserver = mockIntersectionObserverCls
-  mockObserve.mockImplementation((el: HTMLElement) => {
-    if (intersectTop && intersectBottom) {
-      els.push(el)
-      if (els.length === 2) {
-        cb(els.map((el) => ({ isIntersecting: true, target: el, time: 1 })))
-      }
-    } else if (el.dataset.testid === 'scrollbox-top-intersect') {
-      cb([{ isIntersecting: intersectTop, target: el, time: 1 }])
-    } else if (el.dataset.testid === 'scrollbox-bottom-intersect') {
-      cb([{ isIntersecting: intersectBottom, target: el, time: 1 }])
-    }
-  })
-}
+const mockIntersectionObserver = makeMockIntersectionObserver(
+  mockIntersectionObserverCls,
+  mockObserve,
+  mockDisconnect,
+)
 
 const expectLine = (e: 'top' | 'bottom', visible: boolean) =>
   expect(screen.getByTestId('scroll-box')).toHaveStyleRule(
