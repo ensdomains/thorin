@@ -52,6 +52,8 @@ type Props = {
   direction?: Direction
   /** The width of the dropdown menu, in px */
   width?: string | number
+  /** The width of the dropdown menu on mobile, in px */
+  mobileWidth?: string | number
 } & NativeDivProps
 
 type PropsWithIsOpen = {
@@ -319,6 +321,7 @@ export const Dropdown = ({
   align = 'left',
   menuLabelAlign,
   width = 150,
+  mobileWidth = width,
   shortThrow = false,
   keepMenuOnTop = false,
   label,
@@ -386,6 +389,8 @@ export const Dropdown = ({
         anchorRef={buttonRef}
         hideOverflow={!keepMenuOnTop}
         isOpen={isOpen}
+        mobilePlacement={direction === 'down' ? 'bottom' : 'top'}
+        mobileWidth={mobileWidth}
         placement={direction === 'down' ? 'bottom' : 'top'}
         popover={
           <DropdownMenu
