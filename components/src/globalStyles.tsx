@@ -133,6 +133,32 @@ const GlobalStyle = createGlobalStyle(
       text-decoration: none;
       color: inherit;
     }
+
+    .indicator-container {
+      position: relative;
+      &::after {
+        position: absolute;
+        top: -${theme.space['0.5']};
+        right: -${theme.space['0.5']};
+        content: '';
+        width: ${theme.space['4']};
+        height: ${theme.space['4']};
+        background-color: var(--indicator-color);
+        border-radius: ${theme.radii.full};
+        border: ${theme.space['0.5']} solid ${theme.colors.greySurface};
+        transform: scale(0);
+        opacity: 0;
+        transition: all 0.2s ease-in-out;
+      }
+      &[type='button']::after {
+        top: -${theme.space['1']};
+        right: -${theme.space['1']};
+      }
+      &[data-indicator='true']::after {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
   `,
 )
 

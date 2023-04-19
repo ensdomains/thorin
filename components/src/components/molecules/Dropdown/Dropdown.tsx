@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled, { DefaultTheme, css } from 'styled-components'
+import styled, { DefaultTheme, css, useTheme } from 'styled-components'
 
 import { TransitionState } from 'react-transition-state'
 
@@ -21,6 +21,7 @@ type DropdownItemObject = {
   value?: string
   color?: Colors
   disabled?: boolean
+  showIndicator?: boolean | Colors
 }
 
 export type DropdownItem =
@@ -56,6 +57,8 @@ type Props = {
   mobileWidth?: string | number
   /** The height of the dropdown menu. If specified, dropdown will be scrollable */
   height?: string | number
+  /** The colour of the indicator */
+  indicatorColor?: Colors
 } & NativeDivProps
 
 type PropsWithIsOpen = {
@@ -174,10 +177,11 @@ const StyledScrollBox = styled(ScrollBox)<DropdownMenuInnerProps>(
 
 interface MenuButtonProps {
   $color?: Colors
+  $showIndicator?: boolean | Colors
 }
 
 const MenuButton = styled.button<MenuButtonProps>(
-  ({ theme, $color, disabled }) => css`
+  ({ theme, $color, disabled, $showIndicator }) => css`
     align-items: center;
     cursor: pointer;
     display: flex;
@@ -199,6 +203,7 @@ const MenuButton = styled.button<MenuButtonProps>(
     color: ${theme.colors[$color || 'textPrimary']};
 
     svg {
+      min-width: ${theme.space['4']};
       width: ${theme.space['4']};
       height: ${theme.space['4']};
       color: ${theme.colors[$color || 'text']};
@@ -214,6 +219,25 @@ const MenuButton = styled.button<MenuButtonProps>(
     &:hover {
       background: ${theme.colors.greySurface};
     }
+
+    ${$showIndicator &&
+    css`
+      position: relative;
+      padding-right: ${theme.space['6']};
+      &::after {
+        position: absolute;
+        content: '';
+        top: 50%;
+        right: ${theme.space['3']};
+        transform: translateY(-50%);
+        width: ${theme.space['2']};
+        height: ${theme.space['2']};
+        border-radius: ${theme.radii.full};
+        background: ${theme.colors[
+          typeof $showIndicator === 'boolean' ? 'accent' : $showIndicator
+        ]};
+      }
+    `}
   `,
 )
 
@@ -260,12 +284,22 @@ const DropdownMenu = React.forwardRef<HTMLDivElement, DropdownMenuProps>(
       if (React.isValidElement(item)) {
         return DropdownChild({ item, setIsOpen })
       }
-      const { color, value, icon, label, onClick, disabled, as, wrapper } =
-        item as DropdownItemObject
+      const {
+        color,
+        value,
+        icon,
+        label,
+        onClick,
+        disabled,
+        as,
+        wrapper,
+        showIndicator,
+      } = item as DropdownItemObject
 
       const props: React.ComponentProps<any> = {
         $hasColor: !!color,
         $color: color,
+        $showIndicator: showIndicator,
         disabled,
         onClick: () => {
           setIsOpen(false)
@@ -360,12 +394,33 @@ export const Dropdown = ({
   direction = 'down',
   isOpen: _isOpen,
   setIsOpen: _setIsOpen,
+  indicatorColor,
   ...props
 }: Props & (PropsWithIsOpen | PropsWithoutIsOpen)) => {
   const dropdownRef = React.useRef<any>()
   const buttonRef = React.useRef<HTMLButtonElement>(null)
   const internalOpen = React.useState(false)
+  const { colors } = useTheme()
+  const hasIndicator = React.useMemo(
+    () => items.some((item) => 'showIndicator' in item && item.showIndicator),
+    [items],
+  )
   const [isOpen, setIsOpen] = _setIsOpen ? [_isOpen, _setIsOpen] : internalOpen
+
+  const buttonPropsWithIndicator = React.useMemo(
+    () => ({
+      ...buttonProps,
+      'data-indicator': hasIndicator && !isOpen,
+      style: {
+        ...buttonProps?.style,
+        '--indicator-color': indicatorColor
+          ? colors[indicatorColor]
+          : colors.accent,
+      },
+      className: `${buttonProps?.className} indicator-container`,
+    }),
+    [buttonProps, hasIndicator, indicatorColor, colors, isOpen],
+  )
 
   React.useEffect(() => {
     const handleClickOutside = (e: any) => {
@@ -391,7 +446,7 @@ export const Dropdown = ({
     React.Children.map(children, (child) => {
       if (!React.isValidElement(child)) return null
       return React.cloneElement(child as any, {
-        ...buttonProps,
+        ...buttonPropsWithIndicator,
         zindex: '10',
         pressed: isOpen ? 'true' : undefined,
         onClick: () => setIsOpen((prev) => !prev),
@@ -406,7 +461,7 @@ export const Dropdown = ({
       suffix={chevron && <Chevron $direction={direction} $open={isOpen} />}
       width="fit"
       onClick={() => setIsOpen((prev) => !prev)}
-      {...buttonProps}
+      {...buttonPropsWithIndicator}
     >
       {label}
     </Button>

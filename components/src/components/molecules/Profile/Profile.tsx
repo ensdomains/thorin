@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled, { css, useTheme } from 'styled-components'
 
-import { Tokens } from '@/src/tokens'
+import { Colors, Tokens } from '@/src/tokens'
 
 import { getTestId, shortenAddress } from '../../../utils/utils'
 
@@ -26,7 +26,8 @@ type BaseProps = {
   alignDropdown?: 'left' | 'right'
   /** The size and styling of the profile button. */
   size?: Size
-  /** If true, will maintain an active styling on the component */
+  /** The colour of the indicator */
+  indicatorColor?: Colors
 } & Omit<NativeDivProps, 'children'>
 
 interface ContainerProps {
@@ -162,6 +163,7 @@ export const Profile = ({
   address,
   ensName,
   alignDropdown = 'left',
+  indicatorColor,
   ...props
 }: Props) => {
   const { space } = useTheme()
@@ -172,6 +174,7 @@ export const Profile = ({
       <Dropdown
         width={calculateWidth(space, size)}
         {...{
+          indicatorColor,
           items: dropdownItems,
           isOpen,
           setIsOpen,
