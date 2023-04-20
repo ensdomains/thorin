@@ -64,6 +64,13 @@ import { Dropdown } from '@ensdomains/thorin'
         raw: '() => void',
       },
     },
+    showIndicator: {
+      name: 'showIndicator',
+      description: 'A dot indicator.',
+      type: {
+        raw: 'boolean | Colors',
+      },
+    },
   }}
 />
 
@@ -154,6 +161,71 @@ import { Dropdown } from '@ensdomains/thorin'
     { label: 'Text Label 8', onClick: () => null },
   ]}
   label="Scrollable"
+/>
+```
+
+## Item with Indicator
+
+```tsx live=true  expand=ture minHeight=300px
+<Dropdown
+  align="left"
+  items={[
+    {
+      label: 'None',
+      onClick: () => null,
+      color: 'text',
+      icon: <DotGridSVG />,
+    },
+    {
+      label: 'Default',
+      onClick: () => null,
+      color: 'text',
+      icon: <CogSVG />,
+      showIndicator: true,
+    },
+    {
+      label: 'Custom',
+      onClick: () => null,
+      color: 'red',
+      icon: <ExitSVG />,
+      showIndicator: 'red',
+    },
+  ]}
+  label="Account"
+  width={200}
+/>
+```
+
+## Custom Indicator Colour
+
+```tsx live=true  expand=ture minHeight=300px
+<Dropdown
+  align="left"
+  indicatorColor="red"
+  items={[
+    {
+      label: 'None',
+      onClick: () => null,
+      color: 'text',
+      icon: <DotGridSVG />,
+    },
+    {
+      label: 'Default',
+      onClick: () => null,
+      color: 'text',
+      icon: <CogSVG />,
+      showIndicator: true,
+    },
+    {
+      label: 'Custom',
+      onClick: () => null,
+      color: 'red',
+      icon: <ExitSVG />,
+      showIndicator: 'red',
+    },
+  ]}
+  label="Account"
+  width={200}
 />
 ```
 

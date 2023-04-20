@@ -76,6 +76,59 @@ import { Profile } from '@ensdomains/thorin'
 </Card>
 ```
 
+## With Indicator
+
+```tsx live=true minHeight=300px
+<Card style={{ backgroundColor: 'grey' }}>
+  <Profile
+    address="0xb6e040c9ecaae172a89bd561c5f73e1c48d28cd9"
+    avatar="https://i.imgur.com/BSJBpQE.jpg"
+    dropdownItems={[
+      {
+        label: 'Dashboard',
+        onClick: () => null,
+        icon: <DotGridSVG />,
+        showIndicator: true,
+      },
+      {
+        label: 'Disconnect',
+        onClick: () => null,
+        color: 'red',
+        icon: <ExitSVG />,
+      },
+    ]}
+    ensName="frontend.ens.eth"
+  />
+</Card>
+```
+
+## Custom Indicator Colour
+
+```tsx live=true minHeight=300px
+<Card style={{ backgroundColor: 'grey' }}>
+  <Profile
+    address="0xb6e040c9ecaae172a89bd561c5f73e1c48d28cd9"
+    avatar="https://i.imgur.com/BSJBpQE.jpg"
+    dropdownItems={[
+      {
+        label: 'Dashboard',
+        onClick: () => null,
+        icon: <DotGridSVG />,
+        showIndicator: true,
+      },
+      {
+        label: 'Disconnect',
+        onClick: () => null,
+        color: 'red',
+        icon: <ExitSVG />,
+      },
+    ]}
+    ensName="frontend.ens.eth"
+    indicatorColor="red"
+  />
+</Card>
+```
+
 ## Variants
 
 ```tsx live=true minHeight=300px
