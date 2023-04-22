@@ -81,7 +81,11 @@ const Label = styled.label<{
   `,
 )
 
-const InnerLabel = styled(Typography)(() => css``)
+const InnerLabel = styled(Typography)(
+  () => css`
+    width: 100%;
+  `,
+)
 
 const SecondaryLabel = styled(Typography)(
   () => css`

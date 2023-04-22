@@ -53,6 +53,7 @@ const Input = styled.input<{
     place-content: center;
     transition: transform 150ms ease-in-out;
     width: ${theme.space['5']};
+    flex: 0 0 ${theme.space['5']};
     height: ${theme.space['5']};
     background-color: ${theme.colors.border};
 
