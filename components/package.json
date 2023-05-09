@@ -27,6 +27,8 @@
   "license": "MIT",
   "scripts": {
     "build": "vite build",
+    "lint": "eslint .",
+    "lint:fix": "eslint .  --fix",
     "clean": "rimraf dist src/components/icons/generated/",
     "lint:types": "tsc --noEmit",
     "prepack": "pnpm build",

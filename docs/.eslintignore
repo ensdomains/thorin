@@ -1,0 +1,7 @@
+.next/
+out/
+public/playroom/
+
+node_modules
+pnpm-lock.yaml
+pnpm-workspace.yaml

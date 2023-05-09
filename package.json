@@ -10,8 +10,11 @@
     "dev": "pnpm m run dev",
     "gen:component": "pnpm node scripts/generateComponent.js",
     "gen:icons": "pnpm node scripts/generateIcons.js",
-    "lint": "eslint . --cache",
-    "lint:fix": "pnpm lint --fix",
+    "lint": "concurrently -s \"all\" \"pnpm lint:components\"  \"pnpm lint:docs\"",
+    "lint:components": "pnpm -F @ensdomains/thorin lint",
+    "lint:docs": "pnpm -F docs lint",
+    "lint:fixTwo": "concurrently -s \"all\" \"pnpm lint:components --fix\"  \"pnpm lint:docs --fix\"",
+    "lint:fix": "pnpm m-all lint:fix",
     "lint:format": "prettier --write .",
     "lint:types": "pnpm m-all lint:types",
     "lint:styles": "stylelint",
@@ -24,7 +27,7 @@
   },
   "lint-staged": {
     "*.{js,mdx,ts,tsx}": [
-      "pnpm lint:fix"
+      "pnpm m-all lint:fix"
     ],
     "*.tsx": [
       "pnpm lint:styles"
@@ -63,6 +66,7 @@
     "jest-styled-components": "^7.0.8",
     "lint-staged": "^11.2.6",
     "postcss-syntax": "^0.36.2",
+    "concurrently": "^8.0.1",
     "prettier": "^2.8.0",
     "prompt": "^1.2.0",
     "react-docgen-typescript": "^2.1.1",
