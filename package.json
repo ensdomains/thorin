@@ -13,7 +13,6 @@
     "lint": "concurrently -s \"all\" \"pnpm lint:components\"  \"pnpm lint:docs\"",
     "lint:components": "pnpm -F @ensdomains/thorin lint",
     "lint:docs": "pnpm -F docs lint",
-    "lint:fixTwo": "concurrently -s \"all\" \"pnpm lint:components --fix\"  \"pnpm lint:docs --fix\"",
     "lint:fix": "pnpm m-all lint:fix",
     "lint:format": "prettier --write .",
     "lint:types": "pnpm m-all lint:types",
@@ -27,7 +26,7 @@
   },
   "lint-staged": {
     "*.{js,mdx,ts,tsx}": [
-      "pnpm m-all lint:fix"
+      "pnpm lint:fix"
     ],
     "*.tsx": [
       "pnpm lint:styles"
