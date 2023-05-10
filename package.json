@@ -26,7 +26,8 @@
   },
   "lint-staged": {
     "*.{js,mdx,ts,tsx}": [
-      "pnpm lint:fix"
+      "pnpm lint:components --fix",
+      "pnpm lint:docs --fix"
     ],
     "*.tsx": [
       "pnpm lint:styles"
