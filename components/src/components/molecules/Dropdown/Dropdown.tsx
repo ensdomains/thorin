@@ -4,9 +4,17 @@ import styled, { DefaultTheme, css, useTheme } from 'styled-components'
 import { TransitionState } from 'react-transition-state'
 
 import { Button, ButtonProps } from '@/src/components/atoms/Button'
-import { Colors } from '@/src/tokens'
+import { Colors, breakpoints } from '@/src/tokens'
 
-import { DownChevronSVG, DynamicPopover, ScrollBox } from '../..'
+import { mq } from '@/src/utils/responsiveHelpers'
+
+import {
+  DownChevronSVG,
+  DynamicPopover,
+  Modal,
+  ScrollBox,
+  Typography,
+} from '../..'
 
 type Align = 'left' | 'right'
 type LabelAlign = 'flex-start' | 'flex-end' | 'center'
@@ -59,6 +67,8 @@ type Props = {
   height?: string | number
   /** The colour of the indicator */
   indicatorColor?: Colors
+  /**  */
+  responsive?: Colors
 } & NativeDivProps
 
 type PropsWithIsOpen = {
@@ -379,6 +389,50 @@ const Chevron = styled((props) => <DownChevronSVG {...props} />)<{
   `,
 )
 
+const ActionSheetModal = styled((props) => <Modal {...props} />)(
+  () => css`
+    flex-direction: column !important;
+    padding: 10px;
+    gap: 10px;
+    display: flex;
+
+    ${mq.sm.min(
+      css`
+        display: none !important;
+      `,
+    )}
+  `,
+)
+
+const ActionSheetOptions = styled.div(
+  ({ theme }) => css`
+    border-radius: ${theme.radii['large']};
+    width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  `,
+)
+
+const ActionSheetItem = styled.div(
+  ({ theme }) => css`
+    width: 100%;
+    padding: 20px;
+    position: relative;
+    background: ${theme.colors.backgroundPrimary};
+
+    &:first-child {
+      border-top-left-radius: ${theme.radii['large']};
+      border-top-right-radius: ${theme.radii['large']};
+    }
+    &:last-child {
+      border-bottom-left-radius: ${theme.radii['large']};
+      border-bottom-right-radius: ${theme.radii['large']};
+    }
+  `,
+)
+
 export const Dropdown = ({
   children,
   buttonProps,
@@ -395,6 +449,7 @@ export const Dropdown = ({
   isOpen: _isOpen,
   setIsOpen: _setIsOpen,
   indicatorColor,
+  responsive,
   ...props
 }: Props & (PropsWithIsOpen | PropsWithoutIsOpen)) => {
   const dropdownRef = React.useRef<any>()
@@ -467,15 +522,50 @@ export const Dropdown = ({
     </Button>
   )
 
+  const [screenSize, setScreenSize] = React.useState(window.innerWidth)
+  React.useEffect(() => {
+    const handleResize = () => {
+      setScreenSize(window.innerWidth)
+    }
+    window.addEventListener('resize', handleResize)
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+
   return (
     <>
       {button}
+      {responsive && (
+        <ActionSheetModal
+          open={isOpen}
+          onDismiss={screenSize < breakpoints.sm ? () => null : null}
+        >
+          <ActionSheetOptions>
+            {items?.map((item) => {
+              if (React.isValidElement(item)) {
+                return DropdownChild({ item, setIsOpen })
+              }
+
+              return (
+                <ActionSheetItem
+                  key={(item as DropdownItemObject).label}
+                  onClick={(item as DropdownItemObject)?.onClick}
+                >
+                  <Typography>{(item as DropdownItemObject).label}</Typography>
+                </ActionSheetItem>
+              )
+            })}
+          </ActionSheetOptions>
+          <Button colorStyle="greySecondary">Cancel</Button>
+        </ActionSheetModal>
+      )}
       <DynamicPopover
         additionalGap={-10}
         align={align === 'left' ? 'start' : 'end'}
         anchorRef={buttonRef}
         hideOverflow={!keepMenuOnTop}
-        isOpen={isOpen}
+        isOpen={responsive ? isOpen && screenSize > breakpoints.sm : isOpen}
         mobilePlacement={direction === 'down' ? 'bottom' : 'top'}
         mobileWidth={mobileWidth}
         placement={direction === 'down' ? 'bottom' : 'top'}
