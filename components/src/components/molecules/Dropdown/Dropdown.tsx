@@ -1,5 +1,6 @@
 import * as React from 'react'
 import styled, { DefaultTheme, css, useTheme } from 'styled-components'
+import { debounce } from 'lodash'
 
 import { TransitionState } from 'react-transition-state'
 
@@ -457,8 +458,11 @@ const DropdownButton: React.FC<DropdownButtonProps> = ({
 const useScreenSize = () => {
   const [screenSize, setScreenSize] = React.useState(window.innerWidth)
   React.useEffect(() => {
-    const handleResize = () => {
+    const debouncedHandleResize = debounce(() => {
       setScreenSize(window.innerWidth)
+    }, 300)
+    const handleResize = () => {
+      debouncedHandleResize()
     }
     window.addEventListener('resize', handleResize)
     return () => {
