@@ -6,21 +6,14 @@ import { TransitionState } from 'react-transition-state'
 import { Button, ButtonProps } from '@/src/components/atoms/Button'
 import { Colors, breakpoints } from '@/src/tokens'
 
-import { mq } from '@/src/utils/responsiveHelpers'
-
-import {
-  DownChevronSVG,
-  DynamicPopover,
-  Modal,
-  ScrollBox,
-  Typography,
-} from '../..'
+import { DownChevronSVG, DynamicPopover, ScrollBox } from '../..'
+import { ActionSheet } from './ActionSheet'
 
 type Align = 'left' | 'right'
 type LabelAlign = 'flex-start' | 'flex-end' | 'center'
 type Direction = 'down' | 'up'
 
-type DropdownItemObject = {
+export type DropdownItemObject = {
   label: string
   onClick?: (value?: string) => void
   wrapper?: (children: React.ReactNode, key: React.Key) => JSX.Element
@@ -68,7 +61,7 @@ type Props = {
   /** The colour of the indicator */
   indicatorColor?: Colors
   /**  */
-  responsive?: Colors
+  responsive?: boolean
 } & NativeDivProps
 
 type PropsWithIsOpen = {
@@ -251,13 +244,10 @@ const MenuButton = styled.button<MenuButtonProps>(
   `,
 )
 
-const DropdownChild = ({
-  setIsOpen,
-  item,
-}: {
+const DropdownChild: React.FC<{
   setIsOpen: (isOpen: boolean) => void
   item: React.ReactElement<React.PropsWithRef<any>>
-}) => {
+}> = ({ setIsOpen, item }) => {
   const ref = React.useRef<HTMLDivElement>(null)
   const Item = React.cloneElement(item, { ...item.props, ref })
 
@@ -389,79 +379,36 @@ const Chevron = styled((props) => <DownChevronSVG {...props} />)<{
   `,
 )
 
-const ActionSheetModal = styled((props) => <Modal {...props} />)(
-  () => css`
-    flex-direction: column !important;
-    padding: 10px;
-    gap: 10px;
-    display: flex;
+interface DropdownButtonProps {
+  children?: React.ReactNode
+  buttonRef: React.RefObject<HTMLButtonElement>
+  chevron: boolean
+  direction: Direction
+  isOpen: boolean
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
+  label: React.ReactNode
+  items: DropdownItem[]
+  buttonProps?: ButtonProps
+  indicatorColor?: Colors
+}
 
-    ${mq.sm.min(
-      css`
-        display: none !important;
-      `,
-    )}
-  `,
-)
-
-const ActionSheetOptions = styled.div(
-  ({ theme }) => css`
-    border-radius: ${theme.radii['large']};
-    width: 100%;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    gap: 1px;
-  `,
-)
-
-const ActionSheetItem = styled.div(
-  ({ theme }) => css`
-    width: 100%;
-    padding: 20px;
-    position: relative;
-    background: ${theme.colors.backgroundPrimary};
-
-    &:first-child {
-      border-top-left-radius: ${theme.radii['large']};
-      border-top-right-radius: ${theme.radii['large']};
-    }
-    &:last-child {
-      border-bottom-left-radius: ${theme.radii['large']};
-      border-bottom-right-radius: ${theme.radii['large']};
-    }
-  `,
-)
-
-export const Dropdown = ({
+const DropdownButton: React.FC<DropdownButtonProps> = ({
   children,
-  buttonProps,
-  items = [],
-  chevron = true,
-  align = 'left',
-  menuLabelAlign,
-  width = 150,
-  mobileWidth = width,
-  shortThrow = false,
-  keepMenuOnTop = false,
+  buttonRef,
+  chevron,
+  direction,
+  isOpen,
+  setIsOpen,
   label,
-  direction = 'down',
-  isOpen: _isOpen,
-  setIsOpen: _setIsOpen,
+  items,
+  buttonProps,
   indicatorColor,
-  responsive,
-  ...props
-}: Props & (PropsWithIsOpen | PropsWithoutIsOpen)) => {
-  const dropdownRef = React.useRef<any>()
-  const buttonRef = React.useRef<HTMLButtonElement>(null)
-  const internalOpen = React.useState(false)
+}): React.ReactElement<DropdownButtonProps> => {
   const { colors } = useTheme()
   const hasIndicator = React.useMemo(
     () => items.some((item) => 'showIndicator' in item && item.showIndicator),
     [items],
   )
-  const [isOpen, setIsOpen] = _setIsOpen ? [_isOpen, _setIsOpen] : internalOpen
-
   const buttonPropsWithIndicator = React.useMemo(
     () => ({
       ...buttonProps,
@@ -477,6 +424,56 @@ export const Dropdown = ({
     [buttonProps, hasIndicator, indicatorColor, colors, isOpen],
   )
 
+  return (
+    <>
+      {children ? (
+        React.Children.map(children, (child) => {
+          if (!React.isValidElement(child)) return null
+          return React.cloneElement(child as any, {
+            ...buttonPropsWithIndicator,
+            zindex: '10',
+            pressed: isOpen ? 'true' : undefined,
+            onClick: () => setIsOpen((prev) => !prev),
+            ref: buttonRef,
+          })
+        })
+      ) : (
+        <Button
+          data-testid="dropdown-btn"
+          pressed={isOpen}
+          ref={buttonRef}
+          suffix={chevron && <Chevron $direction={direction} $open={isOpen} />}
+          width="fit"
+          onClick={() => setIsOpen((prev) => !prev)}
+          {...buttonPropsWithIndicator}
+        >
+          {label}
+        </Button>
+      )}
+    </>
+  )
+}
+
+const useScreenSize = () => {
+  const [screenSize, setScreenSize] = React.useState(window.innerWidth)
+  React.useEffect(() => {
+    const handleResize = () => {
+      setScreenSize(window.innerWidth)
+    }
+    window.addEventListener('resize', handleResize)
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+  return screenSize
+}
+
+const useClickOutside = (
+  dropdownRef: React.MutableRefObject<any>,
+  buttonRef: React.MutableRefObject<any>,
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>,
+  isOpen: boolean,
+) => {
   React.useEffect(() => {
     const handleClickOutside = (e: any) => {
       if (
@@ -495,71 +492,52 @@ export const Dropdown = ({
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
-  }, [dropdownRef, isOpen, setIsOpen])
+  }, [dropdownRef, isOpen, setIsOpen, buttonRef])
+}
 
-  const button: React.ReactNode = children ? (
-    React.Children.map(children, (child) => {
-      if (!React.isValidElement(child)) return null
-      return React.cloneElement(child as any, {
-        ...buttonPropsWithIndicator,
-        zindex: '10',
-        pressed: isOpen ? 'true' : undefined,
-        onClick: () => setIsOpen((prev) => !prev),
-        ref: buttonRef,
-      })
-    })
-  ) : (
-    <Button
-      data-testid="dropdown-btn"
-      pressed={isOpen}
-      ref={buttonRef}
-      suffix={chevron && <Chevron $direction={direction} $open={isOpen} />}
-      width="fit"
-      onClick={() => setIsOpen((prev) => !prev)}
-      {...buttonPropsWithIndicator}
-    >
-      {label}
-    </Button>
-  )
+export const Dropdown = ({
+  children,
+  buttonProps,
+  items = [],
+  chevron = true,
+  align = 'left',
+  menuLabelAlign,
+  width = 150,
+  mobileWidth = width,
+  shortThrow = false,
+  keepMenuOnTop = false,
+  label,
+  direction = 'down',
+  isOpen: _isOpen,
+  setIsOpen: _setIsOpen,
+  indicatorColor,
+  responsive = true,
+  ...props
+}: Props & (PropsWithIsOpen | PropsWithoutIsOpen)) => {
+  const dropdownRef = React.useRef<any>()
+  const buttonRef = React.useRef<HTMLButtonElement>(null)
+  const internalOpen = React.useState(false)
+  const [isOpen, setIsOpen] = _setIsOpen ? [_isOpen, _setIsOpen] : internalOpen
 
-  const [screenSize, setScreenSize] = React.useState(window.innerWidth)
-  React.useEffect(() => {
-    const handleResize = () => {
-      setScreenSize(window.innerWidth)
-    }
-    window.addEventListener('resize', handleResize)
-    return () => {
-      window.removeEventListener('resize', handleResize)
-    }
-  }, [])
+  useClickOutside(dropdownRef, buttonRef, setIsOpen, isOpen)
+  const screenSize = useScreenSize()
 
   return (
     <>
-      {button}
-      {responsive && (
-        <ActionSheetModal
-          open={isOpen}
-          onDismiss={screenSize < breakpoints.sm ? () => null : null}
-        >
-          <ActionSheetOptions>
-            {items?.map((item) => {
-              if (React.isValidElement(item)) {
-                return DropdownChild({ item, setIsOpen })
-              }
-
-              return (
-                <ActionSheetItem
-                  key={(item as DropdownItemObject).label}
-                  onClick={(item as DropdownItemObject)?.onClick}
-                >
-                  <Typography>{(item as DropdownItemObject).label}</Typography>
-                </ActionSheetItem>
-              )
-            })}
-          </ActionSheetOptions>
-          <Button colorStyle="greySecondary">Cancel</Button>
-        </ActionSheetModal>
-      )}
+      <DropdownButton
+        {...{
+          children,
+          buttonRef,
+          chevron,
+          direction,
+          isOpen,
+          setIsOpen,
+          label,
+          items,
+          buttonProps,
+          indicatorColor,
+        }}
+      />
       <DynamicPopover
         additionalGap={-10}
         align={align === 'left' ? 'start' : 'end'}
@@ -582,6 +560,11 @@ export const Dropdown = ({
         }
         width={width}
       />
+      {responsive && screenSize < breakpoints.sm && (
+        <ActionSheet
+          {...{ isOpen, screenSize, items, setIsOpen, DropdownChild }}
+        />
+      )}
     </>
   )
 }
