@@ -1,5 +1,6 @@
 import * as React from 'react'
 import styled, { DefaultTheme, css, useTheme } from 'styled-components'
+import { P, match } from 'ts-pattern'
 import { debounce } from 'lodash'
 
 import { TransitionState } from 'react-transition-state'
@@ -460,7 +461,7 @@ const useScreenSize = () => {
   React.useEffect(() => {
     const debouncedHandleResize = debounce(() => {
       setScreenSize(window.innerWidth)
-    }, 300)
+    }, 100)
     const handleResize = () => {
       debouncedHandleResize()
     }
@@ -542,33 +543,52 @@ export const Dropdown = ({
           indicatorColor,
         }}
       />
-      <DynamicPopover
-        additionalGap={-10}
-        align={align === 'left' ? 'start' : 'end'}
-        anchorRef={buttonRef}
-        hideOverflow={!keepMenuOnTop}
-        isOpen={responsive ? isOpen && screenSize > breakpoints.sm : isOpen}
-        mobilePlacement={direction === 'down' ? 'bottom' : 'top'}
-        mobileWidth={mobileWidth}
-        placement={direction === 'down' ? 'bottom' : 'top'}
-        popover={
-          <DropdownMenu
-            direction={direction}
-            items={items}
-            labelAlign={menuLabelAlign}
-            setIsOpen={setIsOpen}
-            shortThrow={shortThrow}
-            {...props}
-            ref={dropdownRef}
-          />
-        }
-        width={width}
-      />
-      {responsive && screenSize < breakpoints.sm && (
-        <ActionSheet
-          {...{ isOpen, screenSize, items, setIsOpen, DropdownChild }}
-        />
-      )}
+      {match({ responsive, screenSize })
+        .with(
+          { responsive: false, screenSize: P._ },
+          {
+            responsive: true,
+            screenSize: P.when((screenSize) => screenSize >= breakpoints.sm),
+          },
+          () => (
+            <DynamicPopover
+              additionalGap={-10}
+              align={align === 'left' ? 'start' : 'end'}
+              anchorRef={buttonRef}
+              hideOverflow={!keepMenuOnTop}
+              isOpen={isOpen}
+              mobilePlacement={direction === 'down' ? 'bottom' : 'top'}
+              mobileWidth={mobileWidth}
+              placement={direction === 'down' ? 'bottom' : 'top'}
+              popover={
+                <DropdownMenu
+                  direction={direction}
+                  items={items}
+                  labelAlign={menuLabelAlign}
+                  setIsOpen={setIsOpen}
+                  shortThrow={shortThrow}
+                  {...props}
+                  ref={dropdownRef}
+                />
+              }
+              width={width}
+            />
+          ),
+        )
+        .with(
+          {
+            responsive: true,
+            screenSize: P.when((screenSize) => screenSize < breakpoints.sm),
+          },
+          () => (
+            <ActionSheet
+              {...{ isOpen, screenSize, items, setIsOpen, DropdownChild }}
+            />
+          ),
+        )
+        .otherwise(() => (
+          <div />
+        ))}
     </>
   )
 }

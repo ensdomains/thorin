@@ -38,7 +38,8 @@
   "dependencies": {
     "clsx": "^1.1.1",
     "focus-visible": "^5.2.0",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "ts-pattern": "^4.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.5",
