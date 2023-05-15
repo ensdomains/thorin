@@ -7,8 +7,12 @@ import { mq } from '@/src/utils/responsiveHelpers'
 
 import { Backdrop } from '../..'
 
-const Container = styled.div<{ $state: TransitionState; $alignTop?: boolean }>(
-  ({ theme, $state, $alignTop }) => css`
+const Container = styled.div<{
+  $state: TransitionState
+  $alignTop?: boolean
+  $mobileOnly: boolean
+}>(
+  ({ theme, $state, $alignTop, $mobileOnly }) => css`
     width: 100%;
 
     position: fixed;
@@ -27,12 +31,15 @@ const Container = styled.div<{ $state: TransitionState; $alignTop?: boolean }>(
     flex-direction: row;
 
     ${mq.sm.min(css`
-      width: min-content;
+      ${!$mobileOnly &&
+      css`
+        width: min-content;
 
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      bottom: initial;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        bottom: initial;
+      `}
     `)}
 
     transition: ${theme.transitionDuration['300']} all
@@ -64,6 +71,8 @@ type Props = {
   alignTop?: boolean
   /** A callback fired on the render of children */
   renderCallback?: () => void
+  /** if true, modal will remain centered to bottom of page */
+  mobileOnly?: boolean
 } & NativeDivProps
 
 export const Modal = ({
@@ -73,6 +82,7 @@ export const Modal = ({
   open,
   alignTop,
   renderCallback,
+  mobileOnly = false,
   ...props
 }: Props) => (
   <Backdrop
@@ -82,7 +92,12 @@ export const Modal = ({
     onDismiss={onDismiss}
   >
     {({ state }) => (
-      <Container $alignTop={alignTop} $state={state} {...props}>
+      <Container
+        $alignTop={alignTop}
+        $mobileOnly={mobileOnly}
+        $state={state}
+        {...props}
+      >
         {children}
       </Container>
     )}

@@ -62,8 +62,10 @@ type Props = {
   height?: string | number
   /** The colour of the indicator */
   indicatorColor?: Colors
-  /**  */
+  /** If true, displays an action sheet when in mobile */
   responsive?: boolean
+  /** The label for the cancel button when showing an action sheet */
+  cancelLabel?: string
 } & NativeDivProps
 
 type PropsWithIsOpen = {
@@ -476,6 +478,7 @@ const useScreenSize = () => {
 const useClickOutside = (
   dropdownRef: React.MutableRefObject<any>,
   buttonRef: React.MutableRefObject<any>,
+  actionSheetRef: React.MutableRefObject<any>,
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>,
   isOpen: boolean,
 ) => {
@@ -483,7 +486,8 @@ const useClickOutside = (
     const handleClickOutside = (e: any) => {
       if (
         !dropdownRef.current?.contains(e.target) &&
-        !buttonRef.current?.contains(e.target)
+        !buttonRef.current?.contains(e.target) &&
+        !actionSheetRef.current?.contains(e.target)
       ) {
         setIsOpen(false)
       }
@@ -497,7 +501,7 @@ const useClickOutside = (
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
-  }, [dropdownRef, isOpen, setIsOpen, buttonRef])
+  }, [dropdownRef, isOpen, setIsOpen, buttonRef, actionSheetRef])
 }
 
 export const Dropdown = ({
@@ -517,14 +521,16 @@ export const Dropdown = ({
   setIsOpen: _setIsOpen,
   indicatorColor,
   responsive = true,
+  cancelLabel = 'Cancel',
   ...props
 }: Props & (PropsWithIsOpen | PropsWithoutIsOpen)) => {
   const dropdownRef = React.useRef<any>()
   const buttonRef = React.useRef<HTMLButtonElement>(null)
+  const actionSheetRef = React.useRef<HTMLDivElement>(null)
   const internalOpen = React.useState(false)
   const [isOpen, setIsOpen] = _setIsOpen ? [_isOpen, _setIsOpen] : internalOpen
 
-  useClickOutside(dropdownRef, buttonRef, setIsOpen, isOpen)
+  useClickOutside(dropdownRef, buttonRef, actionSheetRef, setIsOpen, isOpen)
   const screenSize = useScreenSize()
 
   return (
@@ -582,7 +588,15 @@ export const Dropdown = ({
           },
           () => (
             <ActionSheet
-              {...{ isOpen, screenSize, items, setIsOpen, DropdownChild }}
+              {...{
+                isOpen,
+                screenSize,
+                items,
+                setIsOpen,
+                DropdownChild,
+                cancelLabel,
+                ref: actionSheetRef,
+              }}
             />
           ),
         )

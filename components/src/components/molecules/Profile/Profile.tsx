@@ -179,6 +179,7 @@ export const Profile = ({
           isOpen,
           setIsOpen,
           align: alignDropdown,
+          responsive: false,
         }}
       >
         <Container
