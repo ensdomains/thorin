@@ -1,18 +1,21 @@
 import * as React from 'react'
 import styled, { DefaultTheme, css, useTheme } from 'styled-components'
+import { P, match } from 'ts-pattern'
+import { debounce } from 'lodash'
 
 import { TransitionState } from 'react-transition-state'
 
 import { Button, ButtonProps } from '@/src/components/atoms/Button'
-import { Colors } from '@/src/tokens'
+import { Colors, breakpoints } from '@/src/tokens'
 
 import { DownChevronSVG, DynamicPopover, ScrollBox } from '../..'
+import { ActionSheet } from './ActionSheet'
 
 type Align = 'left' | 'right'
 type LabelAlign = 'flex-start' | 'flex-end' | 'center'
 type Direction = 'down' | 'up'
 
-type DropdownItemObject = {
+export type DropdownItemObject = {
   label: string
   onClick?: (value?: string) => void
   wrapper?: (children: React.ReactNode, key: React.Key) => JSX.Element
@@ -59,6 +62,10 @@ type Props = {
   height?: string | number
   /** The colour of the indicator */
   indicatorColor?: Colors
+  /** If true, displays an action sheet when in mobile */
+  responsive?: boolean
+  /** The label for the cancel button when showing an action sheet */
+  cancelLabel?: string
 } & NativeDivProps
 
 type PropsWithIsOpen = {
@@ -241,13 +248,10 @@ const MenuButton = styled.button<MenuButtonProps>(
   `,
 )
 
-const DropdownChild = ({
-  setIsOpen,
-  item,
-}: {
+const DropdownChild: React.FC<{
   setIsOpen: (isOpen: boolean) => void
   item: React.ReactElement<React.PropsWithRef<any>>
-}) => {
+}> = ({ setIsOpen, item }) => {
   const ref = React.useRef<HTMLDivElement>(null)
   const Item = React.cloneElement(item, { ...item.props, ref })
 
@@ -379,6 +383,127 @@ const Chevron = styled((props) => <DownChevronSVG {...props} />)<{
   `,
 )
 
+interface DropdownButtonProps {
+  children?: React.ReactNode
+  buttonRef: React.RefObject<HTMLButtonElement>
+  chevron: boolean
+  direction: Direction
+  isOpen: boolean
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
+  label: React.ReactNode
+  items: DropdownItem[]
+  buttonProps?: ButtonProps
+  indicatorColor?: Colors
+}
+
+const DropdownButton: React.FC<DropdownButtonProps> = ({
+  children,
+  buttonRef,
+  chevron,
+  direction,
+  isOpen,
+  setIsOpen,
+  label,
+  items,
+  buttonProps,
+  indicatorColor,
+}): React.ReactElement<DropdownButtonProps> => {
+  const { colors } = useTheme()
+  const hasIndicator = React.useMemo(
+    () => items.some((item) => 'showIndicator' in item && item.showIndicator),
+    [items],
+  )
+  const buttonPropsWithIndicator = React.useMemo(
+    () => ({
+      ...buttonProps,
+      'data-indicator': hasIndicator && !isOpen,
+      style: {
+        ...buttonProps?.style,
+        '--indicator-color': indicatorColor
+          ? colors[indicatorColor]
+          : colors.accent,
+      },
+      className: `${buttonProps?.className} indicator-container`,
+    }),
+    [buttonProps, hasIndicator, indicatorColor, colors, isOpen],
+  )
+
+  return (
+    <>
+      {children ? (
+        React.Children.map(children, (child) => {
+          if (!React.isValidElement(child)) return null
+          return React.cloneElement(child as any, {
+            ...buttonPropsWithIndicator,
+            zindex: '10',
+            pressed: isOpen ? 'true' : undefined,
+            onClick: () => setIsOpen((prev) => !prev),
+            ref: buttonRef,
+          })
+        })
+      ) : (
+        <Button
+          data-testid="dropdown-btn"
+          pressed={isOpen}
+          ref={buttonRef}
+          suffix={chevron && <Chevron $direction={direction} $open={isOpen} />}
+          width="fit"
+          onClick={() => setIsOpen((prev) => !prev)}
+          {...buttonPropsWithIndicator}
+        >
+          {label}
+        </Button>
+      )}
+    </>
+  )
+}
+
+const useScreenSize = () => {
+  const [screenSize, setScreenSize] = React.useState(window.innerWidth)
+  React.useEffect(() => {
+    const debouncedHandleResize = debounce(() => {
+      setScreenSize(window.innerWidth)
+    }, 100)
+    const handleResize = () => {
+      debouncedHandleResize()
+    }
+    window.addEventListener('resize', handleResize)
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+  return screenSize
+}
+
+const useClickOutside = (
+  dropdownRef: React.MutableRefObject<any>,
+  buttonRef: React.MutableRefObject<any>,
+  actionSheetRef: React.MutableRefObject<any>,
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>,
+  isOpen: boolean,
+) => {
+  React.useEffect(() => {
+    const handleClickOutside = (e: any) => {
+      if (
+        !dropdownRef.current?.contains(e.target) &&
+        !buttonRef.current?.contains(e.target) &&
+        !actionSheetRef.current?.contains(e.target)
+      ) {
+        setIsOpen(false)
+      }
+    }
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside)
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [dropdownRef, isOpen, setIsOpen, buttonRef, actionSheetRef])
+}
+
 export const Dropdown = ({
   children,
   buttonProps,
@@ -395,103 +520,89 @@ export const Dropdown = ({
   isOpen: _isOpen,
   setIsOpen: _setIsOpen,
   indicatorColor,
+  responsive = true,
+  cancelLabel = 'Cancel',
   ...props
 }: Props & (PropsWithIsOpen | PropsWithoutIsOpen)) => {
   const dropdownRef = React.useRef<any>()
   const buttonRef = React.useRef<HTMLButtonElement>(null)
+  const actionSheetRef = React.useRef<HTMLDivElement>(null)
   const internalOpen = React.useState(false)
-  const { colors } = useTheme()
-  const hasIndicator = React.useMemo(
-    () => items.some((item) => 'showIndicator' in item && item.showIndicator),
-    [items],
-  )
   const [isOpen, setIsOpen] = _setIsOpen ? [_isOpen, _setIsOpen] : internalOpen
 
-  const buttonPropsWithIndicator = React.useMemo(
-    () => ({
-      ...buttonProps,
-      'data-indicator': hasIndicator && !isOpen,
-      style: {
-        ...buttonProps?.style,
-        '--indicator-color': indicatorColor
-          ? colors[indicatorColor]
-          : colors.accent,
-      },
-      className: `${buttonProps?.className} indicator-container`,
-    }),
-    [buttonProps, hasIndicator, indicatorColor, colors, isOpen],
-  )
-
-  React.useEffect(() => {
-    const handleClickOutside = (e: any) => {
-      if (
-        !dropdownRef.current?.contains(e.target) &&
-        !buttonRef.current?.contains(e.target)
-      ) {
-        setIsOpen(false)
-      }
-    }
-
-    if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside)
-    } else {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
-  }, [dropdownRef, isOpen, setIsOpen])
-
-  const button: React.ReactNode = children ? (
-    React.Children.map(children, (child) => {
-      if (!React.isValidElement(child)) return null
-      return React.cloneElement(child as any, {
-        ...buttonPropsWithIndicator,
-        zindex: '10',
-        pressed: isOpen ? 'true' : undefined,
-        onClick: () => setIsOpen((prev) => !prev),
-        ref: buttonRef,
-      })
-    })
-  ) : (
-    <Button
-      data-testid="dropdown-btn"
-      pressed={isOpen}
-      ref={buttonRef}
-      suffix={chevron && <Chevron $direction={direction} $open={isOpen} />}
-      width="fit"
-      onClick={() => setIsOpen((prev) => !prev)}
-      {...buttonPropsWithIndicator}
-    >
-      {label}
-    </Button>
-  )
+  useClickOutside(dropdownRef, buttonRef, actionSheetRef, setIsOpen, isOpen)
+  const screenSize = useScreenSize()
 
   return (
     <>
-      {button}
-      <DynamicPopover
-        additionalGap={-10}
-        align={align === 'left' ? 'start' : 'end'}
-        anchorRef={buttonRef}
-        hideOverflow={!keepMenuOnTop}
-        isOpen={isOpen}
-        mobilePlacement={direction === 'down' ? 'bottom' : 'top'}
-        mobileWidth={mobileWidth}
-        placement={direction === 'down' ? 'bottom' : 'top'}
-        popover={
-          <DropdownMenu
-            direction={direction}
-            items={items}
-            labelAlign={menuLabelAlign}
-            setIsOpen={setIsOpen}
-            shortThrow={shortThrow}
-            {...props}
-            ref={dropdownRef}
-          />
-        }
-        width={width}
+      <DropdownButton
+        {...{
+          children,
+          buttonRef,
+          chevron,
+          direction,
+          isOpen,
+          setIsOpen,
+          label,
+          items,
+          buttonProps,
+          indicatorColor,
+        }}
       />
+      {match({ responsive, screenSize })
+        .with(
+          { responsive: false, screenSize: P._ },
+          {
+            responsive: true,
+            screenSize: P.when((screenSize) => screenSize >= breakpoints.sm),
+          },
+          () => (
+            <DynamicPopover
+              additionalGap={-10}
+              align={align === 'left' ? 'start' : 'end'}
+              anchorRef={buttonRef}
+              hideOverflow={!keepMenuOnTop}
+              isOpen={isOpen}
+              mobilePlacement={direction === 'down' ? 'bottom' : 'top'}
+              mobileWidth={mobileWidth}
+              placement={direction === 'down' ? 'bottom' : 'top'}
+              popover={
+                <DropdownMenu
+                  direction={direction}
+                  items={items}
+                  labelAlign={menuLabelAlign}
+                  setIsOpen={setIsOpen}
+                  shortThrow={shortThrow}
+                  {...props}
+                  ref={dropdownRef}
+                />
+              }
+              width={width}
+            />
+          ),
+        )
+        .with(
+          {
+            responsive: true,
+            screenSize: P.when((screenSize) => screenSize < breakpoints.sm),
+          },
+          () => (
+            <ActionSheet
+              {...{
+                isOpen,
+                screenSize,
+                items,
+                setIsOpen,
+                DropdownChild,
+                cancelLabel,
+                ref: actionSheetRef,
+              }}
+            />
+          ),
+        )
+        .otherwise(() => (
+          <div />
+        ))}
     </>
   )
 }

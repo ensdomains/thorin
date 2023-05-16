@@ -74,18 +74,6 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['docs/**/*'],
-      extends: ['plugin:@next/next/recommended', 'next/core-web-vitals'],
-      settings: {
-        next: {
-          rootDir: 'docs/',
-        },
-      },
-      rules: {
-        'import/no-unresolved': 'off',
-      },
-    },
-    {
       files: ['*.mdx'],
       extends: ['plugin:mdx/recommended'],
       rules: {

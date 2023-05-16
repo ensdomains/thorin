@@ -10,6 +10,7 @@
     "clean": "rimraf .next public/playroom",
     "dev": "NODE_OPTIONS='--inspect' next dev & playroom start",
     "lint": "next lint",
+    "lint:fix": "next lint --fix",
     "lint:types": "tsc --noEmit",
     "start": "next start"
   },

@@ -92,9 +92,7 @@ export const usePlayroomStore = () => {
 
 type Callback = (...args: any[]) => void
 
-/* eslint-disable @typescript-eslint/no-empty-function */
 const noop = () => {}
-/* eslint-enable @typescript-eslint/no-empty-function */
 
 export const useFallbackState = <Value, Handler extends Callback>(
   stateKey: string | undefined,

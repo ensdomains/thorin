@@ -10,8 +10,10 @@
     "dev": "pnpm m run dev",
     "gen:component": "pnpm node scripts/generateComponent.js",
     "gen:icons": "pnpm node scripts/generateIcons.js",
-    "lint": "eslint . --cache",
-    "lint:fix": "pnpm lint --fix",
+    "lint": "pnpm m-all lint",
+    "lint:components": "pnpm -F @ensdomains/thorin lint",
+    "lint:docs": "pnpm -F docs lint",
+    "lint:fix": "pnpm m-all lint:fix",
     "lint:format": "prettier --write .",
     "lint:types": "pnpm m-all lint:types",
     "lint:styles": "stylelint",
@@ -24,7 +26,8 @@
   },
   "lint-staged": {
     "*.{js,mdx,ts,tsx}": [
-      "pnpm lint:fix"
+      "pnpm lint:components",
+      "pnpm lint:docs"
     ],
     "*.tsx": [
       "pnpm lint:styles"
