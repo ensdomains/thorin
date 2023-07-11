@@ -269,48 +269,61 @@ const defaultIconType = (
   return 'none'
 }
 
-export const Banner = ({
-  title,
-  alert = 'info',
-  icon,
-  iconType,
-  as: asProp,
-  children,
-  onDismiss,
-  ...props
-}: React.PropsWithChildren<Props>) => {
-  const Icon =
-    icon ||
-    (alert && ['error', 'warning'].includes(alert) ? <AlertSVG /> : <EthSVG />)
+export const Banner = React.forwardRef<
+  HTMLDivElement,
+  React.PropsWithChildren<Props>
+>(
+  (
+    {
+      title,
+      alert = 'info',
+      icon,
+      iconType,
+      as: asProp,
+      children,
+      onDismiss,
+      ...props
+    },
+    ref,
+  ) => {
+    const Icon =
+      icon ||
+      (alert && ['error', 'warning'].includes(alert) ? (
+        <AlertSVG />
+      ) : (
+        <EthSVG />
+      ))
 
-  const hasHref = !!props.href
-  const hasAction = hasHref || !!props.onClick
-  const _iconType = iconType || defaultIconType(alert, icon)
+    const hasHref = !!props.href
+    const hasAction = hasHref || !!props.onClick
+    const _iconType = iconType || defaultIconType(alert, icon)
 
-  return (
-    <Container
-      {...props}
-      $alert={alert}
-      $hasAction={hasAction}
-      as={asProp as any}
-    >
-      {_iconType !== 'none' && (
-        <IconContainer $alert={alert} $type={_iconType}>
-          {Icon}
-        </IconContainer>
-      )}
-      <Content>
-        {title && <Typography fontVariant="largeBold">{title}</Typography>}
-        <Typography>{children}</Typography>
-      </Content>
-      <ActionButton
-        alert={alert}
-        hasHref={hasHref}
-        icon={props.actionIcon}
-        onDismiss={onDismiss}
-      />
-    </Container>
-  )
-}
+    return (
+      <Container
+        {...props}
+        $alert={alert}
+        $hasAction={hasAction}
+        as={asProp as any}
+        ref={ref}
+      >
+        {_iconType !== 'none' && (
+          <IconContainer $alert={alert} $type={_iconType}>
+            {Icon}
+          </IconContainer>
+        )}
+        <Content>
+          {title && <Typography fontVariant="largeBold">{title}</Typography>}
+          <Typography>{children}</Typography>
+        </Content>
+        <ActionButton
+          alert={alert}
+          hasHref={hasHref}
+          icon={props.actionIcon}
+          onDismiss={onDismiss}
+        />
+      </Container>
+    )
+  },
+)
 
 Banner.displayName = 'Banner'
