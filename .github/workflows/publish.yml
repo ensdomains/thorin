@@ -1,8 +1,8 @@
 name: Publish
 
 on:
-  release:
-    types: [published]
+  push:
+    branches: [main]
 
 jobs:
   publish:
@@ -16,53 +16,12 @@ jobs:
         with:
           ref: ${{ github.event.release.target_commitish }}
 
-      - uses: pnpm/action-setup@v2.2.2
-        with:
-          version: 7.8.0
-
-      - name: Install Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
-
-      - run: pnpm install -no-frozen-lockfile
-
-      - name: Test
-        run: pnpm test
-
-      - name: Set up git
+      - name: Test Publish
+        if: github.ref == 'refs/heads/test-branch-1'
         run: |
-          git config --local user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git config --local user.name 'github-actions[bot]'
+          echo "Works"
 
-      - name: Bump version to ${{ github.event.release.tag_name }}
+      - name: Other
+        if: github.ref != 'refs/heads/test-branch-1'
         run: |
-          pnpm -F @ensdomains/thorin run ver ${{ github.event.release.tag_name }}
-          git add .
-          git commit -m "${{ github.event.release.tag_name }}"
-
-      - name: Copy README
-        run: |
-          cp README.md components/README.md
-
-      - name: Publish Main
-        if: ${{ github.ref == 'refs/heads/main'}}
-        env:
-          NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          pnpm config set //registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}
-          pnpm -F @ensdomains/thorin publish
-
-      - name: Publish Next
-        if: ${{ github.ref != 'refs/heads/main'}}
-        env:
-          NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          pnpm config set //registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}
-          pnpm -F @ensdomains/thorin publish --tag next --no-git-checks
-
-      - name: Push changes
-        run: git push
-        env:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          echo "no work"
