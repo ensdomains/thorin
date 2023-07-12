@@ -2,7 +2,7 @@ name: Publish
 
 on:
   push:
-    branches: [main]
+    branches: [refs/heads/test-branch-1]
 
 jobs:
   publish:
