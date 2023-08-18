@@ -8,8 +8,9 @@ import {
   PopoverProps,
 } from '@/src/components/atoms/DynamicPopover'
 import { mq } from '@/src/utils/responsiveHelpers'
+import { Colors } from '@/src/tokens'
 
-const injectedCss = {
+const injectedCss = (color: string) => ({
   top: `
     &:after {
       display: initial;
@@ -22,7 +23,7 @@ const injectedCss = {
       width: 0;
       height: 0;
       border: 10px solid transparent;
-      border-top-color: white;
+      border-top-color: ${color};
     }
   `,
   bottom: `
@@ -37,7 +38,7 @@ const injectedCss = {
       width: 0;
       height: 0;
       border: 10px solid transparent;
-      border-bottom-color: white;
+      border-bottom-color: ${color};
     }
   `,
   left: `
@@ -51,7 +52,7 @@ const injectedCss = {
       width: 0;
       height: 0;
       border: 10px solid transparent;
-      border-left-color: white;
+      border-left-color: ${color};
     }
   `,
   right: `
@@ -65,16 +66,17 @@ const injectedCss = {
       width: 0;
       height: 0;
       border: 10px solid transparent;
-      border-right-color: white;
+      border-right-color: ${color};
     }
   `,
-}
+})
 
 const TooltipPopoverElement = styled.div<{
+  $background: Colors
   $placement: DynamicPopoverSide
   $mobilePlacement: DynamicPopoverSide
 }>(
-  ({ theme, $placement, $mobilePlacement }) => css`
+  ({ theme, $background, $placement, $mobilePlacement }) => css`
     position: relative;
     pointer-events: none;
     box-sizing: border-box;
@@ -83,9 +85,11 @@ const TooltipPopoverElement = styled.div<{
     border-radius: ${theme.radii.large};
     padding: ${theme.space['2.5']} ${theme.space['2.5']} ${theme.space['2.5']}
       ${theme.space['3.5']};
-    background: ${theme.colors.background};
+    background: ${theme.colors[$background] || theme.colors.background};
 
-    ${injectedCss[$mobilePlacement]}
+    ${injectedCss(theme.colors[$background] || theme.colors.background)[
+      $mobilePlacement
+    ]}
     ${mq.sm.min(css`
       &:before {
         display: none;
@@ -93,18 +97,24 @@ const TooltipPopoverElement = styled.div<{
       &:after {
         display: none;
       }
-      ${injectedCss[$placement]}
+      ${injectedCss(theme.colors[$background] || theme.colors.background)[
+        $placement
+      ]}
     `)}
   `,
 )
 
+type TooltipPopoverProps = PopoverProps & { background: Colors }
+
 const TooltipPopover = ({
   placement,
   mobilePlacement,
+  background,
   children,
-}: PopoverProps) => {
+}: TooltipPopoverProps) => {
   return (
     <TooltipPopoverElement
+      $background={background}
       $mobilePlacement={mobilePlacement}
       $placement={placement}
       data-testid="tooltip-popover"
@@ -118,12 +128,15 @@ export interface TooltipProps
   extends Omit<DynamicPopoverProps, 'popover' | 'animationFn' | 'anchorRef'> {
   /** A text or component containg the content of the popover. */
   content?: React.ReactNode
+  /** The background color for the tooltip */
+  background?: Colors
   /** The anchor element for the popover */
   children: React.ReactElement
 }
 
 export const Tooltip = ({
   content,
+  background = 'background',
   placement = 'top',
   mobilePlacement = 'top',
   children,
@@ -135,7 +148,11 @@ export const Tooltip = ({
   const AnchorElement = React.cloneElement(child, { ref: anchorRef })
 
   const popover = (
-    <TooltipPopover mobilePlacement={mobilePlacement} placement={placement}>
+    <TooltipPopover
+      background={background}
+      mobilePlacement={mobilePlacement}
+      placement={placement}
+    >
       {content}
     </TooltipPopover>
   )
