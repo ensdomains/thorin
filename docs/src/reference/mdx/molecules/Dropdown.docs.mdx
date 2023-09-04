@@ -71,6 +71,14 @@ import { Dropdown } from '@ensdomains/thorin'
         raw: 'boolean | Colors',
       },
     },
+    icon: {
+      name: 'icon',
+      description: 'An icon that leads the label.',
+      type: {
+        raw: 'ReactNode'
+      }
+    }
+  
   }}
 />
 
@@ -262,6 +270,28 @@ import { Dropdown } from '@ensdomains/thorin'
     <Button key="item2" prefix={<PlusSVG />} shadowless size="small" tone="red">
       Item2
     </Button>,
+  ]}
+  label="Custom"
+/>
+```
+
+## Items with icons
+
+```tsx live=true minHeight=300px
+<Dropdown
+  items={[
+    {
+      label: 'None',
+      onClick: () => null,
+      color: 'text',
+      icon: <DotGridSVG />,
+    },
+    {
+      label: 'Default',
+      onClick: () => null,
+      color: 'text',
+      icon: <CogSVG />,
+    },
   ]}
   label="Custom"
 />
