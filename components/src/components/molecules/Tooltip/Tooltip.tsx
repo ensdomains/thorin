@@ -83,8 +83,8 @@ const TooltipPopoverElement = styled.div<{
     filter: drop-shadow(0px 0px 1px #e8e8e8)
       drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.2));
     border-radius: ${theme.radii.large};
-    padding: ${theme.space['2.5']} ${theme.space['2.5']} ${theme.space['2.5']}
-      ${theme.space['3.5']};
+    padding: ${theme.space['2.5']};
+    padding-left: ${theme.space['3.5']};
     background: ${theme.colors[$background] || theme.colors.background};
 
     ${injectedCss(theme.colors[$background] || theme.colors.background)[

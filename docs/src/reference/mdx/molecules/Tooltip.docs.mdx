@@ -99,3 +99,86 @@ import { Tooltip, TooltipProps } from '@ensdomains/thorin'
 ## Props
 
 <PropsTable sourceLink={sourceLink} types={types} />
+
+## Background
+
+```tsx live=true
+<DeleteMe
+  style={{
+    alignItems: 'center',
+  }}
+>
+  <Tooltip
+    additionalGap={0}
+    content={<div>Content</div>}
+    mobilePlacement="top"
+    mobileWidth={250}
+    placement="top"
+    targetId="buttonIdTop"
+    width={250}
+    background="indigo"
+  >
+    <Button
+      id="buttonIdTop"
+      shadowless
+      style={{ width: 250 }}
+    >
+      Top
+    </Button>
+  </Tooltip>
+  <Tooltip
+    content={<div>Content</div>}
+    mobilePlacement="left"
+    mobileWidth={50}
+    placement="left"
+    targetId="buttonIdLeft"
+    width={100}
+    background="indigo"
+  >
+    <Button
+      id="buttonIdLeft"
+      shadowless
+      style={{ width: 250 }}
+    >
+      Left
+    </Button>
+  </Tooltip>
+  <Tooltip
+    additionalGap={0}
+    content={<div>Content</div>}
+    mobilePlacement="bottom"
+    mobileWidth={250}
+    open
+    placement="bottom"
+    targetId="buttonIdBottom"
+    width={250}
+    background="indigo"
+  >
+    <Button
+      id="buttonIdBottom"
+      shadowless
+      style={{ width: 250 }}
+    >
+      Bottom
+    </Button>
+  </Tooltip>
+  <Tooltip
+    content={<div>Content</div>}
+    mobilePlacement="right"
+    mobileWidth={50}
+    open
+    placement="right"
+    targetId="buttonIdRight"
+    width={100}
+    background="indigo"
+  >
+    <Button
+      id="buttonIdRight"
+      shadowless
+      style={{ width: 250 }}
+    >
+      Right
+    </Button>
+  </Tooltip>
+</DeleteMe>
+```
