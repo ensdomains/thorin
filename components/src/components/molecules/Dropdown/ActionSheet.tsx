@@ -29,6 +29,10 @@ const ActionSheetOptions = styled.div(
 
 const ActionSheetItem = styled.div(
   ({ theme }) => css`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: ${theme.space['2']};
     width: 100%;
     padding: 20px;
     position: relative;
@@ -75,6 +79,7 @@ export const ActionSheet = React.forwardRef<HTMLDivElement, Props>(
               return DropdownChild({ item, setIsOpen })
             }
 
+            const icon = (item as DropdownItemObject).icon
             return (
               <ActionSheetItem
                 key={(item as DropdownItemObject).label}
@@ -85,6 +90,7 @@ export const ActionSheet = React.forwardRef<HTMLDivElement, Props>(
                   setIsOpen(false)
                 }}
               >
+                {icon}
                 <Typography>{(item as DropdownItemObject).label}</Typography>
               </ActionSheetItem>
             )
