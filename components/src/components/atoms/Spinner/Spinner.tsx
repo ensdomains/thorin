@@ -21,12 +21,14 @@ const rotate = keyframes`
   }
 `
 
-const Container = styled.div<{ $size: Size; $color: Colors }>(
+const Container = styled.div<{ $size: Size; $color?: Colors }>(
   ({ theme, $color, $size }) => css`
     animation: ${rotate} 1.1s linear infinite;
 
-    color: ${theme.colors[$color]};
-    stroke: ${theme.colors[$color]};
+    ${$color &&
+    css`
+      color: ${theme.colors[$color]};
+    `}
 
     ${() => {
       switch ($size) {
@@ -55,6 +57,7 @@ const Container = styled.div<{ $size: Size; $color: Colors }>(
 
     svg {
       display: block;
+      stroke: currentColor;
       height: 100%;
       width: 100%;
     }

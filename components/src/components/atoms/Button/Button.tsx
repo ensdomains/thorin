@@ -307,25 +307,21 @@ export const Button = React.forwardRef(
         {children}
       </ContentContainer>
     )
-    const spinnerColor = disabled ? 'greyPrimary' : 'backgroundPrimary'
 
     let childContent: ReactNodeNoStrings
     if (shape === 'circle' || shape === 'square') {
-      childContent = loading ? <Spinner color={spinnerColor} /> : labelContent
+      childContent = loading ? <Spinner /> : labelContent
     } else {
       const hasPrefix = !!prefix
       const hasNoPrefixNoSuffix = !hasPrefix && !suffix
       const hasSuffixNoPrefix = !hasPrefix && !!suffix
 
       let prefixOrLoading = prefix
-      if (loading && hasPrefix)
-        prefixOrLoading = <Spinner color={spinnerColor} />
-      else if (loading && hasNoPrefixNoSuffix)
-        prefixOrLoading = <Spinner color={spinnerColor} />
+      if (loading && hasPrefix) prefixOrLoading = <Spinner />
+      else if (loading && hasNoPrefixNoSuffix) prefixOrLoading = <Spinner />
 
       let suffixOrLoading = suffix
-      if (loading && hasSuffixNoPrefix)
-        suffixOrLoading = <Spinner color={spinnerColor} />
+      if (loading && hasSuffixNoPrefix) suffixOrLoading = <Spinner />
 
       childContent = (
         <>
