@@ -2,6 +2,8 @@ import * as React from 'react'
 import styled, { css } from 'styled-components'
 import { TransitionState, useTransition } from 'react-transition-state'
 
+import { debounce } from 'lodash'
+
 import { mq } from '@/src/utils/responsiveHelpers'
 
 import { Portal } from '../Portal'
@@ -121,6 +123,19 @@ const defaultAnimationFunc: DynamicPopoverAnimationFunc = (
   return { translate, mobileTranslate }
 }
 
+const checkRectContainsPoint = (
+  rect?: DOMRect,
+  point?: { x: number; y: number },
+) => {
+  if (!rect || !point) return false
+  return (
+    point.x >= rect.x &&
+    point.x <= rect.x + rect.width &&
+    point.y >= rect.y &&
+    point.y <= rect.y + rect.height
+  )
+}
+
 const makeWidth = (width: number | string) =>
   typeof width === 'number' ? `${width}px` : width
 
@@ -201,6 +216,7 @@ const PopoverContainer = styled.div<{
         transition: opacity ${$transitionDuration}ms ease-in-out;
         top: ${$y}px;
         left: ${$x}px;
+        pointer-events: initial;
 
         ${$isControlled &&
         css`
@@ -358,30 +374,57 @@ export const DynamicPopover = ({
       )
   }, [_animationFn])
 
+  // Attach and remove event listeners
   React.useEffect(() => {
-    setPosition()
-
     const handleResize = () => {
       setPosition()
     }
 
+    const popoverElement = popoverContainerRef?.current
     const targetElement = anchorRef?.current
-    let handleMouseEnter: () => void
-    let handleMouseLeave: () => void
+    let handleMouseEnter: (e: MouseEvent) => void
+    let handleMouseLeave: (e: MouseEvent) => void
+    let handleMouseMove: (e: MouseEvent) => void
 
     if (!isControlled) {
       handleMouseEnter = () => {
-        setPosition()
         toggle(true)
         onShowCallback?.()
       }
 
+      const debouncedMouseMove = debounce(
+        (e: MouseEvent) => {
+          const cursorXY = { x: e.clientX, y: e.clientY }
+          const targetRect = targetElement?.getBoundingClientRect()
+          const popoverRect = popoverElement?.getBoundingClientRect()
+
+          const targetContainsPoint = checkRectContainsPoint(
+            targetRect,
+            cursorXY,
+          )
+          const popoverContainsPoint = checkRectContainsPoint(
+            popoverRect,
+            cursorXY,
+          )
+          if (!targetContainsPoint && !popoverContainsPoint) toggle(false)
+          document.removeEventListener('mousemove', handleMouseMove)
+        },
+        100,
+        { maxWait: 1000 },
+      )
+
+      handleMouseMove = (e: MouseEvent) => {
+        debouncedMouseMove(e)
+      }
+
       handleMouseLeave = () => {
-        toggle(false)
+        document.addEventListener('mousemove', handleMouseMove)
       }
 
       targetElement?.addEventListener('mouseenter', handleMouseEnter)
       targetElement?.addEventListener('mouseleave', handleMouseLeave)
+      popoverElement?.addEventListener('mouseenter', handleMouseEnter)
+      popoverElement?.addEventListener('mouseleave', handleMouseLeave)
     }
 
     addEventListener('resize', handleResize)
@@ -390,6 +433,9 @@ export const DynamicPopover = ({
       if (!isControlled) {
         targetElement?.removeEventListener('mouseenter', handleMouseEnter)
         targetElement?.removeEventListener('mouseleave', handleMouseLeave)
+        popoverElement?.removeEventListener('mouseenter', handleMouseEnter)
+        popoverElement?.removeEventListener('mouseleave', handleMouseLeave)
+        document.removeEventListener('mousemove', handleMouseMove)
       }
       removeEventListener('resize', handleResize)
     }
@@ -397,6 +443,7 @@ export const DynamicPopover = ({
     placement,
     mobilePlacement,
     setPosition,
+    positionState,
     additionalGap,
     onShowCallback,
     anchorRef,

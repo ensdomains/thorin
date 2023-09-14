@@ -78,7 +78,6 @@ const TooltipPopoverElement = styled.div<{
 }>(
   ({ theme, $background, $placement, $mobilePlacement }) => css`
     position: relative;
-    pointer-events: none;
     box-sizing: border-box;
     filter: drop-shadow(0px 0px 1px #e8e8e8)
       drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.2));

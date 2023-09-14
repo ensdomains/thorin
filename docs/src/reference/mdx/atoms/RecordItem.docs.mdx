@@ -8,7 +8,7 @@ import { RecordItem } from '@ensdomains/thorin'
 ```
 
 ```tsx live=true expand=true
-<RecordItem icon={<FlameSVG />}>user#123</RecordItem>
+<RecordItem icon={<FlameSVG />} value="user#123">user#123</RecordItem>
 ```
 
 ## Props
@@ -19,16 +19,16 @@ import { RecordItem } from '@ensdomains/thorin'
 
 ```tsx live=true
 <DeleteMe>
-  <RecordItem keyLabel="FLAME" keySublabel="Legacy">
+  <RecordItem keyLabel="FLAME" keySublabel="Legacy" value="0xb794f5ea0ba39494ce839613fffba74279579268">
     0xb794f5ea0ba39494ce839613fffba74279579268
   </RecordItem>
-  <RecordItem icon={<FlameSVG />}>
+  <RecordItem icon={<FlameSVG />} value="0xb794f5ea0ba39494ce839613fffba74279579268">
     0xb794f5ea0ba39494ce839613fffba74279579268
   </RecordItem>
-  <RecordItem inline keyLabel="FLAME_LEGACY">
+  <RecordItem inline keyLabel="FLAME_LEGACY" value="0xb794f5ea0ba39494ce839613fffba74279579268">
     0xb794...9268
   </RecordItem>
-  <RecordItem icon={<FlameSVG />} inline>
+  <RecordItem icon={<FlameSVG />} inline value="0xb794f5ea0ba39494ce839613fffba74279579268">
     0xb794...9268
   </RecordItem>
 </DeleteMe>
@@ -38,16 +38,16 @@ import { RecordItem } from '@ensdomains/thorin'
 
 ```tsx live=true
 <DeleteMe>
-  <RecordItem icon={<FlameSVG />} size="small">
+  <RecordItem icon={<FlameSVG />} size="small" value="Small with icon">
     Small with icon
   </RecordItem>
-  <RecordItem icon={<FlameSVG />} size="large">
+  <RecordItem icon={<FlameSVG />} size="large" value="Large with icon">
     Large with icon
   </RecordItem>
-  <RecordItem keyLabel="Label" size="small">
+  <RecordItem keyLabel="Label" size="small" value="Small with label">
     Small with label
   </RecordItem>
-  <RecordItem keyLabel="Label" size="large">
+  <RecordItem keyLabel="Label" size="large" value="Large with label">
     Large with label
   </RecordItem>
 </DeleteMe>
@@ -57,28 +57,28 @@ import { RecordItem } from '@ensdomains/thorin'
 
 ```tsx live=true
 <DeleteMe>
-  <RecordItem icon={<FlameSVG />} size="small">
+  <RecordItem icon={<FlameSVG />} size="small" value="Small with icon">
     Small with icon
   </RecordItem>
-  <RecordItem keyLabel="Label" size="small">
+  <RecordItem keyLabel="Label" size="small" value="Samll with label">
     Small with label
   </RecordItem>
-  <RecordItem icon={<FlameSVG />} size="large">
+  <RecordItem icon={<FlameSVG />} size="large" value="Large with icon">
     Large with icon
   </RecordItem>
-  <RecordItem keyLabel="Label" size="large">
+  <RecordItem keyLabel="Label" size="large" value="Large with label">
     Large with label
   </RecordItem>
-  <RecordItem icon={<FlameSVG />} inline size="small">
+  <RecordItem icon={<FlameSVG />} inline size="small" value="Small and inline with icon">
     Small and inline with icon
   </RecordItem>
-  <RecordItem inline keyLabel="Label" size="small">
+  <RecordItem inline keyLabel="Label" size="small" value="Small and inline with label">
     Small and inline with label
   </RecordItem>
-  <RecordItem icon={<FlameSVG />} inline size="large">
+  <RecordItem icon={<FlameSVG />} inline size="large" value="Large and inline with icon">
     Large and inline with icon
   </RecordItem>
-  <RecordItem inline keyLabel="Label" size="large">
+  <RecordItem inline keyLabel="Label" size="large" value="Large and inline with label">
     Large and inline with label
   </RecordItem>
 </DeleteMe>
