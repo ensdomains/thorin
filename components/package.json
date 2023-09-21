@@ -61,6 +61,7 @@
     "@types/rimraf": "^3.0.2",
     "@types/styled-components": "^5",
     "@types/testing-library__jest-dom": "^5.14.1",
+    "@vanilla-extract/css": "1.13.0",
     "babel-plugin-styled-components": "^2.0.6",
     "deepmerge": "^4.2.2",
     "esbuild-darwin-arm64": "^0.14.27",
