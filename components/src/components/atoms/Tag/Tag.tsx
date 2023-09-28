@@ -1,52 +1,10 @@
 import * as React from 'react'
-import styled, { css } from 'styled-components'
 
-import {
-  WithColorStyle,
-  getColorStyle,
-} from '@/src/types/withColorOrColorStyle'
+import { WithColorStyle } from '@/src/types/withColorOrColorStyle'
 
-interface ContainerProps {
-  $hover?: boolean
-  $size: 'small' | 'medium'
-  $colorStyle: NonNullable<Props['colorStyle']>
-}
+import { getColorStyle } from '../../../css/utils/getColorStyle'
 
-const Container = styled.div<ContainerProps>(
-  ({ theme, $hover, $size, $colorStyle }) => css`
-    align-items: center;
-    display: flex;
-    border-radius: ${theme.radii['full']};
-    font-size: ${theme.fontSizes.small};
-    line-height: ${theme.lineHeights.small};
-    font-weight: ${theme.fontWeights.bold};
-    width: ${theme.space['max']};
-    padding: ${theme.space['0.5']} ${theme.space['2']};
-    background: ${getColorStyle($colorStyle, 'background')};
-    color: ${getColorStyle($colorStyle, 'text')};
-    border: 1px solid ${getColorStyle($colorStyle, 'border')};
-    cursor: default;
-
-    ${$size === 'small' &&
-    css`
-      font-size: ${theme.fontSizes.extraSmall};
-      line-height: ${theme.lineHeights.extraSmall};
-    `}
-
-    ${$hover &&
-    css`
-      transition-duration: ${theme.transitionDuration['150']};
-      transition-property: color, border-color, background-color;
-      transition-timing-function: ${theme.transitionTimingFunction['inOut']};
-
-      &:hover,
-      &:active {
-        transform: translateY(-1px);
-        background-color: ${getColorStyle($colorStyle, 'hover')};
-      }
-    `}
-  `,
-)
+import { Box } from '../Box/Box'
 
 type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 
@@ -69,15 +27,35 @@ export const Tag = ({
   ...props
 }: Props) => {
   return (
-    <Container
-      {...props}
-      $colorStyle={colorStyle}
-      $hover={hover}
-      $size={size}
+    <Box
+      alignItems="center"
       as={as}
+      backgroundColor={{
+        base: getColorStyle(colorStyle as any, 'background'),
+        hover: getColorStyle(colorStyle as any, hover ? 'hover' : 'background'),
+        active: getColorStyle(colorStyle as any, 'hover'),
+      }}
+      borderRadius="$full"
+      color={getColorStyle(colorStyle as any, 'text')}
+      display="flex"
+      fontSize={size === 'small' ? '$extraSmall' : '$small'}
+      fontWeight="$bold"
+      lineHeight={size === 'small' ? '$extraSmall' : '$small'}
+      px="$2"
+      py="$0.5"
+      transform={{
+        hover: hover ? 'translateY(-1px)' : 'translateY(0px)',
+        base: 'translateY(0px)',
+        active: 'translateY(-1px)',
+      }}
+      transitionDuration="$150"
+      transitionProperty="color, border-color, background-color"
+      transitionTimingFunction="$inOut"
+      width="$max"
+      {...props}
     >
       {children}
-    </Container>
+    </Box>
   )
 }
 

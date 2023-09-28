@@ -6,7 +6,7 @@ import Script from 'next/script'
 import { ThemeProvider } from 'styled-components'
 
 import { ThorinGlobalStyles, lightTheme } from '@ensdomains/thorin'
-
+import '@ensdomains/thorin/dist/style.css'
 import { MDX } from '~/components'
 import { getLayout as getDocsLayout } from '~/layouts/docs'
 import GlobalStyle from '~/styles/globalStyles'

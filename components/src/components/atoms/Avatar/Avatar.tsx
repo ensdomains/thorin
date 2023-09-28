@@ -1,6 +1,8 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 
+import { rainbowSprinkles } from '@/src/css/rainbow-spinkles.css'
+
 type NativeImgAttributes = React.ImgHTMLAttributes<HTMLImageElement>
 
 type Shape = 'circle' | 'square'
@@ -61,41 +63,22 @@ const Container = styled.div<Container>(
   `,
 )
 
-const Placeholder = styled.div<{ $url?: string; $disabled: boolean }>(
-  ({ theme, $url, $disabled }) => css`
-    background: ${$url || theme.colors.gradients.blue};
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-
-    ${$disabled &&
-    css`
-      filter: grayscale(1);
-    `}
-  `,
-)
-
-const Img = styled.img<{ $shown: boolean; $disabled: boolean }>(
-  ({ $shown, $disabled }) => css`
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-    display: none;
-
-    ${$shown &&
-    css`
-      display: block;
-    `}
-
-    ${$disabled &&
-    css`
-      filter: grayscale(1);
-    `}
-  `,
-)
+const placeholderStyles = ({
+  disabled,
+  url,
+}: {
+  disabled: boolean
+  url?: string
+}) =>
+  rainbowSprinkles({
+    filter: disabled ? 'grayscale(1)' : undefined,
+    backgroundColor: url || '$blueGradient',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    height: '100%',
+  })
 
 export type Props = {
   /** Accessibility text. */
@@ -153,20 +136,27 @@ export const Avatar = ({
   }, [ref, hideImg, showImg])
 
   const isImageVisible = showImage && !!src
+
+  const imgProps = rainbowSprinkles({
+    display: isImageVisible ? 'block' : 'none',
+    height: '100%',
+    objectFit: 'cover',
+    width: '100%',
+    filter: disabled ? 'grayscale(1)' : undefined,
+    ...props,
+  })
+
   return (
     <Container $noBorder={!showImage || noBorder} $shape={shape}>
       {overlay}
       {!isImageVisible && (
-        <Placeholder
-          $disabled={disabled}
-          $url={placeholder}
+        <div
+          {...placeholderStyles({ disabled, url: placeholder })}
           aria-label={label}
         />
       )}
-      <Img
-        {...props}
-        $disabled={disabled}
-        $shown={isImageVisible}
+      <img
+        {...imgProps}
         alt={label}
         decoding={decoding}
         ref={ref}

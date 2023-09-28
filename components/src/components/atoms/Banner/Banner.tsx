@@ -8,6 +8,7 @@ import { WithAlert } from '../../../types'
 import { Typography } from '../Typography'
 
 import { AlertSVG, CrossSVG, EthSVG, UpRightArrowSVG } from '../..'
+import { Box, BoxProps } from '../Box/Box'
 
 type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 
@@ -52,69 +53,90 @@ type WithoutAnchor = {
 
 type NonNullableAlert = NonNullable<Props['alert']>
 
-const Container = styled.div<{
-  $alert: NonNullableAlert
-  $hasAction: boolean
-}>(
-  ({ theme, $alert, $hasAction }) => css`
-    position: relative;
-    background: ${theme.colors.backgroundPrimary};
-    border: 1px solid ${theme.colors.border};
-    border-radius: ${theme.radii['2xLarge']};
-    padding: ${theme.space[4]};
-    display: flex;
-    align-items: stretch;
-    gap: ${theme.space[4]};
-    width: ${theme.space.full};
-    transition: all 150ms ease-in-out;
+const getColorForAlert = (
+  alert: NonNullableAlert,
+  field: 'background' | 'border',
+  hover = false,
+) => {
+  return {
+    error: {
+      background: {
+        default: '$redSurface',
+        hover: '$redLight',
+      },
+      border: {
+        default: '$redPrimary',
+        hover: '$redPrimary',
+      },
+    },
+    warning: {
+      background: {
+        default: '$yellowSurface',
+        hover: '$yellowLight',
+      },
+      border: {
+        default: '$yellowPrimary',
+        hover: '$yellowPrimary',
+      },
+    },
+    info: {
+      background: {
+        default: '$backgroundPrimary',
+        hover: '$greySurface',
+      },
+      border: {
+        default: '$border',
+        hover: '$border',
+      },
+    },
+  }[alert][field][hover ? 'hover' : 'default']
+}
 
-    ${mq.sm.min(
-      css`
-        padding: ${theme.space['6']};
-        gap: ${theme.space[6]};
-        align-items: center;
-      `,
-    )}
-
-    ${$hasAction &&
-    css`
-      padding-right: ${theme.space[8]};
-      &:hover {
-        transform: translateY(-1px);
-        background: ${theme.colors.greySurface};
-        ${$alert === 'error' &&
-        css`
-          background: ${theme.colors.redLight};
-        `}
-        ${$alert === 'warning' &&
-        css`
-          background: ${theme.colors.yellowLight};
-        `}
-      }
-    `}
-
-    ${$alert === 'error' &&
-    css`
-      background: ${theme.colors.redSurface};
-      border: 1px solid ${theme.colors.redPrimary};
-    `}
-
-    ${$alert === 'warning' &&
-    css`
-      background: ${theme.colors.yellowSurface};
-      border: 1px solid ${theme.colors.yellowPrimary};
-    `};
-  `,
-)
-
-const Content = styled.div(
-  ({ theme }) => css`
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: ${theme.space[1]};
-  `,
+const ContainerBox = React.forwardRef<
+  HTMLDivElement,
+  {
+    $alert: NonNullableAlert
+    $hasAction: boolean
+  } & BoxProps
+>(
+  (
+    {
+      $alert,
+      $hasAction,
+      ...props
+    }: {
+      $alert: NonNullableAlert
+      $hasAction: boolean
+    } & BoxProps,
+    ref,
+  ) => (
+    <Box
+      alignItems={{ base: 'stretch', sm: 'center' }}
+      backgroundColor={{
+        base: getColorForAlert($alert, 'background'),
+        hover: getColorForAlert($alert, 'background', true),
+      }}
+      borderColor={getColorForAlert($alert, 'border')}
+      borderRadius="$2xLarge"
+      borderStyle="solid"
+      borderWidth="$1x"
+      display="flex"
+      gap={{ xs: '$4', sm: '$6' }}
+      padding={{ base: '$4', sm: '$6' }}
+      position="relative"
+      pr={$hasAction ? '$8' : undefined}
+      ref={ref}
+      transform={{
+        base: 'translateY(0)',
+        hover: $hasAction ? 'translateY(-1px)' : 'translateY(0px)',
+      }}
+      transitionDuration="$150"
+      transitionProperty="all"
+      transitionTimingFunction="$ease-in-out"
+      width="$full"
+      {...props}
+    />
+  ),
 )
 
 const IconContainer = styled.div<{
@@ -299,7 +321,7 @@ export const Banner = React.forwardRef<
     const _iconType = iconType || defaultIconType(alert, icon)
 
     return (
-      <Container
+      <ContainerBox
         {...props}
         $alert={alert}
         $hasAction={hasAction}
@@ -311,17 +333,23 @@ export const Banner = React.forwardRef<
             {Icon}
           </IconContainer>
         )}
-        <Content>
+        <Box
+          display="flex"
+          flex={1}
+          flexDirection="column"
+          gap="$1"
+          justifyContent="center"
+        >
           {title && <Typography fontVariant="largeBold">{title}</Typography>}
           <Typography>{children}</Typography>
-        </Content>
+        </Box>
         <ActionButton
           alert={alert}
           hasHref={hasHref}
           icon={props.actionIcon}
           onDismiss={onDismiss}
         />
-      </Container>
+      </ContainerBox>
     )
   },
 )
