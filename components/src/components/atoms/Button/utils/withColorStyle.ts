@@ -4,14 +4,14 @@ import { BaseColour, validateBaseColour } from '@/src/tokens/color3'
 
 type Shade = 'Primary' | 'Secondary'
 
-type ColorStyle =
+export type ColorStyle =
   | BaseColour
   | `${BaseColour}${Shade}`
   | 'background'
   | 'disabled'
   | 'transparent'
 
-export type WithColorStyle = { colorStyle: ColorStyle }
+export type WithColorStyle = { colorStyle?: ColorStyle }
 
 type Properties = {
   background: string

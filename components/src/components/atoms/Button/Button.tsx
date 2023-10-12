@@ -6,7 +6,11 @@ import { Space } from '@/src/tokens'
 
 import { scale, translateY } from '@/src/css/utils/common'
 
-import { WithColorStyle, getValueForColourStyle } from './utils/withColorStyle'
+import {
+  ColorStyle,
+  WithColorStyle,
+  getValueForColourStyle,
+} from './utils/withColorStyle'
 
 import { getValueForSize } from './utils/getValueForSize'
 
@@ -192,20 +196,20 @@ const CounterBox = (props: BoxProps) => (
 
 const CounterIconBox = ({
   $visible,
-  $colourStyle,
+  $colorStyle,
   ...props
 }: BoxProps & {
   $visible: boolean
-  $colourStyle: WithColorStyle['colorStyle']
+  $colorStyle: ColorStyle
 }) => (
   <Box
     alignItems="center"
-    borderColor={getValueForColourStyle($colourStyle, 'content')}
+    borderColor={getValueForColourStyle($colorStyle, 'content')}
     borderRadius="$full"
     borderStyle="solid"
     borderWidth="$2x"
     boxSizing="border-box"
-    color={getValueForColourStyle($colourStyle, 'content')}
+    color={getValueForColourStyle($colorStyle, 'content')}
     display="flex"
     fontSize="$extraSmall"
     height="$6"
@@ -254,7 +258,7 @@ export const Button = React.forwardRef(
       suffix,
       tabIndex,
       target,
-      colorStyle: colourStyle = 'accent',
+      colorStyle = 'accent',
       type = 'button',
       zIndex,
       onClick,
@@ -282,7 +286,7 @@ export const Button = React.forwardRef(
         .with([true, false, false], () => <Spinner />)
         .with([P._, true, P._], () =>
           React.isValidElement(prefix) ? (
-            <SVGBox $colorStyle={colourStyle} $size={size} as={prefix} />
+            <SVGBox $colorStyle={colorStyle} $size={size} as={prefix} />
           ) : null,
         )
         .otherwise(() => null)
@@ -291,7 +295,7 @@ export const Button = React.forwardRef(
         .with([true, false, true], () => <Spinner />)
         .with([P._, P._, true], () =>
           React.isValidElement(suffix) ? (
-            <SVGBox $colorStyle={colourStyle} $size={size} as={suffix} />
+            <SVGBox $colorStyle={colorStyle} $size={size} as={suffix} />
           ) : null,
         )
         .otherwise(() => null)
@@ -302,7 +306,7 @@ export const Button = React.forwardRef(
           {labelContent}
           {!!suffixOrLoading && (
             <SVGBox
-              $colorStyle={colourStyle}
+              $colorStyle={colorStyle}
               $size={size}
               as={suffixOrLoading as any}
             />
@@ -315,7 +319,7 @@ export const Button = React.forwardRef(
       <ButtonBox
         {...props}
         $center
-        $colorStyle={colourStyle}
+        $colorStyle={colorStyle}
         $hasCounter={!!count}
         $pressed={pressed}
         $shadow={shadow}
@@ -343,7 +347,7 @@ export const Button = React.forwardRef(
 
         {childContent}
         <CounterBox>
-          <CounterIconBox $colourStyle={colourStyle} $visible={!!count}>
+          <CounterIconBox $colorStyle={colorStyle} $visible={!!count}>
             {count}
           </CounterIconBox>
         </CounterBox>

@@ -38,8 +38,14 @@ type Props = {
 } & Omit<FieldBaseProps, 'labelRight'> &
   Omit<
     NativeInputProps,
-    'children' | 'value' | 'defaultValue' | 'aria-invalid' | 'type' | 'role'
-  > & { color: Color }
+    | 'children'
+    | 'value'
+    | 'defaultValue'
+    | 'aria-invalid'
+    | 'type'
+    | 'role'
+    | 'color'
+  > & { color?: Color }
 
 const Mark = ({ $color, disabled, ...props }: BoxProps & { $color: Color }) => (
   <Box

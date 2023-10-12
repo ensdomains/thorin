@@ -6,7 +6,7 @@ type Shade = 'Primary' | 'Secondary'
 
 type ColorStyle = BaseColour | `${BaseColour}${Shade}`
 
-export type WithColorStyle = { colorStyle: ColorStyle }
+export type WithColorStyle = { colorStyle?: ColorStyle }
 
 type Properties = {
   background: string
