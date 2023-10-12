@@ -41,47 +41,29 @@ const Container = (props: BoxProps) => (
     backgroundColor="$background"
     borderColor="$greySurface"
     borderRadius="$2xLarge"
-    borderWidth="$0.5"
+    borderWidth="$2x"
     overflow="hidden"
-    font="$mono"
+    fontFamily="$mono"
   />
 )
-const Container2 = styled.div(
-  ({ theme }) => css`
-    background-color: ${theme.colors.background};
-    border-color: ${theme.colors.greySurface};
-    border-radius: ${theme.radii['2xLarge']};
-    border-width: ${theme.space['0.5']};
-    overflow: hidden;
-    font-family: ${theme.fonts.mono};
-  `,
-)
 
-const ContainerInner = ({
-  $expand,
-  ...props
-}: BoxProps & { $expand: boolean }) => (
+const ContainerInner = React.forwardRef<
+  HTMLElement,
+  BoxProps & { $expand: boolean }
+>(({ $expand, ...props }, ref) => (
   <Box
     {...props}
+    ref={ref}
     backgroundColor="$background"
     borderTopLeftRadius="$2xLarge"
-    borderTopRightRadius="2xLarge"
-    borderBottomRadius={$expand ? '2xLarge' : 'unset'}
+    borderTopRightRadius="$2xLarge"
+    borderBottomLeftRadius={$expand ? '2xLarge' : 'unset'}
+    borderBottomRightRadius={$expand ? '2xLarge' : 'unset'}
     overflow="auto"
     padding="$6"
   />
-)
-
-const ContainerInner2 = styled.div<{ $expand?: boolean; ref: any }>(
-  ({ theme, $expand }) => css`
-    background-color: ${theme.colors.background};
-    ${$expand && `border-bottom-radius: ${theme.radii['2xLarge']}`};
-    border-top-left-radius: ${theme.radii['2xLarge']};
-    border-top-right-radius: ${theme.radii['2xLarge']};
-    overflow: scroll;
-    padding: ${theme.space['6']};
-  `,
-)
+))
+ContainerInner.displayName = 'ComponentInner'
 
 const LiveEditorContainer = (props: BoxProps) => (
   <Box
@@ -92,20 +74,20 @@ const LiveEditorContainer = (props: BoxProps) => (
     padding="0.875rem 2.75rem 0.875rem 0.875rem"
   />
 )
-const LiveEditorContainer2 = styled.div(
-  ({ theme }) => css`
-    background-color: ${theme.colors.backgroundSecondary};
-    position: relative;
-    padding: 0.875rem 2.75rem 0.875rem 0.875rem;
+// const LiveEditorContainer2 = styled.div(
+//   ({ theme }) => css`
+//     background-color: ${theme.colors.backgroundSecondary};
+//     position: relative;
+//     padding: 0.875rem 2.75rem 0.875rem 0.875rem;
 
-    .token {
-      font-family: 'iAWriter Mono', Menlo, Monaco, Consolas, 'Liberation Mono',
-        'Courier New', monospace, sans-serif !important;
-      font-size: 1.0625rem;
-      font-feature-settings: 'ss01', 'ss03';
-    }
-  `,
-)
+//     .token {
+//       font-family: 'iAWriter Mono', Menlo, Monaco, Consolas, 'Liberation Mono',
+//         'Courier New', monospace, sans-serif !important;
+//       font-size: 1.0625rem;
+//       font-feature-settings: 'ss01', 'ss03';
+//     }
+//   `,
+// )
 
 const ButtonContainer = styled.div(
   ({ theme }) => css`

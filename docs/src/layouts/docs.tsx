@@ -3,7 +3,7 @@ import { GetLayout, NextLayout } from 'next'
 import Head from 'next/head'
 import styled, { css } from 'styled-components'
 
-import { mq, Box } from '@ensdomains/thorin'
+import { mq } from '@ensdomains/thorin'
 
 import {
   Header,
@@ -14,10 +14,9 @@ import {
 } from '~/components'
 
 import { getLayout as getBaseLayout } from './site'
-import { BoxProps } from '@ensdomains/thorin/dist/types/components/atoms/Box'
 import { Typography } from '@ensdomains/thorin'
 
-const Container = (props: BoxProps) => (
+const Container = (props: React.ComponentProps<typeof Typography>) => (
   <Typography
     {...props}
     display={{ base: 'block', lg: 'flex' }}
@@ -30,24 +29,24 @@ const Container = (props: BoxProps) => (
   />
 )
 
-const Container2 = styled.div(
-  ({ theme }) => css`
-    display: block;
-    justify-content: center;
-    margin: 0 auto;
-    max-width: ${theme.space['320']};
-    min-height: ${theme.space['viewHeight']};
-    padding: 0 ${theme.space['6']};
-    ${mq.lg.min(css`
-      display: flex;
-      justify-content: flex-end;
-    `)}
-    ${mq.xl.min(css`
-      display: flex;
-      justify-content: center;
-    `)};
-  `,
-)
+// const Container2 = styled.div(
+//   ({ theme }) => css`
+//     display: block;
+//     justify-content: center;
+//     margin: 0 auto;
+//     max-width: ${theme.space['320']};
+//     min-height: ${theme.space['viewHeight']};
+//     padding: 0 ${theme.space['6']};
+//     ${mq.lg.min(css`
+//       display: flex;
+//       justify-content: flex-end;
+//     `)}
+//     ${mq.xl.min(css`
+//       display: flex;
+//       justify-content: center;
+//     `)};
+//   `,
+// )
 
 const Aside = styled.aside(
   ({ theme }) => css`

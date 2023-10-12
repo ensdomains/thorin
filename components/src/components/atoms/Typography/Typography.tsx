@@ -67,7 +67,7 @@ type Props = {
   weight?: FontWeight
 
   fontVariant?: FontVariant
-} & Omit<NativeDivProps, 'color' | 'as'> &
+} & Omit<NativeDivProps, 'color' | 'as' | 'translate'> &
   WithColor &
   Omit<BoxProps, 'color'> & { fontVariant?: FontVariant }
 
