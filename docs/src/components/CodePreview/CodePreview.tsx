@@ -16,6 +16,8 @@ import { Prism } from '../Prism'
 import ComponentWrapper from '../../playroom/ComponentWrapper'
 import { CopyButton } from '../CopyButton'
 import { DeleteMe } from '../DeleteMe'
+import { Box, BoxProps } from '@ensdomains/thorin'
+import { liveEditor } from './styles.css'
 
 export type Props = {
   backgroundColor?: Colors
@@ -33,7 +35,18 @@ const initialState = {
   expand: false,
 }
 
-const Container = styled.div(
+const Container = (props: BoxProps) => (
+  <Box
+    {...props}
+    backgroundColor="$background"
+    borderColor="$greySurface"
+    borderRadius="$2xLarge"
+    borderWidth="$0.5"
+    overflow="hidden"
+    font="$mono"
+  />
+)
+const Container2 = styled.div(
   ({ theme }) => css`
     background-color: ${theme.colors.background};
     border-color: ${theme.colors.greySurface};
@@ -44,7 +57,22 @@ const Container = styled.div(
   `,
 )
 
-const ContainerInner = styled.div<{ $expand?: boolean; ref: any }>(
+const ContainerInner = ({
+  $expand,
+  ...props
+}: BoxProps & { $expand: boolean }) => (
+  <Box
+    {...props}
+    backgroundColor="$background"
+    borderTopLeftRadius="$2xLarge"
+    borderTopRightRadius="2xLarge"
+    borderBottomRadius={$expand ? '2xLarge' : 'unset'}
+    overflow="auto"
+    padding="$6"
+  />
+)
+
+const ContainerInner2 = styled.div<{ $expand?: boolean; ref: any }>(
   ({ theme, $expand }) => css`
     background-color: ${theme.colors.background};
     ${$expand && `border-bottom-radius: ${theme.radii['2xLarge']}`};
@@ -55,7 +83,16 @@ const ContainerInner = styled.div<{ $expand?: boolean; ref: any }>(
   `,
 )
 
-const LiveEditorContainer = styled.div(
+const LiveEditorContainer = (props: BoxProps) => (
+  <Box
+    {...props}
+    className={liveEditor}
+    backgroundColor="$background"
+    position="relative"
+    padding="0.875rem 2.75rem 0.875rem 0.875rem"
+  />
+)
+const LiveEditorContainer2 = styled.div(
   ({ theme }) => css`
     background-color: ${theme.colors.backgroundSecondary};
     position: relative;
@@ -117,7 +154,7 @@ export const CodePreview = ({
       theme={theme}
       transformCode={(code) => '/** @jsx mdx */' + code}
     >
-      <Container>
+      <Container style={{ background: 'orange' }}>
         <ContainerInner
           $expand={state.expand}
           ref={previewRef}

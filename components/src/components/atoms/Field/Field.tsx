@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import styled, { css } from 'styled-components'
+import { P, match } from 'ts-pattern'
 
 import { Space } from '@/src/tokens'
 
@@ -8,6 +8,7 @@ import { ReactNodeNoStrings } from '../../../types'
 import { useFieldIds } from '../../../hooks'
 import { VisuallyHidden } from '../VisuallyHidden'
 import { Typography } from '../Typography/Typography'
+import { Box, BoxProps } from '../Box/Box'
 
 export type State = ReturnType<typeof useFieldIds> | undefined
 const Context = React.createContext<State>(undefined)
@@ -45,67 +46,70 @@ type Props = FieldBaseProps & {
   disabled?: boolean
 } & Omit<NativeLabelProps, 'id' | 'children'>
 
-const Label = styled.label<{
+const RequiredBox = () => (
+  <Box as="span" color="$redPrimary" marginLeft="$1" whiteSpace="pre">
+    *
+  </Box>
+)
+
+const LabelBox = ({
+  $disabled = false,
+  $readOnly = false,
+  $required,
+  children,
+  ...props
+}: BoxProps & {
   $disabled?: boolean
   $readOnly?: boolean
   $required?: boolean
-}>(
-  ({ theme, $disabled, $readOnly, $required }) => css`
-    display: flex;
-    flex-basis: auto;
-    flex-grow: 2;
-    flex-shrink: 1;
-    overflow: hidden;
-    position: relative;
-    cursor: pointer;
-
-    ${$readOnly &&
-    css`
-      cursor: default;
-      pointer-events: none;
-    `}
-
-    ${$disabled &&
-    css`
-      cursor: not-allowed;
-    `}
-
-    ${$required &&
-    css`
-      ::after {
-        content: ' *';
-        white-space: pre;
-        color: ${theme.colors.red};
-      }
-    `}
-  `,
+}) => (
+  <Box
+    cursor={match([$disabled, $readOnly])
+      .with([true, P._], () => 'not-allowed')
+      .with([false, true], () => 'none')
+      .with([false, false], () => 'pointer')
+      .exhaustive()}
+    display="flex"
+    flexBasis="$auto"
+    flexGrow="2"
+    flexShrink="1"
+    overflow="hidden"
+    position="relative"
+    {...props}
+  >
+    {children}
+    {$required && <RequiredBox />}
+  </Box>
 )
 
-const InnerLabel = styled(Typography)(
-  () => css`
-    width: 100%;
-  `,
+const InnerLabelBox = (props: React.ComponentProps<typeof Typography>) => (
+  <Typography {...props} width="$full" />
 )
 
-const SecondaryLabel = styled(Typography)(
-  () => css`
-    flex-basis: auto;
-    flex-grow: 0;
-    flex-shrink: 2;
-    text-align: right;
-    overflow: hidden;
-    position: relative;
-  `,
+const SecondaryLabelBox = (props: React.ComponentProps<typeof Typography>) => (
+  <Typography
+    flexBasis="$auto"
+    flexGrow="0"
+    flexShrink="2"
+    overflow="hidden"
+    position="relative"
+    textAlign="right"
+    {...props}
+  />
 )
 
-const LabelContentContainer = styled.div<{ $inline?: boolean }>(
-  ({ theme, $inline }) => css`
-    display: flex;
-    align-items: center;
-    padding: 0 ${$inline ? '0' : theme.space['2']};
-    overflow: hidden;
-    gap: ${theme.space['2']};
-  `,
+const LabelContentContainerBox = ({
+  $inline,
+  ...props
+}: BoxProps & { $inline?: boolean }) => (
+  <Box
+    alignItems="center"
+    display="flex"
+    gap="$2"
+    overflow="hidden"
+    px={$inline ? '$0' : '$2'}
+    {...props}
+  />
 )
 
 const LabelContent = ({
@@ -128,42 +132,54 @@ const LabelContent = ({
   readOnly?: boolean
 }) => {
   const content = (
-    <LabelContentContainer $inline={inline}>
-      <Label
+    <LabelContentContainerBox $inline={inline}>
+      <LabelBox
         $disabled={disabled}
         $readOnly={readOnly}
         $required={required}
+        as="label"
         {...ids.label}
       >
-        <InnerLabel color="greyPrimary" ellipsis fontVariant="bodyBold">
+        <InnerLabelBox color="greyPrimary" ellipsis fontVariant="bodyBold">
           {label}
+          <RequiredBox />
           {required && <VisuallyHidden>required</VisuallyHidden>}
-        </InnerLabel>
-      </Label>
+        </InnerLabelBox>
+      </LabelBox>
       {labelSecondary && (
-        <SecondaryLabel color="greyPrimary" ellipsis fontVariant="extraSmall">
+        <SecondaryLabelBox
+          color="greyPrimary"
+          ellipsis
+          fontVariant="extraSmall"
+        >
           {labelSecondary}
-        </SecondaryLabel>
+        </SecondaryLabelBox>
       )}
-    </LabelContentContainer>
+    </LabelContentContainerBox>
   )
   if (hideLabel) return <VisuallyHidden>{content}</VisuallyHidden>
   return content
 }
 
-const Description = styled(Typography)<{ $inline?: boolean }>(
-  ({ theme, $inline }) => css`
-    padding: 0 ${$inline ? '0' : theme.space['2']};
-    width: 100%;
-    overflow: hidden;
-  `,
+const DescriptionBox = ({
+  $inline,
+  ...props
+}: React.ComponentProps<typeof Typography> & { $inline: boolean }) => (
+  <Typography
+    overflow="hidden"
+    padding={$inline ? '$0' : '$2'}
+    width="$full"
+    {...props}
+  />
 )
 
-const Error = styled(Typography)<{ $inline?: boolean }>(
-  ({ theme, $inline }) => `
-    padding: 0 ${$inline ? '0' : theme.space[2]};
-`,
+const ErrorBox = ({
+  $inline,
+  ...props
+}: React.ComponentProps<typeof Typography> & { $inline: boolean }) => (
+  <Typography padding={$inline ? '$0' : '$2'} {...props} />
 )
+
 const DecorativeContent = ({
   ids,
   error,
@@ -182,7 +198,7 @@ const DecorativeContent = ({
   if (hideLabel) return null
   if (error)
     return (
-      <Error
+      <ErrorBox
         aria-live="polite"
         {...ids.error}
         $inline={inline}
@@ -190,11 +206,11 @@ const DecorativeContent = ({
         fontVariant="smallBold"
       >
         {error}
-      </Error>
+      </ErrorBox>
     )
   if (description)
     return (
-      <Description
+      <DescriptionBox
         $inline={inline}
         {...ids.description}
         color={disabled ? 'greyPrimary' : 'textPrimary'}
@@ -203,7 +219,7 @@ const DecorativeContent = ({
         fontVariant="small"
       >
         {description}
-      </Description>
+      </DescriptionBox>
     )
   return null
 }
@@ -214,32 +230,37 @@ interface ContainerProps {
   $reverse?: boolean
 }
 
-const Container = styled.div<ContainerProps>(
-  ({ theme, $inline, $width, $reverse }) => css`
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: 'normal';
-    gap: ${theme.space['2']};
-    width: ${theme.space[$width]};
-
-    ${$inline &&
-    css`
-      flex-direction: ${$reverse ? 'row-reverse' : 'row'};
-      align-items: 'flex-start';
-    `}
-  `,
+const ContainerBox = ({
+  $width,
+  $inline,
+  $reverse,
+  ...props
+}: BoxProps & ContainerProps) => (
+  <Box
+    alignItems={$inline ? 'flex-start' : 'normal'}
+    display="flex"
+    flexDirection={match([!!$inline, !!$reverse])
+      .with([true, true], () => 'row-reverse' as const)
+      .with([true, false], () => 'row' as const)
+      .with([false, P._], () => 'column' as const)
+      .exhaustive()}
+    gap="$2"
+    justifyContent="flex-start"
+    position="relative"
+    width={$width}
+    {...props}
+  />
 )
 
-const ContainerInner = styled.div(
-  ({ theme }) => css`
-    display: flex;
-    flex-direction: column;
-    gap: ${theme.space[1]};
-    flex: 1;
-    overflow: hidden;
-  `,
+const ContainerInnerBox = (props: BoxProps) => (
+  <Box
+    display="flex"
+    flex="1"
+    flexDirection="column"
+    gap="$1"
+    overflow="hidden"
+    {...props}
+  />
 )
 
 export const Field = ({
@@ -299,21 +320,21 @@ export const Field = ({
 
   if (inline)
     return (
-      <Container $inline={inline} $reverse={reverse} $width={width}>
+      <ContainerBox $inline={inline} $reverse={reverse} $width={width}>
         <div>{content}</div>
-        <ContainerInner>
+        <ContainerInnerBox>
           {labelContent}
           {decorativeContent}
-        </ContainerInner>
-      </Container>
+        </ContainerInnerBox>
+      </ContainerBox>
     )
 
   return (
-    <Container $width={width}>
+    <ContainerBox $width={width}>
       {labelContent}
       {content}
       {decorativeContent}
-    </Container>
+    </ContainerBox>
   )
 }
 

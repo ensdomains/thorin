@@ -1,17 +1,18 @@
 import * as React from 'react'
-import styled, { FlattenInterpolation, css } from 'styled-components'
 
+import { StatusDot, statusDot } from '@/src/css/recipes/statusDot.css'
+import { statusBorder } from '@/src/css/recipes/statusBorder.css'
 import { setNativeValue } from '@/src/utils/setNativeValue'
+
+import { scale } from '@/src/css/utils/common'
+
+import * as styles from './styles.css'
 
 import { CrossCircleSVG, Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
-import { Radii, Space } from '../../../tokens/index'
-import { DefaultTheme } from '../../../types/index'
-import {
-  FontVariant,
-  getFontSize,
-  getLineHeight,
-} from '../../../types/withTypography'
+import { Space } from '../../../tokens/index'
+import { Box, BoxProps } from '../../atoms/Box/Box'
+import { getValueForSize } from './utils/getValueForSize'
 
 type NativeInputProps = React.InputHTMLAttributes<HTMLInputElement>
 
@@ -80,7 +81,7 @@ type BaseProps = Omit<FieldBaseProps, 'inline'> & {
   /** Sets the height of the input element. */
   size?: 'small' | 'medium' | 'large' | 'extraLarge'
   /** Set of styles  */
-  parentStyles?: FlattenInterpolation<any>
+  parentStyles?: BoxProps
 } & Omit<
     NativeInputProps,
     | 'size'
@@ -108,371 +109,202 @@ type WithTypeDateTimeLocal = {
   type?: 'datetime-local'
 }
 
-type Size = NonNullable<BaseProps['size']>
+export type Size = NonNullable<BaseProps['size']>
 
-const SPACES: {
-  [key in Size]: {
-    outerPadding: Space
-    gap: Space
-    icon: Space
-    iconPadding: Space
-    height: Space
-  }
-} = {
-  small: {
-    outerPadding: '3.5',
-    gap: '2',
-    icon: '3',
-    iconPadding: '8.5',
-    height: '10',
-  },
-  medium: {
-    outerPadding: '4',
-    gap: '2',
-    icon: '4',
-    iconPadding: '10',
-    height: '12',
-  },
-  large: {
-    outerPadding: '4',
-    gap: '2',
-    icon: '5',
-    iconPadding: '11',
-    height: '16',
-  },
-  extraLarge: {
-    outerPadding: '6',
-    gap: '2',
-    icon: '6',
-    iconPadding: '14',
-    height: '20',
-  },
-}
-
-const getSpaceValue = (
-  theme: DefaultTheme,
-  size: keyof typeof SPACES,
-  key: keyof typeof SPACES['small'],
-): string => {
-  return theme.space[SPACES[size][key]]
-}
-
-const getIconPadding = (
-  theme: DefaultTheme,
-  size: keyof typeof SPACES,
-  iconWidth?: Space,
-  negative?: boolean,
-) => {
-  if (iconWidth)
-    return negative
-      ? `calc(-${theme.space[SPACES[size].outerPadding]} - ${
-          theme.space[iconWidth]
-        } - ${theme.space[SPACES[size].gap]})`
-      : `calc(${theme.space[SPACES[size].outerPadding]} + ${
-          theme.space[iconWidth]
-        } + ${theme.space[SPACES[size].gap]})`
-  return negative
-    ? `-${theme.space[SPACES[size].iconPadding]}`
-    : theme.space[SPACES[size].iconPadding]
-}
-
-const RADII: {
-  [key in Size]: Radii
-} = {
-  small: 'large',
-  medium: 'large',
-  large: '2.5xLarge',
-  extraLarge: '2.5xLarge',
-}
-
-const getRadiusValue = (theme: DefaultTheme, size: keyof typeof RADII) => {
-  return theme.radii[RADII[size]]
-}
-
-const TYPOGRAPHIES: {
-  [key in Size]: FontVariant
-} = {
-  small: 'small',
-  medium: 'body',
-  large: 'large',
-  extraLarge: 'headingThree',
-}
-
-const getTypographyValue = (size: keyof typeof TYPOGRAPHIES) => {
-  return TYPOGRAPHIES[size]
-}
-
-const Container = styled.div<{
+type ContainerProps = {
   $size: Size
   $disabled?: boolean
   $hasError?: boolean
   $suffix: boolean
   $validated?: boolean
   $showDot?: boolean
-  $userStyles?: FlattenInterpolation<any>
-}>(
-  ({ theme, $size, $hasError, $userStyles, $validated, $showDot }) => css`
-    position: relative;
-    height: ${getSpaceValue(theme, $size, 'height')};
-    display: flex;
-    transition-duration: ${theme.transitionDuration['150']};
-    transition-property: color, border-color, background-color;
-    transition-timing-function: ${theme.transitionTimingFunction['inOut']};
-
-    :after {
-      content: '';
-      position: absolute;
-      width: ${theme.space['4']};
-      height: ${theme.space['4']};
-      border: 2px solid ${theme.colors.backgroundPrimary};
-      box-sizing: border-box;
-      border-radius: 50%;
-      right: -${theme.space['1.5']};
-      top: -${theme.space['1.5']};
-      transition: all 0.3s ease-out;
-      transform: scale(0.3);
-      opacity: 0;
-    }
-
-    ${$showDot &&
-    $validated &&
-    css`
-      :after {
-        background: ${theme.colors.greenPrimary};
-        transform: scale(1);
-        opacity: 1;
-      }
-    `}
-
-    ${$showDot &&
-    !$hasError &&
-    css`
-      &:focus-within:after {
-        background: ${theme.colors.bluePrimary};
-        transform: scale(1);
-        opacity: 1;
-      }
-    `}
-
-    ${$hasError &&
-    $showDot &&
-    css`
-      :after {
-        background: ${theme.colors.redPrimary};
-        transform: scale(1);
-        opacity: 1;
-      }
-    `}
-
-  ${$userStyles}
-  `,
+  $userStyles?: BoxProps
+}
+const Container = ({
+  $size,
+  ...props
+}: BoxProps & ContainerProps & StatusDot) => (
+  <Box
+    {...props}
+    display="flex"
+    height={getValueForSize($size, 'height')}
+    position="relative"
+    transitionDuration="$150"
+    transitionProperty="color, border-colror, background-color"
+  />
 )
 
-const Label = styled.label<{ $size: Size }>(
-  ({ theme, $size }) => css`
-    display: flex;
-    align-items: center;
-    gap: ${theme.space[2]};
-
-    height: ${theme.space.full};
-    color: ${theme.colors.greyPrimary};
-    background: ${theme.colors.greySurface};
-    font-size: ${getFontSize(getTypographyValue($size))};
-    line-height: ${getLineHeight(getTypographyValue($size))};
-    font-weight: ${theme.fontWeights.normal};
-    padding: 0 ${getSpaceValue(theme, $size, 'outerPadding')};
-
-    svg {
-      display: block;
-      color: ${theme.colors.greyPrimary};
-    }
-  `,
+const Label = ({
+  $size,
+  $disabled,
+  ...props
+}: BoxProps & { $disabled?: boolean; $size: Size }) => (
+  <Box
+    {...props}
+    alignItems="center"
+    as="label"
+    backgroundColor={$disabled ? '$border' : '$greySurface'}
+    color="$greyPrimary"
+    cursor={$disabled ? 'not-allowed' : 'pointer'}
+    display="flex"
+    fontSize={getValueForSize($size, 'labelFontSize')}
+    fontWeight="$normal"
+    gap="$2"
+    height="$full"
+    lineHeight={getValueForSize($size, 'labelFontSize')}
+    px={getValueForSize($size, 'outerPadding')}
+  />
 )
 
-const Prefix = styled(Label)(
-  () => css`
-    order: -2;
-  `,
+type IconBoxProps = {
+  $icon: React.ReactElement
+  $iconWidth?: any
+  $size: Size
+}
+
+const Icon = ({
+  $icon,
+  $iconWidth,
+  $size,
+  ...props
+}: BoxProps & IconBoxProps) => (
+  <Box
+    {...props}
+    alignItems="center"
+    as="label"
+    boxSizing="content-box"
+    cursor="pointer"
+    display="flex"
+    flexBasis={$iconWidth ? `$${$iconWidth}` : getValueForSize($size, 'icon')}
+    flexGrow={0}
+    flexShrink={0}
+    justifyContent="flex-start"
+    order={-1}
+    paddingLeft={getValueForSize($size, 'outerPadding')}
+    width={$iconWidth ? `$${$iconWidth}` : getValueForSize($size, 'icon')}
+    zIndex={1}
+  >
+    {$icon}
+  </Box>
 )
 
-const IconWrapper = styled.div<{ $size: Size; $iconWidth?: Space }>(
-  ({ theme, $size, $iconWidth }) => css`
-    order: -1;
-    padding-left: ${getSpaceValue(theme, $size, 'outerPadding')};
-    flex: 0 0 ${getIconPadding(theme, $size, $iconWidth)};
-    margin-right: ${getIconPadding(theme, $size, $iconWidth, true)};
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    pointer-events: none;
-    svg {
-      display: block;
-      width: ${$iconWidth
-        ? theme.space[$iconWidth]
-        : getSpaceValue(theme, $size, 'icon')};
-      height: ${$iconWidth
-        ? theme.space[$iconWidth]
-        : getSpaceValue(theme, $size, 'icon')};
-      color: ${theme.colors.greyPrimary};
-    }
-    z-index: 1;
-  `,
-)
+const ActionButton = ({
+  $icon,
+  $size,
+  ...props
+}: BoxProps & { $size: Size; $icon?: React.ReactNode }) => {
+  const Icon: React.ReactElement = React.isValidElement($icon) ? (
+    $icon
+  ) : (
+    <CrossCircleSVG />
+  )
+  return (
+    <Box
+      {...props}
+      alignItems="center"
+      as="button"
+      color={{ base: '$greyPrimary', hover: '$greyBright' }}
+      cursor="pointer"
+      display="flex"
+      flexBasis={getValueForSize($size, 'iconPadding')}
+      flexGrow={0}
+      flexShrink={0}
+      justifyContent="flex-start"
+      marginLeft={`calc(-1 * ${getValueForSize($size, 'iconPadding')})`}
+      opacity={1}
+      paddingRight={getValueForSize($size, 'outerPadding')}
+      transform={scale(1)}
+      transition="all 0.1s ease-in-out"
+    >
+      <Box
+        as={Icon}
+        display="block"
+        fill="CurrentColor"
+        stroke="CurrentColor"
+        transition="all 150ms ease-in-out"
+        wh={getValueForSize($size, 'icon')}
+      />
+    </Box>
+  )
+}
 
-const ActionButton = styled.button<{ $size: Size }>(
-  ({ theme, $size }) => css`
-    padding-right: ${getSpaceValue(theme, $size, 'outerPadding')};
-    margin-left: -${getSpaceValue(theme, $size, 'iconPadding')};
-    flex: 0 0 ${getSpaceValue(theme, $size, 'iconPadding')};
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    transition: all 0.1s ease-in-out;
-    transform: scale(1);
-    opacity: 1;
-    cursor: pointer;
-
-    svg {
-      display: block;
-      width: ${getSpaceValue(theme, $size, 'icon')};
-      height: ${getSpaceValue(theme, $size, 'icon')};
-      color: ${theme.colors.greyPrimary};
-      transition: all 150ms ease-in-out;
-    }
-
-    &:hover svg {
-      color: ${theme.colors.greyBright};
-      transform: translateY(-1px);
-    }
-  `,
-)
-
-const InputComponent = styled.input<{
+type InputProps = {
   $size: Size
   $hasAction: boolean
   $hasIcon: boolean
   $hasError: boolean
   $iconWidth?: Space
-}>(
-  ({ theme, $size, $hasIcon, $hasAction, $hasError, $iconWidth }) => css`
-    background-color: transparent;
-    position: relative;
-    width: ${theme.space['full']};
-    height: ${theme.space['full']};
-    font-weight: ${theme.fontWeights.normal};
-    text-overflow: ellipsis;
-    color: ${theme.colors.textPrimary};
-    padding: 0 ${getSpaceValue(theme, $size, 'outerPadding')};
-    font-size: ${getFontSize(getTypographyValue($size))};
-    line-height: ${getLineHeight(getTypographyValue($size))};
+}
 
-    ${$hasIcon &&
-    css`
-      padding-left: ${getIconPadding(theme, $size, $iconWidth)};
-    `}
-
-    ${$hasAction &&
-    css`
-      padding-right: ${getSpaceValue(theme, $size, 'iconPadding')};
-    `}
-
-    &::placeholder {
-      color: ${theme.colors.greyPrimary};
-      font-weight: ${$size === 'large' || $size === 'extraLarge'
-        ? theme.fontWeights.bold
-        : theme.fontWeights.normal};
-    }
-
-    &:read-only {
-      cursor: default;
-    }
-
-    &:disabled {
-      background: ${theme.colors.greyLight};
-      cursor: not-allowed;
-      color: ${theme.colors.greyPrimary};
-    }
-
-    ${$hasError &&
-    css`
-      color: ${theme.colors.redPrimary};
-    `}
-  `,
+const InputComponent = React.forwardRef<HTMLElement, BoxProps & InputProps>(
+  (
+    {
+      $size,
+      $hasIcon,
+      $hasAction,
+      $hasError,
+      // $iconWidth,
+      ...props
+    },
+    ref,
+  ) => (
+    <Box
+      {...props}
+      as="input"
+      backgroundColor={{ base: 'transparent', disabled: '$greyLight' }}
+      color={
+        $hasError
+          ? '$redPrimary'
+          : { base: '$textPrimary', disabled: '$greyPrimary' }
+      }
+      cursor={{ base: 'text', disabled: 'not-allowed', readonly: 'default' }}
+      fontSize={getValueForSize($size, 'labelFontSize')}
+      fontWeight="$normal"
+      paddingLeft={
+        $hasIcon
+          ? getValueForSize($size, 'innerPadding')
+          : getValueForSize($size, 'outerPadding')
+      }
+      paddingRight={
+        $hasAction
+          ? getValueForSize($size, 'innerPadding')
+          : getValueForSize($size, 'outerPadding')
+      }
+      position="relative"
+      ref={ref}
+      textOverflow="ellipsis"
+      wh="$full"
+    />
+  ),
 )
 
-const InnerContainer = styled.div<{
+type InnerContainerProps = {
   $size: Size
   $hasError: boolean
   $disabled: boolean
   $readOnly: boolean
   $alwaysShowAction: boolean
-}>(
-  ({ theme, $size, $hasError, $disabled, $readOnly, $alwaysShowAction }) => css`
-    position: relative;
-    background-color: ${theme.colors.backgroundPrimary};
-    border-radius: ${getRadiusValue(theme, $size)};
-    border-width: ${theme.space.px};
-    border-color: ${theme.colors.border};
-    color: ${theme.colors.textPrimary};
-    overflow: hidden;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    transition-duration: ${theme.transitionDuration['150']};
-    transition-property: color, border-color, background-color;
-    transition-timing-function: ${theme.transitionTimingFunction['inOut']};
+}
 
-    ${$disabled &&
-    css`
-      border-color: ${theme.colors.border};
-      background-color: ${theme.colors.greyLight};
-    `}
-
-    ${$hasError &&
-    css`
-      border-color: ${theme.colors.redPrimary};
-      cursor: default;
-    `}
-
-    ${!$hasError &&
-    !$readOnly &&
-    css`
-      &:focus-within {
-        border-color: ${theme.colors.accentBright};
-      }
-    `}
-
-    input ~ label {
-      cursor: text;
-    }
-
-    input:read-only ~ label,
-    input:read-only ~ button {
-      cursor: default;
-    }
-
-    input:disabled ~ label,
-    input:disabled ~ button {
-      background: ${theme.colors.greyLight};
-      cursor: not-allowed;
-    }
-
-    input:disabled ~ button,
-    input:read-only ~ button {
-      opacity: 0;
-      transform: scale(0.8);
-      pointer-events: none;
-    }
-
-    ${!$alwaysShowAction &&
-    css`
-      input:placeholder-shown ~ button {
-        opacity: 0;
-        transform: scale(0.8);
-        pointer-events: none;
-      }
-    `}
-  `,
+const InnerContainer = ({
+  $size,
+  $disabled,
+  ...props
+}: BoxProps & InnerContainerProps) => (
+  <Box
+    {...props}
+    backgroundColor={$disabled ? '$greyLight' : '$backgroundPrimary'}
+    borderRadius={getValueForSize($size, 'borderRadius')}
+    borderWidth="$1x"
+    color="$textPrimary"
+    display="flex"
+    overflow="hidden"
+    position="relative"
+    transitionDuration="$150"
+    transitionProperty="color, border-color, background-color"
+    transitionTimingFunction="$inOut"
+    wh="$full"
+  />
 )
 
 type Props = BaseProps & (WithTypeEmail | WithTypeText | WithTypeDateTimeLocal)
@@ -568,6 +400,11 @@ export const Input = React.forwardRef(
       >
         {(ids) => (
           <Container
+            className={statusDot({
+              error: hasError,
+              validated,
+              show: showDot,
+            })}
             {...{
               $disabled: disabled,
               $hasError: hasError,
@@ -585,6 +422,11 @@ export const Input = React.forwardRef(
               $hasError={!!error}
               $readOnly={!!readOnly}
               $size={size}
+              className={statusBorder({
+                readonly: readOnly,
+                disabled: disabled,
+                error: hasError,
+              })}
             >
               <InputComponent
                 ref={inputRef}
@@ -601,6 +443,10 @@ export const Input = React.forwardRef(
                 autoComplete={autoComplete}
                 autoCorrect={autoCorrect}
                 autoFocus={autoFocus}
+                className={styles.input({
+                  size: size,
+                  showAction: alwaysShowAction,
+                })}
                 defaultValue={defaultValue}
                 disabled={disabled}
                 inputMode={inputMode}
@@ -616,34 +462,42 @@ export const Input = React.forwardRef(
                 onFocus={onFocus}
               />
               {prefix && (
-                <Prefix
+                <Label
                   aria-hidden="true"
                   as={prefixAs}
+                  className={styles.label}
+                  order={-2}
                   {...ids?.label}
+                  $disabled={disabled}
                   $size={size}
                 >
                   {prefix}
-                </Prefix>
+                </Label>
               )}
-              {icon && (
-                <IconWrapper $iconWidth={iconWidth} $size={size}>
-                  {icon}
-                </IconWrapper>
+              {icon && React.isValidElement(icon) && (
+                <Icon
+                  $icon={icon}
+                  $iconWidth={iconWidth}
+                  $size={size}
+                  className={styles.icon}
+                  {...ids?.label}
+                />
               )}
               {hasAction && (
                 <ActionButton
+                  $icon={actionIcon}
                   $size={size}
                   data-testid="input-action-button"
                   onClick={handleClickAction}
                   onMouseDown={(e) => e.preventDefault()}
-                >
-                  {actionIcon ? actionIcon : <CrossCircleSVG />}
-                </ActionButton>
+                />
               )}
               {suffix && (
                 <Label
+                  $disabled={disabled}
                   $size={size}
                   aria-hidden="true"
+                  className={styles.label}
                   {...ids?.label}
                   {...(suffixAs ? { as: suffixAs } : {})}
                 >

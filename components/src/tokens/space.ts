@@ -1,4 +1,11 @@
+export const negativeSpace = {
+  '-1.5': '-0.375rem',
+  '-4.0': '-1rem',
+  '-6.0': '-1.5rem',
+}
+
 export const space = {
+  ...negativeSpace,
   '0': '0',
   px: '1px',
   '0.25': '0.0625rem',
@@ -71,4 +78,6 @@ export const space = {
   viewHeight: '100vh',
   viewWidth: '100vw',
   none: '0',
+  dialogMobileWidth: 'calc(100vw + 2 * 1rem)',
+  dialogDesktopWidth: 'calc(100vw + 2 * 1.5rem)',
 }

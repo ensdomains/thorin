@@ -1,5 +1,4 @@
 import * as React from 'react'
-import styled, { css } from 'styled-components'
 
 import {
   DynamicPopover,
@@ -7,100 +6,104 @@ import {
   DynamicPopoverSide,
   PopoverProps,
 } from '@/src/components/atoms/DynamicPopover'
-import { mq } from '@/src/utils/responsiveHelpers'
 import { Colors } from '@/src/tokens'
 
-const injectedCss = (color: string) => ({
-  top: `
-    &:after {
-      display: initial;
-      content: '';
-      position: absolute;
-      bottom: -18px;
-      left: 0;
-      right: 0;
-      margin: 0 auto;
-      width: 0;
-      height: 0;
-      border: 10px solid transparent;
-      border-top-color: ${color};
-    }
-  `,
-  bottom: `
-    &:after {
-      display: initial;
-      content: '';
-      position: absolute;
-      top: -18px;
-      left: 0;
-      right: 0;
-      margin: 0 auto;
-      width: 0;
-      height: 0;
-      border: 10px solid transparent;
-      border-bottom-color: ${color};
-    }
-  `,
-  left: `
-    display: flex;
-    align-items: center;
-    &:before {
-      display: initial;
-      content: '';
-      position: absolute;
-      right: -18px;
-      width: 0;
-      height: 0;
-      border: 10px solid transparent;
-      border-left-color: ${color};
-    }
-  `,
-  right: `
-    display: flex;
-    align-items: center;
-    &:before {
-      display: initial;
-      content: '';
-      position: absolute;
-      left: -18px;
-      width: 0;
-      height: 0;
-      border: 10px solid transparent;
-      border-right-color: ${color};
-    }
-  `,
-})
+import { Box, BoxProps } from '../../atoms/Box/Box'
+import { getValueForPlacement } from './utils/getValueForPlacement'
 
-const TooltipPopoverElement = styled.div<{
-  $background: Colors
+type TooltipPopoverElementProps = {
+  $background: any
   $placement: DynamicPopoverSide
   $mobilePlacement: DynamicPopoverSide
-}>(
-  ({ theme, $background, $placement, $mobilePlacement }) => css`
-    position: relative;
-    box-sizing: border-box;
-    filter: drop-shadow(0px 0px 1px #e8e8e8)
-      drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.2));
-    border-radius: ${theme.radii.large};
-    padding: ${theme.space['2.5']};
-    padding-left: ${theme.space['3.5']};
-    background: ${theme.colors[$background] || theme.colors.background};
+}
 
-    ${injectedCss(theme.colors[$background] || theme.colors.background)[
-      $mobilePlacement
-    ]}
-    ${mq.sm.min(css`
-      &:before {
-        display: none;
-      }
-      &:after {
-        display: none;
-      }
-      ${injectedCss(theme.colors[$background] || theme.colors.background)[
-        $placement
-      ]}
-    `)}
-  `,
+const TooltipPopoverElement = ({
+  $background = '$backgroundPrimary',
+  $placement,
+  $mobilePlacement,
+  children,
+  ...props
+}: BoxProps & TooltipPopoverElementProps) => (
+  <Box
+    {...props}
+    backgroundColor={$background}
+    borderRadius="$large"
+    boxSizing="border-box"
+    filter="drop-shadow(0px 0px 1px #e8e8e8) drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.2))"
+    overflow="visible"
+    padding="$2.5"
+    position="relative"
+  >
+    {children}
+    <Box
+      borderBottomColor={{
+        xs: getValueForPlacement(
+          $mobilePlacement,
+          'borderBottomColorFunction',
+        )($background),
+        sm: getValueForPlacement(
+          $placement,
+          'borderBottomColorFunction',
+        )($background),
+      }}
+      borderLeftColor={{
+        xs: getValueForPlacement(
+          $mobilePlacement,
+          'borderLeftColorFunction',
+        )($background),
+        sm: getValueForPlacement(
+          $placement,
+          'borderLeftColorFunction',
+        )($background),
+      }}
+      borderRightColor={{
+        xs: getValueForPlacement(
+          $mobilePlacement,
+          'borderRightColorFunction',
+        )($background),
+        sm: getValueForPlacement(
+          $placement,
+          'borderRightColorFunction',
+        )($background),
+      }}
+      borderStyle="solid"
+      borderTopColor={{
+        xs: getValueForPlacement(
+          $mobilePlacement,
+          'borderTopColorFunction',
+        )($background),
+        sm: getValueForPlacement(
+          $placement,
+          'borderTopColorFunction',
+        )($background),
+      }}
+      borderWidth="$10x"
+      bottom={{
+        xs: getValueForPlacement($mobilePlacement, 'bottom'),
+        sm: getValueForPlacement($placement, 'bottom'),
+      }}
+      display="initial"
+      height="$0"
+      left={{
+        xs: getValueForPlacement($mobilePlacement, 'left'),
+        sm: getValueForPlacement($placement, 'left'),
+      }}
+      margin={{
+        xs: getValueForPlacement($mobilePlacement, 'margin'),
+        sm: getValueForPlacement($placement, 'margin'),
+      }}
+      position="absolute"
+      right={{
+        xs: getValueForPlacement($mobilePlacement, 'right'),
+        sm: getValueForPlacement($placement, 'right'),
+      }}
+      top={{
+        xs: getValueForPlacement($mobilePlacement, 'top'),
+        sm: getValueForPlacement($placement, 'top'),
+      }}
+      width="$0"
+    />
+  </Box>
 )
 
 type TooltipPopoverProps = PopoverProps & { background: Colors }

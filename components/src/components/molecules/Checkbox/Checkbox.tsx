@@ -1,14 +1,18 @@
 import * as React from 'react'
-import styled, { css } from 'styled-components'
+
+import { translateY } from '@/src/css/utils/common'
 
 import {
   WithColorStyle,
-  getColorStyle,
-} from '@/src/types/withColorOrColorStyle'
+  getValueForColorStyle,
+} from './utils/getValueForColorStyle'
+
+import * as styles from './styles.css'
 
 import { Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
 import { getTestId } from '../../../utils/utils'
+import { Box, BoxProps } from '../../atoms/Box/Box'
 
 type NativeInputProps = React.InputHTMLAttributes<HTMLInputElement>
 
@@ -54,66 +58,52 @@ type Props = {
     | 'aria-invalid'
   > &
   WithColorStyle
-interface InputProps {
-  $colorStyle: Props['colorStyle']
-}
 
-const Input = styled.input<InputProps>(
-  ({ theme, $colorStyle = 'accentPrimary' }) => css`
-    font: inherit;
-    display: grid;
-    position: relative;
-    place-content: center;
-    transition: transform 150ms ease-in-out, filter 150ms ease-in-out;
-    cursor: pointer;
-
-    width: ${theme.space['5']};
-    height: ${theme.space['5']};
-    border-radius: ${theme.radii.small};
-    background-color: ${theme.colors.border};
-
-    &:checked {
-      background: ${getColorStyle($colorStyle, 'background')};
-    }
-
-    &::before {
-      content: '';
-      background: ${theme.colors.border};
-      mask-image: ${`url('data:image/svg+xml; utf8, <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 12.625L10.125 20.125L22 3.875" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" /></svg>')`};
-      mask-repeat: no-repeat;
-      width: ${theme.space['3']};
-      height: ${theme.space['3']};
-      transition: all 90ms ease-in-out;
-    }
-
-    &:hover {
-      transform: translateY(-1px);
-    }
-
-    &:hover::before,
-    &:checked::before {
-      background: ${getColorStyle($colorStyle, 'text')};
-    }
-
-    &:disabled {
-      cursor: not-allowed;
-    }
-
-    &:disabled::before,
-    &:disabled:hover::before {
-      background: ${theme.colors.border};
-    }
-
-    &:disabled:checked,
-    &:disabled:checked:hover {
-      background: ${theme.colors.border};
-    }
-
-    &:disabled:checked::before,
-    &:disabled:checked:hover::before {
-      background: ${theme.colors.greyPrimary};
-    }
-  `,
+const InputBox = React.forwardRef<HTMLElement, BoxProps & { $colorStyle: any }>(
+  ({ $colorStyle, disabled, checked, ...props }, ref) => (
+    <Box
+      position="relative"
+      transform={{ base: translateY(0), hover: translateY(-1) }}
+      transition="transform 150ms ease-in-out"
+      wh="$5"
+    >
+      <Box
+        as="input"
+        backgroundColor={{
+          base: '$border',
+          disabled: '$border',
+          checked: getValueForColorStyle($colorStyle, 'background'),
+        }}
+        borderRadius="$small"
+        checked={checked}
+        className={styles.checkbox}
+        cursor={{ base: 'pointer', disabled: 'not-allowed' }}
+        disabled={disabled}
+        display="grid"
+        fontFamily="inherit"
+        placeContent="center"
+        position="relative"
+        ref={ref}
+        transition="background-color 150ms ease-in-out"
+        type="checkbox"
+        wh="$full"
+        {...props}
+      />
+      <Box
+        backgroundColor={getValueForColorStyle($colorStyle, 'content')}
+        className={styles.icon}
+        left="$0"
+        maskImage={`url('data:image/svg+xml; utf8, <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 12.625L10.125 20.125L22 3.875" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" /></svg>')`}
+        maskPosition="center"
+        maskRepeat="no-repeat"
+        pointerEvents="none"
+        position="absolute"
+        top="$0"
+        transition="background-color 150ms ease-in-out"
+        wh="$full"
+      />
+    </Box>
+  ),
 )
 
 export const Checkbox = React.forwardRef(
@@ -157,16 +147,13 @@ export const Checkbox = React.forwardRef(
         required={required}
         width={width}
       >
-        <Input
-          {...{
-            ...props,
-            'data-testid': getTestId(props, 'checkbox'),
-            'aria-invalid': error ? true : undefined,
-            type: 'checkbox',
-          }}
+        <InputBox
           $colorStyle={colorStyle}
+          aria-invalid={error ? true : undefined}
           checked={checked}
+          data-testid={getTestId(props, 'checkbox')}
           disabled={disabled}
+          id={id}
           name={name}
           ref={inputRef}
           tabIndex={tabIndex}
@@ -174,6 +161,7 @@ export const Checkbox = React.forwardRef(
           onBlur={onBlur}
           onChange={onChange}
           onFocus={onFocus}
+          {...props}
         />
       </Field>
     )

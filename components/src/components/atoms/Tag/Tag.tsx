@@ -1,8 +1,8 @@
 import * as React from 'react'
 
-import { WithColorStyle } from '@/src/types/withColorOrColorStyle'
+import { translateY } from '@/src/css/utils/common'
 
-import { getColorStyle } from '../../../css/utils/getColorStyle'
+import { WithColorStyle, getValueForColorStyle } from './utils/withColorStyle'
 
 import { Box } from '../Box/Box'
 
@@ -31,12 +31,15 @@ export const Tag = ({
       alignItems="center"
       as={as}
       backgroundColor={{
-        base: getColorStyle(colorStyle as any, 'background'),
-        hover: getColorStyle(colorStyle as any, hover ? 'hover' : 'background'),
-        active: getColorStyle(colorStyle as any, 'hover'),
+        base: getValueForColorStyle(colorStyle, 'background'),
+        hover: getValueForColorStyle(
+          colorStyle as any,
+          hover ? 'hover' : 'background',
+        ),
+        active: getValueForColorStyle(colorStyle, 'hover'),
       }}
       borderRadius="$full"
-      color={getColorStyle(colorStyle as any, 'text')}
+      color={getValueForColorStyle(colorStyle, 'content')}
       display="flex"
       fontSize={size === 'small' ? '$extraSmall' : '$small'}
       fontWeight="$bold"
@@ -44,12 +47,12 @@ export const Tag = ({
       px="$2"
       py="$0.5"
       transform={{
-        hover: hover ? 'translateY(-1px)' : 'translateY(0px)',
-        base: 'translateY(0px)',
-        active: 'translateY(-1px)',
+        base: translateY(0),
+        hover: translateY(hover ? -1 : 0),
+        active: translateY(-1),
       }}
       transitionDuration="$150"
-      transitionProperty="color, border-color, background-color"
+      transitionProperty="color, border-color, background-color, transform"
       transitionTimingFunction="$inOut"
       width="$max"
       {...props}

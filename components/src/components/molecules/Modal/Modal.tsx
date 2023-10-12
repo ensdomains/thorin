@@ -1,61 +1,68 @@
 import * as React from 'react'
-import styled, { css } from 'styled-components'
 
 import type { TransitionState } from 'react-transition-state'
 
-import { mq } from '@/src/utils/responsiveHelpers'
-
 import { Backdrop } from '../..'
+import { Box, BoxProps } from '../../atoms/Box/Box'
+import { getValueForMode } from './utils/getValueForMode'
 
-const Container = styled.div<{
+type ContainerProps = {
   $state: TransitionState
   $alignTop?: boolean
   $mobileOnly: boolean
-}>(
-  ({ theme, $state, $alignTop, $mobileOnly }) => css`
-    width: 100%;
+}
 
-    position: fixed;
-    left: 0;
-    z-index: 9999;
-
-    ${$alignTop
-      ? css`
-          top: 0;
-        `
-      : css`
-          bottom: 0;
-        `}
-
-    display: flex;
-    flex-direction: row;
-
-    ${mq.sm.min(css`
-      ${!$mobileOnly &&
-      css`
-        width: min-content;
-
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        bottom: initial;
-      `}
-    `)}
-
-    transition: ${theme.transitionDuration['300']} all
-      ${theme.transitionTimingFunction.popIn};
-
-    ${$state === 'entered'
-      ? css`
-          opacity: 1;
-          transform: translateY(0px);
-        `
-      : css`
-          opacity: 0;
-          transform: translateY(${$alignTop ? '-' : ''}128px);
-        `}
-  `,
-)
+const Container = ({
+  $state,
+  $alignTop,
+  $mobileOnly,
+  ...props
+}: BoxProps & ContainerProps) => {
+  const mobileMode = $alignTop ? 'mobileTop' : 'mobileBottom'
+  const desktopMode = $mobileOnly ? mobileMode : 'desktop'
+  const entered = $state === 'entered'
+  return (
+    <Box
+      {...props}
+      bottom={{
+        base: getValueForMode(mobileMode, 'bottom'),
+        sm: getValueForMode(desktopMode, 'bottom'),
+      }}
+      display="flex"
+      flexDirection="row"
+      left={{
+        base: getValueForMode(mobileMode, 'left'),
+        sm: getValueForMode(desktopMode, 'left'),
+      }}
+      opacity={entered ? 1 : 0}
+      position="fixed"
+      top={{
+        base: getValueForMode(mobileMode, 'top'),
+        sm: getValueForMode(desktopMode, 'top'),
+      }}
+      transform={{
+        base: entered
+          ? 'translateY(0px)'
+          : getValueForMode(mobileMode, 'transform'),
+        sm: entered
+          ? 'translateY(0px)'
+          : getValueForMode(desktopMode, 'transform'),
+      }}
+      transitionDuration="$300"
+      transitionProperty="all"
+      transitionTimingFunction="$popIn"
+      translate={{
+        base: getValueForMode(mobileMode, 'translate'),
+        sm: getValueForMode(desktopMode, 'translate'),
+      }}
+      width={{
+        base: getValueForMode(mobileMode, 'width'),
+        sm: getValueForMode(desktopMode, 'width'),
+      }}
+      zIndex={9999}
+    />
+  )
+}
 
 type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 

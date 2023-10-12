@@ -1,93 +1,43 @@
 import * as React from 'react'
-import styled, { css } from 'styled-components'
 
-const StyledScrollBox = styled.div<{ $showTop: boolean; $showBottom: boolean }>(
-  ({ theme, $showTop, $showBottom }) => css`
-    overflow: auto;
-    position: relative;
+import * as styles from './styles.css'
+import { Box, BoxProps } from '../Box/Box'
 
-    border-color: ${theme.colors.greyLight};
-    transition: border-color 0.15s ease-in-out;
+const ScrollBoxBox = React.forwardRef<HTMLElement, BoxProps>((props, ref) => (
+  <Box
+    overflowX="auto"
+    overflowY="auto"
+    position="relative"
+    ref={ref}
+    transitionDuration="$150"
+    transitionProperty="all"
+    transitionTimingFunction="$inOut"
+    {...props}
+  />
+))
 
-    /* stylelint-disable-next-line selector-pseudo-element-no-unknown */
-    &::-webkit-scrollbar-track {
-      background-color: transparent;
-    }
-
-    &::-webkit-scrollbar {
-      background-color: transparent;
-    }
-
-    &::-webkit-scrollbar:vertical {
-      width: ${theme.space['1.5']};
-      background-color: transparent;
-    }
-
-    &::-webkit-scrollbar:horizontal {
-      height: ${theme.space['1.5']};
-      background-color: transparent;
-    }
-
-    &::-webkit-scrollbar-thumb:vertical {
-      border: none;
-      border-radius: ${theme.radii.full};
-      border-right-style: inset;
-      border-right-width: calc(100vw + 100vh);
-      border-color: inherit;
-    }
-
-    &::-webkit-scrollbar-thumb:horizontal {
-      border: none;
-      border-radius: ${theme.radii.full};
-      border-bottom-style: inset;
-      border-bottom-width: calc(100vw + 100vh);
-      border-color: inherit;
-    }
-
-    &::-webkit-scrollbar-button {
-      display: none;
-    }
-
-    &:hover {
-      border-color: ${theme.colors.greyBright};
-    }
-
-    &::before,
-    &::after {
-      content: '';
-      position: sticky;
-      left: 0;
-      width: 100%;
-      display: block;
-      height: ${theme.space.px};
-      background-color: hsla(${theme.colors.raw.greyLight} / 0);
-      transition: background-color 0.15s ease-in-out;
-    }
-
-    &::before {
-      top: 0;
-      ${$showTop &&
-      css`
-        background-color: hsla(${theme.colors.raw.greyLight} / 1);
-        z-index: 100;
-      `}
-    }
-    &::after {
-      bottom: 0;
-      ${$showBottom &&
-      css`
-        background-color: hsla(${theme.colors.raw.greyLight} / 1);
-        z-index: 100;
-      `}
-    }
-  `,
-)
-
-const IntersectElement = styled.div(
-  () => css`
-    display: block;
-    height: 0px;
-  `,
+const DividerBox = ({
+  show,
+  position,
+}: {
+  show: boolean
+  position: 'top' | 'bottom'
+}) => (
+  <Box
+    backgroundColor="$greyLight"
+    bottom={position === 'bottom' ? '$0' : 'unset'}
+    display="block"
+    height="$px"
+    left="$0"
+    opacity={show ? 1 : 0}
+    position="sticky"
+    top={position === 'top' ? '$0' : 'unset'}
+    transitionDuration="$150"
+    transitionProperty="opacity"
+    transitionTimingFunction="$inOut"
+    width="$full"
+    zIndex="100"
+  />
 )
 
 type Props = {
@@ -96,7 +46,7 @@ type Props = {
   bottomTriggerPx?: number
   onReachedTop?: () => void
   onReachedBottom?: () => void
-} & React.HTMLAttributes<HTMLDivElement>
+} & BoxProps
 
 export const ScrollBox = ({
   hideDividers = false,
@@ -125,8 +75,8 @@ export const ScrollBox = ({
   const [showBottom, setShowBottom] = React.useState(false)
 
   const handleIntersect: IntersectionObserverCallback = (entries) => {
-    const intersectingTop = [false, -1]
-    const intersectingBottom = [false, -1]
+    const intersectingTop: [boolean, number] = [false, -1]
+    const intersectingBottom: [boolean, number] = [false, -1]
     for (let i = 0; i < entries.length; i += 1) {
       const entry = entries[i]
       const iref =
@@ -169,18 +119,28 @@ export const ScrollBox = ({
   }, [onReachedTop, onReachedBottom])
 
   return (
-    <StyledScrollBox
-      $showBottom={showBottom}
-      $showTop={showTop}
+    <ScrollBoxBox
+      // $showBottom={showBottom}
+      // $showTop={showTop}
+      className={styles.scrollBox}
       ref={ref}
       {...props}
     >
-      <IntersectElement data-testid="scrollbox-top-intersect" ref={topRef} />
+      <DividerBox position="top" show={showTop} />
+      <Box
+        data-testid="scrollbox-top-intersect"
+        display="block"
+        height="$0"
+        ref={topRef}
+      />
       {children}
-      <IntersectElement
+      <Box
         data-testid="scrollbox-bottom-intersect"
+        display="block"
+        height="$0"
         ref={bottomRef}
       />
-    </StyledScrollBox>
+      <DividerBox position="bottom" show={showBottom} />
+    </ScrollBoxBox>
   )
 }

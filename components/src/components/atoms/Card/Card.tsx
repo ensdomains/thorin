@@ -1,56 +1,45 @@
 import * as React from 'react'
-import styled, { css } from 'styled-components'
-
-import { mq } from '@/src/utils/responsiveHelpers'
 
 import { Typography } from '../Typography'
+import { Box, BoxProps } from '../Box/Box'
 
 export type Props = {
   title?: string
 } & NativeDivProps
 
-const Container = styled.div(
-  ({ theme }) => css`
-    display: flex;
-    flex-direction: column;
-    gap: ${theme.space['4']};
-
-    padding: ${theme.space['4']};
-    border-radius: ${theme.radii['2xLarge']};
-    background-color: ${theme.colors.backgroundPrimary};
-    border: 1px solid ${theme.colors.border};
-
-    ${mq.sm.min(
-      css`
-        padding: ${theme.space['6']};
-      `,
-    )}
-  `,
+const ContainerBox = (props: BoxProps) => (
+  <Box
+    backgroundColor="$backgroundPrimary"
+    borderColor="$border"
+    borderRadius="$2xLarge"
+    borderStyle="solid"
+    borderWidth="$1x"
+    display="flex"
+    flexDirection="column"
+    gap="$4"
+    padding={{ xs: '$4', sm: '$6' }}
+    {...props}
+  />
 )
 
-const Divider = styled.div(
-  ({ theme }) => css`
-    width: calc(100% + 2 * ${theme.space['4']});
-    height: 1px;
-    background: ${theme.colors.border};
-    margin: 0 -${theme.space['4']};
-    ${mq.sm.min(
-      css`
-        margin: 0 -${theme.space['6']};
-        width: calc(100% + 2 * ${theme.space['6']});
-      `,
-    )}
-  `,
+const Divider = (props: BoxProps) => (
+  <Box
+    backgroundColor="$border"
+    height="$px"
+    mx={{ xs: '$-4.0', sm: '$-6.0' }}
+    width={{ xs: '$dialogMobileWidth', sm: '$dialogDesktopWidth' }}
+    {...props}
+  />
 )
 
 type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 
 export const Card = ({ title, children, ...props }: Props) => {
   return (
-    <Container {...props}>
+    <ContainerBox {...props}>
       {title && <Typography fontVariant="headingFour">{title}</Typography>}
       {children}
-    </Container>
+    </ContainerBox>
   )
 }
 

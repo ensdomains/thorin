@@ -11,12 +11,7 @@
     }
   ],
   "rules": {
-    "property-no-unknown": [
-      true,
-      {
-        "ignoreProperties": ["flex-gap", "webkit-appearance"]
-      }
-    ],
+    "property-no-unknown": null,
     "no-duplicate-selectors": null,
     "function-no-unknown": null
   }

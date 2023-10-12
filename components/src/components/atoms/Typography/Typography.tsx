@@ -1,55 +1,42 @@
 import * as React from 'react'
-import styled, { css } from 'styled-components'
 
 import { Font, FontSize, FontWeight } from '@/src/tokens/typography'
 
-import {
-  WithTypography,
-  getFontSize,
-  getFontWeight,
-  getLineHeight,
-} from '@/src/types/withTypography'
-import { WithColor, getColor } from '@/src/types/withColorOrColorStyle'
+import { Color, WithColor, validateColor } from '@/src/interfaces/withColor'
+
+import { Box, BoxProps } from '../Box/Box'
+import { FontVariant, getValueForVariant } from './utils/getValueForVariant'
 
 type ContainerProps = {
   $ellipsis?: boolean
-  $fontVariant: WithTypography['fontVariant']
+  $fontVariant: FontVariant
   $size?: FontSize
-  $color: NonNullable<WithColor['color']>
+  $color: Color
   $weight?: FontWeight
   $font: Font
 }
 
-const Container = styled.div<ContainerProps>(
-  ({ theme, $ellipsis, $fontVariant = 'body', $color, $font, $weight }) => css`
-    font-family: ${theme.fonts.sans};
-    line-height: ${theme.lineHeights.body};
-    color: ${getColor($color)};
-
-    ${$ellipsis &&
-    css`
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
-    `}
-
-    ${$fontVariant &&
-    css`
-      font-size: ${getFontSize($fontVariant)};
-      font-weight: ${getFontWeight($fontVariant)};
-      line-height: ${getLineHeight($fontVariant)};
-    `}
-
-    ${$font === 'mono' &&
-    css`
-      font-family: ${theme.fonts.mono};
-    `}
-
-    ${$weight &&
-    css`
-      font-weight: ${theme.fontWeights[$weight]};
-    `};
-  `,
+const ContainerBox = React.forwardRef<HTMLElement, BoxProps & ContainerProps>(
+  (
+    { $ellipsis, $fontVariant = 'body', $color, $font, $weight, ...props },
+    ref,
+  ) => (
+    <Box
+      {...props}
+      as="div"
+      color={validateColor($color, '$text')}
+      fontFamily={$font === 'mono' ? '$mono' : '$sans'}
+      fontSize={getValueForVariant($fontVariant, 'fontSize')}
+      fontWeight={
+        $weight ? `$${$weight}` : getValueForVariant($fontVariant, 'fontWeight')
+      }
+      lineHeight={getValueForVariant($fontVariant, 'lineHeight')}
+      overflow={$ellipsis ? 'hidden' : undefined}
+      ref={ref}
+      textOverflow={$ellipsis ? 'ellipsis' : undefined}
+      whiteSpace={$ellipsis ? 'nowrap' : undefined}
+    />
+  ),
 )
 
 type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
@@ -78,9 +65,11 @@ type Props = {
   font?: Font
   /** A weight value that overrides existing weight property */
   weight?: FontWeight
+
+  fontVariant?: FontVariant
 } & Omit<NativeDivProps, 'color' | 'as'> &
-  WithTypography &
-  WithColor
+  WithColor &
+  Omit<BoxProps, 'color'> & { fontVariant?: FontVariant }
 
 export const Typography = React.forwardRef<HTMLElement, Props>(
   (
@@ -88,17 +77,18 @@ export const Typography = React.forwardRef<HTMLElement, Props>(
       asProp,
       children,
       ellipsis,
-      className,
+      className = '',
       fontVariant = 'body',
       font = 'sans',
-      color = 'text',
+      color = 'textPrimary',
       weight,
       ...props
     },
     ref,
   ) => {
+    console.log('className', className)
     return (
-      <Container
+      <ContainerBox
         {...props}
         $color={color}
         $ellipsis={ellipsis ? true : undefined}
@@ -110,7 +100,7 @@ export const Typography = React.forwardRef<HTMLElement, Props>(
         ref={ref}
       >
         {children}
-      </Container>
+      </ContainerBox>
     )
   },
 )

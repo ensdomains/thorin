@@ -1,169 +1,100 @@
 import * as React from 'react'
-import styled, { css } from 'styled-components'
-
-import type { Space } from '@/src/tokens'
 
 import { useId } from '../../../hooks/useId'
+import { Box, BoxProps } from '../../atoms/Box/Box'
+import { getValuesForKnob } from './utils/getValuesForKnob'
+import * as styles from './styles.css'
+import { getValueForCheckbox } from './utils/getValueForCheckBox'
+import { Color, getValidatedColor } from './utils/getValidatedColor'
 
-type Size = 'extraSmall' | 'small' | 'medium'
+export type Size = 'extraSmall' | 'small' | 'medium'
 
 export type Props = {
   size?: Size
   fiat?: string
+  color?: Color
 } & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'>
 
-const CONTAINER_SIZES: {
-  [key in Size]: {
-    width: Space
-    height: Space
-  }
-} = {
-  extraSmall: {
-    width: '22.5',
-    height: '7',
-  },
-  small: {
-    width: '26',
-    height: '10',
-  },
-  medium: {
-    width: '32',
-    height: '12',
-  },
-}
-
-const KNOB_SIZES: {
-  [key in Size]: {
-    width: Space
-    height: Space
-    translateX: Space
-  }
-} = {
-  extraSmall: {
-    width: '10',
-    height: '5.5',
-    translateX: '5',
-  },
-  small: {
-    width: '12',
-    height: '8',
-    translateX: '6',
-  },
-  medium: {
-    width: '15',
-    height: '10',
-    translateX: '7.5',
-  },
-}
-
-const Container = styled.div<{ $size: Size }>(
-  ({ theme, $size }) => css`
-    position: relative;
-    width: fit-content;
-
-    label {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      width: ${theme.space[KNOB_SIZES[$size].width]};
-      height: ${theme.space[KNOB_SIZES[$size].height]};
-      font-size: ${theme.fontSizes.small};
-      font-weight: ${$size === 'extraSmall'
-        ? theme.fontWeights.normal
-        : theme.fontWeights.bold};
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: color 0.1s linear;
-      cursor: pointer;
-    }
-
-    label#eth {
-      color: ${theme.colors.textAccent};
-      transform: translate(-50%, -50%)
-        translateX(-${theme.space[KNOB_SIZES[$size].translateX]});
-    }
-
-    label#fiat {
-      color: ${theme.colors.greyPrimary};
-      transform: translate(-50%, -50%)
-        translateX(${theme.space[KNOB_SIZES[$size].translateX]});
-    }
-
-    input[type='checkbox']:checked ~ label#eth {
-      color: ${theme.colors.greyPrimary};
-    }
-
-    input[type='checkbox']:checked ~ label#fiat {
-      color: ${theme.colors.textAccent};
-    }
-
-    input[type='checkbox']:disabled ~ label#eth {
-      color: ${theme.colors.backgroundPrimary};
-    }
-
-    input[type='checkbox']:disabled ~ label#fiat {
-      color: ${theme.colors.greyPrimary};
-    }
-
-    input[type='checkbox']:disabled:checked ~ label#fiat {
-      color: ${theme.colors.backgroundPrimary};
-    }
-
-    input[type='checkbox']:disabled:checked ~ label#eth {
-      color: ${theme.colors.greyPrimary};
-    }
-
-    input[type='checkbox']:disabled ~ label {
-      cursor: not-allowed;
-    }
-  `,
+const Container = (props: BoxProps) => (
+  <Box {...props} position="relative" width="fit-content" />
 )
 
-const InputComponent = styled.input<{ $size?: Size }>(
-  ({ theme, $size = 'medium' }) => css`
-    position: relative;
-    background-color: ${theme.colors.greySurface};
-    height: ${theme.space[CONTAINER_SIZES[$size].height]};
-    width: ${theme.space[CONTAINER_SIZES[$size].width]};
-    border-radius: ${$size === 'extraSmall'
-      ? theme.radii.full
-      : theme.radii.large};
+const Label = ({
+  $type,
+  $size,
+  ...props
+}: BoxProps & { $size: Size; $type: 'eth' | 'fiat' }) => (
+  <Box
+    {...props}
+    alignItems="center"
+    as="label"
+    color="$textAccent"
+    cursor="pointer"
+    display="flex"
+    fontSize="$small"
+    fontWeight={$size === 'extraSmall' ? '$normal' : '$bold'}
+    height={getValuesForKnob($size, 'height')}
+    justifyContent="center"
+    left="50%"
+    position="absolute"
+    top="50%"
+    transform={$type === 'eth' ? 'translateX(-50%)' : 'translateX(50%)'}
+    transition="color 0.1s linear"
+    translate="-50% -50%"
+    width={getValuesForKnob($size, 'width')}
+  />
+)
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+const Checkbox = React.forwardRef<HTMLElement, BoxProps & { $size: Size }>(
+  ({ $size, ...props }, ref) => (
+    <Box
+      {...props}
+      alignItems="center"
+      as="input"
+      backgroundColor="$greySurface"
+      borderRadius={getValueForCheckbox($size, 'borderRadius')}
+      cursor={{ base: 'pointer', disabled: 'not-allowed' }}
+      display="flex"
+      height={getValueForCheckbox($size, 'height')}
+      justifyContent="center"
+      position="relative"
+      ref={ref}
+      type="checkbox"
+      width={getValueForCheckbox($size, 'width')}
+    />
+  ),
+)
 
-    &::after {
-      content: '';
-      display: block;
-      position: absolute;
-      background-color: ${theme.colors.bluePrimary};
-      width: ${theme.space[KNOB_SIZES[$size].width]};
-      height: ${theme.space[KNOB_SIZES[$size].height]};
-      border-radius: ${$size === 'extraSmall'
-        ? theme.radii.full
-        : theme.space['1.5']};
-      transform: translateX(-${theme.space[KNOB_SIZES[$size].translateX]});
-      transition: transform 0.3s ease-in-out, background-color 0.1s ease-in-out;
-    }
-
-    &:checked::after {
-      transform: translateX(${theme.space[KNOB_SIZES[$size].translateX]});
-    }
-
-    &:disabled::after {
-      background-color: ${theme.colors.greyPrimary};
-    }
-  `,
+const Slider = ({
+  $size,
+  $color,
+  ...props
+}: BoxProps & { $size: Size; $color: Color }) => (
+  <Box
+    {...props}
+    backgroundColor={getValidatedColor($color)}
+    borderRadius={$size === 'extraSmall' ? '$full' : '$medium'}
+    display="block"
+    height={getValuesForKnob($size, 'height')}
+    left="50%"
+    position="absolute"
+    top="50%"
+    transition="transform 0.3s ease-in-out, background-color 0.1s ease-in-out"
+    translate="-50% -50%"
+    width={getValuesForKnob($size, 'width')}
+  />
 )
 
 export const CurrencyToggle = React.forwardRef<HTMLInputElement, Props>(
-  ({ size = 'medium', disabled, fiat = 'usd', ...props }, ref) => {
+  (
+    { size = 'medium', color = 'accent', disabled, fiat = 'usd', ...props },
+    ref,
+  ) => {
     const id = useId()
     return (
-      <Container $size={size}>
-        <InputComponent
+      <Container>
+        <Checkbox
+          className={styles.checkbox}
           disabled={disabled}
           id={id}
           ref={ref}
@@ -171,12 +102,25 @@ export const CurrencyToggle = React.forwardRef<HTMLInputElement, Props>(
           {...props}
           $size={size}
         />
-        <label htmlFor={id} id="eth">
+        <Slider $color={color} $size={size} className={styles.slider} />
+        <Label
+          $size={size}
+          $type="eth"
+          className={styles.labelEth}
+          htmlFor={id}
+          id="eth"
+        >
           ETH
-        </label>
-        <label htmlFor={id} id="fiat">
+        </Label>
+        <Label
+          $size={size}
+          $type="fiat"
+          className={styles.labelFiat}
+          htmlFor={id}
+          id="fiat"
+        >
           {fiat.toLocaleUpperCase()}
-        </label>
+        </Label>
       </Container>
     )
   },

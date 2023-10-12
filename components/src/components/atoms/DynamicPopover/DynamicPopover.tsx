@@ -7,6 +7,8 @@ import { debounce } from 'lodash'
 import { mq } from '@/src/utils/responsiveHelpers'
 
 import { Portal } from '../Portal'
+import { Box, BoxProps } from '../Box/Box'
+import { getValueForTransitionState } from './utils/getValueForTransitionState'
 
 export type DynamicPopoverSide = 'top' | 'right' | 'bottom' | 'left'
 
@@ -139,6 +141,66 @@ const checkRectContainsPoint = (
 const makeWidth = (width: number | string) =>
   typeof width === 'number' ? `${width}px` : width
 
+const PopoverBox = React.forwardRef<any, any>(
+  (
+    {
+      $state,
+      $translate,
+      $mobileTranslate,
+      $width,
+      $mobileWidth,
+      $x,
+      $y,
+      // $isControlled,
+      $transitionDuration,
+      $hideOverflow,
+      ...props
+    }: BoxProps & {
+      $state: TransitionState
+      $translate: string
+      $mobileTranslate: string
+      $width: number | string
+      $mobileWidth: number | string
+      $x: number
+      $y: number
+      $isControlled: boolean
+      $transitionDuration: number
+      $hideOverflow: boolean | undefined
+    },
+    ref,
+  ) => (
+    <Box
+      MozBackfaceVisibility="$hidden"
+      MozTransform="$base"
+      WebkitBackfaceVisibility="$hidden"
+      WebkitTransform="$base"
+      boxSizing="border-box"
+      display="block"
+      left={getValueForTransitionState($state, 'leftFunc')($x)}
+      opacity={getValueForTransitionState($state, 'opacity')}
+      overflow={$hideOverflow ? 'hidden' : 'visible'}
+      pointerEvents={getValueForTransitionState($state, 'pointerEvents')}
+      position="absolute"
+      ref={ref}
+      top={getValueForTransitionState($state, 'topFunc')($y)}
+      transform={{
+        xs: `translate3d(0, 0, 0) ${$mobileTranslate}`,
+        sm: `translate3d(0, 0, 0) ${$translate}`,
+      }}
+      transitionDuration={`${$transitionDuration}ms`}
+      transitionProperty={getValueForTransitionState(
+        $state,
+        'transitionProperty',
+      )}
+      visibility={getValueForTransitionState($state, 'visibility')}
+      width={{ xs: makeWidth($mobileWidth), sm: makeWidth($width) }}
+      zIndex="999999"
+      {...props}
+    />
+  ),
+)
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const PopoverContainer = styled.div<{
   $state: TransitionState
   $translate: string
@@ -490,7 +552,7 @@ export const DynamicPopover = ({
 
   return (
     <Portal renderCallback={renderCallback}>
-      <PopoverContainer
+      <PopoverBox
         $hideOverflow={hideOverflow}
         $isControlled={isControlled}
         $mobileTranslate={mobileTranslate}
@@ -510,7 +572,7 @@ export const DynamicPopover = ({
           mobilePlacement: _mobilePlacement,
           state,
         })}
-      </PopoverContainer>
+      </PopoverBox>
     </Portal>
   )
 }

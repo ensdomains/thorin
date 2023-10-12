@@ -1,5 +1,4 @@
 import * as React from 'react'
-import styled, { DefaultTheme, css, useTheme } from 'styled-components'
 import { P, match } from 'ts-pattern'
 import { debounce } from 'lodash'
 
@@ -8,8 +7,11 @@ import { TransitionState } from 'react-transition-state'
 import { Button, ButtonProps } from '@/src/components/atoms/Button'
 import { Colors, breakpoints } from '@/src/tokens'
 
+import { commonVars, modeVars } from '@/src/css/theme.css'
+
 import { DownChevronSVG, DynamicPopover, ScrollBox } from '../..'
 import { ActionSheet } from './ActionSheet'
+import { Box, BoxProps } from '../../atoms/Box/Box'
 
 type Align = 'left' | 'right'
 type LabelAlign = 'flex-start' | 'flex-end' | 'center'
@@ -97,155 +99,110 @@ type DropdownMenuContainerProps = {
   $state?: TransitionState
 }
 
-type DropdownMenuInnerProps = {
-  $labelAlign?: LabelAlign
-}
-
-const DropdownMenuContainer = styled.div<DropdownMenuContainerProps>(
-  ({ theme, $shortThrow, $direction, $state }) => css`
-  padding: ${theme.space['1.5']};
-  width: 100%;
-
-  ${
-    $direction === 'up' &&
-    css`
-      bottom: 100%;
-    `
-  }
-
-  z-index: 0;
-  opacity: 0;
-
-  ${
-    $state === 'entered' &&
-    css`
-      z-index: 1;
-    `
-  }
-
-  background-color: ${theme.colors.background};
-  border-radius: ${theme.radii['2xLarge']};
-
-  border: 1px solid ${theme.colors.border};
-  transition: all 0.35s cubic-bezier(1, 0, 0.22, 1.6);
-  margin-${$direction === 'down' ? 'top' : 'bottom'}: ${theme.space['1.5']};
-
-  transform: translateY(calc(${$direction === 'down' ? '-1' : '1'} * ${
-    theme.space['12']
-  }));
-
-  ${
-    $shortThrow &&
-    css`
-      transform: translateY(
-        calc(${$direction === 'down' ? '-1' : '1'} * ${theme.space['2.5']})
-      );
-    `
-  }
-
-  ${
-    ($state === 'entering' || $state === 'entered') &&
-    css`
-      transform: translateY(0);
-      opacity: 1;
-    `
-  }
-`,
-)
-
-const dropdownInnerStyles = ({
-  theme,
-  $labelAlign,
-}: DropdownMenuInnerProps & { theme: DefaultTheme }) => css`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: ${theme.space['1']};
-  width: 100%;
-
-  ${$labelAlign &&
-  css`
-    & > * {
-      justify-content: ${$labelAlign};
-    }
-  `}
-`
-
-const DropdownMenuInner =
-  styled.div<DropdownMenuInnerProps>(dropdownInnerStyles)
-
-const StyledScrollBox = styled(ScrollBox)<DropdownMenuInnerProps>(
-  dropdownInnerStyles,
-  ({ theme }) => css`
-    padding-right: ${theme.space['1']};
-  `,
+const DropdownMenuBox = ({
+  $shortThrow,
+  $direction,
+  $state,
+  ...props
+}: BoxProps & DropdownMenuContainerProps) => (
+  <Box
+    {...props}
+    backgroundColor="$background"
+    borderColor="$border"
+    borderRadius="$2xLarge"
+    borderStyle="solid"
+    borderWidth="$1x"
+    bottom={$direction === 'up' ? '$full' : 'unset'}
+    marginBottom={$direction === 'up' ? '$1.5' : 'unset'}
+    marginTop={$direction === 'down' ? '$1.5' : 'unset'}
+    opacity={1}
+    padding="$1.5"
+    transform={match([$state, $direction, $shortThrow])
+      .with([P.union('entering', 'entered'), P._, P._], () => `translateY(0)`)
+      .with(
+        [P._, 'up', true],
+        () => `translateY(calc(${commonVars.space['2.5']}))`,
+      )
+      .with(
+        [P._, 'down', true],
+        () => `translateY(calc(-1 * ${commonVars.space['2.5']}))`,
+      )
+      .with(
+        [P._, 'up', false],
+        () => `translateY(calc(${commonVars.space['12']}))`,
+      )
+      .with(
+        [P._, 'down', false],
+        () => `translateY(calc(-1 * ${commonVars.space['12']}))`,
+      )
+      .exhaustive()}
+    transition="all .35s cubic-bezier(1, 0, 0.22, 1.6)"
+    width="$full"
+    zIndex={1}
+  />
 )
 
 interface MenuButtonProps {
   $color?: Colors
+  $icon?: React.ReactElement
   $showIndicator?: boolean | Colors
 }
 
-const MenuButton = styled.button<MenuButtonProps>(
-  ({ theme, $color, disabled, $showIndicator }) => css`
-    align-items: center;
-    cursor: pointer;
-    display: flex;
-    gap: ${theme.space['2']};
-    width: ${theme.space['full']};
-    height: ${theme.space['12']};
-    padding: ${theme.space['3']};
-    border-radius: ${theme.radii.large};
-    font-weight: ${theme.fontWeights.normal};
-    transition-duration: 0.15s;
-    transition-property: color, transform, filter;
-    transition-timing-function: ease-in-out;
-
-    &:active {
-      transform: translateY(0px);
-      filter: brightness(1);
-    }
-
-    color: ${theme.colors[$color || 'textPrimary']};
-
-    svg {
-      min-width: ${theme.space['4']};
-      width: ${theme.space['4']};
-      height: ${theme.space['4']};
-      color: ${theme.colors[$color || 'text']};
-    }
-    ${disabled &&
-    css`
-      color: ${theme.colors.textTertiary};
-      cursor: not-allowed;
-    `}
-
-    justify-content: flex-start;
-
-    &:hover {
-      background: ${theme.colors.greySurface};
-    }
-
-    ${$showIndicator &&
-    css`
-      position: relative;
-      padding-right: ${theme.space['6']};
-      &::after {
-        position: absolute;
-        content: '';
-        top: 50%;
-        right: ${theme.space['3']};
-        transform: translateY(-50%);
-        width: ${theme.space['2']};
-        height: ${theme.space['2']};
-        border-radius: ${theme.radii.full};
-        background: ${theme.colors[
-          typeof $showIndicator === 'boolean' ? 'accent' : $showIndicator
-        ]};
-      }
-    `}
-  `,
+const MenuButton = ({
+  $color,
+  $icon,
+  $showIndicator,
+  disabled,
+  children,
+  ...props
+}: BoxProps & MenuButtonProps) => (
+  <Box
+    {...props}
+    alignItems="center"
+    backgroundColor={{ base: '$backgroundPrimary', hover: '$greySurface' }}
+    borderRadius="$large"
+    color={disabled ? '$textTertiary' : $color ? `$${$color}` : '$textPrimary'}
+    cursor={disabled ? 'not-allowed' : 'pointer'}
+    display="flex"
+    filter={{ base: 'brightness(1)', active: 'brightness(0.9)' }}
+    fontWeight="$normal"
+    gap="$2"
+    height="$12"
+    justifyContent="flex-start"
+    padding="$3"
+    paddingRight={$showIndicator ? '$6' : '$3'}
+    position="relative"
+    transform={{ base: 'translateY(0px)', active: 'translateY(0px)' }}
+    transitionDuration="$150"
+    transitionProperty="color, transform, filter"
+    transitionTimingFunction="$ease-in-out"
+    width="$full"
+  >
+    {$icon && (
+      <Box
+        as={$icon}
+        color={$color ? `$${$color}` : '$textPrimary'}
+        flexBasis="$4"
+        flexGrow="0"
+        flexShrink="0"
+        wh="$4"
+      />
+    )}
+    {children}
+    {$showIndicator && (
+      <Box
+        backgroundColor={
+          typeof $showIndicator === 'boolean' ? '$accent' : `$${$showIndicator}`
+        }
+        borderRadius="$full"
+        position="absolute"
+        right="$3"
+        top="50%"
+        transform="translateY(-50%)"
+        wh="$2"
+      />
+    )}
+  </Box>
 )
 
 const DropdownChild: React.FC<{
@@ -272,16 +229,7 @@ const DropdownChild: React.FC<{
 
 const DropdownMenu = React.forwardRef<HTMLDivElement, DropdownMenuProps>(
   (
-    {
-      items,
-      setIsOpen,
-      shortThrow,
-      labelAlign,
-      direction,
-      state,
-      height,
-      ...props
-    },
+    { items, setIsOpen, shortThrow, direction, state, height, ...props },
     ref,
   ) => {
     const Content = items.map((item: DropdownItem) => {
@@ -304,18 +252,14 @@ const DropdownMenu = React.forwardRef<HTMLDivElement, DropdownMenuProps>(
         $hasColor: !!color,
         $color: color,
         $showIndicator: showIndicator,
+        $icon: icon,
         disabled,
         onClick: () => {
           setIsOpen(false)
           onClick?.(value)
         },
         as,
-        children: (
-          <>
-            {icon}
-            {label}
-          </>
-        ),
+        children: <>{label}</>,
       }
 
       if (wrapper) {
@@ -339,48 +283,54 @@ const DropdownMenu = React.forwardRef<HTMLDivElement, DropdownMenuProps>(
 
     if (height) {
       return (
-        <DropdownMenuContainer {...menuProps}>
-          <StyledScrollBox $labelAlign={labelAlign} style={{ height }}>
+        <DropdownMenuBox {...menuProps}>
+          <ScrollBox paddingRight="$1" style={{ height }}>
             {Content}
-          </StyledScrollBox>
-        </DropdownMenuContainer>
+          </ScrollBox>
+        </DropdownMenuBox>
       )
     }
 
     return (
-      <DropdownMenuContainer {...menuProps}>
-        <DropdownMenuInner $labelAlign={labelAlign}>
+      <DropdownMenuBox {...menuProps}>
+        <Box
+          alignItems="center"
+          display="flex"
+          flexDirection="column"
+          gap="$1"
+          justifyContent="center"
+          width="$full"
+        >
           {Content}
-        </DropdownMenuInner>
-      </DropdownMenuContainer>
+        </Box>
+      </DropdownMenuBox>
     )
   },
 )
 
-const Chevron = styled((props) => <DownChevronSVG {...props} />)<{
-  $open?: boolean
-  $direction: Direction
-}>(
-  ({ theme, $open, $direction }) => css`
-    margin-left: ${theme.space['1']};
-    width: ${theme.space['3']};
-    margin-right: ${theme.space['0.5']};
-    transition-duration: ${theme.transitionDuration['200']};
-    transition-property: all;
-    transition-timing-function: ${theme.transitionTimingFunction['inOut']};
-    transform: rotate(${$direction === 'down' ? '0deg' : '180deg'});
-    display: flex;
+const rotation = (direction: Direction, open: boolean) =>
+  match([direction, open])
+    .with(['down', false], () => 'rotate(0deg)')
+    .with(['down', true], () => 'rotate(180deg)')
+    .with(['up', false], () => 'rotate(180deg)')
+    .with(['up', true], () => 'rotate(0deg)')
+    .exhaustive()
 
-    & > svg {
-      fill: currentColor;
-    }
-    fill: currentColor;
-
-    ${$open &&
-    css`
-      transform: rotate(${$direction === 'down' ? '180deg' : '0deg'});
-    `}
-  `,
+const Chevron = ({
+  $open,
+  $direction,
+}: { $open?: boolean; $direction: Direction } & BoxProps) => (
+  <Box
+    as={<DownChevronSVG />}
+    fill="currentColor"
+    marginLeft="$1"
+    marginRight="$0.5"
+    transform={rotation($direction, !!$open)}
+    transitionDuration="$200"
+    transitionProperty="all"
+    transitionTimingFunction="$inOut"
+    width="$3"
+  />
 )
 
 interface DropdownButtonProps {
@@ -408,7 +358,6 @@ const DropdownButton: React.FC<DropdownButtonProps> = ({
   buttonProps,
   indicatorColor,
 }): React.ReactElement<DropdownButtonProps> => {
-  const { colors } = useTheme()
   const hasIndicator = React.useMemo(
     () => items.some((item) => 'showIndicator' in item && item.showIndicator),
     [items],
@@ -419,13 +368,13 @@ const DropdownButton: React.FC<DropdownButtonProps> = ({
       'data-indicator': hasIndicator && !isOpen,
       style: {
         ...buttonProps?.style,
-        '--indicator-color': indicatorColor
-          ? colors[indicatorColor]
-          : colors.accent,
+        '--indicator-color':
+          modeVars.color[`$${indicatorColor}` as keyof typeof modeVars.color] ||
+          modeVars.color.accent,
       },
       className: `${buttonProps?.className} indicator-container`,
     }),
-    [buttonProps, hasIndicator, indicatorColor, colors, isOpen],
+    [buttonProps, hasIndicator, indicatorColor, isOpen],
   )
 
   return (

@@ -14,7 +14,14 @@ const BASE_COLORS = [
 
 type BaseColor = typeof BASE_COLORS[number]
 
-const GRADIENT_COLORS = ['blue', 'purple', 'red', 'green', 'grey'] as const
+const GRADIENT_COLORS = [
+  'accent',
+  'blue',
+  'purple',
+  'red',
+  'green',
+  'grey',
+] as const
 
 type GradientColor = typeof GRADIENT_COLORS[number]
 
@@ -98,4 +105,4 @@ type ColorStyleProperty = 'text' | 'background' | 'border' | 'hover'
 export const getColorStyle = (
   colorStyle: ColorStyle,
   property: ColorStyleProperty,
-) => colorStyleMap[colorStyle][property]
+) => colorStyleMap[colorStyle]?.[property] || '$redPrimary'

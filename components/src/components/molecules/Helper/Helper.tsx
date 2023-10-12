@@ -1,89 +1,63 @@
 import * as React from 'react'
-import styled, { css } from 'styled-components'
 
 import { AlertSVG, InfoCircleSVG } from '@/src/icons'
 
+import type { Alert } from '@/src/types'
+
+import { Box, BoxProps } from '../../atoms/Box/Box'
+
+import { getValueForAlert } from './utils/getValueForAlert'
+
 type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 
-type HelperType = 'info' | 'warning' | 'error'
 type Alignment = 'horizontal' | 'vertical'
 
 export type Props = NativeDivProps & {
-  type?: HelperType
+  alert?: Alert
   alignment?: Alignment
   children: React.ReactNode
 }
 
-const Container = styled.div<{ $type: HelperType; $alignment: Alignment }>(
-  ({ theme, $type, $alignment }) => css`
-    width: ${theme.space.full};
-    padding: ${theme.space['6']} ${theme.space['4']};
-
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    gap: ${theme.space['2']};
-    border-radius: ${theme.radii.large};
-
-    text-align: center;
-    overflow-x: auto;
-
-    ${$alignment === 'horizontal' &&
-    css`
-      flex-direction: row;
-      justify-content: flex-start;
-      gap: ${theme.space['4']};
-      padding: ${theme.space['4']};
-      text-align: left;
-    `}
-
-    background-color: ${theme.colors.blueSurface};
-    border: ${theme.borderWidths.px} solid ${theme.colors.blue};
-
-    ${$type === 'warning' &&
-    css`
-      background-color: ${theme.colors.yellowSurface};
-      border-color: ${theme.colors.yellow};
-    `}
-
-    ${$type === 'error' &&
-    css`
-      background-color: ${theme.colors.redSurface};
-      border-color: ${theme.colors.red};
-    `}
-  `,
+const Container = ({
+  $alert,
+  $alignment,
+  ...props
+}: BoxProps & { $alert: Alert; $alignment: Alignment }) => (
+  <Box
+    {...props}
+    alignItems="center"
+    backgroundColor={getValueForAlert($alert, 'background')}
+    borderColor={getValueForAlert($alert, 'border')}
+    borderRadius="$large"
+    borderStyle="solid"
+    borderWidth="$1x"
+    display="flex"
+    flexDirection={$alignment === 'horizontal' ? 'row' : 'column'}
+    gap={$alignment === 'horizontal' ? '$4' : '$2'}
+    justifyContent={$alignment === 'horizontal' ? 'flex-start' : 'center'}
+    overflowX="auto"
+    px="$4"
+    py={$alignment === 'horizontal' ? '$4' : '$6'}
+    textAlign={$alignment === 'horizontal' ? 'left' : 'center'}
+    width="$full"
+  />
 )
 
-const IconElement = styled.div<{ $type: HelperType }>(
-  ({ theme, $type }) => css`
-    width: ${theme.space['6']};
-    height: ${theme.space['6']};
-
-    color: ${theme.colors.blue};
-
-    ${$type === 'warning' &&
-    css`
-      color: ${theme.colors.yellow};
-    `}
-    ${$type === 'error' &&
-    css`
-      color: ${theme.colors.red};
-    `}
-  `,
+const IconElement = ({ $alert, ...props }: BoxProps & { $alert: Alert }) => (
+  <Box {...props} color={getValueForAlert($alert, 'svg')} wh="$6" />
 )
 
 export const Helper = ({
-  type = 'info',
+  alert = 'info',
   alignment = 'vertical',
   children,
   ...props
 }: Props) => {
-  const Icon = type === 'info' ? InfoCircleSVG : AlertSVG
+  const Icon = alert === 'info' ? InfoCircleSVG : AlertSVG
 
   return (
-    <Container $alignment={alignment} $type={type} {...props}>
-      <IconElement $type={type} as={Icon} />
+    <Container $alert={alert} $alignment={alignment} {...props}>
+      <IconElement $alert={alert} as={Icon} />
       {children}
     </Container>
   )

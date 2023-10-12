@@ -1,5 +1,6 @@
 const { glob } = require('glob')
-
+const { createVanillaExtractPlugin} = require('@vanilla-extract/next-plugin')
+const withVanillaExtract = createVanillaExtractPlugin({identifiers: 'short'})
 const StylelintPlugin = require('stylelint-webpack-plugin')
 
 const withMDX = require('@next/mdx')({
@@ -91,4 +92,4 @@ const config = {
 }
 
 /** @type {import('next').NextConfig} */
-module.exports = withMDX(config)
+module.exports = withVanillaExtract(withMDX(config))

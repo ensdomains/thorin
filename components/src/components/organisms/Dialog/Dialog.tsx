@@ -1,201 +1,144 @@
 import * as React from 'react'
-import styled, { css } from 'styled-components'
 
 import { AlertSVG, CrossSVG, EthSVG } from '@/src'
-import { mq } from '@/src/utils/responsiveHelpers'
 
 import { WithAlert } from '@/src/types'
 
+import { translateY } from '@/src/css/utils/common'
+
 import { Modal, Typography } from '../..'
+import { Box, BoxProps } from '../../atoms/Box/Box'
+import { getValueForAlert } from './utils/getValueForAlert'
+import { getValueForStepType } from './utils/getValueForStepType'
 
-const IconCloseContainer = styled.button(
-  ({ theme }) => css`
-    position: absolute;
-    top: ${theme.space['2']};
-    right: ${theme.space['2']};
-    width: ${theme.space['8']};
-    height: ${theme.space['8']};
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition-property: all;
-    transition-duration: ${theme.transitionDuration['150']};
-    transition-timing-function: ${theme.transitionTimingFunction['inOut']};
-    border-radius: ${theme.radii.full};
-    background-color: transparent;
-
-    &:hover {
-      background-color: ${theme.colors.greySurface};
-      transform: translateY(-1px);
-    }
-
-    svg {
-      display: block;
-      width: ${theme.space['4']};
-      height: ${theme.space['4']};
-      color: ${theme.colors.greyPrimary};
-    }
-  `,
+const CloseButton = (props: BoxProps) => (
+  <Box
+    {...props}
+    alignItems="center"
+    as="button"
+    backgroundColor={{ base: 'transparent', hover: '$greySurface' }}
+    borderRadius="$full"
+    cursor="pointer"
+    data-testid="close-icon"
+    display="flex"
+    justifyContent="center"
+    position="absolute"
+    right="$2"
+    top="$2"
+    transform={{ base: translateY(0), hover: translateY(-1) }}
+    transitionDuration="$150"
+    transitionProperty="all"
+    transitionTimingFunction="$inOut"
+    wh="$8"
+  >
+    <Box as={<CrossSVG />} color="$greyPrimary" display="block" wh="$4" />
+  </Box>
 )
 
-const StyledCard = styled.div(
-  ({ theme }) => css`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: ${theme.space['4']};
-    padding: ${theme.space['4']};
-    border-radius: ${theme.radii['3xLarge']};
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    background-color: ${theme.colors.background};
-    position: relative;
-    width: 100%;
-    ${mq.sm.min(css`
-      min-width: ${theme.space['64']};
-      max-width: 80vw;
-      border-radius: ${theme.radii['3xLarge']};
-      padding: ${theme.space['6']};
-      gap: ${theme.space['6']};
-    `)}
-  `,
+const StyledCard = (props: BoxProps) => (
+  <Box
+    {...props}
+    alignItems="center"
+    backgroundColor="$backgroundPrimary"
+    borderBottomLeftRadius={{ xs: '0', sm: '$3xLarge' }}
+    borderBottomRightRadius={{ xs: '0', sm: '$3xLarge' }}
+    borderRadius="$3xLarge"
+    display="flex"
+    flexDirection="column"
+    gap={{ xs: '$4', sm: '$6' }}
+    maxWidth={{ xs: 'unset', sm: '80vw' }}
+    minWidth={{ xs: 'unset', sm: '$64' }}
+    padding={{ xs: '$4', sm: '$6' }}
+    position="relative"
+    width="$full"
+  />
 )
 
 type NonNullableAlert = NonNullable<WithAlert['alert']>
 
-const IconContainer = styled.div<{
-  $alert: NonNullableAlert
-}>(
-  ({ theme, $alert }) => css`
-    width: ${theme.space[8]};
-    height: ${theme.space[8]};
-    flex: 0 0 ${theme.space[8]};
-
-    svg {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-
-    ${$alert === 'error' &&
-    css`
-      background: ${theme.colors.redPrimary};
-      color: ${theme.colors.backgroundPrimary};
-      border-radius: ${theme.radii.full};
-
-      svg {
-        transform: scale(0.5);
-      }
-    `}
-
-    ${$alert === 'warning' &&
-    css`
-      background: ${theme.colors.yellowPrimary};
-      color: ${theme.colors.backgroundPrimary};
-      border-radius: ${theme.radii.full};
-
-      svg {
-        transform: scale(0.5);
-      }
-    `}
-  `,
-)
-
-const Icon = ({ alert }: { alert: NonNullableAlert }) => {
-  const isAlertIcon = !!alert && ['error', 'warning'].includes(alert)
+const Icon = ({
+  $alert,
+  ...props
+}: BoxProps & { $alert: NonNullableAlert }) => {
+  const Icon = ['error', 'warning'].includes($alert) ? <AlertSVG /> : <EthSVG />
   return (
-    <IconContainer $alert={alert}>
-      {isAlertIcon ? <AlertSVG /> : <EthSVG />}
-    </IconContainer>
+    <Box
+      {...props}
+      backgroundColor={getValueForAlert($alert, 'backgroundColor')}
+      borderRadius="$full"
+      color={getValueForAlert($alert, 'color')}
+      flexBasis="$8"
+      flexGrow="0"
+      flexShrink="0"
+      wh="$8"
+    >
+      <Box
+        as={Icon}
+        display="block"
+        transform={getValueForAlert($alert, 'svgTransform')}
+        wh="$full"
+      />
+    </Box>
   )
 }
 
-const Title = styled(Typography)(
-  () => css`
-    text-align: center;
-  `,
+const ButtonsContainer = (props: BoxProps) => (
+  <Box
+    {...props}
+    alignItems="center"
+    display="flex"
+    flexDirection={{ xs: 'column', sm: 'row' }}
+    gap="$2"
+    justifyContent="stretch"
+    width="$full"
+  />
 )
 
-const SubTitle = styled(Typography)(
-  ({ theme }) => css`
-    font-size: ${theme.fontSizes.body};
-    line-height: ${theme.lineHeights.body};
-    font-weight: ${theme.fontWeights.bold};
-    color: ${theme.colors.textSecondary};
-    text-align: center;
-
-    padding: 0 ${theme.space['4']};
-    max-width: ${theme.space['72']};
-  `,
+const FooterContainer = (props: BoxProps) => (
+  <Box
+    {...props}
+    alignItems="center"
+    display="flex"
+    flexDirection="column"
+    gap="$4"
+    width="$full"
+  />
 )
 
-const ButtonsContainer = styled.div(
-  ({ theme }) => css`
-    display: flex;
-    align-items: center;
-    justify-content: stretch;
-    flex-direction: column;
-    gap: ${theme.space['2']};
-    width: ${theme.space.full};
-    ${mq.sm.min(css`
-      flex-direction: row;
-    `)}
-  `,
+const TitleContainer = (props: BoxProps) => (
+  <Box
+    {...props}
+    alignItems="center"
+    display="flex"
+    flexDirection="column"
+    gap="$px"
+    justifyContent="center"
+  />
 )
 
-const FooterContainer = styled.div(
-  ({ theme }) => css`
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: ${theme.space['4']};
-  `,
+const StepContainer = (props: BoxProps) => (
+  <Box
+    {...props}
+    alignItems="center"
+    display="flex"
+    flexDirection="row"
+    gap="$2"
+    justifyContent="center"
+  />
 )
 
-const TitleContainer = styled.div(
-  ({ theme }) => css`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: ${theme.space['1']};
-  `,
-)
+export type StepType = 'notStarted' | 'inProgress' | 'completed'
 
-const StepContainer = styled.div(
-  ({ theme }) => css`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: ${theme.space['2']};
-  `,
-)
-
-type StepType = 'notStarted' | 'inProgress' | 'completed'
-
-const StepItem = styled.div<{ $type: StepType }>(
-  ({ theme, $type }) => css`
-    border-radius: ${theme.radii.full};
-    width: ${theme.space['3.5']};
-    height: ${theme.space['3.5']};
-    ${$type === 'notStarted' &&
-    css`
-      border: ${theme.borderWidths['0.5']} ${theme.borderStyles.solid}
-        ${theme.colors.border};
-    `}
-    ${$type === 'inProgress' &&
-    css`
-      border: ${theme.borderWidths['0.5']} ${theme.borderStyles.solid}
-        ${theme.colors.accent};
-    `}
-    ${$type === 'completed' &&
-    css`
-      background-color: ${theme.colors.accent};
-    `}
-  `,
+const StepItem = ({ $type, ...props }: BoxProps & { $type: StepType }) => (
+  <Box
+    {...props}
+    backgroundColor={getValueForStepType($type, 'backgroundColor')}
+    borderColor={getValueForStepType($type, 'borderColor')}
+    borderRadius="$full"
+    borderStyle="solid"
+    borderWidth={getValueForStepType($type, 'borderWidth')}
+    wh="$3.5"
+  />
 )
 
 type TitleProps = {
@@ -244,14 +187,24 @@ const Heading = ({
 }: TitleProps & StepProps & WithAlert) => {
   return (
     <TitleContainer>
-      {alert && <Icon alert={alert} />}
+      {alert && <Icon $alert={alert} />}
       {title &&
         ((typeof title !== 'string' && title) || (
-          <Title fontVariant="headingFour">{title}</Title>
+          <Typography fontVariant="headingFour" textAlign="center">
+            {title}
+          </Typography>
         ))}
       {subtitle &&
         ((typeof subtitle !== 'string' && subtitle) || (
-          <SubTitle>{subtitle}</SubTitle>
+          <Typography
+            color="red"
+            fontVariant="bodyBold"
+            maxWidth="$72"
+            px="$4"
+            textAlign="center"
+          >
+            {subtitle}
+          </Typography>
         ))}
     </TitleContainer>
   )
@@ -331,12 +284,6 @@ const ModalWithTitle = ({
     </Modal>
   )
 }
-
-const CloseButton = ({ onClick }: { onClick: () => void }) => (
-  <IconCloseContainer data-testid="close-icon" onClick={onClick}>
-    <CrossSVG />
-  </IconCloseContainer>
-)
 
 export const Dialog = ({
   children,

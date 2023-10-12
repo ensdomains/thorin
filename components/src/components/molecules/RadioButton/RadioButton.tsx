@@ -1,14 +1,14 @@
 import * as React from 'react'
-import styled, { css } from 'styled-components'
 
-import {
-  WithColorStyle,
-  getColorStyle,
-} from '@/src/types/withColorOrColorStyle'
+import { brightness, translateY } from '@/src/css/utils/common'
+
+import * as styles from './styles.css'
 
 import { Field } from '../..'
 import { FieldBaseProps } from '../../atoms/Field'
 import { getTestId } from '../../../utils/utils'
+import { Box, BoxProps } from '../../atoms/Box/Box'
+import { Color, getValidatedColor } from './utils/getValidatedColor'
 
 type NativeInputProps = React.InputHTMLAttributes<HTMLInputElement>
 
@@ -39,68 +39,55 @@ type Props = {
   Omit<
     NativeInputProps,
     'children' | 'value' | 'defaultValue' | 'aria-invalid' | 'type' | 'role'
-  > &
-  WithColorStyle
+  > & { color: Color }
 
-const Input = styled.input<{
-  $colorStyle: NonNullable<Props['colorStyle']>
-}>(
-  ({ theme, $colorStyle }) => css`
-    cursor: pointer;
-    font: inherit;
-    border-radius: 50%;
-    display: grid;
-    place-content: center;
-    transition: transform 150ms ease-in-out;
-    width: ${theme.space['5']};
-    flex: 0 0 ${theme.space['5']};
-    height: ${theme.space['5']};
-    background-color: ${theme.colors.border};
+const Mark = ({ $color, disabled, ...props }: BoxProps & { $color: Color }) => (
+  <Box
+    {...props}
+    backgroundColor={disabled ? '$greyPrimary' : getValidatedColor($color)}
+    borderRadius="$full"
+    left="50%"
+    pointerEvents="none"
+    position="absolute"
+    top="50%"
+    transition="all 150ms ease-in-out"
+    translate="-50% -50%"
+    wh="$3"
+  />
+)
 
-    &::before {
-      content: '';
-      width: ${theme.space['3']};
-      height: ${theme.space['3']};
-      border-radius: 50%;
-      transition: all 150ms ease-in-out;
-      background: ${theme.colors.border};
-      background-size: 100% 100%;
-      background-position: center;
-    }
-
-    &:checked::before {
-      background: ${getColorStyle($colorStyle, 'background')};
-    }
-
-    &:disabled {
-      cursor: not-allowed;
-    }
-
-    &:hover::before {
-      background: ${theme.colors.greyBright};
-    }
-
-    &:disabled::before {
-      background: ${theme.colors.border};
-    }
-
-    &:checked:hover::before {
-      background: ${getColorStyle($colorStyle, 'hover')};
-    }
-
-    &:disabled:checked::before,
-    &:disabled:checked:hover::before {
-      background: ${theme.colors.greyPrimary};
-    }
-
-    &:hover {
-      transform: translateY(-1px);
-    }
-
-    &:disabled:hover {
-      transform: initial;
-    }
-  `,
+const Input = React.forwardRef<HTMLElement, BoxProps & { $color: Color }>(
+  ({ $color, ...props }) => (
+    <Box position="relative" wh="$5">
+      <Box
+        {...props}
+        as="input"
+        backgroundColor="$border"
+        borderRadius="$full"
+        cursor={{ base: 'pointer', disabled: 'not-allowed' }}
+        display="grid"
+        filter={{
+          base: brightness(1.0),
+          hover: brightness(1.05),
+          disabled: brightness(1),
+        }}
+        flexBasis="$5"
+        flexGrow="0"
+        flexShrink="0"
+        placeContent="center"
+        role="radio"
+        transform={{
+          base: translateY(0),
+          hover: translateY(-1),
+          disabled: translateY(0),
+        }}
+        transition="all 150ms ease-in-out"
+        type="radio"
+        wh="$5"
+      />
+      <Mark $color={$color} className={styles.mark} />
+    </Box>
+  ),
 )
 
 export const RadioButton = React.forwardRef(
@@ -120,7 +107,7 @@ export const RadioButton = React.forwardRef(
       value,
       checked,
       width,
-      colorStyle = 'accentPrimary',
+      color = 'accent',
       onBlur,
       onChange,
       onFocus,
@@ -147,17 +134,15 @@ export const RadioButton = React.forwardRef(
         }}
       >
         <Input
-          $colorStyle={colorStyle}
-          {...{
-            ...props,
-            'aria-invalid': error ? true : undefined,
-            'aria-selected': checked ? true : undefined,
-            'data-testid': getTestId(props, 'radio'),
-            type: 'radio',
-            role: 'radio',
-          }}
+          {...props}
+          $color={color}
+          aria-invalid={error ? true : undefined}
+          aria-selected={checked ? true : undefined}
           checked={checked}
+          className={styles.radio}
+          data-testid={getTestId(props, 'radio')}
           disabled={disabled}
+          id={id}
           name={name}
           ref={inputRef}
           tabIndex={tabIndex}

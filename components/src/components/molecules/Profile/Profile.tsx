@@ -1,15 +1,18 @@
 import * as React from 'react'
-import styled, { css, useTheme } from 'styled-components'
 
-import { Colors, Tokens } from '@/src/tokens'
+import { Colors } from '@/src/tokens'
+
+import { brightness, translateY } from '@/src/css/utils/common'
 
 import { getTestId, shortenAddress } from '../../../utils/utils'
 
 import { Typography } from '../..'
 import { Avatar, Props as AvatarProps } from '../../atoms/Avatar'
 import { Dropdown, DropdownItem } from '../Dropdown/Dropdown'
+import { Box, BoxProps } from '../../atoms/Box/Box'
+import { getValueForSize } from './utils/getValueForSize'
 
-type Size = 'small' | 'medium' | 'large'
+export type Size = 'small' | 'medium' | 'large'
 
 type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 
@@ -36,97 +39,70 @@ interface ContainerProps {
   $open: boolean
 }
 
-const calculateWidth = (space: Tokens['space'], size: Size) => {
-  if (size === 'small') return space['10']
-  if (size === 'medium') return space['45']
-  return space['80']
+const calculateWidth = (size: Size) => {
+  if (size === 'small') return '$10'
+  if (size === 'medium') return '$45'
+  return '$80'
 }
 
-const Container = styled.div<ContainerProps>(
-  ({ theme, $size, $hasDropdown, $open }) => css`
-    align-items: center;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    gap: ${theme.space['2']};
-    border-radius: ${theme.radii['full']};
-    transition-duration: ${theme.transitionDuration['150']};
-    transition-property: color, border-color, background-color, transform,
-      filter;
-    transition-timing-function: ${theme.transitionTimingFunction['inOut']};
-    position: relative;
-    z-index: 10;
-    padding: ${theme.space['1']};
-    background-color: ${theme.colors.backgroundPrimary};
-    width: fit-content;
-
-    ${$hasDropdown &&
-    css`
-      cursor: pointer;
-      &:hover {
-        transform: translateY(-1px);
-        filter: brightness(1.05);
-      }
-    `}
-
-    ${$open &&
-    css`
-      background-color: ${theme.colors.border};
-    `}
-
-    width: ${calculateWidth(theme.space, $size)};
-
-    ${$size === 'small' &&
-    css`
-      height: ${theme.space['10']};
-      padding: 0;
-      border: none;
-    `}
-
-    ${$size === 'medium' &&
-    css`
-      height: ${theme.space['12']};
-      padding-right: ${theme.space['4']};
-    `}
-
-    ${$size === 'large' &&
-    css`
-      width: fit-content;
-      height: ${theme.space['14']};
-      max-width: ${theme.space['80']};
-      padding-right: ${theme.space['5']};
-    `}
-  `,
+const Container = React.forwardRef<HTMLElement, BoxProps & ContainerProps>(
+  ({ $size, $hasDropdown, $open, ...props }, ref) => (
+    <Box
+      {...props}
+      alignItems="center"
+      backgroundColor={$open ? '$border' : '$backgroundPrimary'}
+      borderRadius="$full"
+      cursor={$hasDropdown ? 'pointer' : 'unset'}
+      display="flex"
+      filter={{
+        base: brightness(1),
+        hover: brightness($hasDropdown ? 1.05 : 1),
+      }}
+      flexDirection="row"
+      gap="$2"
+      justifyContent="flex-start"
+      maxWidth={getValueForSize($size, 'maxWidth')}
+      padding={getValueForSize($size, 'padding')}
+      paddingRight={getValueForSize($size, 'paddingRight')}
+      position="relative"
+      ref={ref}
+      transform={{
+        base: translateY(0),
+        hover: translateY($hasDropdown ? -1 : 0),
+      }}
+      transitionDuration="$150"
+      transitionProperty="color, border-color, background-color, transform, filter"
+      transitionTimingFunction="$inOut"
+      width={getValueForSize($size, 'width')}
+      zIndex={10}
+    />
+  ),
 )
 
-const AvatarContainer = styled.div<{ $size?: 'small' | 'medium' | 'large' }>(
-  ({ theme, $size }) => css`
-    width: ${theme.space['10']};
-    flex: 0 0 ${theme.space['10']};
-    ${$size === 'large' &&
-    css`
-      width: ${theme.space['12']};
-      flex: 0 0 ${theme.space['12']};
-    `}
-  `,
+const AvatarContainer = ({ $size, ...props }: BoxProps & { $size: Size }) => (
+  <Box
+    {...props}
+    flexBasis={$size === 'large' ? '$12' : '$10'}
+    flexGrow="0"
+    flexShrink="0"
+    width={$size === 'large' ? '$12' : '$10'}
+  />
 )
 
-const ProfileInnerContainer = styled.div<{
-  $size?: 'small' | 'medium' | 'large'
-}>(
-  ({ theme, $size }) => css`
-    display: ${$size === 'small' ? 'none' : 'block'};
-    min-width: ${theme.space['none']};
-  `,
+const ProfileInnerContainer = ({
+  $size,
+  ...props
+}: BoxProps & { $size: Size }) => (
+  <Box
+    {...props}
+    display={$size === 'small' ? 'none' : 'block'}
+    flex="1"
+    minWidth="none"
+    overflow="hidden"
+  />
 )
 
-const ReducedLineText = styled(Typography)(
-  () => css`
-    line-height: initial;
-  `,
-)
-
-const ProfileInner = ({ size, avatar, address, ensName }: Props) => (
+const ProfileInner = ({ size = 'medium', avatar, address, ensName }: Props) => (
   <>
     <AvatarContainer $size={size}>
       <Avatar
@@ -135,12 +111,12 @@ const ProfileInner = ({ size, avatar, address, ensName }: Props) => (
       />
     </AvatarContainer>
     <ProfileInnerContainer $size={size}>
-      <ReducedLineText
+      <Typography
+        as="h3"
         color="text"
         data-testid="profile-title"
         ellipsis
         fontVariant={size === 'large' ? 'headingFour' : 'bodyBold'}
-        forwardedAs="h3"
       >
         {ensName ||
           shortenAddress(
@@ -149,7 +125,7 @@ const ProfileInner = ({ size, avatar, address, ensName }: Props) => (
             size === 'large' ? 10 : 5,
             size === 'large' ? 10 : 5,
           )}
-      </ReducedLineText>
+      </Typography>
     </ProfileInnerContainer>
   </>
 )
@@ -166,13 +142,12 @@ export const Profile = ({
   indicatorColor,
   ...props
 }: Props) => {
-  const { space } = useTheme()
   const [isOpen, setIsOpen] = React.useState(false)
 
   if (dropdownItems) {
     return (
       <Dropdown
-        width={calculateWidth(space, size)}
+        width={calculateWidth(size)}
         {...{
           indicatorColor,
           items: dropdownItems,

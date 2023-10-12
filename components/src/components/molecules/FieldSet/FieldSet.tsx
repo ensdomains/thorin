@@ -1,50 +1,40 @@
 import * as React from 'react'
-import styled, { css } from 'styled-components'
 
 import { ReactNodeNoStrings } from '../../../types'
 import { Heading, Tag } from '../..'
 import { TagProps } from '../../atoms/Tag'
+import { Box, BoxProps } from '../../atoms/Box/Box'
 
-const Container = styled.fieldset(
-  ({ theme }) => css`
-    display: flex;
-    flex-direction: column;
-    gap: ${theme.space['4']};
-  `,
+const Container = (props: BoxProps) => (
+  <Box
+    {...props}
+    as="fieldset"
+    display="flex"
+    flexDirection="column"
+    gap="$4"
+  />
 )
 
-const ContainerInner = styled.div(
-  ({ theme }) => css`
-    display: flex;
-    flex-direction: column;
-    gap: ${theme.space['1']};
-    padding: 0 ${theme.space['4']};
-  `,
+const ContainerInner = (props: BoxProps) => (
+  <Box {...props} display="flex" flexDirection="column" gap="$1" px="$4" />
 )
 
-const Row = styled.div(
-  ({ theme }) => css`
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    gap: ${theme.space['3']};
-  `,
+const Row = (props: BoxProps) => (
+  <Box
+    {...props}
+    alignItems="center"
+    display="flex"
+    flexDirection="row"
+    gap="$3"
+  />
 )
 
-const Description = styled.div(
-  ({ theme }) => css`
-    color: ${theme.colors.textSecondary};
-    font-size: ${theme.fontSizes.body};
-    line-height: ${theme.lineHeights.body};
-  `,
+const Description = (props: BoxProps) => (
+  <Box {...props} color="$textSecondary" fontSize="$body" lineHeight="$body" />
 )
 
-const ChildrenContainer = styled.div(
-  ({ theme }) => css`
-    display: flex;
-    flex-direction: column;
-    gap: ${theme.space['4']};
-  `,
+const ChildrenContainer = (props: BoxProps) => (
+  <Box {...props} display="flex" flexDirection="column" gap="$4" />
 )
 
 type NativeFieldSetProps = React.FieldsetHTMLAttributes<HTMLFieldSetElement>
@@ -84,7 +74,7 @@ export const FieldSet = ({
   ...props
 }: Props) => {
   let statusText: string | undefined
-  let statusTone: TagProps['color']
+  let statusTone: TagProps['colorStyle']
   switch (status) {
     case 'complete': {
       statusText = 'Complete'
@@ -105,7 +95,7 @@ export const FieldSet = ({
   }
   if (typeof status === 'object') {
     statusText = status.name
-    statusTone = status.tone
+    statusTone = status.tone as TagProps['colorStyle']
   }
 
   return (
@@ -116,7 +106,7 @@ export const FieldSet = ({
             {legend}
           </Heading>
           {statusTone && statusText && (
-            <Tag color={statusTone}>{statusText}</Tag>
+            <Tag colorStyle={statusTone}>{statusText}</Tag>
           )}
         </Row>
 

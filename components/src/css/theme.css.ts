@@ -3,7 +3,7 @@ import {
   createGlobalThemeContract,
 } from '@vanilla-extract/css'
 
-import { colors } from '../tokens/colors2'
+import { darkColors, lightColors } from '../tokens/color3'
 import { borderStyles, borderWidths, radii } from '../tokens/border'
 import { space } from '../tokens/space'
 import {
@@ -41,7 +41,7 @@ const commonTokens = {
 export const commonVars = createGlobalThemeContract(commonTokens, getVarName)
 createGlobalTheme(':root', commonVars, commonTokens)
 
-const modeTokens = { color: colors.light }
+const modeTokens = { color: lightColors }
 export const modeVars = createGlobalThemeContract(modeTokens, getVarName)
 createGlobalTheme('[data-theme="light"]', modeVars, modeTokens)
-createGlobalTheme('[data-theme="dark"]', modeVars, { color: colors.dark })
+createGlobalTheme('[data-theme="dark"]', modeVars, { color: darkColors })

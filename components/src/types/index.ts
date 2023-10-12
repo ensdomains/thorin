@@ -48,8 +48,9 @@ export type OptionalTitle = AllOrNone<{
 }>
 export type IconProps = React.SVGProps<SVGSVGElement> & OptionalTitle
 
+export type Alert = 'error' | 'warning' | 'info'
 export type WithAlert = {
-  alert?: 'error' | 'warning' | 'info'
+  alert?: Alert
 }
 
 export type Icon = React.FunctionComponent<React.SVGProps<SVGSVGElement>>
