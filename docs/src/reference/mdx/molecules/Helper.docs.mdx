@@ -15,21 +15,21 @@ import { Helper } from '@ensdomains/thorin'
 
 <PropsTable sourceLink={sourceLink} types={types} />
 
-## Type
+## Alert
 
 ```tsx live=true expand=true
-<DeleteMe>
+<Box display="flex" flexDirection="column" gap="$4">
   <Helper alert="info">This is an info helper.</Helper>
   <Helper alert="warning">This is a warning helper.</Helper>
   <Helper alert="error">This is an error helper.</Helper>
-</DeleteMe>
+</Box>
 ```
 
 ## Alignment
 
 ```tsx live=true expand=true
-<DeleteMe>
+<Box display="flex" flexDirection="column" gap="$4">
   <Helper alignment="vertical">Vertically aligned helper.</Helper>
   <Helper alignment="horizontal">Horizontally aligned helper.</Helper>
-</DeleteMe>
+</Box>
 ```

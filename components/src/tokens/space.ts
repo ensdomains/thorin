@@ -24,6 +24,7 @@ export const space = {
   '5': '1.25rem',
   '5.5': '1.375rem',
   '6': '1.5rem',
+  '6.5': '1.625rem',
   '7': '1.75rem',
   '7.5': '1.875rem',
   '8': '2rem',
@@ -78,6 +79,6 @@ export const space = {
   viewHeight: '100vh',
   viewWidth: '100vw',
   none: '0',
-  dialogMobileWidth: 'calc(100vw + 2 * 1rem)',
-  dialogDesktopWidth: 'calc(100vw + 2 * 1.5rem)',
+  dialogMobileWidth: 'calc(100% + 2 * 1rem)',
+  dialogDesktopWidth: 'calc(100% + 2 * 1.5rem)',
 }

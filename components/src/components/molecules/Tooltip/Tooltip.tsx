@@ -37,7 +37,7 @@ const TooltipPopoverElement = ({
     {children}
     <Box
       borderBottomColor={{
-        xs: getValueForPlacement(
+        base: getValueForPlacement(
           $mobilePlacement,
           'borderBottomColorFunction',
         )($background),
@@ -47,7 +47,7 @@ const TooltipPopoverElement = ({
         )($background),
       }}
       borderLeftColor={{
-        xs: getValueForPlacement(
+        base: getValueForPlacement(
           $mobilePlacement,
           'borderLeftColorFunction',
         )($background),
@@ -57,7 +57,7 @@ const TooltipPopoverElement = ({
         )($background),
       }}
       borderRightColor={{
-        xs: getValueForPlacement(
+        base: getValueForPlacement(
           $mobilePlacement,
           'borderRightColorFunction',
         )($background),
@@ -68,7 +68,7 @@ const TooltipPopoverElement = ({
       }}
       borderStyle="solid"
       borderTopColor={{
-        xs: getValueForPlacement(
+        base: getValueForPlacement(
           $mobilePlacement,
           'borderTopColorFunction',
         )($background),
@@ -79,13 +79,13 @@ const TooltipPopoverElement = ({
       }}
       borderWidth="$10x"
       bottom={{
-        xs: getValueForPlacement($mobilePlacement, 'bottom'),
+        base: getValueForPlacement($mobilePlacement, 'bottom'),
         sm: getValueForPlacement($placement, 'bottom'),
       }}
       display="initial"
       height="$0"
       left={{
-        xs: getValueForPlacement($mobilePlacement, 'left'),
+        base: getValueForPlacement($mobilePlacement, 'left'),
         sm: getValueForPlacement($placement, 'left'),
       }}
       margin={{
@@ -94,11 +94,11 @@ const TooltipPopoverElement = ({
       }}
       position="absolute"
       right={{
-        xs: getValueForPlacement($mobilePlacement, 'right'),
+        base: getValueForPlacement($mobilePlacement, 'right'),
         sm: getValueForPlacement($placement, 'right'),
       }}
       top={{
-        xs: getValueForPlacement($mobilePlacement, 'top'),
+        base: getValueForPlacement($mobilePlacement, 'top'),
         sm: getValueForPlacement($placement, 'top'),
       }}
       width="$0"

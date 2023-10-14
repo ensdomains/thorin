@@ -103,10 +103,8 @@ import { Tooltip, TooltipProps } from '@ensdomains/thorin'
 ## Background
 
 ```tsx live=true
-<DeleteMe
-  style={{
-    alignItems: 'center',
-  }}
+<Box display="flex" flexDirection="column"
+  alignItems="center" gap={"$4"}
 >
   <Tooltip
     additionalGap={0}
@@ -180,5 +178,5 @@ import { Tooltip, TooltipProps } from '@ensdomains/thorin'
       Right
     </Button>
   </Tooltip>
-</DeleteMe>
+</Box>
 ```

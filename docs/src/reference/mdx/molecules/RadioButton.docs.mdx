@@ -8,7 +8,7 @@ import { RadioButton } from '@ensdomains/thorin'
 ```
 
 ```tsx live=true
-<Card padding="4" shadow>
+<Card>
   <FieldSet legend="Radio Buttons">
     <RadioButton label="Label" name="RadioButtonGroup" value="10" />
     <RadioButton label="Label" name="RadioButtonGroup" value="10" />
@@ -24,7 +24,7 @@ import { RadioButton } from '@ensdomains/thorin'
 ## Colors
 
 ```tsx live=true
-<Card padding="4" shadow>
+<Card >
   <FieldSet legend="Radio Buttons">
     <RadioButton
       color="accentPrimary"
@@ -51,8 +51,8 @@ import { RadioButton } from '@ensdomains/thorin'
 ## Disabled
 
 ```tsx live=true
-<DeleteMe>
+<Box display="flex" flexDirection="column" gap="$4">
   <RadioButton checked disabled label="Checked" />
   <RadioButton disabled label="UnChecked" />
-</DeleteMe>
+</Box>
 ```

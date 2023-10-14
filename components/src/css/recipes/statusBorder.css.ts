@@ -5,6 +5,8 @@ import { modeVars } from '../theme.css'
 export const statusBorder = recipe({
   base: {
     borderColor: modeVars.color.border,
+    borderWidth: '1px',
+    borderStyle: 'solid',
     selectors: {
       '&:not(:disabled):focus-within': {
         borderColor: modeVars.color.accentBright,

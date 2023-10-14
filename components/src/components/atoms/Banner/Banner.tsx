@@ -116,6 +116,7 @@ const SVGBox = ({
 const ActionButtonBox = (props: BoxProps) => (
   <Box
     as="button"
+    backgroundColor="transparent"
     padding="$2"
     position="absolute"
     right="0"

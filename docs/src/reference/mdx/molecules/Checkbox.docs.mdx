@@ -8,7 +8,7 @@ import { Checkbox } from '@ensdomains/thorin'
 ```
 
 ```tsx live=true
-<Card padding="4" shadow>
+<Card>
   <FieldSet legend="Checkbox">
     <Checkbox label="Checkbox" />
   </FieldSet>
@@ -23,29 +23,29 @@ import { Checkbox } from '@ensdomains/thorin'
 
 ### Primary Colors
 ```tsx live=true
-<DeleteMe padding="4" shadow>
+<Box display="flex" flexDirection="column" padding="$4" gap="$4">
   <Checkbox colorStyle="redPrimary" label="Red" />
   <Checkbox colorStyle="bluePrimary" label="Blue" />
   <Checkbox colorStyle="greenPrimary" label="Green" />
   <Checkbox colorStyle="yellowPrimary" label="Yellow" />
-</DeleteMe>
+</Box>
 ```
 
 ### Secondary Colors
 ```tsx live=true
-<DeleteMe padding="4" shadow>
+<Box display="flex" flexDirection="column" padding="4" gap="$4">
   <Checkbox colorStyle="redSecondary" label="Red" />
   <Checkbox colorStyle="blueSecondary" label="Blue" />
   <Checkbox colorStyle="greenSecondary" label="Green" />
   <Checkbox colorStyle="yellowSecondary" label="Yellow" />
-</DeleteMe>
+</Box>
 ```
 
 ## Disabled
 
 ```tsx live=true
-<DeleteMe padding="4" shadow>
+<Box display="flex" flexDirection="column" padding="4" gap="$4">
   <Checkbox disabled label="Disabled Unchecked" />
   <Checkbox checked disabled label="Disabled Checked" />
-</DeleteMe>
+</Box>
 ```

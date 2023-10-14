@@ -142,8 +142,12 @@ const LabelContent = ({
       >
         <InnerLabelBox color="greyPrimary" ellipsis fontVariant="bodyBold">
           {label}
-          <RequiredBox />
-          {required && <VisuallyHidden>required</VisuallyHidden>}
+          {required && (
+            <>
+              <RequiredBox />
+              <VisuallyHidden>required</VisuallyHidden>
+            </>
+          )}
         </InnerLabelBox>
       </LabelBox>
       {labelSecondary && (

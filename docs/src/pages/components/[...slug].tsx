@@ -10,7 +10,7 @@ import { serialize } from 'next-mdx-remote/serialize'
 import matter from 'gray-matter'
 import { PropItem } from 'react-docgen-typescript'
 
-import { Typography, tokens } from '@ensdomains/thorin'
+import { Box, Typography } from '@ensdomains/thorin'
 
 import { glob } from 'glob'
 
@@ -21,6 +21,7 @@ import { createGitHubLink } from '~/utils/github'
 import { Link } from '~/components'
 
 import path from 'path'
+import GithubSVG from '~/assets/Github.svg'
 
 export const getStaticPaths: GetStaticPaths = async () => ({
   paths: getComponentPaths().map((x) => ({
@@ -107,13 +108,26 @@ const Page: NextPageWithLayout<Props> = ({
       />
 
       {!docsLink.includes('generated') && (
-        <div style={{ marginTop: tokens.space['20'] }}>
+        <Box width={'$full'} paddingBottom="$6" justifyContent={'center'}>
           <Link href={docsLink}>
-            <Typography color="text" fontVariant="bodyBold">
-              Edit on GitHub
-            </Typography>
+            <Box
+              display={'flex'}
+              gap={'$2'}
+              alignItems={'center'}
+              justifyContent={'center'}
+            >
+              <Box
+                as={<GithubSVG />}
+                wh="$4"
+                display={'inline'}
+                color="$accent"
+              />
+              <Typography color="accent" fontVariant="body">
+                Edit on GitHub
+              </Typography>
+            </Box>
           </Link>
-        </div>
+        </Box>
       )}
     </>
   )

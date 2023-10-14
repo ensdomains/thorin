@@ -20,6 +20,8 @@ import {
   transitionTimingFunction,
 } from '../tokens/transition'
 
+import './global.css'
+
 const getVarName = (_value: string | null, path: string[]) =>
   path.join('-').replace('.', '_').replace('/', '__')
 

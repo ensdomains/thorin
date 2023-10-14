@@ -38,13 +38,13 @@ export type Shade = typeof shades[number]
 export type ShadedColor = `${BaseColour}${Capitalize<Shade>}`
 
 const lightShadedColors: { [key in ShadedColor]: string } = {
-  accentActive: 'rgb(155,155,167)',
+  accentActive: 'rgb(0,54,133)',
   accentDim: 'rgb(5,106,255)',
   accentPrimary: BASE_COLOUR_MAP.blue,
   accentBright: 'rgb(86,154,255)',
   accentLight: 'rgb(209,228,255)',
   accentSurface: 'rgb(238,245,255)',
-  blueActive: 'rgb(155,155,167)',
+  blueActive: 'rgb(0,54,133)',
   blueDim: 'rgb(5,106,255)',
   bluePrimary: BASE_COLOUR_MAP.blue,
   blueBright: 'rgb(86,154,255)',

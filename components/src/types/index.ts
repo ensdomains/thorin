@@ -1,6 +1,5 @@
 import * as React from 'react'
 
-import 'styled-components'
 import { Hue as TokenHue, Mode as TokenMode, Tokens } from '@/src/tokens'
 
 export type AllOrNone<T> = T | { [K in keyof T]?: never }
@@ -36,11 +35,6 @@ export type Mode = TokenMode
 export type DefaultTheme = Tokens
 
 export type Size = 'small' | 'medium' | 'extraSmall' | undefined
-
-declare module 'styled-components' {
-  // eslint-disable-next-line @typescript-eslint/no-empty-interface
-  interface DefaultTheme extends Tokens {}
-}
 
 export type OptionalTitle = AllOrNone<{
   title: string

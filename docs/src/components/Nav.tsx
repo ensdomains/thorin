@@ -2,20 +2,15 @@ import { useRouter } from 'next/dist/client/router'
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 
-import {
-  Button,
-  EnsSVG,
-  MenuSVG,
-  Space,
-  Typography,
-  mq,
-} from '@ensdomains/thorin'
+import { Space, Typography, mq } from '@ensdomains/thorin'
 
 import { createGitHubLink } from '~/utils/github'
 import { createPlayroomLink } from '~/utils/playroom'
 import { useIsMounted } from '~/utils/isMounted'
 
 import { Link } from './Link'
+import { NavBar } from './NavBar'
+import { SideBar } from './SideBar'
 
 type Link = { name: string; route: string }
 
@@ -33,50 +28,13 @@ const initialState = {
 
 const Container = styled.div(
   ({ theme }) => css`
+    display: none;
     flex-direction: column;
     height: ${theme.space['full']};
     overflow: hidden;
-  `,
-)
-
-const ContainerInner = styled.div(
-  ({ theme }) => css`
-    ${mq.lg.min(css`
-      padding-bottom: ${theme.space['5']};
-    `)}
-  `,
-)
-
-const NavlinkContainer = styled.div(
-  ({ theme }) => css`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: row;
-    gap: ${theme.space['5']};
-
-    ${mq.lg.min(css`
-      ${css`
-        flex-direction: column;
-      `}
-    `)}
-  `,
-)
-
-const NavLinkInner = styled.div(
-  ({ theme }) => css`
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    gap: ${theme.space['4']};
-  `,
-)
-
-const ButtonContainer = styled.div(
-  () => css`
-    ${mq.lg.min(css`
-      display: none;
-    `)}
+    position: fixed;
+    left: 0;
+    background-color: ${theme.colors.backgroundPrimary};
   `,
 )
 
@@ -154,17 +112,15 @@ export const Nav = ({ links }: Props) => {
   /* eslint-enable react-hooks/exhaustive-deps */
 
   return (
-    <Container>
-      <ContainerInner>
+    <>
+      <NavBar
+        open={state.open}
+        onToggle={() => setState((x) => ({ ...x, open: !x.open }))}
+      />
+      <SideBar open={state.open} links={links} />
+      <Container>
+        {/* <ContainerInner>
         <NavlinkContainer>
-          <NavLink active={router.asPath === '/'} href="/">
-            <NavLinkInner>
-              <EnsSVG height={48} width={48} />
-              <Typography color="blue" fontVariant="headingThree">
-                ENS
-              </Typography>
-            </NavLinkInner>
-          </NavLink>
           <ButtonContainer>
             <Button
               colorStyle="transparent"
@@ -186,66 +142,75 @@ export const Nav = ({ links }: Props) => {
               </div>
             </Button>
           </ButtonContainer>
+          <NavLink active={router.asPath === '/'} href="/">
+            <NavLinkInner>
+              <EnsSVG height={48} width={48} />
+              <Typography color="blue" fontVariant="headingThree">
+                ENS
+              </Typography>
+            </NavLinkInner>
+          </NavLink>
         </NavlinkContainer>
-      </ContainerInner>
+      </ContainerInner> */}
 
-      <List $open={!!state.open} style={{ overflow: 'scroll' }}>
-        <FlexContainer $space="6">
-          <FlexContainer $space="3">
-            <NavLink href={createGitHubLink()}>GitHub</NavLink>
-            <NavLink href={createPlayroomLink()}>Playroom</NavLink>
-          </FlexContainer>
-
-          <FlexContainer>
-            <Typography fontVariant="bodyBold">Guides</Typography>
+        <List $open={!!state.open} style={{ overflow: 'scroll' }}>
+          <FlexContainer $space="6">
             <FlexContainer $space="3">
-              <NavLink
-                active={
-                  isMounted &&
-                  router.asPath.split('#')[0] === '/guides/development'
-                }
-                href="/guides/development"
-              >
-                Development
-              </NavLink>
-              <NavLink
-                active={
-                  isMounted &&
-                  router.asPath.split('#')[0] === '/guides/playroom'
-                }
-                href="/guides/playroom"
-              >
-                Playroom
-              </NavLink>
+              <NavLink href={createGitHubLink()}>GitHub</NavLink>
+              <NavLink href={createPlayroomLink()}>Playroom</NavLink>
+            </FlexContainer>
+
+            <FlexContainer>
+              <Typography fontVariant="bodyBold">Guides</Typography>
+              <FlexContainer $space="3">
+                <NavLink
+                  active={
+                    isMounted &&
+                    router.asPath.split('#')[0] === '/guides/development'
+                  }
+                  href="/guides/development"
+                >
+                  Development
+                </NavLink>
+                <NavLink
+                  active={
+                    isMounted &&
+                    router.asPath.split('#')[0] === '/guides/playroom'
+                  }
+                  href="/guides/playroom"
+                >
+                  Playroom
+                </NavLink>
+              </FlexContainer>
+            </FlexContainer>
+
+            <FlexContainer>
+              <Typography fontVariant="bodyBold">Components</Typography>
+              {links.map((x) => (
+                <FlexContainer $space="3" key={x.name}>
+                  <SubGroupLabel color="text" fontVariant="extraSmallBold">
+                    {x.name}
+                  </SubGroupLabel>
+                  <FlexContainer $space="3">
+                    {x.links.map((y) => (
+                      <NavLink
+                        active={
+                          isMounted && router.asPath.split('#')[0] === y.route
+                        }
+                        href={y.route}
+                        key={y.route}
+                      >
+                        {y.name}
+                      </NavLink>
+                    ))}
+                  </FlexContainer>
+                </FlexContainer>
+              ))}
             </FlexContainer>
           </FlexContainer>
-
-          <FlexContainer>
-            <Typography fontVariant="bodyBold">Components</Typography>
-            {links.map((x) => (
-              <FlexContainer $space="3" key={x.name}>
-                <SubGroupLabel color="text" fontVariant="extraSmallBold">
-                  {x.name}
-                </SubGroupLabel>
-                <FlexContainer $space="3">
-                  {x.links.map((y) => (
-                    <NavLink
-                      active={
-                        isMounted && router.asPath.split('#')[0] === y.route
-                      }
-                      href={y.route}
-                      key={y.route}
-                    >
-                      {y.name}
-                    </NavLink>
-                  ))}
-                </FlexContainer>
-              </FlexContainer>
-            ))}
-          </FlexContainer>
-        </FlexContainer>
-      </List>
-    </Container>
+        </List>
+      </Container>
+    </>
   )
 }
 

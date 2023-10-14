@@ -1,24 +1,22 @@
 import * as React from 'react'
-import Highlight, {
-  Language,
-  PrismTheme,
-  defaultProps,
-} from 'prism-react-renderer'
+import Highlight, { Language, defaultProps } from 'prism-react-renderer'
 import dynamic from 'next/dynamic'
 import vsLight from 'prism-react-renderer/themes/vsLight'
-import styled, { css, useTheme } from 'styled-components'
+import vsDark from 'prism-react-renderer/themes/vsDark'
+import styled, { css } from 'styled-components'
 
 import { Colors } from '@ensdomains/thorin'
 
 import { useIsMounted } from '~/utils/isMounted'
 import { PlayroomStateProvider } from '~/playroom/PlayroomState'
 
-import { CopyButton } from './CopyButton'
-import type { Props as CodePreviewProps } from './CodePreview'
+import { CopyButton } from '../CopyButton'
+import type { Props as CodePreviewProps } from '../CodePreview'
+import { PropsWithChildren } from 'react'
+import { Box, useTheme } from '@ensdomains/thorin'
 
 const CodePreviewContainer = styled.div(
   ({ theme }) => css`
-    background-color: ${theme.colors.greySurface};
     border-radius: ${theme.radii['large']};
     height: ${theme.space['48']};
     width: ${theme.space['full']};
@@ -26,18 +24,24 @@ const CodePreviewContainer = styled.div(
 )
 
 const CodePreview = dynamic<CodePreviewProps>(
-  () => import('./CodePreview').then((mod) => mod.CodePreview),
+  () => import('../CodePreview').then((mod) => mod.CodePreview),
   {
     loading: () => <CodePreviewContainer />,
   },
 )
 
-const Pre = styled.pre(
-  ({ theme }) => css`
-    border-radius: ${theme.radii['2xLarge']};
-    padding: ${theme.space['6']};
-    position: relative;
-  `,
+const Pre = (props: PropsWithChildren<{}>) => (
+  <Box
+    {...props}
+    as="pre"
+    display="block"
+    backgroundColor="$greySurface"
+    borderRadius="$large"
+    padding="$4"
+    border="1px solid"
+    borderColor="$border"
+    position="relative"
+  />
 )
 
 const CopyButtonContainer = styled.div(
@@ -73,7 +77,7 @@ type Props = {
 }
 
 export const CodeBlock = ({
-  backgroundColor,
+  // backgroundColor,
   children,
   className,
   live,
@@ -81,33 +85,19 @@ export const CodeBlock = ({
   minHeight,
 }: Props) => {
   const isMounted = useIsMounted()
-  const { colors } = useTheme()
-  const theme = vsLight
-  const modifiedTheme: PrismTheme | undefined = isMounted
-    ? {
-        ...theme,
-        plain: {
-          ...theme.plain,
-          color: colors.text,
-          backgroundColor: colors.greySurface,
-        },
-        styles: [
-          ...theme.styles,
-          { types: ['gray'], style: { color: '#A2A2A2' } },
-        ],
-      }
-    : undefined
-
+  const theme = useTheme()
+  const prismTheme = theme.mode === 'dark' ? vsDark : vsLight
   const code = children.trim().replace(RegExp('^;'), '')
+  if (!isMounted) return null
   if (live)
     return (
       <PlayroomStateProvider>
         <CodePreview
-          backgroundColor={backgroundColor}
+          // backgroundColor={backgroundColor}
           code={code}
           expand={expand}
           minHeight={minHeight}
-          theme={modifiedTheme}
+          theme={prismTheme}
         />
       </PlayroomStateProvider>
     )
@@ -116,13 +106,24 @@ export const CodeBlock = ({
   return (
     <Highlight
       {...defaultProps}
+      Prism={defaultProps.Prism}
       code={code}
       language={language}
-      theme={modifiedTheme}
+      theme={prismTheme}
+      // theme={modifiedTheme}
     >
       {/* eslint-disable react/no-array-index-key */}
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <Pre className={className} style={style}>
+      {({
+        // className,
+        // style,
+        tokens,
+        getLineProps,
+        getTokenProps,
+      }) => (
+        <Pre
+        // style={style}
+        // className={className}
+        >
           <CopyButtonContainer>
             <CopyButton content={code} />
           </CopyButtonContainer>

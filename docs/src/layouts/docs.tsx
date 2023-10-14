@@ -1,9 +1,6 @@
 import * as React from 'react'
 import { GetLayout, NextLayout } from 'next'
 import Head from 'next/head'
-import styled, { css } from 'styled-components'
-
-import { mq } from '@ensdomains/thorin'
 
 import {
   Header,
@@ -14,97 +11,29 @@ import {
 } from '~/components'
 
 import { getLayout as getBaseLayout } from './site'
-import { Typography } from '@ensdomains/thorin'
+import { Box, BoxProps, Typography } from '@ensdomains/thorin'
 
 const Container = (props: React.ComponentProps<typeof Typography>) => (
   <Typography
     {...props}
-    display={{ base: 'block', lg: 'flex' }}
+    display={'flex'}
+    flexDirection={'column'}
     backgroundColor="$backgroundPrimary"
     justifyContent={{ base: 'center', lg: 'flex-end', xl: 'center' }}
     margin="0 auto"
-    maxWidth="$320"
+    width="$full"
     minHeight="100vh"
     px="$6"
+    boxSizing={'border-box'}
   />
 )
 
-// const Container2 = styled.div(
-//   ({ theme }) => css`
-//     display: block;
-//     justify-content: center;
-//     margin: 0 auto;
-//     max-width: ${theme.space['320']};
-//     min-height: ${theme.space['viewHeight']};
-//     padding: 0 ${theme.space['6']};
-//     ${mq.lg.min(css`
-//       display: flex;
-//       justify-content: flex-end;
-//     `)}
-//     ${mq.xl.min(css`
-//       display: flex;
-//       justify-content: center;
-//     `)};
-//   `,
-// )
-
-const Aside = styled.aside(
-  ({ theme }) => css`
-    padding-top: ${theme.space['6']};
-
-    ${mq.lg.min(css`
-      background-color: ${theme.colors.greyLight};
-      margin-right: ${theme.space['10']};
-      border-radius: ${theme.radii['extraLarge']};
-
-      left: ${theme.space['4']};
-      top: ${theme.space['4']};
-      bottom: ${theme.space['4']};
-
-      height: calc(${theme.space['viewHeight']} - ${theme.space['8']});
-      padding: ${theme.space['4']};
-      overflow: hidden;
-      position: fixed;
-      width: ${theme.space['48']};
-    `)}
-
-    ${mq.xl.min(css`
-      width: ${theme.space['56']};
-    `)}
-  `,
+const Article = (props: BoxProps) => (
+  <Box {...props} as="article" maxWidth={'$192'} margin="0 auto" />
 )
 
-const Article = styled.article(
-  ({ theme }) => css`
-    width: 100%;
-    padding-bottom: ${theme.space['20']};
-    padding-top: ${theme.space['20']};
-
-    ${mq.lg.min(css`
-      max-width: ${theme.space['192']};
-      padding: ${theme.space['20']} ${theme.space['10']};
-    `)}
-
-    ${mq.xl.min(css`
-      max-width: ${theme.space['224']};
-    `)}
-  `,
-)
-
-const Main = styled.main(
-  ({ theme }) => css`
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    ${mq.lg.min(css`
-      justify-content: flex-end;
-      margin-left: ${theme.space['56']};
-    `)}
-    ${mq.xl.min(css`
-      justify-content: center;
-    `)}
-  `,
+const Main = (props: BoxProps) => (
+  <Box {...props} as="main" paddingLeft={{ base: '$0', sm: '$64' }} />
 )
 
 export type Props = {
@@ -131,14 +60,8 @@ const Layout: NextLayout<Props> = ({ children, meta }) => {
           name="description"
         />
       </Head>
-
       <SkipNavLink>Skip to content</SkipNavLink>
-
       <Container>
-        <Aside>
-          <Nav links={links} />
-        </Aside>
-
         <Main>
           <SkipNavContent />
           <Article>
@@ -146,6 +69,7 @@ const Layout: NextLayout<Props> = ({ children, meta }) => {
             {children}
           </Article>
         </Main>
+        <Nav links={links} />
       </Container>
     </>
   )

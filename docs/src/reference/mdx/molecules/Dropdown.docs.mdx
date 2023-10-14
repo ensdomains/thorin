@@ -101,7 +101,7 @@ import { Dropdown } from '@ensdomains/thorin'
 ## Align
 
 ```tsx live=true expand=true minHeight=300px
-<DeleteMe flexDirection="row" justifyContent="space-between">
+<Box display="flex" flexDirection="row" justifyContent="space-between" gap="$4">
   <Dropdown
     align="left"
     items={[
@@ -122,13 +122,13 @@ import { Dropdown } from '@ensdomains/thorin'
     ]}
     label="Right"
   />
-</DeleteMe>
+</Box>
 ```
 
 ## Short Throw
 
 ```tsx live=true expand=true minHeight=300px
-<DeleteMe flexDirection="row" justifyContent="space-between">
+<Box display="flex" flexDirection="row" justifyContent="space-between" gap="$4">
   <Dropdown
     align="left"
     items={[
@@ -150,7 +150,7 @@ import { Dropdown } from '@ensdomains/thorin'
     label="Short Throw"
     shortThrow
   />
-</DeleteMe>
+</Box>
 ```
 
 ## Scrollable

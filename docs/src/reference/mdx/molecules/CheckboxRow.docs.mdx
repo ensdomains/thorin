@@ -18,12 +18,12 @@ import { CheckboxRow } from '@ensdomains/thorin'
 ## States
 
 ```tsx live=true expand=true
-<DeleteMe>
+<Box display="flex" flexDirection="column" gap="$4">
   <CheckboxRow checked label="Checked" />
   <CheckboxRow label="Unchecked" />
   <CheckboxRow checked disabled label="Checked & Disabled" />
   <CheckboxRow disabled label="Unchecked & Disabled" />
-</DeleteMe>
+</Box>
 ```
 
 ## Color Style
@@ -31,7 +31,7 @@ import { CheckboxRow } from '@ensdomains/thorin'
 ### Primary Colors
 
 ```tsx live=true expand=true
-<DeleteMe>
+<Box display="flex" flexDirection="column" gap="$4">
   <CheckboxRow colorStyle="blue" label="Blue" />
   <CheckboxRow colorStyle="indigo" label="Indigo" />
   <CheckboxRow colorStyle="purple" label="Purple" />
@@ -41,13 +41,13 @@ import { CheckboxRow } from '@ensdomains/thorin'
   <CheckboxRow colorStyle="yellow" label="Yellow" />
   <CheckboxRow colorStyle="green" label="Green" />
   <CheckboxRow colorStyle="grey" label="Grey" />
-</DeleteMe>
+</Box>
 ```
 
 ### Secondary Colors
 
 ```tsx live=true expand=true
-<DeleteMe>
+<Box display="flex" flexDirection="column" gap="$4">
   <CheckboxRow colorStyle="blueSecondary" label="Blue" />
   <CheckboxRow colorStyle="indigoSecondary" label="Indigo" />
   <CheckboxRow colorStyle="purpleSecondary" label="Purple" />
@@ -57,5 +57,5 @@ import { CheckboxRow } from '@ensdomains/thorin'
   <CheckboxRow colorStyle="yellowSecondary" label="Yellow" />
   <CheckboxRow colorStyle="greenSecondary" label="Green" />
   <CheckboxRow colorStyle="greySecondary" label="Grey" />
-</DeleteMe>
+</Box>
 ```

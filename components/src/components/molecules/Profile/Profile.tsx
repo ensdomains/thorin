@@ -60,6 +60,7 @@ const Container = React.forwardRef<HTMLElement, BoxProps & ContainerProps>(
       }}
       flexDirection="row"
       gap="$2"
+      height={getValueForSize($size, 'height')}
       justifyContent="flex-start"
       maxWidth={getValueForSize($size, 'maxWidth')}
       padding={getValueForSize($size, 'padding')}

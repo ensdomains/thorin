@@ -18,12 +18,12 @@ type ContainerProps = {
 
 const ContainerBox = React.forwardRef<HTMLElement, BoxProps & ContainerProps>(
   (
-    { $ellipsis, $fontVariant = 'body', $color, $font, $weight, ...props },
+    { $ellipsis, $fontVariant = 'body', $color, $font, $weight, as, ...props },
     ref,
   ) => (
     <Box
       {...props}
-      as="div"
+      as={as ?? 'div'}
       color={validateColor($color, '$text')}
       fontFamily={$font === 'mono' ? '$mono' : '$sans'}
       fontSize={getValueForVariant($fontVariant, 'fontSize')}
@@ -43,7 +43,7 @@ type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 
 type Props = {
   /** element type of container */
-  asProp?:
+  as?:
     | 'code'
     | 'div'
     | 'h1'
@@ -74,7 +74,7 @@ type Props = {
 export const Typography = React.forwardRef<HTMLElement, Props>(
   (
     {
-      asProp,
+      as,
       children,
       ellipsis,
       className = '',
@@ -82,11 +82,11 @@ export const Typography = React.forwardRef<HTMLElement, Props>(
       font = 'sans',
       color = 'textPrimary',
       weight,
+      textTransform,
       ...props
     },
     ref,
   ) => {
-    console.log('className', className)
     return (
       <ContainerBox
         {...props}
@@ -95,9 +95,10 @@ export const Typography = React.forwardRef<HTMLElement, Props>(
         $font={font}
         $fontVariant={fontVariant}
         $weight={weight}
-        as={asProp}
+        as={as}
         className={className}
         ref={ref}
+        textTransform={textTransform}
       >
         {children}
       </ContainerBox>

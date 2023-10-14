@@ -12,6 +12,8 @@ import {
   getValueForColourStyle,
 } from './utils/withColorStyle'
 
+import { Color, getValidatedColor } from './utils/getValidatedColor'
+
 import { getValueForSize } from './utils/getValueForSize'
 
 import { ReactNodeNoStrings } from '../../../types'
@@ -55,7 +57,8 @@ type BaseProps = {
   onClick?: NativeButtonProps['onClick']
   /** Show indicator that button has extra info via tooltip. */
   shouldShowTooltipIndicator?: boolean
-} & Omit<NativeButtonProps, 'prefix' | 'size'>
+  color?: Color
+} & Omit<NativeButtonProps, 'prefix' | 'size' | 'color'>
 
 type WithAnchor = {
   /** The href attribute for the anchor element. */
@@ -78,8 +81,8 @@ type ButtonBoxProps = {
   $shape?: BaseProps['shape']
   $size?: BaseProps['size']
   $type?: BaseProps['type']
-  $center: boolean | undefined
   $colorStyle: WithColorStyle['colorStyle']
+  $color?: Color
   $hasCounter?: boolean
   $width: any
 }
@@ -96,6 +99,7 @@ const ButtonBox = React.forwardRef<
       $colorStyle = 'accentPrimary',
       $hasCounter,
       $width = '$full',
+      $color,
       as,
       ...props
     },
@@ -121,12 +125,16 @@ const ButtonBox = React.forwardRef<
       borderWidth="$1x"
       boxShadow={$shadow ? '$0.25 $grey' : 'none'}
       color={{
-        base: getValueForColourStyle($colorStyle, 'content'),
+        base: getValidatedColor(
+          $color,
+          getValueForColourStyle($colorStyle, 'content'),
+        ),
         disabled: getValueForColourStyle('disabled', 'content'),
       }}
       cursor={{ base: 'pointer', disabled: 'not-allowed' }}
       display="flex"
       fill={getValueForColourStyle($colorStyle, 'content')}
+      fontSize={getValueForSize($size, 'fontSize')}
       fontWeight="$bold"
       gap="$2"
       height={getValueForSize($size, 'height')}
@@ -155,16 +163,10 @@ const ButtonBox = React.forwardRef<
 
 const SVGBox = ({
   $size,
-  $colorStyle,
   ...props
-}: BoxProps & { $size: 'small' | 'medium' | 'flexible'; $colorStyle: any }) => (
-  <Box
-    color={getValueForColourStyle($colorStyle, 'content')}
-    display="block"
-    wh={getValueForSize($size, 'svgSize')}
-    {...props}
-  />
-)
+}: BoxProps & {
+  $size: 'small' | 'medium' | 'flexible'
+}) => <Box display="block" wh={getValueForSize($size, 'svgSize')} {...props} />
 
 const ContentBox = ({
   $fullWidth,
@@ -267,6 +269,7 @@ export const Button = React.forwardRef(
       width,
       fullWidthContent,
       count,
+      color,
       shouldShowTooltipIndicator,
       as: asProp,
       ...props
@@ -286,7 +289,7 @@ export const Button = React.forwardRef(
         .with([true, false, false], () => <Spinner />)
         .with([P._, true, P._], () =>
           React.isValidElement(prefix) ? (
-            <SVGBox $colorStyle={colorStyle} $size={size} as={prefix} />
+            <SVGBox $size={size} as={prefix} />
           ) : null,
         )
         .otherwise(() => null)
@@ -295,30 +298,23 @@ export const Button = React.forwardRef(
         .with([true, false, true], () => <Spinner />)
         .with([P._, P._, true], () =>
           React.isValidElement(suffix) ? (
-            <SVGBox $colorStyle={colorStyle} $size={size} as={suffix} />
+            <SVGBox $size={size} as={suffix} />
           ) : null,
         )
         .otherwise(() => null)
 
       childContent = (
         <>
-          {!!prefixOrLoading && prefixOrLoading}
+          {prefixOrLoading}
           {labelContent}
-          {!!suffixOrLoading && (
-            <SVGBox
-              $colorStyle={colorStyle}
-              $size={size}
-              as={suffixOrLoading as any}
-            />
-          )}
+          {suffixOrLoading}
         </>
       )
     }
 
     return (
       <ButtonBox
-        {...props}
-        $center
+        $color={color}
         $colorStyle={colorStyle}
         $hasCounter={!!count}
         $pressed={pressed}
@@ -328,16 +324,17 @@ export const Button = React.forwardRef(
         $width={width}
         as={asProp as any}
         disabled={disabled}
+        href={href}
+        ref={ref}
         rel={rel}
         tabIndex={tabIndex}
         target={target}
         type={type}
+        // position={zIndex && 'relative'}
         zIndex={zIndex}
         //eslint-disable-next-line react/jsx-sort-props
         onClick={onClick}
-        href={href}
-        // position={zIndex && 'relative'}
-        ref={ref}
+        {...props}
       >
         {shouldShowTooltipIndicator && (
           <TooltipIndicatorBox data-testid="tooltip-indicator">

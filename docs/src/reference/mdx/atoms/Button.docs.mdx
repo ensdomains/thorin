@@ -17,10 +17,10 @@ import { Button } from '@ensdomains/thorin'
 
 ## States
 
-```tsx live=true
-<DeleteMe flexDirection="row" flexWrap="wrap">
-  <Button loading>Loading</Button>
-  <Button disabled>Disabled</Button>
+```tsx live=true expand=true
+<Box display="flex" flexDirection="row" flexWrap="wrap" gap="$4">
+  <Button loading width="$fit">Loading</Button>
+  <Button disabled width="$fit">Disabled</Button>
   <Button
     disabled={getState('loading')}
     loading={getState('loading')}
@@ -28,19 +28,20 @@ import { Button } from '@ensdomains/thorin'
       toggleState('loading')
       setTimeout(() => toggleState('loading'), 1000)
     }}
+    width="$fit"
   >
     Click Me
   </Button>
-</DeleteMe>
+</Box>
 ```
 
 ## Sizes
 
 ```tsx live=true
-<DeleteMe alignItems="center" flexDirection="row" flexWrap="wrap">
-  <Button size="medium">Connect Wallet</Button>
-  <Button size="small">Connect Wallet</Button>
-</DeleteMe>
+<Box display="flex" alignItems="center" flexDirection="row" flexWrap="wrap" gap="$4">
+  <Button size="medium" width="$fit">Connect Wallet</Button>
+  <Button size="small" width="$fit">Connect Wallet</Button>
+</Box>
 ```
 
 ## Color Style
@@ -48,16 +49,16 @@ import { Button } from '@ensdomains/thorin'
 ### States
 
 ```tsx live=true
-<DeleteMe>
+<Box display="flex" flexDirection="column" gap="$4">
   <Button colorStyle="transparent">Transparent</Button>
   <Button colorStyle="background">Background</Button>
-</DeleteMe>
+</Box>
 ```
 
 ### Primary
 
 ```tsx live=true
-<DeleteMe flexDirection="row" flexWrap="wrap">
+<Box display="flex" flexDirection="column" flexWrap="wrap" gap="$4">
   <Button colorStyle="accentPrimary">Accent</Button>
   <Button colorStyle="bluePrimary">Blue</Button>
   <Button colorStyle="indigoPrimary">Indigo</Button>
@@ -68,13 +69,13 @@ import { Button } from '@ensdomains/thorin'
   <Button colorStyle="yellowPrimary">Yellow</Button>
   <Button colorStyle="greenPrimary">Green</Button>
   <Button colorStyle="greyPrimary">Grey</Button>
-</DeleteMe>
+</Box>
 ```
 
 ### Secondary
 
 ```tsx live=true
-<DeleteMe>
+<Box display="flex" flexDirection="column" gap="$4">
   <Button colorStyle="accentSecondary">Accent</Button>
   <Button colorStyle="blueSecondary">Blue</Button>
   <Button colorStyle="indigoSecondary">Indigo</Button>
@@ -85,7 +86,7 @@ import { Button } from '@ensdomains/thorin'
   <Button colorStyle="yellowSecondary">Yellow</Button>
   <Button colorStyle="greenSecondary">Green</Button>
   <Button colorStyle="greySecondary">Grey</Button>
-</DeleteMe>
+</Box>
 ```
 
 ## Loading
@@ -93,7 +94,7 @@ import { Button } from '@ensdomains/thorin'
 The loading icon will replace either the prefix or suffix in that order. If no prefix or suffix is set it will inject itself into the prefix
 
 ```tsx live=true
-<DeleteMe>
+<Box display="flex" flexDirection="column" gap="$4">
   <Button loading={getState('loading')} prefix={<PlusSVG />}>
     With Prefix
   </Button>
@@ -102,13 +103,13 @@ The loading icon will replace either the prefix or suffix in that order. If no p
   </Button>
   <Button loading={getState('loading')}>No Prefix or Suffix</Button>
   <Button onClick={() => toggleState('loading')}>Toggle Loading</Button>
-</DeleteMe>
+</Box>
 ```
 
 ## Count
 
 ```tsx live=true
-<DeleteMe>
+<Box gap="$4" display="flex" flexDirection="column">
   <Button center count={3} prefix={<PlusSVG />}>
     Add Entry
   </Button>
@@ -118,37 +119,37 @@ The loading icon will replace either the prefix or suffix in that order. If no p
   <Button center count={300} prefix={<PlusSVG />} suffix={<PlusSVG />}>
     Add Entry
   </Button>
-</DeleteMe>
+</Box>
 ```
 
 ## Shapes
 
 ```tsx live=true
-<DeleteMe flexDirection="row" flexWrap="wrap">
+<Box display="flex" flexDirection="row" flexWrap="wrap" gap="$4">
   <Button loading={getState('loading')} shape="square">
     Square
   </Button>
   <Button loading={getState('loading')} shape="circle">
     Circle
   </Button>
-  <Button loading={getState('loading')} shape="rounded">
+  <Button loading={getState('loading')} shape="rounded" width="$fit">
     Rounded
   </Button>
   <Button onClick={() => toggleState('loading')}>Toggle Loading</Button>
-</DeleteMe>
+</Box>
 ```
 
 ## Link
 
 ```tsx live=true
-<DeleteMe flexDirection="row" flexWrap="wrap">
-  <Button as="a" href="https://ens.domains" rel="noreferrer" target="_blank">
+<Box display="flex" flexDirection="row" flexWrap="wrap" gap="$4" gap="$4">
+  <Button as="a" href="https://ens.domains" rel="noreferrer" target="_blank" width="$fit">
     Visit ENS
   </Button>
   <NextLink href="/" passHref>
-    <Button as="a">Go to Home</Button>
+    <Button as="a" width="$fit">Go to Home</Button>
   </NextLink>
-</DeleteMe>
+</Box>
 ```
 
 ## Width

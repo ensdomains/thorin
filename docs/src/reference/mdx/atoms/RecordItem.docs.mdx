@@ -18,7 +18,7 @@ import { RecordItem } from '@ensdomains/thorin'
 ## Prefix
 
 ```tsx live=true
-<DeleteMe>
+<Box display="flex" flexDirection="column" gap="$4">
   <RecordItem keyLabel="FLAME" keySublabel="Legacy" value="0xb794f5ea0ba39494ce839613fffba74279579268">
     0xb794f5ea0ba39494ce839613fffba74279579268
   </RecordItem>
@@ -31,13 +31,13 @@ import { RecordItem } from '@ensdomains/thorin'
   <RecordItem icon={<FlameSVG />} inline value="0xb794f5ea0ba39494ce839613fffba74279579268">
     0xb794...9268
   </RecordItem>
-</DeleteMe>
+</Box>
 ```
 
 ## Size
 
 ```tsx live=true
-<DeleteMe>
+<Box display="flex" flexDirection="column" gap="$4">
   <RecordItem icon={<FlameSVG />} size="small" value="Small with icon">
     Small with icon
   </RecordItem>
@@ -50,13 +50,13 @@ import { RecordItem } from '@ensdomains/thorin'
   <RecordItem keyLabel="Label" size="large" value="Large with label">
     Large with label
   </RecordItem>
-</DeleteMe>
+</Box>
 ```
 
 ## Inline
 
 ```tsx live=true
-<DeleteMe>
+<Box display="flex" flexDirection="column" gap="$4">
   <RecordItem icon={<FlameSVG />} size="small" value="Small with icon">
     Small with icon
   </RecordItem>
@@ -81,13 +81,13 @@ import { RecordItem } from '@ensdomains/thorin'
   <RecordItem inline keyLabel="Label" size="large" value="Large and inline with label">
     Large and inline with label
   </RecordItem>
-</DeleteMe>
+</Box>
 ```
 
 ## Link
 
 ```tsx live=true
-<DeleteMe>
+<Box display="flex" flexDirection="column" gap="$4">
   <RecordItem icon={<FlameSVG />} link="https://ens.domains" size="small">
     Small with icon
   </RecordItem>
@@ -122,5 +122,5 @@ import { RecordItem } from '@ensdomains/thorin'
   <RecordItem inline keyLabel="Label" link="https://ens.domains" size="large">
     Large and inline with label
   </RecordItem>
-</DeleteMe>
+</Box>
 ```

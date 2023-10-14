@@ -21,3 +21,7 @@ globalStyle(`${checkbox}:not(:checked):not(:hover) ~ ${icon}`, {
 globalStyle(`${checkbox}:not(:checked):hover ~ ${icon}`, {
   backgroundColor: `${modeVars.color.backgroundPrimary} !important`,
 })
+
+globalStyle(`${checkbox}:disabled:not(:checked):hover ~ ${icon}`, {
+  backgroundColor: `${modeVars.color.border} !important`,
+})

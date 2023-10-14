@@ -88,7 +88,7 @@ import { CopySVG, EthSVG, FlagSVG, MoonSVG, Select } from '@ensdomains/thorin'
 ## Show Dot
 
 ```tsx live=true expand=true minHeight=350px
-<DeleteMe>
+<Box display="flex" flexDirection="column" gap="$4">
   <Select
     description="Select with placeholder"
     label="Placeholder"
@@ -145,13 +145,13 @@ import { CopySVG, EthSVG, FlagSVG, MoonSVG, Select } from '@ensdomains/thorin'
     placeholder="Select option..."
     showDot
   />
-</DeleteMe>
+</Box>
 ```
 
 ## Align
 
 ```tsx live=true expand=true minHeight=350px
-<DeleteMe flexDirection="row" justifyContent="space-between">
+<Box display="flex" flexDirection="row" justifyContent="space-between" gap="$4">
   <div>
     <Select
       align="left"
@@ -178,13 +178,13 @@ import { CopySVG, EthSVG, FlagSVG, MoonSVG, Select } from '@ensdomains/thorin'
       ]}
     />
   </div>
-</DeleteMe>
+</Box>
 ```
 
 ## Size
 
 ```tsx live=true expand=true minHeight=350px
-<DeleteMe>
+<Box display="flex" flexDirection="column" gap="$4">
   <Select
     label="Small"
     options={[
@@ -203,7 +203,7 @@ import { CopySVG, EthSVG, FlagSVG, MoonSVG, Select } from '@ensdomains/thorin'
     ]}
     size="medium"
   />
-</DeleteMe>
+</Box>
 ```
 
 ## Disabled
@@ -289,7 +289,7 @@ import { CopySVG, EthSVG, FlagSVG, MoonSVG, Select } from '@ensdomains/thorin'
 ## Direction
 
 ```tsx live=true expand=true minHeight=350px
-<DeleteMe>
+<Box display="flex" flexDirection="column" gap="$4">
   <div style={{ height: '200px' }} />
 
   <Select
@@ -310,13 +310,13 @@ import { CopySVG, EthSVG, FlagSVG, MoonSVG, Select } from '@ensdomains/thorin'
     ]}
     tabIndex="2"
   />
-</DeleteMe>
+</Box>
 ```
 
 ## InputSize
 
 ```tsx live=true expand=true minHeight=350px
-<DeleteMe flexDirection="row" justifyContent="flex-start">
+<Box display="flex" flexDirection="row" justifyContent="flex-start" gap="$4">
   <div>
     <Select
       createable
@@ -341,13 +341,13 @@ import { CopySVG, EthSVG, FlagSVG, MoonSVG, Select } from '@ensdomains/thorin'
       tabIndex="2"
     />
   </div>
-</DeleteMe>
+</Box>
 ```
 
 ## Read Only
 
 ```tsx live=true expand=true minHeight=350px
-<DeleteMe>
+<Box display="flex" flexDirection="column" gap="$4">
   <Select
     createable
     options={[
@@ -367,5 +367,5 @@ import { CopySVG, EthSVG, FlagSVG, MoonSVG, Select } from '@ensdomains/thorin'
     tabIndex="2"
     value="1"
   />
-</DeleteMe>
+</Box>
 ```

@@ -18,16 +18,17 @@ import { CurrencyToggle } from '@ensdomains/thorin'
 ## Sizes
 
 ```tsx live=true
-<DeleteMe>
-  <CurrencyToggle />
+<Box display="flex" flexDirection="column" gap="$4">
+  <CurrencyToggle size="extraSmall" />
   <CurrencyToggle size="small" />
-</DeleteMe>
+  <CurrencyToggle />
+</Box>
 ```
 
 ## Colors
 
 ```tsx live=true
-<DeleteMe>
+<Box display="flex" flexDirection="row" flexWrap="wrap" gap="$4">
   <CurrencyToggle />
   <CurrencyToggle color="blue" />
   <CurrencyToggle color="green" />
@@ -38,16 +39,16 @@ import { CurrencyToggle } from '@ensdomains/thorin'
   <CurrencyToggle color="pink" />
   <CurrencyToggle color="purple" />
   <CurrencyToggle color="grey" />
-</DeleteMe>
+</Box>
 ```
 
 ## Disabled
 
 ```tsx live=true
-<DeleteMe>
+<Box display="flex" flexDirection="column" gap="$4">
   <CurrencyToggle disabled />
   <CurrencyToggle checked disabled />
   <CurrencyToggle disabled size="small" />
   <CurrencyToggle checked disabled size="small" />
-</DeleteMe>
+</Box>
 ```

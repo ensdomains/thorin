@@ -16,7 +16,12 @@ export type Props = {
 } & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'>
 
 const Container = (props: BoxProps) => (
-  <Box {...props} position="relative" width="fit-content" />
+  <Box
+    {...props}
+    height="fit-content"
+    position="relative"
+    width="fit-content"
+  />
 )
 
 const Label = ({

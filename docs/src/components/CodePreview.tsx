@@ -1,23 +1,22 @@
 import * as React from 'react'
-import styled, { css, useTheme } from 'styled-components'
 import { default as NextImage } from 'next/image'
 import { default as NextLink } from 'next/link'
 import { LiveEditor, LiveError, LivePreview, LiveProvider } from 'react-live'
 import { mdx } from '@mdx-js/react'
 import { PrismTheme } from 'prism-react-renderer'
 
-import { Button, Colors, Components } from '@ensdomains/thorin'
+import { Button, Colors, Components, UpChevronSVG } from '@ensdomains/thorin'
 
 import { createPlayroomLink } from '~/utils/playroom'
 import { usePlayroomStore } from '~/playroom/PlayroomState'
 import { avatars } from '~/playroom/useScope'
 
-import { Prism } from '../Prism'
-import ComponentWrapper from '../../playroom/ComponentWrapper'
-import { CopyButton } from '../CopyButton'
-import { DeleteMe } from '../DeleteMe'
+import { Prism } from './Prism'
+import ComponentWrapper from '../playroom/ComponentWrapper'
+import { CopyButton } from './CopyButton'
 import { Box, BoxProps } from '@ensdomains/thorin'
-import { liveEditor } from './styles.css'
+import { DownChevronSVG } from '@ensdomains/thorin'
+import { OutlinkSVG } from '@ensdomains/thorin'
 
 export type Props = {
   backgroundColor?: Colors
@@ -39,9 +38,10 @@ const Container = (props: BoxProps) => (
   <Box
     {...props}
     backgroundColor="$background"
-    borderColor="$greySurface"
+    borderColor="$border"
     borderRadius="$2xLarge"
-    borderWidth="$2x"
+    borderWidth="$1x"
+    borderStyle="solid"
     overflow="hidden"
     fontFamily="$mono"
   />
@@ -60,7 +60,7 @@ const ContainerInner = React.forwardRef<
     borderBottomLeftRadius={$expand ? '2xLarge' : 'unset'}
     borderBottomRightRadius={$expand ? '2xLarge' : 'unset'}
     overflow="auto"
-    padding="$6"
+    padding="$4"
   />
 ))
 ContainerInner.displayName = 'ComponentInner'
@@ -68,10 +68,13 @@ ContainerInner.displayName = 'ComponentInner'
 const LiveEditorContainer = (props: BoxProps) => (
   <Box
     {...props}
-    className={liveEditor}
-    backgroundColor="$background"
+    backgroundColor="$greySurface"
     position="relative"
-    padding="0.875rem 2.75rem 0.875rem 0.875rem"
+    padding="$1.5"
+    borderColor="transparent"
+    borderTopColor="$border"
+    borderStyle="solid"
+    borderWidth="$1x"
   />
 )
 // const LiveEditorContainer2 = styled.div(
@@ -88,15 +91,6 @@ const LiveEditorContainer = (props: BoxProps) => (
 //     }
 //   `,
 // )
-
-const ButtonContainer = styled.div(
-  ({ theme }) => css`
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    gap: ${theme.space['2']};
-  `,
-)
 
 export const CodePreview = ({
   code: _code,
@@ -115,7 +109,6 @@ export const CodePreview = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [_code])
   const store = usePlayroomStore()
-  const themeValue = useTheme()
 
   return (
     <LiveProvider
@@ -126,17 +119,15 @@ export const CodePreview = ({
         ...Components,
         ComponentWrapper,
         ...store,
-        ...themeValue,
         previewRef,
         NextImage,
         NextLink,
         avatars,
-        DeleteMe,
       }}
       theme={theme}
       transformCode={(code) => '/** @jsx mdx */' + code}
     >
-      <Container style={{ background: 'orange' }}>
+      <Container>
         <ContainerInner
           $expand={state.expand}
           ref={previewRef}
@@ -166,8 +157,8 @@ export const CodePreview = ({
             <div
               style={{
                 position: 'absolute',
-                right: themeValue.space['3.5'],
-                top: themeValue.space['3.5'],
+                right: 0,
+                top: 0,
               }}
             >
               <CopyButton content={code} />
@@ -176,31 +167,33 @@ export const CodePreview = ({
         )}
       </Container>
 
-      <div style={{ margin: `${themeValue.space['2']} 0` }}>
-        <ButtonContainer>
-          <div>
-            <Button
-              colorStyle="accentSecondary"
-              size="small"
-              onClick={() => setState((x) => ({ ...x, expand: !x.expand }))}
-            >
-              {state.expand ? 'Hide Code' : 'View Code'}
-            </Button>
-          </div>
+      <Box display="flex" justifyContent="flex-end" marginTop="$2">
+        <div>
+          <Button
+            colorStyle="transparent"
+            color="blue"
+            prefix={state.expand ? <UpChevronSVG /> : <DownChevronSVG />}
+            size="small"
+            onClick={() => setState((x) => ({ ...x, expand: !x.expand }))}
+          >
+            {state.expand ? 'Collapse Code' : 'Expand Code'}
+          </Button>
+        </div>
 
-          <div>
-            <Button
-              as="a"
-              colorStyle="accentSecondary"
-              href={createPlayroomLink({ code })}
-              size="small"
-              target="_blank"
-            >
-              Open in Playroom
-            </Button>
-          </div>
-        </ButtonContainer>
-      </div>
+        <div>
+          <Button
+            as="a"
+            colorStyle="transparent"
+            color="blue"
+            prefix={<OutlinkSVG />}
+            href={createPlayroomLink({ code })}
+            size="small"
+            target="_blank"
+          >
+            Playroom
+          </Button>
+        </div>
+      </Box>
     </LiveProvider>
   )
 }

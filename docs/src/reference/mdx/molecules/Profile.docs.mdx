@@ -133,7 +133,7 @@ import { Profile } from '@ensdomains/thorin'
 
 ```tsx live=true minHeight=300px
 <Card style={{ backgroundColor: 'grey' }}>
-  <DeleteMe flexDirection="row" flexWrap="wrap">
+  <Box display="flex" flexDirection="row" flexWrap="wrap" gap="$4">
     <Profile address="0xb6e040c9ecaae172a89bd561c5f73e1c48d28cd9" />
     <Profile
       address="0xb6e040c9ecaae172a89bd561c5f73e1c48d28cd9"
@@ -154,7 +154,7 @@ import { Profile } from '@ensdomains/thorin'
       ]}
       ensName="frontend.ens.eth"
     />
-  </DeleteMe>
+  </Box>
 </Card>
 ```
 
@@ -162,7 +162,7 @@ import { Profile } from '@ensdomains/thorin'
 
 ```tsx live=true
 <Card style={{ backgroundColor: 'grey' }}>
-  <DeleteMe flexWrap="wrap">
+  <Box display="flex" flexDirection="row" flexWrap="wrap" gap="$4">
     <Profile
       address="0xb6e040c9ecaae172a89bd561c5f73e1c48d28cd9"
       avatar="https://i.imgur.com/BSJBpQE.jpg"
@@ -181,6 +181,6 @@ import { Profile } from '@ensdomains/thorin'
       ensName="frontend.ens.eth"
       size="large"
     />
-  </DeleteMe>
+  </Box>
 </Card>
 ```

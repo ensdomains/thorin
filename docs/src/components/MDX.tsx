@@ -2,46 +2,12 @@ import { MDXProviderProps } from '@mdx-js/react'
 import slugify from '@sindresorhus/slugify'
 import styled, { css } from 'styled-components'
 
-import { Heading, Typography, tokens } from '@ensdomains/thorin'
+import { Typography, tokens, Box, LinkSVG } from '@ensdomains/thorin'
 
-import { CodeBlock } from './CodeBlock'
+import { CodeBlock } from './CodeBlock/CodeBlock'
 import { Link } from './Link'
 import { SearchIcons } from './SearchIcons'
 import { PropsTable } from './PropsTable'
-
-const HoverParent = styled.a(
-  ({ theme }) => css`
-    width: ${theme.space['max']};
-    display: inline;
-  `,
-)
-
-const HoverChild = styled.div(
-  ({ theme }) => css`
-    visibility: hidden;
-    display: inline-block;
-
-    ${HoverParent}:hover & {
-      visibility: visible;
-      margin-left: ${theme.space['2']};
-      color: ${theme.colors.textTertiary};
-    }
-  `,
-)
-
-const InlineCode = styled(Typography)(
-  ({ theme }) => css`
-    color: ${theme.colors.accent};
-    font-family: ${theme.fonts['mono']};
-  `,
-)
-
-const P = styled(Typography)(
-  ({ theme }) => css`
-    color: ${theme.colors.text};
-    line-height: ${theme.lineHeights.body};
-  `,
-)
 
 const StyledLink = styled(Link)(
   ({ theme }) => css`
@@ -69,19 +35,34 @@ export const MDX: MDXProviderProps['components'] = {
           marginBottom: tokens.space['6'],
         }}
       >
-        <Heading color="text" id={id}>
-          <HoverParent href={`#${id}`}>
+        <Typography fontVariant="headingTwo" color="textPrimary" id={id}>
+          <Box as="a" href={`#${id}`} display="inline">
             {children}
-            <HoverChild>#</HoverChild>
-          </HoverParent>
-        </Heading>
+            <Box
+              as={<LinkSVG />}
+              display="inline-block"
+              marginLeft="$2"
+              wh="$4"
+              color="$greyPrimary"
+            ></Box>
+          </Box>
+        </Typography>
       </div>
     )
   },
-  inlineCode: ({ children }) => <InlineCode as="code">{children}</InlineCode>,
+  h3: ({ children }) => (
+    <Typography fontVariant="headingThree">{children}</Typography>
+  ),
+  inlineCode: ({ children }) => (
+    <Typography as="code" fontFamily="$mono" color="accent">
+      {children}
+    </Typography>
+  ),
   p: ({ children }) => (
     <div style={{ margin: `${tokens.space['6']} 0` }}>
-      <P as="p">{children}</P>
+      <Typography as="p" color="text">
+        {children}
+      </Typography>
     </div>
   ),
   pre: (props) => (
