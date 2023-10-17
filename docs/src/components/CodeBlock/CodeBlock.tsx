@@ -44,14 +44,6 @@ const Pre = (props: PropsWithChildren<{}>) => (
   />
 )
 
-const CopyButtonContainer = styled.div(
-  ({ theme }) => css`
-    position: absolute;
-    right: ${theme.space['3.5']};
-    top: ${theme.space['3.5']};
-  `,
-)
-
 const LineContainer = styled.div(
   ({ theme }) => css`
     padding-right: ${theme.space['8']};

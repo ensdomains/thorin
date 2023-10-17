@@ -1,7 +1,7 @@
 import { useRouter } from 'next/dist/client/router'
 import * as React from 'react'
 
-import { useIsMounted } from '~/utils/isMounted'
+// import { useIsMounted } from '~/utils/isMounted'
 
 import { Link } from './Link'
 import { NavBar } from './NavBar'
@@ -22,7 +22,7 @@ const initialState = {
 }
 
 export const Nav = ({ links }: Props) => {
-  const isMounted = useIsMounted()
+  // const isMounted = useIsMounted()
   const router = useRouter()
   const [state, setState] = React.useState<State>(initialState)
 

@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { ThemeProvider, createGlobalStyle, css } from 'styled-components'
 
-import { ThorinGlobalStyles, darkTheme, lightTheme } from '@ensdomains/thorin'
+import { darkTheme, lightTheme } from '@ensdomains/thorin'
 
 import { PlayroomStateProvider } from './PlayroomState'
 
@@ -30,7 +30,6 @@ React.PropsWithChildren<any>) => (
     <PlayroomStateProvider>
       <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
         <GlobalStyle />
-        <ThorinGlobalStyles />
         {children}
       </ThemeProvider>
     </PlayroomStateProvider>

@@ -13,9 +13,9 @@ const StyledLink = (props: React.ComponentProps<typeof Link>) => (
     as={<Link {...props} />}
     color="$accent"
     cursor="pointer"
-    textDecoration="underline"
-    textDecorationColor="$accent"
-    textUnderlineOffset="0.2em"
+    // textDecoration="underline"
+    // textDecorationColor="$accent"
+    // textUnderlineOffset="0.2em"
   />
 )
 
