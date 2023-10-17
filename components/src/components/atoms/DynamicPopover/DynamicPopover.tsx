@@ -169,6 +169,7 @@ const PopoverBox = React.forwardRef<HTMLElement, BoxProps & PopoverBoxProps>(
     ref,
   ) => (
     <Box
+      {...props}
       MozBackfaceVisibility="$hidden"
       MozTransform="$base"
       WebkitBackfaceVisibility="$hidden"
@@ -183,7 +184,7 @@ const PopoverBox = React.forwardRef<HTMLElement, BoxProps & PopoverBoxProps>(
       ref={ref}
       top={getValueForTransitionState($state, 'topFunc')($y)}
       transform={{
-        xs: `translate3d(0, 0, 0) ${$mobileTranslate}`,
+        base: `translate3d(0, 0, 0) ${$mobileTranslate}`,
         sm: `translate3d(0, 0, 0) ${$translate}`,
       }}
       transitionDuration={`${$transitionDuration}ms`}
@@ -194,7 +195,6 @@ const PopoverBox = React.forwardRef<HTMLElement, BoxProps & PopoverBoxProps>(
       visibility={getValueForTransitionState($state, 'visibility')}
       width={{ xs: makeWidth($mobileWidth), sm: makeWidth($width) }}
       zIndex="999999"
-      {...props}
     />
   ),
 )

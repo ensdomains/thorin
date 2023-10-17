@@ -81,7 +81,7 @@ type BaseProps = Omit<FieldBaseProps, 'inline'> & {
   /** Sets the height of the input element. */
   size?: 'small' | 'medium' | 'large' | 'extraLarge'
   /** Set of styles  */
-  parentStyles?: BoxProps
+  // parentStyles?: BoxProps
 } & Omit<
     NativeInputProps,
     | 'size'
@@ -115,7 +115,7 @@ type ContainerProps = {
   $size: Size
   $disabled?: boolean
   $hasError?: boolean
-  $suffix: boolean
+  $suffix?: boolean
   $validated?: boolean
   $showDot?: boolean
   $userStyles?: BoxProps
@@ -280,10 +280,10 @@ const InputComponent = React.forwardRef<HTMLElement, BoxProps & InputProps>(
 
 type InnerContainerProps = {
   $size: Size
-  $hasError: boolean
+  $hasError?: boolean
   $disabled: boolean
-  $readOnly: boolean
-  $alwaysShowAction: boolean
+  $readOnly?: boolean
+  $alwaysShowAction?: boolean
 }
 
 const InnerContainer = ({
@@ -350,7 +350,6 @@ export const Input = React.forwardRef(
       onFocus,
       onClickAction,
       size = 'medium',
-      parentStyles,
       ...props
     }: Props,
     ref: React.Ref<HTMLInputElement>,
@@ -406,21 +405,14 @@ export const Input = React.forwardRef(
               show: showDot,
             })}
             {...{
-              $disabled: disabled,
-              $hasError: hasError,
-              $validated: validated,
-              $showDot: showDot,
-              $suffix: suffix !== undefined,
               $size: size,
-              $userStyles: parentStyles,
-              $ids: ids,
             }}
           >
             <InnerContainer
-              $alwaysShowAction={alwaysShowAction}
+              // $alwaysShowAction={alwaysShowAction}
               $disabled={!!disabled}
-              $hasError={!!error}
-              $readOnly={!!readOnly}
+              // $hasError={!!error}
+              // $readOnly={!!readOnly}
               $size={size}
               className={statusBorder({
                 readonly: readOnly,
@@ -438,7 +430,7 @@ export const Input = React.forwardRef(
                 $hasAction={hasAction}
                 $hasError={!!error}
                 $hasIcon={!!icon}
-                $iconWidth={iconWidth}
+                // $iconWidth={iconWidth}
                 $size={size}
                 autoComplete={autoComplete}
                 autoCorrect={autoCorrect}

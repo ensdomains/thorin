@@ -17,8 +17,8 @@ const transitionStateValues: {
     opacity: 0,
     transitionProperty: 'none',
     pointerEvents: 'none',
-    topFunc: () => `0px`,
-    leftFunc: () => `0px`,
+    topFunc: (x: number) => `${x}px`,
+    leftFunc: (y: number) => `${y}px`,
   },
   preEnter: {
     display: 'block',
