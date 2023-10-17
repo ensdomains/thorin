@@ -1,10 +1,6 @@
 import * as React from 'react'
 
-import { ThemeProvider } from 'styled-components'
-
 import { cleanup, fireEvent, render, screen, userEvent, waitFor } from '@/test'
-
-import { lightTheme } from '@/src/tokens'
 
 import { Input } from './Input'
 
@@ -12,20 +8,12 @@ describe('<Input />', () => {
   afterEach(cleanup)
 
   it('renders', () => {
-    render(
-      <ThemeProvider theme={lightTheme}>
-        <Input label="Funding Goal" />
-      </ThemeProvider>,
-    )
+    render(<Input label="Funding Goal" />)
     expect(screen.getByRole('textbox')).toBeInTheDocument()
   })
 
   it('receives user input', () => {
-    render(
-      <ThemeProvider theme={lightTheme}>
-        <Input label="Display Name" />
-      </ThemeProvider>,
-    )
+    render(<Input label="Display Name" />)
 
     userEvent.type(screen.getByRole('textbox'), 'Satoshi Nakamoto')
     expect(screen.getByRole('textbox')).toHaveValue('Satoshi Nakamoto')
@@ -33,11 +21,7 @@ describe('<Input />', () => {
 
   describe('[type=text]', () => {
     it('maxLength', () => {
-      render(
-        <ThemeProvider theme={lightTheme}>
-          <Input label="Short Name" maxLength={7} />
-        </ThemeProvider>,
-      )
+      render(<Input label="Short Name" maxLength={7} />)
 
       const element = screen.getByLabelText(/short/i)
       userEvent.type(element, 'Satoshi Nakamoto')
@@ -48,9 +32,7 @@ describe('<Input />', () => {
   it('should pass a ref down', async () => {
     const ref = { current: null } as React.RefObject<any>
     render(
-      <ThemeProvider theme={lightTheme}>
-        <Input label="Funding Goal" placeholder="10" ref={ref} units="ETH" />
-      </ThemeProvider>,
+      <Input label="Funding Goal" placeholder="10" ref={ref} units="ETH" />,
     )
     await waitFor(() => {
       expect(ref.current).toBeInstanceOf(HTMLInputElement)
@@ -61,17 +43,15 @@ describe('<Input />', () => {
     const ref = { current: null } as React.RefObject<any>
     const handleOnChange = jest.fn()
     render(
-      <ThemeProvider theme={lightTheme}>
-        <Input
-          clearable
-          label="Funding Goal"
-          name="testing"
-          placeholder="10"
-          ref={ref}
-          units="ETH"
-          onChange={handleOnChange}
-        />
-      </ThemeProvider>,
+      <Input
+        clearable
+        label="Funding Goal"
+        name="testing"
+        placeholder="10"
+        ref={ref}
+        units="ETH"
+        onChange={handleOnChange}
+      />,
     )
     userEvent.type(screen.getByRole('textbox'), 'Satoshi Nakamoto')
     fireEvent.click(screen.getByTestId('input-action-button'))

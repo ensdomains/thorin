@@ -42,6 +42,7 @@ const Label = ({
     fontWeight={$size === 'extraSmall' ? '$normal' : '$bold'}
     justifyContent="center"
     left="50%"
+    pointerEvents="none"
     position="absolute"
     top="50%"
     transform={$mode === 'dark' ? 'translateX(-50%)' : 'translateX(50%)'}
@@ -82,6 +83,7 @@ const Slider = ({
     borderRadius="$full"
     display="block"
     left="50%"
+    pointerEvents="none"
     position="absolute"
     top="50%"
     transition="transform 0.3s ease-in-out, background-color 0.1s ease-in-out"

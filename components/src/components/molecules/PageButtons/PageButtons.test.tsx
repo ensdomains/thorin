@@ -1,10 +1,6 @@
 import * as React from 'react'
 
-import { ThemeProvider } from 'styled-components'
-
 import { cleanup, render, screen, userEvent, waitFor } from '@/test'
-
-import { lightTheme } from '@/src/tokens'
 
 import { PageButtons } from './PageButtons'
 
@@ -15,14 +11,12 @@ const ButtonsHelper = ({
   mockCallback: (value: number) => void
 }) => {
   return (
-    <ThemeProvider theme={lightTheme}>
-      <div>
-        <div>outside</div>
-        <PageButtons
-          {...{ ...props, onChange: (value) => mockCallback(value) }}
-        />
-      </div>
-    </ThemeProvider>
+    <div>
+      <div>outside</div>
+      <PageButtons
+        {...{ ...props, onChange: (value) => mockCallback(value) }}
+      />
+    </div>
   )
 }
 

@@ -1,32 +1,26 @@
 import * as React from 'react'
 import { useState } from 'react'
 
-import { ThemeProvider } from 'styled-components'
-
 import { cleanup, render, screen, userEvent, waitFor } from '@/test'
-
-import { lightTheme } from '@/src/tokens'
 
 import { RadioButton } from './RadioButton'
 
 const RadioWithState = (props: any) => {
   const [checked, setChecked] = useState<boolean>(false)
   return (
-    <ThemeProvider theme={lightTheme}>
-      <div>
-        hello there
-        {checked ? <div>checked</div> : <div>unchecked</div>}
-        <RadioButton
-          id="radio-id"
-          label="radio-label"
-          ref={props.inputRef}
-          onChange={(e) => {
-            setChecked(e.target.checked)
-          }}
-          {...props}
-        />
-      </div>
-    </ThemeProvider>
+    <div>
+      hello there
+      {checked ? <div>checked</div> : <div>unchecked</div>}
+      <RadioButton
+        id="radio-id"
+        label="radio-label"
+        ref={props.inputRef}
+        onChange={(e) => {
+          setChecked(e.target.checked)
+        }}
+        {...props}
+      />
+    </div>
   )
 }
 
@@ -34,11 +28,7 @@ describe('<Radio />', () => {
   afterEach(cleanup)
 
   it('renders', async () => {
-    render(
-      <ThemeProvider theme={lightTheme}>
-        <RadioButton label="radio" name="name" value="10" />
-      </ThemeProvider>,
-    )
+    render(<RadioButton label="radio" name="name" value="10" />)
     expect(screen.getByRole('radio')).toBeInTheDocument()
   })
 

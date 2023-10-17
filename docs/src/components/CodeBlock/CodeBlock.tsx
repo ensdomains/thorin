@@ -124,9 +124,9 @@ export const CodeBlock = ({
         // style={style}
         // className={className}
         >
-          <CopyButtonContainer>
+          <Box position="absolute" top="$2" right="$2">
             <CopyButton content={code} />
-          </CopyButtonContainer>
+          </Box>
 
           {tokens.map((line, i) => (
             <LineContainer key={i} {...getLineProps({ line, key: i })}>

@@ -63,7 +63,7 @@ const Mark = ({ $color, disabled, ...props }: BoxProps & { $color: Color }) => (
 )
 
 const Input = React.forwardRef<HTMLElement, BoxProps & { $color: Color }>(
-  ({ $color, ...props }) => (
+  ({ $color, ...props }, ref) => (
     <Box position="relative" wh="$5">
       <Box
         {...props}
@@ -81,6 +81,7 @@ const Input = React.forwardRef<HTMLElement, BoxProps & { $color: Color }>(
         flexGrow="0"
         flexShrink="0"
         placeContent="center"
+        ref={ref}
         role="radio"
         transform={{
           base: translateY(0),

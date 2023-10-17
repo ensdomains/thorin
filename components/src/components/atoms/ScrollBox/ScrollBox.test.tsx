@@ -1,16 +1,11 @@
 import * as React from 'react'
 
-import { ThemeProvider } from 'styled-components'
-
 import { cleanup, makeMockIntersectionObserver, render, screen } from '@/test'
-import 'jest-styled-components'
-
-import { lightTheme } from '@/src/tokens'
 
 import { ScrollBox } from './ScrollBox'
 
 const Component = ({ onReachedTop }: { onReachedTop?: () => void }) => (
-  <ThemeProvider theme={lightTheme}>
+  <>
     <ScrollBox
       data-testid="scroll-box"
       style={{ height: '50px' }}
@@ -30,7 +25,7 @@ const Component = ({ onReachedTop }: { onReachedTop?: () => void }) => (
       </ul>
     </ScrollBox>
     <div data-testid="test123" />
-  </ThemeProvider>
+  </>
 )
 
 const mockIntersectionObserverCls = jest.fn()

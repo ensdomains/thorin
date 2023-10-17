@@ -80,7 +80,7 @@ export const SideBar = ({ open, links }: { open: boolean; links: Links }) => {
       transition={'left 0.2s ease-in-out'}
       paddingRight={'$1'}
     >
-      <ScrollBox width="$full">
+      <ScrollBox width="$full" hideDividers>
         <Box padding={'$4'} display={'flex'} flexDirection={'column'} gap="$4">
           <Field
             label={
@@ -96,7 +96,6 @@ export const SideBar = ({ open, links }: { open: boolean; links: Links }) => {
               onChange={(e) => {
                 const newValue = e.target.checked ? 'light' : 'dark'
                 if (newValue !== mode) setMode(newValue)
-                console.log(e)
               }}
             />
           </Field>
@@ -133,8 +132,9 @@ export const SideBar = ({ open, links }: { open: boolean; links: Links }) => {
           <Box>
             <Heading icon={<GridSVG />}>Getting Started</Heading>
             {links.map(({ name, links }) => (
-              <>
+              <div key={name}>
                 <Typography
+                  key={name}
                   fontVariant="smallBold"
                   color="textSecondary"
                   px="$4"
@@ -155,7 +155,7 @@ export const SideBar = ({ open, links }: { open: boolean; links: Links }) => {
                     {_name}
                   </NavLink>
                 ))}
-              </>
+              </div>
             ))}
           </Box>
         </Box>

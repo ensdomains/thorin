@@ -43,15 +43,19 @@ The size of the avatar is controlled by the width of it's parent component.
 The placeholder is shown if the src property is undefined or if an error occurs loading the src.
 
 ```tsx live=true
-<Box diplay="flex" alignItems="center" flexDirection="row" flexWrap="wrap" gap="$4">
-  <Typography variant="label">undefined src</Typography>
-  <div style={{ width: '100px' }}>
-    <Avatar />
-  </div>
-  <Typography variant="label">broken Link</Typography>
-  <div style={{ width: '100px' }}>
-    <Avatar src="http://thisisa.com/brockenLink.jpg" />
-  </div>
+<Box display="flex" alignItems="center" flexDirection="row" flexWrap="wrap" gap="$4">
+  <Box display="flex" alignItems="center" gap="$4"> 
+    <Typography variant="label">undefined src</Typography>
+    <div style={{ width: '100px' }}>
+      <Avatar />
+    </div>
+  </Box>
+  <Box display="flex" alignItems="center" gap="$4">  
+    <Typography variant="label">broken Link</Typography>
+    <div style={{ width: '100px' }}>
+      <Avatar src="http://thisisa.com/brockenLink.jpg" />
+    </div>
+  </Box>
 </Box>
 ```
 
@@ -77,34 +81,6 @@ The placeholder is shown if the src property is undefined or if an error occurs 
       label="Noun 97"
       overlay={<div style={{ background: 'rgba(0,0,0,0.25)', zIndex: 1 }} />}
       src={avatars.noun97}
-    />
-  </div>
-</Box>
-```
-
-## Border
-
-By default, there is a light border around the edge to define image edges on similarly colored backgrounds. This can be disabled by using the `noBorder` prop.
-
-```tsx live=true
-<Box display="flex" flexDirection="row" gap="$4">
-  <div style={{ width: '100px' }}>
-    <Avatar
-      src={
-        mode === 'light'
-          ? 'https://images.mirror-media.xyz/publication-images/152cd86f-45ad-4f48-8971-4dd33fde5bc1.png'
-          : 'https://images.mirror-media.xyz/publication-images/5eaba6b2-b9ee-4bea-aeac-75796d53798f.jpg'
-      }
-    />
-  </div>
-  <div style={{ width: '100px' }}>
-    <Avatar
-      noBorder
-      src={
-        mode === 'light'
-          ? 'https://images.mirror-media.xyz/publication-images/152cd86f-45ad-4f48-8971-4dd33fde5bc1.png'
-          : 'https://images.mirror-media.xyz/publication-images/5eaba6b2-b9ee-4bea-aeac-75796d53798f.jpg'
-      }
     />
   </div>
 </Box>

@@ -1,10 +1,6 @@
 import * as React from 'react'
 
-import { ThemeProvider } from 'styled-components'
-
 import { cleanup, render, screen, userEvent, waitFor } from '@/test'
-
-import { lightTheme } from '@/src/tokens'
 
 import { Textarea } from './Textarea'
 
@@ -12,20 +8,12 @@ describe('<Textarea />', () => {
   afterEach(cleanup)
 
   it('renders', () => {
-    render(
-      <ThemeProvider theme={lightTheme}>
-        <Textarea label="Why are you entering $WRITE Race?" />
-      </ThemeProvider>,
-    )
+    render(<Textarea label="Why are you entering $WRITE Race?" />)
     expect(screen.getByRole('textbox')).toBeInTheDocument()
   })
 
   it('receives user input', () => {
-    render(
-      <ThemeProvider theme={lightTheme}>
-        <Textarea label="Why are you entering $WRITE Race?" />
-      </ThemeProvider>,
-    )
+    render(<Textarea label="Why are you entering $WRITE Race?" />)
 
     userEvent.type(screen.getByRole('textbox'), 'I love writing and crypto.')
     expect(screen.getByRole('textbox')).toHaveValue(
@@ -35,9 +23,7 @@ describe('<Textarea />', () => {
 
   it('respects the maxLength parameter', () => {
     render(
-      <ThemeProvider theme={lightTheme}>
-        <Textarea label="Why are you entering $WRITE Race?" maxLength={14} />
-      </ThemeProvider>,
+      <Textarea label="Why are you entering $WRITE Race?" maxLength={14} />,
     )
 
     const element = screen.getByLabelText(/why/i)
@@ -47,13 +33,11 @@ describe('<Textarea />', () => {
 
   it('does not allow typing when disabled', () => {
     render(
-      <ThemeProvider theme={lightTheme}>
-        <Textarea
-          disabled
-          label="Why are you entering $WRITE Race?"
-          maxLength={14}
-        />
-      </ThemeProvider>,
+      <Textarea
+        disabled
+        label="Why are you entering $WRITE Race?"
+        maxLength={14}
+      />,
     )
 
     const element = screen.getByLabelText(/why/i)
@@ -62,22 +46,14 @@ describe('<Textarea />', () => {
   })
 
   it('shows error message', () => {
-    render(
-      <ThemeProvider theme={lightTheme}>
-        <Textarea error="error" label="Why are you entering $WRITE Race?" />
-      </ThemeProvider>,
-    )
+    render(<Textarea error="error" label="Why are you entering $WRITE Race?" />)
 
     expect(screen.getByText('error')).toBeInTheDocument()
   })
 
   it('should pass a ref down', async () => {
     const ref = { current: null } as React.RefObject<any>
-    render(
-      <ThemeProvider theme={lightTheme}>
-        <Textarea label="Why are you entering $WRITE Race?" ref={ref} />
-      </ThemeProvider>,
-    )
+    render(<Textarea label="Why are you entering $WRITE Race?" ref={ref} />)
     await waitFor(() => {
       expect(ref.current).toBeInstanceOf(HTMLTextAreaElement)
     })

@@ -1,52 +1,53 @@
 import * as React from 'react'
-import styled, { css } from 'styled-components'
 
 import { breakpoints } from '@/src/tokens'
 
+import { actionSheeItem } from './styles.css'
+
 import { Button, Modal, Typography } from '../..'
 import type { DropdownItem, DropdownItemObject } from './Dropdown'
+import { Box, BoxProps } from '../../atoms/Box/Box'
 
-const ActionSheetContent = styled.div(
-  ({ theme }) => css`
-    width: 100%;
-    flex-direction: column;
-    padding: ${theme.space['2.5']};
-    gap: ${theme.space['2.5']};
-    display: flex;
-  `,
+const ActionSheetContent = React.forwardRef<HTMLElement, BoxProps>(
+  (props, ref) => (
+    <Box
+      {...props}
+      display="flex"
+      flexDirection="column"
+      gap="$2.5"
+      padding="$2.5"
+      ref={ref}
+      width="$full"
+    />
+  ),
 )
 
-const ActionSheetOptions = styled.div(
-  ({ theme }) => css`
-    border-radius: ${theme.radii['large']};
-    width: ${theme.space['full']};
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    gap: ${theme.space.px};
-  `,
+const ActionSheetOptions = (props: BoxProps) => (
+  <Box
+    {...props}
+    borderRadius="$large"
+    display="flex"
+    flexDirection="column"
+    gap="$px"
+    textAlign="center"
+    width="$full"
+  />
 )
 
-const ActionSheetItem = styled.div(
-  ({ theme }) => css`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: ${theme.space['2']};
-    width: 100%;
-    padding: 20px;
-    position: relative;
-    background: ${theme.colors.backgroundPrimary};
-
-    &:first-child {
-      border-top-left-radius: ${theme.radii['large']};
-      border-top-right-radius: ${theme.radii['large']};
-    }
-    &:last-child {
-      border-bottom-left-radius: ${theme.radii['large']};
-      border-bottom-right-radius: ${theme.radii['large']};
-    }
-  `,
+const ActionSheetItem = (props: BoxProps) => (
+  <Box
+    {...props}
+    alignItems="center"
+    backgroundColor="$backgroundPrimary"
+    className={actionSheeItem}
+    color="$textPrimary"
+    display="flex"
+    gap="$2"
+    justifyContent="center"
+    padding="$5"
+    position="relative"
+    width="$full"
+  />
 )
 
 type Props = {

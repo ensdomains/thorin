@@ -1,36 +1,27 @@
+import * as React from 'react'
+
 import type { TransitionState } from 'react-transition-state'
 
-import styled, { css } from 'styled-components'
+import { backdropSurface } from './styles.css'
+import { Box, BoxProps } from '../Box'
 
-export const BackdropSurface = styled.div<{
-  $state: TransitionState
-  $empty: boolean
-}>(
-  ({ theme, $state, $empty }) => css`
-    width: 100vw;
-    height: 100vh;
-    position: fixed;
-    overflow: hidden;
-    z-index: 999;
-    top: 0;
-    left: 0;
-    transition: ${theme.transitionDuration['300']} all
-      ${theme.transitionTimingFunction.popIn};
+type Props = { $state: TransitionState; $empty: boolean } & BoxProps
 
-    ${!$empty && $state === 'entered'
-      ? css`
-          background-color: rgba(0, 0, 0, ${theme.opacity.overlayFallback});
-
-          @supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
-            backdrop-filter: blur(16px);
-            background-color: rgba(0, 0, 0, ${theme.opacity.overlay});
-          }
-        `
-      : css`
-          background-color: rgba(0, 0, 0, 0);
-          @supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
-            backdrop-filter: blur(0px);
-          }
-        `}
-  `,
+export const BackdropSurface = ({ $empty, $state, ...props }: Props) => (
+  <Box
+    {...props}
+    className={backdropSurface({ entered: !$empty && $state === 'entered' })}
+    height="100vh"
+    left="$0"
+    overflow="hidden"
+    position="fixed"
+    top="$0"
+    transitionDuration="$300"
+    transitionProperty="all"
+    transitionTimingFunction="$popIn"
+    width="100vw"
+    zIndex="999"
+  />
 )
+
+BackdropSurface.displayName = 'BackdropSurface'

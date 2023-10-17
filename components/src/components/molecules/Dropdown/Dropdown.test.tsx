@@ -1,7 +1,5 @@
 import * as React from 'react'
 
-import { ThemeProvider } from 'styled-components'
-
 import {
   cleanup,
   makeMockIntersectionObserver,
@@ -11,28 +9,24 @@ import {
   waitFor,
 } from '@/test'
 
-import { lightTheme } from '@/src/tokens'
-
 import { Dropdown } from './Dropdown'
 
 const DropdownHelper = ({ mockCallback, children, ...props }: any) => {
   return (
-    <ThemeProvider theme={lightTheme}>
-      <div>
-        <div>outside</div>
-        <Dropdown
-          {...{
-            items: [
-              { label: 'Dashboard', onClick: mockCallback },
-              { label: 'Disconnect', onClick: () => null, color: 'red' },
-            ],
-            ...props,
-          }}
-        >
-          {children}
-        </Dropdown>
-      </div>
-    </ThemeProvider>
+    <div>
+      <div>outside</div>
+      <Dropdown
+        {...{
+          items: [
+            { label: 'Dashboard', onClick: mockCallback },
+            { label: 'Disconnect', onClick: () => null, color: 'red' },
+          ],
+          ...props,
+        }}
+      >
+        {children}
+      </Dropdown>
+    </div>
   )
 }
 
@@ -121,11 +115,11 @@ describe('<Dropdown />', () => {
 
   it('should not error if no dropdown items are passed in', () => {
     render(
-      <ThemeProvider theme={lightTheme}>
+      <>
         {/*eslint-disable-next-line @typescript-eslint/ban-ts-comment*/}
         {/*@ts-ignore*/}
         <Dropdown label="" />
-      </ThemeProvider>,
+      </>,
     )
     expect(screen.getByTestId('dropdown-btn')).toBeInTheDocument()
   })

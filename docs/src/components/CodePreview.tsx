@@ -154,15 +154,9 @@ export const CodePreview = ({
               }}
               onChange={(newCode) => setCode(newCode)}
             />
-            <div
-              style={{
-                position: 'absolute',
-                right: 0,
-                top: 0,
-              }}
-            >
+            <Box position="absolute" top="$2" right="$2">
               <CopyButton content={code} />
-            </div>
+            </Box>
           </LiveEditorContainer>
         )}
       </Container>

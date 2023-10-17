@@ -1,6 +1,5 @@
 import { MDXProviderProps } from '@mdx-js/react'
 import slugify from '@sindresorhus/slugify'
-import styled, { css } from 'styled-components'
 
 import { Typography, tokens, Box, LinkSVG } from '@ensdomains/thorin'
 
@@ -9,14 +8,15 @@ import { Link } from './Link'
 import { SearchIcons } from './SearchIcons'
 import { PropsTable } from './PropsTable'
 
-const StyledLink = styled(Link)(
-  ({ theme }) => css`
-    color: ${theme.colors.accent};
-    cursor: pointer;
-    text-decoration: underline;
-    text-decoration-color: ${theme.colors.accent};
-    text-underline-offset: 0.2em;
-  `,
+const StyledLink = (props: React.ComponentProps<typeof Link>) => (
+  <Box
+    as={<Link {...props} />}
+    color="$accent"
+    cursor="pointer"
+    textDecoration="underline"
+    textDecorationColor="$accent"
+    textUnderlineOffset="0.2em"
+  />
 )
 
 export const MDX: MDXProviderProps['components'] = {

@@ -5,11 +5,7 @@ import { MDXProvider } from '@mdx-js/react'
 import Script from 'next/script'
 import { ThemeProvider } from 'styled-components'
 
-import {
-  ThorinGlobalStyles,
-  lightTheme,
-  ThemeProvider as ThemeProvider2,
-} from '@ensdomains/thorin'
+import { lightTheme, ThemeProvider as ThemeProvider2 } from '@ensdomains/thorin'
 import '@ensdomains/thorin/dist/style.css'
 import { MDX } from '~/components'
 import { getLayout as getDocsLayout } from '~/layouts/docs'
@@ -32,7 +28,6 @@ const App = ({ Component, pageProps }: AppProps) => {
       <MDXProvider components={MDX}>
         <ThemeProvider2>
           <ThemeProvider theme={lightTheme}>
-            <ThorinGlobalStyles />
             <GlobalStyle />
             {getLayout(<Component {...pageProps} />)}
           </ThemeProvider>

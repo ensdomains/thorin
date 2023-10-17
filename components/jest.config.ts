@@ -27,6 +27,9 @@ const config: Config.InitialOptions = {
   roots: ['<rootDir>'],
   testEnvironment: 'jsdom',
   testRegex: '.*\\.test\\.(ts|tsx)$',
+  transform: {
+    '\\.css\\.ts$': '@vanilla-extract/jest-transform',
+  },
   watchPlugins: [
     'jest-watch-typeahead/filename',
     'jest-watch-typeahead/testname',

@@ -1,10 +1,7 @@
 import * as React from 'react'
-import styled, { css } from 'styled-components'
 import { TransitionState, useTransition } from 'react-transition-state'
 
 import { debounce } from 'lodash'
-
-import { mq } from '@/src/utils/responsiveHelpers'
 
 import { Portal } from '../Portal'
 import { Box, BoxProps } from '../Box/Box'
@@ -141,7 +138,20 @@ const checkRectContainsPoint = (
 const makeWidth = (width: number | string) =>
   typeof width === 'number' ? `${width}px` : width
 
-const PopoverBox = React.forwardRef<any, any>(
+type PopoverBoxProps = {
+  $state: TransitionState
+  $translate: string
+  $mobileTranslate: string
+  $width: number | string
+  $mobileWidth: number | string
+  $x: number
+  $y: number
+  $isControlled: boolean
+  $transitionDuration: number
+  $hideOverflow: boolean | undefined
+}
+
+const PopoverBox = React.forwardRef<HTMLElement, BoxProps & PopoverBoxProps>(
   (
     {
       $state,
@@ -155,17 +165,6 @@ const PopoverBox = React.forwardRef<any, any>(
       $transitionDuration,
       $hideOverflow,
       ...props
-    }: BoxProps & {
-      $state: TransitionState
-      $translate: string
-      $mobileTranslate: string
-      $width: number | string
-      $mobileWidth: number | string
-      $x: number
-      $y: number
-      $isControlled: boolean
-      $transitionDuration: number
-      $hideOverflow: boolean | undefined
     },
     ref,
   ) => (
@@ -198,109 +197,6 @@ const PopoverBox = React.forwardRef<any, any>(
       {...props}
     />
   ),
-)
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const PopoverContainer = styled.div<{
-  $state: TransitionState
-  $translate: string
-  $mobileTranslate: string
-  $width: number | string
-  $mobileWidth: number | string
-  $x: number
-  $y: number
-  $isControlled: boolean
-  $transitionDuration: number
-  $hideOverflow: boolean | undefined
-}>(
-  ({
-    $state,
-    $translate,
-    $mobileTranslate,
-    $width,
-    $mobileWidth,
-    $x,
-    $y,
-    $isControlled,
-    $transitionDuration,
-    $hideOverflow,
-  }) => [
-    css`
-      /* stylelint-disable */
-      -webkit-backface-visibility: hidden;
-      -moz-backface-visibility: hidden;
-      -webkit-transform: translate3d(0, 0, 0);
-      -moz-transform: translate3d(0, 0, 0);
-      /* stylelint-enable */
-
-      /* Default state is unmounted */
-      display: block;
-      box-sizing: border-box;
-      visibility: hidden;
-      position: absolute;
-      z-index: 99999;
-      width: ${makeWidth($mobileWidth)};
-      transform: translate3d(0, 0, 0) ${$mobileTranslate};
-      transition: none;
-      opacity: 0;
-      pointer-events: none;
-      top: 0;
-      left: 0;
-
-      ${$hideOverflow &&
-      css`
-        overflow: hidden;
-      `}
-
-      ${$state === 'preEnter' &&
-      css`
-        display: block;
-        visibility: visible;
-        top: ${$y}px;
-        left: ${$x}px;
-      `}
-
-      ${$state === 'entering' &&
-      css`
-        display: block;
-        visibility: visible;
-        opacity: 1;
-        transition: opacity ${$transitionDuration}ms ease-in-out;
-        top: ${$y}px;
-        left: ${$x}px;
-      `}
-
-      ${$state === 'entered' &&
-      css`
-        display: block;
-        visibility: visible;
-        opacity: 1;
-        transition: opacity ${$transitionDuration}ms ease-in-out;
-        top: ${$y}px;
-        left: ${$x}px;
-        pointer-events: initial;
-
-        ${$isControlled &&
-        css`
-          pointer-events: auto;
-        `}
-      `}
-
-      ${$state === 'exiting' &&
-      css`
-        display: block;
-        visibility: visible;
-        opacity: 0;
-        transition: all ${$transitionDuration}ms ease-in-out;
-        top: ${$y}px;
-        left: ${$x}px;
-      `}
-    `,
-    mq.sm.min(css`
-      width: ${makeWidth($width)};
-      transform: translate3d(0, 0, 0) ${$translate};
-    `),
-  ],
 )
 
 export const DynamicPopover = ({
@@ -547,8 +443,6 @@ export const DynamicPopover = ({
     setPosition()
     onShowCallback?.()
   }, [setPosition, onShowCallback])
-
-  if (state === 'unmounted') return null
 
   return (
     <Portal renderCallback={renderCallback}>

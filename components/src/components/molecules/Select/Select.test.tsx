@@ -1,10 +1,6 @@
 import * as React from 'react'
 
-import { ThemeProvider } from 'styled-components'
-
 import { act, cleanup, render, screen, userEvent, waitFor } from '@/test'
-
-import { lightTheme } from '@/src/tokens'
 
 import { Select } from './Select'
 import { Input } from '../Input'
@@ -14,33 +10,29 @@ describe('<Select />', () => {
 
   it('renders', () => {
     render(
-      <ThemeProvider theme={lightTheme}>
-        <Select
-          label="select"
-          options={[
-            { value: '0', label: 'Zero' },
-            { value: '1', label: 'One' },
-            { value: '2', label: 'Two' },
-          ]}
-          placeholder="Select an option"
-        />
-      </ThemeProvider>,
+      <Select
+        label="select"
+        options={[
+          { value: '0', label: 'Zero' },
+          { value: '1', label: 'One' },
+          { value: '2', label: 'Two' },
+        ]}
+        placeholder="Select an option"
+      />,
     )
     expect(screen.getByLabelText('select')).toBeInTheDocument()
   })
 
   it('should update selection correctly', () => {
     render(
-      <ThemeProvider theme={lightTheme}>
-        <Select
-          label="select"
-          options={[
-            { value: '0', label: 'Zero' },
-            { value: '1', label: 'One' },
-            { value: '2', label: 'Two' },
-          ]}
-        />
-      </ThemeProvider>,
+      <Select
+        label="select"
+        options={[
+          { value: '0', label: 'Zero' },
+          { value: '1', label: 'One' },
+          { value: '2', label: 'Two' },
+        ]}
+      />,
     )
     userEvent.click(screen.getByTestId('select-container'))
     userEvent.click(screen.getByTestId('select-option-1'))
@@ -53,17 +45,15 @@ describe('<Select />', () => {
       e.currentTarget.value,
     ])
     render(
-      <ThemeProvider theme={lightTheme}>
-        <Select
-          label="select"
-          options={[
-            { value: '0', label: 'Zero' },
-            { value: '1', label: 'One' },
-            { value: '2', label: 'Two' },
-          ]}
-          onChange={mockCallback}
-        />
-      </ThemeProvider>,
+      <Select
+        label="select"
+        options={[
+          { value: '0', label: 'Zero' },
+          { value: '1', label: 'One' },
+          { value: '2', label: 'Two' },
+        ]}
+        onChange={mockCallback}
+      />,
     )
     userEvent.click(screen.getByTestId('select-container'))
     userEvent.click(screen.getByTestId('select-option-1'))
@@ -74,31 +64,27 @@ describe('<Select />', () => {
 
   it('should update value when value changes', async () => {
     const { rerender } = render(
-      <ThemeProvider theme={lightTheme}>
-        <Select
-          label="select"
-          options={[
-            { value: '0', label: 'Zero' },
-            { value: '1', label: 'One' },
-            { value: '2', label: 'Two' },
-          ]}
-          value="0"
-        />
-      </ThemeProvider>,
+      <Select
+        label="select"
+        options={[
+          { value: '0', label: 'Zero' },
+          { value: '1', label: 'One' },
+          { value: '2', label: 'Two' },
+        ]}
+        value="0"
+      />,
     )
 
     rerender(
-      <ThemeProvider theme={lightTheme}>
-        <Select
-          label="select"
-          options={[
-            { value: '0', label: 'Zero' },
-            { value: '1', label: 'One' },
-            { value: '2', label: 'Two' },
-          ]}
-          value="1"
-        />
-      </ThemeProvider>,
+      <Select
+        label="select"
+        options={[
+          { value: '0', label: 'Zero' },
+          { value: '1', label: 'One' },
+          { value: '2', label: 'Two' },
+        ]}
+        value="1"
+      />,
     )
 
     await waitFor(() => {
@@ -109,17 +95,15 @@ describe('<Select />', () => {
   it('should not allow disabled option to be selected', () => {
     const mockCallback = jest.fn()
     render(
-      <ThemeProvider theme={lightTheme}>
-        <Select
-          label="select"
-          options={[
-            { value: '0', label: 'Zero' },
-            { value: '1', label: 'One' },
-            { value: '2', label: 'Two', disabled: true },
-          ]}
-          onChange={mockCallback}
-        />
-      </ThemeProvider>,
+      <Select
+        label="select"
+        options={[
+          { value: '0', label: 'Zero' },
+          { value: '1', label: 'One' },
+          { value: '2', label: 'Two', disabled: true },
+        ]}
+        onChange={mockCallback}
+      />,
     )
     userEvent.click(screen.getByTestId('select-container'))
     userEvent.click(screen.getByText('Two'))
@@ -129,20 +113,18 @@ describe('<Select />', () => {
   it('should close dropdown when clicking outside of element', async () => {
     const mockCallback = jest.fn()
     render(
-      <ThemeProvider theme={lightTheme}>
-        <div>
-          <div>outside</div>
-          <Select
-            label="select"
-            options={[
-              { value: '0', label: 'Zero' },
-              { value: '1', label: 'One' },
-              { value: '2', label: 'Two', disabled: true },
-            ]}
-            onChange={mockCallback}
-          />
-        </div>
-      </ThemeProvider>,
+      <div>
+        <div>outside</div>
+        <Select
+          label="select"
+          options={[
+            { value: '0', label: 'Zero' },
+            { value: '1', label: 'One' },
+            { value: '2', label: 'Two', disabled: true },
+          ]}
+          onChange={mockCallback}
+        />
+      </div>,
     )
 
     userEvent.click(screen.getByTestId('select-container'))
@@ -159,21 +141,19 @@ describe('<Select />', () => {
   it('should filter options if autocomplete is true ', async () => {
     const mockCallback = jest.fn()
     render(
-      <ThemeProvider theme={lightTheme}>
-        <div>
-          <div>outside</div>
-          <Select
-            autocomplete
-            label="select"
-            options={[
-              { value: '0', label: 'Zero' },
-              { value: '1', label: 'One' },
-              { value: '2', label: 'Two', disabled: true },
-            ]}
-            onChange={mockCallback}
-          />
-        </div>
-      </ThemeProvider>,
+      <div>
+        <div>outside</div>
+        <Select
+          autocomplete
+          label="select"
+          options={[
+            { value: '0', label: 'Zero' },
+            { value: '1', label: 'One' },
+            { value: '2', label: 'Two', disabled: true },
+          ]}
+          onChange={mockCallback}
+        />
+      </div>,
     )
 
     userEvent.click(screen.getByTestId('select-container'))
@@ -197,17 +177,15 @@ describe('<Select />', () => {
 
   it('should update selection using arrows', async () => {
     render(
-      <ThemeProvider theme={lightTheme}>
-        <Select
-          autocomplete
-          label="select"
-          options={[
-            { value: '0', label: 'Zero' },
-            { value: '1', label: 'One' },
-            { value: '2', label: 'Two' },
-          ]}
-        />
-      </ThemeProvider>,
+      <Select
+        autocomplete
+        label="select"
+        options={[
+          { value: '0', label: 'Zero' },
+          { value: '1', label: 'One' },
+          { value: '2', label: 'Two' },
+        ]}
+      />,
     )
 
     userEvent.click(screen.getByTestId('select-container'))
@@ -224,21 +202,19 @@ describe('<Select />', () => {
   it('should filter options if createable is true ', async () => {
     const mockCallback = jest.fn()
     render(
-      <ThemeProvider theme={lightTheme}>
-        <div>
-          <div>outside</div>
-          <Select
-            createable
-            label="select"
-            options={[
-              { value: '0', label: 'Zero' },
-              { value: '1', label: 'One' },
-              { value: '2', label: 'Two', disabled: true },
-            ]}
-            onChange={mockCallback}
-          />
-        </div>
-      </ThemeProvider>,
+      <div>
+        <div>outside</div>
+        <Select
+          createable
+          label="select"
+          options={[
+            { value: '0', label: 'Zero' },
+            { value: '1', label: 'One' },
+            { value: '2', label: 'Two', disabled: true },
+          ]}
+          onChange={mockCallback}
+        />
+      </div>,
     )
 
     userEvent.click(screen.getByTestId('select-container'))
@@ -263,21 +239,19 @@ describe('<Select />', () => {
   it('should show create options only if it is unique ', async () => {
     const mockCallback = jest.fn()
     render(
-      <ThemeProvider theme={lightTheme}>
-        <div>
-          <div>outside</div>
-          <Select
-            createable
-            label="select"
-            options={[
-              { value: '0', label: 'Zero' },
-              { value: '1', label: 'One' },
-              { value: '2', label: 'Two', disabled: true },
-            ]}
-            onChange={mockCallback}
-          />
-        </div>
-      </ThemeProvider>,
+      <div>
+        <div>outside</div>
+        <Select
+          createable
+          label="select"
+          options={[
+            { value: '0', label: 'Zero' },
+            { value: '1', label: 'One' },
+            { value: '2', label: 'Two', disabled: true },
+          ]}
+          onChange={mockCallback}
+        />
+      </div>,
     )
 
     userEvent.click(screen.getByTestId('select-container'))
@@ -303,21 +277,19 @@ describe('<Select />', () => {
   it('should call on create if create option is clicked', async () => {
     const mockCallback = jest.fn()
     render(
-      <ThemeProvider theme={lightTheme}>
-        <div>
-          <div>outside</div>
-          <Select
-            createable
-            label="select"
-            options={[
-              { value: '0', label: 'Zero' },
-              { value: '1', label: 'One' },
-              { value: '2', label: 'Two', disabled: true },
-            ]}
-            onCreate={mockCallback}
-          />
-        </div>
-      </ThemeProvider>,
+      <div>
+        <div>outside</div>
+        <Select
+          createable
+          label="select"
+          options={[
+            { value: '0', label: 'Zero' },
+            { value: '1', label: 'One' },
+            { value: '2', label: 'Two', disabled: true },
+          ]}
+          onCreate={mockCallback}
+        />
+      </div>,
     )
 
     userEvent.click(screen.getByTestId('select-container'))
@@ -338,21 +310,19 @@ describe('<Select />', () => {
   it('should call on create if create option is selected with arrows and enter is pressed', async () => {
     const mockCallback = jest.fn()
     render(
-      <ThemeProvider theme={lightTheme}>
-        <div>
-          <div>outside</div>
-          <Select
-            createable
-            label="select"
-            options={[
-              { value: '0', label: 'Zero' },
-              { value: '1', label: 'One' },
-              { value: '2', label: 'Two', disabled: true },
-            ]}
-            onCreate={mockCallback}
-          />
-        </div>
-      </ThemeProvider>,
+      <div>
+        <div>outside</div>
+        <Select
+          createable
+          label="select"
+          options={[
+            { value: '0', label: 'Zero' },
+            { value: '1', label: 'One' },
+            { value: '2', label: 'Two', disabled: true },
+          ]}
+          onCreate={mockCallback}
+        />
+      </div>,
     )
 
     userEvent.click(screen.getByTestId('select-container'))
@@ -368,17 +338,15 @@ describe('<Select />', () => {
   it('should pass a ref down', async () => {
     const ref = { current: null } as React.RefObject<any>
     render(
-      <ThemeProvider theme={lightTheme}>
-        <Select
-          label="select"
-          options={[
-            { value: '0', label: 'Zero' },
-            { value: '1', label: 'One' },
-            { value: '2', label: 'Two' },
-          ]}
-          ref={ref}
-        />
-      </ThemeProvider>,
+      <Select
+        label="select"
+        options={[
+          { value: '0', label: 'Zero' },
+          { value: '1', label: 'One' },
+          { value: '2', label: 'Two' },
+        ]}
+        ref={ref}
+      />,
     )
     await waitFor(() => {
       expect(ref.current).toBeInstanceOf(HTMLInputElement)
@@ -387,24 +355,22 @@ describe('<Select />', () => {
 
   it('should show dropdown menu when clicked and embeded in Input', async () => {
     render(
-      <ThemeProvider theme={lightTheme}>
-        <Input
-          label="parent component"
-          placeholder="parent component"
-          prefix={
-            <Select
-              label="select"
-              options={[
-                { value: '0', label: 'Zero' },
-                { value: '1', label: 'One' },
-                { value: '2', label: 'Two' },
-              ]}
-              value="0"
-            />
-          }
-          prefixAs="div"
-        />
-      </ThemeProvider>,
+      <Input
+        label="parent component"
+        placeholder="parent component"
+        prefix={
+          <Select
+            label="select"
+            options={[
+              { value: '0', label: 'Zero' },
+              { value: '1', label: 'One' },
+              { value: '2', label: 'Two' },
+            ]}
+            value="0"
+          />
+        }
+        prefixAs="div"
+      />,
     )
 
     userEvent.click(screen.getByTestId('select-container'))
@@ -416,24 +382,22 @@ describe('<Select />', () => {
 
   it('should have focus on input when clicked and embeded in Input as autocomplete Select', async () => {
     render(
-      <ThemeProvider theme={lightTheme}>
-        <Input
-          label="parent component"
-          placeholder="parent component"
-          prefix={
-            <Select
-              autocomplete
-              label="select"
-              options={[
-                { value: '0', label: 'Zero' },
-                { value: '1', label: 'One' },
-                { value: '2', label: 'Two' },
-              ]}
-            />
-          }
-          prefixAs="div"
-        />
-      </ThemeProvider>,
+      <Input
+        label="parent component"
+        placeholder="parent component"
+        prefix={
+          <Select
+            autocomplete
+            label="select"
+            options={[
+              { value: '0', label: 'Zero' },
+              { value: '1', label: 'One' },
+              { value: '2', label: 'Two' },
+            ]}
+          />
+        }
+        prefixAs="div"
+      />,
     )
 
     userEvent.click(screen.getByTestId('select-container'))

@@ -5,9 +5,6 @@ export const Prism = {
   languages: {
     ..._Prism.languages,
     jsx: {
-      gray: {
-        pattern: /<\/?DeleteMe[^>]*>/,
-      },
       ..._Prism.languages.jsx,
     },
   },

@@ -1,7 +1,8 @@
 import * as React from 'react'
-import styled, { css } from 'styled-components'
 
 import { rainbowSprinkles } from '@/src/css/rainbow-spinkles.css'
+
+import { Box, BoxProps } from '../Box'
 
 type NativeImgAttributes = React.ImgHTMLAttributes<HTMLImageElement>
 
@@ -9,82 +10,45 @@ type Shape = 'circle' | 'square'
 
 interface Container {
   $shape: Shape
-  $noBorder?: boolean
 }
 
-const Container = styled.div<Container>(
-  ({ theme, $shape, $noBorder }) => css`
-    ${() => {
-      switch ($shape) {
-        case 'circle':
-          return css`
-            border-radius: ${theme.radii.full};
-            &:after {
-              border-radius: ${theme.radii.full};
-            }
-          `
-        case 'square':
-          return css`
-          border-radius: ${theme.radii['2xLarge']}
-          &:after {
-            border-radius: ${theme.radii['2xLarge']}
-          }
-        `
-        default:
-          return css``
-      }
-    }}
-
-    ${!$noBorder &&
-    css`
-      &::after {
-        box-shadow: ${theme.shadows['-px']} ${theme.colors.backgroundSecondary};
-        content: '';
-        inset: 0;
-        position: absolute;
-      }
-    `}
-
-    background-color: ${theme.colors.backgroundSecondary};
-
-    width: 100%;
-    padding-bottom: 100%;
-
-    > * {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
-
-    overflow: hidden;
-    position: relative;
-  `,
+const Container = ({ $shape, ...props }: BoxProps & Container) => (
+  <Box
+    {...props}
+    backgroundColor="$backgroundSecondary"
+    borderRadius={$shape === 'circle' ? '$full' : '$2xLarge'}
+    overflow="hidden"
+    paddingBottom="$full"
+    position="relative"
+    width="$full"
+  />
 )
 
-const placeholderStyles = ({
-  disabled,
-  url,
-}: {
-  disabled: boolean
-  url?: string
-}) =>
-  rainbowSprinkles({
-    filter: disabled ? 'grayscale(1)' : undefined,
-    backgroundColor: url || '$blueGradient',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%',
-    height: '100%',
-  })
+type PlaceholderProps = {
+  $disabled: boolean
+  $url?: string
+}
+const Placeholder = ({
+  $disabled,
+  $url,
+  ...props
+}: PlaceholderProps & BoxProps) => (
+  <Box
+    alignItems="center"
+    background={$url || '$blueGradient'}
+    display="flex"
+    filter={$disabled ? 'grayscale(1)' : 'unset'}
+    height="100%"
+    justifyContent="center"
+    position="absolute"
+    width="100%"
+    {...props}
+  />
+)
 
 export type Props = {
   /** Accessibility text. */
   label: string
-  /** If true, removes the border around the avatar. */
-  noBorder?: boolean
   /** Uses tokens space settings to set the size */
   src?: NativeImgAttributes['src']
   /** The shape of the avatar. */
@@ -99,7 +63,6 @@ export type Props = {
 
 export const Avatar = ({
   label,
-  noBorder = false,
   shape = 'circle',
   src,
   placeholder,
@@ -137,8 +100,13 @@ export const Avatar = ({
 
   const isImageVisible = showImage && !!src
 
-  const imgProps = rainbowSprinkles({
+  const {
+    className: imgClassName,
+    style: imgStyle,
+    otherProps: imgOtherProps,
+  } = rainbowSprinkles({
     display: isImageVisible ? 'block' : 'none',
+    position: 'absolute',
     height: '100%',
     objectFit: 'cover',
     width: '100%',
@@ -147,16 +115,19 @@ export const Avatar = ({
   })
 
   return (
-    <Container $noBorder={!showImage || noBorder} $shape={shape}>
+    <Container $shape={shape}>
       {overlay}
       {!isImageVisible && (
-        <div
-          {...placeholderStyles({ disabled, url: placeholder })}
+        <Placeholder
+          $disabled={disabled}
+          $url={placeholder}
           aria-label={label}
         />
       )}
       <img
-        {...imgProps}
+        className={imgClassName}
+        style={imgStyle}
+        {...imgOtherProps}
         alt={label}
         decoding={decoding}
         ref={ref}

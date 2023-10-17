@@ -22,6 +22,7 @@ const responsiveProperties = defineProperties({
     alignItems: true,
     justifyContent: true,
     gap: commonVars.space,
+    gridTemplateColumns: true,
     padding: commonVars.space,
     paddingLeft: commonVars.space,
     paddingRight: commonVars.space,
@@ -132,6 +133,7 @@ const interactiveProperties = defineProperties({
   defaultCondition: 'base',
   dynamicProperties: {
     color: modeVars.color,
+    background: modeVars.color,
     backgroundColor: modeVars.color,
     backgroundImage: true,
     transition: true,
