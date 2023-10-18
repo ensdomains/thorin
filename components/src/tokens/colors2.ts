@@ -283,4 +283,3 @@ export const makeColors = (accent: Hue) => ({
 })
 
 export const colors = makeColors('blue')
-console.log(colors)

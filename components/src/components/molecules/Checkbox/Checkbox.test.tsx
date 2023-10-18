@@ -5,25 +5,25 @@ import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 
 import { Checkbox } from './Checkbox'
 
-const CheckboxWithState = (props: any) => {
+const CheckboxWithState = React.forwardRef((props: any, ref) => {
   const [checked, setChecked] = useState<boolean>(false)
   return (
     <div>
       hello there
       {checked ? <div>checked</div> : <div>unchecked</div>}
       <Checkbox
+        {...props}
         aria-invalid="sdfasd"
         id="checkbox-id"
         label="checkbox-label"
-        ref={props.inputRef}
+        ref={ref}
         onChange={(e) => {
           setChecked(e.target.checked)
         }}
-        {...props}
       />
     </div>
   )
-}
+})
 
 describe('<Checkbox />', () => {
   afterEach(cleanup)
@@ -71,7 +71,7 @@ describe('<Checkbox />', () => {
 
   it('should pass a ref down', async () => {
     const ref = { current: null } as RefObject<any>
-    render(<CheckboxWithState inputRef={ref} />)
+    render(<CheckboxWithState ref={ref} />)
     await waitFor(() => {
       expect(ref.current).toBeInstanceOf(HTMLInputElement)
     })

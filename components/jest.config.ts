@@ -1,5 +1,5 @@
 import type { Config } from '@jest/types'
-import { pathsToModuleNameMapper } from 'ts-jest/utils'
+import { pathsToModuleNameMapper } from 'ts-jest'
 
 import { compilerOptions } from './tsconfig.json'
 
@@ -34,6 +34,7 @@ const config: Config.InitialOptions = {
     'jest-watch-typeahead/filename',
     'jest-watch-typeahead/testname',
   ],
+  setupFilesAfterEnv: ['<rootDir>/test/overrides.ts'],
 }
 
 export default config

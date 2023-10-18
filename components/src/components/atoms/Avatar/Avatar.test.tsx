@@ -14,6 +14,6 @@ describe('<Avatar />', () => {
         src="https://images.mirror-media.xyz/publication-images/H-zIoEYWk4SpFkljJiwB9.png"
       />,
     )
-    await waitFor(() => expect(screen.getByRole(/img/i)).toBeInTheDocument())
+    await waitFor(() => expect(screen.getByRole('img')).toBeInTheDocument())
   })
 })

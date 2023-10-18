@@ -1,5 +1,6 @@
 import { render } from '@testing-library/react'
-import '@testing-library/jest-dom/extend-expect'
+import '@testing-library/jest-dom'
+// import '@testing-library/jest-dom/extend-expect'
 import './mocks/URL.js'
 
 // --------------------------------------------------
@@ -9,12 +10,17 @@ import './mocks/URL.js'
 export * from '@testing-library/react'
 /* eslint-enable import/export */
 export { default as userEvent } from '@testing-library/user-event'
-export { act as actHook } from '@testing-library/react-hooks'
 
 // override methods
 /* eslint-disable import/export */
 export { render }
 /* eslint-enable import/export */
-export { renderHook } from '@testing-library/react-hooks'
-
 export * from './utils'
+
+export const getPropertyValue = (element: Element, property: string) => {
+  const computedStyle = getComputedStyle(element)
+  const rawValue = computedStyle.getPropertyValue(property)
+  if (!rawValue.startsWith('var')) return rawValue
+  const varProperty = rawValue.replace(/^var\(/, '').replace(/\)$/, '')
+  return computedStyle.getPropertyValue(varProperty)
+}

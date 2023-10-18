@@ -3,7 +3,6 @@ import * as Exports from './'
 const exportedKeys = Object.keys(Exports)
 
 const expectedExportedKeys = [
-  'mq',
   'tokens',
   'baseTheme',
   'lightTheme',
@@ -13,6 +12,7 @@ const expectedExportedKeys = [
   'Avatar',
   'BackdropSurface',
   'Banner',
+  'Box',
   'Button',
   'Card',
   'CurrencyToggle',
@@ -25,7 +25,7 @@ const expectedExportedKeys = [
   'Skeleton',
   'Spinner',
   'Tag',
-  'ThorinGlobalStyles',
+  'ThemeProvider',
   'Typography',
   'VisuallyHidden',
   // molecules
@@ -47,6 +47,7 @@ const expectedExportedKeys = [
   'SkeletonGroup',
   'Slider',
   'Textarea',
+  'ThemeToggle',
   'Tooltip',
   // organisms
   'Dialog',
@@ -56,6 +57,7 @@ const expectedExportedKeys = [
   'AeroplaneSVG',
   'AlertSVG',
   'BrowserSVG',
+  'BrushSVG',
   'CalendarSVG',
   'CameraSVG',
   'CheckCircleSVG',
@@ -86,6 +88,7 @@ const expectedExportedKeys = [
   'FilterSVG',
   'FlameSVG',
   'GasPumpSVG',
+  'GridSVG',
   'HeartActiveSVG',
   'HeartSVG',
   'HorizontalOutwardArrowsSVG',
@@ -123,13 +126,19 @@ const expectedExportedKeys = [
   'RightChevronSVG',
   'SpannerAltSVG',
   'SpannerSVG',
+  'StarSVG',
   'SunSVG',
+  'TrashSVG',
   'UpArrowSVG',
   'UpChevronSVG',
   'UpCircleSVG',
   'UpRightArrowSVG',
   'VerticalDotsSVG',
   'WalletSVG',
+  // theme
+  'commonVars',
+  'modeVars',
+  'useTheme',
 ]
 
 it('should expose correct exports', () => {

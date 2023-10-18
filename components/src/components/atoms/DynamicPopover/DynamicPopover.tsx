@@ -146,7 +146,7 @@ type PopoverBoxProps = {
   $mobileWidth: number | string
   $x: number
   $y: number
-  $isControlled: boolean
+  // $isControlled: boolean
   $transitionDuration: number
   $hideOverflow: boolean | undefined
 }
@@ -448,7 +448,7 @@ export const DynamicPopover = ({
     <Portal renderCallback={renderCallback}>
       <PopoverBox
         $hideOverflow={hideOverflow}
-        $isControlled={isControlled}
+        // $isControlled={isControlled}
         $mobileTranslate={mobileTranslate}
         $mobileWidth={mobileWidth}
         $state={state}
@@ -462,9 +462,9 @@ export const DynamicPopover = ({
         ref={refFunc}
       >
         {React.cloneElement(popover, {
-          placement: _placement,
-          mobilePlacement: _mobilePlacement,
-          state,
+          // placement: _placement,
+          // mobilePlacement: _mobilePlacement,
+          // state,
         })}
       </PopoverBox>
     </Portal>

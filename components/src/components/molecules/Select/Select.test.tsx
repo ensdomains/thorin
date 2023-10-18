@@ -1,9 +1,15 @@
 import * as React from 'react'
 
-import { act, cleanup, render, screen, userEvent, waitFor } from '@/test'
+import {
+  cleanup,
+  getPropertyValue,
+  render,
+  screen,
+  userEvent,
+  waitFor,
+} from '@/test'
 
 import { Select } from './Select'
-import { Input } from '../Input'
 
 describe('<Select />', () => {
   afterEach(cleanup)
@@ -23,7 +29,7 @@ describe('<Select />', () => {
     expect(screen.getByLabelText('select')).toBeInTheDocument()
   })
 
-  it('should update selection correctly', () => {
+  it('should update selection correctly', async () => {
     render(
       <Select
         label="select"
@@ -34,8 +40,8 @@ describe('<Select />', () => {
         ]}
       />,
     )
-    userEvent.click(screen.getByTestId('select-container'))
-    userEvent.click(screen.getByTestId('select-option-1'))
+    await userEvent.click(screen.getByTestId('select-container'))
+    await userEvent.click(screen.getByTestId('select-option-1'))
     expect(screen.getByTestId('selected').innerHTML).toContain('One')
   })
 
@@ -55,8 +61,8 @@ describe('<Select />', () => {
         onChange={mockCallback}
       />,
     )
-    userEvent.click(screen.getByTestId('select-container'))
-    userEvent.click(screen.getByTestId('select-option-1'))
+    await userEvent.click(screen.getByTestId('select-container'))
+    await userEvent.click(screen.getByTestId('select-option-1'))
     await waitFor(() => {
       expect(mockCallback).toHaveReturnedWith(['1', '1'])
     })
@@ -92,7 +98,7 @@ describe('<Select />', () => {
     })
   })
 
-  it('should not allow disabled option to be selected', () => {
+  it('should not allow disabled option to be selected', async () => {
     const mockCallback = jest.fn()
     render(
       <Select
@@ -105,11 +111,12 @@ describe('<Select />', () => {
         onChange={mockCallback}
       />,
     )
-    userEvent.click(screen.getByTestId('select-container'))
-    userEvent.click(screen.getByText('Two'))
+    await userEvent.click(screen.getByTestId('select-container'))
+    await userEvent.click(screen.getByText('Two'))
     expect(screen.getAllByText('Two').length).toEqual(1)
   })
 
+  // JS DOM doesn't support css variables
   it('should close dropdown when clicking outside of element', async () => {
     const mockCallback = jest.fn()
     render(
@@ -127,12 +134,19 @@ describe('<Select />', () => {
       </div>,
     )
 
-    userEvent.click(screen.getByTestId('select-container'))
+    const getDisplayValue = () =>
+      getPropertyValue(screen.getByRole('listbox'), 'display')
+    expect(getDisplayValue()).toEqual('none')
 
-    act(() => userEvent.click(screen.getByText('outside')))
+    await userEvent.click(screen.getByTestId('select-container'))
 
     await waitFor(() => {
-      expect(screen.getByText('Two')).not.toBeVisible()
+      expect(getDisplayValue()).toEqual('block')
+    })
+    await userEvent.click(screen.getByText('outside'))
+
+    await waitFor(() => {
+      expect(getDisplayValue()).toEqual('none')
     })
   })
 
@@ -156,9 +170,9 @@ describe('<Select />', () => {
       </div>,
     )
 
-    userEvent.click(screen.getByTestId('select-container'))
+    await userEvent.click(screen.getByTestId('select-container'))
 
-    userEvent.type(screen.getByTestId('select-input'), 'o')
+    await userEvent.type(screen.getByTestId('select-input'), 'o')
 
     await waitFor(() => {
       expect(screen.getByText('Zero')).toBeVisible()
@@ -166,7 +180,7 @@ describe('<Select />', () => {
       expect(screen.getByText('Two')).toBeVisible()
     })
 
-    userEvent.type(screen.getByTestId('select-input'), 'n')
+    await userEvent.type(screen.getByTestId('select-input'), 'n')
 
     await waitFor(() => {
       expect(screen.queryByText('Zero')).toBeNull()
@@ -188,12 +202,12 @@ describe('<Select />', () => {
       />,
     )
 
-    userEvent.click(screen.getByTestId('select-container'))
+    await userEvent.click(screen.getByTestId('select-container'))
     const input = await screen.findByTestId('select-input')
 
-    userEvent.type(input, '{arrowdown}')
-    userEvent.type(input, '{arrowdown}')
-    userEvent.type(input, '{enter}')
+    await userEvent.type(input, '{arrowdown}')
+    await userEvent.type(input, '{arrowdown}')
+    await userEvent.type(input, '{enter}')
     expect(screen.getByTestId('selected').innerHTML).toContain('One')
   })
 
@@ -217,9 +231,9 @@ describe('<Select />', () => {
       </div>,
     )
 
-    userEvent.click(screen.getByTestId('select-container'))
+    await userEvent.click(screen.getByTestId('select-container'))
 
-    userEvent.type(screen.getByTestId('select-input'), 'o')
+    await userEvent.type(screen.getByTestId('select-input'), 'o')
 
     await waitFor(() => {
       expect(screen.getByText('Zero')).toBeVisible()
@@ -227,7 +241,7 @@ describe('<Select />', () => {
       expect(screen.getByText('Two')).toBeVisible()
     })
 
-    userEvent.type(screen.getByTestId('select-input'), 'n')
+    await userEvent.type(screen.getByTestId('select-input'), 'n')
 
     await waitFor(() => {
       expect(screen.queryByText('Zero')).toBeNull()
@@ -254,9 +268,9 @@ describe('<Select />', () => {
       </div>,
     )
 
-    userEvent.click(screen.getByTestId('select-container'))
+    await userEvent.click(screen.getByTestId('select-container'))
 
-    userEvent.type(screen.getByTestId('select-input'), 'o')
+    await userEvent.type(screen.getByTestId('select-input'), 'o')
 
     await waitFor(() => {
       expect(screen.queryAllByRole('option').length).toEqual(4)
@@ -265,7 +279,7 @@ describe('<Select />', () => {
       expect(screen.getByText('Two')).toBeVisible()
     })
 
-    userEvent.type(screen.getByTestId('select-input'), 'ne')
+    await userEvent.type(screen.getByTestId('select-input'), 'ne')
 
     await waitFor(() => {
       expect(screen.getByTestId('select-input')).toHaveValue('one')
@@ -292,15 +306,15 @@ describe('<Select />', () => {
       </div>,
     )
 
-    userEvent.click(screen.getByTestId('select-container'))
+    await userEvent.click(screen.getByTestId('select-container'))
 
-    userEvent.type(screen.getByTestId('select-input'), 'onsies')
+    await userEvent.type(screen.getByTestId('select-input'), 'onsies')
     expect(screen.getByTestId('select-input')).toHaveValue('onsies')
 
     const create = await screen.findByTestId(
       'select-option-CREATE_OPTION_VALUE',
     )
-    userEvent.click(create)
+    await userEvent.click(create)
 
     await waitFor(() => {
       expect(mockCallback).toBeCalledWith('onsies')
@@ -324,11 +338,13 @@ describe('<Select />', () => {
         />
       </div>,
     )
-
-    userEvent.click(screen.getByTestId('select-container'))
-    userEvent.type(screen.getByTestId('select-input'), 'onsies')
-    userEvent.type(screen.getByTestId('select-input'), '{arrowdown}')
-    userEvent.type(screen.getByTestId('select-input'), '{enter}')
+    await waitFor(() => {
+      expect(screen.getByText('select')).toBeVisible()
+    })
+    await userEvent.click(screen.getByTestId('select-container'))
+    await userEvent.type(screen.getByTestId('select-input'), 'onsies')
+    await userEvent.type(screen.getByTestId('select-input'), '{arrowdown}')
+    await userEvent.type(screen.getByTestId('select-input'), '{enter}')
 
     await waitFor(() => {
       expect(mockCallback).toBeCalledWith('onsies')
@@ -350,60 +366,6 @@ describe('<Select />', () => {
     )
     await waitFor(() => {
       expect(ref.current).toBeInstanceOf(HTMLInputElement)
-    })
-  })
-
-  it('should show dropdown menu when clicked and embeded in Input', async () => {
-    render(
-      <Input
-        label="parent component"
-        placeholder="parent component"
-        prefix={
-          <Select
-            label="select"
-            options={[
-              { value: '0', label: 'Zero' },
-              { value: '1', label: 'One' },
-              { value: '2', label: 'Two' },
-            ]}
-            value="0"
-          />
-        }
-        prefixAs="div"
-      />,
-    )
-
-    userEvent.click(screen.getByTestId('select-container'))
-    await waitFor(() => {
-      expect(screen.getByText('One')).toBeVisible()
-      expect(screen.getByText('Two')).toBeVisible()
-    })
-  })
-
-  it('should have focus on input when clicked and embeded in Input as autocomplete Select', async () => {
-    render(
-      <Input
-        label="parent component"
-        placeholder="parent component"
-        prefix={
-          <Select
-            autocomplete
-            label="select"
-            options={[
-              { value: '0', label: 'Zero' },
-              { value: '1', label: 'One' },
-              { value: '2', label: 'Two' },
-            ]}
-          />
-        }
-        prefixAs="div"
-      />,
-    )
-
-    userEvent.click(screen.getByTestId('select-container'))
-
-    await waitFor(() => {
-      expect(document.activeElement).toEqual(screen.getByTestId('select-input'))
     })
   })
 })

@@ -30,56 +30,56 @@ jobs:
       - name: Build
         run: pnpm -F @ensdomains/thorin build
 
-  # lint:
-  #   name: Lint
-  #   runs-on: ubuntu-latest
-  #   strategy:
-  #     matrix:
-  #       node-version: [16]
-  #   steps:
-  #     - uses: actions/checkout@v3
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16]
+    steps:
+      - uses: actions/checkout@v3
 
-  #     - uses: pnpm/action-setup@v2.2.2
-  #       with:
-  #         version: 7.8.0
+      - uses: pnpm/action-setup@v2.2.2
+        with:
+          version: 7.8.0
 
-  #     - name: Install Node.js
-  #       uses: actions/setup-node@v3
-  #       with:
-  #         node-version: ${{ matrix.node-version }}
-  #         cache: 'pnpm'
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
 
-  #     - run: pnpm install -no-frozen-lockfile
+      - run: pnpm install -no-frozen-lockfile
 
-  #     - name: build
-  #       run: pnpm -F @ensdomains/thorin build
+      - name: build
+        run: pnpm -F @ensdomains/thorin build
 
-  #     - name: Lint
-  #       run: pnpm lint
+      - name: Lint
+        run: pnpm lint
 
-  #     - name: Check types
-  #       run: pnpm lint:types
+      - name: Check types
+        run: pnpm lint:types
 
-  # test:
-  #   name: Test
-  #   runs-on: ubuntu-latest
-  #   strategy:
-  #     matrix:
-  #       node-version: [14]
-  #   steps:
-  #     - uses: actions/checkout@v3
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14]
+    steps:
+      - uses: actions/checkout@v3
 
-  #     - uses: pnpm/action-setup@v2.2.2
-  #       with:
-  #         version: 7.8.0
+      - uses: pnpm/action-setup@v2.2.2
+        with:
+          version: 7.8.0
 
-  #     - name: Install Node.js
-  #       uses: actions/setup-node@v3
-  #       with:
-  #         node-version: ${{ matrix.node-version }}
-  #         cache: 'pnpm'
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
 
-  #     - run: pnpm install -no-frozen-lockfile
+      - run: pnpm install -no-frozen-lockfile
 
-  #     - name: Test
-  #       run: pnpm run test --coverage
+      - name: Test
+        run: pnpm run test --coverage

@@ -1,6 +1,13 @@
 import * as React from 'react'
 
-import { cleanup, render, screen, userEvent, waitFor } from '@/test'
+import {
+  cleanup,
+  getPropertyValue,
+  render,
+  screen,
+  userEvent,
+  waitFor,
+} from '@/test'
 
 import { Profile } from './Profile'
 
@@ -44,6 +51,10 @@ describe('<Profile />', () => {
 
   it('should hide text if size is small', () => {
     render(<Profile address={TEST_ADDRESS} ensName="nick.eth" size="small" />)
-    expect(screen.queryByText('nick.eth')).not.toBeVisible()
+    const display = getPropertyValue(
+      screen.getByTestId('profile-inner-container'),
+      'display',
+    )
+    expect(display).toEqual('none')
   })
 })

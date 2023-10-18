@@ -121,7 +121,6 @@ export const getValueForFontVariant = (
   fontVariant: FontVariant,
   property: keyof FontDetail,
 ) => {
-  console.log(fontVariant, property, fontDetails[fontVariant]?.[property])
   return fontDetails[fontVariant]?.[property]
 }
 

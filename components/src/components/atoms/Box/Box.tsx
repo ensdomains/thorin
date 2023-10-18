@@ -31,6 +31,7 @@ export const Box = forwardRef<HTMLElement, BoxProps>(
 
     const className = classNames(sprinklesClassName, _className)
     const style = { ...sprinklesStyle, ..._style }
+
     if (isValidElement(_as)) {
       const as = _as as ReactElement<any>
       return cloneElement(as, { className, style, ...otherProps })

@@ -324,9 +324,12 @@ export const Toast = ({
   const currentTimeout = React.useRef<number | undefined>()
 
   React.useEffect(() => {
-    if (open) {
+    if (open && window) {
       setPopped(false)
-      currentTimeout.current = setTimeout(() => onClose(), msToShow || 8000)
+      currentTimeout.current = window.setTimeout(
+        () => onClose(),
+        msToShow || 8000,
+      )
       return () => {
         clearTimeout(currentTimeout.current)
         onClose()

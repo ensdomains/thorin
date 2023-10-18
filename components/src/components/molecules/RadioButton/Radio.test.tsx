@@ -5,24 +5,24 @@ import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 
 import { RadioButton } from './RadioButton'
 
-const RadioWithState = (props: any) => {
+const RadioWithState = React.forwardRef(({ ...props }: any, ref) => {
   const [checked, setChecked] = useState<boolean>(false)
   return (
     <div>
       hello there
       {checked ? <div>checked</div> : <div>unchecked</div>}
       <RadioButton
+        {...props}
         id="radio-id"
         label="radio-label"
-        ref={props.inputRef}
+        ref={ref}
         onChange={(e) => {
           setChecked(e.target.checked)
         }}
-        {...props}
       />
     </div>
   )
-}
+})
 
 describe('<Radio />', () => {
   afterEach(cleanup)
@@ -66,14 +66,14 @@ describe('<Radio />', () => {
 
   it('should pass a ref down', async () => {
     const ref = { current: null } as React.RefObject<any>
-    render(<RadioWithState inputRef={ref} />)
+    render(<RadioWithState ref={ref} />)
     await waitFor(() => {
       expect(ref.current).toBeInstanceOf(HTMLInputElement)
     })
   })
 
   it('should display the label on the right of the form element if labelRight is true', async () => {
-    render(<RadioWithState labelRight />)
+    render(<RadioWithState />)
     expect(screen.getByText('radio-label')).toBeInTheDocument()
   })
 })

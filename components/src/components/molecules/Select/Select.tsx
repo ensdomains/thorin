@@ -32,7 +32,6 @@ export type Size = 'small' | 'medium'
 
 type ContainerProps = {
   $size: Size
-  $open: boolean
   $disabled: boolean
   $hasError: boolean
   $validated: boolean
@@ -42,16 +41,7 @@ type ContainerProps = {
 
 const Container = React.forwardRef<HTMLElement, BoxProps & ContainerProps>(
   (
-    {
-      $size,
-      $showDot,
-      $hasError,
-      $validated,
-      // $open,
-      $disabled,
-      $readOnly,
-      ...props
-    },
+    { $size, $showDot, $hasError, $validated, $disabled, $readOnly, ...props },
     ref,
   ) => (
     <Box
@@ -73,16 +63,13 @@ const Container = React.forwardRef<HTMLElement, BoxProps & ContainerProps>(
 )
 
 type SelectContainerProps = {
-  $open: boolean
   $hasError: boolean
   $disabled: boolean
   $size: Size
-  $ids: FieldState
   $readOnly: boolean
 }
 
 const SelectContainer = ({
-  // $open,
   $hasError,
   $disabled,
   $readOnly,
@@ -359,7 +346,6 @@ const SelectOptionRow = ({
       flexShrink="0"
       fontSize={getValueForSize($size, 'fontSize')}
       fontWeight="$normal"
-      gap="$2"
       height={getValueForSize($size, 'rowHeight')}
       justifyContent="flex-start"
       lineHeight={getValueForSize($size, 'lineHeight')}
@@ -825,7 +811,6 @@ export const Select = React.forwardRef(
             }}
             $disabled={!!disabled}
             $hasError={!!error}
-            $open={isOpen}
             $readOnly={readOnly}
             $showDot={showDot}
             $size={size}
@@ -839,8 +824,6 @@ export const Select = React.forwardRef(
             <SelectContainer
               $disabled={!!disabled}
               $hasError={!!error}
-              $ids={ids}
-              $open={isOpen}
               $readOnly={readOnly}
               $size={size}
             >
@@ -941,7 +924,7 @@ export const Select = React.forwardRef(
                     {...{
                       $selected: option?.value === value,
                       $highlighted: index === highlightedIndex,
-                      $gap: innerPadding,
+                      gap: innerPadding,
                       $color: option.color,
                       $size: size,
                     }}

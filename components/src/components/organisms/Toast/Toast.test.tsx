@@ -9,9 +9,9 @@ window.scroll = jest.fn()
 describe('<Toast />', () => {
   afterEach(cleanup)
 
-  it('renders', () => {
+  it('renders', async () => {
     render(<Toast open title="Test" variant="desktop" onClose={() => void 0} />)
-    waitFor(() => expect(screen.getByText('Test')).toBeVisible(), {
+    await waitFor(() => expect(screen.getByText('Test')).toBeVisible(), {
       timeout: 300,
     })
   })

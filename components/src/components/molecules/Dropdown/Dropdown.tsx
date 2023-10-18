@@ -99,12 +99,10 @@ type DropdownMenuContainerProps = {
   $state?: TransitionState
 }
 
-const DropdownMenuBox = ({
-  $shortThrow,
-  $direction,
-  $state,
-  ...props
-}: BoxProps & DropdownMenuContainerProps) => (
+const DropdownMenuBox = React.forwardRef<
+  HTMLElement,
+  BoxProps & DropdownMenuContainerProps
+>(({ $shortThrow, $direction, $state, ...props }, ref) => (
   <Box
     {...props}
     backgroundColor="$background"
@@ -117,6 +115,7 @@ const DropdownMenuBox = ({
     marginTop={$direction === 'down' ? '$1.5' : 'unset'}
     opacity={1}
     padding="$1.5"
+    ref={ref}
     transform={match([$state, $direction, $shortThrow])
       .with([P.union('entering', 'entered'), P._, P._], () => `translateY(0)`)
       .with(
@@ -140,7 +139,7 @@ const DropdownMenuBox = ({
     width="$full"
     zIndex={1}
   />
-)
+))
 
 interface MenuButtonProps {
   $color?: Colors
@@ -249,7 +248,7 @@ const DropdownMenu = React.forwardRef<HTMLDivElement, DropdownMenuProps>(
       } = item as DropdownItemObject
 
       const props: React.ComponentProps<any> = {
-        $hasColor: !!color,
+        // $hasColor: !!color,
         $color: color,
         $showIndicator: showIndicator,
         $icon: icon,
@@ -459,7 +458,7 @@ export const Dropdown = ({
   items = [],
   chevron = true,
   align = 'left',
-  menuLabelAlign,
+  // menuLabelAlign,
   width = 150,
   mobileWidth = width,
   shortThrow = false,
@@ -519,7 +518,7 @@ export const Dropdown = ({
                 <DropdownMenu
                   direction={direction}
                   items={items}
-                  labelAlign={menuLabelAlign}
+                  // labelAlign={menuLabelAlign}
                   setIsOpen={setIsOpen}
                   shortThrow={shortThrow}
                   {...props}

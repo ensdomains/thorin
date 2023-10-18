@@ -12,19 +12,19 @@ describe('<Input />', () => {
     expect(screen.getByRole('textbox')).toBeInTheDocument()
   })
 
-  it('receives user input', () => {
+  it('receives user input', async () => {
     render(<Input label="Display Name" />)
 
-    userEvent.type(screen.getByRole('textbox'), 'Satoshi Nakamoto')
+    await userEvent.type(screen.getByRole('textbox'), 'Satoshi Nakamoto')
     expect(screen.getByRole('textbox')).toHaveValue('Satoshi Nakamoto')
   })
 
   describe('[type=text]', () => {
-    it('maxLength', () => {
+    it('maxLength', async () => {
       render(<Input label="Short Name" maxLength={7} />)
 
       const element = screen.getByLabelText(/short/i)
-      userEvent.type(element, 'Satoshi Nakamoto')
+      await userEvent.type(element, 'Satoshi Nakamoto')
       expect(element).toHaveValue('Satoshi')
     })
   })
@@ -53,7 +53,7 @@ describe('<Input />', () => {
         onChange={handleOnChange}
       />,
     )
-    userEvent.type(screen.getByRole('textbox'), 'Satoshi Nakamoto')
+    await userEvent.type(screen.getByRole('textbox'), 'Satoshi Nakamoto')
     fireEvent.click(screen.getByTestId('input-action-button'))
     expect(handleOnChange).toHaveBeenCalled()
   })

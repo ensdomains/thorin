@@ -93,15 +93,18 @@ const AvatarContainer = ({ $size, ...props }: BoxProps & { $size: Size }) => (
 const ProfileInnerContainer = ({
   $size,
   ...props
-}: BoxProps & { $size: Size }) => (
-  <Box
-    {...props}
-    display={$size === 'small' ? 'none' : 'block'}
-    flex="1"
-    minWidth="none"
-    overflow="hidden"
-  />
-)
+}: BoxProps & { $size: Size }) => {
+  return (
+    <Box
+      {...props}
+      data-testid="profile-inner-container"
+      display={$size === 'small' ? 'none' : 'block'}
+      flex="1"
+      minWidth="none"
+      overflow="hidden"
+    />
+  )
+}
 
 const ProfileInner = ({ size = 'medium', avatar, address, ensName }: Props) => (
   <>

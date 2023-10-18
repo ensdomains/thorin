@@ -24,7 +24,6 @@ type ContainerProps = {
   $error?: boolean
   $showDot?: boolean
   $disabled?: boolean
-  $alwaysShowAction?: boolean
 }
 const Container = ({
   $error,
@@ -53,8 +52,6 @@ const Container = ({
 
 type TextAreaProps = {
   $error?: boolean
-  $validated?: boolean
-  $showDot?: boolean
   $size: Props['size']
   $hasAction?: boolean
   $alwaysShowAction?: boolean
@@ -277,6 +274,7 @@ export const Textarea = React.forwardRef(
       handleClickClear()
     }
 
+    const showAction = alwaysShowAction || clearable || onClickAction
     return (
       <Field
         description={description}
@@ -292,7 +290,6 @@ export const Textarea = React.forwardRef(
       >
         {(ids) => (
           <Container
-            $alwaysShowAction={alwaysShowAction}
             $disabled={disabled}
             $error={!!error}
             $showDot={showDot}
@@ -306,9 +303,7 @@ export const Textarea = React.forwardRef(
               }}
               $error={hasError}
               $hasAction={hasAction}
-              $showDot={showDot}
               $size={size}
-              $validated={validated}
               autoCorrect={autoCorrect}
               autoFocus={autoFocus}
               defaultValue={defaultValue}
@@ -326,7 +321,7 @@ export const Textarea = React.forwardRef(
               onChange={onChange}
               onFocus={onFocus}
             />
-            {(clearable || onClickAction) && (
+            {showAction && (
               <ActionButton
                 $icon={actionIcon}
                 $size={size}

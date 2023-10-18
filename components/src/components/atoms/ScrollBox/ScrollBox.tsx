@@ -26,10 +26,11 @@ const DividerBox = ({
   <Box
     backgroundColor="$greyLight"
     bottom={position === 'bottom' ? '$0' : 'unset'}
+    data-testid={`scrollbox-${position}-divider`}
     display="block"
     height="$px"
     left="$0"
-    opacity={show ? 1 : 0}
+    opacity={show ? '1' : '0'}
     position="sticky"
     top={position === 'top' ? '$0' : 'unset'}
     transitionDuration="$150"
