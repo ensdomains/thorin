@@ -130,7 +130,7 @@ export const SideBar = ({ open, links }: { open: boolean; links: Links }) => {
           </Box>
           <Divider />
           <Box>
-            <Heading icon={<GridSVG />}>Getting Started</Heading>
+            <Heading icon={<GridSVG />}>Components</Heading>
             {links.map(({ name, links }) => (
               <div key={name}>
                 <Typography

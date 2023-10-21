@@ -6,7 +6,7 @@ import { WithAlert } from '@/src/types'
 
 import { translateY } from '@/src/css/utils/common'
 
-import { Modal, Typography } from '../..'
+import { Modal, ScrollBox, Typography } from '../..'
 import { Box, BoxProps } from '../../atoms/Box/Box'
 import { getValueForAlert } from './utils/getValueForAlert'
 import { getValueForStepType } from './utils/getValueForStepType'
@@ -210,6 +210,20 @@ const Heading = ({
   )
 }
 
+const Content = ({ children }: React.PropsWithChildren<null>) => {
+  return (
+    <Box
+      maxHeight="60vh"
+      maxWidth={{ base: '100vw', sm: '$128' }}
+      width={{ base: '100vw', sm: '80vw' }}
+    >
+      <ScrollBox height="$full" width="$full">
+        <Box paddingRight="$2">{children}</Box>
+      </ScrollBox>
+    </Box>
+  )
+}
+
 const Footer = ({
   leading,
   trailing,
@@ -362,4 +376,6 @@ export const Dialog = ({
 Dialog.displayName = 'Dialog'
 Dialog.Footer = Footer
 Dialog.Heading = Heading
+Dialog.Content = Content
+
 Dialog.CloseButton = CloseButton

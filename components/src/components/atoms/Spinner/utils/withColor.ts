@@ -1,17 +1,17 @@
 import {
   ADDITIONAL_COLORS,
-  AdditionalColour,
-  BASE_COLOURS,
-  BaseColour,
-  SHADED_COLORS,
-  ShadedColor,
+  AdditionalColor,
+  PALETTE_COLORS,
+  PRIMARY_COLORS,
+  PaletteColor,
+  PrimaryColor,
 } from '@/src/tokens/color3'
 
-export type Color = BaseColour | ShadedColor | AdditionalColour
+export type Color = PrimaryColor | PaletteColor | AdditionalColor
 
 export type WithColor = { color: Color }
 
-const COLORS = [...BASE_COLOURS, ...SHADED_COLORS, ...ADDITIONAL_COLORS]
+const COLORS = [...PRIMARY_COLORS, ...PALETTE_COLORS, ...ADDITIONAL_COLORS]
 
 export const validateColor = (color: unknown, fallback = 'unset') => {
   if (!color) return fallback

@@ -1,10 +1,10 @@
 import { P, match } from 'ts-pattern'
 
-import { BaseColour, validateBaseColour } from '@/src/tokens/color3'
+import { PrimaryColor, validatePrimaryColor } from '@/src/tokens/color3'
 
 type Shade = 'Primary' | 'Secondary'
 
-export type ColorStyle = BaseColour | `${BaseColour}${Shade}`
+export type ColorStyle = PrimaryColor | `${PrimaryColor}${Shade}`
 
 export type WithColorStyle = { colorStyle: ColorStyle }
 
@@ -17,7 +17,7 @@ type Properties = {
 
 type Property = keyof Properties
 
-const getPrimaryColor = (color: BaseColour, property: Property): string =>
+const getPrimaryColor = (color: PrimaryColor, property: Property): string =>
   match(property)
     .with('background', () => `$${color}Surface`)
     .with('svg', () => '$textAccent')
@@ -25,7 +25,7 @@ const getPrimaryColor = (color: BaseColour, property: Property): string =>
     .with('iconHover', () => `$${color}Bright`)
     .exhaustive()
 
-const getSecondaryColor = (color: BaseColour, property: Property): string =>
+const getSecondaryColor = (color: PrimaryColor, property: Property): string =>
   match(property)
     .with('background', () => `$${color}Surface`)
     .with('svg', () => `$${color}Dim`)
@@ -42,9 +42,9 @@ export const getValueForColorStyle = (
   const style = matches?.[2]
   return match([color, style])
     .with([P._, 'Secondary'], ([color]) =>
-      getSecondaryColor(validateBaseColour(color), property),
+      getSecondaryColor(validatePrimaryColor(color), property),
     )
     .otherwise(([color]) =>
-      getPrimaryColor(validateBaseColour(color), property),
+      getPrimaryColor(validatePrimaryColor(color), property),
     )
 }

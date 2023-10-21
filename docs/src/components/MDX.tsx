@@ -7,6 +7,9 @@ import { CodeBlock } from './CodeBlock/CodeBlock'
 import { Link } from './Link'
 import { SearchIcons } from './SearchIcons'
 import { PropsTable } from './PropsTable'
+import { Palette } from './Palette/Palette'
+import { AdditionalColors } from './AdditionalColors/AdditionalColors'
+import { Logos } from './Logos/Logos'
 
 const StyledLink = (props: React.ComponentProps<typeof Link>) => (
   <Box
@@ -22,6 +25,9 @@ const StyledLink = (props: React.ComponentProps<typeof Link>) => (
 export const MDX: MDXProviderProps['components'] = {
   PropsTable,
   SearchIcons,
+  Palette,
+  AdditionalColors,
+  Logos,
   // Default components
   // https://mdxjs.com/table-of-components/
   a: (props) => <StyledLink {...props} />,
