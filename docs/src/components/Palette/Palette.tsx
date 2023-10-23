@@ -7,7 +7,7 @@ import {
   useTheme,
 } from '@ensdomains/thorin'
 import { grid, colorLabel } from './styles.css'
-import { PaletteModal, PaletteModalProps } from '../PaletteModal/PaletteModal'
+import { PaletteModal } from '../PaletteModal/PaletteModal'
 
 const ColorLabel = ({ children }: React.PropsWithChildren<{}>) => (
   <Box

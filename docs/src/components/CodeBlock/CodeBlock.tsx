@@ -3,7 +3,6 @@ import Highlight, { Language, defaultProps } from 'prism-react-renderer'
 import dynamic from 'next/dynamic'
 import vsLight from 'prism-react-renderer/themes/vsLight'
 import vsDark from 'prism-react-renderer/themes/vsDark'
-import styled, { css } from 'styled-components'
 
 import { Colors } from '@ensdomains/thorin'
 

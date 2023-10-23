@@ -9,12 +9,11 @@ import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { serialize } from 'next-mdx-remote/serialize'
 import matter from 'gray-matter'
 
-import { Box, Typography, tokens } from '@ensdomains/thorin'
+import { Box } from '@ensdomains/thorin'
 
 import { Props as LayoutProps, getLayout } from '~/layouts/docs'
 import { getGuideName, getGuidePaths } from '~/utils/fs'
 import { createGitHubLink } from '~/utils/github'
-import { Link } from '~/components'
 import { GitHubLink } from '~/components/GitHubLink'
 
 export const getStaticPaths: GetStaticPaths = async () => ({

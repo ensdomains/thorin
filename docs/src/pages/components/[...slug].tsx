@@ -10,18 +10,14 @@ import { serialize } from 'next-mdx-remote/serialize'
 import matter from 'gray-matter'
 import { PropItem } from 'react-docgen-typescript'
 
-import { Box, Typography } from '@ensdomains/thorin'
-
 import { glob } from 'glob'
 
 import { Props as LayoutProps, getLayout } from '~/layouts/docs'
 import { getComponentName, getComponentPaths } from '~/utils/fs'
 import { getStaticTypes } from '~/utils/getStaticTypes'
 import { createGitHubLink } from '~/utils/github'
-import { Link } from '~/components'
 
 import path from 'path'
-import GithubSVG from '~/assets/Github.svg'
 import { GitHubLink } from '~/components/GitHubLink'
 
 export const getStaticPaths: GetStaticPaths = async () => ({

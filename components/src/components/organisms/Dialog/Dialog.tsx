@@ -210,7 +210,7 @@ const Heading = ({
   )
 }
 
-const Content = ({ children }: React.PropsWithChildren<null>) => {
+const Content = ({ children }: { children?: React.ReactNode }) => {
   return (
     <Box
       maxHeight="60vh"
