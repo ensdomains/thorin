@@ -90,6 +90,9 @@ const config = {
   compiler: {
     styledComponents: true,
   },
+  images: {
+    unoptimized: true,
+  }
 }
 
 /** @type {import('next').NextConfig} */
