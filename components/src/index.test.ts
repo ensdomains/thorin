@@ -139,6 +139,12 @@ const expectedExportedKeys = [
   'commonVars',
   'modeVars',
   'useTheme',
+  'RAW_PALETTE_COLORS',
+  'RAW_ADDITIONAL_COLORS',
+  'rawColorToHSL',
+  'rawColorToRGB',
+  'rawColorToHex',
+  'rawColorToRGBA',
 ]
 
 it('should expose correct exports', () => {
