@@ -10,6 +10,7 @@ globalStyle('*', {
   borderWidth: 0,
   verticalAlign: 'baseline',
   background: 'none',
+  textDecoration: 'none',
 })
 
 globalStyle('svg', {

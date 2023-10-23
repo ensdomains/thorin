@@ -15,12 +15,8 @@ import type { Props as CodePreviewProps } from '../CodePreview'
 import { PropsWithChildren } from 'react'
 import { Box, useTheme } from '@ensdomains/thorin'
 
-const CodePreviewContainer = styled.div(
-  ({ theme }) => css`
-    border-radius: ${theme.radii['large']};
-    height: ${theme.space['48']};
-    width: ${theme.space['full']};
-  `,
+const CodePreviewContainer = (props: PropsWithChildren<{}>) => (
+  <Box {...props} borderRadius="$large" height="$48" width="$full" />
 )
 
 const CodePreview = dynamic<CodePreviewProps>(
@@ -44,19 +40,18 @@ const Pre = (props: PropsWithChildren<{}>) => (
   />
 )
 
-const LineContainer = styled.div(
-  ({ theme }) => css`
-    padding-right: ${theme.space['8']};
-    white-space: pre-wrap;
-  `,
+const LineContainer = (props: PropsWithChildren<{}>) => (
+  <Box {...props} paddingRight="$8" whiteSpace="pre-wrap" />
 )
 
-const Token = styled.span(
-  ({ theme }) => css`
-    font-family: ${theme.fonts['mono']};
-    font-size: ${theme.fontSizes.body};
-    line-height: ${theme.lineHeights.body};
-  `,
+const Token = (props: PropsWithChildren<{}>) => (
+  <Box
+    {...props}
+    as="span"
+    fontFamily="$mono"
+    fontSize="$body"
+    lineHeight="$body"
+  />
 )
 
 type Props = {

@@ -1,6 +1,12 @@
 const path = require('path')
 
-module.exports = {
+const { createVanillaExtractPlugin} = require('@vanilla-extract/next-plugin')
+const withVanillaExtract = createVanillaExtractPlugin({identifiers: 'short'})
+const { VanillaExtractPlugin} = require('@vanilla-extract/webpack-plugin')
+
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+
+const config = {
   components: './src/playroom/components.ts',
   baseUrl: '/playroom/',
   outputPath: './public/playroom',
@@ -16,8 +22,23 @@ module.exports = {
   iframeSandbox: 'allow-scripts allow-same-origin',
 
   webpackConfig: () => ({
+    plugins: [new VanillaExtractPlugin() , new MiniCssExtractPlugin()],
     module: {
       rules: [
+        {
+          test: (filename) => {
+            const pass = filename.endsWith('dist/style.css') || filename.endsWith('frameStyle.css')
+            if (pass) {
+              console.log('pass', filename)
+            }
+            return pass
+          },
+          use: [
+            MiniCssExtractPlugin.loader,
+            "css-loader",
+          ],
+          sideEffects: true,
+        },
         {
           test: /\.tsx?$/,
           exclude: /node_modules/,
@@ -32,6 +53,7 @@ module.exports = {
             },
           },
         },
+      
       ],
     },
     resolve: {
@@ -43,3 +65,5 @@ module.exports = {
     },
   }),
 }
+
+module.exports = config

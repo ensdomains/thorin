@@ -22,6 +22,7 @@ import { Link } from '~/components'
 
 import path from 'path'
 import GithubSVG from '~/assets/Github.svg'
+import { GitHubLink } from '~/components/GitHubLink'
 
 export const getStaticPaths: GetStaticPaths = async () => ({
   paths: getComponentPaths().map((x) => ({
@@ -107,28 +108,7 @@ const Page: NextPageWithLayout<Props> = ({
         }}
       />
 
-      {!docsLink.includes('generated') && (
-        <Box width={'$full'} paddingBottom="$6" justifyContent={'center'}>
-          <Link href={docsLink}>
-            <Box
-              display={'flex'}
-              gap={'$2'}
-              alignItems={'center'}
-              justifyContent={'center'}
-            >
-              <Box
-                as={<GithubSVG />}
-                wh="$4"
-                display={'inline'}
-                color="$accent"
-              />
-              <Typography color="accent" fontVariant="body">
-                Edit on GitHub
-              </Typography>
-            </Box>
-          </Link>
-        </Box>
-      )}
+      {!docsLink.includes('generated') && <GitHubLink href={docsLink} />}
     </>
   )
 }

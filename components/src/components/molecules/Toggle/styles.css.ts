@@ -1,4 +1,3 @@
-import { globalStyle, style } from '@vanilla-extract/css'
 import { recipe } from '@vanilla-extract/recipes'
 
 import { commonVars, modeVars } from '@/src/css/theme.css'
@@ -97,14 +96,4 @@ export const toggle = recipe({
       },
     },
   },
-})
-
-export const knob = style({})
-
-globalStyle(`${toggle({})}:not(:checked) ~ knob`, {
-  transform: `translateX(calc(-1 * ${translateX}))`,
-})
-
-globalStyle(`${toggle({})}:checked ~ knob`, {
-  transform: `translateX(${translateX})`,
 })

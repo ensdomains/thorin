@@ -43,7 +43,7 @@ const alertMap: { [key in Alert]: Properties } = {
     background: '$backgroundPrimary',
     hover: '$greySurface',
     border: '$border',
-    icon: '$backgroundPrimary',
+    icon: 'transparent',
     svg: '$text',
     actionIcon: '$accentSurface',
     actionSvg: '$accentPrimary',

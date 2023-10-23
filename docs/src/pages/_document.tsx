@@ -36,7 +36,7 @@ class Document extends NextDocument {
 
   render() {
     return (
-      <Html>
+      <Html data-theme="light">
         <Head>
           {/* Fonts */}
           <link href="https://rsms.me/inter/inter.css" rel="stylesheet" />

@@ -36,6 +36,7 @@ const Label = ({
     color="$textAccent"
     cursor="pointer"
     display="flex"
+    fontFamily="$sans"
     fontSize="$small"
     fontWeight={$size === 'extraSmall' ? '$normal' : '$bold'}
     height={getValuesForKnob($size, 'height')}

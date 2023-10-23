@@ -3,14 +3,13 @@ import { AppProps } from 'next'
 import { MDXProvider } from '@mdx-js/react'
 // import Head from 'next/head'
 import Script from 'next/script'
-import { ThemeProvider } from 'styled-components'
 
-import { lightTheme, ThemeProvider as ThemeProvider2 } from '@ensdomains/thorin'
+import { ThemeProvider } from '@ensdomains/thorin'
 import '@ensdomains/thorin/dist/style.css'
 import { MDX } from '~/components'
 import { getLayout as getDocsLayout } from '~/layouts/docs'
-import GlobalStyle from '~/styles/globalStyles'
-import '../styles/styles.css'
+// import GlobalStyle from '~/styles/globalStyles'
+// import '../styles/styles.css'
 
 const App = ({ Component, pageProps }: AppProps) => {
   const getLayout = Component.getLayout || getDocsLayout
@@ -26,12 +25,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         id="prevent-theme-flash"
       />
       <MDXProvider components={MDX}>
-        <ThemeProvider2>
-          <ThemeProvider theme={lightTheme}>
-            <GlobalStyle />
-            {getLayout(<Component {...pageProps} />)}
-          </ThemeProvider>
-        </ThemeProvider2>
+        <ThemeProvider>{getLayout(<Component {...pageProps} />)}</ThemeProvider>
       </MDXProvider>
     </>
   )

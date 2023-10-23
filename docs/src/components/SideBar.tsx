@@ -22,7 +22,7 @@ const NavLink = ({
   active,
   href,
   children,
-}: PropsWithChildren<{ active: boolean; href: string }>) => (
+}: PropsWithChildren<{ active: boolean; href: string; target?: string }>) => (
   <Box>
     <Link href={href}>
       <Box
@@ -105,10 +105,17 @@ export const SideBar = ({ open, links }: { open: boolean; links: Links }) => {
             <NavLink href="/" active={router.asPath === '/'}>
               Start Here
             </NavLink>
-            <NavLink href="/" active={router.asPath === '/'}>
+            <NavLink
+              href="/guides/development"
+              active={router.asPath === '/guides/development'}
+            >
               Development
             </NavLink>
-            <NavLink href="/" active={router.asPath === '/'}>
+            <NavLink
+              href="/guides/playroom"
+              active={router.asPath === '/guides/playroom'}
+              target="_blank"
+            >
               Playroom
             </NavLink>
             <NavLink href="/" active={router.asPath === '/'}>
@@ -118,13 +125,22 @@ export const SideBar = ({ open, links }: { open: boolean; links: Links }) => {
           <Divider />
           <Box>
             <Heading icon={<BrushSVG />}>Style</Heading>
-            <NavLink href="/" active={router.asPath === '/'}>
+            <NavLink
+              href="/guides/logo"
+              active={router.asPath === '/guides/logo'}
+            >
               Logo
             </NavLink>
-            <NavLink href="/" active={router.asPath === '/'}>
+            <NavLink
+              href="/guides/colors"
+              active={router.asPath === '/guides/colors'}
+            >
               Colours
             </NavLink>
-            <NavLink href="/" active={router.asPath === '/'}>
+            <NavLink
+              href="/guides/icons"
+              active={router.asPath === '/guides/icons'}
+            >
               Icons
             </NavLink>
           </Box>

@@ -56,7 +56,7 @@ type ContainerProps = BoxProps & {
 const ContainerBox = React.forwardRef<HTMLElement, ContainerProps>(
   ({ $alert, $hasAction, ...props }, ref) => (
     <Box
-      alignItems={{ xs: 'stretch', sm: 'center' }}
+      alignItems={{ base: 'stretch', sm: 'center' }}
       backgroundColor={{
         base: getValueForAlert($alert, 'background'),
         hover: getValueForAlert($alert, 'hover'),
@@ -66,8 +66,8 @@ const ContainerBox = React.forwardRef<HTMLElement, ContainerProps>(
       borderStyle="solid"
       borderWidth="$1x"
       display="flex"
-      gap={{ xs: '$4', sm: '$6' }}
-      padding={{ xs: '$4', sm: '$6' }}
+      gap={{ base: '$4', sm: '$6' }}
+      padding={{ base: '$4', sm: '$6' }}
       position="relative"
       pr={$hasAction ? '$8' : undefined}
       ref={ref}
@@ -93,9 +93,9 @@ const IconBox = ({
     borderRadius="$full"
     color={getValueForAlert($alert, 'svg')}
     flex="0"
-    flexBasis={{ xs: '$8', sm: '$10' }}
-    height={{ xs: '$8', sm: '$10' }}
-    width={{ xs: '$8', sm: '$10' }}
+    flexBasis={{ base: '$8', sm: '$10' }}
+    height={{ base: '$8', sm: '$10' }}
+    width={{ base: '$8', sm: '$10' }}
     {...props}
   />
 )

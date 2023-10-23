@@ -85,43 +85,45 @@ export const SearchIcons = () => {
   }, [state.query])
 
   return (
-    <Card>
-      <FlexContainer>
-        <Input
-          hideLabel
-          label="Search icons"
-          placeholder="Search icons"
-          prefix={<MagnifyingGlassSimpleSVG />}
-          value={state.query}
-          onChange={(event) =>
-            setState((x) => ({ ...x, query: event.target.value }))
-          }
-        />
+    <Box my="$6">
+      <Card>
+        <FlexContainer>
+          <Input
+            hideLabel
+            label="Search icons"
+            placeholder="Search icons"
+            prefix={<MagnifyingGlassSimpleSVG />}
+            value={state.query}
+            onChange={(event) =>
+              setState((x) => ({ ...x, query: event.target.value }))
+            }
+          />
 
-        <IconGrid>
-          {filteredIcons.map((x) => (
-            <IconGridInner
-              key={x.name}
-              onClick={() => navigator.clipboard.writeText(x.name)}
-            >
-              <IconGridFlex>
-                <ComponentContainer>
-                  {React.createElement(x.Component as any)}
-                </ComponentContainer>
-                <IconNameContainer>
-                  <Typography
-                    ellipsis
-                    fontVariant="smallBold"
-                    textAlign="center"
-                  >
-                    {x.name.replace('SVG', '')}
-                  </Typography>
-                </IconNameContainer>
-              </IconGridFlex>
-            </IconGridInner>
-          ))}
-        </IconGrid>
-      </FlexContainer>
-    </Card>
+          <IconGrid>
+            {filteredIcons.map((x) => (
+              <IconGridInner
+                key={x.name}
+                onClick={() => navigator.clipboard.writeText(x.name)}
+              >
+                <IconGridFlex>
+                  <ComponentContainer>
+                    {React.createElement(x.Component as any)}
+                  </ComponentContainer>
+                  <IconNameContainer>
+                    <Typography
+                      ellipsis
+                      fontVariant="smallBold"
+                      textAlign="center"
+                    >
+                      {x.name.replace('SVG', '')}
+                    </Typography>
+                  </IconNameContainer>
+                </IconGridFlex>
+              </IconGridInner>
+            ))}
+          </IconGrid>
+        </FlexContainer>
+      </Card>
+    </Box>
   )
 }

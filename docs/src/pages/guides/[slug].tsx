@@ -9,12 +9,13 @@ import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { serialize } from 'next-mdx-remote/serialize'
 import matter from 'gray-matter'
 
-import { Typography, tokens } from '@ensdomains/thorin'
+import { Box, Typography, tokens } from '@ensdomains/thorin'
 
 import { Props as LayoutProps, getLayout } from '~/layouts/docs'
 import { getGuideName, getGuidePaths } from '~/utils/fs'
 import { createGitHubLink } from '~/utils/github'
 import { Link } from '~/components'
+import { GitHubLink } from '~/components/GitHubLink'
 
 export const getStaticPaths: GetStaticPaths = async () => ({
   paths: getGuidePaths().map((x) => ({
@@ -61,11 +62,9 @@ const Page: NextPageWithLayout<Props> = ({ docsLink, source }: Props) => {
     <>
       <MDXRemote {...source} scope={source.scope} />
 
-      <div style={{ marginTop: tokens.space['20'] }}>
-        <Link href={docsLink}>
-          <Typography fontVariant="bodyBold">Edit on GitHub</Typography>
-        </Link>
-      </div>
+      <Box my={'$10'}>
+        <GitHubLink href={docsLink} />
+      </Box>
     </>
   )
 }
