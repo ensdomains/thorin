@@ -139,6 +139,7 @@ importers:
       rainbow-sprinkles: 0.17.0
       react: ^18.0.0
       react-dom: ^18.0.0
+      react-transition-state: ^2.1.1
       rimraf: ^3.0.2
       ts-jest: ^27.0.7
       ts-node: ^10.4.0
@@ -154,6 +155,7 @@ importers:
       clsx: 1.2.1
       focus-visible: 5.2.0
       lodash: 4.17.21
+      react-transition-state: 2.1.1_biqbaboplfbrettd7655fr4n2y
       ts-pattern: 4.3.0
     devDependencies:
       '@babel/core': 7.20.5
@@ -9047,6 +9049,13 @@ packages:
     requiresBuild: true
     optional: true
 
+  /fsevents/2.3.3:
+    resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
+    engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
+    os: [darwin]
+    requiresBuild: true
+    optional: true
+
   /function-bind/1.1.1:
     resolution: {integrity: sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A==}
 
@@ -10259,7 +10268,7 @@ packages:
       micromatch: 4.0.5
       walker: 1.0.7
     optionalDependencies:
-      fsevents: 2.3.2
+      fsevents: 2.3.3
     dev: true
 
   /jest-jasmine2/27.5.1:
@@ -12745,6 +12754,16 @@ packages:
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
+  /react-transition-state/2.1.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-kQx5g1FVu9knoz1T1WkapjUgFz08qQ/g1OmuWGi3/AoEFfS0kStxrPlZx81urjCXdz2d+1DqLpU6TyLW/Ro04Q==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
   /react-universal-interface/0.6.2_react@18.2.0+tslib@2.4.0:
     resolution: {integrity: sha512-dg8yXdcQmvgR13RIlZbTRQOoUrDciFVoSBZILwjE2LFISxZZ8loVJKAkuzswl5js8BHda79bIb2b84ehU8IjXw==}
     peerDependencies:
@@ -13103,7 +13122,7 @@ packages:
     engines: {node: '>=10.0.0'}
     hasBin: true
     optionalDependencies:
-      fsevents: 2.3.2
+      fsevents: 2.3.3
     dev: true
 
   /rollup/3.29.3:
@@ -13111,7 +13130,7 @@ packages:
     engines: {node: '>=14.18.0', npm: '>=8.0.0'}
     hasBin: true
     optionalDependencies:
-      fsevents: 2.3.2
+      fsevents: 2.3.3
 
   /rtl-css-js/1.16.0:
     resolution: {integrity: sha512-Oc7PnzwIEU4M0K1J4h/7qUUaljXhQ0kCObRsZjxs2HjkpKsnoTMvSmvJ4sqgJZd0zBoEfAyTdnK/jMIYvrjySQ==}
@@ -14857,7 +14876,7 @@ packages:
       resolve: 1.22.1
       rollup: 2.79.1
     optionalDependencies:
-      fsevents: 2.3.2
+      fsevents: 2.3.3
     dev: true
 
   /vite/4.4.9_@types+node@16.11.6:
@@ -14893,7 +14912,7 @@ packages:
       postcss: 8.4.30
       rollup: 3.29.3
     optionalDependencies:
-      fsevents: 2.3.2
+      fsevents: 2.3.3
 
   /vscode-css-languageservice/5.4.2:
     resolution: {integrity: sha512-DT7+7vfdT2HDNjDoXWtYJ0lVDdeDEdbMNdK4PKqUl2MS8g7PWt7J5G9B6k9lYox8nOfhCEjLnoNC3UKHHCR1lg==}

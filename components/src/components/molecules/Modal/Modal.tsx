@@ -7,7 +7,7 @@ import { Box, BoxProps } from '../../atoms/Box/Box'
 import { getValueForMode } from './utils/getValueForMode'
 
 type ContainerProps = {
-  $state: TransitionState
+  $state: TransitionState['status']
   $alignTop?: boolean
   $mobileOnly: boolean
 }
@@ -102,7 +102,7 @@ export const Modal = ({
       <Container
         $alignTop={alignTop}
         $mobileOnly={mobileOnly}
-        $state={state}
+        $state={state.status}
         {...props}
       >
         {children}

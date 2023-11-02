@@ -226,7 +226,7 @@ const ToggleMenuButton = ({
 }
 
 type SelectOptionContainerProps = {
-  $state?: TransitionState | 'default'
+  $state?: TransitionState['status'] | 'default'
   $direction?: Direction
   $rows?: number
   $size?: Size
@@ -684,8 +684,8 @@ export const Select = React.forwardRef(
     }, [isOpen])
 
     useEffect(() => {
-      if (!menuOpen && state === 'unmounted') handleReset()
-    }, [menuOpen, state])
+      if (!menuOpen && state.status === 'unmounted') handleReset()
+    }, [menuOpen, state.status])
 
     const defaultPadding = size === 'small' ? '3' : '4'
     const innerPadding = getPadding('inner', defaultPadding, paddingProp)
@@ -905,7 +905,7 @@ export const Select = React.forwardRef(
               $direction={direction}
               $rows={rows}
               $size={size}
-              $state={state}
+              $state={state.status}
               id={`listbox-${id}`}
               role="listbox"
               tabIndex={-1}

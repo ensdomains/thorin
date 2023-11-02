@@ -65,7 +65,7 @@ const Container = React.forwardRef<HTMLElement, BoxProps & ContainerProps>(
       maxWidth={match($mobile)
         .with(true, () => 'unset')
         .otherwise(() => '$112')}
-      opacity={$state === 'entered' ? 1 : 0}
+      opacity={$state.status === 'entered' ? 1 : 0}
       padding="$4.5"
       position="fixed"
       ref={ref}
@@ -76,7 +76,7 @@ const Container = React.forwardRef<HTMLElement, BoxProps & ContainerProps>(
         .with(true, () => 'calc(100vh / 100 * 2.5)')
         .otherwise(() => ($top ? `$${$top}` : 'unset'))}
       touchAction={$popped ? 'none' : 'unset'}
-      transform={$state === 'entered' ? translateY(0) : translateY(-64)}
+      transform={$state.status === 'entered' ? translateY(0) : translateY(-64)}
       transitionDuration="$300"
       transitionProperty="all"
       transitionTimingFunction="$popIn"

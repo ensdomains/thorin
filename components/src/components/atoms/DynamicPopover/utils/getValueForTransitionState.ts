@@ -1,7 +1,7 @@
 import { TransitionState } from 'react-transition-state'
 
 const transitionStateValues: {
-  [key in TransitionState]: {
+  [key in TransitionState['status']]: {
     display: string
     visibility: string
     opacity: number
@@ -79,6 +79,6 @@ const transitionStateValues: {
 type Property = keyof typeof transitionStateValues['unmounted']
 
 export const getValueForTransitionState = (
-  state: TransitionState,
+  state: TransitionState['status'],
   property: Property,
 ): any => transitionStateValues[state][property]

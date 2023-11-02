@@ -45,9 +45,15 @@ const mockIntersectionObserver = makeMockIntersectionObserver(
 )
 
 const expectLine = (e: 'top' | 'bottom', visible: boolean) => {
+  const element = screen.getByTestId(`scrollbox-${e}-divider`)
+  const computedStyle = getComputedStyle(element)
+  const property = Object.values(computedStyle).find(
+    (p: any) => typeof p === 'string' && p.startsWith('--opacity-base'),
+  )
+  if (!property) throw new Error('could not find opacity property')
   const test = getPropertyValue(
     screen.getByTestId(`scrollbox-${e}-divider`),
-    '--opacity-base__btclh0x6',
+    property,
   )
   expect(test).toEqual(visible ? '1' : '0')
 }

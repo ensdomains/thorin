@@ -15,7 +15,7 @@ type Properties = {
 type Property = keyof Properties
 
 const transitionMap: {
-  [key in TransitionState]?: { [key in Direction]: Properties }
+  [key in TransitionState['status']]?: { [key in Direction]: Properties }
 } & { default: { [key in Direction]: Properties } } = {
   entered: {
     up: {
@@ -52,7 +52,7 @@ const transitionMap: {
 }
 
 export const getValueForTransitionState = <T extends Property>(
-  state: TransitionState | 'default',
+  state: TransitionState['status'] | 'default',
   property: T,
   direction: Direction,
 ): Properties[T] => {

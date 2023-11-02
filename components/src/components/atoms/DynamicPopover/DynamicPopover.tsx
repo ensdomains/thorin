@@ -12,9 +12,9 @@ export type DynamicPopoverSide = 'top' | 'right' | 'bottom' | 'left'
 export type DynamicPopoverAlignment = 'start' | 'center' | 'end'
 
 export type PopoverProps = React.PropsWithChildren<{
-  placement: DynamicPopoverSide
-  mobilePlacement: DynamicPopoverSide
-  state?: TransitionState
+  placement?: DynamicPopoverSide
+  mobilePlacement?: DynamicPopoverSide
+  state?: TransitionState['status']
 }>
 
 export type DynamicPopoverAnimationFunc = (
@@ -108,7 +108,7 @@ const defaultAnimationFunc: DynamicPopoverAnimationFunc = (
   else if (side === 'right')
     translate = `translate(${horizontalClearance}px, 0)`
   else if (side === 'bottom') translate = `translate(0, ${verticalClearance}px)`
-  else translate = `translate(-${horizontalClearance}px, 0);`
+  else translate = `translate(-${horizontalClearance}px, 0)`
 
   let mobileTranslate = ''
   if (mobileSide === 'top')
@@ -117,7 +117,7 @@ const defaultAnimationFunc: DynamicPopoverAnimationFunc = (
     mobileTranslate = `translate(${horizontalClearance}px, 0)`
   else if (mobileSide === 'bottom')
     mobileTranslate = `translate(0, ${verticalClearance}px)`
-  else mobileTranslate = `translate(-${horizontalClearance}px, 0);`
+  else mobileTranslate = `translate(-${horizontalClearance}px, 0)`
 
   return { translate, mobileTranslate }
 }
@@ -176,23 +176,23 @@ const PopoverBox = React.forwardRef<HTMLElement, BoxProps & PopoverBoxProps>(
       WebkitTransform="$base"
       boxSizing="border-box"
       display="block"
-      left={getValueForTransitionState($state, 'leftFunc')($x)}
-      opacity={getValueForTransitionState($state, 'opacity')}
+      left={getValueForTransitionState($state.status, 'leftFunc')($x)}
+      opacity={getValueForTransitionState($state.status, 'opacity')}
       overflow={$hideOverflow ? 'hidden' : 'visible'}
-      pointerEvents={getValueForTransitionState($state, 'pointerEvents')}
+      pointerEvents={getValueForTransitionState($state.status, 'pointerEvents')}
       position="absolute"
       ref={ref}
-      top={getValueForTransitionState($state, 'topFunc')($y)}
+      top={getValueForTransitionState($state.status, 'topFunc')($y)}
       transform={{
         base: `translate3d(0, 0, 0) ${$mobileTranslate}`,
         sm: `translate3d(0, 0, 0) ${$translate}`,
       }}
       transitionDuration={`${$transitionDuration}ms`}
       transitionProperty={getValueForTransitionState(
-        $state,
+        $state.status,
         'transitionProperty',
       )}
-      visibility={getValueForTransitionState($state, 'visibility')}
+      visibility={getValueForTransitionState($state.status, 'visibility')}
       width={{ xs: makeWidth($mobileWidth), sm: makeWidth($width) }}
       zIndex="999999"
     />
@@ -462,9 +462,9 @@ export const DynamicPopover = ({
         ref={refFunc}
       >
         {React.cloneElement(popover, {
-          // placement: _placement,
-          // mobilePlacement: _mobilePlacement,
-          // state,
+          placement: _placement,
+          mobilePlacement: _mobilePlacement,
+          state: state.status,
         })}
       </PopoverBox>
     </Portal>

@@ -109,8 +109,8 @@ const TooltipPopoverElement = ({
 type TooltipPopoverProps = PopoverProps & { background: Colors }
 
 const TooltipPopover = ({
-  placement,
-  mobilePlacement,
+  placement = 'top',
+  mobilePlacement = 'top',
   background,
   children,
 }: TooltipPopoverProps) => {

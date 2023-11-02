@@ -47,3 +47,5 @@ const modeTokens = { color: lightColors }
 export const modeVars = createGlobalThemeContract(modeTokens, getVarName)
 createGlobalTheme('[data-theme="light"]', modeVars, modeTokens)
 createGlobalTheme('[data-theme="dark"]', modeVars, { color: darkColors })
+
+export const cssVars = { ...commonVars, ...modeVars }

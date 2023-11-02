@@ -67,6 +67,7 @@ export const Backdrop = ({
         }
         modifyBackdrops(1)
         return () => {
+          toggle(false)
           const top = parseFloat(style.top || '0') * -1
           if (currBackdrops() === 1) {
             setStyles('', '', '')
@@ -78,15 +79,18 @@ export const Backdrop = ({
         }
       }
     }
+    return () => {
+      toggle(false)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, noBackground])
 
-  return state !== 'unmounted' ? (
+  return state.status !== 'unmounted' ? (
     <Portal className={className} renderCallback={renderCallback}>
       {onDismiss && (
         <Background
           $empty={noBackground}
-          $state={state}
+          $state={state.status}
           ref={boxRef}
           onClick={dismissClick}
         />

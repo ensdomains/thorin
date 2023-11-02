@@ -1,7 +1,7 @@
 export const negativeSpace = {
   '-1.5': '-0.375rem',
-  '-4.0': '-1rem',
-  '-6.0': '-1.5rem',
+  '-4': '-1rem',
+  '-6': '-1.5rem',
 }
 
 export const space = {

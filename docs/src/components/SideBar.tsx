@@ -75,7 +75,7 @@ export const SideBar = ({ open, links }: { open: boolean; links: Links }) => {
       bottom="$0"
       backgroundColor={'$backgroundPrimary'}
       borderRight="1px solid"
-      borderRightColor={'$border'}
+      borderRightColor="$border"
       gap="$4"
       transition={'left 0.2s ease-in-out'}
       paddingRight={'$1'}

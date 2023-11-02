@@ -12,6 +12,7 @@ import { commonVars, modeVars } from '@/src/css/theme.css'
 import { DownChevronSVG, DynamicPopover, ScrollBox } from '../..'
 import { ActionSheet } from './ActionSheet'
 import { Box, BoxProps } from '../../atoms/Box/Box'
+import { PopoverProps } from '../../atoms/DynamicPopover'
 
 type Align = 'left' | 'right'
 type LabelAlign = 'flex-start' | 'flex-end' | 'center'
@@ -89,14 +90,15 @@ type DropdownMenuProps = {
   shortThrow: boolean
   labelAlign?: LabelAlign
   direction: Direction
-  state?: TransitionState
+  state?: TransitionState['status']
   height?: string | number
-} & NativeDivProps
+} & NativeDivProps &
+  PopoverProps
 
 type DropdownMenuContainerProps = {
   $shortThrow: boolean
   $direction: Direction
-  $state?: TransitionState
+  $state?: TransitionState['status']
 }
 
 const DropdownMenuBox = React.forwardRef<
@@ -228,7 +230,17 @@ const DropdownChild: React.FC<{
 
 const DropdownMenu = React.forwardRef<HTMLDivElement, DropdownMenuProps>(
   (
-    { items, setIsOpen, shortThrow, direction, state, height, ...props },
+    {
+      items,
+      setIsOpen,
+      shortThrow,
+      direction,
+      state,
+      height,
+      placement: _placement,
+      mobilePlacement: _mobilePlacement,
+      ...props
+    },
     ref,
   ) => {
     const Content = items.map((item: DropdownItem) => {
@@ -516,13 +528,13 @@ export const Dropdown = ({
               placement={direction === 'down' ? 'bottom' : 'top'}
               popover={
                 <DropdownMenu
+                  {...props}
                   direction={direction}
                   items={items}
-                  // labelAlign={menuLabelAlign}
+                  ref={dropdownRef}
                   setIsOpen={setIsOpen}
                   shortThrow={shortThrow}
-                  {...props}
-                  ref={dropdownRef}
+                  // labelAlign={menuLabelAlign}
                 />
               }
               width={width}
