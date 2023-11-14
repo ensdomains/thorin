@@ -15,7 +15,7 @@ export const statusDot = recipe({
             height: commonVars.space['4'],
             backgroundColor: modeVars.color.bluePrimary,
             opacity: 0,
-            borderWidth: '2px',
+            borderWidth: '$2x',
             borderStyle: 'solid',
             borderColor: modeVars.color.backgroundPrimary,
             transform: 'scale(0.3)',

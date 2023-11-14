@@ -4,6 +4,8 @@ import { Colors } from '@/src/tokens'
 
 import { brightness, translateY } from '@/src/css/utils/common'
 
+import { removeNullishProps } from '@/src/utils/removeNullishProps'
+
 import { getTestId, shortenAddress } from '../../../utils/utils'
 
 import { Typography } from '../..'
@@ -48,7 +50,6 @@ const calculateWidth = (size: Size) => {
 const Container = React.forwardRef<HTMLElement, BoxProps & ContainerProps>(
   ({ $size, $hasDropdown, $open, ...props }, ref) => (
     <Box
-      {...props}
       alignItems="center"
       backgroundColor={$open ? '$border' : '$backgroundPrimary'}
       borderRadius="$full"
@@ -76,6 +77,7 @@ const Container = React.forwardRef<HTMLElement, BoxProps & ContainerProps>(
       transitionTimingFunction="$inOut"
       width={getValueForSize($size, 'width')}
       zIndex={10}
+      {...props}
     />
   ),
 )
@@ -162,11 +164,11 @@ export const Profile = ({
         }}
       >
         <Container
-          {...props}
           $hasDropdown
           $open={isOpen}
           $size={size}
           onClick={() => setIsOpen(!isOpen)}
+          {...removeNullishProps(props)}
         >
           <ProfileInner {...{ size, avatar, address, ensName }} />
         </Container>
@@ -176,12 +178,10 @@ export const Profile = ({
 
   return (
     <Container
-      {...{
-        ...props,
-        'data-testid': getTestId(props, 'profile'),
-      }}
       $open={isOpen}
       $size={size}
+      data-testid={getTestId(props, 'profile')}
+      {...removeNullishProps(props)}
     >
       <ProfileInner {...{ size, avatar, address, ensName }} />
     </Container>

@@ -149,61 +149,61 @@ interface MenuButtonProps {
   $showIndicator?: boolean | Colors
 }
 
-const MenuButton = ({
-  $color,
-  $icon,
-  $showIndicator,
-  disabled,
-  children,
-  ...props
-}: BoxProps & MenuButtonProps) => (
-  <Box
-    {...props}
-    alignItems="center"
-    backgroundColor={{ base: '$backgroundPrimary', hover: '$greySurface' }}
-    borderRadius="$large"
-    color={disabled ? '$textTertiary' : $color ? `$${$color}` : '$textPrimary'}
-    cursor={disabled ? 'not-allowed' : 'pointer'}
-    display="flex"
-    filter={{ base: 'brightness(1)', active: 'brightness(0.9)' }}
-    fontWeight="$normal"
-    gap="$2"
-    height="$12"
-    justifyContent="flex-start"
-    padding="$3"
-    paddingRight={$showIndicator ? '$6' : '$3'}
-    position="relative"
-    transform={{ base: 'translateY(0px)', active: 'translateY(0px)' }}
-    transitionDuration="$150"
-    transitionProperty="color, transform, filter"
-    transitionTimingFunction="$ease-in-out"
-    width="$full"
-  >
-    {$icon && (
-      <Box
-        as={$icon}
-        color={$color ? `$${$color}` : '$textPrimary'}
-        flexBasis="$4"
-        flexGrow="0"
-        flexShrink="0"
-        wh="$4"
-      />
-    )}
-    {children}
-    {$showIndicator && (
-      <Box
-        backgroundColor={
-          typeof $showIndicator === 'boolean' ? '$accent' : `$${$showIndicator}`
-        }
-        borderRadius="$full"
-        position="absolute"
-        right="$3"
-        top="50%"
-        transform="translateY(-50%)"
-        wh="$2"
-      />
-    )}
-  </Box>
+const MenuButton = React.forwardRef<HTMLElement, BoxProps & MenuButtonProps>(
+  ({ $color, $icon, $showIndicator, disabled, children, ...props }, ref) => (
+    <Box
+      {...props}
+      alignItems="center"
+      backgroundColor={{ base: '$backgroundPrimary', hover: '$greySurface' }}
+      borderRadius="$large"
+      color={
+        disabled ? '$textTertiary' : $color ? `$${$color}` : '$textPrimary'
+      }
+      cursor={disabled ? 'not-allowed' : 'pointer'}
+      display="flex"
+      filter={{ base: 'brightness(1)', active: 'brightness(0.9)' }}
+      fontWeight="$normal"
+      gap="$2"
+      height="$12"
+      justifyContent="flex-start"
+      padding="$3"
+      paddingRight={$showIndicator ? '$6' : '$3'}
+      position="relative"
+      ref={ref}
+      transform={{ base: 'translateY(0px)', active: 'translateY(0px)' }}
+      transitionDuration="$150"
+      transitionProperty="color, transform, filter"
+      transitionTimingFunction="$ease-in-out"
+      width="$full"
+    >
+      {$icon && (
+        <Box
+          as={$icon}
+          color={$color ? `$${$color}` : '$textPrimary'}
+          flexBasis="$4"
+          flexGrow="0"
+          flexShrink="0"
+          wh="$4"
+        />
+      )}
+      {children}
+      {$showIndicator && (
+        <Box
+          backgroundColor={
+            typeof $showIndicator === 'boolean'
+              ? '$accent'
+              : `$${$showIndicator}`
+          }
+          borderRadius="$full"
+          position="absolute"
+          right="$3"
+          top="50%"
+          transform="translateY(-50%)"
+          wh="$2"
+        />
+      )}
+    </Box>
+  ),
 )
 
 const DropdownChild: React.FC<{
@@ -407,7 +407,7 @@ const DropdownButton: React.FC<DropdownButtonProps> = ({
           pressed={isOpen}
           ref={buttonRef}
           suffix={chevron && <Chevron $direction={direction} $open={isOpen} />}
-          width="fit"
+          width="$fit"
           onClick={() => setIsOpen((prev) => !prev)}
           {...buttonPropsWithIndicator}
         >

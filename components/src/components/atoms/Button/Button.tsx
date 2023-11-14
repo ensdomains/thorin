@@ -2,9 +2,9 @@ import * as React from 'react'
 
 import { P, match } from 'ts-pattern'
 
-import { Space } from '@/src/tokens'
-
 import { scale, translateY } from '@/src/css/utils/common'
+
+import { removeNullishProps } from '@/src/utils/removeNullishProps'
 
 import {
   ColorStyle,
@@ -47,8 +47,6 @@ type BaseProps = {
   pressed?: boolean
   /** If true, adds a box-shadow */
   shadow?: boolean
-  /** A space value for the width of the button */
-  width?: Space
   /** If true, makes inner div full width */
   fullWidthContent?: boolean
   /** When set, shows a count indicator on the button */
@@ -58,7 +56,7 @@ type BaseProps = {
   /** Show indicator that button has extra info via tooltip. */
   shouldShowTooltipIndicator?: boolean
   color?: Color
-} & Omit<NativeButtonProps, 'prefix' | 'size' | 'color'>
+} & Omit<BoxProps, 'size'>
 
 type WithAnchor = {
   /** The href attribute for the anchor element. */
@@ -84,7 +82,6 @@ type ButtonBoxProps = {
   $colorStyle: WithColorStyle['colorStyle']
   $color?: Color
   $hasCounter?: boolean
-  $width: any
 }
 const ButtonBox = React.forwardRef<
   HTMLButtonElement,
@@ -98,7 +95,6 @@ const ButtonBox = React.forwardRef<
       $size = 'medium',
       $colorStyle = 'accentPrimary',
       $hasCounter,
-      $width = '$full',
       $color,
       as,
       ...props
@@ -141,7 +137,7 @@ const ButtonBox = React.forwardRef<
       height={getValueForSize($size, 'height')}
       justifyContent="center"
       position="relative"
-      px={$hasCounter ? '$12' : getValueForSize($size, 'px')}
+      // px={$hasCounter ? '$12' : getValueForSize($size, 'px')}
       ref={ref}
       transform={{
         base: translateY(0),
@@ -155,9 +151,12 @@ const ButtonBox = React.forwardRef<
       width={
         ['square', 'circle'].includes($shape)
           ? getValueForSize($size, 'height')
-          : $width
+          : '$full'
       }
-      {...props}
+      {...{
+        px: $hasCounter ? '$12' : getValueForSize($size, 'px'),
+        ...props,
+      }}
     />
   ),
 )
@@ -267,7 +266,6 @@ export const Button = React.forwardRef(
       onClick,
       pressed = false,
       shadow = false,
-      width,
       fullWidthContent,
       count,
       color,
@@ -322,7 +320,6 @@ export const Button = React.forwardRef(
         $shadow={shadow}
         $shape={shape}
         $size={size}
-        $width={width}
         as={asProp as any}
         disabled={disabled}
         href={href}
@@ -335,7 +332,7 @@ export const Button = React.forwardRef(
         zIndex={zIndex}
         //eslint-disable-next-line react/jsx-sort-props
         onClick={onClick}
-        {...props}
+        {...removeNullishProps(props)}
       >
         {shouldShowTooltipIndicator && (
           <TooltipIndicatorBox data-testid="tooltip-indicator">

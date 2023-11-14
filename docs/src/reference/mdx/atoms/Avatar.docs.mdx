@@ -76,13 +76,35 @@ The placeholder is shown if the src property is undefined or if an error occurs 
 
 ```tsx live=true
 <Box display="flex" alignItems="center" flexDirection="row" flexWrap="wrap" gap="$4">
-  <div style={{ width: '100px' }}>
-    <Avatar
-      label="Noun 97"
-      overlay={<div style={{ background: 'rgba(0,0,0,0.25)', zIndex: 1 }} />}
-      src={avatars.noun97}
-    />
-  </div>
+  <Avatar
+    label="Noun 97"
+    src={avatars.noun97}
+    wh="$10"
+  />
+  <Avatar
+    label="Noun 97"
+    checked
+    src={avatars.noun97}
+    wh="$10"
+  />
+  <Avatar
+    label="Noun 97"
+    src={avatars.noun97}
+    disabled
+    wh="$10"
+  />
+  <Avatar
+    label="Noun 97"
+    icon={<CrossSVG/>}
+    src={avatars.noun97}
+    wh="$10"
+  />
+  <Avatar
+    label="Noun 97"
+    icon={<PersonSVG/>}
+    src={avatars.noun97}
+    wh="$10"
+  />
 </Box>
 ```
 

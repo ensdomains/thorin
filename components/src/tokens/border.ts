@@ -5,15 +5,9 @@ export const borderStyles = {
 
 export const borderWidths = {
   '0': '0px',
-  px: '1px',
-  '0.375': '0.09375rem',
-  '0.5': '0.125rem',
-  '0.75': '0.1875rem',
-  '1': '0.25rem',
-  '1.25': '0.3125rem',
-  '1.5': '0.375rem',
-  '1.75': '0.4375rem',
-  '2': '0.5rem',
+  '1x': '1px',
+  '2x': '2px',
+  '10x': '10px',
 }
 
 export const radii = {

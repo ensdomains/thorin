@@ -4,7 +4,9 @@ import { Font, FontSize, FontWeight } from '@/src/tokens/typography'
 
 import { Color, WithColor, validateColor } from '@/src/interfaces/withColor'
 
-import { Box, BoxProps } from '../Box/Box'
+import { removeNullishProps } from '@/src/utils/removeNullishProps'
+
+import { Box, type BoxProps } from '../Box/Box'
 import { FontVariant, getValueForVariant } from './utils/getValueForVariant'
 
 type ContainerProps = {
@@ -22,7 +24,6 @@ const ContainerBox = React.forwardRef<HTMLElement, BoxProps & ContainerProps>(
     ref,
   ) => (
     <Box
-      {...props}
       as={as ?? 'div'}
       color={validateColor($color, '$text')}
       fontFamily={$font === 'mono' ? '$mono' : '$sans'}
@@ -35,6 +36,7 @@ const ContainerBox = React.forwardRef<HTMLElement, BoxProps & ContainerProps>(
       ref={ref}
       textOverflow={$ellipsis ? 'ellipsis' : undefined}
       whiteSpace={$ellipsis ? 'nowrap' : undefined}
+      {...props}
     />
   ),
 )
@@ -77,7 +79,6 @@ export const Typography = React.forwardRef<HTMLElement, Props>(
       as,
       children,
       ellipsis,
-      className = '',
       fontVariant = 'body',
       font = 'sans',
       color = 'textPrimary',
@@ -89,16 +90,15 @@ export const Typography = React.forwardRef<HTMLElement, Props>(
   ) => {
     return (
       <ContainerBox
-        {...props}
         $color={color}
         $ellipsis={ellipsis ? true : undefined}
         $font={font}
         $fontVariant={fontVariant}
         $weight={weight}
         as={as}
-        className={className}
         ref={ref}
         textTransform={textTransform}
+        {...removeNullishProps(props)}
       >
         {children}
       </ContainerBox>

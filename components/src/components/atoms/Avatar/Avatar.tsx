@@ -2,7 +2,11 @@ import * as React from 'react'
 
 import { rainbowSprinkles } from '@/src/css/rainbow-spinkles.css'
 
-import { Box, BoxProps } from '../Box'
+import { rawColorToRGBA } from '@/src/tokens/color3'
+
+import { Box, type BoxProps } from '../Box'
+import { avatar } from './styles.css'
+import { CheckSVG } from '../..'
 
 type NativeImgAttributes = React.ImgHTMLAttributes<HTMLImageElement>
 
@@ -10,17 +14,20 @@ type Shape = 'circle' | 'square'
 
 interface Container {
   $shape: Shape
+  $size: BoxProps['wh']
 }
 
-const Container = ({ $shape, ...props }: BoxProps & Container) => (
+const Container = ({ $shape, $size, ...props }: BoxProps & Container) => (
   <Box
-    {...props}
     backgroundColor="$backgroundSecondary"
     borderRadius={$shape === 'circle' ? '$full' : '$2xLarge'}
+    className={avatar}
+    height={$size}
     overflow="hidden"
-    paddingBottom="$full"
+    paddingBottom={$size ? 'unset' : '$full'}
     position="relative"
-    width="$full"
+    width={$size ?? '$full'}
+    {...props}
   />
 )
 
@@ -58,7 +65,13 @@ export type Props = {
   /** If true sets the component into disabled format. */
   disabled?: boolean
   /** An element that overlays the avatar */
-  overlay?: React.ReactNode
+  checked?: boolean
+  /** An svg to overlay over the avatar */
+  icon?: React.ReactElement
+  /** The deconding attribute of an img element */
+  decoding?: NativeImgAttributes['decoding']
+  /** A custom sizing for the avatar */
+  size?: BoxProps['wh']
 } & Omit<NativeImgAttributes, 'alt' | 'onError' | 'children' | 'onError'>
 
 export const Avatar = ({
@@ -68,7 +81,9 @@ export const Avatar = ({
   placeholder,
   decoding = 'async',
   disabled = false,
-  overlay,
+  icon,
+  checked,
+  size,
   ...props
 }: Props) => {
   const ref = React.useRef<HTMLImageElement>(null)
@@ -114,9 +129,26 @@ export const Avatar = ({
     ...props,
   })
 
+  const overlay = React.useMemo(() => {
+    if (disabled || (!icon && !checked)) return null
+    return (
+      <Box
+        alignItems="center"
+        bg={
+          checked
+            ? rawColorToRGBA([56, 137, 255], 0.75)
+            : rawColorToRGBA([0, 0, 0], 0.25)
+        }
+        color="$white"
+        display="flex"
+        justifyContent="center"
+      >
+        <Box as={icon ?? <CheckSVG />} wh="40%" />
+      </Box>
+    )
+  }, [checked, disabled, icon])
   return (
-    <Container $shape={shape}>
-      {overlay}
+    <Container $shape={shape} $size={size}>
       {!isImageVisible && (
         <Placeholder
           $disabled={disabled}
@@ -135,6 +167,7 @@ export const Avatar = ({
         onError={() => setShowImage(false)}
         onLoad={() => setShowImage(true)}
       />
+      {overlay}
     </Container>
   )
 }

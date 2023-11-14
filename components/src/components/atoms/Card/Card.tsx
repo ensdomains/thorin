@@ -1,11 +1,13 @@
 import * as React from 'react'
 
+import { removeNullishProps } from '@/src/utils/removeNullishProps'
+
 import { Typography } from '../Typography'
 import { Box, BoxProps } from '../Box/Box'
 
 export type Props = {
   title?: string
-} & NativeDivProps
+} & BoxProps
 
 const ContainerBox = (props: BoxProps) => (
   <Box
@@ -33,11 +35,9 @@ const Divider = (props: BoxProps) => (
   />
 )
 
-type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
-
 export const Card = ({ title, children, ...props }: Props) => {
   return (
-    <ContainerBox {...props}>
+    <ContainerBox {...removeNullishProps(props)}>
       {title && <Typography fontVariant="headingFour">{title}</Typography>}
       {children}
     </ContainerBox>

@@ -6,6 +6,7 @@ import { debounce } from 'lodash'
 import { Portal } from '../Portal'
 import { Box, BoxProps } from '../Box/Box'
 import { getValueForTransitionState } from './utils/getValueForTransitionState'
+import { container } from './style.css'
 
 export type DynamicPopoverSide = 'top' | 'right' | 'bottom' | 'left'
 
@@ -170,12 +171,10 @@ const PopoverBox = React.forwardRef<HTMLElement, BoxProps & PopoverBoxProps>(
   ) => (
     <Box
       {...props}
-      MozBackfaceVisibility="$hidden"
-      MozTransform="$base"
-      WebkitBackfaceVisibility="$hidden"
-      WebkitTransform="$base"
       boxSizing="border-box"
+      className={container}
       display="block"
+      fontFamily="$sans"
       left={getValueForTransitionState($state.status, 'leftFunc')($x)}
       opacity={getValueForTransitionState($state.status, 'opacity')}
       overflow={$hideOverflow ? 'hidden' : 'visible'}
@@ -412,6 +411,7 @@ export const DynamicPopover = ({
     if (isControlled) {
       toggle(isOpen)
     }
+    return () => toggle(false)
   }, [isControlled, isOpen])
 
   const [state, toggle] = useTransition({

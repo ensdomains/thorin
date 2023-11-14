@@ -2,11 +2,11 @@ import * as React from 'react'
 
 import { translateY } from '@/src/css/utils/common'
 
+import { removeNullishProps } from '@/src/utils/removeNullishProps'
+
 import { WithColorStyle, getValueForColorStyle } from './utils/withColorStyle'
 
-import { Box } from '../Box/Box'
-
-type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
+import { Box, BoxProps } from '../Box/Box'
 
 export type Props = {
   /** Element type of container */
@@ -15,7 +15,7 @@ export type Props = {
   hover?: boolean
   /** Size of element */
   size?: 'small' | 'medium'
-} & NativeDivProps &
+} & Omit<BoxProps, 'size'> &
   WithColorStyle
 
 export const Tag = ({
@@ -55,7 +55,7 @@ export const Tag = ({
       transitionProperty="color, border-color, background-color, transform"
       transitionTimingFunction="$inOut"
       width="$max"
-      {...props}
+      {...removeNullishProps(props)}
     >
       {children}
     </Box>
