@@ -1,9 +1,8 @@
 import * as React from 'react'
 
-import { ThemeProvider } from 'styled-components'
-
 import {
   cleanup,
+  getPropertyValue,
   makeMockIntersectionObserver,
   render,
   screen,
@@ -11,28 +10,27 @@ import {
   waitFor,
 } from '@/test'
 
-import { lightTheme } from '@/src/tokens'
-
 import { Dropdown } from './Dropdown'
+
+const getVisibilityValue = () =>
+  getPropertyValue(screen.getByTestId('popoverContainer'), 'visibility')
 
 const DropdownHelper = ({ mockCallback, children, ...props }: any) => {
   return (
-    <ThemeProvider theme={lightTheme}>
-      <div>
-        <div>outside</div>
-        <Dropdown
-          {...{
-            items: [
-              { label: 'Dashboard', onClick: mockCallback },
-              { label: 'Disconnect', onClick: () => null, color: 'red' },
-            ],
-            ...props,
-          }}
-        >
-          {children}
-        </Dropdown>
-      </div>
-    </ThemeProvider>
+    <div>
+      <div>outside</div>
+      <Dropdown
+        {...{
+          items: [
+            { label: 'Dashboard', onClick: mockCallback },
+            { label: 'Disconnect', onClick: () => null, color: 'red' },
+          ],
+          ...props,
+        }}
+      >
+        {children}
+      </Dropdown>
+    </div>
   )
 }
 
@@ -74,26 +72,33 @@ describe('<Dropdown />', () => {
 
   it('should close if clicking outside of dropdown', async () => {
     render(<DropdownHelper label="Menu" />)
-    userEvent.click(screen.getByText('Menu'))
-    await waitFor(() => {
-      expect(screen.getByText('Dashboard')).toBeVisible()
-    })
-    userEvent.click(screen.getByText('outside'))
 
+    expect(getVisibilityValue()).toEqual('hidden')
+
+    await userEvent.click(screen.getByText('Menu'))
     await waitFor(() => {
-      expect(screen.queryByText('Dashboard')).not.toBeVisible()
+      expect(getVisibilityValue()).toBe('visible')
+    })
+
+    await userEvent.click(screen.getByText('outside'))
+    await waitFor(() => {
+      expect(getVisibilityValue()).toBe('hidden')
     })
   })
 
   it('should close dropdown if button is clicked when open', async () => {
     render(<DropdownHelper label="Menu" />)
-    userEvent.click(screen.getByText('Menu'))
-    await waitFor(() => {
-      expect(screen.getByText('Dashboard')).toBeVisible()
-    })
-    userEvent.click(screen.getByText('Menu'))
+    expect(getVisibilityValue()).toEqual('hidden')
 
-    expect(screen.queryByText('Dashboard')).not.toBeVisible()
+    await userEvent.click(screen.getByText('Menu'))
+    await waitFor(() => {
+      expect(getVisibilityValue()).toBe('visible')
+    })
+
+    await userEvent.click(screen.getByText('Menu'))
+    await waitFor(() => {
+      expect(getVisibilityValue()).toBe('hidden')
+    })
   })
 
   it('should render custom element when passed in', () => {
@@ -111,21 +116,24 @@ describe('<Dropdown />', () => {
         <button>custom</button>
       </DropdownHelper>,
     )
-    userEvent.click(screen.getByText('custom'))
+    expect(getVisibilityValue()).toEqual('hidden')
+
+    await userEvent.click(screen.getByText('custom'))
     await waitFor(() => {
-      expect(screen.getByText('Dashboard')).toBeVisible()
+      expect(getVisibilityValue()).toBe('visible')
     })
-    userEvent.click(screen.getByText('custom'))
-    expect(screen.queryByText('Dashboard')).not.toBeVisible()
+
+    await userEvent.click(screen.getByText('custom'))
+    await waitFor(() => expect(getVisibilityValue()).toBe('hidden'))
   })
 
   it('should not error if no dropdown items are passed in', () => {
     render(
-      <ThemeProvider theme={lightTheme}>
+      <>
         {/*eslint-disable-next-line @typescript-eslint/ban-ts-comment*/}
         {/*@ts-ignore*/}
         <Dropdown label="" />
-      </ThemeProvider>,
+      </>,
     )
     expect(screen.getByTestId('dropdown-btn')).toBeInTheDocument()
   })

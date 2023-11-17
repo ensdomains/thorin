@@ -1,4 +1,4 @@
-export { CodeBlock } from './CodeBlock'
+export { CodeBlock } from './CodeBlock/CodeBlock'
 export { Header } from './Header'
 export { Link } from './Link'
 export { MDX } from './MDX'

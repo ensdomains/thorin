@@ -1,5 +1,6 @@
 const { glob } = require('glob')
-
+const { createVanillaExtractPlugin} = require('@vanilla-extract/next-plugin')
+const withVanillaExtract = createVanillaExtractPlugin({identifiers: 'short'})
 const StylelintPlugin = require('stylelint-webpack-plugin')
 
 const withMDX = require('@next/mdx')({
@@ -34,10 +35,6 @@ const config = {
       {
         name: 'organisms',
         links: getComponentPaths('organisms'),
-      },
-      {
-        name: 'miscellaneous',
-        links: getComponentPaths('miscellaneous'),
       },
     ],
   },
@@ -82,13 +79,21 @@ const config = {
       __dirname,
       '../components',
     )
+    config.module.rules.push({
+      test: /\.svg$/i,
+      issuer: /\.(js|ts)x?$/,
+      use: ['@svgr/webpack'],
+    })
     return config
   },
   reactStrictMode: true,
   compiler: {
     styledComponents: true,
   },
+  images: {
+    unoptimized: true,
+  }
 }
 
 /** @type {import('next').NextConfig} */
-module.exports = withMDX(config)
+module.exports = withVanillaExtract(withMDX(config))

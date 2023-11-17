@@ -31,7 +31,7 @@ import { PageButtons } from '@ensdomains/thorin'
 ## Size
 
 ```tsx live=true
-<DeleteMe>
+<Box display="flex" flexDirection="column" gap="$4">
   <Field label="Small">
     <PageButtons
       alwaysShowFirst
@@ -52,5 +52,5 @@ import { PageButtons } from '@ensdomains/thorin'
       onChange={(value) => setState('pageButtons', value)}
     />
   </Field>
-</DeleteMe>
+</Box>
 ```

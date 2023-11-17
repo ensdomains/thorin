@@ -1,125 +1,96 @@
 import * as React from 'react'
-import styled, { css } from 'styled-components'
 
-import { Colors } from '@/src/tokens'
+import { P, match } from 'ts-pattern'
 
 import { CheckSVG } from '@/src/icons'
 
 import { VisuallyHidden } from '../..'
 import { getTestId } from '../../../utils/utils'
+import { Box, BoxProps } from '../../atoms/Box/Box'
+import { getValueForNumberForSize } from './utils/getValueForNumberForSize'
+import { Color, getValidatedColor } from './utils/getValidatedColor'
 
-const CountDownContainer = styled.div(
-  () => css`
-    position: relative;
-  `,
+const NumberBox = ({
+  $size,
+  $color,
+  disabled,
+  ...props
+}: BoxProps & { $size: 'small' | 'large'; $color: any }) => (
+  <Box
+    {...props}
+    alignItems="center"
+    color={disabled ? '$greyPrimary' : getValidatedColor($color)}
+    display="flex"
+    fontSize={getValueForNumberForSize($size, 'fontSize')}
+    fontWeight="$extraBold"
+    justifyContent="center"
+    lineHeight={getValueForNumberForSize($size, 'lineHeight')}
+    marginTop={getValueForNumberForSize($size, 'marginTop')}
+    position="absolute"
+    wh={getValueForNumberForSize($size, 'size')}
+  />
 )
 
-interface NumberBox {
-  $disabled?: boolean
-  $size: 'small' | 'large'
-}
+const ContainerBox = React.forwardRef<
+  HTMLElement,
+  BoxProps & {
+    $size: 'small' | 'large'
+    $color: Color
+    disabled?: boolean
+  }
+>(({ $size, $color, disabled, ...props }, ref) => (
+  <Box
+    {...props}
+    color={disabled ? '$greyLight' : getValidatedColor($color)}
+    ref={ref}
+    stroke="currentColor"
+    strokeWidth="$1"
+    wh={$size === 'large' ? '$24' : '$16'}
+  />
+))
 
-const NumberBox = styled.div<NumberBox>(
-  ({ theme, $disabled, $size }) => css`
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: ${theme.fontWeights.extraBold};
-
-    color: ${theme.colors.accent};
-
-    ${$disabled &&
-    css`
-      color: ${theme.colors.greyLight};
-    `}
-
-    #countdown-complete-check {
-      stroke-width: ${theme.borderWidths['1.5']};
-      overflow: visible;
-      display: block;
-    }
-
-    ${() => {
-      switch ($size) {
-        case 'small':
-          return css`
-            height: ${theme.space['16']};
-            width: ${theme.space['16']};
-          `
-        case 'large':
-          return css`
-            font-size: ${theme.fontSizes.extraLarge};
-            line-height: ${theme.lineHeights.extraLarge};
-            margin-top: -${theme.space['0.5']};
-            height: ${theme.space['24']};
-            width: ${theme.space['24']};
-          `
-        default:
-          return ``
+const Circle = ({
+  $progress,
+  disabled,
+  ...props
+}: BoxProps & {
+  $progress?: number
+}) => {
+  const showProgress = typeof $progress === 'number' && !disabled
+  const strokeDashArray = showProgress
+    ? `${48 * ($progress ?? 1)}, 56`
+    : '100, 100'
+  const opacity = showProgress || disabled ? '1' : '0.25'
+  return (
+    <Box
+      {...props}
+      as={
+        <circle
+          cx="12"
+          cy="12"
+          fill="none"
+          opacity={opacity}
+          r="9"
+          strokeDasharray={strokeDashArray}
+          strokeLinecap="round"
+          strokeWidth={match([!!disabled, $progress])
+            .with(
+              [false, P.when((x?: number) => typeof x === 'number' && x <= 0)],
+              () => '0',
+            )
+            .otherwise(() => '4')}
+        />
       }
-    }}
-  `,
-)
-
-interface ContainerProps {
-  $disabled?: boolean
-  $size: 'small' | 'large'
-  $color: Colors
+      transition="all 1s linear, stroke-width 0.2s ease-in-out 1s"
+    />
+  )
 }
-
-const Container = styled.div<ContainerProps>(
-  ({ theme, $disabled, $size, $color }) => css`
-    stroke: ${theme.colors.accent};
-
-    color: ${theme.colors[$color]};
-
-    ${$disabled &&
-    css`
-      color: ${theme.colors.greyLight};
-    `}
-
-    ${() => {
-      switch ($size) {
-        case 'small':
-          return css`
-            height: ${theme.space['16']};
-            width: ${theme.space['16']};
-            stroke-width: ${theme.space['1']};
-          `
-        case 'large':
-          return css`
-            height: ${theme.space['24']};
-            width: ${theme.space['24']};
-            stroke-width: ${theme.space['1']};
-          `
-        default:
-          return ``
-      }
-    }}
-  `,
-)
-
-interface CircleProps {
-  $finished: boolean
-}
-
-const Circle = styled.circle<CircleProps>(
-  ({ $finished }) => css`
-    transition: all 1s linear, stroke-width 0.2s ease-in-out 1s;
-
-    ${$finished &&
-    css`
-      stroke-width: 0;
-    `}
-  `,
-)
 
 type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 
 type Props = {
   accessibilityLabel?: string
-  color?: Colors
+  color?: Color
   startTimestamp?: number
   countdownSeconds: number
   disabled?: boolean
@@ -131,7 +102,7 @@ export const CountdownCircle = React.forwardRef(
   (
     {
       accessibilityLabel,
-      color = 'textSecondary',
+      color = 'accent',
       size = 'small',
       countdownSeconds,
       startTimestamp,
@@ -172,49 +143,40 @@ export const CountdownCircle = React.forwardRef(
     }, [calculateCurrentCount, callback, countdownSeconds, disabled])
 
     return (
-      <CountDownContainer
-        {...{
-          ...props,
-          'data-testid': getTestId(props, 'countdown-circle'),
-        }}
+      <Box
+        {...props}
+        data-testid={getTestId(props, 'countdown-circle')}
+        position="relative"
       >
-        <NumberBox {...{ $size: size, $disabled: disabled }}>
-          {disabled && countdownSeconds}
-          {!disabled &&
-            (currentCount > 0 ? (
-              currentCount
-            ) : (
-              <CheckSVG
+        <NumberBox $color={color} $size={size} disabled={disabled}>
+          {match([!!disabled, !!currentCount])
+            .with([true, P._], () => countdownSeconds)
+            .with([false, true], () => currentCount)
+            .with([false, false], () => (
+              <Box
+                as={<CheckSVG />}
                 data-testid="countdown-complete-check"
+                display="block"
                 id="countdown-complete-check"
+                overflow="visible"
+                strokeWidth="$1.5"
               />
-            ))}
+            ))
+            .exhaustive()}
         </NumberBox>
-        <Container $color={color} $disabled={disabled} $size={size} ref={ref}>
+        <ContainerBox $color={color} $size={size} disabled={disabled} ref={ref}>
           {accessibilityLabel && (
             <VisuallyHidden>{accessibilityLabel}</VisuallyHidden>
           )}
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <Circle
-              $finished={currentCount === 0}
-              cx="12"
-              cy="12"
-              fill="none"
-              r="9"
-              strokeDasharray={`${48 * (currentCount / countdownSeconds)}, 56`}
-              strokeLinecap="round"
+              $progress={currentCount / countdownSeconds}
+              disabled={disabled}
             />
-            <circle
-              cx="12"
-              cy="12"
-              fill="none"
-              opacity={disabled ? '1' : '0.25'}
-              r="9"
-              strokeLinecap="round"
-            />
+            <Circle />
           </svg>
-        </Container>
-      </CountDownContainer>
+        </ContainerBox>
+      </Box>
     )
   },
 )

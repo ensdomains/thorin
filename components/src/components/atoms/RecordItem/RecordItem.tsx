@@ -1,6 +1,7 @@
 import * as React from 'react'
-import styled, { css } from 'styled-components'
 import { ReactNode } from 'react'
+
+import { match } from 'ts-pattern'
 
 import { CheckSVG, CopySVG, UpArrowSVG } from '@/src'
 
@@ -8,6 +9,7 @@ import { Neverable } from '@/src/types'
 
 import { Typography } from '../Typography/Typography'
 import { useCopied } from '../../../hooks/useCopied'
+import { Box, BoxProps } from '../Box/Box'
 
 type Size = 'small' | 'large'
 
@@ -52,113 +54,97 @@ export type Props = BaseProps &
   NativeElementProps &
   (AsAnchorProps | AsButtonProps)
 
-const Container = styled.button<{
-  $inline: boolean
-}>(
-  ({ theme, $inline }) => css`
-    display: flex;
-    align-items: flex-start;
-
-    gap: ${theme.space[2]};
-    padding: ${theme.space['2.5']} ${theme.space[3]};
-    width: 100%;
-    height: fit-content;
-    background: ${theme.colors.greySurface};
-    border: 1px solid ${theme.colors.border};
-    border-radius: ${theme.radii.large};
-    transition: all 150ms ease-in-out;
-    cursor: pointer;
-
-    ${$inline &&
-    css`
-      width: fit-content;
-      height: ${theme.space['10']};
-    `}
-
-    &:hover {
-      transform: translateY(-1px);
-      background: ${theme.colors.greyLight};
-    }
-  `,
+const ContainerBox = ({
+  $inline,
+  ...props
+}: BoxProps & { $inline: boolean }) => (
+  <Box
+    alignItems="flex-start"
+    backgroundColor={{ base: '$greySurface', hover: '$greyLight' }}
+    borderColor="$border"
+    borderRadius="$large"
+    borderStyle="solid"
+    borderWidth="$1x"
+    cursor="pointer"
+    display="flex"
+    gap="$2"
+    height={$inline ? '$10' : 'fit-content'}
+    padding="2.5 3"
+    px="$3"
+    py="$2.5"
+    transform={{ base: 'translateY(0)', hover: 'translateY(-1px)' }}
+    transitionDuration="$150"
+    transitionProperty="all"
+    transitionTimingFunction="$inOut"
+    width={$inline ? 'fit-content' : '$full'}
+    {...props}
+  />
 )
 
-const PrefixContainer = styled.div<{ $size: Size; $inline: boolean }>(
-  ({ theme, $inline, $size }) => css`
-    display: flex;
-    gap: ${theme.space[2]};
-    align-items: flex-start;
-    width: ${$size === 'large' ? theme.space['30'] : theme.space['22.5']};
-    flex: 0 0 ${$size === 'large' ? theme.space['30'] : theme.space['22.5']};
-
-    ${$inline &&
-    css`
-      width: fit-content;
-      flex: initial;
-    `}
-  `,
+const PrefixBox = ({
+  $inline,
+  $size,
+  ...props
+}: BoxProps & { $inline: boolean; $size: Size }) => (
+  <Box
+    alignItems="flex-start"
+    display="flex"
+    flexBasis={match($inline)
+      .with(true, () => 'initial')
+      .otherwise(() => ($size === 'large' ? '$30' : '$22.5'))}
+    flexGrow="0"
+    flexShrink="0"
+    gap="$2"
+    width={match($inline)
+      .with(true, () => 'fit-content' as const)
+      .otherwise(() => ($size === 'large' ? '$30' : '$22.5'))}
+    {...props}
+  />
 )
 
-const PrefixLabelsContainer = styled.div<{ $inline: boolean }>(
-  ({ theme, $inline }) => css`
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0;
-    overflow: hidden;
-
-    ${$inline &&
-    css`
-      flex-direction: row;
-      gap: ${theme.space[2]};
-      align-items: center;
-    `}
-  `,
+const PrefixLabelsContainerBox = ({
+  $inline,
+  ...props
+}: BoxProps & { $inline: boolean }) => (
+  <Box
+    alignItems={$inline ? 'center' : 'flex-start'}
+    display="flex"
+    flexDirection={$inline ? 'row' : 'column'}
+    gap={$inline ? '$2' : '$0'}
+    overflow="hidden"
+    {...props}
+  />
 )
 
-const PrefixLabel = styled(Typography)<{
-  $inline: boolean
-}>(
-  () => css`
-    text-align: left;
-    width: 100%;
-  `,
+// const PrefixLabelBox = (props: BoxProps) => (
+//   <Typography textAlign="left" width="$full" {...props} />
+// )
+
+const PrefixSVGBox = (props: BoxProps) => (
+  <Box display="block" height="$5" width="$5" {...props} />
 )
 
-const PrefixIcon = styled.div(
-  ({ theme }) => css`
-    svg {
-      display: block;
-      width: ${theme.space['5']};
-      height: ${theme.space['5']};
-    }
-  `,
-)
+// const LabelBox = ({ $inline, ...props }: BoxProps & { $inline: boolean }) => (
+//   <Typography
+//     flex="1"
+//     textAlign="left"
+//     wordBreak={$inline ? 'normal' : 'break-all'}
+//     {...props}
+//   />
+// )
 
-const Label = styled(Typography)<{ $inline: boolean }>(
-  ({ $inline }) => css`
-    flex: 1;
-    text-align: left;
-    word-break: break-all;
-
-    ${$inline &&
-    css`
-      word-break: initial;
-    `}
-  `,
-)
-
-const TrailingIcon = styled.svg<{ $rotate?: boolean }>(
-  ({ theme, $rotate }) => css`
-    display: block;
-    margin-top: ${theme.space['1']};
-    width: ${theme.space['3']};
-    height: ${theme.space['3']};
-    color: ${theme.colors.greyPrimary};
-    ${$rotate &&
-    css`
-      transform: rotate(45deg);
-    `}
-  `,
+const TrailingSVGBox = ({
+  $rotate,
+  ...props
+}: BoxProps & { $rotate: boolean }) => (
+  <Box
+    color="$greyPrimary"
+    display="block"
+    marginTop="$1"
+    transform={$rotate ? 'rotate(45deg)' : 'none'}
+    wh="$3"
+    {...props}
+  />
 )
 
 export const RecordItem = ({
@@ -195,28 +181,30 @@ export const RecordItem = ({
 
   const KeyLabel =
     typeof keyLabel === 'string' ? (
-      <PrefixLabel
-        $inline={inline}
+      <Typography
         color="grey"
         ellipsis={!inline}
         fontVariant={size === 'large' ? 'bodyBold' : 'smallBold'}
+        textAlign="left"
+        width="$full"
       >
         {keyLabel}
-      </PrefixLabel>
+      </Typography>
     ) : (
       keyLabel
     )
 
   const KeySublabel =
     typeof keySublabel === 'string' ? (
-      <PrefixLabel
-        $inline={inline}
+      <Typography
         color="grey"
         ellipsis={!inline}
         fontVariant={size === 'large' ? 'smallBold' : 'extraSmallBold'}
+        textAlign="left"
+        width="$full"
       >
         {keySublabel}
-      </PrefixLabel>
+      </Typography>
     ) : (
       keySublabel
     )
@@ -227,23 +215,28 @@ export const RecordItem = ({
     : { as: CopySVG }
 
   return (
-    <Container $inline={inline} as={asProp} {...generatedProps}>
+    <ContainerBox $inline={inline} as={asProp} {...generatedProps}>
       {hasPrefix && (
-        <PrefixContainer $inline={inline} $size={size}>
-          {icon && <PrefixIcon>{icon}</PrefixIcon>}
+        <PrefixBox $inline={inline} $size={size}>
+          {icon && <PrefixSVGBox as={icon as React.ReactElement} />}
           {hasLabels && (
-            <PrefixLabelsContainer $inline={inline}>
+            <PrefixLabelsContainerBox $inline={inline}>
               {KeyLabel}
               {KeySublabel}
-            </PrefixLabelsContainer>
+            </PrefixLabelsContainerBox>
           )}
-        </PrefixContainer>
+        </PrefixBox>
       )}
-      <Label $inline={inline} fontVariant={size === 'large' ? 'body' : 'small'}>
+      <Typography
+        flex="1"
+        fontVariant={size === 'large' ? 'body' : 'small'}
+        textAlign="left"
+        wordBreak={inline ? 'normal' : 'break-all'}
+      >
         {children}
-      </Label>
-      <TrailingIcon {...PostfixProps} />
-    </Container>
+      </Typography>
+      <TrailingSVGBox {...(PostfixProps as any)} />
+    </ContainerBox>
   )
 }
 

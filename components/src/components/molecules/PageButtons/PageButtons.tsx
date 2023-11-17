@@ -1,11 +1,12 @@
 import * as React from 'react'
-import styled, { css } from 'styled-components'
 
 import { getTestId } from '../../../utils/utils'
+import { Box, BoxProps } from '../../atoms'
+import { getValueForSize } from './utils/getValueForSize'
 
 type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 
-type Size = 'small' | 'medium'
+export type Size = 'small' | 'medium'
 
 type Props = {
   /** Total number of pages */
@@ -24,62 +25,55 @@ enum Marker {
   ellipsis = -1,
 }
 
-const Container = styled.div(
-  ({ theme }) => css`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: ${theme.space['2']};
-    flex-gap: ${theme.space['2']};
-  `,
+const Container = (props: BoxProps) => (
+  <Box
+    {...props}
+    alignItems="center"
+    display="flex"
+    flexDirection="row"
+    gap="$2"
+    justifyContent="center"
+  />
 )
 
-const PageButton = styled.button<{ $selected?: boolean; $size: Size }>(
-  ({ theme, $selected, $size }) => css`
-    background-color: ${theme.colors.background};
-    transition: all 0.15s ease-in-out;
-    cursor: pointer;
-    font-size: ${theme.fontSizes.body};
-    line-height: ${theme.lineHeights.body};
-    font-weight: ${theme.fontWeights.bold};
-    border-radius: ${theme.radii['extraLarge']};
+type PageButtonProps = {
+  $selected?: boolean
+  $size: Size
+}
 
-    min-width: ${theme.space['10']};
-    height: ${theme.space['10']};
-    border: 1px solid ${theme.colors.border};
-    padding: ${theme.space['2']};
-
-    ${$selected
-      ? css`
-          cursor: default;
-          pointer-events: none;
-          color: ${theme.colors.accent};
-        `
-      : css`
-          color: ${theme.colors.greyPrimary};
-          &:hover {
-            background-color: ${theme.colors.greySurface};
-          }
-        `}
-
-    ${$size === 'small' &&
-    css`
-      font-size: ${theme.fontSizes.small};
-      line-height: ${theme.lineHeights.small};
-      border-radius: ${theme.space['2']};
-      min-width: ${theme.space['9']};
-      height: ${theme.space['9']};
-    `}
-  `,
+const PageButton = ({
+  $selected,
+  $size,
+  ...props
+}: PageButtonProps & BoxProps) => (
+  <Box
+    {...props}
+    as="button"
+    backgroundColor={{ base: '$background', hover: '$greySurface' }}
+    border="1px solid"
+    borderColor="$border"
+    borderRadius={getValueForSize($size, 'borderRadius')}
+    color={$selected ? '$accent' : '$greyPrimary'}
+    cursor={$selected ? 'default' : 'pointer'}
+    fontSize={getValueForSize($size, 'fontSize')}
+    fontWeight="$bold"
+    height={getValueForSize($size, 'height')}
+    lineHeight={getValueForSize($size, 'lineHeight')}
+    minWidth={getValueForSize($size, 'minWidth')}
+    padding="$2"
+    pointerEvents={$selected ? 'none' : 'auto'}
+    transition="all 0.15s ease-in-out"
+  />
 )
 
-const Dots = styled.p(
-  ({ theme }) => css`
-    font-size: ${theme.fontSizes['small']};
-    font-weight: ${theme.fontWeights['bold']};
-    color: ${theme.colors.greyPrimary};
-  `,
+const Dots = (props: BoxProps) => (
+  <Box
+    {...props}
+    as="p"
+    color="$greyPrimary"
+    fontSize="$small"
+    fontWeight="$bold"
+  />
 )
 
 export const PageButtons = ({
@@ -152,3 +146,5 @@ export const PageButtons = ({
     </Container>
   )
 }
+
+PageButtons.displayName = 'PageButtons'

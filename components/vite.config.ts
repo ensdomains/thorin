@@ -4,6 +4,7 @@ import dts from 'vite-plugin-dts'
 import tsconfigPaths from 'vite-tsconfig-paths'
 import svgrPlugin from 'vite-plugin-svgr'
 import stylelintPlugin from 'vite-plugin-stylelint'
+import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin'
 
 import pkg from './package.json'
 import path from 'path'
@@ -37,6 +38,9 @@ export default defineConfig({
     ],
   },
   plugins: [
+    vanillaExtractPlugin({
+      identifiers: 'short',
+    }),
     svgrPlugin({
       svgrOptions: {
         icon: true,

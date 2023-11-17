@@ -1,7 +1,8 @@
 import * as React from 'react'
-import styled, { DefaultTheme, css } from 'styled-components'
 
+import * as styles from './styles.css'
 import { Field, FieldBaseProps } from '../../atoms/Field'
+import { Box, BoxProps } from '../../atoms/Box/Box'
 
 type NativeInputProps = React.InputHTMLAttributes<HTMLInputElement>
 
@@ -35,57 +36,24 @@ export type Props = FieldBaseProps & {
     'children' | 'value' | 'defaultValue' | 'aria-invalid' | 'type'
   >
 
-const Container = styled.div(
-  ({ theme }) => css`
-    width: ${theme.space.full};
-  `,
-)
-
-const thumbCss = ({ theme }: { theme: DefaultTheme }) => css`
-  width: ${theme.space['4']};
-  height: ${theme.space['4']};
-  background: ${theme.colors.accent};
-  border-radius: ${theme.radii.full};
-  cursor: pointer;
-  transition: filter 0.15s ease-in-out;
-  filter: brightness(1);
-  &:hover {
-    filter: brightness(0.95);
-  }
-  &:active {
-    filter: brightness(0.875);
-  }
-`
-
-const SliderComponent = styled.input(
-  ({ theme, disabled }) => css`
-    appearance: none;
-    width: ${theme.space.full};
-    height: ${theme.space['1.5']};
-    background: hsla(${theme.colors.raw.accent} / 0.4);
-    border-radius: ${theme.radii.full};
-    outline: none;
-
-    &::-webkit-slider-thumb {
-      appearance: none;
-      ${thumbCss}
-    }
-
-    &::-moz-range-thumb {
-      ${thumbCss}
-    }
-
-    &:hover {
-      background: hsla(${theme.colors.raw.accent} / 0.45);
-    }
-
-    ${disabled &&
-    css`
-      opacity: 0.5;
-      filter: grayscale(100%);
-      cursor: not-allowed;
-    `}
-  `,
+const SliderComponent = React.forwardRef<HTMLElement, BoxProps>(
+  (props, ref) => (
+    <Box
+      {...props}
+      appearance="none"
+      as="input"
+      backgroundColor={{ base: '$blueSurface', hover: '$blueLight' }}
+      borderRadius="$full"
+      className={styles.slider}
+      cursor={{ base: 'pointer', disabled: 'not-allowed' }}
+      filter={{ base: 'grayscale(0)', disabled: 'grayscale(100%)' }}
+      height="$1.5"
+      opacity={{ base: '1', disabled: '1.0' }}
+      ref={ref}
+      type="range"
+      width="$full"
+    />
+  ),
 )
 
 export const Slider = React.forwardRef(
@@ -134,28 +102,26 @@ export const Slider = React.forwardRef(
         }}
       >
         {(ids) => (
-          <Container>
-            <SliderComponent
-              ref={inputRef}
-              type="range"
-              {...{
-                ...nativeProps,
-                ...ids?.content,
-                defaultValue,
-                disabled,
-                name,
-                readOnly,
-                tabIndex,
-                value,
-                min,
-                max,
-                onChange,
-                onBlur,
-                onFocus,
-                step,
-              }}
-            />
-          </Container>
+          <SliderComponent
+            ref={inputRef}
+            type="range"
+            {...{
+              ...nativeProps,
+              ...ids?.content,
+              defaultValue,
+              disabled,
+              name,
+              readOnly,
+              tabIndex,
+              value,
+              min,
+              max,
+              onChange,
+              onBlur,
+              onFocus,
+              step,
+            }}
+          />
         )}
       </Field>
     )

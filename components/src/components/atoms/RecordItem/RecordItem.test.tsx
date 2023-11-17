@@ -1,14 +1,11 @@
 import * as React from 'react'
 
-import { ThemeProvider } from 'styled-components'
-
 import { cleanup, mockFunction, render, screen } from '@/test'
 
 import { useCopied } from '@/src/hooks/useCopied'
 
 import { RecordItem } from './RecordItem'
 import { FlameSVG } from '../..'
-import { lightTheme } from '../../../tokens/index'
 
 jest.mock('@/src/hooks/useCopied')
 
@@ -21,17 +18,14 @@ describe('<RecordItem />', () => {
 
   it('renders', () => {
     render(
-      <ThemeProvider theme={lightTheme}>
-        <RecordItem
-          icon={<FlameSVG />}
-          keyLabel="Title"
-          keySublabel="Subtitle"
-          value="Real value"
-        >
-          Display value
-        </RecordItem>
-        ,
-      </ThemeProvider>,
+      <RecordItem
+        icon={<FlameSVG />}
+        keyLabel="Title"
+        keySublabel="Subtitle"
+        value="Real value"
+      >
+        Display value
+      </RecordItem>,
     )
     expect(screen.getByText('Display value')).toBeInTheDocument()
     expect(screen.getByText('Title')).toBeInTheDocument()
@@ -41,17 +35,14 @@ describe('<RecordItem />', () => {
 
   it('should copy value to clipboard if clicked', () => {
     render(
-      <ThemeProvider theme={lightTheme}>
-        <RecordItem
-          icon={<FlameSVG />}
-          keyLabel="Title"
-          keySublabel="Subtitle"
-          value="Real value"
-        >
-          Display value
-        </RecordItem>
-        ,
-      </ThemeProvider>,
+      <RecordItem
+        icon={<FlameSVG />}
+        keyLabel="Title"
+        keySublabel="Subtitle"
+        value="Real value"
+      >
+        Display value
+      </RecordItem>,
     )
 
     screen.getByText('Display value').click()
@@ -60,39 +51,33 @@ describe('<RecordItem />', () => {
 
   it('should render anchor if as is a', () => {
     render(
-      <ThemeProvider theme={lightTheme}>
-        <RecordItem
-          as="a"
-          data-testid="record-item"
-          icon={<FlameSVG />}
-          keyLabel="Title"
-          keySublabel="Subtitle"
-          value="Real value"
-        >
-          Display value
-        </RecordItem>
-        ,
-      </ThemeProvider>,
+      <RecordItem
+        as="a"
+        data-testid="record-item"
+        icon={<FlameSVG />}
+        keyLabel="Title"
+        keySublabel="Subtitle"
+        value="Real value"
+      >
+        Display value
+      </RecordItem>,
     )
     expect(screen.getByTestId('record-item').nodeName).toBe('A')
   })
 
   it('should have link as href if as is a', () => {
     render(
-      <ThemeProvider theme={lightTheme}>
-        <RecordItem
-          as="a"
-          data-testid="record-item"
-          icon={<FlameSVG />}
-          keyLabel="Title"
-          keySublabel="Subtitle"
-          link="https://ens.domains"
-          value="Real value"
-        >
-          Display value
-        </RecordItem>
-        ,
-      </ThemeProvider>,
+      <RecordItem
+        as="a"
+        data-testid="record-item"
+        icon={<FlameSVG />}
+        keyLabel="Title"
+        keySublabel="Subtitle"
+        link="https://ens.domains"
+        value="Real value"
+      >
+        Display value
+      </RecordItem>,
     )
     expect(screen.getByTestId('record-item')).toHaveAttribute(
       'href',
@@ -102,20 +87,17 @@ describe('<RecordItem />', () => {
 
   it('should passthrough custom target prop if as is a', () => {
     render(
-      <ThemeProvider theme={lightTheme}>
-        <RecordItem
-          as="a"
-          data-testid="record-item"
-          icon={<FlameSVG />}
-          keyLabel="Title"
-          keySublabel="Subtitle"
-          target="_parent"
-          value="Real value"
-        >
-          Display value
-        </RecordItem>
-        ,
-      </ThemeProvider>,
+      <RecordItem
+        as="a"
+        data-testid="record-item"
+        icon={<FlameSVG />}
+        keyLabel="Title"
+        keySublabel="Subtitle"
+        target="_parent"
+        value="Real value"
+      >
+        Display value
+      </RecordItem>,
     )
     expect(screen.getByTestId('record-item')).toHaveAttribute(
       'target',
@@ -125,19 +107,16 @@ describe('<RecordItem />', () => {
 
   it('should render button if as is button', () => {
     render(
-      <ThemeProvider theme={lightTheme}>
-        <RecordItem
-          as="button"
-          data-testid="record-item"
-          icon={<FlameSVG />}
-          keyLabel="Title"
-          keySublabel="Subtitle"
-          value="Real value"
-        >
-          Display value
-        </RecordItem>
-        ,
-      </ThemeProvider>,
+      <RecordItem
+        as="button"
+        data-testid="record-item"
+        icon={<FlameSVG />}
+        keyLabel="Title"
+        keySublabel="Subtitle"
+        value="Real value"
+      >
+        Display value
+      </RecordItem>,
     )
     expect(screen.getByTestId('record-item').nodeName).toBe('BUTTON')
   })

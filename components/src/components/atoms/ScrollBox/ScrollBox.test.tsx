@@ -1,16 +1,17 @@
 import * as React from 'react'
 
-import { ThemeProvider } from 'styled-components'
-
-import { cleanup, makeMockIntersectionObserver, render, screen } from '@/test'
-import 'jest-styled-components'
-
-import { lightTheme } from '@/src/tokens'
+import {
+  cleanup,
+  getPropertyValue,
+  makeMockIntersectionObserver,
+  render,
+  screen,
+} from '@/test'
 
 import { ScrollBox } from './ScrollBox'
 
 const Component = ({ onReachedTop }: { onReachedTop?: () => void }) => (
-  <ThemeProvider theme={lightTheme}>
+  <>
     <ScrollBox
       data-testid="scroll-box"
       style={{ height: '50px' }}
@@ -30,7 +31,7 @@ const Component = ({ onReachedTop }: { onReachedTop?: () => void }) => (
       </ul>
     </ScrollBox>
     <div data-testid="test123" />
-  </ThemeProvider>
+  </>
 )
 
 const mockIntersectionObserverCls = jest.fn()
@@ -43,14 +44,19 @@ const mockIntersectionObserver = makeMockIntersectionObserver(
   mockDisconnect,
 )
 
-const expectLine = (e: 'top' | 'bottom', visible: boolean) =>
-  expect(screen.getByTestId('scroll-box')).toHaveStyleRule(
-    'background-color',
-    `hsla(0 0% 91% / ${visible ? '1' : '0'})`,
-    {
-      modifier: e === 'top' ? '::before' : '::after',
-    },
+const expectLine = (e: 'top' | 'bottom', visible: boolean) => {
+  const element = screen.getByTestId(`scrollbox-${e}-divider`)
+  const computedStyle = getComputedStyle(element)
+  const property = Object.values(computedStyle).find(
+    (p: any) => typeof p === 'string' && p.startsWith('--opacity-base'),
   )
+  if (!property) throw new Error('could not find opacity property')
+  const test = getPropertyValue(
+    screen.getByTestId(`scrollbox-${e}-divider`),
+    property,
+  )
+  expect(test).toEqual(visible ? '1' : '0')
+}
 
 describe('<ScrollBox />', () => {
   afterEach(cleanup)

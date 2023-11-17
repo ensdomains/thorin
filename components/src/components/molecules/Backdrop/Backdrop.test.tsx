@@ -1,10 +1,6 @@
 import * as React from 'react'
 
-import { ThemeProvider } from 'styled-components'
-
 import { cleanup, render, screen, waitFor } from '@/test'
-
-import { lightTheme } from '@/src/tokens'
 
 import { Backdrop } from './Backdrop'
 
@@ -19,11 +15,9 @@ const Element = ({
   className?: string
   testId?: number
 }) => (
-  <ThemeProvider theme={lightTheme}>
-    <Backdrop className={className} open={open}>
-      {() => <div data-testid={`inner-data-${testId}`}>test</div>}
-    </Backdrop>
-  </ThemeProvider>
+  <Backdrop className={className} open={open}>
+    {() => <div data-testid={`inner-data-${testId}`}>test</div>}
+  </Backdrop>
 )
 
 describe('<Backdrop />', () => {

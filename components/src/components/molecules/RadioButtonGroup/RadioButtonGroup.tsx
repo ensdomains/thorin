@@ -1,21 +1,25 @@
 import * as React from 'react'
 
-import styled, { css } from 'styled-components'
-
 import { RadioButton } from '@/src/components'
 
 import { getTestId } from '../../../utils/utils'
 import { createSyntheticEvent } from '../../../utils/createSyntheticEvent'
+import { Box, BoxProps } from '../../atoms/Box/Box'
 
-const Container = styled.div<{ $inline?: boolean }>(
-  ({ theme, $inline }) => css`
-    display: flex;
-    flex-direction: ${$inline ? 'row' : 'column'};
-    gap: ${theme.space['2']};
-    justify-content: flex-start;
-    flex-wrap: ${$inline ? 'wrap' : 'nowrap'};
-  `,
-)
+const Container = React.forwardRef<
+  HTMLElement,
+  BoxProps & { $inline?: boolean }
+>(({ $inline, ...props }, ref) => (
+  <Box
+    {...props}
+    display="flex"
+    flexDirection={$inline ? 'row' : 'column'}
+    flexWrap={$inline ? 'wrap' : 'nowrap'}
+    gap="$2"
+    justifyContent="flex-start"
+    ref={ref}
+  />
+))
 
 type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 type NativeInputProps = React.InputHTMLAttributes<HTMLInputElement>
@@ -91,8 +95,8 @@ export const RadioButtonGroup = React.forwardRef(
 
     return (
       <Container
-        $inline={inline}
         {...props}
+        $inline={inline}
         data-testid={getTestId(props, 'radiogroup')}
         ref={rootRef}
         role="radiogroup"
