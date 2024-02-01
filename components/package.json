@@ -7,7 +7,10 @@
   "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.es.js",
+      "import": {
+        "types": "./dist/types/index.d.ts",
+        "default": "./dist/index.es.js"
+      },
       "require": "./dist/index.cjs.js"
     },
     "./styles": {
