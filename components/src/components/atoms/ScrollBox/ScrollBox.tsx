@@ -1,55 +1,80 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 
-const StyledScrollBox = styled.div<{ $showTop: boolean; $showBottom: boolean }>(
-  ({ theme, $showTop, $showBottom }) => css`
+const StyledScrollBox = styled.div(
+  ({ theme }) => css`
     overflow: auto;
     position: relative;
 
-    border-color: ${theme.colors.greyLight};
-    transition: border-color 0.15s ease-in-out;
+    @property --scrollbar {
+      syntax: '<color>';
+      inherits: true;
+      initial-value: ${theme.colors.greyLight};
+    }
 
-    /* stylelint-disable-next-line selector-pseudo-element-no-unknown */
-    &::-webkit-scrollbar-track {
+    @property --top-line-color {
+      syntax: '<color>';
+      inherits: true;
+      initial-value: transparent;
+    }
+
+    @property --bottom-line-color {
+      syntax: '<color>';
+      inherits: true;
+      initial-value: transparent;
+    }
+
+    /* stylelint-disable custom-property-no-missing-var-function */
+    transition: --scrollbar 0.15s ease-in-out,
+      height 0.15s ${theme.transitionTimingFunction.popIn},
+      --top-line-color 0.15s ease-in-out, --bottom-line-color 0.15s ease-in-out;
+    /* stylelint-enable custom-property-no-missing-var-function */
+
+    ::-webkit-scrollbar {
+      width: ${theme.space['3.5']};
+      transition: box-shadow 0.15s ease-in-out;
+    }
+
+    ::-webkit-scrollbar,
+    ::-webkit-scrollbar-track,
+    ::-webkit-scrollbar-track-piece {
       background-color: transparent;
     }
 
-    &::-webkit-scrollbar {
-      background-color: transparent;
-    }
-
-    &::-webkit-scrollbar:vertical {
-      width: ${theme.space['1.5']};
-      background-color: transparent;
-    }
-
-    &::-webkit-scrollbar:horizontal {
-      height: ${theme.space['1.5']};
-      background-color: transparent;
-    }
-
-    &::-webkit-scrollbar-thumb:vertical {
-      border: none;
-      border-radius: ${theme.radii.full};
-      border-right-style: inset;
-      border-right-width: calc(100vw + 100vh);
-      border-color: inherit;
-    }
-
-    &::-webkit-scrollbar-thumb:horizontal {
-      border: none;
-      border-radius: ${theme.radii.full};
-      border-bottom-style: inset;
-      border-bottom-width: calc(100vw + 100vh);
-      border-color: inherit;
-    }
-
-    &::-webkit-scrollbar-button {
+    ::-webkit-scrollbar-button {
       display: none;
     }
 
+    ::-webkit-scrollbar-thumb {
+      transition: box-shadow 0.15s ease-in-out;
+      box-shadow: inset 0 0 ${theme.space['3']} ${theme.space['3']}
+        var(--scrollbar);
+      border: solid ${theme.space['1']} transparent;
+      border-radius: ${theme.space['3']};
+      background-color: transparent;
+    }
+
     &:hover {
-      border-color: ${theme.colors.greyBright};
+      --scrollbar: ${theme.colors.greyBright};
+    }
+
+    &[data-top-line='true'] {
+      --top-line-color: ${theme.colors.greyLight};
+      &::before {
+        z-index: 100;
+      }
+    }
+
+    &[data-bottom-line='true'] {
+      --bottom-line-color: ${theme.colors.greyLight};
+      &::after {
+        z-index: 100;
+      }
+    }
+
+    ::-webkit-scrollbar-track {
+      border-top: solid ${theme.space['px']} var(--top-line-color);
+      border-bottom: solid ${theme.space['px']} var(--bottom-line-color);
     }
 
     &::before,
@@ -60,25 +85,15 @@ const StyledScrollBox = styled.div<{ $showTop: boolean; $showBottom: boolean }>(
       width: 100%;
       display: block;
       height: ${theme.space.px};
-      background-color: hsla(${theme.colors.raw.greyLight} / 0);
-      transition: background-color 0.15s ease-in-out;
     }
 
     &::before {
       top: 0;
-      ${$showTop &&
-      css`
-        background-color: hsla(${theme.colors.raw.greyLight} / 1);
-        z-index: 100;
-      `}
+      background-color: var(--top-line-color);
     }
     &::after {
       bottom: 0;
-      ${$showBottom &&
-      css`
-        background-color: hsla(${theme.colors.raw.greyLight} / 1);
-        z-index: 100;
-      `}
+      background-color: var(--bottom-line-color);
     }
   `,
 )
@@ -170,8 +185,8 @@ export const ScrollBox = ({
 
   return (
     <StyledScrollBox
-      $showBottom={showBottom}
-      $showTop={showTop}
+      data-bottom-line={showBottom}
+      data-top-line={showTop}
       ref={ref}
       {...props}
     >
