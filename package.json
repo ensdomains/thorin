@@ -94,5 +94,6 @@
     "overrides": {
       "ts-morph": "17.0.1"
     }
-  }
+  },
+  "packageManager": "pnpm@7.8.0"
 }
