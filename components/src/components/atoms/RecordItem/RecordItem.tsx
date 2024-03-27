@@ -21,6 +21,9 @@ type BaseProps = {
   children: string
   onClick?: () => void
   as?: 'button' | 'a'
+  postfixIcon?: React.FunctionComponent<
+    React.SVGProps<SVGSVGElement> & { title?: string }
+  >
 }
 
 type NativeElementProps = Omit<
@@ -171,6 +174,7 @@ export const RecordItem = React.forwardRef<
       link,
       size = 'small',
       inline = false,
+      postfixIcon,
       icon,
       keyLabel,
       keySublabel,
@@ -227,7 +231,9 @@ export const RecordItem = React.forwardRef<
       ) : (
         keySublabel
       )
-    const PostfixProps = link
+    const PostfixProps = postfixIcon
+      ? { as: postfixIcon }
+      : link
       ? { $rotate: true, as: UpArrowSVG }
       : copied
       ? { as: CheckSVG }
