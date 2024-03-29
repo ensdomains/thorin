@@ -25,6 +25,7 @@ export type DropdownItemObject = {
   color?: Colors
   disabled?: boolean
   showIndicator?: boolean | Colors
+  href?: string
 }
 
 export type DropdownItem =
@@ -298,6 +299,7 @@ const DropdownMenu = React.forwardRef<HTMLDivElement, DropdownMenuProps>(
         as,
         wrapper,
         showIndicator,
+        href,
       } = item as DropdownItemObject
 
       const props: React.ComponentProps<any> = {
@@ -316,6 +318,7 @@ const DropdownMenu = React.forwardRef<HTMLDivElement, DropdownMenuProps>(
             {label}
           </>
         ),
+        href,
       }
 
       if (wrapper) {
