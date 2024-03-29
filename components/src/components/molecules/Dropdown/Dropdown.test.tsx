@@ -139,4 +139,25 @@ describe('<Dropdown />', () => {
     })
     expect(screen.getByTestId('scrollbox-bottom-intersect')).toBeVisible()
   })
+  it('should allow having items as links', async () => {
+    render(
+      <DropdownHelper
+        items={[
+          {
+            as: 'button',
+            href: 'https://example.com',
+            label: 'Example',
+          },
+        ]}
+        label="menu"
+      />,
+    )
+
+    userEvent.click(screen.getByText('menu'))
+
+    expect(screen.getByText('Example')).toHaveAttribute(
+      'href',
+      'https://example.com',
+    )
+  })
 })
