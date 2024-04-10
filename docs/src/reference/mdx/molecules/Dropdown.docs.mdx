@@ -77,8 +77,14 @@ import { Dropdown } from '@ensdomains/thorin'
       type: {
         raw: 'ReactNode'
       }
+    },
+    href: {
+      name: 'href',
+      description: 'A link that opens on click.',
+      type: {
+        raw: 'string'
+      }
     }
-  
   }}
 />
 
@@ -294,5 +300,24 @@ import { Dropdown } from '@ensdomains/thorin'
     },
   ]}
   label="Custom"
+/>
+```
+
+## Items as link
+
+```tsx live=true minHeight=300px
+<Dropdown 
+  items={[
+    {
+      label: 'I am a link',
+      href: 'https://ens.domains',
+      color: 'text'
+    },
+    {
+      label: 'I am not a link',
+      color: 'text'
+    }
+  ]}
+  label="Links"
 />
 ```
