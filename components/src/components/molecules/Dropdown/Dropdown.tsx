@@ -309,7 +309,7 @@ const DropdownMenu = React.forwardRef<HTMLDivElement, DropdownMenuProps>(
           onClick?.(value)
           setIsOpen(false)
         },
-        as: href ? 'as' : 'button',
+        as: href ? 'a' : 'button',
         children: (
           <>
             {icon}
