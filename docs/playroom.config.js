@@ -1,4 +1,5 @@
 const path = require('path')
+const CspHtmlWebpackPlugin = require('csp-html-webpack-plugin')
 
 module.exports = {
   components: './src/playroom/components.ts',
@@ -16,6 +17,14 @@ module.exports = {
   iframeSandbox: 'allow-scripts allow-same-origin',
 
   webpackConfig: () => ({
+    plugins: [
+      new CspHtmlWebpackPlugin({
+        'worker-src': "'self'",
+        'script-src': ["'self'", "'sha256-UyYcl+sKCF/ROFZPHBlozJrndwfNiC5KT5ZZfup/pPc='", 'static.cloudflareinsights.com', '*.ens-app-v3.pages.dev'],
+        'frame-ancestors':  ["'self"],
+
+      })
+    ],
     module: {
       rules: [
         {
