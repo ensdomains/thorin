@@ -20,7 +20,7 @@ module.exports = {
     plugins: [
       new CspHtmlWebpackPlugin({
         'worker-src': "'self'",
-        'script-src': ["'self'", "'sha256-UyYcl+sKCF/ROFZPHBlozJrndwfNiC5KT5ZZfup/pPc='", 'static.cloudflareinsights.com', '*.ens-app-v3.pages.dev', 'unsafe-eval'],
+        'script-src': ["'self'", "'sha256-UyYcl+sKCF/ROFZPHBlozJrndwfNiC5KT5ZZfup/pPc='", 'static.cloudflareinsights.com', '*.ens-app-v3.pages.dev', "'unsafe-eval'"],
         'frame-ancestors':  ["'self"],
 
       })
