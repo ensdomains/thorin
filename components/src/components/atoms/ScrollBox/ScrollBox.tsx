@@ -219,10 +219,15 @@ export const ScrollBox = ({
           ref={bottomRef}
         />
       </StyledScrollBox>
-      <Divider $horizontalPadding={horizontalPadding} data-top-line={showTop} />
+      <Divider
+        $horizontalPadding={horizontalPadding}
+        data-testid="scrollbox-top-line"
+        data-top-line={showTop}
+      />
       <Divider
         $horizontalPadding={horizontalPadding}
         data-bottom-line={showBottom}
+        data-testid="scrollbox-bottom-line"
       />
     </Container>
   )
