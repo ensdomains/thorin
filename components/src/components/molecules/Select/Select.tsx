@@ -603,7 +603,8 @@ export type SelectProps = {
     | 'aria-invalid'
     | 'onClick'
     | 'onKeyDown'
-  >
+  > &
+  Pick<NativeSelectProps, 'placeholder'>
 
 const getPadding = (
   key: 'outer' | 'inner',

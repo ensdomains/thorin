@@ -80,10 +80,10 @@
     "utility-types": "^3.10.0"
   },
   "dependencies": {
-    "react": "^17",
-    "react-dom": "^17",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-transition-state": "^1.1.4",
-    "styled-components": "^5.3.3"
+    "styled-components": "^5.3.6"
   },
   "peerDependencies": {
     "eslint-plugin-import": "^2.24.2",

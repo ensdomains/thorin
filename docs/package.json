@@ -26,12 +26,12 @@
     "nookies": "^2.5.2",
     "playroom": "^0.28.1",
     "prism-react-renderer": "^1.2.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-element-to-jsx-string": "^14.3.4",
     "react-live": "3.1.1",
     "react-transition-state": "^1.1.4",
-    "styled-components": "5.3.3"
+    "styled-components": "5.3.6"
   },
   "devDependencies": {
     "@mdx-js/loader": "^1.6.22",
@@ -43,8 +43,8 @@
     "@types/lodash": "^4.14.176",
     "@types/mdx-js__react": "^1.5.5",
     "@types/node": "^16.11.6",
-    "@types/react": "^17.0.33",
-    "@types/react-dom": "^17.0.10",
+    "@types/react": "^18.3.2",
+    "@types/react-dom": "^18.3.0",
     "@types/rimraf": "^3.0.2",
     "@types/styled-components": "^5",
     "babel-loader": "^8.2.4",

@@ -57,8 +57,8 @@
     "@types/glob": "^7.2.0",
     "@types/lodash": "^4.14.176",
     "@types/node": "^16.11.6",
-    "@types/react": "^17.0.33",
-    "@types/react-dom": "^17.0.10",
+    "@types/react": "^18.3.2",
+    "@types/react-dom": "^18.3.0",
     "@types/rimraf": "^3.0.2",
     "@types/styled-components": "^5",
     "@types/testing-library__jest-dom": "^5.14.1",
@@ -69,8 +69,8 @@
     "jest": "^27.3.1",
     "jest-styled-components": "^7.0.8",
     "jest-watch-typeahead": "^1.0.0",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "rimraf": "^3.0.2",
     "ts-jest": "^27.0.7",
     "ts-node": "^10.4.0",
@@ -83,9 +83,9 @@
     "vite-tsconfig-paths": "^4.0.1"
   },
   "peerDependencies": {
-    "react": "^17",
-    "react-dom": "^17",
+    "react": "^18",
+    "react-dom": "^18",
     "react-transition-state": "^1.1.4",
-    "styled-components": "^5.3.3"
+    "styled-components": "^5.3.6"
   }
 }
