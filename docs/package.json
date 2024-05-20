@@ -8,7 +8,7 @@
     "build:next": "next build",
     "export": "next export",
     "clean": "rimraf .next public/playroom",
-    "dev": "NODE_OPTIONS='--inspect' next dev & playroom start",
+    "dev": "NODE_OPTIONS='--inspect' next dev & NODE_OPTIONS='--openssl-legacy-provider' playroom start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "lint:types": "tsc --noEmit",

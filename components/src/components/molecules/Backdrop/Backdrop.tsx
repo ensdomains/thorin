@@ -1,5 +1,7 @@
 import * as React from 'react'
-import { TransitionState, useTransition } from 'react-transition-state'
+import { TransitionState } from 'react-transition-state'
+
+import { useTransition } from '../../../hooks/useTransition/useTransition'
 
 import { Portal } from '../..'
 
@@ -81,7 +83,7 @@ export const Backdrop = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, noBackground])
 
-  return state !== 'unmounted' ? (
+  return state.status !== 'unmounted' ? (
     <Portal className={className} renderCallback={renderCallback}>
       {onDismiss && (
         <Background
@@ -91,7 +93,7 @@ export const Backdrop = ({
           onClick={dismissClick}
         />
       )}
-      {children({ state })}
+      {children({ state: state.status as TransitionState })}
     </Portal>
   ) : null
 }
