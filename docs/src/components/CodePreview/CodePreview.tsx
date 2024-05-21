@@ -8,7 +8,7 @@ import { PrismTheme } from 'prism-react-renderer'
 
 import { Button, Colors, Components } from '@ensdomains/thorin'
 
-import { createPlayroomLink } from '~/utils/playroom'
+// import { createPlayroomLink } from '~/utils/playroom'
 import { usePlayroomStore } from '~/playroom/PlayroomState'
 import { avatars } from '~/playroom/useScope'
 
