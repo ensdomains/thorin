@@ -12,7 +12,7 @@ import {
 } from '@ensdomains/thorin'
 
 import { createGitHubLink } from '~/utils/github'
-import { createPlayroomLink } from '~/utils/playroom'
+// import { createPlayroomLink } from '~/utils/playroom'
 import { useIsMounted } from '~/utils/isMounted'
 
 import { Link } from './Link'
@@ -193,7 +193,7 @@ export const Nav = ({ links }: Props) => {
         <FlexContainer $space="6">
           <FlexContainer $space="3">
             <NavLink href={createGitHubLink()}>GitHub</NavLink>
-            <NavLink href={createPlayroomLink()}>Playroom</NavLink>
+            {/* <NavLink href={createPlayroomLink()}>Playroom</NavLink> */}
           </FlexContainer>
 
           <FlexContainer>
