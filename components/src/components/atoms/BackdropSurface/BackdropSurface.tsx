@@ -3,7 +3,7 @@ import type { TransitionState } from 'react-transition-state'
 import styled, { css } from 'styled-components'
 
 export const BackdropSurface = styled.div<{
-  $state: TransitionState
+  $state: TransitionState['status']
   $empty: boolean
 }>(
   ({ theme, $state, $empty }) => css`

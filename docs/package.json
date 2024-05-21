@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "next build && playroom build",
-    "build:playroom": "NODE_OPTIONS='---openssl-legacy-provider' build",
+    "build": "next build && NODE_OPTIONS='---openssl-legacy-provider' playroom build",
+    "build:playroom": "NODE_OPTIONS='---openssl-legacy-provider' playroom build",
     "build:next": "next build",
     "export": "next export",
     "clean": "rimraf .next public/playroom",
@@ -31,7 +31,7 @@
     "react-dom": "^18.3.1",
     "react-element-to-jsx-string": "^14.3.4",
     "react-live": "4.1.6",
-    "react-transition-state": "^1.1.4",
+    "react-transition-state": "^2.1.1",
     "styled-components": "5.3.6"
   },
   "devDependencies": {

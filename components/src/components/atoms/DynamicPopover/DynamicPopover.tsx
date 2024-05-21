@@ -15,7 +15,7 @@ export type DynamicPopoverAlignment = 'start' | 'center' | 'end'
 export type PopoverProps = React.PropsWithChildren<{
   placement: DynamicPopoverSide
   mobilePlacement: DynamicPopoverSide
-  state?: TransitionState
+  state?: TransitionState['status']
 }>
 
 export type DynamicPopoverAnimationFunc = (
@@ -140,7 +140,7 @@ const makeWidth = (width: number | string) =>
   typeof width === 'number' ? `${width}px` : width
 
 const PopoverContainer = styled.div<{
-  $state: TransitionState
+  $state: TransitionState['status']
   $translate: string
   $mobileTranslate: string
   $width: number | string
@@ -260,6 +260,17 @@ export const DynamicPopover = ({
   const popoverContainerRef = React.useRef<HTMLDivElement>()
 
   const isControlled = isOpen !== undefined
+
+  const [{ status: state }, toggle] = useTransition({
+    preEnter: true,
+    exit: true,
+    mountOnEnter: true,
+    unmountOnExit: true,
+    timeout: {
+      enter: transitionDuration,
+      exit: transitionDuration,
+    },
+  })
 
   const [positionState, setPositionState] = React.useState<{
     top: number
@@ -451,21 +462,13 @@ export const DynamicPopover = ({
   ])
 
   React.useEffect(() => {
-    if (isControlled) {
-      toggle(isOpen)
+    const originalIsControlled = isControlled
+    const originalIsOpen = isOpen
+    if (isControlled) toggle(isOpen)
+    return () => {
+      if (originalIsControlled) toggle(!originalIsOpen)
     }
   }, [isControlled, isOpen])
-
-  const [state, toggle] = useTransition({
-    preEnter: true,
-    exit: true,
-    mountOnEnter: true,
-    unmountOnExit: true,
-    timeout: {
-      enter: transitionDuration,
-      exit: transitionDuration,
-    },
-  })
 
   const _placement = useIdealPlacement
     ? positionState.idealPlacement

@@ -28,7 +28,7 @@ const IconCloseContainer = styled.svg(
 )
 
 const Container = styled.div<{
-  $state: TransitionState
+  $state: TransitionState['status']
   $mobile?: boolean
   $popped?: boolean
   $left?: Space
@@ -140,7 +140,7 @@ type Props = {
 } & Omit<NativeDivProps, 'title'>
 
 type InternalProps = {
-  state: TransitionState
+  state: TransitionState['status']
 }
 
 const DesktopToast = ({
@@ -361,7 +361,6 @@ export const Toast = ({
       currentTimeout.current = setTimeout(() => onClose(), msToShow || 8000)
       return () => {
         clearTimeout(currentTimeout.current)
-        onClose()
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

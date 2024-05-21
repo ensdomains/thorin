@@ -76,19 +76,21 @@
     "stylelint-config-recommended": "^7.0.0",
     "stylelint-config-styled-components": "^0.1.1",
     "typescript": "4.9.4",
-    "typescript-styled-plugin": "^0.18.2",
     "utility-types": "^3.10.0"
   },
   "dependencies": {
+    "@styled/typescript-styled-plugin": "^1.0.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-transition-state": "^1.1.4",
+    "react-transition-state": "^2.1.1",
     "styled-components": "^5.3.6"
   },
   "peerDependencies": {
     "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-react": "^7.26.0",
-    "eslint-plugin-react-hooks": "^4.2.0"
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
   },
   "pnpm": {
     "overrides": {

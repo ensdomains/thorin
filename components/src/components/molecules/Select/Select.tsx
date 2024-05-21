@@ -285,7 +285,7 @@ const ToggleMenuButton = styled(SelectActionButton)<{
 )
 
 const SelectOptionContainer = styled.div<{
-  $state?: TransitionState
+  $state?: TransitionState['status']
   $direction?: Direction
   $rows?: number
   $size?: Size
@@ -680,6 +680,9 @@ export const Select = React.forwardRef(
     const [value, setValue] = React.useState<SelectProps['value']>('')
     React.useEffect(() => {
       if (_value !== value && _value !== undefined) setValue(_value)
+      return () => {
+        setValue('')
+      }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [_value])
 
@@ -791,7 +794,7 @@ export const Select = React.forwardRef(
       maxInputSize,
     )
 
-    const [state, toggle] = useTransition({
+    const [{ status: state }, toggle] = useTransition({
       timeout: {
         enter: 0,
         exit: 300,
@@ -799,8 +802,12 @@ export const Select = React.forwardRef(
       preEnter: true,
     })
 
-    useEffect(() => {
-      toggle(isOpen)
+    React.useEffect(() => {
+      const toggleValue = isOpen || false
+      toggle(toggleValue)
+      return () => {
+        toggle(!toggleValue)
+      }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isOpen])
 
