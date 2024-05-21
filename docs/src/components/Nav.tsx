@@ -208,7 +208,7 @@ export const Nav = ({ links }: Props) => {
               >
                 Development
               </NavLink>
-              <NavLink
+              {/* <NavLink
                 active={
                   isMounted &&
                   router.asPath.split('#')[0] === '/guides/playroom'
@@ -216,7 +216,7 @@ export const Nav = ({ links }: Props) => {
                 href="/guides/playroom"
               >
                 Playroom
-              </NavLink>
+              </NavLink> */}
             </FlexContainer>
           </FlexContainer>
 
