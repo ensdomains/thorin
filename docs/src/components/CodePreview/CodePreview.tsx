@@ -170,7 +170,7 @@ export const CodePreview = ({
           </div>
 
           <div>
-            <Button
+            {/* <Button
               as="a"
               colorStyle="accentSecondary"
               href={createPlayroomLink({ code })}
@@ -178,7 +178,7 @@ export const CodePreview = ({
               target="_blank"
             >
               Open in Playroom
-            </Button>
+            </Button> */}
           </div>
         </ButtonContainer>
       </div>
