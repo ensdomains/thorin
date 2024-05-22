@@ -67,7 +67,7 @@ describe('<Modal />', () => {
       </ThemeProvider>,
     )
 
-    userEvent.click(screen.getByTestId('close-icon'))
+    await userEvent.click(screen.getByTestId('close-icon'))
     await waitFor(() => expect(mockCallback).toHaveBeenCalled())
   })
 

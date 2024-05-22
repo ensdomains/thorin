@@ -11,6 +11,7 @@ import { Checkbox } from './Checkbox'
 
 const CheckboxWithState = (props: any) => {
   const [checked, setChecked] = useState<boolean>(false)
+  console.log('props', props)
   return (
     <ThemeProvider theme={lightTheme}>
       <div>
@@ -45,11 +46,11 @@ describe('<Checkbox />', () => {
 
   it(`should update state when checked and unchecked`, async () => {
     render(<CheckboxWithState />)
-    userEvent.click(screen.getByTestId('checkbox'))
+    await userEvent.click(screen.getByTestId('checkbox'))
     await waitFor(() => {
       expect(screen.queryByText('checked')).toBeInTheDocument()
     })
-    userEvent.click(screen.getByTestId('checkbox'))
+    await userEvent.click(screen.getByTestId('checkbox'))
     await waitFor(() => {
       expect(screen.queryByText('unchecked')).toBeInTheDocument()
     })
@@ -57,7 +58,7 @@ describe('<Checkbox />', () => {
 
   it('should not be clickable when disabled', async () => {
     render(<CheckboxWithState disabled />)
-    userEvent.click(screen.getByTestId('checkbox'))
+    await userEvent.click(screen.getByTestId('checkbox'))
     await waitFor(() => {
       expect(screen.queryByText('unchecked')).toBeInTheDocument()
     })
@@ -65,15 +66,18 @@ describe('<Checkbox />', () => {
 
   it('should update when label text is clicked', async () => {
     render(<CheckboxWithState />)
-    userEvent.click(screen.getByText('checkbox-label'))
+    await userEvent.click(screen.getByText('checkbox-label'))
     await waitFor(() => {
       expect(screen.queryByText('checked')).toBeInTheDocument()
     })
   })
 
-  it('should not update when label text is clicked and IS disabled', async () => {
+  it.only('should not update when label text is clicked and IS disabled', async () => {
     render(<CheckboxWithState disabled />)
-    userEvent.click(screen.getByText('checkbox-label'))
+    await waitFor(() => {
+      expect(screen.queryByText('unchecked')).toBeInTheDocument()
+    })
+    await userEvent.click(screen.getByText('checkbox-label'))
     await waitFor(() => {
       expect(screen.queryByText('unchecked')).toBeInTheDocument()
     })

@@ -42,8 +42,8 @@ describe('<Select />', () => {
         />
       </ThemeProvider>,
     )
-    userEvent.click(screen.getByTestId('select-container'))
-    userEvent.click(screen.getByTestId('select-option-1'))
+    await userEvent.click(screen.getByTestId('select-container'))
+    await userEvent.click(screen.getByTestId('select-option-1'))
     expect(screen.getByTestId('selected').innerHTML).toContain('One')
   })
 
@@ -65,8 +65,8 @@ describe('<Select />', () => {
         />
       </ThemeProvider>,
     )
-    userEvent.click(screen.getByTestId('select-container'))
-    userEvent.click(screen.getByTestId('select-option-1'))
+    await userEvent.click(screen.getByTestId('select-container'))
+    await userEvent.click(screen.getByTestId('select-option-1'))
     await waitFor(() => {
       expect(mockCallback).toHaveReturnedWith(['1', '1'])
     })
@@ -121,8 +121,8 @@ describe('<Select />', () => {
         />
       </ThemeProvider>,
     )
-    userEvent.click(screen.getByTestId('select-container'))
-    userEvent.click(screen.getByText('Two'))
+    await userEvent.click(screen.getByTestId('select-container'))
+    await userEvent.click(screen.getByText('Two'))
     expect(screen.getAllByText('Two').length).toEqual(1)
   })
 
@@ -145,9 +145,9 @@ describe('<Select />', () => {
       </ThemeProvider>,
     )
 
-    userEvent.click(screen.getByTestId('select-container'))
+    await userEvent.click(screen.getByTestId('select-container'))
 
-    act(() => userEvent.click(screen.getByText('outside')))
+    act(() => await userEvent.click(screen.getByText('outside')))
 
     await waitFor(() => {
       expect(screen.getByText('Two')).not.toBeVisible()
@@ -176,7 +176,7 @@ describe('<Select />', () => {
       </ThemeProvider>,
     )
 
-    userEvent.click(screen.getByTestId('select-container'))
+    await userEvent.click(screen.getByTestId('select-container'))
 
     userEvent.type(screen.getByTestId('select-input'), 'o')
 
@@ -210,7 +210,7 @@ describe('<Select />', () => {
       </ThemeProvider>,
     )
 
-    userEvent.click(screen.getByTestId('select-container'))
+    await userEvent.click(screen.getByTestId('select-container'))
     const input = await screen.findByTestId('select-input')
 
     userEvent.type(input, '{arrowdown}')
@@ -241,7 +241,7 @@ describe('<Select />', () => {
       </ThemeProvider>,
     )
 
-    userEvent.click(screen.getByTestId('select-container'))
+    await userEvent.click(screen.getByTestId('select-container'))
 
     userEvent.type(screen.getByTestId('select-input'), 'o')
 
@@ -280,7 +280,7 @@ describe('<Select />', () => {
       </ThemeProvider>,
     )
 
-    userEvent.click(screen.getByTestId('select-container'))
+    await userEvent.click(screen.getByTestId('select-container'))
 
     userEvent.type(screen.getByTestId('select-input'), 'o')
 
@@ -320,7 +320,7 @@ describe('<Select />', () => {
       </ThemeProvider>,
     )
 
-    userEvent.click(screen.getByTestId('select-container'))
+    await userEvent.click(screen.getByTestId('select-container'))
 
     userEvent.type(screen.getByTestId('select-input'), 'onsies')
     expect(screen.getByTestId('select-input')).toHaveValue('onsies')
@@ -328,7 +328,7 @@ describe('<Select />', () => {
     const create = await screen.findByTestId(
       'select-option-CREATE_OPTION_VALUE',
     )
-    userEvent.click(create)
+    await userEvent.click(create)
 
     await waitFor(() => {
       expect(mockCallback).toBeCalledWith('onsies')
@@ -355,7 +355,7 @@ describe('<Select />', () => {
       </ThemeProvider>,
     )
 
-    userEvent.click(screen.getByTestId('select-container'))
+    await userEvent.click(screen.getByTestId('select-container'))
     userEvent.type(screen.getByTestId('select-input'), 'onsies')
     userEvent.type(screen.getByTestId('select-input'), '{arrowdown}')
     userEvent.type(screen.getByTestId('select-input'), '{enter}')
@@ -407,7 +407,7 @@ describe('<Select />', () => {
       </ThemeProvider>,
     )
 
-    userEvent.click(screen.getByTestId('select-container'))
+    await userEvent.click(screen.getByTestId('select-container'))
     await waitFor(() => {
       expect(screen.getByText('One')).toBeVisible()
       expect(screen.getByText('Two')).toBeVisible()
@@ -436,7 +436,7 @@ describe('<Select />', () => {
       </ThemeProvider>,
     )
 
-    userEvent.click(screen.getByTestId('select-container'))
+    await userEvent.click(screen.getByTestId('select-container'))
 
     await waitFor(() => {
       expect(document.activeElement).toEqual(screen.getByTestId('select-input'))

@@ -24,7 +24,7 @@ describe('<Toast />', () => {
     })
   })
 
-  it('should not be visible if not open', () => {
+  it('should not be visible if not open', async () => {
     render(
       <ThemeProvider theme={lightTheme}>
         <Toast
@@ -35,7 +35,7 @@ describe('<Toast />', () => {
         />
       </ThemeProvider>,
     )
-    waitFor(() => expect(screen.getByText('Test')).toBeNull(), {
+    await waitFor(() => expect(screen.queryByText('Test')).toBeNull(), {
       timeout: 300,
     })
   })
@@ -64,7 +64,7 @@ describe('<Toast />', () => {
     await waitFor(() =>
       expect(screen.getByTestId('toast-close-icon')).toBeVisible(),
     )
-    userEvent.click(screen.getByTestId('toast-close-icon'))
+    await await userEvent.click(screen.getByTestId('toast-close-icon'))
     expect(mockCallback).toHaveBeenCalled()
   })
   it('should show children if desktop variant', () => {
@@ -88,7 +88,7 @@ describe('<Toast />', () => {
       </ThemeProvider>,
     )
     await waitFor(() => expect(screen.getByTestId('toast-touch')).toBeVisible())
-    userEvent.click(screen.getByTestId('toast-touch'))
-    expect(screen.getByTestId('action')).toBeVisible()
+    await await userEvent.click(screen.getByTestId('toast-touch'))
+    await waitFor(() => expect(screen.getByTestId('action')).toBeVisible())
   })
 })

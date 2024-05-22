@@ -54,7 +54,7 @@ describe('<Profile />', () => {
         />
       </ThemeProvider>,
     )
-    userEvent.click(screen.getByText('nick.eth'))
+    await userEvent.click(screen.getByText('nick.eth'))
     await waitFor(() => {
       expect(screen.queryByText('Disconnect')).toBeVisible()
     })

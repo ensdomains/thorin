@@ -52,13 +52,13 @@ describe('<RadioButtonGroup />', () => {
 
   it('should update which radio button is checked correctly', () => {
     render(<RadioButtonGroupWithState />)
-    userEvent.click(screen.getByLabelText('20'))
+    await userEvent.click(screen.getByLabelText('20'))
     expect(screen.getByLabelText('20')).toBeChecked()
   })
 
   it('should update state correctly', () => {
     render(<RadioButtonGroupWithState />)
-    userEvent.click(screen.getByLabelText('20'))
+    await userEvent.click(screen.getByLabelText('20'))
     expect(
       screen.getByText('Radio Buttons - Current Value: 20'),
     ).toBeInTheDocument()
@@ -87,10 +87,10 @@ describe('<RadioButtonGroup />', () => {
     expect(radio).toBeInTheDocument()
     expect(outside).toBeInTheDocument()
     act(() => {
-      userEvent.click(radio)
+      await userEvent.click(radio)
     })
     act(() => {
-      userEvent.click(outside)
+      await userEvent.click(outside)
     })
     waitFor(() => {
       expect(mockCallback.mock.results.length).toBe(1)
@@ -143,7 +143,7 @@ describe('<RadioButtonGroup />', () => {
 
     render(<PlainJaneRadios />)
 
-    userEvent.click(screen.getByLabelText('CSS'))
+    await userEvent.click(screen.getByLabelText('CSS'))
     expect(
       screen.getByText('Radio Buttons - Current Value: CSS'),
     ).toBeInTheDocument()
