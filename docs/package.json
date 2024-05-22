@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "next build && NODE_OPTIONS='---openssl-legacy-provider' playroom build",
-    "build:playroom": "NODE_OPTIONS='---openssl-legacy-provider' playroom build",
+    "build": "next build && NODE_OPTIONS='--openssl-legacy-provider' playroom build",
+    "build:playroom": "NODE_OPTIONS='--openssl-legacy-provider' playroom build",
     "build:next": "next build",
     "export": "next export",
     "clean": "rimraf .next public/playroom",
