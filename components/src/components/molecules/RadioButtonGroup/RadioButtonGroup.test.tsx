@@ -3,8 +3,6 @@ import { useState } from 'react'
 
 import { ThemeProvider } from 'styled-components'
 
-import { act } from 'react-dom/test-utils'
-
 import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 
 import { FieldSet, RadioButton } from '@/src'
@@ -50,13 +48,13 @@ describe('<RadioButtonGroup />', () => {
     ).toBeInTheDocument()
   })
 
-  it('should update which radio button is checked correctly', () => {
+  it('should update which radio button is checked correctly', async () => {
     render(<RadioButtonGroupWithState />)
     await userEvent.click(screen.getByLabelText('20'))
     expect(screen.getByLabelText('20')).toBeChecked()
   })
 
-  it('should update state correctly', () => {
+  it('should update state correctly', async () => {
     render(<RadioButtonGroupWithState />)
     await userEvent.click(screen.getByLabelText('20'))
     expect(
@@ -86,12 +84,8 @@ describe('<RadioButtonGroup />', () => {
     const outside = screen.getByText('outside')
     expect(radio).toBeInTheDocument()
     expect(outside).toBeInTheDocument()
-    act(() => {
-      await userEvent.click(radio)
-    })
-    act(() => {
-      await userEvent.click(outside)
-    })
+    await userEvent.click(radio)
+    await userEvent.click(outside)
     waitFor(() => {
       expect(mockCallback.mock.results.length).toBe(1)
     })
@@ -114,7 +108,7 @@ describe('<RadioButtonGroup />', () => {
     expect(mockCallback.mock.results[0].value).toBe('30')
   })
 
-  it('should work with plain radio buttons', () => {
+  it('should work with plain radio buttons', async () => {
     const PlainJaneRadios = () => {
       const [state, setState] = useState<string>('HTML')
       return (

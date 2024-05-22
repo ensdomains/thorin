@@ -12,13 +12,6 @@ const config: Config.InitialOptions = {
     '!**/icons/**',
     '!**/tokens/**',
   ],
-  globals: {
-    'ts-jest': {
-      babelConfig: {
-        plugins: ['babel-plugin-styled-components'],
-      },
-    },
-  },
   moduleNameMapper: {
     '\\.svg$': '<rootDir>/__mocks__/svg.js',
     ...pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>/' }),
@@ -31,6 +24,16 @@ const config: Config.InitialOptions = {
     'jest-watch-typeahead/filename',
     'jest-watch-typeahead/testname',
   ],
+  transform: {
+    '\\.tsx?': [
+      'ts-jest',
+      {
+        babelConfig: {
+          plugins: ['babel-plugin-styled-components'],
+        },
+      },
+    ],
+  },
 }
 
 export default config

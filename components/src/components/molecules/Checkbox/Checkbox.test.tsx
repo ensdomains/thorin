@@ -11,7 +11,6 @@ import { Checkbox } from './Checkbox'
 
 const CheckboxWithState = (props: any) => {
   const [checked, setChecked] = useState<boolean>(false)
-  console.log('props', props)
   return (
     <ThemeProvider theme={lightTheme}>
       <div>
@@ -72,12 +71,14 @@ describe('<Checkbox />', () => {
     })
   })
 
-  it.only('should not update when label text is clicked and IS disabled', async () => {
+  it('should not update when label text is clicked and IS disabled', async () => {
     render(<CheckboxWithState disabled />)
     await waitFor(() => {
       expect(screen.queryByText('unchecked')).toBeInTheDocument()
     })
-    await userEvent.click(screen.getByText('checkbox-label'))
+    expect(
+      userEvent.click(screen.getByText('checkbox-label')),
+    ).rejects.toThrow()
     await waitFor(() => {
       expect(screen.queryByText('unchecked')).toBeInTheDocument()
     })

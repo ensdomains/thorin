@@ -68,6 +68,7 @@ const Label = styled.label<{
     ${$disabled &&
     css`
       cursor: not-allowed;
+      pointer-events: none;
     `}
 
     ${$required &&

@@ -2,6 +2,8 @@ import * as React from 'react'
 
 import { ThemeProvider } from 'styled-components'
 
+import { PointerEventsCheckLevel } from '@testing-library/user-event'
+
 import {
   cleanup,
   makeMockIntersectionObserver,
@@ -66,13 +68,10 @@ describe('<Dropdown />', () => {
     const mockCallback = jest.fn()
     render(<DropdownHelper {...{ mockCallback, label: 'Menu' }} />)
     await userEvent.click(screen.getByText('Menu'))
-    await waitFor(() => expect(screen.queryByText('Dashboard')).not.toBeNull())
-    await waitFor(() => {
-      return expect(
-        userEvent.click(screen.getByText('Dashboard')),
-      ).not.toThrow()
+    await waitFor(() => expect(screen.getByText('Dashboard')).toBeVisible())
+    await userEvent.click(screen.getByText('Dashboard'), {
+      pointerEventsCheck: PointerEventsCheckLevel.Never,
     })
-    await userEvent.click(screen.getByText('Dashboard'), {})
     await waitFor(() => {
       expect(mockCallback).toHaveBeenCalled()
     })

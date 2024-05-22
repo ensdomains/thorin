@@ -68,7 +68,10 @@ describe('<Radio />', () => {
 
   it('should not update when label text is clicked and IS disabled', async () => {
     render(<RadioWithState disabled />)
-    await userEvent.click(screen.getByText('radio-label'))
+    await waitFor(() => {
+      expect(screen.queryByText('unchecked')).toBeInTheDocument()
+    })
+    expect(userEvent.click(screen.getByText('radio-label'))).rejects.toThrow()
     await waitFor(() => {
       expect(screen.queryByText('unchecked')).toBeInTheDocument()
     })
