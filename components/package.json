@@ -27,7 +27,7 @@
   "repository": "ensdomains/thorin",
   "license": "MIT",
   "scripts": {
-    "build": "NODE_OPTIONS='--openssl-legacy-provider' vite build",
+    "build": "vite build",
     "lint": "eslint .",
     "lint:fix": "eslint .  --fix",
     "clean": "rimraf dist src/components/icons/generated/",
