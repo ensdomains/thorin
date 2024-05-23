@@ -1,27 +1,35 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 
-const StyledScrollBox = styled.div(
+import { Space } from '../../../tokens/index'
+
+const Container = styled.div(
   ({ theme }) => css`
+    position: relative;
+    border: solid ${theme.space.px} transparent;
+    width: 100%;
+    height: 100%;
+    border-left-width: 0;
+    border-right-width: 0;
+  `,
+)
+
+const StyledScrollBox = styled.div<{ $horizontalPadding?: Space }>(
+  ({ theme, $horizontalPadding }) => css`
     overflow: auto;
     position: relative;
+    width: 100%;
+    height: 100%;
+
+    ${$horizontalPadding &&
+    css`
+      padding: 0 ${theme.space[$horizontalPadding]};
+    `}
 
     @property --scrollbar {
       syntax: '<color>';
       inherits: true;
       initial-value: ${theme.colors.greyLight};
-    }
-
-    @property --top-line-color {
-      syntax: '<color>';
-      inherits: true;
-      initial-value: transparent;
-    }
-
-    @property --bottom-line-color {
-      syntax: '<color>';
-      inherits: true;
-      initial-value: transparent;
     }
 
     /* stylelint-disable custom-property-no-missing-var-function */
@@ -57,44 +65,6 @@ const StyledScrollBox = styled.div(
     &:hover {
       --scrollbar: ${theme.colors.greyBright};
     }
-
-    &[data-top-line='true'] {
-      --top-line-color: ${theme.colors.greyLight};
-      &::before {
-        z-index: 100;
-      }
-    }
-
-    &[data-bottom-line='true'] {
-      --bottom-line-color: ${theme.colors.greyLight};
-      &::after {
-        z-index: 100;
-      }
-    }
-
-    ::-webkit-scrollbar-track {
-      border-top: solid ${theme.space['px']} var(--top-line-color);
-      border-bottom: solid ${theme.space['px']} var(--bottom-line-color);
-    }
-
-    &::before,
-    &::after {
-      content: '';
-      position: sticky;
-      left: 0;
-      width: 100%;
-      display: block;
-      height: ${theme.space.px};
-    }
-
-    &::before {
-      top: 0;
-      background-color: var(--top-line-color);
-    }
-    &::after {
-      bottom: 0;
-      background-color: var(--bottom-line-color);
-    }
   `,
 )
 
@@ -105,20 +75,64 @@ const IntersectElement = styled.div(
   `,
 )
 
+const Divider = styled.div<{ $horizontalPadding?: Space }>(
+  ({ theme, $horizontalPadding }) => css`
+    position: absolute;
+    left: 0;
+    height: 1px;
+    width: ${theme.space.full};
+    background: transparent;
+    transition: background-color 0.15s ease-in-out;
+
+    ${$horizontalPadding &&
+    css`
+      left: ${theme.space[$horizontalPadding]};
+      width: calc(100% - 2 * ${theme.space[$horizontalPadding]});
+    `}
+
+    &[data-top-line] {
+      top: -${theme.space.px};
+    }
+
+    &[data-top-line='true'] {
+      background: ${theme.colors.border};
+    }
+
+    &[data-bottom-line] {
+      bottom: -${theme.space.px};
+    }
+
+    &[data-bottom-line='true'] {
+      background: ${theme.colors.border};
+    }
+  `,
+)
+
 type Props = {
+  /** If true, the dividers will be hidden */
   hideDividers?: boolean | { top?: boolean; bottom?: boolean }
+  /** If true, the dividers will always be shown */
+  alwaysShowDividers?: boolean | { top?: boolean; bottom?: boolean }
+  /** The number of pixels below the top of the content where events such as showing/hiding dividers and onReachedTop will be executed */
   topTriggerPx?: number
+  /** The number of pixels above the bottom of the content where events such as showing/hiding dividers and onReachedTop will be executed */
   bottomTriggerPx?: number
+  /** A callback function that is fired when the content reaches topTriggerPx */
   onReachedTop?: () => void
+  /** A callback function that is fired when the content reaches bottomTriggerPx */
   onReachedBottom?: () => void
+  /** The amount of horizontal padding to apply to the scrollbox. This will decrease the content area as well as the width of the overflow indicator dividers*/
+  horizontalPadding?: Space
 } & React.HTMLAttributes<HTMLDivElement>
 
 export const ScrollBox = ({
   hideDividers = false,
+  alwaysShowDividers = false,
   topTriggerPx = 16,
   bottomTriggerPx = 16,
   onReachedTop,
   onReachedBottom,
+  horizontalPadding,
   children,
   ...props
 }: Props) => {
@@ -130,18 +144,26 @@ export const ScrollBox = ({
     typeof hideDividers === 'boolean' ? hideDividers : !!hideDividers?.top
   const hideBottom =
     typeof hideDividers === 'boolean' ? hideDividers : !!hideDividers?.bottom
+  const alwaysShowTop =
+    typeof alwaysShowDividers === 'boolean'
+      ? alwaysShowDividers
+      : !!alwaysShowDividers?.top
+  const alwaysShowBottom =
+    typeof alwaysShowDividers === 'boolean'
+      ? alwaysShowDividers
+      : !!alwaysShowDividers?.bottom
 
   const funcRef = React.useRef<{
     onReachedTop?: () => void
     onReachedBottom?: () => void
   }>({ onReachedTop, onReachedBottom })
 
-  const [showTop, setShowTop] = React.useState(false)
-  const [showBottom, setShowBottom] = React.useState(false)
+  const [showTop, setShowTop] = React.useState(alwaysShowTop)
+  const [showBottom, setShowBottom] = React.useState(alwaysShowBottom)
 
   const handleIntersect: IntersectionObserverCallback = (entries) => {
-    const intersectingTop = [false, -1]
-    const intersectingBottom = [false, -1]
+    const intersectingTop: [boolean, number] = [false, -1]
+    const intersectingBottom: [boolean, number] = [false, -1]
     for (let i = 0; i < entries.length; i += 1) {
       const entry = entries[i]
       const iref =
@@ -151,9 +173,13 @@ export const ScrollBox = ({
         iref[1] = entry.time
       }
     }
-    intersectingTop[1] !== -1 && !hideTop && setShowTop(!intersectingTop[0])
+    intersectingTop[1] !== -1 &&
+      !hideTop &&
+      !alwaysShowTop &&
+      setShowTop(!intersectingTop[0])
     intersectingBottom[1] !== -1 &&
       !hideBottom &&
+      !alwaysShowBottom &&
       setShowBottom(!intersectingBottom[0])
     intersectingTop[0] && funcRef.current.onReachedTop?.()
     intersectingBottom[0] && funcRef.current.onReachedBottom?.()
@@ -184,18 +210,25 @@ export const ScrollBox = ({
   }, [onReachedTop, onReachedBottom])
 
   return (
-    <StyledScrollBox
-      data-bottom-line={showBottom}
-      data-top-line={showTop}
-      ref={ref}
-      {...props}
-    >
-      <IntersectElement data-testid="scrollbox-top-intersect" ref={topRef} />
-      {children}
-      <IntersectElement
-        data-testid="scrollbox-bottom-intersect"
-        ref={bottomRef}
+    <Container {...props}>
+      <StyledScrollBox $horizontalPadding={horizontalPadding} ref={ref}>
+        <IntersectElement data-testid="scrollbox-top-intersect" ref={topRef} />
+        {children}
+        <IntersectElement
+          data-testid="scrollbox-bottom-intersect"
+          ref={bottomRef}
+        />
+      </StyledScrollBox>
+      <Divider
+        $horizontalPadding={horizontalPadding}
+        data-testid="scrollbox-top-line"
+        data-top-line={showTop}
       />
-    </StyledScrollBox>
+      <Divider
+        $horizontalPadding={horizontalPadding}
+        data-bottom-line={showBottom}
+        data-testid="scrollbox-bottom-line"
+      />
+    </Container>
   )
 }

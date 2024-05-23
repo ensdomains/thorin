@@ -6,7 +6,10 @@ import { mq } from '@/src/utils/responsiveHelpers'
 
 import { WithAlert } from '@/src/types'
 
+import { FontSize } from '@/src/tokens/typography'
+
 import { Modal, Typography } from '../..'
+import { DialogContent } from './DialogContent'
 
 const IconCloseContainer = styled.button(
   ({ theme }) => css`
@@ -44,6 +47,7 @@ const StyledCard = styled.div(
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow: hidden;
     gap: ${theme.space['4']};
     padding: ${theme.space['4']};
     border-radius: ${theme.radii['3xLarge']};
@@ -52,12 +56,15 @@ const StyledCard = styled.div(
     background-color: ${theme.colors.background};
     position: relative;
     width: 100%;
+    max-height: 80vh;
+
     ${mq.sm.min(css`
       min-width: ${theme.space['64']};
       max-width: 80vw;
       border-radius: ${theme.radii['3xLarge']};
       padding: ${theme.space['6']};
       gap: ${theme.space['6']};
+      max-height: min(90vh, ${theme.space['144']});
     `)}
   `,
 )
@@ -201,6 +208,7 @@ const StepItem = styled.div<{ $type: StepType }>(
 type TitleProps = {
   title?: string | React.ReactNode
   subtitle?: string | React.ReactNode
+  fontVariant?: FontSize
 } & WithAlert
 
 type StepProps = {
@@ -241,13 +249,14 @@ const Heading = ({
   title,
   subtitle,
   alert,
+  fontVariant = 'headingFour',
 }: TitleProps & StepProps & WithAlert) => {
   return (
     <TitleContainer>
       {alert && <Icon alert={alert} />}
       {title &&
         ((typeof title !== 'string' && title) || (
-          <Title fontVariant="headingFour">{title}</Title>
+          <Title fontVariant={fontVariant}>{title}</Title>
         ))}
       {subtitle &&
         ((typeof subtitle !== 'string' && subtitle) || (
@@ -415,4 +424,5 @@ export const Dialog = ({
 Dialog.displayName = 'Dialog'
 Dialog.Footer = Footer
 Dialog.Heading = Heading
+Dialog.Content = DialogContent
 Dialog.CloseButton = CloseButton

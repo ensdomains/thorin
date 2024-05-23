@@ -44,7 +44,7 @@ const mockIntersectionObserver = makeMockIntersectionObserver(
 )
 
 const expectLine = (e: 'top' | 'bottom', visible: boolean) =>
-  expect(screen.getByTestId('scroll-box')).toHaveAttribute(
+  expect(screen.getByTestId(`scrollbox-${e}-line`)).toHaveAttribute(
     `data-${e}-line`,
     visible ? 'true' : 'false',
   )
