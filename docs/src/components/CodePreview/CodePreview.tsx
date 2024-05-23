@@ -8,7 +8,7 @@ import { PrismTheme } from 'prism-react-renderer'
 
 import { Button, Colors, Components } from '@ensdomains/thorin'
 
-import { createPlayroomLink } from '~/utils/playroom'
+// import { createPlayroomLink } from '~/utils/playroom'
 import { usePlayroomStore } from '~/playroom/PlayroomState'
 import { avatars } from '~/playroom/useScope'
 
@@ -169,7 +169,7 @@ export const CodePreview = ({
           </div>
 
           <div>
-            <Button
+            {/* <Button
               as="a"
               colorStyle="accentSecondary"
               href={createPlayroomLink({ code })}
@@ -177,7 +177,7 @@ export const CodePreview = ({
               target="_blank"
             >
               Open in Playroom
-            </Button>
+            </Button> */}
           </div>
         </ButtonContainer>
       </div>
