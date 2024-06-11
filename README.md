@@ -19,8 +19,6 @@ To install this package using yarn:
 yarn add @ensdomains/thorin styled-components react-transition-state@1.1.5
 ```
 
-Checkout the project's [playroom](https://thorin.ens.domains/playroom) to preview the components in a live online environment.
-
 ## Set Up
 
 In your App component, wrap the root of your app in a [`ThemeProvider`](https://styled-components.com/docs/advanced) module from [styled-components](https://styled-components.com). Import `ThorinGlobalStyles` and declare it as a child of `ThemeProvider` to set global styles. Set the theme by passing a theme object to `ThemeProvider`.
@@ -101,7 +99,6 @@ Before development, it is recommended that you read the following:
   - [Adding Components](https://thorin.ens.domains/guides/development#adding-components) - A list of files that need to be added or modified for each component.
   - [Style Guidlines](https://thorin.ens.domains/guides/development#style-guidelines) - Rules and tips to follow to keep the project code consistent and maintainable.
   - [Common Issues](https://thorin.ens.domains/guides/development#common-issues) - A list of known issues and how to resolve them.
-- [Playroom Guide](https://thorin.ens.domains/guides/playroom) - Information on how to add state and interactivity to sample code in playroom and mdx code previews.
 
 ## Contributing
 
