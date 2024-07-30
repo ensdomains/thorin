@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { breakpoints } from '@/src/tokens'
+import { Colors, breakpoints } from '@/src/tokens'
 
 import { actionSheeItem } from './styles.css'
 
@@ -50,6 +50,13 @@ const ActionSheetItem = (props: BoxProps) => (
   />
 )
 
+const ActionSheetLinkItem = styled.a<{ $color?: Colors }>(
+  ({ theme, $color = 'text' }) => css`
+    color: ${theme.colors[$color]};
+    font-weight: ${theme.fontWeights.normal};
+  `,
+)
+
 type Props = {
   isOpen: boolean
   screenSize: number
@@ -80,19 +87,25 @@ export const ActionSheet = React.forwardRef<HTMLDivElement, Props>(
               return DropdownChild({ item, setIsOpen })
             }
 
-            const icon = (item as DropdownItemObject).icon
+            const { icon, label, onClick, value, href, color } =
+              item as DropdownItemObject
+
             return (
               <ActionSheetItem
                 key={(item as DropdownItemObject).label}
                 onClick={() => {
-                  ;(item as DropdownItemObject)?.onClick?.(
-                    (item as DropdownItemObject).value,
-                  )
+                  onClick?.(value)
                   setIsOpen(false)
                 }}
               >
                 {icon}
-                <Typography>{(item as DropdownItemObject).label}</Typography>
+                {href ? (
+                  <ActionSheetLinkItem $color={color} href={href}>
+                    {label}
+                  </ActionSheetLinkItem>
+                ) : (
+                  <Typography color={color}>{label}</Typography>
+                )}
               </ActionSheetItem>
             )
           })}

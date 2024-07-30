@@ -22,12 +22,12 @@ export type DropdownItemObject = {
   label: string
   onClick?: (value?: string) => void
   wrapper?: (children: React.ReactNode, key: React.Key) => JSX.Element
-  as?: 'button' | 'a'
   icon?: React.ReactNode
   value?: string
   color?: Colors
   disabled?: boolean
   showIndicator?: boolean | Colors
+  href?: string
 }
 
 export type DropdownItem =
@@ -254,24 +254,29 @@ const DropdownMenu = React.forwardRef<HTMLDivElement, DropdownMenuProps>(
         label,
         onClick,
         disabled,
-        as,
         wrapper,
         showIndicator,
+        href,
       } = item as DropdownItemObject
 
       const props: React.ComponentProps<any> = {
-        // $hasColor: !!color,
         $color: color,
         $showIndicator: showIndicator,
         $icon: icon,
         disabled,
         onClick: () => {
-          setIsOpen(false)
           onClick?.(value)
+          setIsOpen(false)
         },
-        as,
-        children: <>{label}</>,
-      }
+        as: href ? 'a' : 'button',
+        children: (
+          <>
+            {icon}
+            {label}
+          </>
+        ),
+        href,
+      } as const
 
       if (wrapper) {
         return wrapper(<MenuButton {...props} type="button" />, value || label)
@@ -436,18 +441,18 @@ const useScreenSize = () => {
 }
 
 const useClickOutside = (
-  dropdownRef: React.MutableRefObject<any>,
-  buttonRef: React.MutableRefObject<any>,
-  actionSheetRef: React.MutableRefObject<any>,
+  dropdownRef: React.MutableRefObject<HTMLElement | null>,
+  buttonRef: React.MutableRefObject<HTMLButtonElement | null>,
+  actionSheetRef: React.MutableRefObject<HTMLDivElement | null>,
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>,
   isOpen: boolean,
 ) => {
   React.useEffect(() => {
-    const handleClickOutside = (e: any) => {
+    const handleClickOutside = (e: MouseEvent) => {
       if (
-        !dropdownRef.current?.contains(e.target) &&
-        !buttonRef.current?.contains(e.target) &&
-        !actionSheetRef.current?.contains(e.target)
+        !dropdownRef.current?.contains(e.target as Node) &&
+        !buttonRef.current?.contains(e.target as Node) &&
+        !actionSheetRef.current?.contains(e.target as Node)
       ) {
         setIsOpen(false)
       }
@@ -484,9 +489,9 @@ export const Dropdown = ({
   cancelLabel = 'Cancel',
   ...props
 }: Props & (PropsWithIsOpen | PropsWithoutIsOpen)) => {
-  const dropdownRef = React.useRef<any>()
-  const buttonRef = React.useRef<HTMLButtonElement>(null)
-  const actionSheetRef = React.useRef<HTMLDivElement>(null)
+  const dropdownRef = React.useRef<HTMLDivElement | null>(null)
+  const buttonRef = React.useRef<HTMLButtonElement | null>(null)
+  const actionSheetRef = React.useRef<HTMLDivElement | null>(null)
   const internalOpen = React.useState(false)
   const [isOpen, setIsOpen] = _setIsOpen ? [_isOpen, _setIsOpen] : internalOpen
 

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "next build && playroom build",
+    "build": "next build",
     "build:playroom": "playroom build",
     "build:next": "next build",
     "export": "next export",
@@ -25,7 +25,6 @@
     "next": "12.3.0",
     "next-mdx-remote": "^3.0.6",
     "nookies": "^2.5.2",
-    "playroom": "^0.28.1",
     "prism-react-renderer": "^1.2.1",
     "prism-theme-vars": "^0.2.4",
     "react": "^18.0.0",

@@ -5,6 +5,9 @@ import { AlertSVG, CrossSVG, EthSVG } from '@/src'
 import { WithAlert } from '@/src/types'
 
 import { translateY } from '@/src/css/utils/common'
+import { FontSize } from '@/src/tokens/typography'
+
+import { DialogContent } from './DialogContent'
 
 import { Modal, ScrollBox, Typography } from '../..'
 import { Box, BoxProps } from '../../atoms/Box/Box'
@@ -47,11 +50,14 @@ const StyledCard = (props: BoxProps) => (
     flexDirection="column"
     gap={{ xs: '$4', sm: '$6' }}
     maxWidth={{ xs: 'unset', sm: '80vw' }}
+    maxHeight={{ xs: '80vh', sm: 'min(90vh, $144)' }}
     minWidth={{ xs: 'unset', sm: '$64' }}
     padding={{ xs: '$4', sm: '$6' }}
     position="relative"
+    overflow="hidden"
     width="$full"
   />
+
 )
 
 type NonNullableAlert = NonNullable<WithAlert['alert']>
@@ -144,6 +150,7 @@ const StepItem = ({ $type, ...props }: BoxProps & { $type: StepType }) => (
 type TitleProps = {
   title?: string | React.ReactNode
   subtitle?: string | React.ReactNode
+  fontVariant?: FontSize
 } & WithAlert
 
 type StepProps = {
@@ -184,13 +191,14 @@ const Heading = ({
   title,
   subtitle,
   alert,
+  fontVariant = 'headingFour',
 }: TitleProps & StepProps & WithAlert) => {
   return (
     <TitleContainer>
       {alert && <Icon $alert={alert} />}
       {title &&
         ((typeof title !== 'string' && title) || (
-          <Typography fontVariant="headingFour" textAlign="center">
+          <Typography fontVariant={fontVariant} textAlign="center">
             {title}
           </Typography>
         ))}
@@ -376,6 +384,5 @@ export const Dialog = ({
 Dialog.displayName = 'Dialog'
 Dialog.Footer = Footer
 Dialog.Heading = Heading
-Dialog.Content = Content
-
+Dialog.Content = DialogContent
 Dialog.CloseButton = CloseButton

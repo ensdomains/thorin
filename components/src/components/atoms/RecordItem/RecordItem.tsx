@@ -23,6 +23,9 @@ type BaseProps = {
   children: string
   onClick?: () => void
   as?: 'button' | 'a'
+  postfixIcon?: React.FunctionComponent<
+    React.SVGProps<SVGSVGElement> & { title?: string }
+  >
 }
 
 type NativeElementProps = Omit<
@@ -147,37 +150,45 @@ const TrailingSVGBox = ({
   />
 )
 
-export const RecordItem = ({
-  as: asProp = 'button',
-  link,
-  size = 'small',
-  inline = false,
-  icon,
-  keyLabel,
-  keySublabel,
-  value,
-  children,
-  ...props
-}: Props) => {
-  const { copy, copied } = useCopied()
+export const RecordItem = React.forwardRef<
+  HTMLAnchorElement | HTMLButtonElement,
+  Props
+>(
+  (
+    {
+      as: asProp = 'button',
+      link,
+      size = 'small',
+      inline = false,
+      postfixIcon,
+      icon,
+      keyLabel,
+      keySublabel,
+      value,
+      children,
+      ...props
+    },
+    ref,
+  ) => {
+    const { copy, copied } = useCopied()
 
-  const generatedProps =
-    asProp === 'a'
-      ? ({
-          href: link,
-          rel: 'nofollow noreferrer',
-          target: '_blank',
-          ...props,
-        } as NativeElementProps & NativeAnchorProps)
-      : ({
-          onClick: () => {
-            copy(value)
-          },
-          ...props,
-        } as NativeElementProps & NativeButtonProps)
+    const generatedProps =
+      asProp === 'a'
+        ? ({
+            href: link,
+            rel: 'nofollow noreferrer',
+            target: '_blank',
+            ...props,
+          } as NativeElementProps & NativeAnchorProps)
+        : ({
+            onClick: () => {
+              copy(value)
+            },
+            ...props,
+          } as NativeElementProps & NativeButtonProps)
 
-  const hasPrefix = !!icon || !!keyLabel
-  const hasLabels = !!keyLabel || !!keySublabel
+    const hasPrefix = !!icon || !!keyLabel
+    const hasLabels = !!keyLabel || !!keySublabel
 
   const KeyLabel =
     typeof keyLabel === 'string' ? (
@@ -208,7 +219,9 @@ export const RecordItem = ({
     ) : (
       keySublabel
     )
-  const PostfixProps = link
+  const PostfixProps = postfixIcon 
+    ? { as: postfixIcon } 
+    : link
     ? { $rotate: true, as: UpArrowSVG }
     : copied
     ? { as: CheckSVG }
@@ -238,6 +251,7 @@ export const RecordItem = ({
       <TrailingSVGBox {...(PostfixProps as any)} />
     </ContainerBox>
   )
-}
+})
+
 
 RecordItem.displayName = 'RecordItem'

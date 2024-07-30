@@ -40,21 +40,21 @@ const config = {
   },
   async rewrites() {
     // Rewrite playroom urls for production
-    if (process.env.NODE_ENV === 'production')
-      return [
-        {
-          source: '/playroom/preview',
-          destination: '/playroom/preview/index.html',
-        },
-        {
-          source: '/playroom/frame.html',
-          destination: '/playroom/frame.html',
-        },
-        {
-          source: '/playroom',
-          destination: '/playroom/index.html',
-        },
-      ]
+    // if (process.env.NODE_ENV === 'production')
+    //   return [
+    //     {
+    //       source: '/playroom/preview',
+    //       destination: '/playroom/preview/index.html',
+    //     },
+    //     {
+    //       source: '/playroom/frame.html',
+    //       destination: '/playroom/frame.html',
+    //     },
+    //     {
+    //       source: '/playroom',
+    //       destination: '/playroom/index.html',
+    //     },
+    //   ]
     return []
   },
   async redirects() {
