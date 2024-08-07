@@ -64,11 +64,11 @@ export const AdditionalColors = () => {
     <>
       <ScrollBox>
         <Box
-          display={'flex'}
-          flexDirection={'column'}
+          display="flex"
+          flexDirection="column"
           gap={{ base: '$4', sm: '$6' }}
-          marginBottom={'$2'}
-          mx={'$2'}
+          marginBottom="$2"
+          mx="$2"
         >
           <PaletteRow shades={bw} onSelectShade={onSelectShade} />
           <PaletteRow

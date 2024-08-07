@@ -23,8 +23,8 @@ const snippets = flatten(
     return snippets.map((snippet) => {
       const groupName = capitalize(matches[1])
       const displayName = matches[2]
-      const code =
-        typeof snippet.code === 'string'
+      const code
+        = typeof snippet.code === 'string'
           ? snippet.code
           : reactElementToJSXString(snippet.code)
 

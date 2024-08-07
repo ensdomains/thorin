@@ -17,7 +17,7 @@ const App = ({ Component, pageProps }: AppProps) => {
   return (
     <>
       {/* <Head /> */}
-      {/*Prevent theme flash*/}
+      {/* Prevent theme flash */}
       <Script
         dangerouslySetInnerHTML={{
           __html: `!function(){try{var d=document.documentElement;var e=document.cookie.split(";").find(x=>x.includes("mode"));if(e){d.setAttribute('data-theme',e.replace("mode=","").trim())}else{d.setAttribute('data-theme','light');}}catch(t){}}();`,

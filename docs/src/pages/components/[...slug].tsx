@@ -21,7 +21,7 @@ import path from 'path'
 import { GitHubLink } from '~/components/GitHubLink'
 
 export const getStaticPaths: GetStaticPaths = async () => ({
-  paths: getComponentPaths().map((x) => ({
+  paths: getComponentPaths().map(x => ({
     params: {
       slug: getComponentName(x),
     },
@@ -40,7 +40,7 @@ type StaticProps = {
 export const getStaticProps: GetStaticProps<StaticProps> = async (context) => {
   const slug = context.params?.slug as string[]
   const pathname = getComponentPaths().find(
-    (x) => getComponentName(x).join('/') === slug.join('/'),
+    x => getComponentName(x).join('/') === slug.join('/'),
   ) as string
   const source = fs.readFileSync(pathname)
   const { content, data } = matter(source)
@@ -67,8 +67,8 @@ export const getStaticProps: GetStaticProps<StaticProps> = async (context) => {
     },
   )
   const componentPathname = globComponentPath[0]
-  const staticTypes =
-    getStaticTypes(componentPathname)[slug[slug.length - 1]] ?? null
+  const staticTypes
+    = getStaticTypes(componentPathname)[slug[slug.length - 1]] ?? null
   const docsLink = createGitHubLink(pathname.replace(/^\/.*thorin/i, ''))
   const sourceLink = createGitHubLink(
     componentPathname.replace(/^\/.*thorin/i, ''),
@@ -109,7 +109,7 @@ const Page: NextPageWithLayout<Props> = ({
   )
 }
 
-Page.getLayout = (page) =>
+Page.getLayout = page =>
   getLayout({
     ...page,
     props: {

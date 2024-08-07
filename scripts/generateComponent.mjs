@@ -1,10 +1,9 @@
-const fs = require('fs-extra')
-const dedent = require('dedent')
-const prompt = require('prompt')
+import fs from 'fs-extra'
+import dedent from 'dedent'
+import prompt from 'prompt'
+import path from 'node:path'
 
-const path = require('path')
-
-const baseDir = path.join(__dirname, '..')
+const baseDir = path.join(import.meta.dirname, '..')
 const componentsDir = path.join(baseDir, 'components/src/components')
 const referencesDir = path.join(baseDir, 'docs/src/reference')
 
@@ -220,7 +219,8 @@ const COMPONENT_GROUPS = {
     await fs.writeFile(groupIndexFilePath, lines + '\n', 'utf-8')
 
     console.log('Done.')
-  } catch (err) {
+  }
+  catch {
     console.log('Exited.')
   }
 })()

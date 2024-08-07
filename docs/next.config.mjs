@@ -1,15 +1,15 @@
-const { glob } = require('glob')
-const { createVanillaExtractPlugin} = require('@vanilla-extract/next-plugin')
-const withVanillaExtract = createVanillaExtractPlugin({identifiers: 'short'})
-const StylelintPlugin = require('stylelint-webpack-plugin')
+import { glob } from 'glob'
+import { createVanillaExtractPlugin } from '@vanilla-extract/next-plugin'
+import path from 'node:path'
+const withVanillaExtract = createVanillaExtractPlugin({ identifiers: 'short' })
+import nextMDX from '@next/mdx'
+import StylelintWebpackPlugin from 'stylelint-webpack-plugin'
 
-const withMDX = require('@next/mdx')({
+const withMDX = nextMDX({
   extension: /\.mdx?$/,
 })
 
-const path = require('path')
-
-const getComponentPaths = (category) =>
+const getComponentPaths = category =>
   glob
     .sync(`./src/reference/mdx/${category}/**/!(Icons[A-Z])*.docs.mdx`, {
       cwd: process.cwd(),
@@ -71,12 +71,12 @@ const config = {
   pageExtensions: ['mdx', 'tsx'],
   webpack(config) {
     config.plugins.push(
-      new StylelintPlugin({
+      new StylelintWebpackPlugin({
         extensions: ['tsx'],
       }),
     )
     config.resolve.alias['@ensdomains/thorin'] = path.resolve(
-      __dirname,
+      import.meta.dirname,
       '../components',
     )
     config.module.rules.push({
@@ -92,8 +92,8 @@ const config = {
   },
   images: {
     unoptimized: true,
-  }
+  },
 }
 
 /** @type {import('next').NextConfig} */
-module.exports = withVanillaExtract(withMDX(config))
+export default withVanillaExtract(withMDX(config))

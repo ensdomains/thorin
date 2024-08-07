@@ -105,8 +105,7 @@ export const CodePreview = ({
   })
   const [code, setCode] = React.useState(_code)
   React.useEffect(() => {
-    _code && _code !== code && setCode(_code)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (_code && _code !== code) setCode(_code)
   }, [_code])
   const store = usePlayroomStore()
 
@@ -125,7 +124,7 @@ export const CodePreview = ({
         avatars,
       }}
       theme={theme}
-      transformCode={(code) => '/** @jsx mdx */' + code}
+      transformCode={code => '/** @jsx mdx */' + code}
     >
       <Container>
         <ContainerInner
@@ -152,7 +151,7 @@ export const CodePreview = ({
               style={{
                 fontFamily: 'Arial, sans-serif',
               }}
-              onChange={(newCode) => setCode(newCode)}
+              onChange={newCode => setCode(newCode)}
             />
             <Box position="absolute" top="$2" right="$2">
               <CopyButton content={code} />
@@ -168,7 +167,7 @@ export const CodePreview = ({
             color="blue"
             prefix={state.expand ? <UpChevronSVG /> : <DownChevronSVG />}
             size="small"
-            onClick={() => setState((x) => ({ ...x, expand: !x.expand }))}
+            onClick={() => setState(x => ({ ...x, expand: !x.expand }))}
           >
             {state.expand ? 'Collapse Code' : 'Expand Code'}
           </Button>

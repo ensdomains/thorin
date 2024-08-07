@@ -9,12 +9,12 @@ import {
 import { grid, colorLabel } from './styles.css'
 import { PaletteModal } from '../PaletteModal/PaletteModal'
 
-const ColorLabel = ({ children }: React.PropsWithChildren<{}>) => (
+const ColorLabel = ({ children }: React.PropsWithChildren) => (
   <Box
     className={colorLabel}
-    display={'flex'}
-    alignItems={'center'}
-    justifyContent={'center'}
+    display="flex"
+    alignItems="center"
+    justifyContent="center"
     fontWeight="$bold"
     fontSize="$body"
   >
@@ -24,9 +24,9 @@ const ColorLabel = ({ children }: React.PropsWithChildren<{}>) => (
 
 const ShadeLabel = ({ children }: React.PropsWithChildren<{}>) => (
   <Box
-    display={'flex'}
-    alignItems={'center'}
-    justifyContent={'center'}
+    display="flex"
+    alignItems="center"
+    justifyContent="center"
     fontSize="$body"
     fontWeight="$bold"
   >
@@ -44,7 +44,7 @@ const ColorCell = ({
   <Box
     transform={{ base: 'scale(1)', hover: 'scale(1.05)' }}
     backgroundColor={`rgb(${color[0]}, ${color[1]}, ${color[2]})`}
-    borderRadius={'$large'}
+    borderRadius="$large"
     transition="transform 0.15s ease-in-out"
     onClick={onClick}
   />
@@ -71,7 +71,7 @@ export const Palette = () => {
         <div className={grid}>
           <div />
           {['active', 'dim', 'primary', 'bright', 'light', 'surface'].map(
-            (label) => (
+            label => (
               <ShadeLabel key={label}>{label}</ShadeLabel>
             ),
           )}
@@ -91,8 +91,7 @@ export const Palette = () => {
                         color: primaryColor,
                         shades: colorEntries,
                         selectedShade: shade,
-                      })
-                    }
+                      })}
                   />
                 ))}
               </React.Fragment>

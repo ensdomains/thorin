@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "moduleDetection": "force",
+    "moduleResolution": "Node",
+    "strict": true,
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./components/*"]
+    },
+    "module": "ESNext",
+    "target": "ESNext",
+    "skipLibCheck": true
+  },
+  "include": ["components/**/*", "docs/**/*", "playroom/**/*"]
+}

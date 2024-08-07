@@ -19,7 +19,7 @@ const CodePreviewContainer = (props: PropsWithChildren<{}>) => (
 )
 
 const CodePreview = dynamic<CodePreviewProps>(
-  () => import('../CodePreview').then((mod) => mod.CodePreview),
+  () => import('../CodePreview').then(mod => mod.CodePreview),
   {
     loading: () => <CodePreviewContainer />,
   },
@@ -98,7 +98,7 @@ export const CodeBlock = ({
       theme={prismTheme}
       // theme={modifiedTheme}
     >
-      {/* eslint-disable react/no-array-index-key */}
+      { }
       {({
         // className,
         // style,
@@ -106,10 +106,7 @@ export const CodeBlock = ({
         getLineProps,
         getTokenProps,
       }) => (
-        <Pre
-        // style={style}
-        // className={className}
-        >
+        <Pre>
           <Box position="absolute" top="$2" right="$2">
             <CopyButton content={code} />
           </Box>
@@ -123,7 +120,7 @@ export const CodeBlock = ({
           ))}
         </Pre>
       )}
-      {/* eslint-enable react/no-array-index-key */}
+      { }
     </Highlight>
   )
 }

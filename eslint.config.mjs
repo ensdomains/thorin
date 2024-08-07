@@ -8,12 +8,13 @@ import { fixupPluginRules } from '@eslint/compat'
 
 const baseConfig = tseslint.config(
   {
-    files: ['*/src/**.{ts,tsx,js,mjs}'],
+    files: ['*/src/**.{ts,tsx,js,mjs}', 'scripts/*.mjs', '*/*.mjs'],
     languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'module',
       globals: {
         ...globals.node,
-        ...globals.browser,
-        ...globals.nodeBuiltin,
+        ...globals['shared-node-browser'],
       },
     },
   },
@@ -30,25 +31,29 @@ const baseConfig = tseslint.config(
     semi: false,
   }),
   {
+    settings: { react: { version: 'detect' } },
+    plugins: { react, stylistic },
+    rules: {
+      '@eslint-react/dom/no-missing-button-type': 'off',
+      'stylistic/no-multiple-empty-lines': ['error', { max: 1 }],
+      '@typescript-eslint/no-explicit-any': 'warn',
+    },
+  },
+  {
     files: ['docs/src/**/*.{ts,tsx}'],
     settings: {
-      react: {
-        version: 'detect',
-      },
+
       next: {
         rootDir: 'docs',
       },
     },
     plugins: {
       '@next/next': fixupPluginRules(nextPlugin),
-      stylistic,
-      react,
     },
     rules: {
       // Next.js
       ...nextPlugin.configs.recommended.rules,
       '@next/next/no-img-element': 'off',
-      'stylistic/no-multiple-empty-lines': ['error', { max: 1 }],
     },
   },
 )

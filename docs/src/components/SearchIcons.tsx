@@ -79,7 +79,7 @@ export const SearchIcons = () => {
 
   const filteredIcons = React.useMemo(() => {
     if (!state.query?.length) return icons
-    return icons.filter((x) =>
+    return icons.filter(x =>
       x.name.toLowerCase().includes(state.query.toLowerCase()),
     )
   }, [state.query])
@@ -94,13 +94,12 @@ export const SearchIcons = () => {
             placeholder="Search icons"
             prefix={<MagnifyingGlassSimpleSVG />}
             value={state.query}
-            onChange={(event) =>
-              setState((x) => ({ ...x, query: event.target.value }))
-            }
+            onChange={event =>
+              setState(x => ({ ...x, query: event.target.value }))}
           />
 
           <IconGrid>
-            {filteredIcons.map((x) => (
+            {filteredIcons.map(x => (
               <IconGridInner
                 key={x.name}
                 onClick={() => navigator.clipboard.writeText(x.name)}
