@@ -19,7 +19,7 @@ const baseConfig = tseslint.config(
     },
   },
   {
-    ignores: ['docs/node_modules', 'docs/dist', 'components', 'docs/.next', '**/*.cjs'],
+    ignores: ['docs/node_modules', 'docs/dist', 'docs/.next', '**/*.cjs'],
   },
   eslint.configs.recommended,
   ...tseslint.configs.recommended,

@@ -175,10 +175,10 @@ export const TouchToast = ({
   setPopped,
   ...props
 }: Props &
-  InternalProps & {
-    popped: boolean
-    setPopped: (popped: boolean) => void
-  }) => {
+InternalProps & {
+  popped: boolean
+  setPopped: (popped: boolean) => void
+}) => {
   const ref = React.useRef<HTMLDivElement>(null)
   const [calcTop, setCalcTop] = React.useState(0.025 * window.innerHeight)
   const [touches, setTouches] = React.useState<Array<number | undefined>>([])
@@ -238,7 +238,7 @@ export const TouchToast = ({
 
   const onTouchMove = React.useCallback((e: TouchEvent) => {
     e.preventDefault()
-    setTouches((touches) => [...touches, e.targetTouches.item(0)?.pageY])
+    setTouches(touches => [...touches, e.targetTouches.item(0)?.pageY])
   }, [])
 
   React.useEffect(() => {
@@ -282,9 +282,9 @@ export const TouchToast = ({
       {...{
         ...props,
         'data-testid': getTestId(props, 'toast-touch'),
-        style: { top: `${calcTop}px` },
-        onClick: () => setPopped(true),
-        onTouchEnd: () => setTouches((touches) => [...touches, undefined]),
+        'style': { top: `${calcTop}px` },
+        'onClick': () => setPopped(true),
+        'onTouchEnd': () => setTouches(touches => [...touches, undefined]),
       }}
       $bottom={bottom}
       $left={left}
@@ -352,24 +352,25 @@ export const Toast = ({
       onDismiss={variant === 'touch' && popped ? () => onClose() : undefined}
     >
       {({ state }) =>
-        variant === 'touch' ? (
-          <TouchToast
-            {...props}
-            open={open}
-            popped={popped}
-            setPopped={setPopped}
-            state={state}
-            onClose={onClose}
-          />
-        ) : (
-          <DesktopToast
-            {...props}
-            open={open}
-            state={state}
-            onClose={onClose}
-          />
-        )
-      }
+        variant === 'touch'
+          ? (
+              <TouchToast
+                {...props}
+                open={open}
+                popped={popped}
+                setPopped={setPopped}
+                state={state}
+                onClose={onClose}
+              />
+            )
+          : (
+              <DesktopToast
+                {...props}
+                open={open}
+                state={state}
+                onClose={onClose}
+              />
+            )}
     </Backdrop>
   )
 }

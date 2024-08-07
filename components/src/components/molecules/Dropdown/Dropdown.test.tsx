@@ -130,8 +130,8 @@ describe('<Dropdown />', () => {
   it('should not error if no dropdown items are passed in', () => {
     render(
       <>
-        {/*eslint-disable-next-line @typescript-eslint/ban-ts-comment*/}
-        {/*@ts-ignore*/}
+        {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+        {/* @ts-ignore */}
         <Dropdown label="" />
       </>,
     )

@@ -27,7 +27,7 @@ export type Props = {
   /** A function that receives a context object and return a react element. The context object is made of the following properties droppable, focused, file, name, previewUrl, type and reset. */
   children: (context: Context) => ReactNodeNoStrings
   /** Preloads the file input file to submit. */
-  defaultValue?: { name?: string; type: string; url: string }
+  defaultValue?: { name?: string, type: string, url: string }
   /** The disabled attribute of input element. */
   disabled?: NativeInputProps['disabled']
   /** Error text or react element */
@@ -95,15 +95,15 @@ export const FileInput = React.forwardRef(
         // Disallow file larger than max
         if (maxSize && file.size > maxSize * 1_000_000) {
           event?.preventDefault()
-          onError &&
-            onError(
+          onError
+          && onError(
               `File is ${(file.size / 1_000_000).toFixed(
                 2,
               )} MB. Must be smaller than ${maxSize} MB`,
-            )
+          )
           return
         }
-        setState((x) => ({
+        setState(x => ({
           ...x,
           file,
           name: file.name,
@@ -126,7 +126,7 @@ export const FileInput = React.forwardRef(
     const handleDragOver = React.useCallback(
       (event: React.DragEvent<HTMLLabelElement>) => {
         event.preventDefault()
-        setState((x) => ({ ...x, droppable: true }))
+        setState(x => ({ ...x, droppable: true }))
       },
       [],
     )
@@ -134,7 +134,7 @@ export const FileInput = React.forwardRef(
     const handleDragLeave = React.useCallback(
       (event: React.DragEvent<HTMLLabelElement>) => {
         event.preventDefault()
-        setState((x) => ({ ...x, droppable: false }))
+        setState(x => ({ ...x, droppable: false }))
       },
       [],
     )
@@ -142,14 +142,15 @@ export const FileInput = React.forwardRef(
     const handleDrop = React.useCallback(
       (event: React.DragEvent<HTMLLabelElement>) => {
         event.preventDefault()
-        setState((x) => ({ ...x, droppable: false }))
+        setState(x => ({ ...x, droppable: false }))
         let file: File | null
         if (event.dataTransfer.items) {
           const files = event.dataTransfer.items
           if (files?.[0].kind !== 'file') return
           file = files[0].getAsFile()
           if (!file) return
-        } else {
+        }
+        else {
           const files = event.dataTransfer.files
           if (!files?.length) return
           file = files[0]
@@ -162,7 +163,7 @@ export const FileInput = React.forwardRef(
 
     const handleFocus = React.useCallback(
       (event: React.FocusEvent<HTMLInputElement>) => {
-        setState((x) => ({ ...x, focused: true }))
+        setState(x => ({ ...x, focused: true }))
         onFocus && onFocus(event)
       },
       [onFocus],
@@ -170,7 +171,7 @@ export const FileInput = React.forwardRef(
 
     const handleBlur = React.useCallback(
       (event: React.FocusEvent<HTMLInputElement>) => {
-        setState((x) => ({ ...x, focused: false }))
+        setState(x => ({ ...x, focused: false }))
         onBlur && onBlur(event)
       },
       [onBlur],
@@ -205,7 +206,7 @@ export const FileInput = React.forwardRef(
     React.useEffect(() => {
       if (!state.file) return
       const previewUrl = URL.createObjectURL(state.file)
-      setState((x) => ({ ...x, previewUrl }))
+      setState(x => ({ ...x, previewUrl }))
       return () => URL.revokeObjectURL(previewUrl)
     }, [state.file])
 

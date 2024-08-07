@@ -176,7 +176,7 @@ type ActionableProps = {
   leading?: React.ReactNode
   center?: boolean
 } & TitleProps &
-  StepProps
+StepProps
 
 type BlankProps = {
   variant: 'blank'
@@ -195,24 +195,24 @@ const Heading = ({
   return (
     <TitleContainer>
       {alert && <Icon $alert={alert} />}
-      {title &&
-        ((typeof title !== 'string' && title) || (
-          <Typography fontVariant={fontVariant} textAlign="center">
-            {title}
-          </Typography>
-        ))}
-      {subtitle &&
-        ((typeof subtitle !== 'string' && subtitle) || (
-          <Typography
-            color="red"
-            fontVariant="bodyBold"
-            maxWidth="$72"
-            px="$4"
-            textAlign="center"
-          >
-            {subtitle}
-          </Typography>
-        ))}
+      {title
+      && ((typeof title !== 'string' && title) || (
+        <Typography fontVariant={fontVariant} textAlign="center">
+          {title}
+        </Typography>
+      ))}
+      {subtitle
+      && ((typeof subtitle !== 'string' && subtitle) || (
+        <Typography
+          color="red"
+          fontVariant="bodyBold"
+          maxWidth="$72"
+          px="$4"
+          textAlign="center"
+        >
+          {subtitle}
+        </Typography>
+      ))}
     </TitleContainer>
   )
 }
@@ -352,7 +352,8 @@ export const Dialog = ({
         {onCloseOrDismiss && <CloseButton onClick={onCloseOrDismiss} />}
       </ModalWithTitle>
     )
-  } else if (variant === 'closable') {
+  }
+  else if (variant === 'closable') {
     const { alert, title, subtitle, ...closableProps } = props as ClosableProps
     const onCloseOrDismiss = onClose || onDismiss
     return (

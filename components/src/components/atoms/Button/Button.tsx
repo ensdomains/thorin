@@ -26,7 +26,7 @@ type NativeButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement>
 type NativeAnchorProps = React.AllHTMLAttributes<HTMLAnchorElement>
 
 type BaseProps = {
-  /** An alternative element type to render the component as.*/
+  /** An alternative element type to render the component as. */
   as?: 'a'
   children: NativeButtonProps['children']
   /** If true, prevents user interaction with button. */
@@ -282,23 +282,28 @@ export const Button = React.forwardRef(
     let childContent: ReactNodeNoStrings
     if (shape === 'circle' || shape === 'square') {
       childContent = loading ? <Spinner /> : labelContent
-    } else {
+    }
+    else {
       const prefixOrLoading = match([loading, !!prefix, !!suffix])
         .with([true, true, P._], () => <Spinner />)
         .with([true, false, false], () => <Spinner />)
         .with([P._, true, P._], () =>
-          React.isValidElement(prefix) ? (
-            <SVGBox $size={size} as={prefix} />
-          ) : null,
+          React.isValidElement(prefix)
+            ? (
+                <SVGBox $size={size} as={prefix} />
+              )
+            : null,
         )
         .otherwise(() => null)
 
       const suffixOrLoading = match([loading, !!prefix, !!suffix])
         .with([true, false, true], () => <Spinner />)
         .with([P._, P._, true], () =>
-          React.isValidElement(suffix) ? (
-            <SVGBox $size={size} as={suffix} />
-          ) : null,
+          React.isValidElement(suffix)
+            ? (
+                <SVGBox $size={size} as={suffix} />
+              )
+            : null,
         )
         .otherwise(() => null)
 
@@ -330,7 +335,7 @@ export const Button = React.forwardRef(
         type={type}
         // position={zIndex && 'relative'}
         zIndex={zIndex}
-        //eslint-disable-next-line react/jsx-sort-props
+        // eslint-disable-next-line react/jsx-sort-props
         onClick={onClick}
         {...removeNullishProps(props)}
       >

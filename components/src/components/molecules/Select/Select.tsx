@@ -129,16 +129,18 @@ const SelectLabelWithPrefix = ({
   option,
   ...props
 }: BoxProps & SelectLabelWithPrefixProps) =>
-  option ? (
-    <>
-      {React.isValidElement(option.prefix) && (
-        <Box as={option.prefix} display="block" />
-      )}
-      <SelectLabel {...props}>
-        {option.node ? option.node : option.label || option.value}
-      </SelectLabel>
-    </>
-  ) : null
+  option
+    ? (
+        <>
+          {React.isValidElement(option.prefix) && (
+            <Box as={option.prefix} display="block" />
+          )}
+          <SelectLabel {...props}>
+            {option.node ? option.node : option.label || option.value}
+          </SelectLabel>
+        </>
+      )
+    : null
 
 const SelectInput = React.forwardRef<HTMLElement, BoxProps>((props, ref) => (
   <Box
@@ -158,7 +160,7 @@ const SelectActionButton = ({
   $size,
   $disabled,
   ...props
-}: BoxProps & { $size: Size; $disabled: boolean }) => (
+}: BoxProps & { $size: Size, $disabled: boolean }) => (
   <Box
     {...props}
     alignItems="center"
@@ -333,8 +335,8 @@ const SelectOptionRow = ({
         base: $selected
           ? '$greyLight'
           : $highlighted
-          ? '$greySurface'
-          : 'transparent',
+            ? '$greySurface'
+            : 'transparent',
         disabled: 'transparent',
       }}
       borderRadius="$large"
@@ -383,19 +385,19 @@ const NoResultsContainer = (props: BoxProps) => (
 )
 
 // Helper function for filtering options
-const createOptionsReducer =
-  (searchTerm: string) =>
-  (
-    results: { options: SelectOptionProps[]; exactMatch: boolean },
-    option: SelectOptionProps,
-  ) => {
-    if (option.label) {
-      const label = option.label.trim().toLowerCase()
-      if (label.indexOf(searchTerm) !== -1) results.options.push(option)
-      if (label === searchTerm) results.exactMatch = true
+const createOptionsReducer
+  = (searchTerm: string) =>
+    (
+      results: { options: SelectOptionProps[], exactMatch: boolean },
+      option: SelectOptionProps,
+    ) => {
+      if (option.label) {
+        const label = option.label.trim().toLowerCase()
+        if (label.indexOf(searchTerm) !== -1) results.options.push(option)
+        if (label === searchTerm) results.exactMatch = true
+      }
+      return results
     }
-    return results
-  }
 
 enum ReservedKeys {
   ArrowUp = 'ArrowUp',
@@ -454,9 +456,9 @@ export type SelectProps = {
   /** Preset size spacing settings */
   size?: Size
   /** Overide the padding setting of the element */
-  padding?: Space | { outer?: Space; inner?: Space }
+  padding?: Space | { outer?: Space, inner?: Space }
   /** The size attribute for input element. Useful for controlling input size in flexboxes. */
-  inputSize?: number | { max?: number; min?: number }
+  inputSize?: number | { max?: number, min?: number }
   /** If true, show a border around the select component **/
   showBorder?: boolean
   /** If the option list is wider than the select, which  */
@@ -468,22 +470,22 @@ export type SelectProps = {
   /** If true, sets the select component into read only mode */
   readOnly?: boolean
 } & FieldBaseProps &
-  Omit<
-    NativeDivProps,
-    | 'children'
-    | 'id'
-    | 'onChange'
-    | 'tabIndex'
-    | 'onFocus'
-    | 'onBlur'
-    | 'aria-controls'
-    | 'aria-expanded'
-    | 'role'
-    | 'aria-haspopup'
-    | 'aria-invalid'
-    | 'onClick'
-    | 'onKeyDown'
-  >
+Omit<
+  NativeDivProps,
+  | 'children'
+  | 'id'
+  | 'onChange'
+  | 'tabIndex'
+  | 'onFocus'
+  | 'onBlur'
+  | 'aria-controls'
+  | 'aria-expanded'
+  | 'role'
+  | 'aria-haspopup'
+  | 'aria-invalid'
+  | 'onClick'
+  | 'onKeyDown'
+>
 
 const getPadding = (
   key: 'outer' | 'inner',
@@ -562,13 +564,14 @@ export const Select = React.forwardRef(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [_value])
 
-    const selectedOption = options?.find((o) => o.value === value) || null
+    const selectedOption = options?.find(o => o.value === value) || null
 
     const changeSelectedOption = (option?: SelectOptionProps, event?: any) => {
       if (option?.disabled) return
       if (option?.value === CREATE_OPTION_VALUE) {
         onCreate && onCreate(queryValue)
-      } else if (option?.value) {
+      }
+      else if (option?.value) {
         setValue(option?.value)
         if (event) {
           const nativeEvent = event.nativeEvent || event
@@ -623,9 +626,9 @@ export const Select = React.forwardRef(
       (index: number) => {
         const option = visibleOptions[index]
         if (
-          option &&
-          !option.disabled &&
-          option.value !== CREATE_OPTION_VALUE
+          option
+          && !option.disabled
+          && option.value !== CREATE_OPTION_VALUE
         ) {
           setHighlightedIndex(index)
           setInputValue(option.label || '')
@@ -751,13 +754,13 @@ export const Select = React.forwardRef(
       changeHighlightIndex(-1)
     }
 
-    const handleOptionClick =
-      (option: SelectOptionProps) =>
-      (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.stopPropagation()
-        changeSelectedOption(option, e)
-        setMenuOpen(false)
-      }
+    const handleOptionClick
+      = (option: SelectOptionProps) =>
+        (e: React.MouseEvent<HTMLButtonElement>) => {
+          e.stopPropagation()
+          changeSelectedOption(option, e)
+          setMenuOpen(false)
+        }
 
     const handleOptionMouseover = (e: React.MouseEvent<HTMLButtonElement>) => {
       const index = Number(e.currentTarget.getAttribute('data-option-index'))
@@ -772,14 +775,16 @@ export const Select = React.forwardRef(
     }: {
       option: SelectOptionProps | null
     }) =>
-      option ? (
-        <>
-          {option.prefix && <div>{option.prefix}</div>}
-          <SelectLabel {...props}>
-            {option.node ? option.node : option.label || option.value}
-          </SelectLabel>
-        </>
-      ) : null
+      option
+        ? (
+            <>
+              {option.prefix && <div>{option.prefix}</div>}
+              <SelectLabel {...props}>
+                {option.node ? option.node : option.label || option.value}
+              </SelectLabel>
+            </>
+          )
+        : null
 
     return (
       <Field
@@ -805,9 +810,9 @@ export const Select = React.forwardRef(
               'aria-haspopup': 'listbox',
               'aria-invalid': error ? true : undefined,
               'data-testid': 'select-container',
-              role: 'combobox',
-              onClick: handleSelectContainerClick,
-              onKeyDown: handleKeydown,
+              'role': 'combobox',
+              'onClick': handleSelectContainerClick,
+              'onKeyDown': handleKeydown,
             }}
             $disabled={!!disabled}
             $hasError={!!error}
@@ -841,7 +846,7 @@ export const Select = React.forwardRef(
                 value={value}
                 onChange={(e) => {
                   const newValue = (e.target as any).value
-                  const option = options?.find((o) => o.value === newValue)
+                  const option = options?.find(o => o.value === newValue)
                   if (option) {
                     setValue(option.value)
                     onChange && onChange(e)
@@ -853,52 +858,59 @@ export const Select = React.forwardRef(
                     : displayRef.current?.focus()
                 }}
               />
-              {isAutocomplete && isOpen ? (
-                <SelectInput
-                  autoCapitalize="none"
-                  autoComplete="off"
-                  autoFocus
-                  data-testid="select-input"
-                  placeholder={selectedOption?.label || placeholder}
-                  ref={searchInputRef}
-                  size={inputSize}
-                  spellCheck="false"
-                  style={{ flex: '1', height: '100%' }}
-                  value={inputValue}
-                  onChange={handleInputChange}
-                  onKeyDown={(e) =>
-                    handleKeydown(e as React.KeyboardEvent<HTMLInputElement>)
-                  }
-                />
-              ) : selectedOption ? (
-                <OptionElement data-testid="selected" option={selectedOption} />
-              ) : (
-                <SelectLabel color="$greyPrimary" pointerEvents="none">
-                  {placeholder}
-                </SelectLabel>
-              )}
-              {showClearButton ? (
-                <SelectActionButton
-                  $disabled={disabled}
-                  $size={size}
-                  type="button"
-                  onClick={handleInputClear}
-                >
-                  <CrossCircleSVG />
-                </SelectActionButton>
-              ) : !readOnly ? (
-                <ToggleMenuButton
-                  $direction={direction}
-                  $disabled={disabled}
-                  $open={isOpen}
-                  $size={size}
-                  id="chevron"
-                  type="button"
-                  onClick={() => setMenuOpen(!menuOpen)}
-                >
-                  <DownChevronSVG />
-                </ToggleMenuButton>
-              ) : null}
+              {isAutocomplete && isOpen
+                ? (
+                    <SelectInput
+                      autoCapitalize="none"
+                      autoComplete="off"
+                      autoFocus
+                      data-testid="select-input"
+                      placeholder={selectedOption?.label || placeholder}
+                      ref={searchInputRef}
+                      size={inputSize}
+                      spellCheck="false"
+                      style={{ flex: '1', height: '100%' }}
+                      value={inputValue}
+                      onChange={handleInputChange}
+                      onKeyDown={e =>
+                        handleKeydown(e as React.KeyboardEvent<HTMLInputElement>)}
+                    />
+                  )
+                : selectedOption
+                  ? (
+                      <OptionElement data-testid="selected" option={selectedOption} />
+                    )
+                  : (
+                      <SelectLabel color="$greyPrimary" pointerEvents="none">
+                        {placeholder}
+                      </SelectLabel>
+                    )}
+              {showClearButton
+                ? (
+                    <SelectActionButton
+                      $disabled={disabled}
+                      $size={size}
+                      type="button"
+                      onClick={handleInputClear}
+                    >
+                      <CrossCircleSVG />
+                    </SelectActionButton>
+                  )
+                : !readOnly
+                    ? (
+                        <ToggleMenuButton
+                          $direction={direction}
+                          $disabled={disabled}
+                          $open={isOpen}
+                          $size={size}
+                          id="chevron"
+                          type="button"
+                          onClick={() => setMenuOpen(!menuOpen)}
+                        >
+                          <DownChevronSVG />
+                        </ToggleMenuButton>
+                      )
+                    : null}
             </SelectContainer>
             <SelectOptionContainer
               $align={align}

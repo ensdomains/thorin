@@ -18,7 +18,7 @@ export default defineConfig({
   build: {
     lib: {
       entry: './src/index.ts',
-      fileName: (format) => `index.${format}.js`,
+      fileName: format => `index.${format}.js`,
       formats: ['es', 'cjs'],
     },
     rollupOptions: {
@@ -45,7 +45,7 @@ export default defineConfig({
       svgrOptions: {
         icon: true,
         svgo: true,
-        replaceAttrValues: { '#000': 'currentColor', black: 'currentColor' },
+        replaceAttrValues: { '#000': 'currentColor', 'black': 'currentColor' },
         svgProps: {
           focusable: 'false',
           shapeRendering: 'geometricPrecision',

@@ -36,7 +36,7 @@ type DialogContentProps = BaseProps & (WithForm | WithoutForm)
 
 const Container = forwardRef<
   HTMLElement,
-  BoxProps & { $fullWidth?: boolean; $horizontalPadding: Space }
+  BoxProps & { $fullWidth?: boolean, $horizontalPadding: Space }
 >(({ $horizontalPadding, $fullWidth, ...props }, ref) => (
   <Box
     ref={ref}

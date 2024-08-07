@@ -80,7 +80,7 @@ const makeFonts = () => {
 
 const makeBoldFonts = () => {
   return Object.fromEntries(
-    boldFontSizes.map((font) => [
+    boldFontSizes.map(font => [
       `${font}Bold`,
       {
         size: `$${font}`,

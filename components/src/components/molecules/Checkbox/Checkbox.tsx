@@ -46,18 +46,18 @@ type Props = {
   /** Set the input to readonly mode */
   readOnly?: NativeInputProps['readOnly']
 } & Omit<FieldBaseProps, 'labelRight'> &
-  Omit<
-    NativeInputProps,
-    | 'size'
-    | 'color'
-    | 'type'
-    | 'children'
-    | 'value'
-    | 'defaultValue'
-    | 'type'
-    | 'aria-invalid'
-  > &
-  WithColorStyle
+Omit<
+  NativeInputProps,
+  | 'size'
+  | 'color'
+  | 'type'
+  | 'children'
+  | 'value'
+  | 'defaultValue'
+  | 'type'
+  | 'aria-invalid'
+> &
+WithColorStyle
 
 const InputBox = React.forwardRef<HTMLElement, BoxProps & { $colorStyle: any }>(
   ({ $colorStyle, disabled, checked, ...props }, ref) => (

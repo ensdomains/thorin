@@ -103,12 +103,12 @@ describe('<ScrollBox />', () => {
       els.push(el)
       if (els.length === 2) {
         cb([
-          ...els.map((el) => ({
+          ...els.map(el => ({
             isIntersecting: false,
             target: el,
             time: 100,
           })),
-          ...els.map((el) => ({
+          ...els.map(el => ({
             isIntersecting: true,
             target: el,
             time: 1000,

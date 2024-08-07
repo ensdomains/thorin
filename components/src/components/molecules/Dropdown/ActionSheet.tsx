@@ -84,8 +84,8 @@ export const ActionSheet = React.forwardRef<HTMLDivElement, Props>(
               return DropdownChild({ item, setIsOpen })
             }
 
-            const { icon, label, onClick, value, href, color } =
-              item as DropdownItemObject
+            const { icon, label, onClick, value, href, color }
+              = item as DropdownItemObject
 
             return (
               <ActionSheetItem
@@ -96,13 +96,15 @@ export const ActionSheet = React.forwardRef<HTMLDivElement, Props>(
                 }}
               >
                 {icon}
-                {href ? (
-                  <ActionSheetLinkItem color={color} href={href}>
-                    {label}
-                  </ActionSheetLinkItem>
-                ) : (
-                  <Typography color={color}>{label}</Typography>
-                )}
+                {href
+                  ? (
+                      <ActionSheetLinkItem color={color} href={href}>
+                        {label}
+                      </ActionSheetLinkItem>
+                    )
+                  : (
+                      <Typography color={color}>{label}</Typography>
+                    )}
               </ActionSheetItem>
             )
           })}

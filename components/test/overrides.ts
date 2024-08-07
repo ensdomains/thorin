@@ -8,7 +8,8 @@ function sprintf(message: string, args: any[]) {
     let val: any = ''
     if (m[2]) {
       val = m[2]
-    } else {
+    }
+    else {
       val = args[i]
       // A switch statement so that the formatter can be extended. Default is %s
       switch (m) {

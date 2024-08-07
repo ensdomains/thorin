@@ -45,13 +45,13 @@ type AsAnchorProps = {
   as: 'a'
   link?: string
 } & Neverable<NativeButtonProps, NativeAnchorProps> &
-  NativeAnchorProps
+NativeAnchorProps
 
 type AsButtonProps = {
   as?: 'button'
   link?: never
 } & Neverable<NativeAnchorProps, NativeButtonProps> &
-  NativeButtonProps
+NativeButtonProps
 
 export type Props = BaseProps &
   NativeElementProps &
@@ -88,7 +88,7 @@ const PrefixBox = ({
   $inline,
   $size,
   ...props
-}: BoxProps & { $inline: boolean; $size: Size }) => (
+}: BoxProps & { $inline: boolean, $size: Size }) => (
   <Box
     alignItems="flex-start"
     display="flex"
@@ -172,8 +172,8 @@ export const RecordItem = React.forwardRef<
   ) => {
     const { copy, copied } = useCopied()
 
-    const generatedProps =
-      asProp === 'a'
+    const generatedProps
+      = asProp === 'a'
         ? ({
             href: link,
             rel: 'nofollow noreferrer',
@@ -190,42 +190,46 @@ export const RecordItem = React.forwardRef<
     const hasPrefix = !!icon || !!keyLabel
     const hasLabels = !!keyLabel || !!keySublabel
 
-    const KeyLabel =
-      typeof keyLabel === 'string' ? (
-        <Typography
-          color="grey"
-          ellipsis={!inline}
-          fontVariant={size === 'large' ? 'bodyBold' : 'smallBold'}
-          textAlign="left"
-          width="$full"
-        >
-          {keyLabel}
-        </Typography>
-      ) : (
-        keyLabel
-      )
+    const KeyLabel
+      = typeof keyLabel === 'string'
+        ? (
+            <Typography
+              color="grey"
+              ellipsis={!inline}
+              fontVariant={size === 'large' ? 'bodyBold' : 'smallBold'}
+              textAlign="left"
+              width="$full"
+            >
+              {keyLabel}
+            </Typography>
+          )
+        : (
+            keyLabel
+          )
 
-    const KeySublabel =
-      typeof keySublabel === 'string' ? (
-        <Typography
-          color="grey"
-          ellipsis={!inline}
-          fontVariant={size === 'large' ? 'smallBold' : 'extraSmallBold'}
-          textAlign="left"
-          width="$full"
-        >
-          {keySublabel}
-        </Typography>
-      ) : (
-        keySublabel
-      )
+    const KeySublabel
+      = typeof keySublabel === 'string'
+        ? (
+            <Typography
+              color="grey"
+              ellipsis={!inline}
+              fontVariant={size === 'large' ? 'smallBold' : 'extraSmallBold'}
+              textAlign="left"
+              width="$full"
+            >
+              {keySublabel}
+            </Typography>
+          )
+        : (
+            keySublabel
+          )
     const PostfixProps = postfixIcon
       ? { as: postfixIcon }
       : link
-      ? { $rotate: true, as: UpArrowSVG }
-      : copied
-      ? { as: CheckSVG }
-      : { as: CopySVG }
+        ? { $rotate: true, as: UpArrowSVG }
+        : copied
+          ? { as: CheckSVG }
+          : { as: CopySVG }
 
     return (
       <ContainerBox $inline={inline} as={asProp} {...generatedProps}>

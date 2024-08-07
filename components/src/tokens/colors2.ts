@@ -139,8 +139,8 @@ type CategoryItem = {
   items: {
     [key: string]:
       | {
-          [key in Mode]: string
-        }
+        [key in Mode]: string
+      }
       | NamedShade
   }
 }
@@ -154,10 +154,10 @@ type ColorItem<
   TName extends string,
 > = TObject extends object
   ? {
-      [key in Exclude<keyof TObject, symbol> as `${TName}${key}`]: string
-    } & {
-      [T in `${TName}`]: string
-    }
+    [key in Exclude<keyof TObject, symbol> as `${TName}${key}`]: string
+  } & {
+    [T in `${TName}`]: string
+  }
   : never
 type CalculatedColors = WithRaw<ColorItem<NameColor, Hue | 'accent'>>
 type AllColors = WithRaw<CalculatedColors & GeneratedCategories>
@@ -199,7 +199,6 @@ const makeColorRange = <THue extends Hue>(
   const color = Object.fromEntries(
     shades.map((shade) => {
       if (hue[3]?.[shade]) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         return [shade, makeCSSHSL(hue[3]![shade]!)]
       }
       const hsl = hue.slice(0, 3) as HSLColor
@@ -248,11 +247,11 @@ const makeMode = (accent: Hue, mode: Mode) => {
   const allColours = Object.entries(categories).reduce((prev, curr) => {
     const [category, value] = curr
     for (const [name, shade] of Object.entries(value.items)) {
-      const itemKey = `${category}${name.replace(/^[a-z]/, (l) =>
+      const itemKey = `${category}${name.replace(/^[a-z]/, l =>
         l.toUpperCase(),
       )}` as DotNestedCategoryKeys
-      const newItem =
-        typeof shade === 'string'
+      const newItem
+        = typeof shade === 'string'
           ? calculatedColors.raw[`${value.hue}${shade as NamedShade}`]
           : shade[mode]
 

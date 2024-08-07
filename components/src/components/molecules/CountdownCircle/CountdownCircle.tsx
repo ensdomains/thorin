@@ -15,7 +15,7 @@ const NumberBox = ({
   $color,
   disabled,
   ...props
-}: BoxProps & { $size: 'small' | 'large'; $color: any }) => (
+}: BoxProps & { $size: 'small' | 'large', $color: any }) => (
   <Box
     {...props}
     alignItems="center"
@@ -64,7 +64,7 @@ const Circle = ({
   return (
     <Box
       {...props}
-      as={
+      as={(
         <circle
           cx="12"
           cy="12"
@@ -80,7 +80,7 @@ const Circle = ({
             )
             .otherwise(() => '4')}
         />
-      }
+      )}
       transition="all 1s linear, stroke-width 0.2s ease-in-out 1s"
     />
   )

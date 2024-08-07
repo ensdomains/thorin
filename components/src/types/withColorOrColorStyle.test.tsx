@@ -8,7 +8,7 @@ import {
 } from './withColorOrColorStyle'
 
 const colorMapKeys = Object.keys(colorMap).filter(
-  (color) => color != 'raw' && color != 'gradients',
+  color => color != 'raw' && color != 'gradients',
 ) as Color[]
 
 const gradientKeys = Object.keys(colors.light.gradients)

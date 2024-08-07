@@ -46,9 +46,9 @@ const DividerBox = ({
 
 type Props = {
   /** If true, the dividers will be hidden */
-  hideDividers?: boolean | { top?: boolean; bottom?: boolean }
+  hideDividers?: boolean | { top?: boolean, bottom?: boolean }
   /** If true, the dividers will always be shown */
-  alwaysShowDividers?: boolean | { top?: boolean; bottom?: boolean }
+  alwaysShowDividers?: boolean | { top?: boolean, bottom?: boolean }
   /** The number of pixels below the top of the content where events such as showing/hiding dividers and onReachedTop will be executed */
   topTriggerPx?: number
   /** The number of pixels above the bottom of the content where events such as showing/hiding dividers and onReachedTop will be executed */
@@ -57,7 +57,7 @@ type Props = {
   onReachedTop?: () => void
   /** A callback function that is fired when the content reaches bottomTriggerPx */
   onReachedBottom?: () => void
-  /** The amount of horizontal padding to apply to the scrollbox. This will decrease the content area as well as the width of the overflow indicator dividers*/
+  /** The amount of horizontal padding to apply to the scrollbox. This will decrease the content area as well as the width of the overflow indicator dividers */
   horizontalPadding?: Space
 } & BoxProps
 
@@ -76,16 +76,16 @@ export const ScrollBox = ({
   const topRef = React.useRef<HTMLDivElement>(null)
   const bottomRef = React.useRef<HTMLDivElement>(null)
 
-  const hideTop =
-    typeof hideDividers === 'boolean' ? hideDividers : !!hideDividers?.top
-  const hideBottom =
-    typeof hideDividers === 'boolean' ? hideDividers : !!hideDividers?.bottom
-  const alwaysShowTop =
-    typeof alwaysShowDividers === 'boolean'
+  const hideTop
+    = typeof hideDividers === 'boolean' ? hideDividers : !!hideDividers?.top
+  const hideBottom
+    = typeof hideDividers === 'boolean' ? hideDividers : !!hideDividers?.bottom
+  const alwaysShowTop
+    = typeof alwaysShowDividers === 'boolean'
       ? alwaysShowDividers
       : !!alwaysShowDividers?.top
-  const alwaysShowBottom =
-    typeof alwaysShowDividers === 'boolean'
+  const alwaysShowBottom
+    = typeof alwaysShowDividers === 'boolean'
       ? alwaysShowDividers
       : !!alwaysShowDividers?.bottom
 
@@ -102,21 +102,21 @@ export const ScrollBox = ({
     const intersectingBottom: [boolean, number] = [false, -1]
     for (let i = 0; i < entries.length; i += 1) {
       const entry = entries[i]
-      const iref =
-        entry.target === topRef.current ? intersectingTop : intersectingBottom
+      const iref
+        = entry.target === topRef.current ? intersectingTop : intersectingBottom
       if (entry.time > iref[1]) {
         iref[0] = entry.isIntersecting
         iref[1] = entry.time
       }
     }
-    intersectingTop[1] !== -1 &&
-      !hideTop &&
-      !alwaysShowTop &&
-      setShowTop(!intersectingTop[0])
-    intersectingBottom[1] !== -1 &&
-      !hideBottom &&
-      !alwaysShowBottom &&
-      setShowBottom(!intersectingBottom[0])
+    intersectingTop[1] !== -1
+    && !hideTop
+    && !alwaysShowTop
+    && setShowTop(!intersectingTop[0])
+    intersectingBottom[1] !== -1
+    && !hideBottom
+    && !alwaysShowBottom
+    && setShowBottom(!intersectingBottom[0])
     intersectingTop[0] && funcRef.current.onReachedTop?.()
     intersectingBottom[0] && funcRef.current.onReachedBottom?.()
   }

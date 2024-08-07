@@ -36,16 +36,16 @@ type Props = {
   /** The handler for blur events. */
   onBlur?: NativeInputProps['onBlur']
 } & Omit<FieldBaseProps, 'labelRight'> &
-  Omit<
-    NativeInputProps,
-    | 'children'
-    | 'value'
-    | 'defaultValue'
-    | 'aria-invalid'
-    | 'type'
-    | 'role'
-    | 'color'
-  > & { color?: Color }
+Omit<
+  NativeInputProps,
+  | 'children'
+  | 'value'
+  | 'defaultValue'
+  | 'aria-invalid'
+  | 'type'
+  | 'role'
+  | 'color'
+> & { color?: Color }
 
 const Mark = ({ $color, disabled, ...props }: BoxProps & { $color: Color }) => (
   <Box
