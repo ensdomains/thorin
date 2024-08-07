@@ -36,6 +36,7 @@ export const Link = ({
         href={href}
         passHref
         prefetch={canPrefetch(href) ? undefined : false}
+        legacyBehavior
       >
         <a className={className}>{children}</a>
       </NextLink>

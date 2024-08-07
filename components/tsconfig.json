@@ -9,7 +9,8 @@
     "outDir": "./dist/types",
     "paths": {
       "!/*": ["../*"],
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "test-utils": ["./test"]
     },
     "types": [
       "@testing-library/jest-dom",

@@ -8,7 +8,7 @@ import { mq } from '@/src/utils/responsiveHelpers'
 import { Backdrop } from '../..'
 
 const Container = styled.div<{
-  $state: TransitionState
+  $state: TransitionState['status']
   $alignTop?: boolean
   $mobileOnly: boolean
 }>(

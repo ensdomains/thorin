@@ -103,7 +103,7 @@ describe('<PageButtons />', () => {
     render(
       <ButtonsHelper current={1} mockCallback={mockCallback} total={100} />,
     )
-    userEvent.click(screen.getByText('3'))
+    await userEvent.click(screen.getByText('3'))
     await waitFor(() => {
       expect(mockCallback).toHaveBeenCalledWith(3)
     })

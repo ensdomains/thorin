@@ -127,13 +127,20 @@ export const CodeBlock = ({
             <CopyButton content={code} />
           </CopyButtonContainer>
 
-          {tokens.map((line, i) => (
-            <LineContainer key={i} {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <Token key={key} {...getTokenProps({ token, key })} />
-              ))}
-            </LineContainer>
-          ))}
+          {tokens.map((line, i) => {
+            const { key, ...lineProps } = getLineProps({ line, key: i })
+            return (
+              <LineContainer key={i} {...lineProps}>
+                {line.map((token, j) => {
+                  const { key: tokenKey, ...tokenProps } = getTokenProps({
+                    token,
+                    key: j,
+                  })
+                  return <Token key={tokenKey} {...tokenProps} />
+                })}
+              </LineContainer>
+            )
+          })}
         </Pre>
       )}
       {/* eslint-enable react/no-array-index-key */}

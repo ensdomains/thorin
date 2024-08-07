@@ -87,14 +87,14 @@ type DropdownMenuProps = {
   shortThrow: boolean
   labelAlign?: LabelAlign
   direction: Direction
-  state?: TransitionState
+  state?: TransitionState['status']
   height?: string | number
 } & NativeDivProps
 
 type DropdownMenuContainerProps = {
   $shortThrow: boolean
   $direction: Direction
-  $state?: TransitionState
+  $state?: TransitionState['status']
 }
 
 type DropdownMenuInnerProps = {
@@ -103,54 +103,53 @@ type DropdownMenuInnerProps = {
 
 const DropdownMenuContainer = styled.div<DropdownMenuContainerProps>(
   ({ theme, $shortThrow, $direction, $state }) => css`
-  padding: ${theme.space['1.5']};
-  width: 100%;
+    padding: ${theme.space['1.5']};
+    width: 100%;
 
-  ${
-    $direction === 'up' &&
+    ${$direction === 'up' &&
     css`
       bottom: 100%;
-    `
-  }
+    `}
 
-  z-index: 0;
-  opacity: 0;
+    z-index: 0;
+    opacity: 0;
 
-  ${
-    $state === 'entered' &&
+    ${$state === 'entered' &&
     css`
       z-index: 1;
-    `
-  }
+    `}
 
-  background-color: ${theme.colors.background};
-  border-radius: ${theme.radii['2xLarge']};
+    background-color: ${theme.colors.background};
+    border-radius: ${theme.radii['2xLarge']};
 
-  border: 1px solid ${theme.colors.border};
-  transition: all 0.35s cubic-bezier(1, 0, 0.22, 1.6);
-  margin-${$direction === 'down' ? 'top' : 'bottom'}: ${theme.space['1.5']};
+    border: 1px solid ${theme.colors.border};
+    transition: all 0.35s cubic-bezier(1, 0, 0.22, 1.6);
 
-  transform: translateY(calc(${$direction === 'down' ? '-1' : '1'} * ${
-    theme.space['12']
-  }));
+    ${$direction === 'down' &&
+    css`
+      margin-top: ${theme.space['1.5']};
+    `}
+    ${$direction === 'up' &&
+    css`
+      margin-bottom: ${theme.space['1.5']};
+    `}
+    transform: translateY(
+      calc(${$direction === 'down' ? '-1' : '1'} * ${theme.space['12']})
+    );
 
-  ${
-    $shortThrow &&
+    ${$shortThrow &&
     css`
       transform: translateY(
         calc(${$direction === 'down' ? '-1' : '1'} * ${theme.space['2.5']})
       );
-    `
-  }
+    `}
 
-  ${
-    ($state === 'entering' || $state === 'entered') &&
+    ${($state === 'entering' || $state === 'entered') &&
     css`
       transform: translateY(0);
       opacity: 1;
-    `
-  }
-`,
+    `}
+  `,
 )
 
 const dropdownInnerStyles = ({

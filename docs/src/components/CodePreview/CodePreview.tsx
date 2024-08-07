@@ -100,7 +100,6 @@ export const CodePreview = ({
 
   return (
     <LiveProvider
-      as="div"
       code={code}
       scope={{
         mdx,

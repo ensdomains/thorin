@@ -20,20 +20,23 @@ describe('<Textarea />', () => {
     expect(screen.getByRole('textbox')).toBeInTheDocument()
   })
 
-  it('receives user input', () => {
+  it('receives user input', async () => {
     render(
       <ThemeProvider theme={lightTheme}>
         <Textarea label="Why are you entering $WRITE Race?" />
       </ThemeProvider>,
     )
 
-    userEvent.type(screen.getByRole('textbox'), 'I love writing and crypto.')
+    await userEvent.type(
+      screen.getByRole('textbox'),
+      'I love writing and crypto.',
+    )
     expect(screen.getByRole('textbox')).toHaveValue(
       'I love writing and crypto.',
     )
   })
 
-  it('respects the maxLength parameter', () => {
+  it('respects the maxLength parameter', async () => {
     render(
       <ThemeProvider theme={lightTheme}>
         <Textarea label="Why are you entering $WRITE Race?" maxLength={14} />
@@ -41,11 +44,11 @@ describe('<Textarea />', () => {
     )
 
     const element = screen.getByLabelText(/why/i)
-    userEvent.type(element, 'I love writing and crypto.')
+    await userEvent.type(element, 'I love writing and crypto.')
     expect(element).toHaveValue('I love writing')
   })
 
-  it('does not allow typing when disabled', () => {
+  it('does not allow typing when disabled', async () => {
     render(
       <ThemeProvider theme={lightTheme}>
         <Textarea
@@ -57,7 +60,7 @@ describe('<Textarea />', () => {
     )
 
     const element = screen.getByLabelText(/why/i)
-    userEvent.type(element, 'I love writing and crypto.')
+    await userEvent.type(element, 'I love writing and crypto.')
     expect(element).toHaveValue('')
   })
 

@@ -20,27 +20,27 @@ describe('<Input />', () => {
     expect(screen.getByRole('textbox')).toBeInTheDocument()
   })
 
-  it('receives user input', () => {
+  it('receives user input', async () => {
     render(
       <ThemeProvider theme={lightTheme}>
         <Input label="Display Name" />
       </ThemeProvider>,
     )
 
-    userEvent.type(screen.getByRole('textbox'), 'Satoshi Nakamoto')
+    await userEvent.type(screen.getByRole('textbox'), 'Satoshi Nakamoto')
     expect(screen.getByRole('textbox')).toHaveValue('Satoshi Nakamoto')
   })
 
   describe('[type=text]', () => {
-    it('maxLength', () => {
+    it('maxLength', async () => {
       render(
         <ThemeProvider theme={lightTheme}>
           <Input label="Short Name" maxLength={7} />
         </ThemeProvider>,
       )
 
-      const element = screen.getByLabelText(/short/i)
-      userEvent.type(element, 'Satoshi Nakamoto')
+      const element = screen.getByLabelText('Short Name')
+      await userEvent.type(element, 'Satoshi Nakamoto')
       expect(element).toHaveValue('Satoshi')
     })
   })
@@ -73,7 +73,7 @@ describe('<Input />', () => {
         />
       </ThemeProvider>,
     )
-    userEvent.type(screen.getByRole('textbox'), 'Satoshi Nakamoto')
+    await userEvent.type(screen.getByRole('textbox'), 'Satoshi Nakamoto')
     fireEvent.click(screen.getByTestId('input-action-button'))
     expect(handleOnChange).toHaveBeenCalled()
   })

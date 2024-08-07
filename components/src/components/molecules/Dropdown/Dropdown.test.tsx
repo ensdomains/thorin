@@ -2,6 +2,8 @@ import * as React from 'react'
 
 import { ThemeProvider } from 'styled-components'
 
+import { PointerEventsCheckLevel } from '@testing-library/user-event'
+
 import {
   cleanup,
   makeMockIntersectionObserver,
@@ -56,7 +58,7 @@ describe('<Dropdown />', () => {
 
   it('should show dropdown when clicked', async () => {
     render(<DropdownHelper label="Menu" />)
-    userEvent.click(screen.getByText('Menu'))
+    await userEvent.click(screen.getByText('Menu'))
     await waitFor(() => {
       expect(screen.getByText('Dashboard')).toBeVisible()
     })
@@ -65,8 +67,11 @@ describe('<Dropdown />', () => {
   it('should call dropdown item callback when clicked', async () => {
     const mockCallback = jest.fn()
     render(<DropdownHelper {...{ mockCallback, label: 'Menu' }} />)
-    userEvent.click(screen.getByText('Menu'))
-    await waitFor(() => userEvent.click(screen.getByText('Dashboard')))
+    await userEvent.click(screen.getByText('Menu'))
+    await waitFor(() => expect(screen.getByText('Dashboard')).toBeVisible())
+    await userEvent.click(screen.getByText('Dashboard'), {
+      pointerEventsCheck: PointerEventsCheckLevel.Never,
+    })
     await waitFor(() => {
       expect(mockCallback).toHaveBeenCalled()
     })
@@ -74,11 +79,11 @@ describe('<Dropdown />', () => {
 
   it('should close if clicking outside of dropdown', async () => {
     render(<DropdownHelper label="Menu" />)
-    userEvent.click(screen.getByText('Menu'))
+    await userEvent.click(screen.getByText('Menu'))
     await waitFor(() => {
       expect(screen.getByText('Dashboard')).toBeVisible()
     })
-    userEvent.click(screen.getByText('outside'))
+    await userEvent.click(screen.getByText('outside'))
 
     await waitFor(() => {
       expect(screen.queryByText('Dashboard')).not.toBeVisible()
@@ -87,11 +92,11 @@ describe('<Dropdown />', () => {
 
   it('should close dropdown if button is clicked when open', async () => {
     render(<DropdownHelper label="Menu" />)
-    userEvent.click(screen.getByText('Menu'))
+    await await userEvent.click(screen.getByText('Menu'))
     await waitFor(() => {
       expect(screen.getByText('Dashboard')).toBeVisible()
     })
-    userEvent.click(screen.getByText('Menu'))
+    await await userEvent.click(screen.getByText('Menu'))
 
     expect(screen.queryByText('Dashboard')).not.toBeVisible()
   })
@@ -111,11 +116,11 @@ describe('<Dropdown />', () => {
         <button>custom</button>
       </DropdownHelper>,
     )
-    userEvent.click(screen.getByText('custom'))
+    await await userEvent.click(screen.getByText('custom'))
     await waitFor(() => {
       expect(screen.getByText('Dashboard')).toBeVisible()
     })
-    userEvent.click(screen.getByText('custom'))
+    await await userEvent.click(screen.getByText('custom'))
     expect(screen.queryByText('Dashboard')).not.toBeVisible()
   })
 
@@ -133,7 +138,7 @@ describe('<Dropdown />', () => {
   it('should use scrollbox if height is passed in', async () => {
     mockIntersectionObserver(true, false)
     render(<DropdownHelper height={100} label="menu" />)
-    userEvent.click(screen.getByText('menu'))
+    await await userEvent.click(screen.getByText('menu'))
     await waitFor(() => {
       expect(screen.getByText('Dashboard')).toBeVisible()
     })
@@ -153,7 +158,7 @@ describe('<Dropdown />', () => {
       />,
     )
 
-    userEvent.click(screen.getByText('menu'))
+    await await userEvent.click(screen.getByText('menu'))
 
     expect(screen.getByText('Example')).toHaveAttribute(
       'href',

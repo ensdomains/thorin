@@ -20,6 +20,6 @@ describe('<Avatar />', () => {
         />
       </ThemeProvider>,
     )
-    await waitFor(() => expect(screen.getByRole(/img/i)).toBeInTheDocument())
+    await waitFor(() => expect(screen.getByRole('img')).toBeInTheDocument())
   })
 })

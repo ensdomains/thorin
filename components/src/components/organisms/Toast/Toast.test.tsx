@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { ThemeProvider } from 'styled-components'
 
-import { cleanup, render, screen, userEvent, waitFor } from '@/test'
+import { cleanup, render, screen, userEvent, waitFor } from 'test-utils'
 
 import { lightTheme } from '@/src/tokens'
 
@@ -24,7 +24,7 @@ describe('<Toast />', () => {
     })
   })
 
-  it('should not be visible if not open', () => {
+  it('should not be visible if not open', async () => {
     render(
       <ThemeProvider theme={lightTheme}>
         <Toast
@@ -35,7 +35,7 @@ describe('<Toast />', () => {
         />
       </ThemeProvider>,
     )
-    waitFor(() => expect(screen.getByText('Test')).toBeNull(), {
+    await waitFor(() => expect(screen.queryByText('Test')).toBeNull(), {
       timeout: 300,
     })
   })
@@ -54,16 +54,18 @@ describe('<Toast />', () => {
     )
   })
 
-  it('should call callback if close icon is clicked', () => {
+  it('should call callback if close icon is clicked', async () => {
     const mockCallback = jest.fn()
     render(
       <ThemeProvider theme={lightTheme}>
         <Toast open title="Test" variant="desktop" onClose={mockCallback} />
       </ThemeProvider>,
     )
-    waitFor(() => userEvent.click(screen.getByTestId('toast-close-icon')), {
-      timeout: 300,
-    }).then(() => expect(mockCallback).toHaveBeenCalled())
+    await waitFor(() =>
+      expect(screen.getByTestId('toast-close-icon')).toBeVisible(),
+    )
+    await await userEvent.click(screen.getByTestId('toast-close-icon'))
+    expect(mockCallback).toHaveBeenCalled()
   })
   it('should show children if desktop variant', () => {
     render(
@@ -77,7 +79,7 @@ describe('<Toast />', () => {
       timeout: 300,
     })
   })
-  it('should show children if touch variant and clicked', () => {
+  it('should show children if touch variant and clicked', async () => {
     render(
       <ThemeProvider theme={lightTheme}>
         <Toast open title="Test" variant="touch" onClose={() => void 0}>
@@ -85,8 +87,8 @@ describe('<Toast />', () => {
         </Toast>
       </ThemeProvider>,
     )
-    waitFor(() => userEvent.click(screen.getByTestId('toast-touch')), {
-      timeout: 300,
-    }).then(() => expect(screen.getByTestId('action')).toBeVisible())
+    await waitFor(() => expect(screen.getByTestId('toast-touch')).toBeVisible())
+    await await userEvent.click(screen.getByTestId('toast-touch'))
+    await waitFor(() => expect(screen.getByTestId('action')).toBeVisible())
   })
 })
