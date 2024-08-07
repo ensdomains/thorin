@@ -1,9 +1,10 @@
 import * as React from 'react'
-import styled, { css } from 'styled-components'
+
+import { forwardRef } from 'react'
 
 import { Space } from '@/src/tokens'
 
-import { mq } from '@/src/utils/responsiveHelpers'
+import { space } from '@/src/tokens/space'
 
 import { Box, BoxProps, ScrollBox } from '../..'
 
@@ -33,48 +34,43 @@ type WithoutForm = {
 
 type DialogContentProps = BaseProps & (WithForm | WithoutForm)
 
-const Container = styled.div<{
-  $fullWidth?: boolean
-  $horizontalPadding: Space
-}>(
-  ({ theme, $fullWidth, $horizontalPadding }) => css`
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    gap: ${theme.space['4']};
-    max-height: 60vh;
-    max-width: 100vw;
-    overflow: hidden;
-
-    width: calc(100% + 2 * ${theme.space[$horizontalPadding]});
-    margin: 0 -${theme.space[$horizontalPadding]};
-
-    ${$fullWidth &&
-    css`
-      width: calc(100% + 2 * ${theme.space['4']});
-      margin: 0 -${theme.space['4']};
-    `}
-
-    ${mq.sm.min(css`
-      width: calc(
-        80vw - 2 * ${theme.space['6']} + 2 * ${theme.space[$horizontalPadding]}
-      );
-      max-width: calc(
-        ${theme.space['128']} + 2 * ${theme.space[$horizontalPadding]}
-      );
-
-      ${$fullWidth &&
-      css`
-        width: 80vw;
-        margin: 0 -${theme.space['6']};
-        max-width: calc(${theme.space['128']} + 2 * ${theme.space['6']});
-      `}
-    `)}
-  `,
-)
-
+const Container = forwardRef<
+  HTMLElement,
+  BoxProps & { $fullWidth?: boolean; $horizontalPadding: Space }
+>(({ $horizontalPadding, $fullWidth, ...props }, ref) => (
+  <Box
+    ref={ref}
+    {...props}
+    alignItems="center"
+    display="flex"
+    flex={1}
+    flexDirection="column"
+    gap="$4"
+    justifyContent="flex-start"
+    margin={{
+      base: $fullWidth
+        ? `margin: 0 -${space['4']};`
+        : `0 -${space[$horizontalPadding]}`,
+      sm: $fullWidth
+        ? `margin: 0 -${space['6']}`
+        : `0 -${space[$horizontalPadding]}`,
+    }}
+    maxHeight="60vh"
+    maxWidth={{
+      base: '$viewWidth',
+      sm: `calc(${space['128']} + 2 * ${space[$horizontalPadding]})`,
+    }}
+    overflow="hidden"
+    width={{
+      sm: $fullWidth
+        ? '80vw'
+        : `calc(80vw - 2 * ${space['6']} + 2 * ${space[$horizontalPadding]})`,
+      base: $fullWidth
+        ? `width: calc(100% + 2 * ${space['4']});`
+        : `calc(100% + 2 * ${space[$horizontalPadding]})`,
+    }}
+  />
+))
 const ScrollBoxContent = ({
   gap,
   children,
