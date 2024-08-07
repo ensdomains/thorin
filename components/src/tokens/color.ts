@@ -148,12 +148,11 @@ type NameColor = { [key in NamedShade]: string }
 type ColorItem<
   TObject extends Record<string, string>,
   TName extends string,
-> = TObject extends object
-  ? {
-    [key in Exclude<keyof TObject, symbol> as `${TName}${key}`]: string
-  } & {
-    [T in `${TName}`]: string
-  }
+> = TObject extends object ? {
+  [key in Exclude<keyof TObject, symbol> as `${TName}${key}`]: string
+} & {
+  [T in `${TName}`]: string
+}
   : never
 type CalculatedColors = WithRaw<ColorItem<NameColor, Hue | 'accent'>>
 type AllColors = WithRaw<CalculatedColors & GeneratedCategories>

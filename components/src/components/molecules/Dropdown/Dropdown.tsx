@@ -239,7 +239,9 @@ const DropdownMenu = React.forwardRef<HTMLDivElement, DropdownMenuProps>(
       direction,
       state,
       height,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       placement: _placement,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       mobilePlacement: _mobilePlacement,
       ...props
     },
@@ -477,6 +479,7 @@ const useClickOutside = (
 export const Dropdown = ({
   children,
   buttonProps,
+  // eslint-disable-next-line @eslint-react/no-unstable-default-props
   items = [],
   chevron = true,
   align = 'left',

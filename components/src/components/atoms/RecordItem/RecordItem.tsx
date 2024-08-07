@@ -168,6 +168,7 @@ export const RecordItem = React.forwardRef<
       children,
       ...props
     },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     ref,
   ) => {
     const { copy, copied } = useCopied()

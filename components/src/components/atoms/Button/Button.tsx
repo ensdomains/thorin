@@ -335,7 +335,6 @@ export const Button = React.forwardRef(
         type={type}
         // position={zIndex && 'relative'}
         zIndex={zIndex}
-        // eslint-disable-next-line react/jsx-sort-props
         onClick={onClick}
         {...removeNullishProps(props)}
       >

@@ -134,7 +134,7 @@ export const CountdownCircle = React.forwardRef(
           const currentSeconds = calculateCurrentCount()
           if (currentSeconds === 0) {
             clearInterval(countInterval)
-            callback && callback()
+            if (callback) callback()
           }
           setCurrentCount(currentSeconds)
         }, 1000)

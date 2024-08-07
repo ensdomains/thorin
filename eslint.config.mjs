@@ -19,7 +19,7 @@ const baseConfig = tseslint.config(
     },
   },
   {
-    ignores: ['docs/node_modules', 'docs/dist', 'docs/.next', '**/*.cjs', '**/*.js'],
+    ignores: ['docs/node_modules', 'docs/.next', '**/*.cjs', '**/*.js', '*/dist'],
   },
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
@@ -36,7 +36,7 @@ const baseConfig = tseslint.config(
     rules: {
       '@eslint-react/dom/no-missing-button-type': 'off',
       'stylistic/no-multiple-empty-lines': ['error', { max: 1 }],
-      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-explicit-any': 'off',
     },
   },
   {

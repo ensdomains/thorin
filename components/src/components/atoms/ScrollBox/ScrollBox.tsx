@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import * as React from 'react'
 
 import { commonVars } from '@/src/css/theme.css'

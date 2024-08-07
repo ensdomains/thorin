@@ -95,12 +95,12 @@ export const FileInput = React.forwardRef(
         // Disallow file larger than max
         if (maxSize && file.size > maxSize * 1_000_000) {
           event?.preventDefault()
-          onError
-          && onError(
+          if (onError)
+            onError(
               `File is ${(file.size / 1_000_000).toFixed(
                 2,
               )} MB. Must be smaller than ${maxSize} MB`,
-          )
+            )
           return
         }
         setState(x => ({
@@ -109,7 +109,7 @@ export const FileInput = React.forwardRef(
           name: file.name,
           type: file.type,
         }))
-        onChange && onChange(file)
+        if (onChange) onChange(file)
       },
       [maxSize, onChange, onError],
     )
@@ -164,7 +164,7 @@ export const FileInput = React.forwardRef(
     const handleFocus = React.useCallback(
       (event: React.FocusEvent<HTMLInputElement>) => {
         setState(x => ({ ...x, focused: true }))
-        onFocus && onFocus(event)
+        if (onFocus) onFocus(event)
       },
       [onFocus],
     )
@@ -172,26 +172,24 @@ export const FileInput = React.forwardRef(
     const handleBlur = React.useCallback(
       (event: React.FocusEvent<HTMLInputElement>) => {
         setState(x => ({ ...x, focused: false }))
-        onBlur && onBlur(event)
+        if (onBlur) onBlur(event)
       },
       [onBlur],
     )
 
-    /* eslint-disable react-hooks/exhaustive-deps */
     const reset = React.useCallback(
       (event: React.MouseEvent<HTMLInputElement>) => {
         event.preventDefault()
         setState(initialState)
         if (inputRef.current) inputRef.current.value = ''
-        onReset && onReset()
+        if (onReset) onReset()
       },
       // No need to add defaultValue
       [inputRef, onReset],
     )
-    /* eslint-enable react-hooks/exhaustive-deps */
 
     // Display preview for default value
-    /* eslint-disable react-hooks/exhaustive-deps */
+
     React.useEffect(() => {
       if (!defaultValue) return
       setState({
@@ -200,7 +198,6 @@ export const FileInput = React.forwardRef(
         type: defaultValue.type,
       })
     }, [])
-    /* eslint-enable react-hooks/exhaustive-deps */
 
     // Create URL for displaying media preview
     React.useEffect(() => {
