@@ -8,5 +8,6 @@
   "eslint.useFlatConfig": true,
   "stylelint.configFile": ".stylelintrc.json",
   "stylelint.validate": ["css", "typescriptreact"],
-  "svg.preview.background": "custom"
+  "svg.preview.background": "custom",
+  "prettier.enable": false
 }
