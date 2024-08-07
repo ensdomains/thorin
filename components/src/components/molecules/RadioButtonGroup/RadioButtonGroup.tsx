@@ -58,7 +58,7 @@ export const RadioButtonGroup = React.forwardRef(
     const [value, setValue] = React.useState(_value)
     React.useEffect(() => {
       if (_value && _value != value) setValue(_value)
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      
     }, [_value])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

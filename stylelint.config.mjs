@@ -6,4 +6,5 @@ export default {
     '@stylistic/max-empty-lines': 1,
     '@stylistic/string-quotes': 'single',
   },
+  ignorePatterns: ['**/*.tsx'],
 }

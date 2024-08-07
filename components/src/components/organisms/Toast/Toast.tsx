@@ -187,7 +187,6 @@ InternalProps & {
     if (open) {
       setCalcTop(0.025 * window.innerHeight)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open])
 
   React.useEffect(() => {
@@ -228,7 +227,6 @@ InternalProps & {
       //   }
       // }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [touches])
 
   const onTouchStart = React.useCallback((e: TouchEvent) => {
@@ -261,7 +259,6 @@ InternalProps & {
         capture: false,
       })
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   React.useEffect(() => {
@@ -274,7 +271,6 @@ InternalProps & {
         capture: false,
       })
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [popped])
 
   return (
@@ -335,7 +331,6 @@ export const Toast = ({
         onClose()
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open])
 
   React.useEffect(() => {

@@ -561,7 +561,6 @@ export const Select = React.forwardRef(
     const [value, setValue] = React.useState<SelectProps['value']>('')
     React.useEffect(() => {
       if (_value !== value && _value !== undefined) setValue(_value)
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [_value])
 
     const selectedOption = options?.find(o => o.value === value) || null
@@ -569,7 +568,7 @@ export const Select = React.forwardRef(
     const changeSelectedOption = (option?: SelectOptionProps, event?: any) => {
       if (option?.disabled) return
       if (option?.value === CREATE_OPTION_VALUE) {
-        onCreate && onCreate(queryValue)
+        onCreate?.(queryValue)
       }
       else if (option?.value) {
         setValue(option?.value)
@@ -592,7 +591,7 @@ export const Select = React.forwardRef(
               },
             },
           })
-          onChange && onChange(clonedEvent)
+          onChange?.(clonedEvent)
         }
       }
     }
@@ -683,7 +682,6 @@ export const Select = React.forwardRef(
 
     useEffect(() => {
       toggle(isOpen)
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isOpen])
 
     useEffect(() => {
@@ -845,14 +843,15 @@ export const Select = React.forwardRef(
                 tabIndex={-1}
                 value={value}
                 onChange={(e) => {
-                  const newValue = (e.target as any).value
+                  const newValue = (e.target as HTMLInputElement).value
                   const option = options?.find(o => o.value === newValue)
                   if (option) {
                     setValue(option.value)
-                    onChange && onChange(e)
+                    onChange?.(e)
                   }
                 }}
                 onFocus={() => {
+                  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
                   searchInputRef.current
                     ? searchInputRef.current.focus()
                     : displayRef.current?.focus()

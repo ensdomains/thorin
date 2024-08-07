@@ -9,7 +9,7 @@ import { FontSize } from '@/src/tokens/typography'
 
 import { DialogContent } from './DialogContent'
 
-import { Modal, ScrollBox, Typography } from '../..'
+import { Modal, Typography } from '../..'
 import { Box, BoxProps } from '../../atoms/Box/Box'
 import { getValueForAlert } from './utils/getValueForAlert'
 import { getValueForStepType } from './utils/getValueForStepType'
@@ -217,19 +217,19 @@ const Heading = ({
   )
 }
 
-const Content = ({ children }: { children?: React.ReactNode }) => {
-  return (
-    <Box
-      maxHeight="60vh"
-      maxWidth={{ base: '100vw', sm: '$128' }}
-      width={{ base: '100vw', sm: '80vw' }}
-    >
-      <ScrollBox height="$full" width="$full">
-        <Box paddingRight="$2">{children}</Box>
-      </ScrollBox>
-    </Box>
-  )
-}
+// const Content = ({ children }: { children?: React.ReactNode }) => {
+//   return (
+//     <Box
+//       maxHeight="60vh"
+//       maxWidth={{ base: '100vw', sm: '$128' }}
+//       width={{ base: '100vw', sm: '80vw' }}
+//     >
+//       <ScrollBox height="$full" width="$full">
+//         <Box paddingRight="$2">{children}</Box>
+//       </ScrollBox>
+//     </Box>
+//   )
+// }
 
 const Footer = ({
   leading,

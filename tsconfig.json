@@ -10,7 +10,8 @@
     },
     "module": "ESNext",
     "target": "ESNext",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "jsx": "preserve"
   },
   "include": ["components/**/*", "docs/**/*", "playroom/**/*"]
 }

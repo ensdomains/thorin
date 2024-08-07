@@ -20,6 +20,5 @@ export const useIntersectionalObserver = (
     return () => {
       if (observer && target) observer.unobserve(target)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ref, active])
 }

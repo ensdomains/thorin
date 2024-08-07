@@ -6,8 +6,7 @@
   },
   "editor.formatOnSave": false,
   "eslint.useFlatConfig": true,
-  "stylelint.configFile": ".stylelintrc.json",
-  "stylelint.validate": ["css", "typescriptreact"],
+  "stylelint.configFile": "stylelint.config.mjs",
   "svg.preview.background": "custom",
   "prettier.enable": false
 }

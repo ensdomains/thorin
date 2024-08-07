@@ -1,7 +1,7 @@
 export {}
 
 // Format string with arguments
-function sprintf(message: string, args: any[]) {
+function sprintf(message: string, args: unknown[]) {
   let i = 0
   return message.replace(/%((%)|s|d)/g, function (m: any) {
     // m is the matched format, e.g. %s, %d

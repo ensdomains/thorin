@@ -82,7 +82,6 @@ export const Backdrop = ({
     return () => {
       toggle(false)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, noBackground])
 
   return state.status !== 'unmounted'
