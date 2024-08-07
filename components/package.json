@@ -29,8 +29,8 @@
   "license": "MIT",
   "scripts": {
     "build": "vite build",
-    "lint": "eslint .",
-    "lint:fix": "eslint .  --fix",
+    "lint": "eslint . -c eslint.config.mjs",
+    "lint:fix": "eslint . -c eslint.config.mjs --fix",
     "clean": "rm -rf dist src/components/icons/generated/",
     "lint:types": "tsc --noEmit",
     "prepack": "pnpm build",

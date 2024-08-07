@@ -1,10 +1,10 @@
 {
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",
-    "source.fixAll.stylelint": "never",
+    "source.fixAll.stylelint": "explicit",
     "source.organizeImports": "never"
   },
-  "editor.formatOnSave": true,
+  "editor.formatOnSave": false,
   "eslint.useFlatConfig": true,
   "stylelint.configFile": ".stylelintrc.json",
   "stylelint.validate": ["css", "typescriptreact"],
