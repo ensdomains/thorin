@@ -6,7 +6,7 @@ import globals from 'globals'
 
 const baseConfig = tseslint.config(
   {
-    ignores: ['node_modules', 'dist', '.next'],
+    files: ['docs/src/**.{ts,tsx}'],
     languageOptions: {
       globals: {
         ...globals.node,
