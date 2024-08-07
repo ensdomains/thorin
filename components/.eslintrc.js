@@ -10,7 +10,7 @@ module.exports = {
     },
     allowImportExportEverywhere: true,
   },
-  plugins: ['@typescript-eslint', 'import', 'react', 'jest'],
+  plugins: ['@typescript-eslint', 'import', 'react'],
   extends: [
     'eslint:recommended',
     'plugin:eslint-comments/recommended',
@@ -120,6 +120,5 @@ module.exports = {
     es6: true,
     browser: true,
     node: true,
-    jest: true,
   },
 }
