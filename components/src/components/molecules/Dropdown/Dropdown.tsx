@@ -9,6 +9,8 @@ import { Colors, breakpoints } from '@/src/tokens'
 
 import { commonVars, modeVars } from '@/src/css/theme.css'
 
+import { Color } from '@/src/interfaces/withColor'
+
 import { DownChevronSVG, DynamicPopover, ScrollBox } from '../..'
 import { ActionSheet } from './ActionSheet'
 import { Box, BoxProps } from '../../atoms/Box/Box'
@@ -24,7 +26,7 @@ export type DropdownItemObject = {
   wrapper?: (children: React.ReactNode, key: React.Key) => JSX.Element
   icon?: React.ReactNode
   value?: string
-  color?: Colors
+  color?: Color
   disabled?: boolean
   showIndicator?: boolean | Colors
   href?: string

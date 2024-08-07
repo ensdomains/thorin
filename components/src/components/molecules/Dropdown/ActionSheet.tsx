@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { Colors, breakpoints } from '@/src/tokens'
+import { breakpoints } from '@/src/tokens'
 
 import { actionSheeItem } from './styles.css'
 
@@ -50,11 +50,8 @@ const ActionSheetItem = (props: BoxProps) => (
   />
 )
 
-const ActionSheetLinkItem = styled.a<{ $color?: Colors }>(
-  ({ theme, $color = 'text' }) => css`
-    color: ${theme.colors[$color]};
-    font-weight: ${theme.fontWeights.normal};
-  `,
+const ActionSheetLinkItem = (props: BoxProps) => (
+  <Box {...props} color={props.color || '$text'} fontWeight="$normal" />
 )
 
 type Props = {
@@ -100,7 +97,7 @@ export const ActionSheet = React.forwardRef<HTMLDivElement, Props>(
               >
                 {icon}
                 {href ? (
-                  <ActionSheetLinkItem $color={color} href={href}>
+                  <ActionSheetLinkItem color={color} href={href}>
                     {label}
                   </ActionSheetLinkItem>
                 ) : (

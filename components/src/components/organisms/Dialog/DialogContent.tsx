@@ -5,7 +5,7 @@ import { Space } from '@/src/tokens'
 
 import { mq } from '@/src/utils/responsiveHelpers'
 
-import { ScrollBox } from '../..'
+import { Box, BoxProps, ScrollBox } from '../..'
 
 type NativeFromProps = React.FormHTMLAttributes<HTMLFormElement>
 
@@ -75,15 +75,20 @@ const Container = styled.div<{
   `,
 )
 
-const ScrollBoxContent = styled.div<{ $gap: Space }>(
-  ({ theme, $gap }) => css`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    width: ${theme.space.full};
-    gap: ${theme.space[$gap]};
-  `,
+const ScrollBoxContent = ({
+  gap,
+  children,
+}: Pick<BoxProps, 'gap' | 'children'>) => (
+  <Box
+    alignItems="center"
+    display="flex"
+    flexDirection="column"
+    gap={gap}
+    justifyContent="flex-start"
+    width="$full"
+  >
+    {children}
+  </Box>
 )
 
 export const DialogContent = React.forwardRef<
@@ -114,7 +119,7 @@ export const DialogContent = React.forwardRef<
         {...{ target, method, action, onSubmit }}
       >
         <ScrollBox {...props} horizontalPadding={horizontalPadding}>
-          <ScrollBoxContent $gap={gap}>{children}</ScrollBoxContent>
+          <ScrollBoxContent gap={gap}>{children}</ScrollBoxContent>
         </ScrollBox>
       </Container>
     )
