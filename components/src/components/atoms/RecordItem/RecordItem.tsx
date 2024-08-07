@@ -190,68 +190,68 @@ export const RecordItem = React.forwardRef<
     const hasPrefix = !!icon || !!keyLabel
     const hasLabels = !!keyLabel || !!keySublabel
 
-  const KeyLabel =
-    typeof keyLabel === 'string' ? (
-      <Typography
-        color="grey"
-        ellipsis={!inline}
-        fontVariant={size === 'large' ? 'bodyBold' : 'smallBold'}
-        textAlign="left"
-        width="$full"
-      >
-        {keyLabel}
-      </Typography>
-    ) : (
-      keyLabel
+    const KeyLabel =
+      typeof keyLabel === 'string' ? (
+        <Typography
+          color="grey"
+          ellipsis={!inline}
+          fontVariant={size === 'large' ? 'bodyBold' : 'smallBold'}
+          textAlign="left"
+          width="$full"
+        >
+          {keyLabel}
+        </Typography>
+      ) : (
+        keyLabel
+      )
+
+    const KeySublabel =
+      typeof keySublabel === 'string' ? (
+        <Typography
+          color="grey"
+          ellipsis={!inline}
+          fontVariant={size === 'large' ? 'smallBold' : 'extraSmallBold'}
+          textAlign="left"
+          width="$full"
+        >
+          {keySublabel}
+        </Typography>
+      ) : (
+        keySublabel
+      )
+    const PostfixProps = postfixIcon
+      ? { as: postfixIcon }
+      : link
+      ? { $rotate: true, as: UpArrowSVG }
+      : copied
+      ? { as: CheckSVG }
+      : { as: CopySVG }
+
+    return (
+      <ContainerBox $inline={inline} as={asProp} {...generatedProps}>
+        {hasPrefix && (
+          <PrefixBox $inline={inline} $size={size}>
+            {icon && <PrefixSVGBox as={icon as React.ReactElement} />}
+            {hasLabels && (
+              <PrefixLabelsContainerBox $inline={inline}>
+                {KeyLabel}
+                {KeySublabel}
+              </PrefixLabelsContainerBox>
+            )}
+          </PrefixBox>
+        )}
+        <Typography
+          flex="1"
+          fontVariant={size === 'large' ? 'body' : 'small'}
+          textAlign="left"
+          wordBreak={inline ? 'normal' : 'break-all'}
+        >
+          {children}
+        </Typography>
+        <TrailingSVGBox {...(PostfixProps as any)} />
+      </ContainerBox>
     )
-
-  const KeySublabel =
-    typeof keySublabel === 'string' ? (
-      <Typography
-        color="grey"
-        ellipsis={!inline}
-        fontVariant={size === 'large' ? 'smallBold' : 'extraSmallBold'}
-        textAlign="left"
-        width="$full"
-      >
-        {keySublabel}
-      </Typography>
-    ) : (
-      keySublabel
-    )
-  const PostfixProps = postfixIcon 
-    ? { as: postfixIcon } 
-    : link
-    ? { $rotate: true, as: UpArrowSVG }
-    : copied
-    ? { as: CheckSVG }
-    : { as: CopySVG }
-
-  return (
-    <ContainerBox $inline={inline} as={asProp} {...generatedProps}>
-      {hasPrefix && (
-        <PrefixBox $inline={inline} $size={size}>
-          {icon && <PrefixSVGBox as={icon as React.ReactElement} />}
-          {hasLabels && (
-            <PrefixLabelsContainerBox $inline={inline}>
-              {KeyLabel}
-              {KeySublabel}
-            </PrefixLabelsContainerBox>
-          )}
-        </PrefixBox>
-      )}
-      <Typography
-        flex="1"
-        fontVariant={size === 'large' ? 'body' : 'small'}
-        textAlign="left"
-        wordBreak={inline ? 'normal' : 'break-all'}
-      >
-        {children}
-      </Typography>
-      <TrailingSVGBox {...(PostfixProps as any)} />
-    </ContainerBox>
-  )
-})
-
+  },
+)
 
 RecordItem.displayName = 'RecordItem'

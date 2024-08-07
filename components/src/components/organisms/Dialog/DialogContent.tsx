@@ -1,9 +1,9 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 
-import { mq } from '@/src/utils/responsiveHelpers'
-
 import { Space } from '@/src/tokens'
+
+import { mq } from '@/src/utils/responsiveHelpers'
 
 import { ScrollBox } from '../..'
 

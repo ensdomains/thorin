@@ -12,7 +12,7 @@ const BASE_COLORS = [
   'grey',
 ] as const
 
-type BaseColor = typeof BASE_COLORS[number]
+type BaseColor = (typeof BASE_COLORS)[number]
 
 const GRADIENT_COLORS = [
   'accent',
@@ -23,7 +23,7 @@ const GRADIENT_COLORS = [
   'grey',
 ] as const
 
-type GradientColor = typeof GRADIENT_COLORS[number]
+type GradientColor = (typeof GRADIENT_COLORS)[number]
 
 const makeColorStyleMap = () => {
   const primaryStyles = Object.fromEntries(

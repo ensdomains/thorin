@@ -1,4 +1,4 @@
-import { style, createVar } from '@vanilla-extract/css'
+import { createVar, style } from '@vanilla-extract/css'
 
 import { commonVars, modeVars } from '@/src/css/theme.css'
 
@@ -10,7 +10,7 @@ export const scrollBox = style({
       syntax: '<color>',
       inherits: false,
       initialValue: modeVars.color.greyLight,
-    }
+    },
   },
   overflow: 'auto',
   position: 'relative',

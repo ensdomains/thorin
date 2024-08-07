@@ -1,16 +1,14 @@
 import * as React from 'react'
 
-import * as styles from './styles.css'
-import { Box, BoxProps } from '../Box/Box'
 import { commonVars } from '@/src/css/theme.css'
+
 import { Space } from '@/src/tokens'
 
+import * as styles from './styles.css'
+import { Box, BoxProps } from '../Box/Box'
+
 const ScrollBoxBox = React.forwardRef<HTMLElement, BoxProps>((props, ref) => (
-  <Box
-    ref={ref}
-    classNames={styles.scrollBox}
-    {...props}
-  />
+  <Box classNames={styles.scrollBox} ref={ref} {...props} />
 ))
 
 const DividerBox = ({
@@ -23,22 +21,28 @@ const DividerBox = ({
   horizontalPadding?: Space
 }) => {
   return (
-  <Box
-  style={horizontalPadding ? { width: `calc(100% - 2 * ${commonVars.space[horizontalPadding]})`} : {}}
-    backgroundColor={show ? '$border' : 'transparent'}
-    bottom={position === 'bottom' ? '-$px' : 'unset'}
-    data-testid={`scrollbox-${position}-divider`}
-    display="block"
-    height="$px"
-    left={horizontalPadding ? commonVars.space[horizontalPadding] :"$0"}
-    position="absolute"
-    top={position === 'top' ? '$0' : 'unset'}
-    transitionDuration="$150"
-    transitionProperty="background-color"
-    transitionTimingFunction="$inOut"
-    width="$full"
-    zIndex="100"
-  />)}
+    <Box
+      backgroundColor={show ? '$border' : 'transparent'}
+      bottom={position === 'bottom' ? '-$px' : 'unset'}
+      data-testid={`scrollbox-${position}-divider`}
+      display="block"
+      height="$px"
+      left={horizontalPadding ? commonVars.space[horizontalPadding] : '$0'}
+      position="absolute"
+      style={
+        horizontalPadding
+          ? { width: `calc(100% - 2 * ${commonVars.space[horizontalPadding]})` }
+          : {}
+      }
+      top={position === 'top' ? '$0' : 'unset'}
+      transitionDuration="$150"
+      transitionProperty="background-color"
+      transitionTimingFunction="$inOut"
+      width="$full"
+      zIndex="100"
+    />
+  )
+}
 
 type Props = {
   /** If true, the dividers will be hidden */
@@ -143,27 +147,49 @@ export const ScrollBox = ({
 
   return (
     <Box
-      position="relative"
       border="solid $px transparent"
-      width="$full"
-      height="$full"
       borderLeftWidth="$0"
       borderRightWidth="$0"
+      height="$full"
+      position="relative"
+      width="$full"
       {...props}
     >
-      <ScrollBoxBox style={horizontalPadding ? {
-        padding: `0 ${commonVars.space[horizontalPadding]}`,
-      } : {}}>
-        <Box data-testid="scrollbox-top-intersect" ref={topRef} 
-        display="block" height="$0"
+      <ScrollBoxBox
+        style={
+          horizontalPadding
+            ? {
+                padding: `0 ${commonVars.space[horizontalPadding]}`,
+              }
+            : {}
+        }
+      >
+        <Box
+          data-testid="scrollbox-top-intersect"
+          display="block"
+          height="$0"
+          ref={topRef}
         />
         {children}
-        <Box data-testid="scrollbox-bottom-intersect" ref={bottomRef} 
-        display="block" height="$0"
+        <Box
+          data-testid="scrollbox-bottom-intersect"
+          display="block"
+          height="$0"
+          ref={bottomRef}
         />
       </ScrollBoxBox>
-      <DividerBox data-testid="scrollbox-top-line" show={showTop} position='top' horizontalPadding={horizontalPadding}/>
-      <DividerBox data-testid="scrollbox-bottom-line" show={showBottom} position='bottom' horizontalPadding={horizontalPadding}/>
+      <DividerBox
+        data-testid="scrollbox-top-line"
+        horizontalPadding={horizontalPadding}
+        position="top"
+        show={showTop}
+      />
+      <DividerBox
+        data-testid="scrollbox-bottom-line"
+        horizontalPadding={horizontalPadding}
+        position="bottom"
+        show={showBottom}
+      />
     </Box>
   )
 }

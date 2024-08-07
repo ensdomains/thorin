@@ -95,7 +95,7 @@ const gradients = {
  */
 
 export type NamedShade = keyof typeof namedShadeMap
-export type Shade = typeof shades[number]
+export type Shade = (typeof shades)[number]
 export type Hue = keyof typeof hues
 export type Category = keyof Categories | 'accent'
 export type Gradient = keyof typeof gradients

@@ -49,15 +49,14 @@ const StyledCard = (props: BoxProps) => (
     display="flex"
     flexDirection="column"
     gap={{ xs: '$4', sm: '$6' }}
-    maxWidth={{ xs: 'unset', sm: '80vw' }}
     maxHeight={{ xs: '80vh', sm: 'min(90vh, $144)' }}
+    maxWidth={{ xs: 'unset', sm: '80vw' }}
     minWidth={{ xs: 'unset', sm: '$64' }}
+    overflow="hidden"
     padding={{ xs: '$4', sm: '$6' }}
     position="relative"
-    overflow="hidden"
     width="$full"
   />
-
 )
 
 type NonNullableAlert = NonNullable<WithAlert['alert']>
