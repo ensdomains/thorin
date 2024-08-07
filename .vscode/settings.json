@@ -5,21 +5,8 @@
     "source.organizeImports": "never"
   },
   "editor.formatOnSave": true,
-  "eslint.options": {
-    "extensions": [".js", ".json", ".mdx", ".ts", ".tsx"]
-  },
-  "eslint.validate": [
-    "javascript",
-    "json",
-    "mdx",
-    "typescript",
-    "typescriptreact"
-  ],
+  "eslint.useFlatConfig": true,
   "stylelint.configFile": ".stylelintrc.json",
   "stylelint.validate": ["css", "typescriptreact"],
-  "eslint.packageManager": "yarn",
-  "[typescriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
   "svg.preview.background": "custom"
 }
