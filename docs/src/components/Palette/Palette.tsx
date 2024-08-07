@@ -22,7 +22,7 @@ const ColorLabel = ({ children }: React.PropsWithChildren) => (
   </Box>
 )
 
-const ShadeLabel = ({ children }: React.PropsWithChildren<{}>) => (
+const ShadeLabel = ({ children }: React.PropsWithChildren) => (
   <Box
     display="flex"
     alignItems="center"

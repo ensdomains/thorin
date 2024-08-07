@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { PropItem } from 'react-docgen-typescript'
+import { PropItem, PropItemType } from 'react-docgen-typescript'
 import GithubSVG from '~/assets/Github.svg'
 
 import {
@@ -32,13 +32,13 @@ const TableHead = ({
   </Box>
 )
 
-const DataCell = ({ children }: React.PropsWithChildren<{}>) => (
+const DataCell = ({ children }: React.PropsWithChildren) => (
   <Box as="td" borderTop="1px solid" borderTopColor="$border" padding="$4">
     {children}
   </Box>
 )
 
-const formatPropType = (type: any): string => {
+const formatPropType = (type: PropItemType): string => {
   if (!type.raw) return type.name
   if (
     [
