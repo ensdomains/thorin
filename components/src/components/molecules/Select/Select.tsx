@@ -9,7 +9,7 @@ import { useDocumentEvent } from '@/src/hooks/useDocumentEvent'
 
 import { Colors, Space } from '@/src/tokens'
 
-import { CrossCircleSVG } from '@/src'
+import { CrossCircleSVG } from '@/src/icons'
 
 import { statusDot } from '@/src/css/recipes/statusDot.css'
 
@@ -469,7 +469,7 @@ export type SelectProps = {
   validated?: boolean
   /** If true, sets the select component into read only mode */
   readOnly?: boolean
-} & FieldBaseProps &
+} & FieldBaseProps & Pick<React.InputHTMLAttributes<HTMLInputElement>, 'placeholder'> &
 Omit<
   NativeDivProps,
   | 'children'

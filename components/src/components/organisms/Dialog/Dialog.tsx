@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { AlertSVG, CrossSVG, EthSVG } from '@/src'
+import { AlertSVG, CrossSVG, EthSVG } from '@/src/icons'
 
 import { WithAlert } from '@/src/types'
 

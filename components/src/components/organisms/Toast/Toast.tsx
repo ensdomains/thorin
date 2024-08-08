@@ -3,13 +3,12 @@ import { TransitionState } from 'react-transition-state'
 
 import { match } from 'ts-pattern'
 
-import { Space } from '@/src'
-
 import { translateY } from '@/src/css/utils/common'
 
 import { Backdrop, CrossSVG, Typography } from '../..'
 import { getTestId } from '../../../utils/utils'
 import { Box, BoxProps } from '../../atoms/Box/Box'
+import { Space } from '@/src/tokens'
 
 const CloseIcon = (props: BoxProps) => (
   <Box

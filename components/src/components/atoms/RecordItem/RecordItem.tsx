@@ -3,7 +3,7 @@ import { ReactNode } from 'react'
 
 import { match } from 'ts-pattern'
 
-import { CheckSVG, CopySVG, UpArrowSVG } from '@/src'
+import { CheckSVG, CopySVG, UpArrowSVG } from '@/src/icons'
 
 import { Neverable } from '@/src/types'
 

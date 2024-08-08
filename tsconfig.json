@@ -11,7 +11,7 @@
     "module": "ESNext",
     "target": "ESNext",
     "skipLibCheck": true,
-    "jsx": "preserve"
-  },
-  "include": ["components/**/*", "docs/**/*", "playroom/**/*"]
+    "jsx": "preserve",
+    "allowSyntheticDefaultImports": true
+  }
 }

@@ -29,12 +29,13 @@
   "license": "MIT",
   "scripts": {
     "build": "vite build",
+    "postbuild": "tsc --emitDeclarationOnly",
     "lint": "eslint . -c eslint.config.mjs",
     "lint:fix": "eslint . -c eslint.config.mjs --fix",
     "clean": "rm -rf dist src/components/icons/generated/",
     "lint:types": "tsc --noEmit",
     "prepack": "pnpm build",
-    "test": "jest",
+    "test": "vitest run",
     "ver": "pnpm npm version"
   },
   "dependencies": {
@@ -45,7 +46,6 @@
     "ts-pattern": "^4.3.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.5",
     "@honkhonk/vite-plugin-svgr": "^1.1.0",
     "@stylelint/postcss-css-in-js": "^0.38.0",
     "@svgr/babel-plugin-remove-jsx-attribute": "^6.0.0",
@@ -63,25 +63,21 @@
     "@vanilla-extract/css": "^1.13.0",
     "@vanilla-extract/css-utils": "^0.1.3",
     "@vanilla-extract/dynamic": "^2.0.3",
-    "@vanilla-extract/jest-transform": "^1.1.1",
     "@vanilla-extract/private": "^1.0.3",
     "@vanilla-extract/recipes": "^0.5.0",
     "@vanilla-extract/sprinkles": "^1.6.1",
     "@vanilla-extract/vite-plugin": "^3.9.0",
     "esbuild-darwin-arm64": "^0.14.27",
     "glob": "^7.2.0",
-    "jest": "^27.3.1",
     "rainbow-sprinkles": "0.17.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "ts-node": "^10.4.0",
     "typescript": "4.9.4",
     "vite": "^3.2.5",
     "vite-plugin-babel-macros": "^1.0.6",
-    "vite-plugin-dts": "1.7.1",
-    "vite-plugin-stylelint": "^2.2.3",
     "vite-plugin-svgr": "^1.1.0",
-    "vite-tsconfig-paths": "^4.0.1"
+    "vite-tsconfig-paths": "^4.0.1",
+    "vitest": "^2.0.5"
   },
   "peerDependencies": {
     "react": "^18",

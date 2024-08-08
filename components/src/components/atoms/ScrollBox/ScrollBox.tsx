@@ -7,9 +7,10 @@ import { Space } from '@/src/tokens'
 
 import * as styles from './styles.css'
 import { Box, BoxProps } from '../Box/Box'
+import clsx from 'clsx'
 
 const ScrollBoxBox = React.forwardRef<HTMLElement, BoxProps>((props, ref) => (
-  <Box classNames={styles.scrollBox} ref={ref} {...props} />
+  <Box className={clsx(styles.scrollBox, props.className)} ref={ref} {...props} />
 ))
 
 const DividerBox = ({
@@ -148,8 +149,10 @@ export const ScrollBox = ({
   return (
     <Box
       border="solid $px transparent"
-      borderLeftWidth="$0"
-      borderRightWidth="$0"
+      style={{
+        borderLeftWidth: 0,
+        borderRightWidth: 0,
+      }}
       height="$full"
       position="relative"
       width="$full"
