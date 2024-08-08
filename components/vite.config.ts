@@ -13,7 +13,7 @@ export default defineConfig({
   },
   build: {
     lib: {
-      entry: './src/index.ts',
+      entry: './src/components/index.ts',
       fileName: format => `index.${format}.js`,
       formats: ['es', 'cjs'],
     },
