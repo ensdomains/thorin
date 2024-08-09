@@ -21,6 +21,7 @@ type BaseProps = {
   actionIcon?: React.ReactNode
   icon?: React.ReactNode
   iconType?: IconTypes
+  actionButton?: React.ReactNode
 } & NativeDivProps
 
 type WithIcon = {
@@ -40,6 +41,7 @@ type WithAnchor = {
   rel?: string
   onDismiss?: never
   actionIcon?: React.ReactNode
+  actionButton?: never
 }
 
 type WithoutAnchor = {
@@ -48,15 +50,16 @@ type WithoutAnchor = {
   target?: never
   rel?: never
   onDismiss?: () => void
+  actionButton?: React.ReactNode
 }
 
 type NonNullableAlert = NonNullable<Props['alert']>
 
 const Container = styled.div<{
   $alert: NonNullableAlert
-  $hasAction: boolean
+  $hasBannerWideAction: boolean
 }>(
-  ({ theme, $alert, $hasAction }) => css`
+  ({ theme, $alert, $hasBannerWideAction }) => css`
     position: relative;
     background: ${theme.colors.backgroundPrimary};
     border: 1px solid ${theme.colors.border};
@@ -64,6 +67,7 @@ const Container = styled.div<{
     padding: ${theme.space[4]};
     display: flex;
     align-items: stretch;
+    flex-direction: column;
     gap: ${theme.space[4]};
     width: ${theme.space.full};
     transition: all 150ms ease-in-out;
@@ -71,12 +75,13 @@ const Container = styled.div<{
     ${mq.sm.min(
       css`
         padding: ${theme.space['6']};
-        gap: ${theme.space[6]};
         align-items: center;
+        flex-direction: row;
+        gap: ${theme.space[6]};
       `,
     )}
 
-    ${$hasAction &&
+    ${$hasBannerWideAction &&
     css`
       padding-right: ${theme.space[8]};
       &:hover {
@@ -108,6 +113,16 @@ const Container = styled.div<{
 )
 
 const Content = styled.div(
+  ({ theme }) => css`
+    flex: 1;
+    display: flex;
+    align-items: stretch;
+    gap: ${theme.space[4]};
+    width: ${theme.space.full};
+  `,
+)
+
+const TextContent = styled.div(
   ({ theme }) => css`
     flex: 1;
     display: flex;
@@ -165,7 +180,23 @@ const IconContainer = styled.div<{
   `,
 )
 
-const ActionButtonContainer = styled.button(
+const CustomActionButtonContainer = styled.div(
+  ({ theme }) => css`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+
+    & > * {
+      width: ${theme.space.full};
+      ${mq.sm.min(css`
+        width: ${theme.space.fit};
+      `)}
+    }
+  `,
+)
+
+const ActionIconButtonContainer = styled.button(
   ({ theme }) => css`
     position: absolute;
     top: 0;
@@ -174,7 +205,7 @@ const ActionButtonContainer = styled.button(
   `,
 )
 
-const ActionButtonIconWrapper = styled.div<{
+const ActionIconButtonIconWrapper = styled.div<{
   $alert: NonNullableAlert
   $hasAction?: boolean
 }>(
@@ -230,27 +261,28 @@ const ActionButtonIconWrapper = styled.div<{
   `,
 )
 
-const ActionButton = ({
-  alert = 'info',
+const ActionIconButton = ({
+  alert,
   icon,
   hasHref,
   onDismiss,
-}: Pick<Props, 'alert' | 'onDismiss'> & { hasHref: boolean } & WithIcon) => {
+}: Required<WithAlert> &
+  Pick<Props, 'onDismiss'> & { hasHref: boolean } & WithIcon) => {
   if (onDismiss)
     return (
-      <ActionButtonContainer onClick={() => onDismiss()}>
-        <ActionButtonIconWrapper $alert={alert} $hasAction>
+      <ActionIconButtonContainer onClick={() => onDismiss()}>
+        <ActionIconButtonIconWrapper $alert={alert} $hasAction>
           {icon || <CrossSVG />}
-        </ActionButtonIconWrapper>
-      </ActionButtonContainer>
+        </ActionIconButtonIconWrapper>
+      </ActionIconButtonContainer>
     )
   if (hasHref || icon)
     return (
-      <ActionButtonContainer as="div">
-        <ActionButtonIconWrapper $alert={alert}>
+      <ActionIconButtonContainer as="div">
+        <ActionIconButtonIconWrapper $alert={alert}>
           {icon || <UpRightArrowSVG />}
-        </ActionButtonIconWrapper>
-      </ActionButtonContainer>
+        </ActionIconButtonIconWrapper>
+      </ActionIconButtonContainer>
     )
   return null
 }
@@ -282,6 +314,7 @@ export const Banner = React.forwardRef<
       as: asProp,
       children,
       onDismiss,
+      actionButton,
       ...props
     },
     ref,
@@ -295,27 +328,34 @@ export const Banner = React.forwardRef<
       ))
 
     const hasHref = !!props.href
-    const hasAction = hasHref || !!props.onClick
+    const hasBannerWideAction = hasHref || !!props.onClick
     const _iconType = iconType || defaultIconType(alert, icon)
 
     return (
       <Container
         {...props}
         $alert={alert}
-        $hasAction={hasAction}
+        $hasBannerWideAction={hasBannerWideAction}
         as={asProp as any}
         ref={ref}
       >
-        {_iconType !== 'none' && (
-          <IconContainer $alert={alert} $type={_iconType}>
-            {Icon}
-          </IconContainer>
-        )}
         <Content>
-          {title && <Typography fontVariant="largeBold">{title}</Typography>}
-          <Typography>{children}</Typography>
+          {_iconType !== 'none' && (
+            <IconContainer $alert={alert} $type={_iconType}>
+              {Icon}
+            </IconContainer>
+          )}
+          <TextContent>
+            {title && <Typography fontVariant="largeBold">{title}</Typography>}
+            <Typography>{children}</Typography>
+          </TextContent>
         </Content>
-        <ActionButton
+        {actionButton && (
+          <CustomActionButtonContainer>
+            <div>{actionButton}</div>
+          </CustomActionButtonContainer>
+        )}
+        <ActionIconButton
           alert={alert}
           hasHref={hasHref}
           icon={props.actionIcon}

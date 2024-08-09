@@ -16,7 +16,7 @@ jobs:
         with:
           ref: ${{ github.event.release.target_commitish }}
 
-      - uses: pnpm/action-setup@v2.4.0
+      - uses: pnpm/action-setup@v2.4.1
         with:
           version: 8.11.0
 
