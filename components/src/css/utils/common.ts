@@ -4,8 +4,8 @@ const base = (
   decimals: number,
   unit = '',
 ) => {
-  const _value =
-    typeof value === 'number'
+  const _value
+    = typeof value === 'number'
       ? `${value.toFixed(decimals)}${unit}`
       : (value as string)
   return `${functionName}(${_value})`

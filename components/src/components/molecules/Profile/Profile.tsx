@@ -124,13 +124,13 @@ const ProfileInner = ({ size = 'medium', avatar, address, ensName }: Props) => (
         ellipsis
         fontVariant={size === 'large' ? 'headingFour' : 'bodyBold'}
       >
-        {ensName ||
-          shortenAddress(
-            address,
-            size === 'large' ? 30 : 10,
-            size === 'large' ? 10 : 5,
-            size === 'large' ? 10 : 5,
-          )}
+        {ensName
+        || shortenAddress(
+          address,
+          size === 'large' ? 30 : 10,
+          size === 'large' ? 10 : 5,
+          size === 'large' ? 10 : 5,
+        )}
       </Typography>
     </ProfileInnerContainer>
   </>

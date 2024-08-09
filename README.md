@@ -9,14 +9,14 @@ A design system for ENS built with React and styled-components.
 To install this package using npm:
 
 ```bash
-npm install @ensdomains/thorin
+npm install @ensdomains/thorin styled-components react-transition-state@1.1.5
 
 ```
 
 To install this package using yarn:
 
 ```bash
-yarn add @ensdomains/thorin
+yarn add @ensdomains/thorin styled-components react-transition-state@1.1.5
 ```
 
 Checkout the project's [playroom](https://thorin.ens.domains/playroom) to preview the components in a live online environment.

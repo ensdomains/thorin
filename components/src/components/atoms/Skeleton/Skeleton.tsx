@@ -10,7 +10,7 @@ import { Box } from '../Box/Box'
 type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 
 type Props = {
-  /** An alternative element type to render the component as.*/
+  /** An alternative element type to render the component as. */
   as?: 'span'
   /** If true, hides the content and shows the skeleton style. */
   loading?: boolean

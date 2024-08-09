@@ -22,7 +22,7 @@ const Container = ({
   $alert,
   $alignment,
   ...props
-}: BoxProps & { $alert: Alert; $alignment: Alignment }) => (
+}: BoxProps & { $alert: Alert, $alignment: Alignment }) => (
   <Box
     {...props}
     alignItems="center"

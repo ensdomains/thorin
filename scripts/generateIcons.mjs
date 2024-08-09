@@ -1,8 +1,7 @@
-const fs = require('fs-extra')
+import fs from 'fs-extra'
+import path from 'node:path'
 
-const path = require('path')
-
-const ICONS_DIR = path.join(__dirname, '../components/src/icons')
+const ICONS_DIR = path.join(import.meta.dirname, '../components/src/icons')
 
 ;(async () => {
   try {
@@ -18,14 +17,15 @@ const ICONS_DIR = path.join(__dirname, '../components/src/icons')
           throw new Error('Icon filenames must be in pascal case: ' + filename)
         return filename
       })
-      .filter((x) => !!x)
+      .filter(x => !!x)
       .map(
-        (filename) =>
+        filename =>
           `export { ReactComponent as ${filename}SVG } from './${filename}.svg'\n`,
       )
       .join('')
     await fs.writeFile(path.join(ICONS_DIR, 'index.tsx'), indexContent, 'utf-8')
-  } catch (e) {
+  }
+  catch (e) {
     console.log('ERROR', e)
   }
 })()

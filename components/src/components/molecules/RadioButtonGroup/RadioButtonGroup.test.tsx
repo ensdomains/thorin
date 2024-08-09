@@ -115,7 +115,7 @@ describe('<RadioButtonGroup />', () => {
           data-testid="radio-group"
           legend={`Radio Buttons - Current Value: ${state || '30'}`}
         >
-          <RadioButtonGroup onChange={(e) => setState(e.target.value)}>
+          <RadioButtonGroup onChange={e => setState(e.target.value)}>
             <input id="html" name="fav_language" type="radio" value="HTML" />
             <label htmlFor="html">HTML</label>
             <input id="css" name="fav_language" type="radio" value="CSS" />

@@ -16,7 +16,7 @@ export type Props = {
   /** Size of element */
   size?: 'small' | 'medium'
 } & Omit<BoxProps, 'size'> &
-  WithColorStyle
+WithColorStyle
 
 export const Tag = ({
   as = 'div',

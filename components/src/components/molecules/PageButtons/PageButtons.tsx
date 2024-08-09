@@ -93,7 +93,7 @@ export const PageButtons = ({
     1,
   )
   const pageNumbers = Array.from({ length: max }, (_, i) => start + i).filter(
-    (x) => x <= total,
+    x => x <= total,
   )
 
   if (total > max) {
@@ -101,10 +101,12 @@ export const PageButtons = ({
       if (showEllipsis) {
         pageNumbers[0] = Marker.ellipsis
         pageNumbers.unshift(1)
-      } else {
+      }
+      else {
         pageNumbers[0] = 1
       }
-    } else if (showEllipsis && start > 1) {
+    }
+    else if (showEllipsis && start > 1) {
       pageNumbers.unshift(Marker.ellipsis)
     }
 
@@ -112,10 +114,12 @@ export const PageButtons = ({
       if (showEllipsis) {
         pageNumbers[pageNumbers.length - 1] = Marker.ellipsis
         pageNumbers.push(total)
-      } else {
+      }
+      else {
         pageNumbers[pageNumbers.length - 1] = total
       }
-    } else if (showEllipsis && total > current + maxPerSide) {
+    }
+    else if (showEllipsis && total > current + maxPerSide) {
       pageNumbers.push(Marker.ellipsis)
     }
   }
@@ -125,23 +129,25 @@ export const PageButtons = ({
       {...{ ...props, 'data-testid': getTestId(props, 'pagebuttons') }}
     >
       {pageNumbers.map((value, i) =>
-        value === Marker.ellipsis ? (
-          // eslint-disable-next-line react/no-array-index-key
-          <Dots data-testid="pagebutton-dots" key={`${value}-${i}`}>
-            ...
-          </Dots>
-        ) : (
-          <PageButton
-            $selected={value === current}
-            $size={size}
-            data-testid="pagebutton"
-            key={value}
-            type="button"
-            onClick={() => onChange(value)}
-          >
-            {value}
-          </PageButton>
-        ),
+        value === Marker.ellipsis
+          ? (
+
+              <Dots data-testid="pagebutton-dots" key={`${value}-${i}`}>
+                ...
+              </Dots>
+            )
+          : (
+              <PageButton
+                $selected={value === current}
+                $size={size}
+                data-testid="pagebutton"
+                key={value}
+                type="button"
+                onClick={() => onChange(value)}
+              >
+                {value}
+              </PageButton>
+            ),
       )}
     </Container>
   )

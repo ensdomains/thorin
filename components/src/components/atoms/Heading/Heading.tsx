@@ -51,7 +51,7 @@ type Props = {
   responsive?: boolean
   level?: '1' | '2'
 } & WithColor &
-  Omit<NativeDivAttributes, 'color'>
+Omit<NativeDivAttributes, 'color'>
 
 export const Heading = React.forwardRef(
   (

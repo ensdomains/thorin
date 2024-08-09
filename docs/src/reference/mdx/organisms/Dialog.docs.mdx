@@ -218,11 +218,141 @@ import { Dialog } from '@ensdomains/thorin'
     onDismiss={() => toggleState('dialog-components')}
   >
     <Dialog.Heading title="Heading" />
-    <div style={{ width: '500px' }}>Content</div>
+    <Dialog.Content>
+      <Input showDot validated/>
+      <div> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque cursus
+    posuere lacinia. Proin mollis nisl a lacus mollis, a volutpat tortor
+    consectetur. Vivamus mattis augue eu nulla molestie, a euismod nunc
+    placerat. Fusce vitae elit sed dolor auctor faucibus luctus condimentum
+    risus. Aenean pharetra mauris sodales ligula sodales, a tristique magna
+    rhoncus. Fusce sit amet arcu suscipit, molestie dolor nec, blandit ipsum.
+    Sed sodales blandit elit eget ultrices. Aliquam non blandit lacus. Etiam
+    eget tellus vitae risus vestibulum pulvinar at a nibh. Orci varius natoque
+    penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aliquam
+    volutpat elit odio. Fusce placerat nibh nec ante aliquam, id dictum turpis
+    tempor. Sed maximus quam ut ipsum blandit, vel lobortis neque venenatis.
+    Maecenas dignissim massa nec risus vestibulum bibendum. Duis malesuada, est
+    dapibus porttitor aliquet, massa arcu fermentum nunc, nec feugiat erat magna
+    viverra orci. Suspendisse eu ultrices mauris. Aliquam scelerisque mollis
+    orci id volutpat. Nunc ac vestibulum odio, vitae feugiat ligula. Nunc
+    lacinia nisi in gravida volutpat. Vivamus dui ex, ornare ut ante vel,
+    dapibus tempor est. Proin congue sapien non dolor hendrerit, in dignissim
+    risus scelerisque. Pellentesque quis egestas ex. Suspendisse quis diam nec
+    dui sagittis sollicitudin. In hac habitasse platea dictumst. Vestibulum
+    vestibulum dignissim tincidunt. Donec congue nibh lectus, nec facilisis
+    tortor tempus sit amet. Phasellus varius mattis metus porta posuere. Integer
+    posuere dapibus libero. Maecenas euismod sem sed blandit consectetur.</div>
+    </Dialog.Content>
     <Dialog.Footer
       leading={<Button colorStyle="accentSecondary">Leading</Button>}
       trailing={<Button>Trailing</Button>}
     />
-  </Dialog>
+  </Dialog.Content>
 </>
+
+```
+
+### Dialog.Content 
+
+The Dialog.Content component is a ScrollBox component that is used to contain the content of the Dialog. It is also responsible for setting the responsive sizing of the dialog. It can be used to display a form element by setting the <b>as</b> prop to "form". The <b>fullWidth</b> prop can be used to make the content area the width of the dialog.
+
+#### Props
+
+This component inherits the props of [ScrollBox](/components/atoms/ScrollBox/). The additional unique props are listed below.
+
+<PropsTable sourceLink={'https://github.com/ensdomains/thorin/tree/main/components/src/components/organisms/Dialog/DialogContent.tsx'} types={{
+  as: {
+    name: 'as',
+    description: 'Option to render the component as a form element',
+    defaultValue: { value: 'undefined' },
+    required: false,
+    type: {
+      name: 'form | undefined',
+      value: [{value: 'form'}, {value: 'undefined'}]
+    }
+  },
+  fullWidth: {
+    name: 'fullWidth',
+    description: 'If true, the width of the content container will be the width of the dialog',
+    defaultValue: { value: 'undefined' },
+    required: false,
+    type: {
+      name: 'boolean | undefined',
+      value: [{value: 'true'}, {value: 'false'}, {value: 'undefined'}],
+    },
+  }
+}} />
+
+#### as
+
+```tsx live=true
+<>
+  <Button onClick={() => toggleState('dialog-components')}>
+    Dialog Components
+  </Button>
+  <Dialog
+    open={getState('dialog-components')}
+    variant="blank"
+    onDismiss={() => toggleState('dialog-components')}
+  >
+    <Dialog.Heading title="Heading" />
+    <Dialog.Content as="form" onSubmit={() => alert('submitted')}>
+    <Typography>Click this button to simulate an submit</Typography>
+    <Button type="submit">Submit</Button>
+    </Dialog.Content>
+    <Dialog.Footer
+      leading={<Button colorStyle="accentSecondary">Leading</Button>}
+      trailing={<Button>Trailing</Button>}
+    />
+  </Dialog.Content>
+</>
+
+```
+
+#### fullWidth
+
+If true, the width of the <b>scrollbox</b> will be the width of the dialog. By default the content area will have a horizontal padding of 8px to cover the overflow from inputs. To achieve true edge to edge content, set <b>horizontalPadding</b> to "0".
+
+```tsx live=true
+<>
+  <Button onClick={() => toggleState('dialog-components')}>
+    Dialog Components
+  </Button>
+  <Dialog
+    open={getState('dialog-components')}
+    variant="blank"
+    onDismiss={() => toggleState('dialog-components')}
+  >
+    <Dialog.Heading title="Heading" />
+    <Dialog.Content fullWidth horizontalPadding="0">
+      <div> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque cursus
+    posuere lacinia. Proin mollis nisl a lacus mollis, a volutpat tortor
+    consectetur. Vivamus mattis augue eu nulla molestie, a euismod nunc
+    placerat. Fusce vitae elit sed dolor auctor faucibus luctus condimentum
+    risus. Aenean pharetra mauris sodales ligula sodales, a tristique magna
+    rhoncus. Fusce sit amet arcu suscipit, molestie dolor nec, blandit ipsum.
+    Sed sodales blandit elit eget ultrices. Aliquam non blandit lacus. Etiam
+    eget tellus vitae risus vestibulum pulvinar at a nibh. Orci varius natoque
+    penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aliquam
+    volutpat elit odio. Fusce placerat nibh nec ante aliquam, id dictum turpis
+    tempor. Sed maximus quam ut ipsum blandit, vel lobortis neque venenatis.
+    Maecenas dignissim massa nec risus vestibulum bibendum. Duis malesuada, est
+    dapibus porttitor aliquet, massa arcu fermentum nunc, nec feugiat erat magna
+    viverra orci. Suspendisse eu ultrices mauris. Aliquam scelerisque mollis
+    orci id volutpat. Nunc ac vestibulum odio, vitae feugiat ligula. Nunc
+    lacinia nisi in gravida volutpat. Vivamus dui ex, ornare ut ante vel,
+    dapibus tempor est. Proin congue sapien non dolor hendrerit, in dignissim
+    risus scelerisque. Pellentesque quis egestas ex. Suspendisse quis diam nec
+    dui sagittis sollicitudin. In hac habitasse platea dictumst. Vestibulum
+    vestibulum dignissim tincidunt. Donec congue nibh lectus, nec facilisis
+    tortor tempus sit amet. Phasellus varius mattis metus porta posuere. Integer
+    posuere dapibus libero. Maecenas euismod sem sed blandit consectetur.</div>
+    </Dialog.Content>
+    <Dialog.Footer
+      leading={<Button colorStyle="accentSecondary">Leading</Button>}
+      trailing={<Button>Trailing</Button>}
+    />
+  </Dialog.Content>
+</>
+
 ```

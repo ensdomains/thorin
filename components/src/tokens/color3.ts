@@ -359,7 +359,7 @@ export const rawColorToRGBA = (color: RawColor, opacity = 1): string =>
   `rgba(${[...color, opacity].join(', ')})`
 
 export const rawColorToHex = (color: RawColor): string => {
-  return `#${color.map((c) => c.toString(16)).join('')}`
+  return `#${color.map(c => c.toString(16)).join('')}`
 }
 
 export const rawColorToHSL = ([r, g, b]: RawColor): string => {
@@ -372,8 +372,8 @@ export const rawColorToHSL = ([r, g, b]: RawColor): string => {
     ? l === r
       ? (g - b) / s
       : l === g
-      ? 2 + (b - r) / s
-      : 4 + (r - g) / s
+        ? 2 + (b - r) / s
+        : 4 + (r - g) / s
     : 0
   const rawHsl = [
     60 * h < 0 ? 60 * h + 360 : 60 * h,

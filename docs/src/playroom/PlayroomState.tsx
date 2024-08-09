@@ -13,8 +13,8 @@ const unwrapValue = (value: any) => {
   if (typeof value === 'object' && value !== null && 'currentTarget' in value) {
     const { currentTarget } = value
 
-    actualValue =
-      currentTarget.type === 'checkbox'
+    actualValue
+      = currentTarget.type === 'checkbox'
         ? currentTarget.checked
         : currentTarget.value
   }
@@ -43,7 +43,8 @@ const makeStoreConsumer = (
         store.delete(key)
       })
       setStore(new Map(store))
-    } else {
+    }
+    else {
       setStore(new Map())
     }
   }
@@ -101,28 +102,28 @@ export const useFallbackState = <Value, Handler extends Callback>(
   defaultValue?: Value,
 ): [NonNullable<Value>, (...args: Parameters<Handler>) => void] => {
   const playroomState = usePlayroomStore()
-  const [internalStateValue, setInternalStateValue] =
-    React.useState(defaultValue)
+  const [internalStateValue, setInternalStateValue]
+    = React.useState(defaultValue)
 
-  const wrapChangeHandler =
-    (
+  const wrapChangeHandler
+    = (
       handler: Handler | typeof noop,
     ): ((...args: Parameters<Handler>) => void) =>
-    (...args) => {
-      if (value === undefined) {
-        ;(stateKey ? playroomState.setState(stateKey) : setInternalStateValue)(
-          unwrapValue(args[0]),
-        )
-      }
+      (...args) => {
+        if (value === undefined) {
+          ;(stateKey ? playroomState.setState(stateKey) : setInternalStateValue)(
+            unwrapValue(args[0]),
+          )
+        }
 
-      ;(handler || noop)(...args)
-    }
+        ;(handler || noop)(...args)
+      }
 
   const handleChange = wrapChangeHandler(onChange || noop)
 
-  const resolvedValue =
-    value ??
-    (stateKey
+  const resolvedValue
+    = value
+    ?? (stateKey
       ? playroomState.getState(stateKey) ?? defaultValue
       : internalStateValue)
 

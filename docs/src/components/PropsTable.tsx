@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { PropItem } from 'react-docgen-typescript'
+import { PropItem, PropItemType } from 'react-docgen-typescript'
 import GithubSVG from '~/assets/Github.svg'
 
 import {
@@ -22,7 +22,7 @@ type Props = {
 
 const TableHead = ({
   children,
-}: React.PropsWithChildren<{ $i: number; $headers: string[] }>) => (
+}: React.PropsWithChildren<{ $i: number, $headers: string[] }>) => (
   <Box as="th" position="sticky">
     <Box as="div" padding="$4" textAlign="left">
       <Typography fontVariant="bodyBold" textTransform="capitalize">
@@ -32,13 +32,13 @@ const TableHead = ({
   </Box>
 )
 
-const DataCell = ({ children }: React.PropsWithChildren<{}>) => (
+const DataCell = ({ children }: React.PropsWithChildren) => (
   <Box as="td" borderTop="1px solid" borderTopColor="$border" padding="$4">
     {children}
   </Box>
 )
 
-const formatPropType = (type: any): string => {
+const formatPropType = (type: PropItemType): string => {
   if (!type.raw) return type.name
   if (
     [
@@ -61,7 +61,7 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
   const [state, setState] = React.useState<{
     showDescriptions: boolean
   }>({
-    showDescriptions: Object.values(types).some((x) => x.description !== ''),
+    showDescriptions: Object.values(types).some(x => x.description !== ''),
   })
 
   const headers = [
@@ -79,69 +79,72 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
 
   return (
     <>
-      {props.length ? (
-        <ScrollBox>
-          <Box
-            as="table"
-            width="$full"
-            borderSpacing="0"
-            borderWidth="$1x"
-            borderStyle="solid"
-            borderColor="$border"
-            borderRadius="$large"
-            overflow="hidden"
-          >
-            <Box as="thead" backgroundColor="$greySurface">
-              <tr>
-                {headers.map((x, i) => (
-                  <TableHead key={x} $i={i} $headers={headers}>
-                    {x}
-                  </TableHead>
-                ))}
-              </tr>
-            </Box>
-            <tbody>
-              {props.map((x) => (
-                <tr key={x.name}>
-                  <DataCell>
-                    <Typography as="span">{x.name}</Typography>
-                    {x.required && (
-                      <Typography as="span" color="red" fontVariant="small">
-                        &nbsp;*<VisuallyHidden>Required</VisuallyHidden>
-                      </Typography>
-                    )}
-                  </DataCell>
-                  <DataCell>
-                    <Typography
-                      color="blueActive"
-                      font="mono"
-                      fontVariant="small"
-                    >
-                      {formatPropType(x.type)}
-                    </Typography>
-                  </DataCell>
-                  <DataCell>
-                    <Typography>
-                      {x.defaultValue?.value.toString() ?? '-'}
-                    </Typography>
-                  </DataCell>
+      {props.length
+        ? (
+            <ScrollBox>
+              <Box
+                as="table"
+                width="$full"
+                borderSpacing="0"
+                borderWidth="$1x"
+                borderStyle="solid"
+                borderColor="$border"
+                borderRadius="$large"
+                overflow="hidden"
+              >
+                <Box as="thead" backgroundColor="$greySurface">
+                  <tr>
+                    {headers.map((x, i) => (
+                      <TableHead key={x} $i={i} $headers={headers}>
+                        {x}
+                      </TableHead>
+                    ))}
+                  </tr>
+                </Box>
+                <tbody>
+                  {props.map(x => (
+                    <tr key={x.name}>
+                      <DataCell>
+                        <Typography as="span">{x.name}</Typography>
+                        {x.required && (
+                          <Typography as="span" color="red" fontVariant="small">
+                        &nbsp;*
+                            <VisuallyHidden>Required</VisuallyHidden>
+                          </Typography>
+                        )}
+                      </DataCell>
+                      <DataCell>
+                        <Typography
+                          color="blueActive"
+                          font="mono"
+                          fontVariant="small"
+                        >
+                          {formatPropType(x.type)}
+                        </Typography>
+                      </DataCell>
+                      <DataCell>
+                        <Typography>
+                          {x.defaultValue?.value.toString() ?? '-'}
+                        </Typography>
+                      </DataCell>
 
-                  {state.showDescriptions && (
-                    <DataCell>
-                      <Typography>{x.description || '-'}</Typography>
-                    </DataCell>
-                  )}
-                </tr>
-              ))}
-            </tbody>
-          </Box>
-        </ScrollBox>
-      ) : (
-        <div>
-          <Typography color="textSecondary">No props</Typography>
-        </div>
-      )}
-      <Box display={'flex'} justifyContent={'flex-end'} marginTop={'$2'}>
+                      {state.showDescriptions && (
+                        <DataCell>
+                          <Typography>{x.description || '-'}</Typography>
+                        </DataCell>
+                      )}
+                    </tr>
+                  ))}
+                </tbody>
+              </Box>
+            </ScrollBox>
+          )
+        : (
+            <div>
+              <Typography color="textSecondary">No props</Typography>
+            </div>
+          )}
+      <Box display="flex" justifyContent="flex-end" marginTop="$2">
         {!!props.length && (
           <div>
             <Button
@@ -152,11 +155,10 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
                 state.showDescriptions ? <EyeStrikethroughSVG /> : <EyeSVG />
               }
               onClick={() =>
-                setState((x) => ({
+                setState(x => ({
                   ...x,
                   showDescriptions: !x.showDescriptions,
-                }))
-              }
+                }))}
             >
               {state.showDescriptions ? 'Description' : 'Description'}
             </Button>

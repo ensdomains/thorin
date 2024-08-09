@@ -30,7 +30,7 @@ const Label = ({
   $size,
   $mode,
   ...props
-}: BoxProps & { $size: Size; $mode: Mode }) => (
+}: BoxProps & { $size: Size, $mode: Mode }) => (
   <Box
     {...props}
     alignItems="center"
@@ -76,7 +76,7 @@ const Slider = ({
   $size,
   $color,
   ...props
-}: BoxProps & { $size: Size; $color: Color }) => (
+}: BoxProps & { $size: Size, $color: Color }) => (
   <Box
     {...props}
     backgroundColor={getValidatedColor($color)}

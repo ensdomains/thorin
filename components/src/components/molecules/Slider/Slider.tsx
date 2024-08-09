@@ -32,9 +32,9 @@ export type Props = FieldBaseProps & {
   /** The handler for focus events. */
   onFocus?: NativeInputProps['onFocus']
 } & Omit<
-    NativeInputProps,
+  NativeInputProps,
     'children' | 'value' | 'defaultValue' | 'aria-invalid' | 'type'
-  >
+>
 
 const SliderComponent = React.forwardRef<HTMLElement, BoxProps>(
   (props, ref) => (
@@ -101,7 +101,7 @@ export const Slider = React.forwardRef(
           id,
         }}
       >
-        {(ids) => (
+        {ids => (
           <SliderComponent
             ref={inputRef}
             type="range"

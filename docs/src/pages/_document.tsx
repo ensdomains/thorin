@@ -29,7 +29,8 @@ class Document extends NextDocument {
           </>
         ),
       }
-    } finally {
+    }
+    finally {
       sheet.seal()
     }
   }

@@ -294,7 +294,7 @@ export const Field = ({
   if (typeof children === 'function')
     content = (
       <Context.Provider value={ids}>
-        <Context.Consumer>{(context) => children(context)}</Context.Consumer>
+        <Context.Consumer>{context => children(context)}</Context.Consumer>
       </Context.Provider>
     )
   else if (children) content = React.cloneElement(children, ids.content)

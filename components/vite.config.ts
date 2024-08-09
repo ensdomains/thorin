@@ -1,9 +1,5 @@
-import macrosPlugin from 'vite-plugin-babel-macros'
 import { defineConfig } from 'vite'
-import dts from 'vite-plugin-dts'
-import tsconfigPaths from 'vite-tsconfig-paths'
 import svgrPlugin from 'vite-plugin-svgr'
-import stylelintPlugin from 'vite-plugin-stylelint'
 import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin'
 
 import pkg from './package.json'
@@ -17,8 +13,8 @@ export default defineConfig({
   },
   build: {
     lib: {
-      entry: './src/index.ts',
-      fileName: (format) => `index.${format}.js`,
+      entry: './src/components/index.ts',
+      fileName: format => `index.${format}.js`,
       formats: ['es', 'cjs'],
     },
     rollupOptions: {
@@ -45,7 +41,7 @@ export default defineConfig({
       svgrOptions: {
         icon: true,
         svgo: true,
-        replaceAttrValues: { '#000': 'currentColor', black: 'currentColor' },
+        replaceAttrValues: { '#000': 'currentColor', 'black': 'currentColor' },
         svgProps: {
           focusable: 'false',
           shapeRendering: 'geometricPrecision',
@@ -72,34 +68,6 @@ export default defineConfig({
         // ...svgr options (https://react-svgr.com/docs/options/)
       },
     }),
-    tsconfigPaths(),
-    dts({
-      entryRoot: path.resolve(__dirname),
-      exclude: [
-        'src/**/*.docs.mdx',
-        'src/**/*.snippets.tsx',
-        'src/**/*.test.ts*',
-      ],
-      beforeWriteFile: (filePath, content) => ({
-        content: content.replace(/\/\.\.\/src/g, ''),
-        filePath: filePath.replace('src', ''),
-      }),
-      compilerOptions: {
-        baseUrl: '.',
-        emitDeclarationOnly: true,
-        noEmit: false,
-        paths: {
-          '!/*': ['../*'],
-          '@/*': ['./*'],
-        },
-      },
-      staticImport: true,
-      outputDir: 'dist/types',
-    }),
-    macrosPlugin(),
-    stylelintPlugin({
-      include: './**/*.tsx',
-      exclude: 'dist',
-    }),
+    // macrosPlugin(),
   ],
 })

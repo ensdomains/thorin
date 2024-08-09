@@ -18,7 +18,7 @@ type Props = {
 
 const ContainerBox = React.forwardRef<
   HTMLElement,
-  BoxProps & { $size: Size; $color?: Color }
+  BoxProps & { $size: Size, $color?: Color }
 >(({ $size, $color, ...props }, ref) => (
   <Box
     {...props}

@@ -6,7 +6,7 @@ const noArgs = {
   content: {
     'aria-describedby': undefined,
     'aria-labelledby': 'thorin1-label',
-    id: 'thorin1',
+    'id': 'thorin1',
   },
   description: undefined,
   error: undefined,
@@ -20,7 +20,7 @@ const withId = {
   content: {
     'aria-describedby': undefined,
     'aria-labelledby': 'thorin2-address-label',
-    id: 'thorin2-address',
+    'id': 'thorin2-address',
   },
   description: undefined,
   error: undefined,
@@ -34,7 +34,7 @@ const withDescription = {
   content: {
     'aria-describedby': 'thorin3-description',
     'aria-labelledby': 'thorin3-label',
-    id: 'thorin3',
+    'id': 'thorin3',
   },
   description: {
     id: 'thorin3-description',
@@ -50,7 +50,7 @@ const withError = {
   content: {
     'aria-describedby': 'thorin4-error',
     'aria-labelledby': 'thorin4-label',
-    id: 'thorin4',
+    'id': 'thorin4',
   },
   description: undefined,
   error: {
@@ -66,7 +66,7 @@ const withDescriptionAndError = {
   content: {
     'aria-describedby': 'thorin5-description thorin5-error',
     'aria-labelledby': 'thorin5-label',
-    id: 'thorin5',
+    'id': 'thorin5',
   },
   description: {
     id: 'thorin5-description',

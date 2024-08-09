@@ -57,7 +57,7 @@ export const getValueForTransitionState = <T extends Property>(
   direction: Direction,
 ): Properties[T] => {
   return (
-    transitionMap[state]?.[direction]?.[property] ||
-    transitionMap.default.down[property]
+    transitionMap[state]?.[direction]?.[property]
+    || transitionMap.default.down[property]
   )
 }

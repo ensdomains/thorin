@@ -7,10 +7,10 @@ import { Link } from './Link'
 import { NavBar } from './NavBar'
 import { SideBar } from './SideBar'
 
-type Link = { name: string; route: string }
+type Link = { name: string, route: string }
 
 export type Props = {
-  links: { name: string; links: Link[] }[]
+  links: { name: string, links: Link[] }[]
 }
 
 type State = {
@@ -27,21 +27,19 @@ export const Nav = ({ links }: Props) => {
   const [state, setState] = React.useState<State>(initialState)
 
   // Close menu on route change
-  /* eslint-disable react-hooks/exhaustive-deps */
   React.useEffect(() => {
-    const handleRouteChange = () => setState((x) => ({ ...x, open: false }))
+    const handleRouteChange = () => setState(x => ({ ...x, open: false }))
     router.events.on('routeChangeComplete', handleRouteChange)
     return () => {
       router.events.off('routeChangeComplete', handleRouteChange)
     }
   }, [])
-  /* eslint-enable react-hooks/exhaustive-deps */
 
   return (
     <>
       <NavBar
         open={state.open}
-        onToggle={() => setState((x) => ({ ...x, open: !x.open }))}
+        onToggle={() => setState(x => ({ ...x, open: !x.open }))}
       />
       <SideBar open={state.open} links={links} />
     </>

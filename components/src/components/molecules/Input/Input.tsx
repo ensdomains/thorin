@@ -83,18 +83,18 @@ type BaseProps = Omit<FieldBaseProps, 'inline'> & {
   /** Set of styles  */
   // parentStyles?: BoxProps
 } & Omit<
-    NativeInputProps,
-    | 'size'
-    | 'prefix'
-    | 'children'
-    | 'value'
-    | 'defaultValue'
-    | 'type'
-    | 'aria-invalid'
-    | 'onInput'
-    | 'onKeyDown'
-    | 'onWheel'
-  >
+  NativeInputProps,
+  | 'size'
+  | 'prefix'
+  | 'children'
+  | 'value'
+  | 'defaultValue'
+  | 'type'
+  | 'aria-invalid'
+  | 'onInput'
+  | 'onKeyDown'
+  | 'onWheel'
+>
 
 type WithTypeEmail = {
   type?: 'email'
@@ -138,7 +138,7 @@ const Label = ({
   $size,
   $disabled,
   ...props
-}: BoxProps & { $disabled?: boolean; $size: Size }) => (
+}: BoxProps & { $disabled?: boolean, $size: Size }) => (
   <Box
     {...props}
     alignItems="center"
@@ -192,12 +192,14 @@ const ActionButton = ({
   $icon,
   $size,
   ...props
-}: BoxProps & { $size: Size; $icon?: React.ReactNode }) => {
-  const Icon: React.ReactElement = React.isValidElement($icon) ? (
-    $icon
-  ) : (
-    <CrossCircleSVG />
-  )
+}: BoxProps & { $size: Size, $icon?: React.ReactNode }) => {
+  const Icon: React.ReactElement = React.isValidElement($icon)
+    ? (
+        $icon
+      )
+    : (
+        <CrossCircleSVG />
+      )
   return (
     <Box
       {...props}
@@ -397,7 +399,7 @@ export const Input = React.forwardRef(
         required={required}
         width={width}
       >
-        {(ids) => (
+        {ids => (
           <Container
             className={statusDot({
               error: hasError,
@@ -481,7 +483,7 @@ export const Input = React.forwardRef(
                   $size={size}
                   data-testid="input-action-button"
                   onClick={handleClickAction}
-                  onMouseDown={(e) => e.preventDefault()}
+                  onMouseDown={e => e.preventDefault()}
                 />
               )}
               {suffix && (

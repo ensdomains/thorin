@@ -83,7 +83,7 @@ const Circle = ({
   $hover,
   $colorStyle,
   ...props
-}: BoxProps & { $hover: boolean; $colorStyle: ColorStyle }) => (
+}: BoxProps & { $hover: boolean, $colorStyle: ColorStyle }) => (
   <Box
     {...props}
     alignItems="center"

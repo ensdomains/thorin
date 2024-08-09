@@ -58,9 +58,9 @@ export type Props = {
     | 'pending'
     | 'complete'
     | {
-        name: string
-        tone: TagProps['color']
-      }
+      name: string
+      tone: TagProps['color']
+    }
 } & Omit<NativeFieldSetProps, 'children'>
 
 export const FieldSet = ({

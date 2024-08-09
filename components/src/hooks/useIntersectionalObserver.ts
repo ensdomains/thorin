@@ -12,7 +12,7 @@ export const useIntersectionalObserver = (
 
     if (target && active) {
       observer = new IntersectionObserver(
-        (entries) => callback && callback(entries[0].isIntersecting),
+        entries => callback && callback(entries[0].isIntersecting),
         options,
       )
       observer.observe(target)
@@ -20,6 +20,5 @@ export const useIntersectionalObserver = (
     return () => {
       if (observer && target) observer.unobserve(target)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ref, active])
 }

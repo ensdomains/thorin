@@ -15,6 +15,5 @@ export const useDocumentEvent = (
     return () => {
       document.removeEventListener(event, callback)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shouldCallback])
 }

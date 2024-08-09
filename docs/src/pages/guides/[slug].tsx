@@ -17,7 +17,7 @@ import { createGitHubLink } from '~/utils/github'
 import { GitHubLink } from '~/components/GitHubLink'
 
 export const getStaticPaths: GetStaticPaths = async () => ({
-  paths: getGuidePaths().map((x) => ({
+  paths: getGuidePaths().map(x => ({
     params: {
       slug: getGuideName(x),
     },
@@ -34,7 +34,7 @@ type StaticProps = {
 export const getStaticProps: GetStaticProps<StaticProps> = async (context) => {
   const slug = context.params?.slug?.toString() as string
   const pathname = getGuidePaths().find(
-    (x) => getGuideName(x) === slug,
+    x => getGuideName(x) === slug,
   ) as string
   const source = fs.readFileSync(pathname)
   const { content, data } = matter(source)
@@ -61,14 +61,14 @@ const Page: NextPageWithLayout<Props> = ({ docsLink, source }: Props) => {
     <>
       <MDXRemote {...source} scope={source.scope} />
 
-      <Box my={'$10'}>
+      <Box my="$10">
         <GitHubLink href={docsLink} />
       </Box>
     </>
   )
 }
 
-Page.getLayout = (page) =>
+Page.getLayout = page =>
   getLayout({
     ...page,
     props: {

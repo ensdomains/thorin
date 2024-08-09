@@ -22,16 +22,16 @@ export const CopyButton = ({ content }: Props) => {
   const onClick = React.useCallback(() => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current)
-      setState((x) => ({ ...x, copied: false }))
+      setState(x => ({ ...x, copied: false }))
     }
 
     copy(content, {
       format: 'text/plain',
     })
 
-    setState((x) => ({ ...x, copied: true }))
+    setState(x => ({ ...x, copied: true }))
     timeoutRef.current = setTimeout(
-      () => setState((x) => ({ ...x, copied: false })),
+      () => setState(x => ({ ...x, copied: false })),
       500,
     )
   }, [content])

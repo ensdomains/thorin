@@ -16,20 +16,20 @@ import { Box, BoxProps, Typography } from '@ensdomains/thorin'
 const Container = (props: React.ComponentProps<typeof Typography>) => (
   <Typography
     {...props}
-    display={'flex'}
-    flexDirection={'column'}
+    display="flex"
+    flexDirection="column"
     backgroundColor="$backgroundPrimary"
     justifyContent={{ base: 'center', lg: 'flex-end', xl: 'center' }}
     margin="0 auto"
     width="$full"
     minHeight="100vh"
     px="$6"
-    boxSizing={'border-box'}
+    boxSizing="border-box"
   />
 )
 
 const Article = (props: BoxProps) => (
-  <Box {...props} as="article" maxWidth={'$192'} margin="0 auto" />
+  <Box {...props} as="article" maxWidth="$192" margin="0 auto" />
 )
 
 const Main = (props: BoxProps) => (
@@ -53,8 +53,8 @@ const Layout: NextLayout<Props> = ({ children, meta }) => {
         </title>
         <meta
           content={
-            meta?.description ??
-            'Design system for ENS built with React and styled-components.'
+            meta?.description
+            ?? 'Design system for ENS built with React and styled-components.'
           }
           key="description"
           name="description"
@@ -75,7 +75,7 @@ const Layout: NextLayout<Props> = ({ children, meta }) => {
   )
 }
 
-export const getLayout: GetLayout<Props> = (page) =>
+export const getLayout: GetLayout<Props> = page =>
   getBaseLayout(<Layout {...page.props}>{page}</Layout>)
 
 export default Layout
