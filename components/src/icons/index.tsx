@@ -1,81 +1,172 @@
-export { default as AeroplaneSVG } from './Aeroplane.svg'
-export { default as AlertSVG } from './Alert.svg'
-export { default as BrowserSVG } from './Browser.svg'
-export { default as BrushSVG } from './Brush.svg'
-export { default as CalendarSVG } from './Calendar.svg'
-export { default as CameraSVG } from './Camera.svg'
-export { default as CheckSVG } from './Check.svg'
-export { default as CheckCircleSVG } from './CheckCircle.svg'
-export { default as CogSVG } from './Cog.svg'
-export { default as CogActiveSVG } from './CogActive.svg'
-export { default as CopySVG } from './Copy.svg'
-export { default as CounterClockwiseArrowSVG } from './CounterClockwiseArrow.svg'
-export { default as CreditCardSVG } from './CreditCard.svg'
-export { default as CrossSVG } from './Cross.svg'
-export { default as CrossCircleSVG } from './CrossCircle.svg'
-export { default as DisabledSVG } from './Disabled.svg'
-export { default as DocumentSVG } from './Document.svg'
-export { default as DotGridSVG } from './DotGrid.svg'
-export { default as DotGridActiveSVG } from './DotGridActive.svg'
-export { default as DownArrowSVG } from './DownArrow.svg'
-export { default as DownChevronSVG } from './DownChevron.svg'
-export { default as DownCircleSVG } from './DownCircle.svg'
-export { default as EnsSVG } from './Ens.svg'
-export { default as EnvelopeSVG } from './Envelope.svg'
-export { default as EthSVG } from './Eth.svg'
-export { default as EthTransparentSVG } from './EthTransparent.svg'
-export { default as EthTransparentInvertedSVG } from './EthTransparentInverted.svg'
-export { default as ExitSVG } from './Exit.svg'
-export { default as EyeSVG } from './Eye.svg'
-export { default as EyeStrikethroughSVG } from './EyeStrikethrough.svg'
-export { default as FastForwardSVG } from './FastForward.svg'
-export { default as FilterSVG } from './Filter.svg'
-export { default as FlameSVG } from './Flame.svg'
-export { default as GasPumpSVG } from './GasPump.svg'
-export { default as GridSVG } from './Grid.svg'
-export { default as HeartSVG } from './Heart.svg'
-export { default as HeartActiveSVG } from './HeartActive.svg'
-export { default as HorizontalOutwardArrowsSVG } from './HorizontalOutwardArrows.svg'
-export { default as HouseSVG } from './House.svg'
-export { default as InfoCircleSVG } from './InfoCircle.svg'
-export { default as KeySVG } from './Key.svg'
-export { default as LanguageSVG } from './Language.svg'
-export { default as LeftArrowSVG } from './LeftArrow.svg'
-export { default as LeftChevronSVG } from './LeftChevron.svg'
-export { default as LifebuoySVG } from './Lifebuoy.svg'
-export { default as LinkSVG } from './Link.svg'
-export { default as ListSVG } from './List.svg'
-export { default as ListDownSVG } from './ListDown.svg'
-export { default as ListUpSVG } from './ListUp.svg'
-export { default as LockSVG } from './Lock.svg'
-export { default as MagnifyingGlassSVG } from './MagnifyingGlass.svg'
-export { default as MagnifyingGlassActiveSVG } from './MagnifyingGlassActive.svg'
-export { default as MagnifyingGlassSimpleSVG } from './MagnifyingGlassSimple.svg'
-export { default as MarkerSVG } from './Marker.svg'
-export { default as MenuSVG } from './Menu.svg'
-export { default as MinusSVG } from './Minus.svg'
-export { default as MinusCircleSVG } from './MinusCircle.svg'
-export { default as MoonSVG } from './Moon.svg'
-export { default as NametagSVG } from './Nametag.svg'
-export { default as OutlinkSVG } from './Outlink.svg'
-export { default as PersonSVG } from './Person.svg'
-export { default as PersonActiveSVG } from './PersonActive.svg'
-export { default as PersonPlusSVG } from './PersonPlus.svg'
-export { default as PlusSVG } from './Plus.svg'
-export { default as PlusCircleSVG } from './PlusCircle.svg'
-export { default as QuestionSVG } from './Question.svg'
-export { default as QuestionBubbleSVG } from './QuestionBubble.svg'
-export { default as QuestionCircleSVG } from './QuestionCircle.svg'
-export { default as RightArrowSVG } from './RightArrow.svg'
-export { default as RightChevronSVG } from './RightChevron.svg'
-export { default as SpannerSVG } from './Spanner.svg'
-export { default as SpannerAltSVG } from './SpannerAlt.svg'
-export { default as StarSVG } from './Star.svg'
-export { default as SunSVG } from './Sun.svg'
-export { default as TrashSVG } from './Trash.svg'
-export { default as UpArrowSVG } from './UpArrow.svg'
-export { default as UpChevronSVG } from './UpChevron.svg'
-export { default as UpCircleSVG } from './UpCircle.svg'
-export { default as UpRightArrowSVG } from './UpRightArrow.svg'
-export { default as VerticalDotsSVG } from './VerticalDots.svg'
-export { default as WalletSVG } from './Wallet.svg'
+import { FC, SVGProps } from 'react'
+
+type Props = SVGProps<SVGSVGElement>
+
+const AeroplaneSVG: FC<Props> = props => (
+  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 96 96" {...props}>
+    <path fill="#000" fill-rule="evenodd" d="M4.5 23.225C1.173 12.416 12.09 2.703 22.438 7.264l65.03 28.657c10.502 4.628 10.502 19.53 0 24.158l-65.03 28.657c-10.348 4.56-21.265-5.153-17.94-15.96L12.122 48 4.5 23.225ZM22.83 54l-6.86 22.304c-.303.983.69 1.866 1.63 1.451l65.03-28.657c.31-.136.454-.297.541-.437.102-.166.175-.395.175-.661s-.073-.495-.175-.661c-.087-.14-.232-.301-.54-.437L17.6 18.245c-.941-.415-1.934.468-1.631 1.45L22.83 42h21.72a6 6 0 0 1 0 12H22.83Z" clip-rule="evenodd" />
+  </svg>
+)
+
+const AlertSVG: FC<Props> = props => (
+  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 96 96" {...props}>
+    <path fill="#000" d="M48 30a6 6 0 0 1 6 6v12a6 6 0 0 1-12 0V36a6 6 0 0 1 6-6Zm6 34a6 6 0 1 1-12 0 6 6 0 0 1 12 0Z" />
+    <path fill="#000" fill-rule="evenodd" d="M58.873 7.242c-5.757-6.514-15.988-6.514-21.746 0-15.715 17.78-27.914 38.623-35.65 61.07-2.866 8.315 2.358 17.173 10.902 18.842 23.418 4.575 47.824 4.575 71.242 0 8.544-1.669 13.768-10.527 10.903-18.841-7.737-22.448-19.936-43.29-35.651-61.071Zm-12.754 7.947c.98-1.11 2.782-1.11 3.762 0C64.564 31.8 75.96 51.275 83.18 72.223c.461 1.34-.38 2.865-1.858 3.154-21.9 4.278-44.743 4.278-66.642 0-1.478-.289-2.32-1.815-1.858-3.154 7.22-20.948 18.615-40.422 33.298-57.034Z" clip-rule="evenodd" />
+  </svg>
+)
+
+const BrowserSVG: FC<Props> = props => (
+  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 96 96" {...props}>
+    <path fill="#000" d="M22 36a6 6 0 1 0 0-12 6 6 0 0 0 0 12Zm16 0a6 6 0 1 0 0-12 6 6 0 0 0 0 12Zm22-6a6 6 0 1 1-12 0 6 6 0 0 1 12 0Z" />
+    <path fill="#000" fill-rule="evenodd" d="M18 8C8.059 8 0 16.059 0 26v44c0 9.941 8.059 18 18 18h60c9.941 0 18-8.059 18-18V26c0-9.941-8.059-18-18-18H18Zm-6 18a6 6 0 0 1 6-6h60a6 6 0 0 1 6 6v44a6 6 0 0 1-6 6H18a6 6 0 0 1-6-6V26Z" clip-rule="evenodd" />
+  </svg>
+)
+
+const BrushSVG: FC<Props> = props => (
+  <svg width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M76.2425 3.75736C78.5857 6.1005 78.5857 9.8995 76.2425 12.2426L57.4141 31.0711C55.4879 32.9973 52.936 33.9558 50.4685 34.0194C42.7324 34.219 37.861 35.9248 34.7262 38.0295C31.6465 40.0972 29.7538 42.8767 28.5364 46.1747C27.2806 49.577 26.7805 53.4389 26.5481 57.4498C26.4588 58.9905 26.4125 60.4594 26.3661 61.9285C26.3519 62.3762 26.3378 62.8239 26.3225 63.2737C26.2599 65.1077 26.1755 67.043 25.9495 68.776C25.3955 73.0233 23.5354 76.6595 21.4301 79.5612C23.2703 79.6601 25.2439 79.7144 27.2994 79.695C37.7283 79.5966 48.9039 77.6084 56.0951 71.4445C64.514 64.2283 63.6827 52.7961 62.6488 47.4574C62.0351 44.288 62.8375 40.6771 65.4466 38.068L83.7572 19.7574C86.1004 17.4142 89.8994 17.4142 92.2425 19.7574C94.5857 22.1005 94.5857 25.8995 92.2425 28.2426L74.567 45.9182C75.711 52.4298 77.1588 69.1948 63.9046 80.5555C53.379 89.5775 38.5546 91.5893 27.4126 91.6945C21.6859 91.7485 16.5705 91.2994 12.8892 90.8392C11.0432 90.6084 9.544 90.3731 8.49265 90.1926C7.96664 90.1024 7.55174 90.0257 7.2605 89.9699C7.11485 89.942 7.00004 89.9193 6.91762 89.9027L6.81846 89.8826L6.78745 89.8762L6.77665 89.874L6.77243 89.8731C6.77065 89.8727 6.769 89.8724 7.99989 84L6.769 89.8724C4.35838 89.3671 2.50141 87.4399 2.08589 85.0122C1.67148 82.591 2.77475 80.1625 4.86915 78.8816C4.87369 78.8787 4.88693 78.8705 4.90835 78.8569C4.95315 78.8285 5.03337 78.777 5.14427 78.7033C5.3666 78.5556 5.70883 78.3209 6.13377 78.0067C6.99138 77.3725 8.14416 76.4448 9.31589 75.2849C11.7995 72.8263 13.6883 69.9996 14.0503 67.224C14.1933 66.1277 14.2661 64.7193 14.3294 62.8644C14.3427 62.4758 14.3555 62.0686 14.3688 61.6464C14.4159 60.1527 14.4688 58.4705 14.5682 56.7558C14.8236 52.3474 15.4083 47.087 17.2788 42.0194C19.1878 36.8475 22.4629 31.8093 28.0372 28.0668C33.4197 24.453 40.4661 22.369 49.4699 22.0447L67.7572 3.75736C70.1004 1.41421 73.8994 1.41421 76.2425 3.75736ZM4.87432 78.8784L4.87613 78.8773L4.88064 78.8745" fill="black" />
+  </svg>
+)
+
+const CalendarSVG: FC<Props> = props => (
+  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 96 96" {...props}>
+    <path fill="#000" d="M26 72a6 6 0 1 0 0-12 6 6 0 0 0 0 12Zm28-6a6 6 0 1 1-12 0 6 6 0 0 1 12 0Zm16 6a6 6 0 1 0 0-12 6 6 0 0 0 0 12ZM26 40a6 6 0 0 0 0 12h44a6 6 0 0 0 0-12H26Z" />
+    <path fill="#000" fill-rule="evenodd" d="M20 10a6 6 0 0 1 12 0v2h32v-2a6 6 0 0 1 12 0v2h2c9.941 0 18 8.059 18 18v44c0 9.941-8.059 18-18 18H18C8.059 92 0 83.941 0 74V30c0-9.941 8.059-18 18-18h2v-2Zm0 16v-2h-2a6 6 0 0 0-6 6v44a6 6 0 0 0 6 6h60a6 6 0 0 0 6-6V30a6 6 0 0 0-6-6h-2v2a6 6 0 0 1-12 0v-2H32v2a6 6 0 0 1-12 0Z" clip-rule="evenodd" />
+  </svg>
+)
+
+const CameraSVG: FC<Props> = props => (
+  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 96 96" {...props}>
+    <path fill="#000" fill-rule="evenodd" d="M48 30c-10.493 0-19 8.507-19 19s8.507 19 19 19 19-8.507 19-19-8.507-19-19-19Zm-7 19a7 7 0 1 1 14 0 7 7 0 0 1-14 0Z" clip-rule="evenodd" />
+    <path fill="#000" fill-rule="evenodd" d="M33.504 8a18 18 0 0 0-17.47 13.66l-1.665 6.706C6.169 30.046 0 37.303 0 46v24c0 9.941 8.059 18 18 18h60c9.941 0 18-8.059 18-18V46c0-8.697-6.168-15.954-14.369-17.634l-1.666-6.706A18 18 0 0 0 62.496 8H33.504ZM16.777 40.122l7.413-1.518 3.49-14.05A6 6 0 0 1 33.505 20h28.992a6 6 0 0 1 5.823 4.553l3.491 14.05 7.413 1.52A6.006 6.006 0 0 1 84 46v24a6 6 0 0 1-6 6H18a6 6 0 0 1-6-6V46a6.006 6.006 0 0 1 4.777-5.878Z" clip-rule="evenodd" />
+  </svg>
+)
+
+const CheckSVG: FC<Props> = props => (
+  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 96 96" {...props}>
+    <path fill="#000" d="M88.455 28.019a6 6 0 1 0-8.91-8.038l-41.852 46.4L16.16 45.676a6 6 0 0 0-8.318 8.65L33.82 79.304l.094.09c.508.472 1.077.84 1.68 1.104a6.017 6.017 0 0 0 5.183-.177 5.984 5.984 0 0 0 1.7-1.325l45.98-50.977Z" />
+  </svg>
+)
+
+const CheckCircleSVG: FC<Props> = props => (
+  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 96 96" {...props}>
+    <g clip-path="url(#a)">
+      <path fill="#000" d="M71.243 32.757a6 6 0 0 1 0 8.486l-24.98 24.98A5.978 5.978 0 0 1 44.7 67.36a6.017 6.017 0 0 1-5.18.105 5.976 5.976 0 0 1-1.611-1.076L24.93 54.409a6 6 0 0 1 8.14-8.818l8.764 8.09 20.923-20.924a6 6 0 0 1 8.486 0Z" />
+      <path fill="#000" fill-rule="evenodd" d="M48 96c26.51 0 48-21.49 48-48S74.51 0 48 0 0 21.49 0 48s21.49 48 48 48Zm0-12c19.882 0 36-16.118 36-36S67.882 12 48 12 12 28.118 12 48s16.118 36 36 36Z" clip-rule="evenodd" />
+    </g>
+    <defs>
+      <clipPath id="a">
+        <rect width="96" height="96" fill="#fff" />
+      </clipPath>
+    </defs>
+  </svg>
+)
+
+const CogSVG: FC<Props> = props => (
+  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 96 96" {...props}>
+    <path fill="#000" fill-rule="evenodd" d="M48 28c-11.046 0-20 8.954-20 20s8.954 20 20 20 20-8.954 20-20-8.954-20-20-20Zm-8 20a8 8 0 1 1 16 0 8 8 0 0 1-16 0Z" clip-rule="evenodd" />
+    <path fill="#000" fill-rule="evenodd" d="M48 0c-.693 0-1.383.015-2.069.044-5.799.246-10.449 3.635-13.244 7.724l-2.594 3.795c-.39.571-1.06 1.191-2.099 1.793-1.033.598-1.896.864-2.594.918l-4.591.35c-4.926.375-10.176 2.695-13.292 7.576a47.964 47.964 0 0 0-2.091 3.614c-2.686 5.144-2.07 10.862.07 15.319l2.002 4.17c.3.627.502 1.51.502 2.697 0 1.188-.201 2.07-.502 2.697l-2.002 4.17c-2.14 4.457-2.756 10.175-.07 15.32A47.967 47.967 0 0 0 7.517 73.8c3.116 4.881 8.366 7.201 13.292 7.577l4.591.35c.698.053 1.561.32 2.594.917 1.04.602 1.709 1.222 2.1 1.793l2.593 3.795c2.795 4.089 7.445 7.478 13.244 7.724a48.674 48.674 0 0 0 4.138 0c5.799-.246 10.449-3.635 13.244-7.724l2.594-3.795c.39-.571 1.06-1.191 2.099-1.793 1.033-.598 1.897-.864 2.594-.918l4.591-.35c4.926-.375 10.176-2.695 13.292-7.576a47.949 47.949 0 0 0 2.091-3.614c2.686-5.144 2.07-10.862-.07-15.319l-2.002-4.17C88.202 50.07 88 49.187 88 48c0-1.188.201-2.07.502-2.697l2.002-4.17c2.14-4.457 2.756-10.175.07-15.32a47.949 47.949 0 0 0-2.09-3.613c-3.118-4.88-8.368-7.2-13.294-7.577l-4.591-.35c-.697-.053-1.561-.32-2.594-.917-1.04-.602-1.709-1.222-2.1-1.793l-2.593-3.795C60.518 3.679 55.868.29 50.069.044A48.724 48.724 0 0 0 48 0Zm-1.56 12.033a36.657 36.657 0 0 1 3.12 0c1.209.051 2.683.805 3.846 2.507L56 18.335c1.67 2.444 3.875 4.18 5.997 5.408 2.136 1.236 4.737 2.27 7.691 2.496l4.592.35c2.052.156 3.44 1.052 4.089 2.069.56.878 1.084 1.782 1.568 2.709.556 1.065.641 2.714-.25 4.572l-2.003 4.17C76.406 42.773 76 45.54 76 48s.406 5.228 1.684 7.89l2.002 4.17c.892 1.859.807 3.508.25 4.573a36.006 36.006 0 0 1-1.567 2.71c-.65 1.016-2.037 1.912-4.09 2.068l-4.59.35c-2.954.225-5.556 1.26-7.692 2.496-2.122 1.228-4.326 2.964-5.997 5.408l-2.594 3.795c-1.163 1.702-2.637 2.456-3.847 2.507a36.654 36.654 0 0 1-3.118 0c-1.21-.051-2.684-.805-3.847-2.507L40 77.665c-1.67-2.444-3.875-4.18-5.997-5.408-2.136-1.236-4.737-2.27-7.691-2.496l-4.592-.35c-2.052-.156-3.44-1.052-4.089-2.069a35.972 35.972 0 0 1-1.568-2.709c-.556-1.065-.641-2.714.25-4.572l2.003-4.17C19.594 53.227 20 50.46 20 48s-.406-5.228-1.684-7.89l-2.002-4.17c-.892-1.859-.807-3.508-.25-4.573a35.972 35.972 0 0 1 1.567-2.71c.65-1.016 2.037-1.912 4.09-2.068l4.59-.35c2.955-.225 5.556-1.26 7.692-2.496 2.122-1.228 4.326-2.964 5.997-5.408l2.594-3.795c1.163-1.702 2.637-2.456 3.847-2.507Z" clip-rule="evenodd" />
+  </svg>
+)
+
+const CogActiveSVG: FC<Props> = props => (
+  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 96 96" {...props}>
+    <path fill="#000" fill-rule="evenodd" d="M25.856 20.256c1.825-.139 3.558-.79 5.143-1.707 1.58-.914 3.017-2.093 4.048-3.6l2.594-3.795c1.979-2.895 5.041-4.967 8.545-5.116a42.712 42.712 0 0 1 3.628 0c3.504.15 6.566 2.22 8.545 5.116l2.594 3.795c1.031 1.507 2.467 2.686 4.048 3.6 1.585.917 3.317 1.568 5.143 1.707l4.591.35c3.49.266 6.808 1.874 8.69 4.823a41.963 41.963 0 0 1 1.83 3.161c1.622 3.105 1.356 6.788-.16 9.946l-2.002 4.17C82.303 44.351 82 46.176 82 48c0 1.824.304 3.65 1.093 5.294l2.002 4.17c1.516 3.158 1.782 6.84.16 9.946a41.963 41.963 0 0 1-1.83 3.161c-1.882 2.949-5.2 4.557-8.69 4.823l-4.591.35c-1.826.139-3.558.79-5.143 1.707-1.58.914-3.017 2.093-4.048 3.6l-2.594 3.795c-1.979 2.895-5.04 4.967-8.545 5.115a42.662 42.662 0 0 1-3.628 0c-3.504-.148-6.566-2.22-8.545-5.115l-2.594-3.795c-1.031-1.507-2.467-2.686-4.048-3.6-1.585-.917-3.317-1.568-5.143-1.707l-4.591-.35c-3.49-.266-6.808-1.874-8.69-4.823a41.963 41.963 0 0 1-1.83-3.161c-1.622-3.105-1.356-6.788.16-9.946l2.002-4.17C13.697 51.649 14 49.824 14 48c0-1.824-.304-3.65-1.093-5.294l-2.002-4.17c-1.516-3.158-1.782-6.84-.16-9.946a41.963 41.963 0 0 1 1.83-3.161c1.882-2.949 5.2-4.557 8.69-4.823l4.591-.35ZM48 61c7.18 0 13-5.82 13-13s-5.82-13-13-13-13 5.82-13 13 5.82 13 13 13Z" clip-rule="evenodd" opacity=".35" />
+    <path fill="#000" fill-rule="evenodd" d="M48 28c-11.046 0-20 8.954-20 20s8.954 20 20 20 20-8.954 20-20-8.954-20-20-20Zm-8 20a8 8 0 1 1 16 0 8 8 0 0 1-16 0Z" clip-rule="evenodd" />
+    <path fill="#000" fill-rule="evenodd" d="M48 0c-.693 0-1.383.015-2.069.044-5.799.246-10.449 3.635-13.244 7.724l-2.594 3.795c-.39.571-1.06 1.191-2.099 1.793-1.033.598-1.896.864-2.594.918l-4.591.35c-4.926.375-10.176 2.695-13.292 7.576a47.964 47.964 0 0 0-2.091 3.614c-2.686 5.144-2.07 10.862.07 15.319l2.002 4.17c.3.627.502 1.51.502 2.697 0 1.188-.201 2.07-.502 2.697l-2.002 4.17c-2.14 4.457-2.756 10.175-.07 15.32A47.967 47.967 0 0 0 7.517 73.8c3.116 4.881 8.366 7.201 13.292 7.577l4.591.35c.698.053 1.561.32 2.594.917 1.04.602 1.709 1.222 2.1 1.793l2.593 3.795c2.795 4.089 7.445 7.478 13.244 7.724a48.674 48.674 0 0 0 4.138 0c5.799-.246 10.449-3.635 13.244-7.724l2.594-3.795c.39-.571 1.06-1.191 2.099-1.793 1.033-.598 1.897-.864 2.594-.918l4.591-.35c4.926-.375 10.176-2.695 13.292-7.576a47.949 47.949 0 0 0 2.091-3.614c2.686-5.144 2.07-10.862-.07-15.319l-2.002-4.17C88.202 50.07 88 49.187 88 48c0-1.188.201-2.07.502-2.697l2.002-4.17c2.14-4.457 2.756-10.175.07-15.32a47.949 47.949 0 0 0-2.09-3.613c-3.118-4.88-8.368-7.2-13.294-7.577l-4.591-.35c-.697-.053-1.561-.32-2.594-.917-1.04-.602-1.709-1.222-2.1-1.793l-2.593-3.795C60.518 3.679 55.868.29 50.069.044A48.724 48.724 0 0 0 48 0Zm-1.56 12.033a36.657 36.657 0 0 1 3.12 0c1.209.051 2.683.805 3.846 2.507L56 18.335c1.67 2.444 3.875 4.18 5.997 5.408 2.136 1.236 4.737 2.27 7.691 2.496l4.592.35c2.052.156 3.44 1.052 4.089 2.069.56.878 1.084 1.782 1.568 2.709.556 1.065.641 2.714-.25 4.572l-2.003 4.17C76.406 42.773 76 45.54 76 48s.406 5.228 1.684 7.89l2.002 4.17c.892 1.859.807 3.508.25 4.573a36.006 36.006 0 0 1-1.567 2.71c-.65 1.016-2.037 1.912-4.09 2.068l-4.59.35c-2.954.225-5.556 1.26-7.692 2.496-2.122 1.228-4.326 2.964-5.997 5.408l-2.594 3.795c-1.163 1.702-2.637 2.456-3.847 2.507a36.654 36.654 0 0 1-3.118 0c-1.21-.051-2.684-.805-3.847-2.507L40 77.665c-1.67-2.444-3.875-4.18-5.997-5.408-2.136-1.236-4.737-2.27-7.691-2.496l-4.592-.35c-2.052-.156-3.44-1.052-4.089-2.069a35.972 35.972 0 0 1-1.568-2.709c-.556-1.065-.641-2.714.25-4.572l2.003-4.17C19.594 53.227 20 50.46 20 48s-.406-5.228-1.684-7.89l-2.002-4.17c-.892-1.859-.807-3.508-.25-4.573a35.972 35.972 0 0 1 1.567-2.71c.65-1.016 2.037-1.912 4.09-2.068l4.59-.35c2.955-.225 5.556-1.26 7.692-2.496 2.122-1.228 4.326-2.964 5.997-5.408l2.594-3.795c1.163-1.702 2.637-2.456 3.847-2.507Z" clip-rule="evenodd" />
+  </svg>
+)
+
+const CopySVG: FC<Props> = props => (
+  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 96 96" {...props}>
+    <path fill="#000" fill-rule="evenodd" d="M50 96c-7.732 0-14-6.268-14-14V42c0-7.732 6.268-14 14-14h24c7.732 0 14 6.268 14 14v40c0 7.732-6.268 14-14 14H50Zm-2-14a2 2 0 0 0 2 2h24a2 2 0 0 0 2-2V42a2 2 0 0 0-2-2H50a2 2 0 0 0-2 2v40Z" clip-rule="evenodd" />
+    <path fill="#000" d="M22 0C14.268 0 8 6.268 8 14v40c0 7.732 6.268 14 14 14a6 6 0 0 0 0-12 2 2 0 0 1-2-2V14a2 2 0 0 1 2-2h24a2 2 0 0 1 2 2 6 6 0 0 0 12 0c0-7.732-6.268-14-14-14H22Z" />
+  </svg>
+)
+
+const CounterClockwiseArrowSVG: FC<Props> = props => (
+  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 96 96" {...props}>
+    <path fill="#000" d="M25.74 37.884C29.59 29.702 37.98 24 47.744 24 61.188 24 72 34.793 72 48S61.188 72 47.744 72a24.31 24.31 0 0 1-12.462-3.404 6 6 0 1 0-6.128 10.317A36.31 36.31 0 0 0 47.744 84C67.719 84 84 67.93 84 48S67.72 12 47.744 12a36.284 36.284 0 0 0-32.04 19.137l-2.012-6.034a6 6 0 0 0-11.384 3.794l7 21a6 6 0 0 0 7.674 3.766l20-7a6 6 0 0 0-3.964-11.326l-7.278 2.547Z" />
+  </svg>
+)
+
+const CreditCardSVG: FC<Props> = props => (
+  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 96 96" {...props}>
+    <path fill="#000" d="M22 68a6 6 0 1 0 0-12 6 6 0 0 0 0 12Zm22-6a6 6 0 1 1-12 0 6 6 0 0 1 12 0Zm10 6a6 6 0 1 0 0-12 6 6 0 0 0 0 12Z" />
+    <path fill="#000" fill-rule="evenodd" d="M0 30c0-9.941 8.059-18 18-18h60c9.941 0 18 8.059 18 18v36c0 9.941-8.059 18-18 18H18C8.059 84 0 75.941 0 66V30Zm18-6a6 6 0 0 0-6 6v2h72v-2a6 6 0 0 0-6-6H18Zm-6 42V44h72v22a6 6 0 0 1-6 6H18a6 6 0 0 1-6-6Z" clip-rule="evenodd" />
+  </svg>
+)
+
+const CrossSVG: FC<Props> = props => (
+  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 96 96" {...props}>
+    <path fill="#000" d="M17.757 26.243a6 6 0 1 1 8.486-8.486L48 39.515l21.757-21.758a6 6 0 1 1 8.486 8.486L56.485 48l21.758 21.757a6 6 0 1 1-8.486 8.486L48 56.485 26.243 78.243a6 6 0 1 1-8.486-8.486L39.515 48 17.757 26.243Z" />
+  </svg>
+)
+
+const CrossCircleSVG: FC<Props> = props => (
+  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 96 96" {...props}>
+    <g clip-path="url(#a)">
+      <path fill="#000" d="M66.243 29.757a6 6 0 0 1 0 8.486L56.485 48l9.758 9.757a6 6 0 1 1-8.486 8.486L48 56.485l-9.757 9.758a6 6 0 1 1-8.486-8.486L39.515 48l-9.758-9.757a6 6 0 1 1 8.486-8.486L48 39.515l9.757-9.758a6 6 0 0 1 8.486 0Z" />
+      <path fill="#000" fill-rule="evenodd" d="M48 96c26.51 0 48-21.49 48-48S74.51 0 48 0 0 21.49 0 48s21.49 48 48 48Zm0-12c19.882 0 36-16.118 36-36S67.882 12 48 12 12 28.118 12 48s16.118 36 36 36Z" clip-rule="evenodd" />
+    </g>
+    <defs>
+      <clipPath id="a">
+        <rect width="96" height="96" fill="#fff" />
+      </clipPath>
+    </defs>
+  </svg>
+)
+
+const DisabledSVG: FC<Props> = props => (
+  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 96 96" {...props}>
+    <g clip-path="url(#a)">
+      <path fill="#000" fill-rule="evenodd" d="M96 48c0 26.51-21.49 48-48 48S0 74.51 0 48 21.49 0 48 0s48 21.49 48 48Zm-12 0c0 19.882-16.118 36-36 36a35.836 35.836 0 0 1-20.86-6.656l50.204-50.203A35.836 35.836 0 0 1 84 48ZM18.656 68.86l50.203-50.204A35.836 35.836 0 0 0 48 12c-19.882 0-36 16.118-36 36a35.836 35.836 0 0 0 6.655 20.86Z" clip-rule="evenodd" />
+    </g>
+    <defs>
+      <clipPath id="a">
+        <rect width="96" height="96" fill="#fff" />
+      </clipPath>
+    </defs>
+  </svg>
+)
+
+const DocumentSVG: FC<Props> = props => (
+  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 96 96" {...props}>
+    <path fill="#000" fill-rule="evenodd" d="M26 12a2 2 0 0 0-2 2v68a2 2 0 0 0 2 2h44a2 2 0 0 0 2-2V30.387a2 2 0 0 0-.608-1.436L54.485 12.564A2 2 0 0 0 53.093 12H26Zm-14 2c0-7.732 6.268-14 14-14h27.093a14 14 0 0 1 9.743 3.947l16.908 16.387A14 14 0 0 1 84 30.387V82c0 7.732-6.268 14-14 14H26c-7.732 0-14-6.268-14-14V14Z" clip-rule="evenodd" />
+  </svg>
+)
+
+const DotGridSVG: FC<Props> = props => (
+  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 96 96" {...props}>
+    <g clip-path="url(#a)">
+      <path fill="#000" fill-rule="evenodd" d="M0 22C0 9.85 9.85 0 22 0s22 9.85 22 22-9.85 22-22 22S0 34.15 0 22Zm22 10c-5.523 0-10-4.477-10-10s4.477-10 10-10 10 4.477 10 10-4.477 10-10 10ZM0 74c0-12.15 9.85-22 22-22s22 9.85 22 22-9.85 22-22 22S0 86.15 0 74Zm22 10c-5.523 0-10-4.477-10-10s4.477-10 10-10 10 4.477 10 10-4.477 10-10 10ZM74 0C61.85 0 52 9.85 52 22s9.85 22 22 22 22-9.85 22-22S86.15 0 74 0ZM64 22c0 5.523 4.477 10 10 10s10-4.477 10-10-4.477-10-10-10-10 4.477-10 10ZM52 74c0-12.15 9.85-22 22-22s22 9.85 22 22-9.85 22-22 22-22-9.85-22-22Zm22 10c-5.523 0-10-4.477-10-10s4.477-10 10-10 10 4.477 10 10-4.477 10-10 10Z" clip-rule="evenodd" />
+    </g>
+    <defs>
+      <clipPath id="a">
+        <rect width="96" height="96" fill="#fff" />
+      </clipPath>
+    </defs>
+  </svg>
+)
+
+const DotGridActiveSVG: FC<Props> = props => (
+  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 96 96" {...props}>
+    <g clip-path="url(#a)">
+      <path fill="#000" fill-rule="evenodd" d="M22 40c9.941 0 18-8.059 18-18S31.941 4 22 4 4 12.059 4 22s8.059 18 18 18Zm0 52c9.941 0 18-8.059 18-18s-8.059-18-18-18S4 64.059 4 74s8.059 18 18 18Zm70-70c0 9.941-8.059 18-18 18s-18-8.059-18-18S64.059 4 74 4s18 8.059 18 18ZM74 92c9.941 0 18-8.059 18-18s-8.059-18-18-18-18 8.059-18 18 8.059 18 18 18Z" clip-rule="evenodd" opacity=".35" />
+      <path fill="#000" fill-rule="evenodd" d="M0 22C0 9.85 9.85 0 22 0s22 9.85 22 22-9.85 22-22 22S0 34.15 0 22Zm22 10c-5.523 0-10-4.477-10-10s4.477-10 10-10 10 4.477 10 10-4.477 10-10 10ZM0 74c0-12.15 9.85-22 22-22s22 9.85 22 22-9.85 22-22 22S0 86.15 0 74Zm22 10c-5.523 0-10-4.477-10-10s4.477-10 10-10 10 4.477 10 10-4.477 10-10 10ZM74 0C61.85 0 52 9.85 52 22s9.85 22 22 22 22-9.85 22-22S86.15 0 74 0ZM64 22c0 5.523 4.477 10 10 10s10-4.477 10-10-4.477-10-10-10-10 4.477-10 10ZM52 74c0-12.15 9.85-22 22-22s22 9.85 22 22-9.85 22-22 22-22-9.85-22-22Zm22 10c-5.523 0-10-4.477-10-10s4.477-10 10-10 10 4.477 10 10-4.477 10-10 10Z" clip-rule="evenodd" />
+    </g>
+    <defs>
+      <clipPath id="a">
+        <rect width="96" height="96" fill="#fff" />
+      </clipPath>
+    </defs>
+  </svg>
+)
+
+export {
+  AeroplaneSVG, AlertSVG, BrowserSVG, BrushSVG,
+  CalendarSVG, CameraSVG, CheckSVG, CheckCircleSVG,
+  CogSVG, CogActiveSVG, CopySVG, CounterClockwiseArrowSVG,
+  CreditCardSVG, CrossSVG, CrossCircleSVG,
+  DisabledSVG, DocumentSVG, DotGridSVG, DotGridActiveSVG,
+}
