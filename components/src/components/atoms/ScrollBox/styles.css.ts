@@ -14,8 +14,8 @@ export const scrollBox = style({
   },
   overflow: 'auto',
   position: 'relative',
-  width: modeVars.space.full,
-  height: modeVars.space.full,
+  width: commonVars.space.full,
+  height: commonVars.space.full,
   borderColor: modeVars.color.greyLight,
   transition: `var(${scrollBar}) 0.15s ease-in-out, height 0.15s ease-in-out, var(--top-line-color) 0.15s ease-in-out, var(--bottom-line-color) 0.15s ease-in-out`,
   selectors: {
