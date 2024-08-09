@@ -6,11 +6,7 @@ const scrollBar = createVar()
 
 export const scrollBox = style({
   vars: {
-    [scrollBar]: {
-      syntax: '<color>',
-      inherits: false,
-      initialValue: modeVars.color.greyLight,
-    },
+    [scrollBar]: modeVars.color.greyLight,
   },
   overflow: 'auto',
   position: 'relative',
