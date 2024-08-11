@@ -54,7 +54,7 @@ jobs:
         run: pnpm lint
 
       - name: Check types
-        run: pnpm lint:types
+        run:  pnpm -F @ensdomains/thorin lint:types
 
   test:
     name: Test

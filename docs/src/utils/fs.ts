@@ -1,11 +1,10 @@
-import { glob } from 'glob'
+import { globSync } from 'node:fs'
 
 import path from 'path'
 
 export const getComponentPaths = () => {
-  return glob.sync('./src/reference/mdx/**/*.docs.mdx', {
+  return globSync('./src/reference/mdx/**/*.docs.mdx', {
     cwd: process.cwd(),
-    absolute: true,
   })
 }
 
@@ -17,9 +16,8 @@ export const getComponentName = (pathname: string) => {
 }
 
 export const getGuidePaths = () => {
-  return glob.sync('./src/guides/**/*.mdx', {
+  return globSync('./src/guides/**/*.mdx', {
     cwd: process.cwd(),
-    absolute: true,
   })
 }
 

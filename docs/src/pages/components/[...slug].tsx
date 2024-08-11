@@ -10,7 +10,7 @@ import { serialize } from 'next-mdx-remote/serialize'
 import matter from 'gray-matter'
 import { PropItem } from 'react-docgen-typescript'
 
-import { glob } from 'glob'
+import { globSync } from 'node:fs'
 
 import { Props as LayoutProps, getLayout } from '~/layouts/docs'
 import { getComponentName, getComponentPaths } from '~/utils/fs'
@@ -59,11 +59,10 @@ export const getStaticProps: GetStaticProps<StaticProps> = async (context) => {
       },
     }
   }
-  const globComponentPath = glob.sync(
+  const globComponentPath = globSync(
     `../components/src/**/${path.basename(pathname, '.docs.mdx')}.tsx`,
     {
       cwd: process.cwd(),
-      absolute: true,
     },
   )
   const componentPathname = globComponentPath[0]
