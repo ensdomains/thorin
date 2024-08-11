@@ -40,12 +40,10 @@ const NavLink = ({
 )
 
 const Heading = ({
-  icon,
   children,
   ...props
 }: BoxProps & { icon: React.ReactElement }) => (
   <Box {...props} display="flex" gap="$2" alignItems="center" height="$9">
-    <Box as={icon} color="$textSecondary" />
     <Typography fontVariant="bodyBold" color="textSecondary">
       {children}
     </Typography>
