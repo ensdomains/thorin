@@ -138,7 +138,7 @@ export const ScrollBox = ({
       observer.observe(bottomEl)
     }
     return () => {
-      observer.disconnect()
+      observer?.disconnect()
     }
   }, [bottomTriggerPx, topTriggerPx])
 

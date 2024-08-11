@@ -12,6 +12,7 @@ export default defineConfig({
     },
   },
   build: {
+    minify: false,
     lib: {
       entry: './src/index.ts',
       fileName: format => `index.${format}.js`,

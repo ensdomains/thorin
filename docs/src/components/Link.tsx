@@ -36,8 +36,9 @@ export const Link = ({
         href={href}
         passHref
         prefetch={canPrefetch(href) ? undefined : false}
+        className={className}
       >
-        <a className={className}>{children}</a>
+        {children}
       </NextLink>
     </>
   )

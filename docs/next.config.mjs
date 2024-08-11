@@ -1,17 +1,17 @@
-import { globSync } from 'tinyglobby'
 import { createVanillaExtractPlugin } from '@vanilla-extract/next-plugin'
 import path from 'node:path'
 const withVanillaExtract = createVanillaExtractPlugin({ identifiers: 'short' })
 import nextMDX from '@next/mdx'
+import { globSync } from 'node:fs'
 
 const withMDX = nextMDX({
   extension: /\.mdx?$/,
 })
 
 const getComponentPaths = category =>
-  globSync(`./src/reference/mdx/${category}/**/!(Icons[A-Z])*.docs.mdx`, {
+  globSync(`./src/reference/mdx/${category}/*.docs.mdx`, {
     cwd: process.cwd(),
-    absolute: true,
+
   })
     .map((x) => {
       const name = path.basename(x, '.docs.mdx')
