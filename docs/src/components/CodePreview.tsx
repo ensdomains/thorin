@@ -148,9 +148,6 @@ export const CodePreview = ({
           <LiveEditorContainer>
             <LiveEditor
               prism={Prism}
-              style={{
-                fontFamily: 'Arial, sans-serif',
-              }}
               onChange={newCode => setCode(newCode)}
             />
             <Box position="absolute" top="$2" right="$2">
