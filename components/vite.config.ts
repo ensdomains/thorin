@@ -1,5 +1,4 @@
 import { defineConfig } from 'vitest/config'
-import svgrPlugin from 'vite-plugin-svgr'
 import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin'
 
 import pkg from './package.json'
@@ -37,38 +36,6 @@ export default defineConfig({
     vanillaExtractPlugin({
       identifiers: 'short',
     }),
-    svgrPlugin({
-      svgrOptions: {
-        icon: true,
-        svgo: true,
-        replaceAttrValues: { '#000': 'currentColor', 'black': 'currentColor' },
-        svgProps: {
-          focusable: 'false',
-          shapeRendering: 'geometricPrecision',
-        },
-        svgoConfig: {
-          multipass: true,
-          removeViewBox: false,
-          removeDimensions: true,
-        },
-        titleProp: true,
-        jsx: {
-          babelConfig: {
-            plugins: [
-              [
-                '@svgr/babel-plugin-remove-jsx-attribute',
-                {
-                  elements: ['path'],
-                  attributes: ['className', 'strokeWidth'],
-                },
-              ],
-            ],
-          },
-        },
-        // ...svgr options (https://react-svgr.com/docs/options/)
-      },
-    }),
-    // macrosPlugin(),
   ],
   test: {
     environment: 'jsdom',

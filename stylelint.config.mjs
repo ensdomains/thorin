@@ -1,6 +1,6 @@
 /** @type {import('stylelint').Config} */
 export default {
-  plugins: ['@stylistic/stylelint-plugin'],
+  extends: ['@stylistic/stylelint-config', 'stylelint-config-recommended'],
   rules: {
     '@stylistic/indentation': 2,
     '@stylistic/max-empty-lines': 1,

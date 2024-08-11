@@ -24,6 +24,7 @@ const baseConfig = tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
   react.configs.recommended,
+  react.configs.dom,
   stylistic.configs.customize({
     indent: 2,
     quotes: 'single',
@@ -31,8 +32,10 @@ const baseConfig = tseslint.config(
     semi: false,
   }),
   {
-    settings: { react: { version: 'detect' } },
-    plugins: { react, stylistic },
+    settings: {
+      'react-x': { version: 'detect' },
+    },
+    plugins: { 'react-x': react, stylistic },
     rules: {
       '@eslint-react/dom/no-missing-button-type': 'off',
       'stylistic/no-multiple-empty-lines': ['error', { max: 1 }],

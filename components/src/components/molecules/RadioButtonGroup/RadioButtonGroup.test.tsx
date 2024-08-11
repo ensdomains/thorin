@@ -5,9 +5,8 @@ import { act } from 'react-dom/test-utils'
 
 import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 
-import { FieldSet, RadioButton } from '@/src'
-
 import { Props, RadioButtonGroup } from './RadioButtonGroup'
+import { FieldSet, RadioButton } from '@/src/components'
 
 const RadioButtonGroupWithState = (
   props: Omit<Props, 'onChange' | 'value'>,

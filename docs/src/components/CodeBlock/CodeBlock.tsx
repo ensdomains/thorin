@@ -110,11 +110,10 @@ export const CodeBlock = ({
           <Box position="absolute" top="$2" right="$2">
             <CopyButton content={code} />
           </Box>
-
           {tokens.map((line, i) => (
-            <LineContainer key={i} {...getLineProps({ line, key: i })}>
+            <LineContainer key={line[0].content} {...getLineProps({ line, key: i })}>
               {line.map((token, key) => (
-                <Token key={key} {...getTokenProps({ token, key })} />
+                <Token key={token.content} {...getTokenProps({ token, key })} />
               ))}
             </LineContainer>
           ))}
