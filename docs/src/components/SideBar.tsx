@@ -83,7 +83,7 @@ export const SideBar = ({ open, links }: { open: boolean, links: Links }) => {
           <Field
             label={(
               <Box height="$6.5" display="flex" alignItems="center">
-                {mode === 'light' ? 'Light styles' : 'Dark styles'}
+                {mode === 'light' ? 'Light Theme' : 'Dark Theme'}
               </Box>
             )}
             inline
