@@ -71,7 +71,7 @@ importers:
         version: 11.2.6
       playroom:
         specifier: ^0.38.0
-        version: 0.38.0(@types/node@22.2.0)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(terser@5.31.5)
+        version: 0.38.0(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(terser@5.31.5)
       postcss-syntax:
         specifier: ^0.36.2
         version: 0.36.2(postcss@8.4.41)
@@ -121,9 +121,6 @@ importers:
         specifier: ^4.3.0
         version: 4.3.0
     devDependencies:
-      '@stylelint/postcss-css-in-js':
-        specifier: ^0.38.0
-        version: 0.38.0(postcss-syntax@0.36.2(postcss@8.4.41))(postcss@8.4.41)
       '@testing-library/dom':
         specifier: ^9.3.3
         version: 9.3.4
@@ -175,12 +172,6 @@ importers:
       '@vanilla-extract/vite-plugin':
         specifier: ^3.9.0
         version: 3.9.5(@types/node@22.2.0)(babel-plugin-macros@3.1.0)(terser@5.31.5)(ts-node@10.9.2(@types/node@22.2.0)(typescript@4.9.4))(vite@5.4.0(@types/node@22.2.0)(terser@5.31.5))
-      esbuild-darwin-arm64:
-        specifier: ^0.14.27
-        version: 0.14.54
-      glob:
-        specifier: ^7.2.0
-        version: 7.2.3
       jsdom:
         specifier: ^24.1.1
         version: 24.1.1
@@ -1749,13 +1740,6 @@ packages:
   '@statoscope/webpack-ui@5.28.2':
     resolution: {integrity: sha512-jQ9/CXsSD2FPFQHt7ZJgil8JsukFLTRfIclONyC9R2vomdb2FwHzak6/fEqKYjT2bsDWoWJPL0ieM4Kog6I0Nw==}
 
-  '@stylelint/postcss-css-in-js@0.38.0':
-    resolution: {integrity: sha512-XOz5CAe49kS95p5yRd+DAIWDojTjfmyAQ4bbDlXMdbZTQ5t0ThjSLvWI6JI2uiS7MFurVBkZ6zUqcimzcLTBoQ==}
-    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
-    peerDependencies:
-      postcss: '>=7.0.0'
-      postcss-syntax: '>=0.36.2'
-
   '@stylistic/eslint-plugin-js@2.6.1':
     resolution: {integrity: sha512-iLOiVzcvqzDGD9U0EuVOX680v+XOPiPAjkxWj+Q6iV2GLOM5NB27tKVOpJY7AzBhidwpRbaLTgg3T4UzYx09jw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
@@ -3225,11 +3209,6 @@ packages:
 
   es-module-lexer@1.5.4:
     resolution: {integrity: sha512-MVNK56NiMrOwitFB7cqDwq0CQutbw+0BvLshJSse0MUNU+y1FC3bUS/AQg7oUng+/wKrrki7JfmwtVHkVfPLlw==}
-
-  esbuild-darwin-arm64@0.14.54:
-    resolution: {integrity: sha512-OPafJHD2oUPyvJMrsCvDGkRrVCar5aVyHfWGQzY1dWnzErjrDuSETxwA2HSsyg2jORLY8yBfzc1MIpUkXlctmw==}
-    engines: {node: '>=12'}
-    os: [darwin]
 
   esbuild@0.12.29:
     resolution: {integrity: sha512-w/XuoBCSwepyiZtIRsKsetiLDUVGPVw1E/R3VTFSecIy8UR7Cq3SOtwKHJMFoVqqVG36aGkzh4e8BvpO1Fdc7g==}
@@ -6502,7 +6481,7 @@ snapshots:
       '@babel/traverse': 7.25.3
       '@babel/types': 7.25.2
       convert-source-map: 1.9.0
-      debug: 4.3.6
+      debug: 4.3.6(supports-color@8.1.1)
       gensync: 1.0.0-beta.2
       json5: 2.2.3
       lodash: 4.17.21
@@ -6525,7 +6504,7 @@ snapshots:
       '@babel/traverse': 7.25.3
       '@babel/types': 7.25.2
       convert-source-map: 2.0.0
-      debug: 4.3.6(supports-color@8.1.1)
+      debug: 4.3.6
       gensync: 1.0.0-beta.2
       json5: 2.2.3
       semver: 6.3.1
@@ -7367,7 +7346,7 @@ snapshots:
       '@babel/parser': 7.25.3
       '@babel/template': 7.25.0
       '@babel/types': 7.25.2
-      debug: 4.3.6(supports-color@8.1.1)
+      debug: 4.3.6
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
@@ -8185,14 +8164,6 @@ snapshots:
     dependencies:
       '@statoscope/types': 5.28.1
       '@types/md5': 2.3.5
-
-  '@stylelint/postcss-css-in-js@0.38.0(postcss-syntax@0.36.2(postcss@8.4.41))(postcss@8.4.41)':
-    dependencies:
-      '@babel/core': 7.25.2
-      postcss: 8.4.41
-      postcss-syntax: 0.36.2(postcss@8.4.41)
-    transitivePeerDependencies:
-      - supports-color
 
   '@stylistic/eslint-plugin-js@2.6.1(eslint@9.8.0)':
     dependencies:
@@ -9018,7 +8989,7 @@ snapshots:
 
   agent-base@7.1.1:
     dependencies:
-      debug: 4.3.6(supports-color@8.1.1)
+      debug: 4.3.6
     transitivePeerDependencies:
       - supports-color
 
@@ -9926,8 +9897,6 @@ snapshots:
 
   es-module-lexer@1.5.4: {}
 
-  esbuild-darwin-arm64@0.14.54: {}
-
   esbuild@0.12.29: {}
 
   esbuild@0.19.12:
@@ -10685,7 +10654,7 @@ snapshots:
   http-proxy-agent@7.0.2:
     dependencies:
       agent-base: 7.1.1
-      debug: 4.3.6(supports-color@8.1.1)
+      debug: 4.3.6
     transitivePeerDependencies:
       - supports-color
 
@@ -10719,7 +10688,7 @@ snapshots:
   https-proxy-agent@7.0.5:
     dependencies:
       agent-base: 7.1.1
-      debug: 4.3.6(supports-color@8.1.1)
+      debug: 4.3.6
     transitivePeerDependencies:
       - supports-color
 
@@ -11652,7 +11621,7 @@ snapshots:
       mlly: 1.7.1
       pathe: 1.1.2
 
-  playroom@0.38.0(@types/node@22.2.0)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(terser@5.31.5):
+  playroom@0.38.0(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(terser@5.31.5):
     dependencies:
       '@babel/core': 7.25.2
       '@babel/parser': 7.25.3
@@ -13186,7 +13155,7 @@ snapshots:
   vite-node@1.6.0(@types/node@22.2.0)(terser@5.31.5):
     dependencies:
       cac: 6.7.14
-      debug: 4.3.6(supports-color@8.1.1)
+      debug: 4.3.6
       pathe: 1.1.2
       picocolors: 1.0.1
       vite: 5.4.0(@types/node@22.2.0)(terser@5.31.5)
@@ -13204,7 +13173,7 @@ snapshots:
   vite-node@2.0.5(@types/node@22.2.0)(terser@5.31.5):
     dependencies:
       cac: 6.7.14
-      debug: 4.3.6(supports-color@8.1.1)
+      debug: 4.3.6
       pathe: 1.1.2
       tinyrainbow: 1.2.0
       vite: 5.4.0(@types/node@22.2.0)(terser@5.31.5)
@@ -13226,7 +13195,7 @@ snapshots:
       '@volar/typescript': 2.3.4
       '@vue/language-core': 2.0.29(typescript@4.9.4)
       compare-versions: 6.1.1
-      debug: 4.3.6(supports-color@8.1.1)
+      debug: 4.3.6
       kolorist: 1.8.0
       local-pkg: 0.5.0
       magic-string: 0.30.11
@@ -13241,7 +13210,7 @@ snapshots:
 
   vite-tsconfig-paths@4.3.2(typescript@4.9.4)(vite@5.4.0(@types/node@22.2.0)(terser@5.31.5)):
     dependencies:
-      debug: 4.3.6(supports-color@8.1.1)
+      debug: 4.3.6
       globrex: 0.1.2
       tsconfck: 3.1.1(typescript@4.9.4)
     optionalDependencies:
@@ -13270,7 +13239,7 @@ snapshots:
       '@vitest/spy': 2.0.5
       '@vitest/utils': 2.0.5
       chai: 5.1.1
-      debug: 4.3.6(supports-color@8.1.1)
+      debug: 4.3.6
       execa: 8.0.1
       magic-string: 0.30.11
       pathe: 1.1.2
