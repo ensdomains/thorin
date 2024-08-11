@@ -10,7 +10,7 @@ import {
 } from '@ensdomains/thorin'
 import * as Components from '@ensdomains/thorin'
 
-const icons = Object.entries(Components)
+const icons = Object.entries(Components as Record<string, any>)
   .filter(([k]) => k.includes('SVG'))
   .map(([name, Component]) => ({ name, Component }))
   .sort((a, b) => (a.name > b.name ? 1 : -1))
@@ -106,7 +106,7 @@ export const SearchIcons = () => {
               >
                 <IconGridFlex>
                   <ComponentContainer>
-                    {React.createElement(x.Component as any)}
+                    {React.createElement(x.Component as any, { height: 16, width: 16 })}
                   </ComponentContainer>
                   <IconNameContainer>
                     <Typography
