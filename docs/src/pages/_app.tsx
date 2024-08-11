@@ -8,8 +8,8 @@ import { ThemeProvider } from '@ensdomains/thorin'
 import '@ensdomains/thorin/dist/style.css'
 import { MDX } from '~/components'
 import { getLayout as getDocsLayout } from '~/layouts/docs'
-// import GlobalStyle from '~/styles/globalStyles'
-// import '../styles/styles.css'
+import '~/styles/globalStyles.css'
+import '../styles/styles.css'
 
 const App = ({ Component, pageProps }: AppProps) => {
   const getLayout = Component.getLayout || getDocsLayout

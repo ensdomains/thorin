@@ -1,0 +1,31 @@
+body {
+    margin: 0;
+  }
+  
+  a {
+    text-decoration: none;
+  }
+
+  .npm__react-simple-code-editor__textarea {
+    font-family: var(--fonts-mono) !important;
+    font-size: var(--fonts-sans) !important;
+    padding: var(--space-6) !important;
+    padding-right: var(--space-14) !important;
+  }
+
+  .npm__react-simple-code-editor__textarea *, .npm__react-simple-code-editor__textarea + pre * {
+    font-family: var(--fonts-mono) !important;
+    font-size: var(--fonts-sans) !important;
+  }
+
+  .npm__react-simple-code-editor__textarea:focus-visible {
+    outline: none;
+  }
+
+  .npm__react-simple-code-editor__textarea + pre
+   {
+    font-family: var(--fonts-mono) !important;
+    font-size: var(--fonts-sans) !important;
+    padding: var(--space-6) !important;
+    padding-right: var(--space-14) !important;
+  }
