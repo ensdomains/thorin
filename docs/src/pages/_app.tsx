@@ -1,11 +1,11 @@
 import * as React from 'react'
-import { AppProps } from 'next'
+import type { AppProps } from 'next/app'
 import { MDXProvider } from '@mdx-js/react'
 // import Head from 'next/head'
 import Script from 'next/script'
 
 import { ThemeProvider } from '@ensdomains/thorin'
-import '@ensdomains/thorin/style.css'
+import '@ensdomains/thorin/dist/style.css'
 import { MDX } from '~/components'
 import { getLayout as getDocsLayout } from '~/layouts/docs'
 // import GlobalStyle from '~/styles/globalStyles'

@@ -1,20 +1,18 @@
-import { glob } from 'glob'
+import { globSync } from 'tinyglobby'
 import { createVanillaExtractPlugin } from '@vanilla-extract/next-plugin'
 import path from 'node:path'
 const withVanillaExtract = createVanillaExtractPlugin({ identifiers: 'short' })
 import nextMDX from '@next/mdx'
-import StylelintWebpackPlugin from 'stylelint-webpack-plugin'
 
 const withMDX = nextMDX({
   extension: /\.mdx?$/,
 })
 
 const getComponentPaths = category =>
-  glob
-    .sync(`./src/reference/mdx/${category}/**/!(Icons[A-Z])*.docs.mdx`, {
-      cwd: process.cwd(),
-      absolute: true,
-    })
+  globSync(`./src/reference/mdx/${category}/**/!(Icons[A-Z])*.docs.mdx`, {
+    cwd: process.cwd(),
+    absolute: true,
+  })
     .map((x) => {
       const name = path.basename(x, '.docs.mdx')
       const route = `/components/${category}/${name}`
@@ -70,11 +68,6 @@ const config = {
   },
   pageExtensions: ['mdx', 'tsx'],
   webpack(config) {
-    config.plugins.push(
-      new StylelintWebpackPlugin({
-        extensions: ['tsx'],
-      }),
-    )
     config.resolve.alias['@ensdomains/thorin'] = path.resolve(
       import.meta.dirname,
       '../components',

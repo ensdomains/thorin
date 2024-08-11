@@ -1,19 +1,14 @@
-import { createVar, style } from '@vanilla-extract/css'
+import { style } from '@vanilla-extract/css'
 
-import { commonVars, modeVars } from '@/src/css/theme.css'
-
-const scrollBar = createVar()
+import { commonVars, cssVars, modeVars } from '@/src/css/theme.css'
 
 export const scrollBox = style({
-  vars: {
-    [scrollBar]: modeVars.color.greyLight,
-  },
   overflow: 'auto',
   position: 'relative',
   width: commonVars.space.full,
   height: commonVars.space.full,
   borderColor: modeVars.color.greyLight,
-  transition: `var(${scrollBar}) 0.15s ease-in-out, height 0.15s ease-in-out, var(--top-line-color) 0.15s ease-in-out, var(--bottom-line-color) 0.15s ease-in-out`,
+  transition: `${modeVars.color.greyLight} 0.15s ease-in-out, height 0.15s ${cssVars.transitionTimingFunction.popIn}, var(--top-line-color) 0.15s ease-in-out, var(--bottom-line-color) 0.15s ease-in-out`,
   selectors: {
     '&::-webkit-scrollbar': {
       width: commonVars.space['3.5'],
@@ -31,13 +26,13 @@ export const scrollBox = style({
     },
     '&::-webkit-scrollbar-thumb': {
       transition: 'box-shadow 0.15s ease-in-out',
-      boxShadow: `inset 0 0 ${commonVars.space['3']} ${commonVars.space['3']} var(${scrollBar})`,
+      boxShadow: `inset 0 0 ${commonVars.space['3']} ${commonVars.space['3']} ${modeVars.color.greyLight}`,
       border: 'solid $1 transparent',
       borderRadius: commonVars.space['3'],
       backgroundColor: 'transparent',
     },
     '&:hover': {
-      [scrollBar]: modeVars.color.greyBright,
+      color: modeVars.color.greyBright,
     },
   },
 })
