@@ -8,5 +8,6 @@
   "eslint.useFlatConfig": true,
   "stylelint.configFile": "stylelint.config.mjs",
   "svg.preview.background": "custom",
-  "prettier.enable": false
+  "prettier.enable": false,
+  "stylelint.configBasedir": "."
 }
