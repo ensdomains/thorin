@@ -34,9 +34,9 @@ const Component = ({ onReachedTop }: { onReachedTop?: () => void }) => (
   </>
 )
 
-const mockIntersectionObserverCls = jest.fn()
-const mockObserve = jest.fn()
-const mockDisconnect = jest.fn()
+const mockIntersectionObserverCls = vi.fn()
+const mockObserve = vi.fn()
+const mockDisconnect = vi.fn()
 
 const mockIntersectionObserver = makeMockIntersectionObserver(
   mockIntersectionObserverCls,
@@ -124,7 +124,7 @@ describe('<ScrollBox />', () => {
   })
   it('should fire callback on intersection', () => {
     mockIntersectionObserver(true, false)
-    const onReachedTop = jest.fn()
+    const onReachedTop = vi.fn()
     render(<Component onReachedTop={onReachedTop} />)
     expect(onReachedTop).toHaveBeenCalled()
   })

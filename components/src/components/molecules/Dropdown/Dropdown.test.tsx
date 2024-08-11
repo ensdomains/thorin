@@ -34,9 +34,9 @@ const DropdownHelper = ({ mockCallback, children, ...props }: any) => {
   )
 }
 
-const mockIntersectionObserverCls = jest.fn()
-const mockObserve = jest.fn()
-const mockDisconnect = jest.fn()
+const mockIntersectionObserverCls = vi.fn()
+const mockObserve = vi.fn()
+const mockDisconnect = vi.fn()
 
 const mockIntersectionObserver = makeMockIntersectionObserver(
   mockIntersectionObserverCls,
@@ -61,7 +61,7 @@ describe('<Dropdown />', () => {
   })
 
   it('should call dropdown item callback when clicked', async () => {
-    const mockCallback = jest.fn()
+    const mockCallback = vi.fn()
     render(<DropdownHelper {...{ mockCallback, label: 'Menu' }} />)
     userEvent.click(screen.getByText('Menu'))
     await waitFor(() => userEvent.click(screen.getByText('Dashboard')))

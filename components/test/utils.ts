@@ -9,13 +9,13 @@ export type PartialMockedFunction<T extends (...args: any) => any> = (
 ) => DeepPartial<ReturnType<T>>
 
 export const mockFunction = <T extends (...args: any) => any>(func: T) =>
-  func as unknown as jest.MockedFunction<PartialMockedFunction<T>>
+  func as unknown as vi.MockedFunction<PartialMockedFunction<T>>
 
 export const makeMockIntersectionObserver
   = (
-    mockIntersectionObserverCls: jest.MockedFunction<any>,
-    mockObserve: jest.MockedFunction<any>,
-    mockDisconnect: jest.MockedFunction<any>,
+    mockIntersectionObserverCls: vi.MockedFunction<any>,
+    mockObserve: vi.MockedFunction<any>,
+    mockDisconnect: vi.MockedFunction<any>,
   ) =>
     (intersectTop: boolean, intersectBottom: boolean) => {
       let cb: (entries: any) => void

@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vitest/config'
 import svgrPlugin from 'vite-plugin-svgr'
 import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin'
 
@@ -70,4 +70,8 @@ export default defineConfig({
     }),
     // macrosPlugin(),
   ],
+  test: {
+    environment: 'jsdom',
+    globals: true,
+  },
 })

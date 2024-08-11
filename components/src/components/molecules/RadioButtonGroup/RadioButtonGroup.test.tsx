@@ -70,7 +70,7 @@ describe('<RadioButtonGroup />', () => {
   })
 
   it('should fire onBlur when losing focus ', async () => {
-    const mockCallback = jest.fn()
+    const mockCallback = vi.fn()
     render(
       <>
         <div>outside</div>
@@ -93,7 +93,7 @@ describe('<RadioButtonGroup />', () => {
   })
 
   it('should fire onChange when checked value does not match value', () => {
-    const mockCallback = jest.fn((e: any) => {
+    const mockCallback = vi.fn((e: any) => {
       return e.target.value
     })
     render(

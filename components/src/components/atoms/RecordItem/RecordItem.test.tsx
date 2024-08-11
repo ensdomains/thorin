@@ -7,9 +7,9 @@ import { useCopied } from '@/src/hooks/useCopied'
 import { RecordItem } from './RecordItem'
 import { FlameSVG } from '../..'
 
-jest.mock('@/src/hooks/useCopied')
+vi.mock('@/src/hooks/useCopied')
 
-const mockCopied = jest.fn()
+const mockCopied = vi.fn()
 const mockUseCopied = mockFunction(useCopied)
 mockUseCopied.mockReturnValue({ copy: mockCopied, copied: false })
 

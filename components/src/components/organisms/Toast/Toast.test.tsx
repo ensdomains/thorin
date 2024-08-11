@@ -4,7 +4,7 @@ import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 
 import { Toast } from './Toast'
 
-window.scroll = jest.fn()
+window.scroll = vi.fn()
 
 describe('<Toast />', () => {
   afterEach(cleanup)
@@ -41,7 +41,7 @@ describe('<Toast />', () => {
   })
 
   it('should call callback if close icon is clicked', () => {
-    const mockCallback = jest.fn()
+    const mockCallback = vi.fn()
     render(<Toast open title="Test" variant="desktop" onClose={mockCallback} />)
     waitFor(() => userEvent.click(screen.getByTestId('toast-close-icon')), {
       timeout: 300,

@@ -1,5 +1,4 @@
 import * as React from 'react'
-
 import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 
 import { PageButtons } from './PageButtons'
@@ -93,7 +92,7 @@ describe('<PageButtons />', () => {
     expect(screen.queryByText('101')).not.toBeInTheDocument()
   })
   it('should call onChange method when button is clicked', async () => {
-    const mockCallback = jest.fn()
+    const mockCallback = vi.fn()
     render(
       <ButtonsHelper current={1} mockCallback={mockCallback} total={100} />,
     )

@@ -4,7 +4,7 @@ import { cleanup, render, screen, waitFor } from '@/test'
 
 import { Modal } from './Modal'
 
-window.scroll = jest.fn()
+window.scroll = vi.fn()
 
 describe('<Modal />', () => {
   afterEach(cleanup)

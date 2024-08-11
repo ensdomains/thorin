@@ -41,7 +41,7 @@ describe('<Input />', () => {
 
   it('should fire onChange if clear button is pressed', async () => {
     const ref = { current: null } as React.RefObject<any>
-    const handleOnChange = jest.fn()
+    const handleOnChange = vi.fn()
     render(
       <Input
         clearable
