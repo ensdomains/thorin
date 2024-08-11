@@ -29,3 +29,7 @@ globalStyle(`${checkbox}:checked ~ ${labelEth}`, {
 globalStyle(`${checkbox}:not(:checked) ~ ${labelFiat}`, {
   color: modeVars.color.greyPrimary,
 })
+
+export const icon = style({
+  transform: 'scale(0.6)',
+})

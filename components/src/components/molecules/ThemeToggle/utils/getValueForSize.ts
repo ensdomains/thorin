@@ -1,8 +1,9 @@
 import type { Size } from '../ThemeToggle'
+import { Space } from '@/src/tokens'
 type Properties = {
-  width: string
-  height: string
-  knobSize: string
+  width: `$${Space}`
+  height: `$${Space}`
+  knobSize: `$${Space}`
 }
 type Property = keyof Properties
 
