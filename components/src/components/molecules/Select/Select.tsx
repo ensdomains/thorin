@@ -25,6 +25,7 @@ import { FieldBaseProps, State as FieldState } from '../../atoms/Field'
 import { Box, BoxProps } from '../../atoms/Box/Box'
 import { getValueForSize } from './utils/getValueForSize'
 import { getValueForTransitionState } from './utils/getValueForTransitionState'
+import { cssVars } from '@/src/css/theme.css'
 
 const CREATE_OPTION_VALUE = 'CREATE_OPTION_VALUE'
 
@@ -133,7 +134,9 @@ const SelectLabelWithPrefix = ({
     ? (
         <>
           {React.isValidElement(option.prefix) && (
-            <Box as={option.prefix} display="block" />
+            <Box display="block" height="$4" width="$4">
+              {option.prefix}
+            </Box>
           )}
           <SelectLabel {...props}>
             {option.node ? option.node : option.label || option.value}
@@ -935,7 +938,7 @@ export const Select = React.forwardRef(
                     {...{
                       $selected: option?.value === value,
                       $highlighted: index === highlightedIndex,
-                      gap: innerPadding,
+                      gap: cssVars.space[innerPadding],
                       $color: option.color,
                       $size: size,
                     }}

@@ -37,7 +37,7 @@ export default defineConfig({
   plugins: [
     tsconfigPaths(),
     vanillaExtractPlugin({
-      identifiers: 'short',
+      identifiers: ({ hash }) => `thorin-${hash}`,
     }),
     dtsPlugin({ entryRoot: path.resolve(__dirname),
       exclude: [
