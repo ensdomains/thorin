@@ -106,7 +106,7 @@ const TooltipPopoverElement = ({
   </Box>
 )
 
-type TooltipPopoverProps = PopoverProps & { background: Colors }
+type TooltipPopoverProps = PopoverProps & { background: `$${Colors}` }
 
 const TooltipPopover = ({
   placement = 'top',
@@ -151,7 +151,7 @@ export const Tooltip = ({
 
   const popover = (
     <TooltipPopover
-      background={background}
+      background={`$${background}`}
       mobilePlacement={mobilePlacement}
       placement={placement}
     >
