@@ -43,7 +43,6 @@ const Container = (props: BoxProps) => (
     borderWidth="$1x"
     borderStyle="solid"
     overflow="hidden"
-    fontFamily="$mono"
   />
 )
 
@@ -74,6 +73,7 @@ const LiveEditorContainer = (props: BoxProps) => (
     borderColor="transparent"
     borderTopColor="$border"
     borderStyle="solid"
+    fontFamily="$mono"
     borderWidth="$1x"
   />
 )
