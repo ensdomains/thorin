@@ -204,7 +204,7 @@ const Heading = ({
       {subtitle
       && ((typeof subtitle !== 'string' && subtitle) || (
         <Typography
-          color="red"
+          color="textSecondary"
           fontVariant="bodyBold"
           maxWidth="$72"
           px="$4"

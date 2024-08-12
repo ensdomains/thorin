@@ -293,7 +293,7 @@ const RAW_ADDITIONAL_COLORS_LIGHT: { [key in AdditionalColor]: RawColor } = {
   white: RAW_STATIC_COLORS.white,
   text: RAW_STATIC_COLORS.black,
   textPrimary: RAW_STATIC_COLORS.black,
-  textSecondary: RAW_PALETTE_LIGHT.grey.primary,
+  textSecondary: RAW_PALETTE_LIGHT.grey.dim,
   textAccent: RAW_STATIC_COLORS.white,
   textDisabled: RAW_PALETTE_LIGHT.grey.bright,
   background: RAW_STATIC_COLORS.white,
