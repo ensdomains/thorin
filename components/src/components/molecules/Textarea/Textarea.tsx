@@ -76,7 +76,7 @@ const TextArea = React.forwardRef<HTMLElement, BoxProps & TextAreaProps>(
       borderColor="$border"
       borderRadius="$large"
       borderStyle="solid"
-      borderWidth="$1x"
+      borderWidth="1px"
       className={classNames(
         styles.textarea({ showAction: $alwaysShowAction }),
         statusBorder({
@@ -90,6 +90,7 @@ const TextArea = React.forwardRef<HTMLElement, BoxProps & TextAreaProps>(
       display="flex"
       fontSize={getValueForSize($size, 'fontSize')}
       fontWeight="$normal"
+      fontFamily="inherit"
       lineHeight={getValueForSize($size, 'fontSize')}
       minHeight="$14"
       outline="none"

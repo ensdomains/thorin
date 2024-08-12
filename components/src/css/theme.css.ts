@@ -23,7 +23,7 @@ import {
 import './global.css'
 
 const getVarName = (_value: string | null, path: string[]) =>
-  path.join('-').replace('.', '_').replace('/', '__')
+  `thorin-${path.join('-').replace('.', '_').replace('/', '__')}`
 
 const commonTokens = {
   fonts,
