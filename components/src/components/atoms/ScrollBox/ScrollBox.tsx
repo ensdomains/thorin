@@ -26,6 +26,7 @@ const DividerBox = ({
     <Box
       backgroundColor={show ? '$border' : 'transparent'}
       bottom={position === 'bottom' ? '-$px' : 'unset'}
+      visibility={show ? 'visible' : 'hidden'}
       data-testid={`scrollbox-${position}-divider`}
       display="block"
       height="$px"
