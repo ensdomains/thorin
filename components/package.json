@@ -2,14 +2,14 @@
   "name": "@ensdomains/thorin",
   "version": "0.6.50",
   "description": "A web3 native design system",
-  "main": "./dist/index.cjs.js",
-  "module": "./dist/index.es.js",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
   "type": "module",
   "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.es.js",
-      "require": "./dist/index.cjs.js",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
       "types": "./dist/types/index.d.ts"
     },
     "./style.css": {
