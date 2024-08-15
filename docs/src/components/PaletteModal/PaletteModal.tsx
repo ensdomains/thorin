@@ -133,8 +133,7 @@ export const PaletteModal = ({
             Done
           </Button>
         )}
-      >
-      </Dialog.Footer>
+      />
     </Dialog>
   )
 }
