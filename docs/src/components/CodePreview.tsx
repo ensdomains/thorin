@@ -77,20 +77,6 @@ const LiveEditorContainer = (props: BoxProps) => (
     borderWidth="$1x"
   />
 )
-// const LiveEditorContainer2 = styled.div(
-//   ({ theme }) => css`
-//     background-color: ${theme.colors.backgroundSecondary};
-//     position: relative;
-//     padding: 0.875rem 2.75rem 0.875rem 0.875rem;
-
-//     .token {
-//       font-family: 'iAWriter Mono', Menlo, Monaco, Consolas, 'Liberation Mono',
-//         'Courier New', monospace, sans-serif !important;
-//       font-size: 1.0625rem;
-//       font-feature-settings: 'ss01', 'ss03';
-//     }
-//   `,
-// )
 
 export const CodePreview = ({
   code: _code,

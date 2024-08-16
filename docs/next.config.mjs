@@ -19,6 +19,9 @@ const getComponentPaths = category =>
       return { name, route }
     })
 
+/**
+  * @type {import('next').NextConfig}
+*/
 const config = {
   env: {
     navLinks: [
@@ -80,12 +83,10 @@ const config = {
     return config
   },
   reactStrictMode: true,
-  compiler: {
-    styledComponents: true,
-  },
   images: {
     unoptimized: true,
   },
+  output: 'export',
 }
 
 /** @type {import('next').NextConfig} */
