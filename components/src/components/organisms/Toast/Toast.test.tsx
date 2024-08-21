@@ -16,7 +16,7 @@ describe('<Toast />', () => {
     })
   })
 
-  it.skip('should not be visible if not open', async () => {
+  it('should not be visible if not open', async () => {
     render(
       <Toast
         open={false}
@@ -49,7 +49,7 @@ describe('<Toast />', () => {
 
     expect(mockCallback).toHaveBeenCalled()
   })
-  it.skip('should show children if desktop variant', async () => {
+  it('should show children if desktop variant', async () => {
     render(
       <Toast open title="Test" variant="touch" onClose={() => void 0}>
         <div data-testid="action" />
