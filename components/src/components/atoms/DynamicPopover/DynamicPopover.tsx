@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { TransitionState, useTransition } from 'react-transition-state'
 
-import { debounce } from 'lodash'
+import { debounce } from 'es-toolkit'
 
 import { Portal } from '../Portal'
 import { Box, BoxProps } from '../Box/Box'
@@ -370,7 +370,7 @@ export const DynamicPopover = ({
           document.removeEventListener('mousemove', handleMouseMove)
         },
         100,
-        { maxWait: 1000 },
+        { signal: AbortSignal.timeout(1000) },
       )
 
       handleMouseMove = (e: MouseEvent) => {

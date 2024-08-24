@@ -1,5 +1,4 @@
 import * as React from 'react'
-import uniqueId from 'lodash/uniqueId'
 
 import { useEffect } from 'react'
 
@@ -26,6 +25,7 @@ import { Box, BoxProps } from '../../atoms/Box/Box'
 import { getValueForSize } from './utils/getValueForSize'
 import { getValueForTransitionState } from './utils/getValueForTransitionState'
 import { cssVars } from '@/src/css/theme.css'
+import { uniqueId } from '@/src/utils/uniqueId'
 
 const CREATE_OPTION_VALUE = 'CREATE_OPTION_VALUE'
 

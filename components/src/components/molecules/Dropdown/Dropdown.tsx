@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { P, match } from 'ts-pattern'
-import { debounce } from 'lodash'
+import { debounce } from 'es-toolkit'
 
 import { TransitionState } from 'react-transition-state'
 
