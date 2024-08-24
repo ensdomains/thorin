@@ -5,68 +5,70 @@ import pkg from './package.json'
 import path from 'path'
 import dtsPlugin from 'vite-plugin-dts'
 
-export default defineConfig({
-  server: {
-    fs: {
-      allow: ['..'],
-    },
-  },
-  build: {
-    minify: false,
-    lib: {
-      entry: './src/index.ts',
-      fileName: format => `index.${format === 'cjs' ? 'cjs' : 'js'}`,
-      formats: ['es', 'cjs'],
-    },
-    rollupOptions: {
-      external: Object.keys(pkg.peerDependencies),
-    },
-  },
-  resolve: {
-    alias: [
-      {
-        find: '@',
-        replacement: path.resolve(__dirname),
+export default defineConfig(({ mode }) => {
+  return ({
+    server: {
+      fs: {
+        allow: ['..'],
       },
-      {
-        find: '!',
-        replacement: path.resolve(__dirname, '..'),
+    },
+    build: {
+      minify: false,
+      lib: {
+        entry: './src/index.ts',
+        fileName: format => `index.${format === 'cjs' ? 'cjs' : 'js'}`,
+        formats: ['es', 'cjs'],
       },
-    ],
-  },
-  plugins: [
-    tsconfigPaths(),
-    vanillaExtractPlugin({
-      identifiers: ({ hash }) => `thorin-${hash}`,
-    }),
-    dtsPlugin({ entryRoot: path.resolve(__dirname),
-      exclude: [
-        'src/**/*.docs.mdx',
-        'src/**/*.snippets.tsx',
-        'src/**/*.test.ts*',
-      ],
-      beforeWriteFile: (filePath, content) => ({
-        content: content.replace(/\/\.\.\/src/g, ''),
-        filePath: filePath.replace('src', ''),
-      }),
-      compilerOptions: {
-        baseUrl: '.',
-        emitDeclarationOnly: true,
-        noEmit: false,
-        paths: {
-          '!/*': ['../*'],
-          '@/*': ['./*'],
+      rollupOptions: {
+        external: Object.keys(pkg.peerDependencies),
+      },
+    },
+    resolve: {
+      alias: [
+        {
+          find: '@',
+          replacement: path.resolve(__dirname),
         },
-      },
-      staticImport: true,
-      outDir: 'dist/types',
-    }),
-  ],
-  test: {
-    environment: 'jsdom',
-    globals: true,
-    coverage: {
-      provider: 'v8',
+        {
+          find: '!',
+          replacement: path.resolve(__dirname, '..'),
+        },
+      ],
     },
-  },
+    plugins: [
+      tsconfigPaths(),
+      vanillaExtractPlugin({
+        identifiers: mode === 'development' ? 'short' : ({ hash }) => `thorin-${hash}`,
+      }),
+      dtsPlugin({ entryRoot: path.resolve(__dirname),
+        exclude: [
+          'src/**/*.docs.mdx',
+          'src/**/*.snippets.tsx',
+          'src/**/*.test.ts*',
+        ],
+        beforeWriteFile: (filePath, content) => ({
+          content: content.replace(/\/\.\.\/src/g, ''),
+          filePath: filePath.replace('src', ''),
+        }),
+        compilerOptions: {
+          baseUrl: '.',
+          emitDeclarationOnly: true,
+          noEmit: false,
+          paths: {
+            '!/*': ['../*'],
+            '@/*': ['./*'],
+          },
+        },
+        staticImport: true,
+        outDir: 'dist/types',
+      }),
+    ],
+    test: {
+      environment: 'jsdom',
+      globals: true,
+      coverage: {
+        provider: 'v8',
+      },
+    },
+  })
 })
