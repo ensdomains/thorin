@@ -1,5 +1,5 @@
 import * as React from 'react'
-import * as ReactDOM from 'react-dom'
+import { createPortal } from 'react-dom'
 
 type Props = {
   /** The classname attribute of the container element */
@@ -29,7 +29,7 @@ export const Portal: React.FC<Props> = ({
     }
   }, [renderCallback])
 
-  return ReactDOM.createPortal(children, container)
+  return createPortal(children, container)
 }
 
 Portal.displayName = 'Portal'
