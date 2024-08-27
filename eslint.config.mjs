@@ -46,7 +46,6 @@ const baseConfig = tseslint.config(
   {
     files: ['docs/src/**/*.{ts,tsx}'],
     settings: {
-
       next: {
         rootDir: 'docs',
       },
