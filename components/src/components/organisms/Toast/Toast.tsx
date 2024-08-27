@@ -120,7 +120,7 @@ type Props = {
 } & Omit<NativeDivProps, 'title'>
 
 type InternalProps = {
-  state: TransitionState['status']
+  state: TransitionState
 }
 
 const DesktopToast = ({
