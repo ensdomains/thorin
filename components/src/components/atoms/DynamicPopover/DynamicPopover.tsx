@@ -218,7 +218,7 @@ export const DynamicPopover = ({
 
   const isControlled = isOpen !== undefined
 
-  const [{ status: state }, toggle] = useTransition({
+  const [state, toggle] = useTransition({
     preEnter: true,
     exit: true,
     mountOnEnter: true,
