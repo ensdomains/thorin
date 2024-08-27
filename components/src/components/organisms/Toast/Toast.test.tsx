@@ -25,7 +25,7 @@ describe('<Toast />', () => {
         onClose={() => void 0}
       />,
     )
-    await waitFor(() => expect(screen.getByText('Test')).toBeNull(), {
+    await waitFor(() => expect(screen.queryByText('Test')).toBeNull(), {
       timeout: 500,
     })
   })
@@ -51,7 +51,7 @@ describe('<Toast />', () => {
   })
   it('should show children if desktop variant', async () => {
     render(
-      <Toast open title="Test" variant="touch" onClose={() => void 0}>
+      <Toast open title="Test" variant="desktop" onClose={() => void 0}>
         <div data-testid="action" />
       </Toast>,
     )
