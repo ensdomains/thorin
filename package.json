@@ -63,7 +63,7 @@
   "dependencies": {
     "react": "^18",
     "react-dom": "^18",
-    "react-transition-state": "^1.1.4"
+    "react-transition-state": "^2.1.2"
   },
   "pnpm": {
     "overrides": {

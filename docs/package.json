@@ -27,7 +27,7 @@
     "react-dom": "^18.0.0",
     "react-element-to-jsx-string": "^14.3.4",
     "react-live": "3.1.1",
-    "react-transition-state": "^1.1.4",
+    "react-transition-state": "^2.1.2",
     "ts-pattern": "^4.3.0"
   },
   "devDependencies": {
