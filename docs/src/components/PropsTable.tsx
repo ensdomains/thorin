@@ -22,7 +22,7 @@ type Props = {
 
 const TableHead = ({
   children,
-}: React.PropsWithChildren<{ $i: number, $headers: string[] }>) => (
+}: React.PropsWithChildren) => (
   <Box as="th" position="sticky">
     <Box as="div" padding="$4" textAlign="left">
       <Typography fontVariant="bodyBold" textTransform="capitalize">
@@ -94,8 +94,8 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
               >
                 <Box as="thead" backgroundColor="$greySurface">
                   <tr>
-                    {headers.map((x, i) => (
-                      <TableHead key={x} $i={i} $headers={headers}>
+                    {headers.map(x => (
+                      <TableHead key={x}>
                         {x}
                       </TableHead>
                     ))}
