@@ -40,6 +40,7 @@ const baseConfig = tseslint.config(
       '@eslint-react/dom/no-missing-button-type': 'off',
       'stylistic/no-multiple-empty-lines': ['error', { max: 1 }],
       '@typescript-eslint/no-explicit-any': 'off',
+      '@eslint-react/no-duplicate-key': 'warn',
     },
   },
   {
