@@ -76,7 +76,7 @@ const transitionStateValues: {
   },
 }
 
-type Property = keyof typeof transitionStateValues['unmounted']
+type Property = keyof (typeof transitionStateValues)['unmounted']
 
 export const getValueForTransitionState = (
   state: TransitionState['status'],

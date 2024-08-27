@@ -27,7 +27,6 @@ export const Portal: React.FC<Props> = ({
     return () => {
       document.body.removeChild(container)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [renderCallback])
 
   return ReactDOM.createPortal(children, container)

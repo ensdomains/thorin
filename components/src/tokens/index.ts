@@ -22,18 +22,18 @@ export const breakpoints = {
 
 const boxShadows = {
   light: {
-    '0': `${shadows['0']} ${colors.light.backgroundSecondary}`,
-    '0.02': `${shadows['0.02']} ${colors.light.backgroundSecondary}`,
-    '0.25': `${shadows['0.25']} ${colors.light.backgroundSecondary}`,
-    '0.5': `${shadows['0.5']} ${colors.light.backgroundSecondary}`,
-    '1': `${shadows['1']} ${colors.light.backgroundSecondary}`,
+    0: `${shadows['0']} ${colors.light.backgroundSecondary}`,
+    0.02: `${shadows['0.02']} ${colors.light.backgroundSecondary}`,
+    0.25: `${shadows['0.25']} ${colors.light.backgroundSecondary}`,
+    0.5: `${shadows['0.5']} ${colors.light.backgroundSecondary}`,
+    1: `${shadows['1']} ${colors.light.backgroundSecondary}`,
   },
   dark: {
-    '0': `${shadows['0']} ${colors.dark.backgroundSecondary}`,
-    '0.02': `${shadows['0.02']} ${colors.dark.backgroundSecondary}`,
-    '0.25': `${shadows['0.25']} ${colors.dark.backgroundSecondary}`,
-    '0.5': `${shadows['0.5']} ${colors.dark.backgroundSecondary}`,
-    '1': `${shadows['1']} ${colors.dark.backgroundSecondary}`,
+    0: `${shadows['0']} ${colors.dark.backgroundSecondary}`,
+    0.02: `${shadows['0.02']} ${colors.dark.backgroundSecondary}`,
+    0.25: `${shadows['0.25']} ${colors.dark.backgroundSecondary}`,
+    0.5: `${shadows['0.5']} ${colors.dark.backgroundSecondary}`,
+    1: `${shadows['1']} ${colors.dark.backgroundSecondary}`,
   },
 }
 

@@ -26,7 +26,7 @@ const makeColorMap = (mode: ColorMode) => {
   ) as Colors[]
 
   const colorValues = Object.fromEntries(
-    colorKeys.map((color) => [color, colorObj[mode][color]]),
+    colorKeys.map(color => [color, colorObj[mode][color]]),
   ) as { [key in Colors]: string }
 
   return {
@@ -61,7 +61,7 @@ const BASE_COLORS = [
   'grey',
 ] as const
 
-type BaseColor = typeof BASE_COLORS[number]
+type BaseColor = (typeof BASE_COLORS)[number]
 
 type ColorStyleItem = {
   text: string
@@ -74,7 +74,7 @@ type ColorAttribute = keyof ColorStyleItem
 
 const makeColorStyleMap = (mode: ColorMode) => {
   const primaryStyles = Object.fromEntries(
-    BASE_COLORS.map((color) => [
+    BASE_COLORS.map(color => [
       `${color}Primary`,
       {
         text: colorObj[mode][`backgroundPrimary`],
@@ -87,7 +87,7 @@ const makeColorStyleMap = (mode: ColorMode) => {
     [key in `${BaseColor}Primary`]: ColorStyleItem
   }
   const secondaryStyles = Object.fromEntries(
-    BASE_COLORS.map((color) => [
+    BASE_COLORS.map(color => [
       `${color}Secondary`,
       {
         text: colorObj[mode][`${color}Primary`],
@@ -104,7 +104,7 @@ const makeColorStyleMap = (mode: ColorMode) => {
     colorObj[mode]['gradients'],
   ) as ColorGradient[]
   const gradientValues = Object.fromEntries(
-    gradientKeys.map((color) => [
+    gradientKeys.map(color => [
       `${color}Gradient`,
       {
         text: colorObj[mode][`backgroundPrimary`],

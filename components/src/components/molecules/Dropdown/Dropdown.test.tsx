@@ -34,9 +34,9 @@ const DropdownHelper = ({ mockCallback, children, ...props }: any) => {
   )
 }
 
-const mockIntersectionObserverCls = jest.fn()
-const mockObserve = jest.fn()
-const mockDisconnect = jest.fn()
+const mockIntersectionObserverCls = vi.fn()
+const mockObserve = vi.fn()
+const mockDisconnect = vi.fn()
 
 const mockIntersectionObserver = makeMockIntersectionObserver(
   mockIntersectionObserverCls,
@@ -61,7 +61,7 @@ describe('<Dropdown />', () => {
   })
 
   it('should call dropdown item callback when clicked', async () => {
-    const mockCallback = jest.fn()
+    const mockCallback = vi.fn()
     render(<DropdownHelper {...{ mockCallback, label: 'Menu' }} />)
     userEvent.click(screen.getByText('Menu'))
     await waitFor(() => userEvent.click(screen.getByText('Dashboard')))
@@ -130,8 +130,8 @@ describe('<Dropdown />', () => {
   it('should not error if no dropdown items are passed in', () => {
     render(
       <>
-        {/*eslint-disable-next-line @typescript-eslint/ban-ts-comment*/}
-        {/*@ts-ignore*/}
+        {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+        {/* @ts-ignore */}
         <Dropdown label="" />
       </>,
     )
@@ -146,5 +146,26 @@ describe('<Dropdown />', () => {
       expect(screen.getByText('Dashboard')).toBeVisible()
     })
     expect(screen.getByTestId('scrollbox-bottom-intersect')).toBeVisible()
+  })
+  it('should allow having items as links', async () => {
+    render(
+      <DropdownHelper
+        items={[
+          {
+            as: 'button',
+            href: 'https://example.com',
+            label: 'Example',
+          },
+        ]}
+        label="menu"
+      />,
+    )
+
+    userEvent.click(screen.getByText('menu'))
+
+    expect(screen.getByText('Example')).toHaveAttribute(
+      'href',
+      'https://example.com',
+    )
   })
 })

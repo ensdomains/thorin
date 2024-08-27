@@ -10,7 +10,7 @@ import { serialize } from 'next-mdx-remote/serialize'
 import matter from 'gray-matter'
 import { PropItem } from 'react-docgen-typescript'
 
-import { glob } from 'glob'
+import { globSync } from 'node:fs'
 
 import { Props as LayoutProps, getLayout } from '~/layouts/docs'
 import { getComponentName, getComponentPaths } from '~/utils/fs'
@@ -21,7 +21,7 @@ import path from 'path'
 import { GitHubLink } from '~/components/GitHubLink'
 
 export const getStaticPaths: GetStaticPaths = async () => ({
-  paths: getComponentPaths().map((x) => ({
+  paths: getComponentPaths().map(x => ({
     params: {
       slug: getComponentName(x),
     },
@@ -40,7 +40,7 @@ type StaticProps = {
 export const getStaticProps: GetStaticProps<StaticProps> = async (context) => {
   const slug = context.params?.slug as string[]
   const pathname = getComponentPaths().find(
-    (x) => getComponentName(x).join('/') === slug.join('/'),
+    x => getComponentName(x).join('/') === slug.join('/'),
   ) as string
   const source = fs.readFileSync(pathname)
   const { content, data } = matter(source)
@@ -59,16 +59,15 @@ export const getStaticProps: GetStaticProps<StaticProps> = async (context) => {
       },
     }
   }
-  const globComponentPath = glob.sync(
+  const globComponentPath = globSync(
     `../components/src/**/${path.basename(pathname, '.docs.mdx')}.tsx`,
     {
       cwd: process.cwd(),
-      absolute: true,
     },
   )
   const componentPathname = globComponentPath[0]
-  const staticTypes =
-    getStaticTypes(componentPathname)[slug[slug.length - 1]] ?? null
+  const staticTypes
+    = getStaticTypes(componentPathname)[slug[slug.length - 1]] ?? null
   const docsLink = createGitHubLink(pathname.replace(/^\/.*thorin/i, ''))
   const sourceLink = createGitHubLink(
     componentPathname.replace(/^\/.*thorin/i, ''),
@@ -109,7 +108,7 @@ const Page: NextPageWithLayout<Props> = ({
   )
 }
 
-Page.getLayout = (page) =>
+Page.getLayout = page =>
   getLayout({
     ...page,
     props: {

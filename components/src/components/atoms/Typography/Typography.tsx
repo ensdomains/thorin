@@ -70,8 +70,8 @@ type Props = {
 
   fontVariant?: FontVariant
 } & Omit<NativeDivProps, 'color' | 'as' | 'translate'> &
-  WithColor &
-  Omit<BoxProps, 'color'> & { fontVariant?: FontVariant }
+WithColor &
+Omit<BoxProps, 'color'> & { fontVariant?: FontVariant }
 
 export const Typography = React.forwardRef<HTMLElement, Props>(
   (

@@ -30,8 +30,8 @@ export const MDX: MDXProviderProps['components'] = {
   Logos,
   // Default components
   // https://mdxjs.com/table-of-components/
-  a: (props) => <StyledLink {...props} />,
-  code: (props) => <CodeBlock {...props} />,
+  a: props => <StyledLink {...props} />,
+  code: props => <CodeBlock {...props} />,
   h2: ({ children }) => {
     const id = slugify(children)
     return (
@@ -50,7 +50,8 @@ export const MDX: MDXProviderProps['components'] = {
               marginLeft="$2"
               wh="$4"
               color="$greyPrimary"
-            ></Box>
+            >
+            </Box>
           </Box>
         </Typography>
       </div>
@@ -71,7 +72,7 @@ export const MDX: MDXProviderProps['components'] = {
       </Typography>
     </div>
   ),
-  pre: (props) => (
+  pre: props => (
     <div style={{ margin: `${tokens.space['6']} 0` }} {...props} />
   ),
 }

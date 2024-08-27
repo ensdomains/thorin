@@ -6,16 +6,16 @@ import { CountdownCircle } from './CountdownCircle'
 
 const advanceTime = (ms: number) => {
   act(() => {
-    jest.advanceTimersByTime(ms)
+    vi.advanceTimersByTime(ms)
   })
 }
 
 describe('<CountdownCircle />', () => {
   beforeAll(() => {
-    jest.useFakeTimers()
+    vi.useFakeTimers()
   })
   afterAll(() => {
-    jest.useRealTimers()
+    vi.useRealTimers()
   })
   afterEach(cleanup)
 
@@ -38,7 +38,7 @@ describe('<CountdownCircle />', () => {
   })
 
   it('should call callback on 0', () => {
-    const mockCallback = jest.fn()
+    const mockCallback = vi.fn()
     render(<CountdownCircle callback={mockCallback} countdownSeconds={1} />)
     advanceTime(1000)
     expect(mockCallback).toHaveBeenCalled()

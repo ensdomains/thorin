@@ -10,9 +10,8 @@ describe('<FileInput />', () => {
   it('renders', () => {
     render(
       <FileInput>
-        {(context) =>
-          context.name ? <div>{context.name}</div> : <div>Upload file</div>
-        }
+        {context =>
+          context.name ? <div>{context.name}</div> : <div>Upload file</div>}
       </FileInput>,
     )
     expect(screen.getByText(/upload/i)).toBeInTheDocument()
@@ -22,9 +21,8 @@ describe('<FileInput />', () => {
     const ref = { current: null } as React.RefObject<any>
     render(
       <FileInput ref={ref}>
-        {(context) =>
-          context.name ? <div>{context.name}</div> : <div>Upload file</div>
-        }
+        {context =>
+          context.name ? <div>{context.name}</div> : <div>Upload file</div>}
       </FileInput>,
     )
     await waitFor(() => {

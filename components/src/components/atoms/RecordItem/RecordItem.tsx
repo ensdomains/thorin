@@ -3,7 +3,7 @@ import { ReactNode } from 'react'
 
 import { match } from 'ts-pattern'
 
-import { CheckSVG, CopySVG, UpArrowSVG } from '@/src'
+import { CheckSVG, CopySVG, UpArrowSVG } from '@/src/icons'
 
 import { Neverable } from '@/src/types'
 
@@ -23,6 +23,9 @@ type BaseProps = {
   children: string
   onClick?: () => void
   as?: 'button' | 'a'
+  postfixIcon?: React.FunctionComponent<
+    React.SVGProps<SVGSVGElement> & { title?: string }
+  >
 }
 
 type NativeElementProps = Omit<
@@ -42,13 +45,13 @@ type AsAnchorProps = {
   as: 'a'
   link?: string
 } & Neverable<NativeButtonProps, NativeAnchorProps> &
-  NativeAnchorProps
+NativeAnchorProps
 
 type AsButtonProps = {
   as?: 'button'
   link?: never
 } & Neverable<NativeAnchorProps, NativeButtonProps> &
-  NativeButtonProps
+NativeButtonProps
 
 export type Props = BaseProps &
   NativeElementProps &
@@ -85,7 +88,7 @@ const PrefixBox = ({
   $inline,
   $size,
   ...props
-}: BoxProps & { $inline: boolean; $size: Size }) => (
+}: BoxProps & { $inline: boolean, $size: Size }) => (
   <Box
     alignItems="flex-start"
     display="flex"
@@ -147,97 +150,113 @@ const TrailingSVGBox = ({
   />
 )
 
-export const RecordItem = ({
-  as: asProp = 'button',
-  link,
-  size = 'small',
-  inline = false,
-  icon,
-  keyLabel,
-  keySublabel,
-  value,
-  children,
-  ...props
-}: Props) => {
-  const { copy, copied } = useCopied()
+export const RecordItem = React.forwardRef<
+  HTMLAnchorElement | HTMLButtonElement,
+  Props
+>(
+  (
+    {
+      as: asProp = 'button',
+      link,
+      size = 'small',
+      inline = false,
+      postfixIcon,
+      icon,
+      keyLabel,
+      keySublabel,
+      value,
+      children,
+      ...props
+    },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    ref,
+  ) => {
+    const { copy, copied } = useCopied()
 
-  const generatedProps =
-    asProp === 'a'
-      ? ({
-          href: link,
-          rel: 'nofollow noreferrer',
-          target: '_blank',
-          ...props,
-        } as NativeElementProps & NativeAnchorProps)
-      : ({
-          onClick: () => {
-            copy(value)
-          },
-          ...props,
-        } as NativeElementProps & NativeButtonProps)
+    const generatedProps
+      = asProp === 'a'
+        ? ({
+            href: link,
+            rel: 'nofollow noreferrer',
+            target: '_blank',
+            ...props,
+          } as NativeElementProps & NativeAnchorProps)
+        : ({
+            onClick: () => {
+              copy(value)
+            },
+            ...props,
+          } as NativeElementProps & NativeButtonProps)
 
-  const hasPrefix = !!icon || !!keyLabel
-  const hasLabels = !!keyLabel || !!keySublabel
+    const hasPrefix = !!icon || !!keyLabel
+    const hasLabels = !!keyLabel || !!keySublabel
 
-  const KeyLabel =
-    typeof keyLabel === 'string' ? (
-      <Typography
-        color="grey"
-        ellipsis={!inline}
-        fontVariant={size === 'large' ? 'bodyBold' : 'smallBold'}
-        textAlign="left"
-        width="$full"
-      >
-        {keyLabel}
-      </Typography>
-    ) : (
-      keyLabel
+    const KeyLabel
+      = typeof keyLabel === 'string'
+        ? (
+            <Typography
+              color="grey"
+              ellipsis={!inline}
+              fontVariant={size === 'large' ? 'bodyBold' : 'smallBold'}
+              textAlign="left"
+              width="$full"
+            >
+              {keyLabel}
+            </Typography>
+          )
+        : (
+            keyLabel
+          )
+
+    const KeySublabel
+      = typeof keySublabel === 'string'
+        ? (
+            <Typography
+              color="grey"
+              ellipsis={!inline}
+              fontVariant={size === 'large' ? 'smallBold' : 'extraSmallBold'}
+              textAlign="left"
+              width="$full"
+            >
+              {keySublabel}
+            </Typography>
+          )
+        : (
+            keySublabel
+          )
+    const PostfixProps = postfixIcon
+      ? { as: postfixIcon }
+      : link
+        ? { $rotate: true, as: UpArrowSVG }
+        : copied
+          ? { as: CheckSVG }
+          : { as: CopySVG }
+
+    return (
+      <ContainerBox $inline={inline} as={asProp} {...generatedProps}>
+        {hasPrefix && (
+          <PrefixBox $inline={inline} $size={size}>
+            {icon && <PrefixSVGBox as={icon as React.ReactElement} />}
+            {hasLabels && (
+              <PrefixLabelsContainerBox $inline={inline}>
+                {KeyLabel}
+                {KeySublabel}
+              </PrefixLabelsContainerBox>
+            )}
+          </PrefixBox>
+        )}
+        <Typography
+          flex="1"
+          fontVariant={size === 'large' ? 'body' : 'small'}
+          textAlign="left"
+          wordBreak={inline ? 'normal' : 'break-all'}
+        >
+          {children}
+        </Typography>
+        <TrailingSVGBox {...(PostfixProps as any)} />
+      </ContainerBox>
     )
-
-  const KeySublabel =
-    typeof keySublabel === 'string' ? (
-      <Typography
-        color="grey"
-        ellipsis={!inline}
-        fontVariant={size === 'large' ? 'smallBold' : 'extraSmallBold'}
-        textAlign="left"
-        width="$full"
-      >
-        {keySublabel}
-      </Typography>
-    ) : (
-      keySublabel
-    )
-  const PostfixProps = link
-    ? { $rotate: true, as: UpArrowSVG }
-    : copied
-    ? { as: CheckSVG }
-    : { as: CopySVG }
-
-  return (
-    <ContainerBox $inline={inline} as={asProp} {...generatedProps}>
-      {hasPrefix && (
-        <PrefixBox $inline={inline} $size={size}>
-          {icon && <PrefixSVGBox as={icon as React.ReactElement} />}
-          {hasLabels && (
-            <PrefixLabelsContainerBox $inline={inline}>
-              {KeyLabel}
-              {KeySublabel}
-            </PrefixLabelsContainerBox>
-          )}
-        </PrefixBox>
-      )}
-      <Typography
-        flex="1"
-        fontVariant={size === 'large' ? 'body' : 'small'}
-        textAlign="left"
-        wordBreak={inline ? 'normal' : 'break-all'}
-      >
-        {children}
-      </Typography>
-      <TrailingSVGBox {...(PostfixProps as any)} />
-    </ContainerBox>
-  )
-}
+  },
+)
 
 RecordItem.displayName = 'RecordItem'

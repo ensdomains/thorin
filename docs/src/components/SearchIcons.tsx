@@ -10,7 +10,7 @@ import {
 } from '@ensdomains/thorin'
 import * as Components from '@ensdomains/thorin'
 
-const icons = Object.entries(Components)
+const icons = Object.entries(Components as Record<string, any>)
   .filter(([k]) => k.includes('SVG'))
   .map(([name, Component]) => ({ name, Component }))
   .sort((a, b) => (a.name > b.name ? 1 : -1))
@@ -79,7 +79,7 @@ export const SearchIcons = () => {
 
   const filteredIcons = React.useMemo(() => {
     if (!state.query?.length) return icons
-    return icons.filter((x) =>
+    return icons.filter(x =>
       x.name.toLowerCase().includes(state.query.toLowerCase()),
     )
   }, [state.query])
@@ -94,20 +94,19 @@ export const SearchIcons = () => {
             placeholder="Search icons"
             prefix={<MagnifyingGlassSimpleSVG />}
             value={state.query}
-            onChange={(event) =>
-              setState((x) => ({ ...x, query: event.target.value }))
-            }
+            onChange={event =>
+              setState(x => ({ ...x, query: event.target.value }))}
           />
 
           <IconGrid>
-            {filteredIcons.map((x) => (
+            {filteredIcons.map(x => (
               <IconGridInner
                 key={x.name}
                 onClick={() => navigator.clipboard.writeText(x.name)}
               >
                 <IconGridFlex>
                   <ComponentContainer>
-                    {React.createElement(x.Component as any)}
+                    {React.createElement(x.Component as any, { height: 16, width: 16 })}
                   </ComponentContainer>
                   <IconNameContainer>
                     <Typography

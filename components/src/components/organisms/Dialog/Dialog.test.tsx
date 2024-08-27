@@ -4,7 +4,7 @@ import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 
 import { Dialog } from './Dialog'
 
-window.scroll = jest.fn()
+window.scroll = vi.fn()
 
 describe('<Modal />', () => {
   afterEach(cleanup)
@@ -33,7 +33,7 @@ describe('<Modal />', () => {
   })
 
   it('should display close icon if callback is provided', async () => {
-    const mockCallback = jest.fn()
+    const mockCallback = vi.fn()
     render(
       <Dialog open variant="closable" onDismiss={mockCallback}>
         Modal
@@ -48,7 +48,7 @@ describe('<Modal />', () => {
   })
 
   it('should call callback if close icon is clicked', async () => {
-    const mockCallback = jest.fn()
+    const mockCallback = vi.fn()
     render(
       <Dialog open variant="closable" onDismiss={mockCallback}>
         Modal

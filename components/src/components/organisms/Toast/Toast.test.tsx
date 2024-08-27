@@ -4,7 +4,7 @@ import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 
 import { Toast } from './Toast'
 
-window.scroll = jest.fn()
+window.scroll = vi.fn()
 
 describe('<Toast />', () => {
   afterEach(cleanup)
@@ -16,7 +16,7 @@ describe('<Toast />', () => {
     })
   })
 
-  it('should not be visible if not open', () => {
+  it('should not be visible if not open', async () => {
     render(
       <Toast
         open={false}
@@ -25,14 +25,14 @@ describe('<Toast />', () => {
         onClose={() => void 0}
       />,
     )
-    waitFor(() => expect(screen.getByText('Test')).toBeNull(), {
-      timeout: 300,
+    await waitFor(() => expect(screen.queryByText('Test')).toBeNull(), {
+      timeout: 500,
     })
   })
 
-  it('should display not close icon if type is touch', () => {
+  it('should display not close icon if type is touch', async () => {
     render(<Toast open title="Test" variant="desktop" onClose={() => void 0} />)
-    waitFor(
+    await waitFor(
       () => expect(screen.getByTestId('toast-close-icon')).toBeVisible(),
       {
         timeout: 300,
@@ -40,31 +40,34 @@ describe('<Toast />', () => {
     )
   })
 
-  it('should call callback if close icon is clicked', () => {
-    const mockCallback = jest.fn()
+  it('should call callback if close icon is clicked', async () => {
+    const mockCallback = vi.fn()
     render(<Toast open title="Test" variant="desktop" onClose={mockCallback} />)
-    waitFor(() => userEvent.click(screen.getByTestId('toast-close-icon')), {
+    await waitFor(() => userEvent.click(screen.getByTestId('toast-close-icon')), {
       timeout: 300,
-    }).then(() => expect(mockCallback).toHaveBeenCalled())
+    })
+
+    expect(mockCallback).toHaveBeenCalled()
   })
-  it('should show children if desktop variant', () => {
+  it('should show children if desktop variant', async () => {
     render(
-      <Toast open title="Test" variant="touch" onClose={() => void 0}>
+      <Toast open title="Test" variant="desktop" onClose={() => void 0}>
         <div data-testid="action" />
       </Toast>,
     )
-    waitFor(() => expect(screen.getByTestId('action')).toBeVisible(), {
+    await waitFor(() => expect(screen.getByTestId('action')).toBeVisible(), {
       timeout: 300,
     })
   })
-  it('should show children if touch variant and clicked', () => {
+  it('should show children if touch variant and clicked', async () => {
     render(
       <Toast open title="Test" variant="touch" onClose={() => void 0}>
         <div data-testid="action" />
       </Toast>,
     )
-    waitFor(() => userEvent.click(screen.getByTestId('toast-touch')), {
-      timeout: 300,
-    }).then(() => expect(screen.getByTestId('action')).toBeVisible())
+    await waitFor(() => userEvent.click(screen.getByTestId('toast-touch')), {
+      timeout: 500,
+    })
+    expect(screen.getByTestId('action')).toBeVisible()
   })
 })

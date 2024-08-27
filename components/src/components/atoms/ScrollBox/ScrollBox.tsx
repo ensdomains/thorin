@@ -1,60 +1,77 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import * as React from 'react'
+
+import { commonVars } from '@/src/css/theme.css'
+
+import { Space } from '@/src/tokens'
 
 import * as styles from './styles.css'
 import { Box, BoxProps } from '../Box/Box'
+import clsx from 'clsx'
 
 const ScrollBoxBox = React.forwardRef<HTMLElement, BoxProps>((props, ref) => (
-  <Box
-    overflowX="auto"
-    overflowY="auto"
-    position="relative"
-    ref={ref}
-    transitionDuration="$150"
-    transitionProperty="all"
-    transitionTimingFunction="$inOut"
-    {...props}
-  />
+  <Box className={clsx(styles.scrollBox, props.className)} ref={ref} {...props} />
 ))
 
 const DividerBox = ({
   show,
   position,
+  horizontalPadding,
 }: {
   show: boolean
   position: 'top' | 'bottom'
-}) => (
-  <Box
-    backgroundColor="$greyLight"
-    bottom={position === 'bottom' ? '$0' : 'unset'}
-    data-testid={`scrollbox-${position}-divider`}
-    display="block"
-    height="$px"
-    left="$0"
-    opacity={show ? '1' : '0'}
-    position="sticky"
-    top={position === 'top' ? '$0' : 'unset'}
-    transitionDuration="$150"
-    transitionProperty="opacity"
-    transitionTimingFunction="$inOut"
-    width="$full"
-    zIndex="100"
-  />
-)
+  horizontalPadding?: Space
+}) => {
+  return (
+    <Box
+      backgroundColor={show ? '$border' : 'transparent'}
+      bottom={position === 'bottom' ? '-$px' : 'unset'}
+      visibility={show ? 'visible' : 'hidden'}
+      data-testid={`scrollbox-${position}-divider`}
+      display="block"
+      height="$px"
+      left={horizontalPadding ? commonVars.space[horizontalPadding] : '$0'}
+      position="absolute"
+      style={
+        horizontalPadding
+          ? { width: `calc(100% - 2 * ${commonVars.space[horizontalPadding]})` }
+          : {}
+      }
+      top={position === 'top' ? '$0' : 'unset'}
+      transitionDuration="$150"
+      transitionProperty="background-color"
+      transitionTimingFunction="$inOut"
+      width="$full"
+      zIndex="100"
+    />
+  )
+}
 
 type Props = {
-  hideDividers?: boolean | { top?: boolean; bottom?: boolean }
+  /** If true, the dividers will be hidden */
+  hideDividers?: boolean | { top?: boolean, bottom?: boolean }
+  /** If true, the dividers will always be shown */
+  alwaysShowDividers?: boolean | { top?: boolean, bottom?: boolean }
+  /** The number of pixels below the top of the content where events such as showing/hiding dividers and onReachedTop will be executed */
   topTriggerPx?: number
+  /** The number of pixels above the bottom of the content where events such as showing/hiding dividers and onReachedTop will be executed */
   bottomTriggerPx?: number
+  /** A callback function that is fired when the content reaches topTriggerPx */
   onReachedTop?: () => void
+  /** A callback function that is fired when the content reaches bottomTriggerPx */
   onReachedBottom?: () => void
+  /** The amount of horizontal padding to apply to the scrollbox. This will decrease the content area as well as the width of the overflow indicator dividers */
+  horizontalPadding?: Space
 } & BoxProps
 
 export const ScrollBox = ({
   hideDividers = false,
+  alwaysShowDividers = false,
   topTriggerPx = 16,
   bottomTriggerPx = 16,
   onReachedTop,
   onReachedBottom,
+  horizontalPadding,
   children,
   ...props
 }: Props) => {
@@ -62,35 +79,47 @@ export const ScrollBox = ({
   const topRef = React.useRef<HTMLDivElement>(null)
   const bottomRef = React.useRef<HTMLDivElement>(null)
 
-  const hideTop =
-    typeof hideDividers === 'boolean' ? hideDividers : !!hideDividers?.top
-  const hideBottom =
-    typeof hideDividers === 'boolean' ? hideDividers : !!hideDividers?.bottom
+  const hideTop
+    = typeof hideDividers === 'boolean' ? hideDividers : !!hideDividers?.top
+  const hideBottom
+    = typeof hideDividers === 'boolean' ? hideDividers : !!hideDividers?.bottom
+  const alwaysShowTop
+    = typeof alwaysShowDividers === 'boolean'
+      ? alwaysShowDividers
+      : !!alwaysShowDividers?.top
+  const alwaysShowBottom
+    = typeof alwaysShowDividers === 'boolean'
+      ? alwaysShowDividers
+      : !!alwaysShowDividers?.bottom
 
   const funcRef = React.useRef<{
     onReachedTop?: () => void
     onReachedBottom?: () => void
   }>({ onReachedTop, onReachedBottom })
 
-  const [showTop, setShowTop] = React.useState(false)
-  const [showBottom, setShowBottom] = React.useState(false)
+  const [showTop, setShowTop] = React.useState(alwaysShowTop)
+  const [showBottom, setShowBottom] = React.useState(alwaysShowBottom)
 
   const handleIntersect: IntersectionObserverCallback = (entries) => {
     const intersectingTop: [boolean, number] = [false, -1]
     const intersectingBottom: [boolean, number] = [false, -1]
     for (let i = 0; i < entries.length; i += 1) {
       const entry = entries[i]
-      const iref =
-        entry.target === topRef.current ? intersectingTop : intersectingBottom
+      const iref
+        = entry.target === topRef.current ? intersectingTop : intersectingBottom
       if (entry.time > iref[1]) {
         iref[0] = entry.isIntersecting
         iref[1] = entry.time
       }
     }
-    intersectingTop[1] !== -1 && !hideTop && setShowTop(!intersectingTop[0])
-    intersectingBottom[1] !== -1 &&
-      !hideBottom &&
-      setShowBottom(!intersectingBottom[0])
+    intersectingTop[1] !== -1
+    && !hideTop
+    && !alwaysShowTop
+    && setShowTop(!intersectingTop[0])
+    intersectingBottom[1] !== -1
+    && !hideBottom
+    && !alwaysShowBottom
+    && setShowBottom(!intersectingBottom[0])
     intersectingTop[0] && funcRef.current.onReachedTop?.()
     intersectingBottom[0] && funcRef.current.onReachedBottom?.()
   }
@@ -110,9 +139,8 @@ export const ScrollBox = ({
       observer.observe(bottomEl)
     }
     return () => {
-      observer.disconnect()
+      observer?.disconnect()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bottomTriggerPx, topTriggerPx])
 
   React.useEffect(() => {
@@ -120,28 +148,52 @@ export const ScrollBox = ({
   }, [onReachedTop, onReachedBottom])
 
   return (
-    <ScrollBoxBox
-      // $showBottom={showBottom}
-      // $showTop={showTop}
-      className={styles.scrollBox}
-      ref={ref}
+    <Box
+      border="solid $px transparent"
+      style={{
+        borderLeftWidth: 0,
+        borderRightWidth: 0,
+      }}
+      height="$full"
+      position="relative"
+      width="$full"
       {...props}
     >
-      <DividerBox position="top" show={showTop} />
-      <Box
-        data-testid="scrollbox-top-intersect"
-        display="block"
-        height="$0"
-        ref={topRef}
+      <ScrollBoxBox
+        style={
+          horizontalPadding
+            ? {
+                padding: `0 ${commonVars.space[horizontalPadding]}`,
+              }
+            : {}
+        }
+      >
+        <Box
+          data-testid="scrollbox-top-intersect"
+          display="block"
+          height="$0"
+          ref={topRef}
+        />
+        {children}
+        <Box
+          data-testid="scrollbox-bottom-intersect"
+          display="block"
+          height="$0"
+          ref={bottomRef}
+        />
+      </ScrollBoxBox>
+      <DividerBox
+        data-testid="scrollbox-top-line"
+        horizontalPadding={horizontalPadding}
+        position="top"
+        show={showTop}
       />
-      {children}
-      <Box
-        data-testid="scrollbox-bottom-intersect"
-        display="block"
-        height="$0"
-        ref={bottomRef}
+      <DividerBox
+        data-testid="scrollbox-bottom-line"
+        horizontalPadding={horizontalPadding}
+        position="bottom"
+        show={showBottom}
       />
-      <DividerBox position="bottom" show={showBottom} />
-    </ScrollBoxBox>
+    </Box>
   )
 }

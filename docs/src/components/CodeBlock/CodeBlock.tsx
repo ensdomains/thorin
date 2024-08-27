@@ -14,18 +14,18 @@ import type { Props as CodePreviewProps } from '../CodePreview'
 import { PropsWithChildren } from 'react'
 import { Box, useTheme } from '@ensdomains/thorin'
 
-const CodePreviewContainer = (props: PropsWithChildren<{}>) => (
+const CodePreviewContainer = (props: PropsWithChildren) => (
   <Box {...props} borderRadius="$large" height="$48" width="$full" />
 )
 
 const CodePreview = dynamic<CodePreviewProps>(
-  () => import('../CodePreview').then((mod) => mod.CodePreview),
+  () => import('../CodePreview').then(mod => mod.CodePreview),
   {
     loading: () => <CodePreviewContainer />,
   },
 )
 
-const Pre = (props: PropsWithChildren<{}>) => (
+const Pre = (props: PropsWithChildren) => (
   <Box
     {...props}
     as="pre"
@@ -39,11 +39,11 @@ const Pre = (props: PropsWithChildren<{}>) => (
   />
 )
 
-const LineContainer = (props: PropsWithChildren<{}>) => (
+const LineContainer = (props: PropsWithChildren) => (
   <Box {...props} paddingRight="$8" whiteSpace="pre-wrap" />
 )
 
-const Token = (props: PropsWithChildren<{}>) => (
+const Token = (props: PropsWithChildren) => (
   <Box
     {...props}
     as="span"
@@ -98,7 +98,7 @@ export const CodeBlock = ({
       theme={prismTheme}
       // theme={modifiedTheme}
     >
-      {/* eslint-disable react/no-array-index-key */}
+      { }
       {({
         // className,
         // style,
@@ -106,24 +106,20 @@ export const CodeBlock = ({
         getLineProps,
         getTokenProps,
       }) => (
-        <Pre
-        // style={style}
-        // className={className}
-        >
+        <Pre>
           <Box position="absolute" top="$2" right="$2">
             <CopyButton content={code} />
           </Box>
-
           {tokens.map((line, i) => (
-            <LineContainer key={i} {...getLineProps({ line, key: i })}>
+            <LineContainer key={line[0].content} {...getLineProps({ line, key: i })}>
               {line.map((token, key) => (
-                <Token key={key} {...getTokenProps({ token, key })} />
+                <Token key={token.content} {...getTokenProps({ token, key })} />
               ))}
             </LineContainer>
           ))}
         </Pre>
       )}
-      {/* eslint-enable react/no-array-index-key */}
+      { }
     </Highlight>
   )
 }

@@ -3,7 +3,7 @@ import * as React from 'react'
 import { WithAlert, getValueForAlert } from './utils/getValueForAlert'
 import { Typography } from '../Typography'
 
-import { AlertSVG, CrossSVG, EthSVG, UpRightArrowSVG } from '../..'
+import { AlertSVG, CrossSVG, EthSVG, UpRightArrowSVG } from '../../../icons/index'
 import { Box, BoxProps } from '../Box/Box'
 
 type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
@@ -129,7 +129,7 @@ const ActionButtonIconBox = ({
   $alert,
   $hasAction,
   ...props
-}: BoxProps & { $alert: NonNullableAlert; $hasAction: boolean }) => (
+}: BoxProps & { $alert: NonNullableAlert, $hasAction: boolean }) => (
   <Box
     alignItems="center"
     backgroundColor={{
@@ -203,13 +203,15 @@ export const Banner = React.forwardRef<
     { title, alert = 'info', icon, as: asProp, children, onDismiss, ...props },
     ref,
   ) => {
-    const Icon =
-      icon ||
-      (alert && ['error', 'warning'].includes(alert) ? (
-        <AlertSVG />
-      ) : (
-        <EthSVG />
-      ))
+    const Icon
+      = icon
+      || (alert && ['error', 'warning'].includes(alert)
+        ? (
+            <AlertSVG />
+          )
+        : (
+            <EthSVG />
+          ))
 
     const hasHref = !!props.href
     const hasAction = hasHref || !!props.onClick

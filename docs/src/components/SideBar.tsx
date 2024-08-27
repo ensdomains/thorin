@@ -14,15 +14,15 @@ import { Link } from './Link'
 import { PropsWithChildren } from 'react'
 import { useRouter } from 'next/router'
 
-type Link = { name: string; route: string }
+type Link = { name: string, route: string }
 
-type Links = { name: string; links: Link[] }[]
+type Links = { name: string, links: Link[] }[]
 
 const NavLink = ({
   active,
   href,
   children,
-}: PropsWithChildren<{ active: boolean; href: string; target?: string }>) => (
+}: PropsWithChildren<{ active: boolean, href: string, target?: string }>) => (
   <Box>
     <Link href={href}>
       <Box
@@ -40,12 +40,10 @@ const NavLink = ({
 )
 
 const Heading = ({
-  icon,
   children,
   ...props
 }: BoxProps & { icon: React.ReactElement }) => (
   <Box {...props} display="flex" gap="$2" alignItems="center" height="$9">
-    <Box as={icon} color="$textSecondary" />
     <Typography fontVariant="bodyBold" color="textSecondary">
       {children}
     </Typography>
@@ -54,40 +52,40 @@ const Heading = ({
 
 const Divider = () => (
   <Box
-    width={'$full'}
-    backgroundColor={'$border'}
-    height={'$px'}
+    width="$full"
+    backgroundColor="$border"
+    height="$px"
     flex="0 0 1px"
   />
 )
 
-export const SideBar = ({ open, links }: { open: boolean; links: Links }) => {
+export const SideBar = ({ open, links }: { open: boolean, links: Links }) => {
   const router = useRouter()
   const { setMode, mode } = useTheme()
   return (
     <Box
-      display={'flex'}
-      position={'fixed'}
-      flexDirection={'column'}
+      display="flex"
+      position="fixed"
+      flexDirection="column"
       top={{ base: '$20', sm: '$24' }}
       left={{ base: open ? '$0' : '-100%', sm: '$0' }}
       width="$64"
       bottom="$0"
-      backgroundColor={'$backgroundPrimary'}
+      backgroundColor="$backgroundPrimary"
       borderRight="1px solid"
       borderRightColor="$border"
       gap="$4"
-      transition={'left 0.2s ease-in-out'}
-      paddingRight={'$1'}
+      transition="left 0.2s ease-in-out"
+      paddingRight="$1"
     >
       <ScrollBox width="$full" hideDividers>
-        <Box padding={'$4'} display={'flex'} flexDirection={'column'} gap="$4">
+        <Box padding="$4" display="flex" flexDirection="column" gap="$4">
           <Field
-            label={
+            label={(
               <Box height="$6.5" display="flex" alignItems="center">
-                {mode === 'light' ? 'Light styles' : 'Dark styles'}
+                {mode === 'light' ? 'Light Theme' : 'Dark Theme'}
               </Box>
-            }
+            )}
             inline
           >
             <ThemeToggle

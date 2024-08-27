@@ -8,15 +8,10 @@
     "build:components": "pnpm -F @ensdomains/thorin build",
     "clean": "pnpm m-all clean",
     "dev": "pnpm m run dev",
-    "gen:component": "pnpm node scripts/generateComponent.js",
-    "gen:icons": "pnpm node scripts/generateIcons.js",
-    "lint": "pnpm m-all lint",
-    "lint:components": "pnpm -F @ensdomains/thorin lint",
-    "lint:docs": "pnpm -F docs lint",
-    "lint:fix": "pnpm m-all lint:fix",
-    "lint:format": "prettier --write .",
-    "lint:types": "pnpm m-all lint:types",
-    "lint:styles": "stylelint",
+    "gen:component": "node scripts/generateComponent.js",
+    "gen:icons": "node scripts/generateIcons.js",
+    "lint": "eslint -c eslint.config.mjs",
+    "lint:styles": "stylelint docs/**/*.css",
     "postinstall": "husky install",
     "prepublish": "pnpm clean && pnpm build:components",
     "size": "pnpm build:components && pnpm size-limit",
@@ -26,10 +21,9 @@
   },
   "lint-staged": {
     "*.{js,mdx,ts,tsx}": [
-      "pnpm lint:components",
-      "pnpm lint:docs"
+      "pnpm lint"
     ],
-    "*.tsx": [
+    "*.css": [
       "pnpm lint:styles"
     ],
     "*.{json,md,yml}": [
@@ -37,62 +31,44 @@
     ]
   },
   "devDependencies": {
+    "@eslint-react/eslint-plugin": "^1.9.0",
+    "@eslint/compat": "^1.1.1",
+    "@eslint/js": "^9.8.0",
+    "@next/eslint-plugin-next": "^14.2.5",
     "@size-limit/preset-big-lib": "^6.0.3",
-    "@stylelint/postcss-css-in-js": "^0.38.0",
-    "@svgr/babel-plugin-remove-jsx-attribute": "^6.0.0",
-    "@svgr/cli": "^5.5.0",
-    "@svgr/core": "^5.5.0",
+    "@stylistic/eslint-plugin": "^2.6.1",
+    "@stylistic/stylelint-config": "^2.0.0",
     "@types/dedent": "^0.7.0",
     "@types/fs-extra": "^9.0.13",
-    "@types/glob": "^7.2.0",
-    "@types/styled-components": "^5",
-    "@types/webpack-env": "^1.16.3",
-    "@typescript-eslint/eslint-plugin": "^5.45.1",
-    "@typescript-eslint/parser": "^5.45.1",
-    "babel-jest": "^27.5.1",
+    "@vitest/coverage-v8": "^2.0.5",
     "change-case": "^4.1.2",
     "dedent": "^0.7.0",
-    "eslint": "^7.32.0",
-    "eslint-config-next": "12.0.1",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-import-resolver-typescript": "^3.5.2",
-    "eslint-plugin-eslint-comments": "^3.2.0",
-    "eslint-plugin-jest": "^24.5.2",
-    "eslint-plugin-mdx": "^1.15.1",
-    "eslint-plugin-prettier": "^4.0.0",
+    "eslint": "^9.8.0",
     "fs-extra": "^10.0.0",
-    "glob": "^7.2.0",
+    "globals": "^15.9.0",
     "husky": "^7.0.4",
-    "jest-styled-components": "^7.0.8",
     "lint-staged": "^11.2.6",
+    "playroom": "^0.38.0",
     "postcss-syntax": "^0.36.2",
-    "prettier": "^2.8.0",
     "prompt": "^1.2.0",
     "react-docgen-typescript": "^2.1.1",
     "react-hook-form": "^7.31.2",
     "size-limit": "^6.0.3",
-    "stylelint": "^14.8.5",
-    "stylelint-config-prettier": "^9.0.3",
-    "stylelint-config-recommended": "^7.0.0",
-    "stylelint-config-styled-components": "^0.1.1",
+    "stylelint": "^16.8.1",
+    "stylelint-config-recommended": "^14.0.1",
     "typescript": "4.9.4",
-    "typescript-styled-plugin": "^0.18.2",
+    "typescript-eslint": "^8.0.1",
     "utility-types": "^3.10.0"
   },
   "dependencies": {
     "react": "^18",
     "react-dom": "^18",
-    "react-transition-state": "^1.1.4",
-    "styled-components": "^5.3.3"
-  },
-  "peerDependencies": {
-    "eslint-plugin-import": "^2.24.2",
-    "eslint-plugin-react": "^7.26.0",
-    "eslint-plugin-react-hooks": "^4.2.0"
+    "react-transition-state": "^1.1.4"
   },
   "pnpm": {
     "overrides": {
       "ts-morph": "17.0.1"
     }
-  }
+  },
+  "packageManager": "pnpm@9.4.0"
 }

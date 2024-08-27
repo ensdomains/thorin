@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { TransitionState, useTransition } from 'react-transition-state'
 
-import { debounce } from 'lodash'
+import { debounce } from 'es-toolkit'
 
 import { Portal } from '../Portal'
 import { Box, BoxProps } from '../Box/Box'
@@ -23,7 +23,7 @@ export type DynamicPopoverAnimationFunc = (
   verticalClearance: number,
   side: DynamicPopoverSide,
   mobileSide: DynamicPopoverSide,
-) => { translate: string; mobileTranslate: string }
+) => { translate: string, mobileTranslate: string }
 
 export type DynamicPopoverButtonProps = {
   pressed?: boolean
@@ -43,11 +43,11 @@ export interface DynamicPopoverProps {
   anchorRef: React.RefObject<HTMLElement>
   /** Function that will be called when the DynamicPopover is shown */
   onShowCallback?: () => void
-  /** Width of the DynamicPopover*/
+  /** Width of the DynamicPopover */
   width?: number | string
-  /** Width of the DynamicPopover on mobile*/
+  /** Width of the DynamicPopover on mobile */
   mobileWidth?: number | string
-  /** Dynamic popover will switch sides if there is not enough room*/
+  /** Dynamic popover will switch sides if there is not enough room */
   useIdealPlacement?: boolean
   /** Add to the default gap between the popover and its target */
   additionalGap?: number
@@ -73,20 +73,20 @@ const computeIdealSide = (
 ): DynamicPopoverSide => {
   const top = referenceRect.top - floatingRect.height - padding - offset
   const left = referenceRect.left - floatingRect.width - padding - offset
-  const right =
-    window.innerWidth -
-    referenceRect.left -
-    referenceRect.width -
-    floatingRect.width -
-    padding -
-    offset
-  const bottom =
-    window.innerHeight -
-    referenceRect.top -
-    referenceRect.height -
-    floatingRect.height -
-    padding -
-    offset
+  const right
+    = window.innerWidth
+    - referenceRect.left
+    - referenceRect.width
+    - floatingRect.width
+    - padding
+    - offset
+  const bottom
+    = window.innerHeight
+    - referenceRect.top
+    - referenceRect.height
+    - floatingRect.height
+    - padding
+    - offset
 
   if (side === 'top' && top < 0 && bottom > top) return 'bottom'
   if (side === 'right' && right < 0 && left > right) return 'left'
@@ -125,14 +125,14 @@ const defaultAnimationFunc: DynamicPopoverAnimationFunc = (
 
 const checkRectContainsPoint = (
   rect?: DOMRect,
-  point?: { x: number; y: number },
+  point?: { x: number, y: number },
 ) => {
   if (!rect || !point) return false
   return (
-    point.x >= rect.x &&
-    point.x <= rect.x + rect.width &&
-    point.y >= rect.y &&
-    point.y <= rect.y + rect.height
+    point.x >= rect.x
+    && point.x <= rect.x + rect.width
+    && point.y >= rect.y
+    && point.y <= rect.y + rect.height
   )
 }
 
@@ -252,15 +252,18 @@ export const DynamicPopover = ({
       if (align === 'start') {
         popoverWidth = 0
         anchorWidth = 0
-      } else if (align === 'end') {
+      }
+      else if (align === 'end') {
         popoverWidth = popoverRect.width
         anchorWidth = anchorRect.width
       }
-    } else {
+    }
+    else {
       if (align === 'start') {
         popoverHeight = 0
         anchorHeight = 0
-      } else if (align === 'end') {
+      }
+      else if (align === 'end') {
         popoverHeight = popoverRect.height
         anchorHeight = anchorRect.height
       }
@@ -367,7 +370,7 @@ export const DynamicPopover = ({
           document.removeEventListener('mousemove', handleMouseMove)
         },
         100,
-        { maxWait: 1000 },
+        { signal: AbortSignal.timeout(1000) },
       )
 
       handleMouseMove = (e: MouseEvent) => {

@@ -76,7 +76,7 @@ const TextArea = React.forwardRef<HTMLElement, BoxProps & TextAreaProps>(
       borderColor="$border"
       borderRadius="$large"
       borderStyle="solid"
-      borderWidth="$1x"
+      borderWidth="1px"
       className={classNames(
         styles.textarea({ showAction: $alwaysShowAction }),
         statusBorder({
@@ -90,6 +90,7 @@ const TextArea = React.forwardRef<HTMLElement, BoxProps & TextAreaProps>(
       display="flex"
       fontSize={getValueForSize($size, 'fontSize')}
       fontWeight="$normal"
+      fontFamily="inherit"
       lineHeight={getValueForSize($size, 'fontSize')}
       minHeight="$14"
       outline="none"
@@ -114,7 +115,7 @@ const ActionButton = ({
   $size = 'medium',
   $icon,
   ...props
-}: BoxProps & { $size: Size; $icon: React.ReactNode }) => {
+}: BoxProps & { $size: Size, $icon: React.ReactNode }) => {
   const icon = React.isValidElement($icon) ? $icon : <CrossCircleSVG />
   return (
     <Box
@@ -192,9 +193,9 @@ type Props = Omit<FieldBaseProps, 'inline'> & {
   /** The handler for focus events. */
   onFocus?: NativeTextareaProps['onFocus']
 } & Omit<
-    NativeTextareaProps,
+  NativeTextareaProps,
     'children' | 'value' | 'defaultValue' | 'aria-invalid'
-  >
+>
 
 export const Textarea = React.forwardRef(
   (
@@ -288,7 +289,7 @@ export const Textarea = React.forwardRef(
         required={required}
         width={width}
       >
-        {(ids) => (
+        {ids => (
           <Container
             $disabled={disabled}
             $error={!!error}

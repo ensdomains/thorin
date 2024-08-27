@@ -1,5 +1,4 @@
 import * as React from 'react'
-
 import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 
 import { PageButtons } from './PageButtons'
@@ -14,7 +13,7 @@ const ButtonsHelper = ({
     <div>
       <div>outside</div>
       <PageButtons
-        {...{ ...props, onChange: (value) => mockCallback(value) }}
+        {...{ ...props, onChange: value => mockCallback(value) }}
       />
     </div>
   )
@@ -25,14 +24,14 @@ describe('<PageButtons />', () => {
 
   it('should render', () => {
     render(
-      <ButtonsHelper current={1} mockCallback={(_) => void 0} total={100} />,
+      <ButtonsHelper current={1} mockCallback={() => void 0} total={100} />,
     )
     expect(screen.getByTestId('pagebuttons')).toBeInTheDocument()
   })
 
   it('should show correct default max buttons', () => {
     render(
-      <ButtonsHelper current={1} mockCallback={(_) => void 0} total={100} />,
+      <ButtonsHelper current={1} mockCallback={() => void 0} total={100} />,
     )
     expect(screen.getAllByTestId('pagebutton').length).toBe(5)
   })
@@ -41,7 +40,7 @@ describe('<PageButtons />', () => {
       <ButtonsHelper
         current={1}
         max={10}
-        mockCallback={(_) => void 0}
+        mockCallback={() => void 0}
         total={100}
       />,
     )
@@ -53,7 +52,7 @@ describe('<PageButtons />', () => {
         alwaysShowFirst
         alwaysShowLast
         current={50}
-        mockCallback={(_) => void 0}
+        mockCallback={() => void 0}
         total={100}
       />,
     )
@@ -62,7 +61,7 @@ describe('<PageButtons />', () => {
   })
   it('should not show first and last buttons if specified', () => {
     render(
-      <ButtonsHelper current={50} mockCallback={(_) => void 0} total={100} />,
+      <ButtonsHelper current={50} mockCallback={() => void 0} total={100} />,
     )
     expect(screen.queryByText('1')).not.toBeInTheDocument()
     expect(screen.queryByText('100')).not.toBeInTheDocument()
@@ -73,7 +72,7 @@ describe('<PageButtons />', () => {
         alwaysShowFirst
         alwaysShowLast
         current={50}
-        mockCallback={(_) => void 0}
+        mockCallback={() => void 0}
         total={100}
       />,
     )
@@ -81,19 +80,19 @@ describe('<PageButtons />', () => {
   })
   it('should show dots if alwaysShowFirst/alwaysShowLast is not specified', () => {
     render(
-      <ButtonsHelper current={50} mockCallback={(_) => void 0} total={100} />,
+      <ButtonsHelper current={50} mockCallback={() => void 0} total={100} />,
     )
     expect(screen.getAllByTestId('pagebutton-dots').length).toBe(2)
   })
   it('should not show buttons past the total page count', () => {
     render(
-      <ButtonsHelper current={100} mockCallback={(_) => void 0} total={100} />,
+      <ButtonsHelper current={100} mockCallback={() => void 0} total={100} />,
     )
     expect(screen.getByText('100')).toBeInTheDocument()
     expect(screen.queryByText('101')).not.toBeInTheDocument()
   })
   it('should call onChange method when button is clicked', async () => {
-    const mockCallback = jest.fn()
+    const mockCallback = vi.fn()
     render(
       <ButtonsHelper current={1} mockCallback={mockCallback} total={100} />,
     )

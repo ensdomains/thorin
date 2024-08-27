@@ -1,12 +1,15 @@
 import * as React from 'react'
 
-import { AlertSVG, CrossSVG, EthSVG } from '@/src'
+import { AlertSVG, CrossSVG, EthSVG } from '@/src/icons'
 
 import { WithAlert } from '@/src/types'
 
 import { translateY } from '@/src/css/utils/common'
+import { FontSize } from '@/src/tokens/typography'
 
-import { Modal, ScrollBox, Typography } from '../..'
+import { DialogContent } from './DialogContent'
+
+import { Modal, Typography } from '../..'
 import { Box, BoxProps } from '../../atoms/Box/Box'
 import { getValueForAlert } from './utils/getValueForAlert'
 import { getValueForStepType } from './utils/getValueForStepType'
@@ -46,8 +49,10 @@ const StyledCard = (props: BoxProps) => (
     display="flex"
     flexDirection="column"
     gap={{ xs: '$4', sm: '$6' }}
+    maxHeight={{ xs: '80vh', sm: 'min(90vh, $144)' }}
     maxWidth={{ xs: 'unset', sm: '80vw' }}
     minWidth={{ xs: 'unset', sm: '$64' }}
+    overflow="hidden"
     padding={{ xs: '$4', sm: '$6' }}
     position="relative"
     width="$full"
@@ -144,6 +149,7 @@ const StepItem = ({ $type, ...props }: BoxProps & { $type: StepType }) => (
 type TitleProps = {
   title?: string | React.ReactNode
   subtitle?: string | React.ReactNode
+  fontVariant?: FontSize
 } & WithAlert
 
 type StepProps = {
@@ -170,7 +176,7 @@ type ActionableProps = {
   leading?: React.ReactNode
   center?: boolean
 } & TitleProps &
-  StepProps
+StepProps
 
 type BlankProps = {
   variant: 'blank'
@@ -184,45 +190,46 @@ const Heading = ({
   title,
   subtitle,
   alert,
+  fontVariant = 'headingFour',
 }: TitleProps & StepProps & WithAlert) => {
   return (
     <TitleContainer>
       {alert && <Icon $alert={alert} />}
-      {title &&
-        ((typeof title !== 'string' && title) || (
-          <Typography fontVariant="headingFour" textAlign="center">
-            {title}
-          </Typography>
-        ))}
-      {subtitle &&
-        ((typeof subtitle !== 'string' && subtitle) || (
-          <Typography
-            color="red"
-            fontVariant="bodyBold"
-            maxWidth="$72"
-            px="$4"
-            textAlign="center"
-          >
-            {subtitle}
-          </Typography>
-        ))}
+      {title
+      && ((typeof title !== 'string' && title) || (
+        <Typography fontVariant={fontVariant} textAlign="center">
+          {title}
+        </Typography>
+      ))}
+      {subtitle
+      && ((typeof subtitle !== 'string' && subtitle) || (
+        <Typography
+          color="textSecondary"
+          fontVariant="bodyBold"
+          maxWidth="$72"
+          px="$4"
+          textAlign="center"
+        >
+          {subtitle}
+        </Typography>
+      ))}
     </TitleContainer>
   )
 }
 
-const Content = ({ children }: { children?: React.ReactNode }) => {
-  return (
-    <Box
-      maxHeight="60vh"
-      maxWidth={{ base: '100vw', sm: '$128' }}
-      width={{ base: '100vw', sm: '80vw' }}
-    >
-      <ScrollBox height="$full" width="$full">
-        <Box paddingRight="$2">{children}</Box>
-      </ScrollBox>
-    </Box>
-  )
-}
+// const Content = ({ children }: { children?: React.ReactNode }) => {
+//   return (
+//     <Box
+//       maxHeight="60vh"
+//       maxWidth={{ base: '100vw', sm: '$128' }}
+//       width={{ base: '100vw', sm: '80vw' }}
+//     >
+//       <ScrollBox height="$full" width="$full">
+//         <Box paddingRight="$2">{children}</Box>
+//       </ScrollBox>
+//     </Box>
+//   )
+// }
 
 const Footer = ({
   leading,
@@ -345,7 +352,8 @@ export const Dialog = ({
         {onCloseOrDismiss && <CloseButton onClick={onCloseOrDismiss} />}
       </ModalWithTitle>
     )
-  } else if (variant === 'closable') {
+  }
+  else if (variant === 'closable') {
     const { alert, title, subtitle, ...closableProps } = props as ClosableProps
     const onCloseOrDismiss = onClose || onDismiss
     return (
@@ -376,6 +384,5 @@ export const Dialog = ({
 Dialog.displayName = 'Dialog'
 Dialog.Footer = Footer
 Dialog.Heading = Heading
-Dialog.Content = Content
-
+Dialog.Content = DialogContent
 Dialog.CloseButton = CloseButton

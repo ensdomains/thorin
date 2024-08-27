@@ -3,13 +3,12 @@ import { TransitionState } from 'react-transition-state'
 
 import { match } from 'ts-pattern'
 
-import { Space } from '@/src'
-
 import { translateY } from '@/src/css/utils/common'
 
 import { Backdrop, CrossSVG, Typography } from '../..'
 import { getTestId } from '../../../utils/utils'
 import { Box, BoxProps } from '../../atoms/Box/Box'
+import { Space } from '@/src/tokens'
 
 const CloseIcon = (props: BoxProps) => (
   <Box
@@ -175,10 +174,10 @@ export const TouchToast = ({
   setPopped,
   ...props
 }: Props &
-  InternalProps & {
-    popped: boolean
-    setPopped: (popped: boolean) => void
-  }) => {
+InternalProps & {
+  popped: boolean
+  setPopped: (popped: boolean) => void
+}) => {
   const ref = React.useRef<HTMLDivElement>(null)
   const [calcTop, setCalcTop] = React.useState(0.025 * window.innerHeight)
   const [touches, setTouches] = React.useState<Array<number | undefined>>([])
@@ -187,7 +186,6 @@ export const TouchToast = ({
     if (open) {
       setCalcTop(0.025 * window.innerHeight)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open])
 
   React.useEffect(() => {
@@ -228,7 +226,6 @@ export const TouchToast = ({
       //   }
       // }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [touches])
 
   const onTouchStart = React.useCallback((e: TouchEvent) => {
@@ -238,7 +235,7 @@ export const TouchToast = ({
 
   const onTouchMove = React.useCallback((e: TouchEvent) => {
     e.preventDefault()
-    setTouches((touches) => [...touches, e.targetTouches.item(0)?.pageY])
+    setTouches(touches => [...touches, e.targetTouches.item(0)?.pageY])
   }, [])
 
   React.useEffect(() => {
@@ -261,7 +258,6 @@ export const TouchToast = ({
         capture: false,
       })
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   React.useEffect(() => {
@@ -274,7 +270,6 @@ export const TouchToast = ({
         capture: false,
       })
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [popped])
 
   return (
@@ -282,9 +277,9 @@ export const TouchToast = ({
       {...{
         ...props,
         'data-testid': getTestId(props, 'toast-touch'),
-        style: { top: `${calcTop}px` },
-        onClick: () => setPopped(true),
-        onTouchEnd: () => setTouches((touches) => [...touches, undefined]),
+        'style': { top: `${calcTop}px` },
+        'onClick': () => setPopped(true),
+        'onTouchEnd': () => setTouches(touches => [...touches, undefined]),
       }}
       $bottom={bottom}
       $left={left}
@@ -324,18 +319,18 @@ export const Toast = ({
   const currentTimeout = React.useRef<number | undefined>()
 
   React.useEffect(() => {
+    const originalPopped = popped
     if (open && window) {
-      setPopped(false)
+      if (originalPopped) setPopped(false)
       currentTimeout.current = window.setTimeout(
         () => onClose(),
         msToShow || 8000,
       )
       return () => {
+        setPopped(originalPopped)
         clearTimeout(currentTimeout.current)
-        onClose()
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open])
 
   React.useEffect(() => {
@@ -352,24 +347,25 @@ export const Toast = ({
       onDismiss={variant === 'touch' && popped ? () => onClose() : undefined}
     >
       {({ state }) =>
-        variant === 'touch' ? (
-          <TouchToast
-            {...props}
-            open={open}
-            popped={popped}
-            setPopped={setPopped}
-            state={state}
-            onClose={onClose}
-          />
-        ) : (
-          <DesktopToast
-            {...props}
-            open={open}
-            state={state}
-            onClose={onClose}
-          />
-        )
-      }
+        variant === 'touch'
+          ? (
+              <TouchToast
+                {...props}
+                open={open}
+                popped={popped}
+                setPopped={setPopped}
+                state={state}
+                onClose={onClose}
+              />
+            )
+          : (
+              <DesktopToast
+                {...props}
+                open={open}
+                state={state}
+                onClose={onClose}
+              />
+            )}
     </Backdrop>
   )
 }

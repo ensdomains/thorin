@@ -46,7 +46,7 @@ describe('<Select />', () => {
   })
 
   it('should call onChange when selection made', async () => {
-    const mockCallback = jest.fn((e: any) => [
+    const mockCallback = vi.fn((e: any) => [
       e.target.value,
       e.currentTarget.value,
     ])
@@ -99,7 +99,7 @@ describe('<Select />', () => {
   })
 
   it('should not allow disabled option to be selected', async () => {
-    const mockCallback = jest.fn()
+    const mockCallback = vi.fn()
     render(
       <Select
         label="select"
@@ -118,7 +118,7 @@ describe('<Select />', () => {
 
   // JS DOM doesn't support css variables
   it('should close dropdown when clicking outside of element', async () => {
-    const mockCallback = jest.fn()
+    const mockCallback = vi.fn()
     render(
       <div>
         <div>outside</div>
@@ -153,7 +153,7 @@ describe('<Select />', () => {
   /** Autocomplete */
 
   it('should filter options if autocomplete is true ', async () => {
-    const mockCallback = jest.fn()
+    const mockCallback = vi.fn()
     render(
       <div>
         <div>outside</div>
@@ -214,7 +214,7 @@ describe('<Select />', () => {
   /** Createable */
 
   it('should filter options if createable is true ', async () => {
-    const mockCallback = jest.fn()
+    const mockCallback = vi.fn()
     render(
       <div>
         <div>outside</div>
@@ -251,7 +251,7 @@ describe('<Select />', () => {
   })
 
   it('should show create options only if it is unique ', async () => {
-    const mockCallback = jest.fn()
+    const mockCallback = vi.fn()
     render(
       <div>
         <div>outside</div>
@@ -289,7 +289,7 @@ describe('<Select />', () => {
   })
 
   it('should call on create if create option is clicked', async () => {
-    const mockCallback = jest.fn()
+    const mockCallback = vi.fn()
     render(
       <div>
         <div>outside</div>
@@ -322,7 +322,7 @@ describe('<Select />', () => {
   })
 
   it('should call on create if create option is selected with arrows and enter is pressed', async () => {
-    const mockCallback = jest.fn()
+    const mockCallback = vi.fn()
     render(
       <div>
         <div>outside</div>

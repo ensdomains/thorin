@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { P, match } from 'ts-pattern'
-import { debounce } from 'lodash'
+import { debounce } from 'es-toolkit'
 
 import { TransitionState } from 'react-transition-state'
 
@@ -8,6 +8,8 @@ import { Button, ButtonProps } from '@/src/components/atoms/Button'
 import { Colors, breakpoints } from '@/src/tokens'
 
 import { commonVars, modeVars } from '@/src/css/theme.css'
+
+import { Color } from '@/src/interfaces/withColor'
 
 import { DownChevronSVG, DynamicPopover, ScrollBox } from '../..'
 import { ActionSheet } from './ActionSheet'
@@ -22,12 +24,12 @@ export type DropdownItemObject = {
   label: string
   onClick?: (value?: string) => void
   wrapper?: (children: React.ReactNode, key: React.Key) => JSX.Element
-  as?: 'button' | 'a'
   icon?: React.ReactNode
   value?: string
-  color?: Colors
+  color?: Color
   disabled?: boolean
   showIndicator?: boolean | Colors
+  href?: string
 }
 
 export type DropdownItem =
@@ -93,7 +95,7 @@ type DropdownMenuProps = {
   state?: TransitionState['status']
   height?: string | number
 } & NativeDivProps &
-  PopoverProps
+PopoverProps
 
 type DropdownMenuContainerProps = {
   $shortThrow: boolean
@@ -237,7 +239,9 @@ const DropdownMenu = React.forwardRef<HTMLDivElement, DropdownMenuProps>(
       direction,
       state,
       height,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       placement: _placement,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       mobilePlacement: _mobilePlacement,
       ...props
     },
@@ -254,24 +258,29 @@ const DropdownMenu = React.forwardRef<HTMLDivElement, DropdownMenuProps>(
         label,
         onClick,
         disabled,
-        as,
         wrapper,
         showIndicator,
+        href,
       } = item as DropdownItemObject
 
       const props: React.ComponentProps<any> = {
-        // $hasColor: !!color,
         $color: color,
         $showIndicator: showIndicator,
         $icon: icon,
         disabled,
         onClick: () => {
-          setIsOpen(false)
           onClick?.(value)
+          setIsOpen(false)
         },
-        as,
-        children: <>{label}</>,
-      }
+        as: href ? 'a' : 'button',
+        children: (
+          <>
+            {icon}
+            {label}
+          </>
+        ),
+        href,
+      } as const
 
       if (wrapper) {
         return wrapper(<MenuButton {...props} type="button" />, value || label)
@@ -282,9 +291,9 @@ const DropdownMenu = React.forwardRef<HTMLDivElement, DropdownMenuProps>(
 
     const menuProps = React.useMemo(
       () => ({
-        $shortThrow: shortThrow,
-        $direction: direction,
-        $state: state,
+        '$shortThrow': shortThrow,
+        '$direction': direction,
+        '$state': state,
         ...props,
         'data-testid': 'dropdown-menu',
         ref,
@@ -330,7 +339,7 @@ const rotation = (direction: Direction, open: boolean) =>
 const Chevron = ({
   $open,
   $direction,
-}: { $open?: boolean; $direction: Direction } & BoxProps) => (
+}: { $open?: boolean, $direction: Direction } & BoxProps) => (
   <Box
     as={<DownChevronSVG />}
     fill="currentColor"
@@ -370,50 +379,52 @@ const DropdownButton: React.FC<DropdownButtonProps> = ({
   indicatorColor,
 }): React.ReactElement<DropdownButtonProps> => {
   const hasIndicator = React.useMemo(
-    () => items.some((item) => 'showIndicator' in item && item.showIndicator),
+    () => items.some(item => 'showIndicator' in item && item.showIndicator),
     [items],
   )
   const buttonPropsWithIndicator = React.useMemo(
     () => ({
       ...buttonProps,
       'data-indicator': hasIndicator && !isOpen,
-      style: {
+      'style': {
         ...buttonProps?.style,
         '--indicator-color':
-          modeVars.color[`$${indicatorColor}` as keyof typeof modeVars.color] ||
-          modeVars.color.accent,
+          modeVars.color[`$${indicatorColor}` as keyof typeof modeVars.color]
+          || modeVars.color.accent,
       },
-      className: `${buttonProps?.className} indicator-container`,
+      'className': `${buttonProps?.className} indicator-container`,
     }),
     [buttonProps, hasIndicator, indicatorColor, isOpen],
   )
 
   return (
     <>
-      {children ? (
-        React.Children.map(children, (child) => {
-          if (!React.isValidElement(child)) return null
-          return React.cloneElement(child as any, {
-            ...buttonPropsWithIndicator,
-            zindex: '10',
-            pressed: isOpen ? 'true' : undefined,
-            onClick: () => setIsOpen((prev) => !prev),
-            ref: buttonRef,
-          })
-        })
-      ) : (
-        <Button
-          data-testid="dropdown-btn"
-          pressed={isOpen}
-          ref={buttonRef}
-          suffix={chevron && <Chevron $direction={direction} $open={isOpen} />}
-          width="$fit"
-          onClick={() => setIsOpen((prev) => !prev)}
-          {...buttonPropsWithIndicator}
-        >
-          {label}
-        </Button>
-      )}
+      {children
+        ? (
+            React.Children.map(children, (child) => {
+              if (!React.isValidElement(child)) return null
+              return React.cloneElement(child as any, {
+                ...buttonPropsWithIndicator,
+                zindex: '10',
+                pressed: isOpen ? 'true' : undefined,
+                onClick: () => setIsOpen(prev => !prev),
+                ref: buttonRef,
+              })
+            })
+          )
+        : (
+            <Button
+              data-testid="dropdown-btn"
+              pressed={isOpen}
+              ref={buttonRef}
+              suffix={chevron && <Chevron $direction={direction} $open={isOpen} />}
+              width="$fit"
+              onClick={() => setIsOpen(prev => !prev)}
+              {...buttonPropsWithIndicator}
+            >
+              {label}
+            </Button>
+          )}
     </>
   )
 }
@@ -436,18 +447,18 @@ const useScreenSize = () => {
 }
 
 const useClickOutside = (
-  dropdownRef: React.MutableRefObject<any>,
-  buttonRef: React.MutableRefObject<any>,
-  actionSheetRef: React.MutableRefObject<any>,
+  dropdownRef: React.MutableRefObject<HTMLElement | null>,
+  buttonRef: React.MutableRefObject<HTMLButtonElement | null>,
+  actionSheetRef: React.MutableRefObject<HTMLDivElement | null>,
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>,
   isOpen: boolean,
 ) => {
   React.useEffect(() => {
-    const handleClickOutside = (e: any) => {
+    const handleClickOutside = (e: MouseEvent) => {
       if (
-        !dropdownRef.current?.contains(e.target) &&
-        !buttonRef.current?.contains(e.target) &&
-        !actionSheetRef.current?.contains(e.target)
+        !dropdownRef.current?.contains(e.target as Node)
+        && !buttonRef.current?.contains(e.target as Node)
+        && !actionSheetRef.current?.contains(e.target as Node)
       ) {
         setIsOpen(false)
       }
@@ -455,7 +466,8 @@ const useClickOutside = (
 
     if (isOpen) {
       document.addEventListener('mousedown', handleClickOutside)
-    } else {
+    }
+    else {
       document.removeEventListener('mousedown', handleClickOutside)
     }
     return () => {
@@ -467,6 +479,7 @@ const useClickOutside = (
 export const Dropdown = ({
   children,
   buttonProps,
+  // eslint-disable-next-line @eslint-react/no-unstable-default-props
   items = [],
   chevron = true,
   align = 'left',
@@ -484,9 +497,9 @@ export const Dropdown = ({
   cancelLabel = 'Cancel',
   ...props
 }: Props & (PropsWithIsOpen | PropsWithoutIsOpen)) => {
-  const dropdownRef = React.useRef<any>()
-  const buttonRef = React.useRef<HTMLButtonElement>(null)
-  const actionSheetRef = React.useRef<HTMLDivElement>(null)
+  const dropdownRef = React.useRef<HTMLDivElement | null>(null)
+  const buttonRef = React.useRef<HTMLButtonElement | null>(null)
+  const actionSheetRef = React.useRef<HTMLDivElement | null>(null)
   const internalOpen = React.useState(false)
   const [isOpen, setIsOpen] = _setIsOpen ? [_isOpen, _setIsOpen] : internalOpen
 
@@ -514,7 +527,7 @@ export const Dropdown = ({
           { responsive: false, screenSize: P._ },
           {
             responsive: true,
-            screenSize: P.when((screenSize) => screenSize >= breakpoints.sm),
+            screenSize: P.when(screenSize => screenSize >= breakpoints.sm),
           },
           () => (
             <DynamicPopover
@@ -526,7 +539,7 @@ export const Dropdown = ({
               mobilePlacement={direction === 'down' ? 'bottom' : 'top'}
               mobileWidth={mobileWidth}
               placement={direction === 'down' ? 'bottom' : 'top'}
-              popover={
+              popover={(
                 <DropdownMenu
                   {...props}
                   direction={direction}
@@ -536,7 +549,7 @@ export const Dropdown = ({
                   shortThrow={shortThrow}
                   // labelAlign={menuLabelAlign}
                 />
-              }
+              )}
               width={width}
             />
           ),
@@ -544,7 +557,7 @@ export const Dropdown = ({
         .with(
           {
             responsive: true,
-            screenSize: P.when((screenSize) => screenSize < breakpoints.sm),
+            screenSize: P.when(screenSize => screenSize < breakpoints.sm),
           },
           () => (
             <ActionSheet

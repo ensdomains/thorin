@@ -5,9 +5,8 @@ import { act } from 'react-dom/test-utils'
 
 import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 
-import { FieldSet, RadioButton } from '@/src'
-
 import { Props, RadioButtonGroup } from './RadioButtonGroup'
+import { FieldSet, RadioButton } from '@/src/components'
 
 const RadioButtonGroupWithState = (
   props: Omit<Props, 'onChange' | 'value'>,
@@ -70,7 +69,7 @@ describe('<RadioButtonGroup />', () => {
   })
 
   it('should fire onBlur when losing focus ', async () => {
-    const mockCallback = jest.fn()
+    const mockCallback = vi.fn()
     render(
       <>
         <div>outside</div>
@@ -93,7 +92,7 @@ describe('<RadioButtonGroup />', () => {
   })
 
   it('should fire onChange when checked value does not match value', () => {
-    const mockCallback = jest.fn((e: any) => {
+    const mockCallback = vi.fn((e: any) => {
       return e.target.value
     })
     render(
@@ -115,7 +114,7 @@ describe('<RadioButtonGroup />', () => {
           data-testid="radio-group"
           legend={`Radio Buttons - Current Value: ${state || '30'}`}
         >
-          <RadioButtonGroup onChange={(e) => setState(e.target.value)}>
+          <RadioButtonGroup onChange={e => setState(e.target.value)}>
             <input id="html" name="fav_language" type="radio" value="HTML" />
             <label htmlFor="html">HTML</label>
             <input id="css" name="fav_language" type="radio" value="CSS" />

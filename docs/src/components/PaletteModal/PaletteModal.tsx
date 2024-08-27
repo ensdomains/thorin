@@ -67,13 +67,13 @@ export const PaletteModal = ({
           gap={{ base: '$4', sm: '$6' }}
         >
           <Box
-            width={'$full'}
-            height={'$45'}
+            width="$full"
+            height="$45"
             position="relative"
             overflow="hidden"
             borderRadius="$large"
             border="1px solid"
-            borderColor={'$border'}
+            borderColor="$border"
             backgroundColor={
               shadeRawColor
                 ? rawColorToRGB(shadeRawColor)
@@ -81,7 +81,7 @@ export const PaletteModal = ({
             }
           >
             <Box
-              display={'flex'}
+              display="flex"
               width="$full"
               position="absolute"
               bottom="0"
@@ -91,7 +91,7 @@ export const PaletteModal = ({
               {shades?.map(([name, color], i) => (
                 <Box
                   as="button"
-                  cursor={'pointer'}
+                  cursor="pointer"
                   key={name}
                   flex="1"
                   height="$4"
@@ -128,12 +128,12 @@ export const PaletteModal = ({
         </Box>
       </Dialog.Content>
       <Dialog.Footer
-        trailing={
+        trailing={(
           <Button colorStyle="accentSecondary" onClick={props.onDismiss}>
             Done
           </Button>
-        }
-      ></Dialog.Footer>
+        )}
+      />
     </Dialog>
   )
 }

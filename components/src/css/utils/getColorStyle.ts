@@ -12,7 +12,7 @@ const BASE_COLORS = [
   'grey',
 ] as const
 
-type BaseColor = typeof BASE_COLORS[number]
+type BaseColor = (typeof BASE_COLORS)[number]
 
 const GRADIENT_COLORS = [
   'accent',
@@ -23,11 +23,11 @@ const GRADIENT_COLORS = [
   'grey',
 ] as const
 
-type GradientColor = typeof GRADIENT_COLORS[number]
+type GradientColor = (typeof GRADIENT_COLORS)[number]
 
 const makeColorStyleMap = () => {
   const primaryStyles = Object.fromEntries(
-    BASE_COLORS.map((color) => [
+    BASE_COLORS.map(color => [
       `${color}Primary`,
       {
         text: `$backgroundPrimary`,
@@ -40,7 +40,7 @@ const makeColorStyleMap = () => {
     [key in `${BaseColor}Primary`]: any
   }
   const secondaryStyles = Object.fromEntries(
-    BASE_COLORS.map((color) => [
+    BASE_COLORS.map(color => [
       `${color}Secondary`,
       {
         text: `$${color}Primary`,
@@ -54,7 +54,7 @@ const makeColorStyleMap = () => {
   }
 
   const gradientValues = Object.fromEntries(
-    GRADIENT_COLORS.map((color) => [
+    GRADIENT_COLORS.map(color => [
       `${color}Gradient`,
       {
         text: `$backgroundPrimary`,

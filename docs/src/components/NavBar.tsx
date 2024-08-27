@@ -16,7 +16,7 @@ export const NavBar = ({
     <Box
       display="flex"
       position="fixed"
-      justifyContent={'space-between'}
+      justifyContent="space-between"
       alignItems="center"
       top="0"
       left="0"
@@ -37,20 +37,20 @@ export const NavBar = ({
           backgroundColor="transparent"
           outline="none"
         >
-          <Box wh="$6" position={'relative'}>
+          <Box wh="$6" position="relative">
             <Box
               as={<CrossSVG />}
               wh="$full"
               position="absolute"
               opacity={open ? 1 : 0}
-              transition={'opacity 0.2s ease-in-out'}
+              transition="opacity 0.2s ease-in-out"
             />
             <Box
               as={<MenuSVG />}
-              position={'absolute'}
+              position="absolute"
               wh="$full"
               opacity={open ? 0 : 1}
-              transition={'opacity 0.2s ease-in-out'}
+              transition="opacity 0.2s ease-in-out"
             />
           </Box>
         </Box>

@@ -5,16 +5,12 @@ import './mocks/URL.js'
 
 // --------------------------------------------------
 // re-export everything
-// --------------------------------------------------
-/* eslint-disable import/export */
+// ----------------------------------
 export * from '@testing-library/react'
-/* eslint-enable import/export */
 export { default as userEvent } from '@testing-library/user-event'
 
 // override methods
-/* eslint-disable import/export */
 export { render }
-/* eslint-enable import/export */
 export * from './utils'
 
 export const getPropertyValue = (element: Element, property: string) => {

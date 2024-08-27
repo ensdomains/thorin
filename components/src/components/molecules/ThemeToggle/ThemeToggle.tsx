@@ -6,6 +6,7 @@ import * as styles from './styles.css'
 import { Color, getValidatedColor } from './utils/getValidatedColor'
 import { MoonSVG, SunSVG } from '../..'
 import { getValueForSize } from './utils/getValueForSize'
+import { icon } from './styles.css'
 
 export type Size = 'extraSmall' | 'small' | 'medium'
 
@@ -30,7 +31,7 @@ const Label = ({
   $size,
   $mode,
   ...props
-}: BoxProps & { $size: Size; $mode: Mode }) => (
+}: BoxProps & { $size: Size, $mode: Mode }) => (
   <Box
     {...props}
     alignItems="center"
@@ -76,7 +77,7 @@ const Slider = ({
   $size,
   $color,
   ...props
-}: BoxProps & { $size: Size; $color: Color }) => (
+}: BoxProps & { $size: Size, $color: Color }) => (
   <Box
     {...props}
     backgroundColor={getValidatedColor($color)}
@@ -114,7 +115,7 @@ export const ThemeToggle = React.forwardRef<HTMLInputElement, Props>(
           htmlFor={id}
           id="dark"
         >
-          <MoonSVG />
+          <MoonSVG className={icon} />
         </Label>
         <Label
           $mode="light"
@@ -123,7 +124,7 @@ export const ThemeToggle = React.forwardRef<HTMLInputElement, Props>(
           htmlFor={id}
           id="light"
         >
-          <SunSVG />
+          <SunSVG className={icon} />
         </Label>
       </Container>
     )

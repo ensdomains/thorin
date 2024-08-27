@@ -12,25 +12,25 @@ const PaletteCell = ({
   onClick: () => void
 }) => {
   return (
-    <Box flex="1" display={'flex'} flexDirection={'column'} gap="$2">
+    <Box flex="1" display="flex" flexDirection="column" gap="$2">
       <Typography
         fontVariant="bodyBold"
         px="$2"
-        textTransform={'lowercase'}
-        overflow={'hidden'}
+        textTransform="lowercase"
+        overflow="hidden"
         ellipsis
       >
         {name}
       </Typography>
       <Box
-        width={'$full'}
-        height={'$24'}
+        width="$full"
+        height="$24"
         backgroundColor={rawColorToRGB(color)}
-        borderRadius={'$large'}
+        borderRadius="$large"
         border="1px solid"
-        borderColor={'$border'}
+        borderColor="$border"
         transform={{ base: 'scale(1)', hover: 'scale(1.05)' }}
-        transition={'transform 0.15s ease-in-out'}
+        transition="transform 0.15s ease-in-out"
         onClick={onClick}
       />
     </Box>
@@ -60,9 +60,9 @@ export const PaletteRow = ({
   return (
     <>
       <Box
-        width={'$full'}
-        height={'$max'}
-        display={'flex'}
+        width="$full"
+        height="$max"
+        display="flex"
         gap={{ base: '$4', sm: '$6' }}
       >
         {shades.map(([shade, rawColor]) => (
@@ -75,8 +75,7 @@ export const PaletteRow = ({
                 color: color,
                 shades: shades,
                 selectedShade: shade,
-              })
-            }
+              })}
           />
         ))}
       </Box>

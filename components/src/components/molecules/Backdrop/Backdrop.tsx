@@ -82,22 +82,23 @@ export const Backdrop = ({
     return () => {
       toggle(false)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, noBackground])
 
-  return state.status !== 'unmounted' ? (
-    <Portal className={className} renderCallback={renderCallback}>
-      {onDismiss && (
-        <Background
-          $empty={noBackground}
-          $state={state.status}
-          ref={boxRef}
-          onClick={dismissClick}
-        />
-      )}
-      {children({ state })}
-    </Portal>
-  ) : null
+  return state.status !== 'unmounted'
+    ? (
+        <Portal className={className} renderCallback={renderCallback}>
+          {onDismiss && (
+            <Background
+              $empty={noBackground}
+              $state={state.status}
+              ref={boxRef}
+              onClick={dismissClick}
+            />
+          )}
+          {children({ state })}
+        </Portal>
+      )
+    : null
 }
 
 Backdrop.displayName = 'Backdrop'
