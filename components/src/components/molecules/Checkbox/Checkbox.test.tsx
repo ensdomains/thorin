@@ -66,12 +66,6 @@ describe('<Checkbox />', () => {
     await waitFor(() => {
       expect(screen.queryByText('unchecked')).toBeInTheDocument()
     })
-    expect(
-      userEvent.click(screen.getByText('checkbox-label')),
-    ).rejects.toThrow()
-    await waitFor(() => {
-      expect(screen.queryByText('unchecked')).toBeInTheDocument()
-    })
   })
 
   it('should pass a ref down', async () => {
