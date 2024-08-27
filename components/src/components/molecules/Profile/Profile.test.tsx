@@ -43,7 +43,7 @@ describe('<Profile />', () => {
         ensName="nick.eth"
       />,
     )
-    userEvent.click(screen.getByText('nick.eth'))
+    await userEvent.click(screen.getByText('nick.eth'))
     await waitFor(() => {
       expect(screen.queryByText('Disconnect')).toBeVisible()
     })

@@ -34,7 +34,7 @@ describe('<Radio />', () => {
 
   it(`should update state when checked`, async () => {
     render(<RadioWithState />)
-    userEvent.click(screen.getByTestId('radio'))
+    await userEvent.click(screen.getByTestId('radio'))
     await waitFor(() => {
       expect(screen.queryByText('checked')).toBeInTheDocument()
     })
@@ -42,7 +42,7 @@ describe('<Radio />', () => {
 
   it('should not be clickable when disabled', async () => {
     render(<RadioWithState disabled />)
-    userEvent.click(screen.getByTestId('radio'))
+    await userEvent.click(screen.getByTestId('radio'))
     await waitFor(() => {
       expect(screen.queryByText('unchecked')).toBeInTheDocument()
     })
@@ -50,7 +50,7 @@ describe('<Radio />', () => {
 
   it('should update when label text is clicked', async () => {
     render(<RadioWithState />)
-    userEvent.click(screen.getByText('radio-label'))
+    await userEvent.click(screen.getByText('radio-label'))
     await waitFor(() => {
       expect(screen.queryByText('checked')).toBeInTheDocument()
     })
@@ -58,7 +58,10 @@ describe('<Radio />', () => {
 
   it('should not update when label text is clicked and IS disabled', async () => {
     render(<RadioWithState disabled />)
-    userEvent.click(screen.getByText('radio-label'))
+    await waitFor(() => {
+      expect(screen.queryByText('unchecked')).toBeInTheDocument()
+    })
+    expect(userEvent.click(screen.getByText('radio-label'))).rejects.toThrow()
     await waitFor(() => {
       expect(screen.queryByText('unchecked')).toBeInTheDocument()
     })

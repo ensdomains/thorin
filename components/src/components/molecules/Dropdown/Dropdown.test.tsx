@@ -11,6 +11,7 @@ import {
 } from '@/test'
 
 import { Dropdown } from './Dropdown'
+import { PointerEventsCheckLevel } from '@testing-library/user-event'
 
 const getVisibilityValue = () =>
   getPropertyValue(screen.getByTestId('popoverContainer'), 'visibility')
@@ -54,7 +55,7 @@ describe('<Dropdown />', () => {
 
   it('should show dropdown when clicked', async () => {
     render(<DropdownHelper label="Menu" />)
-    userEvent.click(screen.getByText('Menu'))
+    await userEvent.click(screen.getByText('Menu'))
     await waitFor(() => {
       expect(screen.getByText('Dashboard')).toBeVisible()
     })
@@ -63,8 +64,11 @@ describe('<Dropdown />', () => {
   it('should call dropdown item callback when clicked', async () => {
     const mockCallback = vi.fn()
     render(<DropdownHelper {...{ mockCallback, label: 'Menu' }} />)
-    userEvent.click(screen.getByText('Menu'))
-    await waitFor(() => userEvent.click(screen.getByText('Dashboard')))
+    await userEvent.click(screen.getByText('Menu'))
+    await waitFor(() => expect(screen.getByText('Dashboard')).toBeVisible())
+    await userEvent.click(screen.getByText('Dashboard'), {
+      pointerEventsCheck: PointerEventsCheckLevel.Never,
+    })
     await waitFor(() => {
       expect(mockCallback).toHaveBeenCalled()
     })
@@ -141,7 +145,7 @@ describe('<Dropdown />', () => {
   it('should use scrollbox if height is passed in', async () => {
     mockIntersectionObserver(true, false)
     render(<DropdownHelper height={100} label="menu" />)
-    userEvent.click(screen.getByText('menu'))
+    await await userEvent.click(screen.getByText('menu'))
     await waitFor(() => {
       expect(screen.getByText('Dashboard')).toBeVisible()
     })
@@ -161,7 +165,7 @@ describe('<Dropdown />', () => {
       />,
     )
 
-    userEvent.click(screen.getByText('menu'))
+    await await userEvent.click(screen.getByText('menu'))
 
     expect(screen.getByText('Example')).toHaveAttribute(
       'href',

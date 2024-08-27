@@ -7,7 +7,9 @@ import { BackdropSurface } from '../../atoms/BackdropSurface'
 
 type Props = {
   /** A function that renders the children nodes */
-  children: (renderProps: { state: TransitionState }) => React.ReactNode
+  children: (renderProps: {
+    state: TransitionState['status']
+  }) => React.ReactNode
   /** An element that provides backdrop styling. Defaults to BackdropSurface component. */
   surface?: React.ElementType
   /** A event fired when the background is clicked. */
@@ -30,7 +32,7 @@ export const Backdrop = ({
   open,
   renderCallback,
 }: Props) => {
-  const [state, toggle] = useTransition({
+  const [{ status: state }, toggle] = useTransition({
     timeout: {
       enter: 50,
       exit: 300,
@@ -78,6 +80,21 @@ export const Backdrop = ({
           modifyBackdrops(-1)
         }
       }
+      modifyBackdrops(1)
+      return () => {
+        const top = parseFloat(style.top || '0') * -1
+        if (currBackdrops() === 1) {
+          setStyles('', '', '')
+          window.scroll({
+            top,
+          })
+        }
+        modifyBackdrops(-1)
+        toggle(!toggleValue)
+      }
+    }
+    return () => {
+      toggle(!toggleValue)
     }
     return () => {
       toggle(false)

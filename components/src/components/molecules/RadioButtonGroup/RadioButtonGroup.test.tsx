@@ -1,8 +1,6 @@
 import * as React from 'react'
 import { useState } from 'react'
 
-import { act } from 'react-dom/test-utils'
-
 import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 
 import { Props, RadioButtonGroup } from './RadioButtonGroup'
@@ -80,12 +78,8 @@ describe('<RadioButtonGroup />', () => {
     const outside = screen.getByText('outside')
     expect(radio).toBeInTheDocument()
     expect(outside).toBeInTheDocument()
-    act(() => {
-      userEvent.click(radio)
-    })
-    act(() => {
-      userEvent.click(outside)
-    })
+    await userEvent.click(radio)
+    await userEvent.click(outside)
     waitFor(() => {
       expect(mockCallback.mock.results.length).toBe(1)
     })

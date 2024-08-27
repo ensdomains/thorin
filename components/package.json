@@ -38,6 +38,7 @@
     "ver": "pnpm npm version"
   },
   "dependencies": {
+    "@types/jest": "^29.5.12",
     "clsx": "^1.1.1",
     "es-toolkit": "^1.16.0",
     "focus-visible": "^5.2.0",

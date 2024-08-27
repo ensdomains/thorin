@@ -675,7 +675,7 @@ export const Select = React.forwardRef(
       maxInputSize,
     )
 
-    const [state, toggle] = useTransition({
+    const [{ status: state }, toggle] = useTransition({
       timeout: {
         enter: 0,
         exit: 300,

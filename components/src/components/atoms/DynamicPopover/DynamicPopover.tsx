@@ -218,6 +218,17 @@ export const DynamicPopover = ({
 
   const isControlled = isOpen !== undefined
 
+  const [{ status: state }, toggle] = useTransition({
+    preEnter: true,
+    exit: true,
+    mountOnEnter: true,
+    unmountOnExit: true,
+    timeout: {
+      enter: transitionDuration,
+      exit: transitionDuration,
+    },
+  })
+
   const [positionState, setPositionState] = React.useState<{
     top: number
     left: number
@@ -411,22 +422,14 @@ export const DynamicPopover = ({
   ])
 
   React.useEffect(() => {
-    if (isControlled) {
-      toggle(isOpen)
+    const originalIsControlled = isControlled
+    const originalIsOpen = isOpen
+    if (isControlled) toggle(isOpen)
+    return () => {
+      if (originalIsControlled) toggle(!originalIsOpen)
     }
     return () => toggle(false)
   }, [isControlled, isOpen])
-
-  const [state, toggle] = useTransition({
-    preEnter: true,
-    exit: true,
-    mountOnEnter: true,
-    unmountOnExit: true,
-    timeout: {
-      enter: transitionDuration,
-      exit: transitionDuration,
-    },
-  })
 
   const _placement = useIdealPlacement
     ? positionState.idealPlacement
