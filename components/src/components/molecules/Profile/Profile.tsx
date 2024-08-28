@@ -138,7 +138,7 @@ const ProfileInner = ({ size = 'medium', avatar, address, ensName }: Props) => (
 
 type Props = BaseProps
 
-export const Profile = ({
+export const Profile: React.FC<Props> = ({
   size = 'medium',
   avatar,
   dropdownItems,
@@ -147,7 +147,7 @@ export const Profile = ({
   alignDropdown = 'left',
   indicatorColor,
   ...props
-}: Props) => {
+}) => {
   const [isOpen, setIsOpen] = React.useState(false)
 
   if (dropdownItems) {

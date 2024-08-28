@@ -9,7 +9,7 @@ type Props = {
 
 export const Context = React.createContext<boolean | undefined>(undefined)
 
-export const SkeletonGroup = ({ children, loading }: Props) => {
+export const SkeletonGroup: React.FC<Props> = ({ children, loading }) => {
   return <Context.Provider value={loading}>{children}</Context.Provider>
 }
 

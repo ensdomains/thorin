@@ -47,12 +47,12 @@ const IconElement = ({ $alert, ...props }: BoxProps & { $alert: Alert }) => (
   <Box {...props} color={getValueForAlert($alert, 'svg')} wh="$6" />
 )
 
-export const Helper = ({
+export const Helper: React.FC<Props> = ({
   alert = 'info',
   alignment = 'vertical',
   children,
   ...props
-}: Props) => {
+}) => {
   const Icon = alert === 'info' ? InfoCircleSVG : AlertSVG
 
   return (

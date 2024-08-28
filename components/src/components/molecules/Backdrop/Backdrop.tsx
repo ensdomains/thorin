@@ -21,7 +21,7 @@ type Props = {
   renderCallback?: () => void
 }
 
-export const Backdrop = ({
+export const Backdrop: React.FC<Props> = ({
   children,
   surface,
   onDismiss,
@@ -29,7 +29,7 @@ export const Backdrop = ({
   className = 'modal',
   open,
   renderCallback,
-}: Props) => {
+}) => {
   const [state, toggle] = useTransition({
     timeout: {
       enter: 50,

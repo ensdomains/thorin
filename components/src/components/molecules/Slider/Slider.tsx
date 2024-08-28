@@ -56,7 +56,7 @@ const SliderComponent = React.forwardRef<HTMLElement, BoxProps>(
   ),
 )
 
-export const Slider = React.forwardRef(
+export const Slider = React.forwardRef<HTMLInputElement, Props>(
   (
     {
       label,
@@ -81,8 +81,8 @@ export const Slider = React.forwardRef(
       onFocus,
       step = 'any',
       ...nativeProps
-    }: Props,
-    ref: React.Ref<HTMLInputElement>,
+    },
+    ref,
   ) => {
     const defaultRef = React.useRef<HTMLInputElement>(null)
     const inputRef = (ref as React.RefObject<HTMLInputElement>) || defaultRef

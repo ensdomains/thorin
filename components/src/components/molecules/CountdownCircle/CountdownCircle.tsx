@@ -98,7 +98,7 @@ type Props = {
   size?: 'small' | 'large'
 } & Omit<NativeDivProps, 'children' | 'color'>
 
-export const CountdownCircle = React.forwardRef(
+export const CountdownCircle = React.forwardRef<HTMLDivElement, Props>(
   (
     {
       accessibilityLabel,
@@ -109,8 +109,8 @@ export const CountdownCircle = React.forwardRef(
       disabled,
       callback,
       ...props
-    }: Props,
-    ref: React.Ref<HTMLDivElement>,
+    },
+    ref,
   ) => {
     const _startTimestamp = React.useMemo(
       () => Math.ceil((startTimestamp || Date.now()) / 1000),

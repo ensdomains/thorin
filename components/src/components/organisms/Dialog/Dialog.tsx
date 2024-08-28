@@ -231,16 +231,16 @@ const Heading = ({
 //   )
 // }
 
-const Footer = ({
+const Footer: React.FC<{
+  leading?: React.ReactNode
+  trailing: React.ReactNode
+} & StepProps> = ({
   leading,
   trailing,
   currentStep,
   stepCount,
   stepStatus,
-}: {
-  leading?: React.ReactNode
-  trailing: React.ReactNode
-} & StepProps) => {
+}) => {
   const calcStepType = React.useCallback(
     (step: number) => {
       if (step === currentStep) {

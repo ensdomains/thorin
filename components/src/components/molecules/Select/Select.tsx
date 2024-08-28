@@ -508,7 +508,7 @@ const getSize = (
   return size?.[key] || fallback
 }
 
-export const Select = React.forwardRef(
+export const Select = React.forwardRef<HTMLInputElement, SelectProps>(
   (
     {
       description,
@@ -544,8 +544,8 @@ export const Select = React.forwardRef(
       validated,
       showDot = false,
       ...props
-    }: SelectProps,
-    ref: React.Ref<HTMLInputElement>,
+    },
+    ref,
   ) => {
     const defaultRef = React.useRef<HTMLInputElement>(null)
     const inputRef = (ref as React.RefObject<HTMLInputElement>) || defaultRef

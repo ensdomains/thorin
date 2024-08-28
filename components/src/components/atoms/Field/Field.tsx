@@ -267,7 +267,7 @@ const ContainerInnerBox = (props: BoxProps) => (
   />
 )
 
-export const Field = ({
+export const Field: React.FC<Props> = ({
   children,
   description,
   error,
@@ -282,7 +282,7 @@ export const Field = ({
   reverse = false,
   disabled,
   ...props
-}: Props) => {
+}) => {
   const ids = useFieldIds({
     id,
     description: description !== undefined,

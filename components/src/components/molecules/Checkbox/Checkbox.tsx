@@ -106,7 +106,7 @@ const InputBox = React.forwardRef<HTMLElement, BoxProps & { $colorStyle: any }>(
   ),
 )
 
-export const Checkbox = React.forwardRef(
+export const Checkbox = React.forwardRef<HTMLInputElement, Props>(
   (
     {
       description,
@@ -128,8 +128,8 @@ export const Checkbox = React.forwardRef(
       onFocus,
       colorStyle = 'accentPrimary',
       ...props
-    }: Props,
-    ref: React.Ref<HTMLInputElement>,
+    },
+    ref,
   ) => {
     const defaultRef = React.useRef<HTMLInputElement>(null)
     const inputRef = (ref as React.RefObject<HTMLInputElement>) || defaultRef

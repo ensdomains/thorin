@@ -12,10 +12,10 @@ const ThemeContext = React.createContext<ThemeContextValue | null>(null)
 type Props = {
   defaultMode?: Mode
 }
-export const ThemeProvider = ({
+export const ThemeProvider: React.FC<React.PropsWithChildren<Props>> = ({
   defaultMode = 'light',
   children,
-}: React.PropsWithChildren<Props>) => {
+}) => {
   const [mode, setMode] = React.useState<Mode>(defaultMode)
 
   const value = React.useMemo(() => ({ mode, setMode }), [mode])

@@ -16,7 +16,7 @@ type Props = {
   loading?: boolean
 } & NativeDivProps
 
-export const Skeleton = ({ as, children, loading, ...props }: Props) => {
+export const Skeleton: React.FC<Props> = ({ as, children, loading, ...props }) => {
   const groupLoading = React.useContext(Context)
   const active = loading ?? groupLoading
 

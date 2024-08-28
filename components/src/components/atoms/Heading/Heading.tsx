@@ -53,7 +53,7 @@ type Props = {
 } & WithColor &
 Omit<NativeDivAttributes, 'color'>
 
-export const Heading = React.forwardRef(
+export const Heading = React.forwardRef<HTMLDivElement, Props>(
   (
     {
       align,
@@ -65,8 +65,8 @@ export const Heading = React.forwardRef(
       transform,
       color = 'text',
       ...props
-    }: Props,
-    ref: React.ForwardedRef<HTMLDivElement>,
+    },
+    ref,
   ) => (
     <ContainerBox
       {...props}

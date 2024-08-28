@@ -12,12 +12,12 @@ type ContainerProps = {
   $mobileOnly: boolean
 }
 
-const Container = ({
+const Container: React.FC<BoxProps & ContainerProps> = ({
   $state,
   $alignTop,
   $mobileOnly,
   ...props
-}: BoxProps & ContainerProps) => {
+}) => {
   const mobileMode = $alignTop ? 'mobileTop' : 'mobileBottom'
   const desktopMode = $mobileOnly ? mobileMode : 'desktop'
   const entered = $state === 'entered'

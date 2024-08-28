@@ -311,7 +311,7 @@ const InnerContainer = ({
 
 type Props = BaseProps & (WithTypeEmail | WithTypeText | WithTypeDateTimeLocal)
 
-export const Input = React.forwardRef(
+export const Input = React.forwardRef<HTMLInputElement, Props>(
   (
     {
       autoFocus,
@@ -353,8 +353,8 @@ export const Input = React.forwardRef(
       onClickAction,
       size = 'medium',
       ...props
-    }: Props,
-    ref: React.Ref<HTMLInputElement>,
+    },
+    ref,
   ) => {
     const defaultRef = React.useRef<HTMLInputElement>(null)
     const inputRef = (ref as React.RefObject<HTMLInputElement>) || defaultRef

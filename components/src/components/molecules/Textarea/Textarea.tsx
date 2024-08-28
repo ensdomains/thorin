@@ -197,7 +197,7 @@ type Props = Omit<FieldBaseProps, 'inline'> & {
     'children' | 'value' | 'defaultValue' | 'aria-invalid'
 >
 
-export const Textarea = React.forwardRef(
+export const Textarea = React.forwardRef<HTMLTextAreaElement, Props>(
   (
     {
       autoCorrect,
@@ -231,8 +231,8 @@ export const Textarea = React.forwardRef(
       onBlur,
       onFocus,
       ...props
-    }: Props,
-    ref: React.Ref<HTMLTextAreaElement>,
+    },
+    ref,
   ) => {
     const defaultRef = React.useRef<HTMLInputElement>(null)
     const inputRef = (ref as React.RefObject<HTMLTextAreaElement>) || defaultRef

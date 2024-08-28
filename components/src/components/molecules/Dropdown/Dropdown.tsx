@@ -476,7 +476,7 @@ const useClickOutside = (
   }, [dropdownRef, isOpen, setIsOpen, buttonRef, actionSheetRef])
 }
 
-export const Dropdown = ({
+export const Dropdown: React.FC<Props & (PropsWithIsOpen | PropsWithoutIsOpen)> = ({
   children,
   buttonProps,
   // eslint-disable-next-line @eslint-react/no-unstable-default-props
@@ -496,7 +496,7 @@ export const Dropdown = ({
   responsive = true,
   cancelLabel = 'Cancel',
   ...props
-}: Props & (PropsWithIsOpen | PropsWithoutIsOpen)) => {
+}) => {
   const dropdownRef = React.useRef<HTMLDivElement | null>(null)
   const buttonRef = React.useRef<HTMLButtonElement | null>(null)
   const actionSheetRef = React.useRef<HTMLDivElement | null>(null)

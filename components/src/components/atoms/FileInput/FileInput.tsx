@@ -57,7 +57,7 @@ export type Props = {
   'onReset' | 'onChange' | 'onError' | 'defaultValue' | 'children' | 'type'
 >
 
-export const FileInput = React.forwardRef(
+export const FileInput = React.forwardRef<HTMLDivElement, Props>(
   (
     {
       accept,
@@ -77,8 +77,8 @@ export const FileInput = React.forwardRef(
       onFocus,
       onReset,
       ...props
-    }: Props,
-    ref: React.Ref<HTMLDivElement>,
+    },
+    ref,
   ) => {
     const defaultRef = React.useRef<HTMLInputElement>(null)
     const inputRef = (ref as React.RefObject<HTMLInputElement>) || defaultRef

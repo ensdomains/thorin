@@ -63,7 +63,7 @@ export type Props = {
     }
 } & Omit<NativeFieldSetProps, 'children'>
 
-export const FieldSet = ({
+export const FieldSet: React.FC<Props> = ({
   children,
   description,
   disabled,
@@ -72,7 +72,7 @@ export const FieldSet = ({
   name,
   status,
   ...props
-}: Props) => {
+}) => {
   let statusText: string | undefined
   let statusTone: TagProps['colorStyle']
   switch (status) {

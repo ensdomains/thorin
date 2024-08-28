@@ -76,7 +76,7 @@ const Dots = (props: BoxProps) => (
   />
 )
 
-export const PageButtons = ({
+export const PageButtons: React.FC<Props> = ({
   total,
   current,
   max = 5,
@@ -86,7 +86,7 @@ export const PageButtons = ({
   showEllipsis = true,
   onChange,
   ...props
-}: Props) => {
+}) => {
   const maxPerSide = Math.floor(max / 2)
   const start = Math.max(
     Math.min(Math.max(current - maxPerSide, 1), total - max + 1),

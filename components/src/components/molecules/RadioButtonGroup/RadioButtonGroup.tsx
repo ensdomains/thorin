@@ -38,7 +38,7 @@ export type Props = {
   onBlur?: NativeInputProps['onBlur']
 } & Omit<NativeDivProps, 'onFocus' | 'onChange' | 'onBlur'>
 
-export const RadioButtonGroup = React.forwardRef(
+export const RadioButtonGroup = React.forwardRef<HTMLDivElement, Props>(
   (
     {
       value: _value,
@@ -47,8 +47,8 @@ export const RadioButtonGroup = React.forwardRef(
       onChange,
       onBlur,
       ...props
-    }: Props,
-    ref: React.Ref<HTMLDivElement>,
+    },
+    ref,
   ) => {
     const defaultRef = React.useRef<HTMLDivElement>(null)
     const rootRef = (ref as React.RefObject<HTMLDivElement>) || defaultRef

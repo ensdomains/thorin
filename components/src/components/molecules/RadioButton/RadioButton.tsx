@@ -97,7 +97,7 @@ const Input = React.forwardRef<HTMLElement, BoxProps & { $color: Color }>(
   ),
 )
 
-export const RadioButton = React.forwardRef(
+export const RadioButton = React.forwardRef<HTMLInputElement, Props>(
   (
     {
       description,
@@ -119,8 +119,8 @@ export const RadioButton = React.forwardRef(
       onChange,
       onFocus,
       ...props
-    }: Props,
-    ref: React.Ref<HTMLInputElement>,
+    },
+    ref,
   ) => {
     const defaultRef = React.useRef<HTMLInputElement>(null)
     const inputRef = (ref as React.RefObject<HTMLInputElement>) || defaultRef

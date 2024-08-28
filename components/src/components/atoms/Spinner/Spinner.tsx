@@ -50,10 +50,10 @@ const svg = (
   </svg>
 )
 
-export const Spinner = React.forwardRef(
+export const Spinner = React.forwardRef<HTMLElement, Props>(
   (
-    { accessibilityLabel, size = 'small', color, ...props }: Props,
-    ref: React.Ref<HTMLElement>,
+    { accessibilityLabel, size = 'small', color, ...props },
+    ref,
   ) => {
     return (
       <ContainerBox

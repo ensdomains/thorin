@@ -308,13 +308,13 @@ InternalProps & {
   )
 }
 
-export const Toast = ({
+export const Toast: React.FC<Props> = ({
   onClose,
   open,
   msToShow = 8000,
   variant = 'desktop',
   ...props
-}: Props) => {
+}) => {
   const [popped, setPopped] = React.useState(false)
   const currentTimeout = React.useRef<number | undefined>()
 

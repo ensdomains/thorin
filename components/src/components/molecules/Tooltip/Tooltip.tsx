@@ -136,14 +136,14 @@ export interface TooltipProps
   children: React.ReactElement
 }
 
-export const Tooltip = ({
+export const Tooltip: React.FC<TooltipProps> = ({
   content,
   background = 'background',
   placement = 'top',
   mobilePlacement = 'top',
   children,
   ...props
-}: TooltipProps) => {
+}) => {
   // Setup anchor element
   const anchorRef = React.useRef<HTMLDivElement>(null)
   const child = React.Children.only(children)
