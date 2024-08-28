@@ -178,16 +178,18 @@ const MenuButton = React.forwardRef<HTMLElement, BoxProps & MenuButtonProps>(
       transitionTimingFunction="$ease-in-out"
       width="$full"
     >
-      {$icon && (
-        <Box
-          as={$icon}
-          color={$color ? `$${$color}` : '$textPrimary'}
-          flexBasis="$4"
-          flexGrow="0"
-          flexShrink="0"
-          wh="$4"
-        />
-      )}
+      {$icon
+        ? (
+            <Box
+              as={$icon}
+              color={$color ? `$${$color}` : '$textPrimary'}
+              flexBasis="$4"
+              flexGrow="0"
+              flexShrink="0"
+              wh="$4"
+            />
+          )
+        : null}
       {children}
       {$showIndicator && (
         <Box
@@ -273,12 +275,7 @@ const DropdownMenu = React.forwardRef<HTMLDivElement, DropdownMenuProps>(
           setIsOpen(false)
         },
         as: href ? 'a' : 'button',
-        children: (
-          <>
-            {icon}
-            {label}
-          </>
-        ),
+        children: label,
         href,
       } as const
 

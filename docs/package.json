@@ -18,7 +18,7 @@
     "eslint-config-next": "^13.5.6",
     "gray-matter": "^4.0.3",
     "lodash": "^4.17.21",
-    "next": "14.2.5",
+    "next": "14.2.7",
     "next-mdx-remote": "^3.0.6",
     "nookies": "^2.5.2",
     "prism-react-renderer": "^1.2.1",
