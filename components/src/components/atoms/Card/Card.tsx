@@ -25,7 +25,7 @@ const ContainerBox = (props: BoxProps) => (
   />
 )
 
-const Divider = (props: BoxProps) => (
+export const CardDivider = (props: BoxProps) => (
   <Box
     backgroundColor="$border"
     height="$px"
@@ -35,7 +35,7 @@ const Divider = (props: BoxProps) => (
   />
 )
 
-export const Card = ({ title, children, ...props }: Props) => {
+export const Card: React.FC<Props> = ({ title, children, ...props }) => {
   return (
     <ContainerBox {...removeNullishProps(props)}>
       {title && <Typography fontVariant="headingFour">{title}</Typography>}
@@ -45,4 +45,3 @@ export const Card = ({ title, children, ...props }: Props) => {
 }
 
 Card.displayName = 'Card'
-Card.Divider = Divider
