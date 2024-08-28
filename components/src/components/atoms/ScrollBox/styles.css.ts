@@ -27,7 +27,7 @@ export const scrollBox = style({
     '&::-webkit-scrollbar-thumb': {
       transition: 'box-shadow 0.15s ease-in-out',
       boxShadow: `inset 0 0 ${commonVars.space['3']} ${commonVars.space['3']} ${modeVars.color.greyLight}`,
-      border: 'solid $1 transparent',
+      border: `solid ${commonVars.space['1']} transparent`,
       borderRadius: commonVars.space['3'],
       backgroundColor: 'transparent',
     },

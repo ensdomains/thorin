@@ -64,13 +64,13 @@ describe('<ScrollBox />', () => {
     mockIntersectionObserver(true, false)
     render(<Component />)
   })
-  it.skip('should only show top line when intersecting with bottom', () => {
+  it('should only show top line when intersecting with bottom', () => {
     mockIntersectionObserver(false, true)
     render(<Component />)
     expectLine('top', true)
     expectLine('bottom', false)
   })
-  it.skip('should show both lines neither intersecting', () => {
+  it('should show both lines neither intersecting', () => {
     mockIntersectionObserver(false, false)
     render(<Component />)
     expectLine('top', true)
@@ -116,7 +116,7 @@ describe('<ScrollBox />', () => {
     expectLine('top', false)
     expectLine('bottom', false)
   })
-  it.skip('should fire callback on intersection', () => {
+  it('should fire callback on intersection', () => {
     mockIntersectionObserver(true, false)
     const onReachedTop = vi.fn()
     render(<Component onReachedTop={onReachedTop} />)

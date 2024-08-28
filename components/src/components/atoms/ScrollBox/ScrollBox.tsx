@@ -167,6 +167,7 @@ export const ScrollBox = ({
               }
             : {}
         }
+        ref={ref}
       >
         <Box
           data-testid="scrollbox-top-intersect"
