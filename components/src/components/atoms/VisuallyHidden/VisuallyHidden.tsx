@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { Box, BoxProps } from '../Box/Box'
 
-export const VisuallyHidden = (props: BoxProps) => (
+export const VisuallyHidden: React.FC<BoxProps> = props => (
   <Box
     as="div"
     borderWidth="$0"

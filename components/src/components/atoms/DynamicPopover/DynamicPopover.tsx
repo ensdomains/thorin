@@ -198,7 +198,7 @@ const PopoverBox = React.forwardRef<HTMLElement, BoxProps & PopoverBoxProps>(
   ),
 )
 
-export const DynamicPopover = ({
+export const DynamicPopover: React.FC<DynamicPopoverProps> = ({
   popover,
   placement = 'top',
   mobilePlacement = 'top',
@@ -213,7 +213,7 @@ export const DynamicPopover = ({
   isOpen,
   align = 'center',
   hideOverflow,
-}: DynamicPopoverProps) => {
+}) => {
   const popoverContainerRef = React.useRef<HTMLDivElement>()
 
   const isControlled = isOpen !== undefined

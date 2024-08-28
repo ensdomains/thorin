@@ -74,7 +74,7 @@ export type Props = {
   size?: BoxProps['wh']
 } & Omit<NativeImgAttributes, 'alt' | 'onError' | 'children' | 'onError'>
 
-export const Avatar = ({
+export const Avatar: React.FC<Props> = ({
   label,
   shape = 'circle',
   src,
@@ -85,7 +85,7 @@ export const Avatar = ({
   checked,
   size,
   ...props
-}: Props) => {
+}) => {
   const ref = React.useRef<HTMLImageElement>(null)
   const [showImage, setShowImage] = React.useState(!!src)
 

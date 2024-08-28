@@ -18,14 +18,14 @@ export type Props = {
 } & Omit<BoxProps, 'size'> &
 WithColorStyle
 
-export const Tag = ({
+export const Tag: React.FC<Props> = ({
   as = 'div',
   children,
   hover,
   size = 'small',
   colorStyle = 'accentSecondary',
   ...props
-}: Props) => {
+}) => {
   return (
     <Box
       alignItems="center"
