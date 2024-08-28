@@ -5,7 +5,7 @@ import { Portal } from '../Portal'
 import { Box, BoxProps } from '../Box/Box'
 import { getValueForTransitionState } from './utils/getValueForTransitionState'
 import { container } from './style.css'
-import { debounceWithWait } from './utils/debounce'
+import { debounce } from '../../../utils/debounce'
 
 export type DynamicPopoverSide = 'top' | 'right' | 'bottom' | 'left'
 
@@ -362,7 +362,7 @@ export const DynamicPopover: React.FC<DynamicPopoverProps> = ({
         onShowCallback?.()
       }
 
-      const debouncedMouseMove = debounceWithWait(
+      const debouncedMouseMove = debounce(
         (e: MouseEvent) => {
           const cursorXY = { x: e.clientX, y: e.clientY }
           const targetRect = targetElement?.getBoundingClientRect()
@@ -380,7 +380,7 @@ export const DynamicPopover: React.FC<DynamicPopoverProps> = ({
           document.removeEventListener('mousemove', handleMouseMove)
         },
         100,
-        1000,
+        { maxWait: 1000 },
       )
 
       handleMouseMove = (e: MouseEvent) => {

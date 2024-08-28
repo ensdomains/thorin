@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { P, match } from 'ts-pattern'
-import { debounce } from 'es-toolkit'
 
 import { TransitionState } from 'react-transition-state'
 
@@ -15,6 +14,7 @@ import { DownChevronSVG, DynamicPopover, ScrollBox } from '../..'
 import { ActionSheet } from './ActionSheet'
 import { Box, BoxProps } from '../../atoms/Box/Box'
 import { PopoverProps } from '../../atoms/DynamicPopover'
+import { debounce } from '@/src/utils/debounce'
 
 type Align = 'left' | 'right'
 type LabelAlign = 'flex-start' | 'flex-end' | 'center'
