@@ -7,10 +7,10 @@ type Props = {
   loading?: boolean
 }
 
-export const Context = React.createContext<boolean | undefined>(undefined)
+export const SkeletonGroupContext = React.createContext<boolean | undefined>(undefined)
 
 export const SkeletonGroup: React.FC<Props> = ({ children, loading }) => {
-  return <Context.Provider value={loading}>{children}</Context.Provider>
+  return <SkeletonGroupContext.Provider value={loading}>{children}</SkeletonGroupContext.Provider>
 }
 
 SkeletonGroup.displayName = 'SkeletonGroup'

@@ -23,7 +23,7 @@ const Container = React.forwardRef<
 
 type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 type NativeInputProps = React.InputHTMLAttributes<HTMLInputElement>
-export type Props = {
+export type RadioButtonGroupProps = {
   /** Display the radio buttons in a row */
   inline?: boolean
   /** The children of the component that conform to the basic input attributes  */
@@ -38,7 +38,7 @@ export type Props = {
   onBlur?: NativeInputProps['onBlur']
 } & Omit<NativeDivProps, 'onFocus' | 'onChange' | 'onBlur'>
 
-export const RadioButtonGroup = React.forwardRef<HTMLDivElement, Props>(
+export const RadioButtonGroup = React.forwardRef<HTMLDivElement, RadioButtonGroupProps>(
   (
     {
       value: _value,

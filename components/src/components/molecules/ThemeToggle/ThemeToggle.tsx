@@ -12,7 +12,7 @@ export type Size = 'extraSmall' | 'small' | 'medium'
 
 export type Mode = 'light' | 'dark'
 
-export type Props = {
+export type ThemeToggleProps = {
   size?: Size
   color?: Color
   mode?: Mode
@@ -93,7 +93,7 @@ const Slider = ({
   />
 )
 
-export const ThemeToggle = React.forwardRef<HTMLInputElement, Props>(
+export const ThemeToggle = React.forwardRef<HTMLInputElement, ThemeToggleProps>(
   ({ size = 'medium', color = 'accent', disabled, ...props }, ref) => {
     const id = useId()
     return (

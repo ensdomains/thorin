@@ -7,7 +7,7 @@ import { Color, getValidatedColor } from './utils/getValidatedColor'
 
 export type Size = 'small' | 'medium' | 'large'
 
-export type Props = {
+export type ToggleProps = {
   size?: Size
   color?: Color
 } & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type' | 'size'>
@@ -38,7 +38,7 @@ const CheckBox = React.forwardRef<
   />
 ))
 
-export const Toggle = React.forwardRef<HTMLInputElement, Props>(
+export const Toggle = React.forwardRef<HTMLInputElement, ToggleProps>(
   ({ size = 'medium', color = 'accent', ...props }, ref) => {
     return (
       <CheckBox

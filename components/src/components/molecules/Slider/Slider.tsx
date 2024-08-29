@@ -6,7 +6,7 @@ import { Box, BoxProps } from '../../atoms/Box/Box'
 
 type NativeInputProps = React.InputHTMLAttributes<HTMLInputElement>
 
-export type Props = FieldBaseProps & {
+export type SliderProps = FieldBaseProps & {
   /** The initial value. Useful for detecting changes in value. */
   defaultValue?: string | number
   /** If true, prevents user interaction. */
@@ -56,7 +56,7 @@ const SliderComponent = React.forwardRef<HTMLElement, BoxProps>(
   ),
 )
 
-export const Slider = React.forwardRef<HTMLInputElement, Props>(
+export const Slider = React.forwardRef<HTMLInputElement, SliderProps>(
   (
     {
       label,

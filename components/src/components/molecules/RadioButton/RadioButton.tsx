@@ -12,7 +12,7 @@ import { Color, getValidatedColor } from './utils/getValidatedColor'
 
 type NativeInputProps = React.InputHTMLAttributes<HTMLInputElement>
 
-type Props = {
+export type RadioButtonProps = {
   /** A string or component that represents the input item. */
   label: React.ReactNode
   /** The name attribute for input elements. */
@@ -97,7 +97,7 @@ const Input = React.forwardRef<HTMLElement, BoxProps & { $color: Color }>(
   ),
 )
 
-export const RadioButton = React.forwardRef<HTMLInputElement, Props>(
+export const RadioButton = React.forwardRef<HTMLInputElement, RadioButtonProps>(
   (
     {
       description,

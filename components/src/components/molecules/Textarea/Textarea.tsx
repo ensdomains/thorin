@@ -17,7 +17,7 @@ import { FieldBaseProps } from '../../atoms/Field'
 import { Box, BoxProps } from '../../atoms/Box/Box'
 import { getValueForSize } from './utils/getValueForSize'
 
-export type Size = Props['size']
+export type Size = TextareaProps['size']
 
 type ContainerProps = {
   $validated?: boolean
@@ -52,7 +52,7 @@ const Container = ({
 
 type TextAreaProps = {
   $error?: boolean
-  $size: Props['size']
+  $size: TextareaProps['size']
   $hasAction?: boolean
   $alwaysShowAction?: boolean
 }
@@ -145,7 +145,7 @@ const ActionButton = ({
 
 type NativeTextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement>
 
-type Props = Omit<FieldBaseProps, 'inline'> & {
+export type TextareaProps = Omit<FieldBaseProps, 'inline'> & {
   /** If true, the input will automatically correct words it marks as spelling errors. */
   autoCorrect?: NativeTextareaProps['autoCorrect']
   /** If true, the component will attempt to get focus after it is rendered. */
@@ -197,7 +197,7 @@ type Props = Omit<FieldBaseProps, 'inline'> & {
     'children' | 'value' | 'defaultValue' | 'aria-invalid'
 >
 
-export const Textarea = React.forwardRef<HTMLTextAreaElement, Props>(
+export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
   (
     {
       autoCorrect,
