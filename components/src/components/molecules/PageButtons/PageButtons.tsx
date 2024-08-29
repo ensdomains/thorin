@@ -8,7 +8,7 @@ type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 
 export type Size = 'small' | 'medium'
 
-type Props = {
+export type PageButtonsProps = {
   /** Total number of pages */
   total: number
   current: number
@@ -76,7 +76,7 @@ const Dots = (props: BoxProps) => (
   />
 )
 
-export const PageButtons: React.FC<Props> = ({
+export const PageButtons: React.FC<PageButtonsProps> = ({
   total,
   current,
   max = 5,

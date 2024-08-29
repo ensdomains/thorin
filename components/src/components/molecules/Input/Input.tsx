@@ -230,7 +230,7 @@ const ActionButton = ({
   )
 }
 
-type InputProps = {
+type InputComponentProps = {
   $size: Size
   $hasAction: boolean
   $hasIcon: boolean
@@ -238,7 +238,7 @@ type InputProps = {
   $iconWidth?: Space
 }
 
-const InputComponent = React.forwardRef<HTMLElement, BoxProps & InputProps>(
+const InputComponent = React.forwardRef<HTMLElement, BoxProps & InputComponentProps>(
   (
     {
       $size,
@@ -309,9 +309,9 @@ const InnerContainer = ({
   />
 )
 
-type Props = BaseProps & (WithTypeEmail | WithTypeText | WithTypeDateTimeLocal)
+export type InputProps = BaseProps & (WithTypeEmail | WithTypeText | WithTypeDateTimeLocal)
 
-export const Input = React.forwardRef<HTMLInputElement, Props>(
+export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   (
     {
       autoFocus,

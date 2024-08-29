@@ -9,7 +9,7 @@ import { Color, getValidatedColor } from './utils/getValidatedColor'
 
 export type Size = 'extraSmall' | 'small' | 'medium'
 
-export type Props = {
+export type CurrencyToggleProps = {
   size?: Size
   fiat?: string
   color?: Color
@@ -91,7 +91,7 @@ const Slider = ({
   />
 )
 
-export const CurrencyToggle = React.forwardRef<HTMLInputElement, Props>(
+export const CurrencyToggle = React.forwardRef<HTMLInputElement, CurrencyToggleProps>(
   (
     { size = 'medium', color = 'accent', disabled, fiat = 'usd', ...props },
     ref,

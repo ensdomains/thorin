@@ -8,7 +8,7 @@ import { WithColorStyle, getValueForColorStyle } from './utils/withColorStyle'
 
 import { Box, BoxProps } from '../Box/Box'
 
-export type Props = {
+export type TagProps = {
   /** Element type of container */
   as?: 'div' | 'span'
   /** If true, changes colors on hover */
@@ -18,7 +18,7 @@ export type Props = {
 } & Omit<BoxProps, 'size'> &
 WithColorStyle
 
-export const Tag: React.FC<Props> = ({
+export const Tag: React.FC<TagProps> = ({
   as = 'div',
   children,
   hover,

@@ -36,7 +36,7 @@ export type DropdownItem =
   | DropdownItemObject
   | React.ReactElement<React.PropsWithRef<any>>
 
-type Props = {
+export type DropdownProps = {
   /** An optional custom dropdown button */
   children?: React.ReactNode
   /** The props passed to the button for the dropdown */
@@ -473,7 +473,7 @@ const useClickOutside = (
   }, [dropdownRef, isOpen, setIsOpen, buttonRef, actionSheetRef])
 }
 
-export const Dropdown: React.FC<Props & (PropsWithIsOpen | PropsWithoutIsOpen)> = ({
+export const Dropdown: React.FC<DropdownProps & (PropsWithIsOpen | PropsWithoutIsOpen)> = ({
   children,
   buttonProps,
   // eslint-disable-next-line @eslint-react/no-unstable-default-props

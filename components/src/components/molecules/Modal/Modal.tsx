@@ -66,7 +66,7 @@ const Container: React.FC<BoxProps & ContainerProps> = ({
 
 type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 
-type Props = {
+export type ModalProps = {
   children: NativeDivProps['children']
   /** An element providing styling for the backdrop component. Defaults to the BackdropSurface component. */
   backdropSurface?: React.ElementType
@@ -91,7 +91,7 @@ export const Modal = ({
   renderCallback,
   mobileOnly = false,
   ...props
-}: Props) => (
+}: ModalProps) => (
   <Backdrop
     open={open}
     renderCallback={renderCallback}

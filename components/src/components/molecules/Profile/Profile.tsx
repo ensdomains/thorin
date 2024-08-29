@@ -108,7 +108,7 @@ const ProfileInnerContainer = ({
   )
 }
 
-const ProfileInner = ({ size = 'medium', avatar, address, ensName }: Props) => (
+const ProfileInner = ({ size = 'medium', avatar, address, ensName }: ProfileProps) => (
   <>
     <AvatarContainer $size={size}>
       <Avatar
@@ -136,9 +136,9 @@ const ProfileInner = ({ size = 'medium', avatar, address, ensName }: Props) => (
   </>
 )
 
-type Props = BaseProps
+export type ProfileProps = BaseProps
 
-export const Profile: React.FC<Props> = ({
+export const Profile: React.FC<ProfileProps> = ({
   size = 'medium',
   avatar,
   dropdownItems,

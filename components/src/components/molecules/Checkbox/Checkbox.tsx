@@ -16,7 +16,7 @@ import { Box, BoxProps } from '../../atoms/Box/Box'
 
 type NativeInputProps = React.InputHTMLAttributes<HTMLInputElement>
 
-type Props = {
+export type CheckboxProps = {
   /** Label content */
   label: React.ReactNode
   /** The name attribute of input element. */
@@ -106,7 +106,7 @@ const InputBox = React.forwardRef<HTMLElement, BoxProps & { $colorStyle: any }>(
   ),
 )
 
-export const Checkbox = React.forwardRef<HTMLInputElement, Props>(
+export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
   (
     {
       description,

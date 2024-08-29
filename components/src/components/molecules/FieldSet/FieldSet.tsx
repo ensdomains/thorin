@@ -39,7 +39,7 @@ const ChildrenContainer = (props: BoxProps) => (
 
 type NativeFieldSetProps = React.FieldsetHTMLAttributes<HTMLFieldSetElement>
 
-export type Props = {
+export type FieldSetProps = {
   children: ReactNodeNoStrings
   /** Description content */
   description?: string | React.ReactNode
@@ -63,7 +63,7 @@ export type Props = {
     }
 } & Omit<NativeFieldSetProps, 'children'>
 
-export const FieldSet: React.FC<Props> = ({
+export const FieldSet: React.FC<FieldSetProps> = ({
   children,
   description,
   disabled,

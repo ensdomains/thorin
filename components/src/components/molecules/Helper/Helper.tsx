@@ -12,7 +12,7 @@ type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 
 type Alignment = 'horizontal' | 'vertical'
 
-export type Props = NativeDivProps & {
+export type HelperProps = NativeDivProps & {
   alert?: Alert
   alignment?: Alignment
   children: React.ReactNode
@@ -47,7 +47,7 @@ const IconElement = ({ $alert, ...props }: BoxProps & { $alert: Alert }) => (
   <Box {...props} color={getValueForAlert($alert, 'svg')} wh="$6" />
 )
 
-export const Helper: React.FC<Props> = ({
+export const Helper: React.FC<HelperProps> = ({
   alert = 'info',
   alignment = 'vertical',
   children,

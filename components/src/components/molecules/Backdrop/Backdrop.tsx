@@ -1,11 +1,11 @@
 import * as React from 'react'
 import { TransitionState, useTransition } from 'react-transition-state'
 
-import { Portal } from '../..'
+import { Portal } from '../../atoms/Portal'
 
 import { BackdropSurface } from '../../atoms/BackdropSurface'
 
-type Props = {
+export type BackdropProps = {
   /** A function that renders the children nodes */
   children: (renderProps: { state: TransitionState }) => React.ReactNode
   /** An element that provides backdrop styling. Defaults to BackdropSurface component. */
@@ -21,7 +21,7 @@ type Props = {
   renderCallback?: () => void
 }
 
-export const Backdrop: React.FC<Props> = ({
+export const Backdrop: React.FC<BackdropProps> = ({
   children,
   surface,
   onDismiss,

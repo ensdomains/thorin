@@ -12,7 +12,7 @@ import { CheckSVG, Typography } from '../..'
 import { useId } from '../../../hooks/useId'
 import { Box, BoxProps } from '../../atoms/Box/Box'
 
-export type Props = {
+export type CheckboxRowProps = {
   label: string
   subLabel?: string
   colorStyle?: ColorStyle
@@ -106,7 +106,7 @@ const Circle = ({
   </Box>
 )
 
-export const CheckboxRow = React.forwardRef<HTMLInputElement, Props>(
+export const CheckboxRow = React.forwardRef<HTMLInputElement, CheckboxRowProps>(
   ({ label, subLabel, name, colorStyle = 'blue', disabled, ...props }, ref) => {
     const defaultRef = React.useRef<HTMLInputElement>(null)
     const inputRef = ref || defaultRef
