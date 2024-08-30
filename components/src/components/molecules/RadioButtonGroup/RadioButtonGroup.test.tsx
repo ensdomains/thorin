@@ -3,11 +3,11 @@ import { useState } from 'react'
 
 import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 
-import { Props, RadioButtonGroup } from './RadioButtonGroup'
-import { FieldSet, RadioButton } from '@/src/components'
+import { RadioButtonGroupProps, RadioButtonGroup } from './RadioButtonGroup'
+import { FieldSet, RadioButton } from '@/src/components/molecules'
 
 const RadioButtonGroupWithState = (
-  props: Omit<Props, 'onChange' | 'value'>,
+  props: Omit<RadioButtonGroupProps, 'onChange' | 'value'>,
 ) => {
   const [state, setState] = useState<string>('30')
   return (

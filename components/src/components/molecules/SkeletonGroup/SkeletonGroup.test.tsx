@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { cleanup, render, screen } from '@/test'
 
-import { Skeleton } from '../../atoms/Skeleton'
+import { Skeleton } from '../../atoms/Skeleton/Skeleton'
 import { SkeletonGroup } from './SkeletonGroup'
 
 describe('<SkeletonGroup />', () => {

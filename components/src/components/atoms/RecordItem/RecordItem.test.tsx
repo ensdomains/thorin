@@ -5,7 +5,7 @@ import { cleanup, mockFunction, render, screen } from '@/test'
 import { useCopied } from '@/src/hooks/useCopied'
 
 import { RecordItem } from './RecordItem'
-import { FlameSVG } from '../..'
+import { FlameSVG } from '@/src/icons'
 
 vi.mock('@/src/hooks/useCopied')
 
