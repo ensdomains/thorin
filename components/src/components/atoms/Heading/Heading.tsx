@@ -37,7 +37,7 @@ const ContainerBox = React.forwardRef<
 
 type NativeDivAttributes = React.HTMLAttributes<HTMLDivElement>
 
-type Props = {
+export type HeadingProps = {
   /** CSS property of textAlign */
   align?: React.CSSProperties['textAlign']
   /** JSX element to render. */
@@ -53,7 +53,7 @@ type Props = {
 } & WithColor &
 Omit<NativeDivAttributes, 'color'>
 
-export const Heading = React.forwardRef<HTMLDivElement, Props>(
+export const Heading = React.forwardRef<HTMLDivElement, HeadingProps>(
   (
     {
       align,

@@ -3,7 +3,7 @@ import * as React from 'react'
 import type { TransitionState } from 'react-transition-state'
 
 import { backdropSurface } from './styles.css'
-import { Box, BoxProps } from '../Box'
+import { Box, BoxProps } from '../Box/Box'
 
 type Props = { $state: TransitionState['status'], $empty: boolean } & BoxProps
 

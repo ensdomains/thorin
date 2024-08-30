@@ -39,7 +39,7 @@ export type FieldBaseProps = {
   readOnly?: boolean
 }
 
-type Props = FieldBaseProps & {
+export type FieldProps = FieldBaseProps & {
   children: React.ReactElement | ((context: State) => ReactNodeNoStrings)
   /** The id attribute of the label element */
   id?: NativeFormProps['id']
@@ -192,10 +192,10 @@ const DecorativeContent = ({
   inline,
   disabled,
 }: {
-  error: Props['error']
-  description: Props['description']
-  hideLabel: Props['hideLabel']
-  inline: Props['inline']
+  error: FieldProps['error']
+  description: FieldProps['description']
+  hideLabel: FieldProps['hideLabel']
+  inline: FieldProps['inline']
   ids: any
   disabled?: boolean
 }) => {
@@ -267,7 +267,7 @@ const ContainerInnerBox = (props: BoxProps) => (
   />
 )
 
-export const Field: React.FC<Props> = ({
+export const Field: React.FC<FieldProps> = ({
   children,
   description,
   error,

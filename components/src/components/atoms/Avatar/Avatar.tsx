@@ -4,7 +4,7 @@ import { rainbowSprinkles } from '@/src/css/rainbow-spinkles.css'
 
 import { rawColorToRGBA } from '@/src/tokens/color3'
 
-import { Box, type BoxProps } from '../Box'
+import { Box, type BoxProps } from '../Box/Box'
 import { avatar } from './styles.css'
 import { CheckSVG } from '../../../icons/index'
 
