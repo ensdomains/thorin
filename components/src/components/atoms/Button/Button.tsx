@@ -17,7 +17,7 @@ import { Color, getValidatedColor } from './utils/getValidatedColor'
 import { getValueForSize } from './utils/getValueForSize'
 
 import { ReactNodeNoStrings } from '../../../types'
-import { Spinner } from '../Spinner'
+import { Spinner } from '../Spinner/Spinner'
 import { Box, BoxProps } from '../Box/Box'
 
 export type Size = 'small' | 'medium' | 'flexible'

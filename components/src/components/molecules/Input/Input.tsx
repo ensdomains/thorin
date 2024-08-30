@@ -9,7 +9,7 @@ import { scale } from '@/src/css/utils/common'
 import * as styles from './styles.css'
 
 import { CrossCircleSVG, Field } from '../..'
-import { FieldBaseProps } from '../../atoms/Field'
+import { FieldBaseProps } from '../../atoms/Field/Field'
 import { Space } from '../../../tokens/index'
 import { Box, BoxProps } from '../../atoms/Box/Box'
 import { getValueForSize } from './utils/getValueForSize'

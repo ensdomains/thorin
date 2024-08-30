@@ -1,6 +1,6 @@
-import { Props } from './FileInput'
+import type { FileInputProps } from './FileInput'
 
-export const validateAccept = (fileType: string, accept: Props['accept']) => {
+export const validateAccept = (fileType: string, accept: FileInputProps['accept']) => {
   const allowedTypes = accept?.split(', ')
   if (!allowedTypes) return true
   const mime = getMimeType(fileType)

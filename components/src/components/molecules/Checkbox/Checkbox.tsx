@@ -10,7 +10,7 @@ import {
 import * as styles from './styles.css'
 
 import { Field } from '../..'
-import { FieldBaseProps } from '../../atoms/Field'
+import { FieldBaseProps } from '../../atoms/Field/Field'
 import { getTestId } from '../../../utils/utils'
 import { Box, BoxProps } from '../../atoms/Box/Box'
 

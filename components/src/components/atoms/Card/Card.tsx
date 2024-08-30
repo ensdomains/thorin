@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { removeNullishProps } from '@/src/utils/removeNullishProps'
 
-import { Typography } from '../Typography'
+import { Typography } from '../Typography/Typography'
 import { Box, BoxProps } from '../Box/Box'
 
 export type Props = {

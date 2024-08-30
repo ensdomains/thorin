@@ -20,7 +20,7 @@ import * as styles from './styles.css'
 
 import { DownChevronSVG, Field, ScrollBox } from '../..'
 
-import { FieldBaseProps, State as FieldState } from '../../atoms/Field'
+import { FieldBaseProps, State as FieldState } from '../../atoms/Field/Field'
 import { Box, BoxProps } from '../../atoms/Box/Box'
 import { getValueForSize } from './utils/getValueForSize'
 import { getValueForTransitionState } from './utils/getValueForTransitionState'

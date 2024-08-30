@@ -19,7 +19,7 @@ const initialState: Context = {}
 
 type NativeInputProps = React.InputHTMLAttributes<HTMLInputElement>
 
-export type Props = {
+export type FileInputProps = {
   /** The accept attribute of input element */
   accept?: NativeInputProps['accept']
   /** The autoFocus attribute of input element */
@@ -57,7 +57,7 @@ export type Props = {
   'onReset' | 'onChange' | 'onError' | 'defaultValue' | 'children' | 'type'
 >
 
-export const FileInput = React.forwardRef<HTMLDivElement, Props>(
+export const FileInput = React.forwardRef<HTMLDivElement, FileInputProps>(
   (
     {
       accept,

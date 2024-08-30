@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import { WithAlert, getValueForAlert } from './utils/getValueForAlert'
-import { Typography } from '../Typography'
+import { Typography } from '../Typography/Typography'
 
 import { AlertSVG, CrossSVG, EthSVG, UpRightArrowSVG } from '../../../icons/index'
 import { Box, BoxProps } from '../Box/Box'

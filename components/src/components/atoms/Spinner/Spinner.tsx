@@ -8,7 +8,8 @@ import { validateColor, Color } from '@/src/interfaces/withColor'
 
 type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 type Size = 'small' | 'medium' | 'large'
-type Props = {
+
+export type SpinnerProps = {
   /** Hidden text used for accessibilty. */
   accessibilityLabel?: string
   /** A tokens 'mode' color value */
@@ -50,7 +51,7 @@ const svg = (
   </svg>
 )
 
-export const Spinner = React.forwardRef<HTMLElement, Props>(
+export const Spinner = React.forwardRef<HTMLElement, SpinnerProps>(
   (
     { accessibilityLabel, size = 'small', color, ...props },
     ref,

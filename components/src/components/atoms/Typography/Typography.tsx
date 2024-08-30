@@ -43,7 +43,7 @@ const ContainerBox = React.forwardRef<HTMLElement, BoxProps & ContainerProps>(
 
 type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 
-type Props = {
+export type TypographyProps = {
   /** element type of container */
   as?:
     | 'code'
@@ -73,7 +73,7 @@ type Props = {
 WithColor &
 Omit<BoxProps, 'color'> & { fontVariant?: FontVariant }
 
-export const Typography = React.forwardRef<HTMLElement, Props>(
+export const Typography = React.forwardRef<HTMLElement, TypographyProps>(
   (
     {
       as,

@@ -4,7 +4,7 @@ import classNames from 'clsx'
 
 import * as styles from './styles.css'
 
-import { Context } from '../../molecules/SkeletonGroup'
+import { SkeletonGroupContext } from '../../molecules/SkeletonGroup/SkeletonGroup'
 import { Box } from '../Box/Box'
 
 type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
@@ -17,7 +17,7 @@ type Props = {
 } & NativeDivProps
 
 export const Skeleton: React.FC<Props> = ({ as, children, loading, ...props }) => {
-  const groupLoading = React.useContext(Context)
+  const groupLoading = React.useContext(SkeletonGroupContext)
   const active = loading ?? groupLoading
 
   return (
