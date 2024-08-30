@@ -8,9 +8,10 @@ import {
 } from './utils/getValueForColorStyle'
 
 import * as styles from './styles.css'
-import { CheckSVG, Typography } from '../..'
 import { useId } from '../../../hooks/useId'
 import { Box, BoxProps } from '../../atoms/Box/Box'
+import { CheckSVG } from '@/src/icons'
+import { Typography } from '../../atoms'
 
 export type CheckboxRowProps = {
   label: string

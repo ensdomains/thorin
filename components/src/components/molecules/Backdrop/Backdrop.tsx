@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { TransitionState, useTransition } from 'react-transition-state'
 
-import { Portal } from '../../atoms/Portal'
+import { Portal } from '../../atoms/Portal/Portal'
 
 import { BackdropSurface } from '../../atoms/BackdropSurface'
 

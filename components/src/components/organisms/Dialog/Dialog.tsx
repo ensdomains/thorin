@@ -9,10 +9,11 @@ import { FontSize } from '@/src/tokens/typography'
 
 import { DialogContent } from './DialogContent'
 
-import { Modal, Typography } from '../..'
 import { Box, BoxProps } from '../../atoms/Box/Box'
 import { getValueForAlert } from './utils/getValueForAlert'
 import { getValueForStepType } from './utils/getValueForStepType'
+import { Typography } from '../../atoms'
+import { Modal } from '../../molecules'
 
 const CloseButton = (props: BoxProps) => (
   <Box

@@ -8,7 +8,7 @@ import { useDocumentEvent } from '@/src/hooks/useDocumentEvent'
 
 import { Colors, Space } from '@/src/tokens'
 
-import { CrossCircleSVG } from '@/src/icons'
+import { CrossCircleSVG, DownChevronSVG } from '@/src/icons'
 
 import { statusDot } from '@/src/css/recipes/statusDot.css'
 
@@ -18,14 +18,13 @@ import { rotate } from '@/src/css/utils/common'
 
 import * as styles from './styles.css'
 
-import { DownChevronSVG, Field, ScrollBox } from '../..'
-
-import { FieldBaseProps, State as FieldState } from '../../atoms/Field/Field'
+import { Field, FieldBaseProps, State as FieldState } from '../../atoms/Field/Field'
 import { Box, BoxProps } from '../../atoms/Box/Box'
 import { getValueForSize } from './utils/getValueForSize'
 import { getValueForTransitionState } from './utils/getValueForTransitionState'
 import { cssVars } from '@/src/css/theme.css'
 import { uniqueId } from '@/src/utils/uniqueId'
+import { ScrollBox } from '../../atoms'
 
 const CREATE_OPTION_VALUE = 'CREATE_OPTION_VALUE'
 

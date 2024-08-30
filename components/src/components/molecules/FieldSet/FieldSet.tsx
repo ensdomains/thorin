@@ -1,9 +1,9 @@
 import * as React from 'react'
 
 import { ReactNodeNoStrings } from '../../../types'
-import { Heading, Tag } from '../..'
-import { TagProps } from '../../atoms/Tag/Tag'
+import { Tag, TagProps } from '../../atoms/Tag/Tag'
 import { Box, BoxProps } from '../../atoms/Box/Box'
+import { Heading } from '../../atoms'
 
 const Container = (props: BoxProps) => (
   <Box

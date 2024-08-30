@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { RadioButton } from '@/src/components'
+import type { RadioButton } from '@/src/components/molecules'
 
 import { getTestId } from '../../../utils/utils'
 import { createSyntheticEvent } from '../../../utils/createSyntheticEvent'

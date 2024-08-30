@@ -12,10 +12,10 @@ import { translateY } from '@/src/css/utils/common'
 
 import * as styles from './styles.css'
 
-import { CrossCircleSVG, Field } from '../..'
-import { FieldBaseProps } from '../../atoms/Field/Field'
+import { Field, FieldBaseProps } from '../../atoms/Field/Field'
 import { Box, BoxProps } from '../../atoms/Box/Box'
 import { getValueForSize } from './utils/getValueForSize'
+import { CrossCircleSVG } from '@/src/icons'
 
 export type Size = TextareaProps['size']
 

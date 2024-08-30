@@ -2,9 +2,9 @@ import * as React from 'react'
 
 import type { TransitionState } from 'react-transition-state'
 
-import { Backdrop } from '../..'
 import { Box, BoxProps } from '../../atoms/Box/Box'
 import { getValueForMode } from './utils/getValueForMode'
+import { Backdrop } from '../Backdrop/Backdrop'
 
 type ContainerProps = {
   $state: TransitionState['status']

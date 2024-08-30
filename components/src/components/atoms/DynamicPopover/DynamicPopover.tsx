@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { TransitionState, useTransition } from 'react-transition-state'
 
-import { Portal } from '../Portal'
+import { Portal } from '../Portal/Portal'
 import { Box, BoxProps } from '../Box/Box'
 import { getValueForTransitionState } from './utils/getValueForTransitionState'
 import { container } from './style.css'

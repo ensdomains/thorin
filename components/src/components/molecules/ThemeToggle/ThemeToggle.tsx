@@ -4,9 +4,9 @@ import { useId } from '../../../hooks/useId'
 import { Box, BoxProps } from '../../atoms/Box/Box'
 import * as styles from './styles.css'
 import { Color, getValidatedColor } from './utils/getValidatedColor'
-import { MoonSVG, SunSVG } from '../..'
 import { getValueForSize } from './utils/getValueForSize'
 import { icon } from './styles.css'
+import { MoonSVG, SunSVG } from '@/src/icons'
 
 export type Size = 'extraSmall' | 'small' | 'medium'
 

@@ -5,7 +5,9 @@ import { match } from 'ts-pattern'
 
 import { translateY } from '@/src/css/utils/common'
 
-import { Backdrop, CrossSVG, Typography } from '../..'
+import { Typography } from '../../atoms'
+import { Backdrop } from '../../molecules'
+import { CrossSVG } from '@/src/icons'
 import { getTestId } from '../../../utils/utils'
 import { Box, BoxProps } from '../../atoms/Box/Box'
 import { Space } from '@/src/tokens'

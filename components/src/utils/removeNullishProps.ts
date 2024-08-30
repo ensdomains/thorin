@@ -1,4 +1,4 @@
-import { BoxProps } from '../components'
+import { BoxProps } from '../components/atoms/Box/Box'
 
 export const removeNullishProps = (props: BoxProps): object => {
   const keys = Object.keys(props) as (keyof BoxProps)[]

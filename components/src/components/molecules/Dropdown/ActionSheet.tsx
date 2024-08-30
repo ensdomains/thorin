@@ -4,9 +4,10 @@ import { breakpoints } from '@/src/tokens'
 
 import { actionSheeItem } from './styles.css'
 
-import { Button, Modal, Typography } from '../..'
 import type { DropdownItem, DropdownItemObject } from './Dropdown'
 import { Box, BoxProps } from '../../atoms/Box/Box'
+import { Typography, Button } from '../../atoms'
+import { Modal } from '../Modal/Modal'
 
 const ActionSheetContent = React.forwardRef<HTMLElement, BoxProps>(
   (props, ref) => (

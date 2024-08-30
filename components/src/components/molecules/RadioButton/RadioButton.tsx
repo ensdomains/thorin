@@ -4,8 +4,7 @@ import { brightness, translateY } from '@/src/css/utils/common'
 
 import * as styles from './styles.css'
 
-import { Field } from '../..'
-import { FieldBaseProps } from '../../atoms/Field/Field'
+import { Field, FieldBaseProps } from '../../atoms/Field/Field'
 import { getTestId } from '../../../utils/utils'
 import { Box, BoxProps } from '../../atoms/Box/Box'
 import { Color, getValidatedColor } from './utils/getValidatedColor'

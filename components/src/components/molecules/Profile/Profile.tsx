@@ -8,11 +8,11 @@ import { removeNullishProps } from '@/src/utils/removeNullishProps'
 
 import { getTestId, shortenAddress } from '../../../utils/utils'
 
-import { Typography } from '../..'
-import { Avatar, Props as AvatarProps } from '../../atoms/Avatar'
+import { Avatar, AvatarProps } from '../../atoms/Avatar/Avatar'
 import { Dropdown, DropdownItem } from '../Dropdown/Dropdown'
 import { Box, BoxProps } from '../../atoms/Box/Box'
 import { getValueForSize } from './utils/getValueForSize'
+import { Typography } from '../../atoms/Typography/Typography'
 
 export type Size = 'small' | 'medium' | 'large'
 
