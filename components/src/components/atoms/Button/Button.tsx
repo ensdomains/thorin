@@ -6,19 +6,22 @@ import { scale, translateY } from '@/src/css/utils/common'
 
 import { removeNullishProps } from '@/src/utils/removeNullishProps'
 
-import {
+import type {
   ColorStyle,
-  WithColorStyle,
+  WithColorStyle } from './utils/withColorStyle'
+import {
   getValueForColourStyle,
 } from './utils/withColorStyle'
 
-import { Color, getValidatedColor } from './utils/getValidatedColor'
+import type { Color } from './utils/getValidatedColor'
+import { getValidatedColor } from './utils/getValidatedColor'
 
 import { getValueForSize } from './utils/getValueForSize'
 
-import { ReactNodeNoStrings } from '../../../types'
+import type { ReactNodeNoStrings } from '../../../types'
 import { Spinner } from '../Spinner/Spinner'
-import { Box, BoxProps } from '../Box/Box'
+import type { BoxProps } from '../Box/Box'
+import { Box } from '../Box/Box'
 
 export type Size = 'small' | 'medium' | 'flexible'
 

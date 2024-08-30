@@ -2,13 +2,14 @@ import * as React from 'react'
 
 import { P, match } from 'ts-pattern'
 
-import { Space } from '@/src/tokens'
+import type { Space } from '@/src/tokens'
 
-import { ReactNodeNoStrings } from '../../../types'
+import type { ReactNodeNoStrings } from '../../../types'
 import { useFieldIds } from '../../../hooks'
 import { VisuallyHidden } from '../VisuallyHidden'
 import { Typography } from '../Typography/Typography'
-import { Box, BoxProps } from '../Box/Box'
+import type { BoxProps } from '../Box/Box'
+import { Box } from '../Box/Box'
 
 export type State = ReturnType<typeof useFieldIds> | undefined
 const Context = React.createContext<State>(undefined)

@@ -1,8 +1,9 @@
 import React from 'react'
+import type {
+  RawColor } from '@ensdomains/thorin'
 import {
   Box,
   RAW_ADDITIONAL_COLORS,
-  RawColor,
   ScrollBox,
   useTheme,
 } from '@ensdomains/thorin'

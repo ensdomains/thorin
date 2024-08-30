@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { PropItem, PropItemType } from 'react-docgen-typescript'
+import type { PropItem, PropItemType } from 'react-docgen-typescript'
 import GithubSVG from '~/assets/Github.svg'
 
 import {

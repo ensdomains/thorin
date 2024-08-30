@@ -3,7 +3,7 @@ import * as React from 'react'
 
 // import { useIsMounted } from '~/utils/isMounted'
 
-import { Link } from './Link'
+import type { Link } from './Link'
 import { NavBar } from './NavBar'
 import { SideBar } from './SideBar'
 

@@ -2,14 +2,15 @@ import * as React from 'react'
 
 import { AlertSVG, CrossSVG, EthSVG } from '@/src/icons'
 
-import { WithAlert } from '@/src/types'
+import type { WithAlert } from '@/src/types'
 
 import { translateY } from '@/src/css/utils/common'
-import { FontSize } from '@/src/tokens/typography'
+import type { FontSize } from '@/src/tokens/typography'
 
 import { DialogContent } from './DialogContent'
 
-import { Box, BoxProps } from '../../atoms/Box/Box'
+import type { BoxProps } from '../../atoms/Box/Box'
+import { Box } from '../../atoms/Box/Box'
 import { getValueForAlert } from './utils/getValueForAlert'
 import { getValueForStepType } from './utils/getValueForStepType'
 import { Typography } from '../../atoms'

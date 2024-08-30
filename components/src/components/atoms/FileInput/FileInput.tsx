@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { ReactNodeNoStrings } from '../../../types'
+import type { ReactNodeNoStrings } from '../../../types'
 import { useFieldIds } from '../../../hooks'
 import { VisuallyHidden } from '../VisuallyHidden'
 import { validateAccept } from './utils'

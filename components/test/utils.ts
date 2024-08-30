@@ -1,4 +1,4 @@
-import { MockedFunction } from 'vitest'
+import type { MockedFunction } from 'vitest'
 
 type DeepPartial<T> = T extends object
   ? {

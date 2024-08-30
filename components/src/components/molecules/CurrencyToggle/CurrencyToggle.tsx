@@ -1,11 +1,13 @@
 import * as React from 'react'
 
 import { useId } from '../../../hooks/useId'
-import { Box, BoxProps } from '../../atoms/Box/Box'
+import type { BoxProps } from '../../atoms/Box/Box'
+import { Box } from '../../atoms/Box/Box'
 import { getValuesForKnob } from './utils/getValuesForKnob'
 import * as styles from './styles.css'
 import { getValueForCheckbox } from './utils/getValueForCheckBox'
-import { Color, getValidatedColor } from './utils/getValidatedColor'
+import type { Color } from './utils/getValidatedColor'
+import { getValidatedColor } from './utils/getValidatedColor'
 
 export type Size = 'extraSmall' | 'small' | 'medium'
 

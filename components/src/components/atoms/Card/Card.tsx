@@ -3,7 +3,8 @@ import * as React from 'react'
 import { removeNullishProps } from '@/src/utils/removeNullishProps'
 
 import { Typography } from '../Typography/Typography'
-import { Box, BoxProps } from '../Box/Box'
+import type { BoxProps } from '../Box/Box'
+import { Box } from '../Box/Box'
 
 export type CardProps = {
   title?: string

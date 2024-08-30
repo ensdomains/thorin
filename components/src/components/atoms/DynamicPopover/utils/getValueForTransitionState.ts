@@ -1,4 +1,4 @@
-import { TransitionState } from 'react-transition-state'
+import type { TransitionState } from 'react-transition-state'
 
 const transitionStateValues: {
   [key in TransitionState['status']]: {

@@ -1,4 +1,4 @@
-import { Alert } from '@/src/types'
+import type { Alert } from '@/src/types'
 
 type Properties = {
   background: string

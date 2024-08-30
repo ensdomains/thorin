@@ -1,4 +1,4 @@
-import { FontSize } from '@/src/tokens/typography'
+import type { FontSize } from '@/src/tokens/typography'
 
 type LegacyFont = 'label' | 'labelHeading'
 

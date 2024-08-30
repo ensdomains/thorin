@@ -1,6 +1,7 @@
 import * as React from 'react'
 
-import { Box, BoxProps } from '../Box/Box'
+import type { BoxProps } from '../Box/Box'
+import { Box } from '../Box/Box'
 
 export const VisuallyHidden: React.FC<BoxProps> = props => (
   <Box

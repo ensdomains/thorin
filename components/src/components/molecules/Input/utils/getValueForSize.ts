@@ -1,4 +1,4 @@
-import { Size } from '../Input'
+import type { Size } from '../Input'
 
 type Properties = {
   height: string

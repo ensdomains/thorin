@@ -1,7 +1,8 @@
 import { colors } from '@/src/tokens/color'
 
+import type {
+  Color } from './withColorOrColorStyle'
 import {
-  Color,
   colorMap,
   getColor,
   getColorStyle,

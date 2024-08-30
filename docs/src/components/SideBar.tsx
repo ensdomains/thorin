@@ -1,3 +1,5 @@
+import type {
+  BoxProps } from '@ensdomains/thorin'
 import {
   Box,
   Field,
@@ -6,12 +8,11 @@ import {
   BrushSVG,
   GridSVG,
   Typography,
-  BoxProps,
   ScrollBox,
   useTheme,
 } from '@ensdomains/thorin'
 import { Link } from './Link'
-import { PropsWithChildren } from 'react'
+import type { PropsWithChildren } from 'react'
 import { useRouter } from 'next/router'
 
 type Link = { name: string, route: string }

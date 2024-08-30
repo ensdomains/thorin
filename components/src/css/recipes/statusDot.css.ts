@@ -1,4 +1,5 @@
-import { RecipeVariants, recipe } from '@vanilla-extract/recipes'
+import type { RecipeVariants } from '@vanilla-extract/recipes'
+import { recipe } from '@vanilla-extract/recipes'
 
 import { commonVars, modeVars } from '@/src/css/theme.css'
 

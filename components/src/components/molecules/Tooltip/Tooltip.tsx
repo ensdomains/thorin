@@ -1,14 +1,16 @@
 import * as React from 'react'
 
-import {
-  DynamicPopover,
+import type {
   DynamicPopoverProps,
   DynamicPopoverSide,
-  PopoverProps,
+  PopoverProps } from '@/src/components/atoms/DynamicPopover/DynamicPopover'
+import {
+  DynamicPopover,
 } from '@/src/components/atoms/DynamicPopover/DynamicPopover'
-import { Colors } from '@/src/tokens'
+import type { Colors } from '@/src/tokens'
 
-import { Box, BoxProps } from '../../atoms/Box/Box'
+import type { BoxProps } from '../../atoms/Box/Box'
+import { Box } from '../../atoms/Box/Box'
 import { getValueForPlacement } from './utils/getValueForPlacement'
 
 type TooltipPopoverElementProps = {

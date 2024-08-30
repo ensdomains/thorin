@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { TransitionState } from 'react-transition-state'
+import type { TransitionState } from 'react-transition-state'
 
 import { match } from 'ts-pattern'
 
@@ -9,8 +9,9 @@ import { Typography } from '../../atoms'
 import { Backdrop } from '../../molecules'
 import { CrossSVG } from '@/src/icons'
 import { getTestId } from '../../../utils/utils'
-import { Box, BoxProps } from '../../atoms/Box/Box'
-import { Space } from '@/src/tokens'
+import type { BoxProps } from '../../atoms/Box/Box'
+import { Box } from '../../atoms/Box/Box'
+import type { Space } from '@/src/tokens'
 
 const CloseIcon = (props: BoxProps) => (
   <Box

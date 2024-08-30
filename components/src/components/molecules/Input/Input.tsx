@@ -1,6 +1,7 @@
 import * as React from 'react'
 
-import { StatusDot, statusDot } from '@/src/css/recipes/statusDot.css'
+import type { StatusDot } from '@/src/css/recipes/statusDot.css'
+import { statusDot } from '@/src/css/recipes/statusDot.css'
 import { statusBorder } from '@/src/css/recipes/statusBorder.css'
 import { setNativeValue } from '@/src/utils/setNativeValue'
 
@@ -8,9 +9,11 @@ import { scale } from '@/src/css/utils/common'
 
 import * as styles from './styles.css'
 
-import { Field, FieldBaseProps } from '../../atoms/Field/Field'
-import { Space } from '../../../tokens/index'
-import { Box, BoxProps } from '../../atoms/Box/Box'
+import type { FieldBaseProps } from '../../atoms/Field/Field'
+import { Field } from '../../atoms/Field/Field'
+import type { Space } from '../../../tokens/index'
+import type { BoxProps } from '../../atoms/Box/Box'
+import { Box } from '../../atoms/Box/Box'
 import { getValueForSize } from './utils/getValueForSize'
 import { CrossCircleSVG } from '@/src/icons'
 

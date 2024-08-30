@@ -1,4 +1,4 @@
-import { MDXProviderProps } from '@mdx-js/react'
+import type { MDXProviderProps } from '@mdx-js/react'
 import slugify from '@sindresorhus/slugify'
 
 import { Typography, tokens, Box, LinkSVG } from '@ensdomains/thorin'

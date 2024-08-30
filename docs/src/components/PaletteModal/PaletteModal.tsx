@@ -1,9 +1,11 @@
-import React, { ComponentProps } from 'react'
+import type { ComponentProps } from 'react'
+import React from 'react'
+import type {
+  RawColor } from '@ensdomains/thorin'
 import {
   Box,
   Button,
   Dialog,
-  RawColor,
   RecordItem,
   rawColorToHSL,
   rawColorToHex,

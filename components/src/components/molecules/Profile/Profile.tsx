@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { Colors } from '@/src/tokens'
+import type { Colors } from '@/src/tokens'
 
 import { brightness, translateY } from '@/src/css/utils/common'
 
@@ -8,9 +8,12 @@ import { removeNullishProps } from '@/src/utils/removeNullishProps'
 
 import { getTestId, shortenAddress } from '../../../utils/utils'
 
-import { Avatar, AvatarProps } from '../../atoms/Avatar/Avatar'
-import { Dropdown, DropdownItem } from '../Dropdown/Dropdown'
-import { Box, BoxProps } from '../../atoms/Box/Box'
+import type { AvatarProps } from '../../atoms/Avatar/Avatar'
+import { Avatar } from '../../atoms/Avatar/Avatar'
+import type { DropdownItem } from '../Dropdown/Dropdown'
+import { Dropdown } from '../Dropdown/Dropdown'
+import type { BoxProps } from '../../atoms/Box/Box'
+import { Box } from '../../atoms/Box/Box'
 import { getValueForSize } from './utils/getValueForSize'
 import { Typography } from '../../atoms/Typography/Typography'
 

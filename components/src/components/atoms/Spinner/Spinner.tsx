@@ -2,9 +2,11 @@ import * as React from 'react'
 
 import { VisuallyHidden } from '../VisuallyHidden'
 import * as styles from './styles.css'
-import { Box, BoxProps } from '../Box/Box'
+import type { BoxProps } from '../Box/Box'
+import { Box } from '../Box/Box'
 import { getValueForSize } from './utils/getValueForSize'
-import { validateColor, Color } from '@/src/interfaces/withColor'
+import type { Color } from '@/src/interfaces/withColor'
+import { validateColor } from '@/src/interfaces/withColor'
 
 type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 type Size = 'small' | 'medium' | 'large'

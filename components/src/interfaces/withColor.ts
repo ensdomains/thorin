@@ -1,10 +1,11 @@
+import type {
+  AdditionalColor,
+  PaletteColor,
+  PrimaryColor } from '@/src/tokens/color3'
 import {
   ADDITIONAL_COLORS,
-  AdditionalColor,
   PALETTE_COLORS,
   PRIMARY_COLORS,
-  PaletteColor,
-  PrimaryColor,
 } from '@/src/tokens/color3'
 
 export type Color = PrimaryColor | PaletteColor | AdditionalColor

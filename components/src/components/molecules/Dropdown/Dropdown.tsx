@@ -1,18 +1,22 @@
 import * as React from 'react'
 import { P, match } from 'ts-pattern'
 
-import { TransitionState } from 'react-transition-state'
+import type { TransitionState } from 'react-transition-state'
 
-import { Button, ButtonProps } from '@/src/components/atoms/Button/Button'
-import { Colors, breakpoints } from '@/src/tokens'
+import type { ButtonProps } from '@/src/components/atoms/Button/Button'
+import { Button } from '@/src/components/atoms/Button/Button'
+import type { Colors } from '@/src/tokens'
+import { breakpoints } from '@/src/tokens'
 
 import { commonVars, modeVars } from '@/src/css/theme.css'
 
-import { Color } from '@/src/interfaces/withColor'
+import type { Color } from '@/src/interfaces/withColor'
 
 import { ActionSheet } from './ActionSheet'
-import { Box, BoxProps } from '../../atoms/Box/Box'
-import { DynamicPopover, PopoverProps } from '../../atoms/DynamicPopover/DynamicPopover'
+import type { BoxProps } from '../../atoms/Box/Box'
+import { Box } from '../../atoms/Box/Box'
+import type { PopoverProps } from '../../atoms/DynamicPopover/DynamicPopover'
+import { DynamicPopover } from '../../atoms/DynamicPopover/DynamicPopover'
 import { debounce } from '@/src/utils/debounce'
 import { DownChevronSVG } from '@/src/icons'
 import { ScrollBox } from '../../atoms/ScrollBox/ScrollBox'

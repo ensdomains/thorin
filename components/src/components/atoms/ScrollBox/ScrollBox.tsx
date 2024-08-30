@@ -3,10 +3,11 @@ import * as React from 'react'
 
 import { commonVars } from '@/src/css/theme.css'
 
-import { Space } from '@/src/tokens'
+import type { Space } from '@/src/tokens'
 
 import * as styles from './styles.css'
-import { Box, BoxProps } from '../Box/Box'
+import type { BoxProps } from '../Box/Box'
+import { Box } from '../Box/Box'
 import clsx from 'clsx'
 
 const ScrollBoxBox = React.forwardRef<HTMLElement, BoxProps>((props, ref) => (

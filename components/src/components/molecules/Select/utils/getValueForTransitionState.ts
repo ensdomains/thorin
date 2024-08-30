@@ -1,8 +1,8 @@
-import { TransitionState } from 'react-transition-state'
+import type { TransitionState } from 'react-transition-state'
 
-import { Sprinkles } from '@/src/css/rainbow-spinkles.css'
+import type { Sprinkles } from '@/src/css/rainbow-spinkles.css'
 
-import { Direction } from '../Select'
+import type { Direction } from '../Select'
 
 type Properties = {
   zIndex: string

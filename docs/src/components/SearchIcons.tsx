@@ -1,12 +1,13 @@
 import * as React from 'react'
 
+import type {
+  BoxProps } from '@ensdomains/thorin'
 import {
   Card,
   Input,
   MagnifyingGlassSimpleSVG,
   Typography,
   Box,
-  BoxProps,
 } from '@ensdomains/thorin'
 import * as Components from '@ensdomains/thorin'
 

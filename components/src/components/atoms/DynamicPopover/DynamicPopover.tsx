@@ -1,8 +1,10 @@
 import * as React from 'react'
-import { TransitionState, useTransition } from 'react-transition-state'
+import type { TransitionState } from 'react-transition-state'
+import { useTransition } from 'react-transition-state'
 
 import { Portal } from '../Portal/Portal'
-import { Box, BoxProps } from '../Box/Box'
+import type { BoxProps } from '../Box/Box'
+import { Box } from '../Box/Box'
 import { getValueForTransitionState } from './utils/getValueForTransitionState'
 import { container } from './style.css'
 import { debounce } from '../../../utils/debounce'

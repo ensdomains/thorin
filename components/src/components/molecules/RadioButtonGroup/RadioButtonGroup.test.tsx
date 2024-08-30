@@ -3,7 +3,8 @@ import { useState } from 'react'
 
 import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 
-import { RadioButtonGroupProps, RadioButtonGroup } from './RadioButtonGroup'
+import type { RadioButtonGroupProps } from './RadioButtonGroup'
+import { RadioButtonGroup } from './RadioButtonGroup'
 import { FieldSet, RadioButton } from '@/src/components/molecules'
 
 const RadioButtonGroupWithState = (

@@ -1,17 +1,19 @@
 import * as React from 'react'
-import { GetLayout, NextLayout } from 'next'
+import type { GetLayout, NextLayout } from 'next'
 import Head from 'next/head'
 
+import type {
+  NavProps } from '~/components'
 import {
   Header,
   Nav,
-  NavProps,
   SkipNavContent,
   SkipNavLink,
 } from '~/components'
 
 import { getLayout as getBaseLayout } from './site'
-import { Box, BoxProps, Typography } from '@ensdomains/thorin'
+import type { BoxProps } from '@ensdomains/thorin'
+import { Box, Typography } from '@ensdomains/thorin'
 
 const Container = (props: React.ComponentProps<typeof Typography>) => (
   <Typography

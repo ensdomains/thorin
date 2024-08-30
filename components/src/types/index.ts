@@ -1,6 +1,6 @@
-import * as React from 'react'
+import type * as React from 'react'
 
-import { Hue as TokenHue, Mode as TokenMode, Tokens } from '@/src/tokens'
+import type { Hue as TokenHue, Mode as TokenMode, Tokens } from '@/src/tokens'
 
 export type AllOrNone<T> = T | { [K in keyof T]?: never }
 

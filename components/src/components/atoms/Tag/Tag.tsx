@@ -4,9 +4,11 @@ import { translateY } from '@/src/css/utils/common'
 
 import { removeNullishProps } from '@/src/utils/removeNullishProps'
 
-import { WithColorStyle, getValueForColorStyle } from './utils/withColorStyle'
+import type { WithColorStyle } from './utils/withColorStyle'
+import { getValueForColorStyle } from './utils/withColorStyle'
 
-import { Box, BoxProps } from '../Box/Box'
+import type { BoxProps } from '../Box/Box'
+import { Box } from '../Box/Box'
 
 export type TagProps = {
   /** Element type of container */

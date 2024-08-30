@@ -1,7 +1,8 @@
+import type {
+  SkipNavLinkProps } from '@reach/skip-nav'
 import {
   SkipNavContent as ReachSkipNavContent,
   SkipNavLink as ReachSkipNavLink,
-  SkipNavLinkProps,
 } from '@reach/skip-nav'
 import '@reach/skip-nav/styles.css'
 import { Box } from '@ensdomains/thorin'

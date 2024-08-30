@@ -4,7 +4,8 @@ import type { RadioButton } from '@/src/components/molecules'
 
 import { getTestId } from '../../../utils/utils'
 import { createSyntheticEvent } from '../../../utils/createSyntheticEvent'
-import { Box, BoxProps } from '../../atoms/Box/Box'
+import type { BoxProps } from '../../atoms/Box/Box'
+import { Box } from '../../atoms/Box/Box'
 
 const Container = React.forwardRef<
   HTMLElement,

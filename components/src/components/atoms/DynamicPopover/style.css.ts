@@ -1,4 +1,5 @@
-import { ComplexStyleRule, style } from '@vanilla-extract/css'
+import type { ComplexStyleRule } from '@vanilla-extract/css'
+import { style } from '@vanilla-extract/css'
 
 export const container = style({
   WebkitBackfaceVisibility: 'hidden',

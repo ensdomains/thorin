@@ -1,7 +1,8 @@
-import React, {
+import type {
   AllHTMLAttributes,
   ElementType,
-  ReactElement,
+  ReactElement } from 'react'
+import React, {
   cloneElement,
   forwardRef,
   isValidElement,

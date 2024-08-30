@@ -1,17 +1,18 @@
 import * as React from 'react'
-import Highlight, { Language, defaultProps } from 'prism-react-renderer'
+import type { Language } from 'prism-react-renderer'
+import Highlight, { defaultProps } from 'prism-react-renderer'
 import dynamic from 'next/dynamic'
 import vsLight from 'prism-react-renderer/themes/vsLight'
 import vsDark from 'prism-react-renderer/themes/vsDark'
 
-import { Colors } from '@ensdomains/thorin'
+import type { Colors } from '@ensdomains/thorin'
 
 import { useIsMounted } from '~/utils/isMounted'
 import { PlayroomStateProvider } from '~/playroom/PlayroomState'
 
 import { CopyButton } from '../CopyButton'
 import type { Props as CodePreviewProps } from '../CodePreview'
-import { PropsWithChildren } from 'react'
+import type { PropsWithChildren } from 'react'
 import { Box, useTheme } from '@ensdomains/thorin'
 
 const CodePreviewContainer = (props: PropsWithChildren) => (

@@ -4,10 +4,13 @@ import { brightness, translateY } from '@/src/css/utils/common'
 
 import * as styles from './styles.css'
 
-import { Field, FieldBaseProps } from '../../atoms/Field/Field'
+import type { FieldBaseProps } from '../../atoms/Field/Field'
+import { Field } from '../../atoms/Field/Field'
 import { getTestId } from '../../../utils/utils'
-import { Box, BoxProps } from '../../atoms/Box/Box'
-import { Color, getValidatedColor } from './utils/getValidatedColor'
+import type { BoxProps } from '../../atoms/Box/Box'
+import { Box } from '../../atoms/Box/Box'
+import type { Color } from './utils/getValidatedColor'
+import { getValidatedColor } from './utils/getValidatedColor'
 
 type NativeInputProps = React.InputHTMLAttributes<HTMLInputElement>
 

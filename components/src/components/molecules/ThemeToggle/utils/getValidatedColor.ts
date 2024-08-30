@@ -1,4 +1,5 @@
-import { PrimaryColor, validatePrimaryColor } from '@/src/tokens/color3'
+import type { PrimaryColor } from '@/src/tokens/color3'
+import { validatePrimaryColor } from '@/src/tokens/color3'
 
 export type Color = PrimaryColor
 

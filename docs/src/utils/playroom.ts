@@ -1,4 +1,5 @@
-import { CreateUrlOptions, createUrl } from 'playroom'
+import type { CreateUrlOptions } from 'playroom'
+import { createUrl } from 'playroom'
 
 export const createPlayroomLink = (options: CreateUrlOptions = {}) => {
   return createUrl({

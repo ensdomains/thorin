@@ -1,18 +1,20 @@
-import {
+import type {
   GetStaticPaths,
   GetStaticProps,
   InferGetStaticPropsType,
   NextPageWithLayout,
 } from 'next'
 import fs from 'fs-extra'
-import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote'
+import type { MDXRemoteSerializeResult } from 'next-mdx-remote'
+import { MDXRemote } from 'next-mdx-remote'
 import { serialize } from 'next-mdx-remote/serialize'
 import matter from 'gray-matter'
-import { PropItem } from 'react-docgen-typescript'
+import type { PropItem } from 'react-docgen-typescript'
 
 import { globSync } from 'node:fs'
 
-import { Props as LayoutProps, getLayout } from '~/layouts/docs'
+import type { Props as LayoutProps } from '~/layouts/docs'
+import { getLayout } from '~/layouts/docs'
 import { getComponentName, getComponentPaths } from '~/utils/fs'
 import { getStaticTypes } from '~/utils/getStaticTypes'
 import { createGitHubLink } from '~/utils/github'

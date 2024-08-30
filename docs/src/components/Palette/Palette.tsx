@@ -1,9 +1,10 @@
 import React from 'react'
+import type {
+  RawColor } from '@ensdomains/thorin'
 import {
   Box,
   ScrollBox,
   RAW_PALETTE_COLORS,
-  RawColor,
   useTheme,
 } from '@ensdomains/thorin'
 import { grid, colorLabel } from './styles.css'

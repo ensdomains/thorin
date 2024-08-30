@@ -1,8 +1,9 @@
 import * as React from 'react'
 
-import { WithColor } from '@/src/types/withColorOrColorStyle'
+import type { WithColor } from '@/src/types/withColorOrColorStyle'
 
-import { Box, BoxProps } from '../Box/Box'
+import type { BoxProps } from '../Box/Box'
+import { Box } from '../Box/Box'
 import { getValueForLevel } from './utils/getValueForLevel'
 
 interface HeadingContainerProps {

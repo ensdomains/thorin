@@ -1,4 +1,4 @@
-import { Colors } from '../tokens'
+import type { Colors } from '../tokens'
 import { colors as colorObj } from '../tokens/color'
 
 type ColorObj = typeof colorObj.light

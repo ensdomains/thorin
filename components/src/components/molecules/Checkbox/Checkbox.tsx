@@ -2,17 +2,19 @@ import * as React from 'react'
 
 import { translateY } from '@/src/css/utils/common'
 
+import type {
+  WithColorStyle } from './utils/getValueForColorStyle'
 import {
-  WithColorStyle,
   getValueForColorStyle,
 } from './utils/getValueForColorStyle'
 
 import * as styles from './styles.css'
 
 import { Field } from '../../atoms/Field/Field'
-import { FieldBaseProps } from '../../atoms/Field/Field'
+import type { FieldBaseProps } from '../../atoms/Field/Field'
 import { getTestId } from '../../../utils/utils'
-import { Box, BoxProps } from '../../atoms/Box/Box'
+import type { BoxProps } from '../../atoms/Box/Box'
+import { Box } from '../../atoms/Box/Box'
 
 type NativeInputProps = React.InputHTMLAttributes<HTMLInputElement>
 

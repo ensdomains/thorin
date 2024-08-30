@@ -1,4 +1,4 @@
-import { Size } from '../CurrencyToggle'
+import type { Size } from '../CurrencyToggle'
 import { getValuesForKnob } from './getValuesForKnob'
 
 export const getTransform = ($size: Size, $type: 'eth' | 'fiat') => {

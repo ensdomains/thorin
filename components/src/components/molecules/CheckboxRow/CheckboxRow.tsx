@@ -2,14 +2,16 @@ import * as React from 'react'
 
 import { translateY } from '@/src/css/utils/common'
 
+import type {
+  ColorStyle } from './utils/getValueForColorStyle'
 import {
-  ColorStyle,
   getValueForColorStyle,
 } from './utils/getValueForColorStyle'
 
 import * as styles from './styles.css'
 import { useId } from '../../../hooks/useId'
-import { Box, BoxProps } from '../../atoms/Box/Box'
+import type { BoxProps } from '../../atoms/Box/Box'
+import { Box } from '../../atoms/Box/Box'
 import { CheckSVG } from '@/src/icons'
 import { Typography } from '../../atoms'
 

@@ -1,6 +1,7 @@
 import { P, match } from 'ts-pattern'
 
-import { PrimaryColor, validatePrimaryColor } from '@/src/tokens/color3'
+import type { PrimaryColor } from '@/src/tokens/color3'
+import { validatePrimaryColor } from '@/src/tokens/color3'
 
 type Shade = 'Primary' | 'Secondary'
 

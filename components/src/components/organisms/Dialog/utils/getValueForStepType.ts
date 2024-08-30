@@ -1,4 +1,4 @@
-import { Sprinkles } from '@/src/css/rainbow-spinkles.css'
+import type { Sprinkles } from '@/src/css/rainbow-spinkles.css'
 
 import type { StepType } from '../Dialog'
 

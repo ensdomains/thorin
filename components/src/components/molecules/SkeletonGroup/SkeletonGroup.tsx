@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { ReactNodeNoStrings } from '../../../types'
+import type { ReactNodeNoStrings } from '../../../types'
 
 type Props = {
   children: ReactNodeNoStrings

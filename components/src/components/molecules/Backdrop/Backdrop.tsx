@@ -1,5 +1,6 @@
 import * as React from 'react'
-import { TransitionState, useTransition } from 'react-transition-state'
+import type { TransitionState } from 'react-transition-state'
+import { useTransition } from 'react-transition-state'
 
 import { Portal } from '../../atoms/Portal/Portal'
 

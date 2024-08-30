@@ -1,5 +1,5 @@
 import type { Size } from '../ThemeToggle'
-import { Space } from '@/src/tokens'
+import type { Space } from '@/src/tokens'
 type Properties = {
   width: `$${Space}`
   height: `$${Space}`

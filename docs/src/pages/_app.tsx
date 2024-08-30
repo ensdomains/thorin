@@ -8,7 +8,7 @@ import { MDX } from '~/components'
 import { getLayout as getDocsLayout } from '~/layouts/docs'
 import '~/styles/globalStyles.css'
 import '../styles/styles.css'
-import { GetLayout, NextComponentType } from 'next'
+import type { GetLayout, NextComponentType } from 'next'
 
 const App = ({ Component, pageProps }: AppProps) => {
   const getLayout = (Component as NextComponentType & { getLayout: GetLayout }).getLayout || getDocsLayout

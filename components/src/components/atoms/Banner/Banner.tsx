@@ -1,10 +1,12 @@
 import * as React from 'react'
 
-import { WithAlert, getValueForAlert } from './utils/getValueForAlert'
+import type { WithAlert } from './utils/getValueForAlert'
+import { getValueForAlert } from './utils/getValueForAlert'
 import { Typography } from '../Typography/Typography'
 
 import { AlertSVG, CrossSVG, EthSVG, UpRightArrowSVG } from '../../../index'
-import { Box, BoxProps } from '../Box/Box'
+import type { BoxProps } from '../Box/Box'
+import { Box } from '../Box/Box'
 
 type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 

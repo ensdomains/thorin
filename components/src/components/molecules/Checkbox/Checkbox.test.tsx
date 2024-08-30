@@ -1,5 +1,6 @@
 import * as React from 'react'
-import { RefObject, useState } from 'react'
+import type { RefObject } from 'react'
+import { useState } from 'react'
 
 import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 

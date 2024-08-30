@@ -1,4 +1,4 @@
-import { GetLayout, NextLayout } from 'next'
+import type { GetLayout, NextLayout } from 'next'
 
 const Layout: NextLayout = ({ children }) => <>{children}</>
 

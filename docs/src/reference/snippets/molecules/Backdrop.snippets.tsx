@@ -1,4 +1,4 @@
-import { Snippet } from '../../../types'
+import type { Snippet } from '../../../types'
 
 export const snippets: Snippet[] = [
   {

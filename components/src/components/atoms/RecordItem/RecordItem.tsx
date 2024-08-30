@@ -1,15 +1,16 @@
 import * as React from 'react'
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 
 import { match } from 'ts-pattern'
 
 import { CheckSVG, CopySVG, UpArrowSVG } from '@/src/icons'
 
-import { Neverable } from '@/src/types'
+import type { Neverable } from '@/src/types'
 
 import { Typography } from '../Typography/Typography'
 import { useCopied } from '../../../hooks/useCopied'
-import { Box, BoxProps } from '../Box/Box'
+import type { BoxProps } from '../Box/Box'
+import { Box } from '../Box/Box'
 
 type Size = 'small' | 'large'
 

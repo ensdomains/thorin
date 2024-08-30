@@ -1,8 +1,9 @@
-import {
+import type {
   FontSize,
   FontWeight,
+  fontWeights } from '../tokens/typography'
+import {
   fontSizes,
-  fontWeights,
 } from '../tokens/typography'
 
 type Legacy = 'label' | 'labelHeading'

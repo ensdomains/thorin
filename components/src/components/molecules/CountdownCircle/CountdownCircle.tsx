@@ -5,9 +5,11 @@ import { P, match } from 'ts-pattern'
 import { CheckSVG } from '@/src/icons'
 
 import { getTestId } from '../../../utils/utils'
-import { Box, BoxProps } from '../../atoms/Box/Box'
+import type { BoxProps } from '../../atoms/Box/Box'
+import { Box } from '../../atoms/Box/Box'
 import { getValueForNumberForSize } from './utils/getValueForNumberForSize'
-import { Color, getValidatedColor } from './utils/getValidatedColor'
+import type { Color } from './utils/getValidatedColor'
+import { getValidatedColor } from './utils/getValidatedColor'
 import { VisuallyHidden } from '../../atoms'
 
 const NumberBox = ({

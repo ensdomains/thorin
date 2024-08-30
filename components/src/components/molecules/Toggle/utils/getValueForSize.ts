@@ -1,4 +1,4 @@
-import { commonVars } from '@/src/css/theme.css'
+import type { commonVars } from '@/src/css/theme.css'
 
 import type { Size } from '../Toggle'
 

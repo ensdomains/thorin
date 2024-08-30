@@ -1,17 +1,19 @@
-import {
+import type {
   GetStaticPaths,
   GetStaticProps,
   InferGetStaticPropsType,
   NextPageWithLayout,
 } from 'next'
 import fs from 'fs-extra'
-import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote'
+import type { MDXRemoteSerializeResult } from 'next-mdx-remote'
+import { MDXRemote } from 'next-mdx-remote'
 import { serialize } from 'next-mdx-remote/serialize'
 import matter from 'gray-matter'
 
 import { Box } from '@ensdomains/thorin'
 
-import { Props as LayoutProps, getLayout } from '~/layouts/docs'
+import type { Props as LayoutProps } from '~/layouts/docs'
+import { getLayout } from '~/layouts/docs'
 import { getGuideName, getGuidePaths } from '~/utils/fs'
 import { createGitHubLink } from '~/utils/github'
 import { GitHubLink } from '~/components/GitHubLink'

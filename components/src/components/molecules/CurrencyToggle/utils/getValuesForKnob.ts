@@ -1,6 +1,6 @@
 import { commonVars } from '@/src/css/theme.css'
 
-import { Size } from '../CurrencyToggle'
+import type { Size } from '../CurrencyToggle'
 import { KNOB_SIZES } from './constants'
 
 type Property = 'width' | 'height' | 'translateX'

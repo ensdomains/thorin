@@ -4,7 +4,8 @@ import { AlertSVG, InfoCircleSVG } from '@/src/icons'
 
 import type { Alert } from '@/src/types'
 
-import { Box, BoxProps } from '../../atoms/Box/Box'
+import type { BoxProps } from '../../atoms/Box/Box'
+import { Box } from '../../atoms/Box/Box'
 
 import { getValueForAlert } from './utils/getValueForAlert'
 

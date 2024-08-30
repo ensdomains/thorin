@@ -1,4 +1,4 @@
-import { Snippet } from '../../../types'
+import type { Snippet } from '../../../types'
 
 // Use code string because react-element-to-jsx-string does not work with forwardRef
 export const snippets: Snippet[] = [

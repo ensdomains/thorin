@@ -2,11 +2,12 @@ import * as React from 'react'
 
 import { useEffect } from 'react'
 
-import { TransitionState, useTransition } from 'react-transition-state'
+import type { TransitionState } from 'react-transition-state'
+import { useTransition } from 'react-transition-state'
 
 import { useDocumentEvent } from '@/src/hooks/useDocumentEvent'
 
-import { Colors, Space } from '@/src/tokens'
+import type { Colors, Space } from '@/src/tokens'
 
 import { CrossCircleSVG, DownChevronSVG } from '@/src/icons'
 
@@ -18,8 +19,9 @@ import { rotate } from '@/src/css/utils/common'
 
 import * as styles from './styles.css'
 
-import { Field, FieldBaseProps, State as FieldState } from '../../atoms/Field/Field'
-import { Box, BoxProps } from '../../atoms/Box/Box'
+import type { FieldBaseProps, State as FieldState } from '../../atoms/Field/Field'
+import { Field } from '../../atoms/Field/Field'
+import { Box, type BoxProps } from '../../atoms/Box/Box'
 import { getValueForSize } from './utils/getValueForSize'
 import { getValueForTransitionState } from './utils/getValueForTransitionState'
 import { cssVars } from '@/src/css/theme.css'

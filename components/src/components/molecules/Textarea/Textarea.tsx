@@ -12,8 +12,10 @@ import { translateY } from '@/src/css/utils/common'
 
 import * as styles from './styles.css'
 
-import { Field, FieldBaseProps } from '../../atoms/Field/Field'
-import { Box, BoxProps } from '../../atoms/Box/Box'
+import type { FieldBaseProps } from '../../atoms/Field/Field'
+import { Field } from '../../atoms/Field/Field'
+import type { BoxProps } from '../../atoms/Box/Box'
+import { Box } from '../../atoms/Box/Box'
 import { getValueForSize } from './utils/getValueForSize'
 import { CrossCircleSVG } from '@/src/icons'
 

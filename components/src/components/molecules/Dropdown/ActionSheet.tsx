@@ -5,7 +5,8 @@ import { breakpoints } from '@/src/tokens'
 import { actionSheeItem } from './styles.css'
 
 import type { DropdownItem, DropdownItemObject } from './Dropdown'
-import { Box, BoxProps } from '../../atoms/Box/Box'
+import type { BoxProps } from '../../atoms/Box/Box'
+import { Box } from '../../atoms/Box/Box'
 import { Typography, Button } from '../../atoms'
 import { Modal } from '../Modal/Modal'
 

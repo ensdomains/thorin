@@ -1,5 +1,6 @@
 import React from 'react'
-import { Box, RawColor, Typography, rawColorToRGB } from '@ensdomains/thorin'
+import type { RawColor } from '@ensdomains/thorin'
+import { Box, Typography, rawColorToRGB } from '@ensdomains/thorin'
 import { match, P } from 'ts-pattern'
 
 const PaletteCell = ({

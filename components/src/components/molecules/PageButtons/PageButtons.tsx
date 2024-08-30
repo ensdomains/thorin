@@ -1,7 +1,8 @@
 import * as React from 'react'
 
 import { getTestId } from '../../../utils/utils'
-import { Box, BoxProps } from '../../atoms'
+import type { BoxProps } from '../../atoms'
+import { Box } from '../../atoms'
 import { getValueForSize } from './utils/getValueForSize'
 
 type NativeDivProps = React.HTMLAttributes<HTMLDivElement>

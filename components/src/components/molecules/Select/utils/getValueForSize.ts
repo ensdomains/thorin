@@ -1,6 +1,6 @@
 import { commonVars } from '@/src/css/theme.css'
 
-import { Size } from '../Select'
+import type { Size } from '../Select'
 type Properties = {
   fontSize: string
   lineHeight: string

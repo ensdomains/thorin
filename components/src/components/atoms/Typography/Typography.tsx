@@ -1,13 +1,15 @@
 import * as React from 'react'
 
-import { Font, FontSize, FontWeight } from '@/src/tokens/typography'
+import type { Font, FontSize, FontWeight } from '@/src/tokens/typography'
 
-import { Color, WithColor, validateColor } from '@/src/interfaces/withColor'
+import type { Color, WithColor } from '@/src/interfaces/withColor'
+import { validateColor } from '@/src/interfaces/withColor'
 
 import { removeNullishProps } from '@/src/utils/removeNullishProps'
 
 import { Box, type BoxProps } from '../Box/Box'
-import { FontVariant, getValueForVariant } from './utils/getValueForVariant'
+import type { FontVariant } from './utils/getValueForVariant'
+import { getValueForVariant } from './utils/getValueForVariant'
 
 type ContainerProps = {
   $ellipsis?: boolean

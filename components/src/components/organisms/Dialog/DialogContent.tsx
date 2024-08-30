@@ -2,10 +2,11 @@ import * as React from 'react'
 
 import { forwardRef } from 'react'
 
-import { Space } from '@/src/tokens'
+import type { Space } from '@/src/tokens'
 
 import { space } from '@/src/tokens/space'
-import { ScrollBox, BoxProps, Box } from '../../atoms'
+import type { BoxProps } from '../../atoms'
+import { ScrollBox, Box } from '../../atoms'
 
 type NativeFromProps = React.FormHTMLAttributes<HTMLFormElement>
 

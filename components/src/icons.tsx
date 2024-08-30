@@ -1,4 +1,5 @@
-import React, { FC, SVGProps } from 'react'
+import type { FC, SVGProps } from 'react'
+import React from 'react'
 
 type Props = SVGProps<SVGSVGElement>
 

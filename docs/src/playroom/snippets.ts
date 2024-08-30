@@ -3,7 +3,7 @@ import reactElementToJSXString from 'react-element-to-jsx-string'
 
 import capitalize from 'lodash/capitalize'
 
-import { Snippet } from './types'
+import type { Snippet } from './types'
 
 const req = (require as any).context(
   '../reference/snippets',
