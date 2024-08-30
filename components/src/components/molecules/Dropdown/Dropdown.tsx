@@ -12,7 +12,7 @@ import { Color } from '@/src/interfaces/withColor'
 
 import { ActionSheet } from './ActionSheet'
 import { Box, BoxProps } from '../../atoms/Box/Box'
-import { DynamicPopover, PopoverProps } from '../../atoms/DynamicPopover'
+import { DynamicPopover, PopoverProps } from '../../atoms/DynamicPopover/DynamicPopover'
 import { debounce } from '@/src/utils/debounce'
 import { DownChevronSVG } from '@/src/icons'
 import { ScrollBox } from '../../atoms/ScrollBox/ScrollBox'

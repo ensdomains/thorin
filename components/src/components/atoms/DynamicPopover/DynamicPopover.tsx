@@ -29,7 +29,7 @@ export type DynamicPopoverButtonProps = {
   onClick?: React.MouseEventHandler<HTMLElement>
 }
 
-export interface DynamicPopoverProps {
+export type DynamicPopoverProps = {
   /** A react node that has includes the styling and content of the popover */
   popover: React.ReactElement<PopoverProps>
   /** The side and alignment of the popover in relation to the target */

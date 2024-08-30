@@ -5,7 +5,7 @@ import {
   DynamicPopoverProps,
   DynamicPopoverSide,
   PopoverProps,
-} from '@/src/components/atoms/DynamicPopover'
+} from '@/src/components/atoms/DynamicPopover/DynamicPopover'
 import { Colors } from '@/src/tokens'
 
 import { Box, BoxProps } from '../../atoms/Box/Box'

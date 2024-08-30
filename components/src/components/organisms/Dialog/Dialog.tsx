@@ -183,7 +183,7 @@ type BlankProps = {
   variant: 'blank'
 }
 
-type Props = BaseProps & (ClosableProps | ActionableProps | BlankProps)
+export type DialogProps = BaseProps & (ClosableProps | ActionableProps | BlankProps)
 
 type ModalProps = React.ComponentProps<typeof Modal>
 
@@ -314,7 +314,7 @@ export const Dialog = ({
   open,
   variant = 'closable',
   ...props
-}: Props) => {
+}: DialogProps) => {
   if (variant === 'actionable') {
     const {
       trailing,

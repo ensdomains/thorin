@@ -1,4 +1,4 @@
-import type { DynamicPopoverSide } from '@/src/components/atoms/DynamicPopover'
+import type { DynamicPopoverSide } from '@/src/components/atoms/DynamicPopover/DynamicPopover'
 
 type Properties = {
   display: string
