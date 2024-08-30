@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { createPortal } from 'react-dom'
 
-type Props = {
+export type PortalProps = {
   /** The classname attribute of the container element */
   className?: string
   /** The element tag of the container element */
@@ -11,12 +11,12 @@ type Props = {
   renderCallback?: () => void
 }
 
-export const Portal: React.FC<Props> = ({
+export const Portal: React.FC<PortalProps> = ({
   children,
   className,
   el = 'div',
   renderCallback,
-}: Props) => {
+}) => {
   const [container] = React.useState(document.createElement(el))
 
   if (className) container.classList.add(className)

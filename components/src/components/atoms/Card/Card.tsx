@@ -5,7 +5,7 @@ import { removeNullishProps } from '@/src/utils/removeNullishProps'
 import { Typography } from '../Typography/Typography'
 import { Box, BoxProps } from '../Box/Box'
 
-export type Props = {
+export type CardProps = {
   title?: string
 } & BoxProps
 
@@ -35,7 +35,7 @@ export const CardDivider = (props: BoxProps) => (
   />
 )
 
-export const Card: React.FC<Props> = ({ title, children, ...props }) => {
+export const Card: React.FC<CardProps> = ({ title, children, ...props }) => {
   return (
     <ContainerBox {...removeNullishProps(props)}>
       {title && <Typography fontVariant="headingFour">{title}</Typography>}

@@ -244,9 +244,9 @@ const TooltipIndicatorBox = (props: BoxProps) => (
   />
 )
 
-export type Props = BaseProps & (WithoutAnchor | WithAnchor) & WithColorStyle
+export type ButtonProps = BaseProps & (WithoutAnchor | WithAnchor) & WithColorStyle
 
-export const Button = React.forwardRef(
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
       children,
@@ -272,8 +272,8 @@ export const Button = React.forwardRef(
       shouldShowTooltipIndicator,
       as: asProp,
       ...props
-    }: Props,
-    ref: React.Ref<HTMLButtonElement>,
+    },
+    ref,
   ) => {
     const labelContent = (
       <ContentBox $fullWidth={fullWidthContent}>{children}</ContentBox>

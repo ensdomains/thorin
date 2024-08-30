@@ -6,7 +6,7 @@ import { rawColorToRGBA } from '@/src/tokens/color3'
 
 import { Box, type BoxProps } from '../Box'
 import { avatar } from './styles.css'
-import { CheckSVG } from '../..'
+import { CheckSVG } from '../../../icons/index'
 
 type NativeImgAttributes = React.ImgHTMLAttributes<HTMLImageElement>
 
@@ -53,7 +53,7 @@ const Placeholder = ({
   />
 )
 
-export type Props = {
+export type AvatarProps = {
   /** Accessibility text. */
   label: string
   /** Uses tokens space settings to set the size */
@@ -74,7 +74,7 @@ export type Props = {
   size?: BoxProps['wh']
 } & Omit<NativeImgAttributes, 'alt' | 'onError' | 'children' | 'onError'>
 
-export const Avatar: React.FC<Props> = ({
+export const Avatar: React.FC<AvatarProps> = ({
   label,
   shape = 'circle',
   src,

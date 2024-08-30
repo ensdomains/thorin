@@ -1,5 +1,6 @@
-export * from './components'
-export * as Components from './components'
+export * from './components/atoms'
+export * from './components/molecules'
+export * from './components/organisms'
 export { tokens, baseTheme, lightTheme, darkTheme } from './tokens'
 export type { DefaultTheme, EmptyObject, Accent, Mode, ReactNodeNoStrings } from './types'
 export type { Hue, Colors, Space } from './tokens'

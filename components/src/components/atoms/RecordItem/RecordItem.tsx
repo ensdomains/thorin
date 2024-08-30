@@ -53,7 +53,7 @@ type AsButtonProps = {
 } & Neverable<NativeAnchorProps, NativeButtonProps> &
 NativeButtonProps
 
-export type Props = BaseProps &
+export type RecordItemProps = BaseProps &
   NativeElementProps &
   (AsAnchorProps | AsButtonProps)
 
@@ -152,7 +152,7 @@ const TrailingSVGBox = ({
 
 export const RecordItem = React.forwardRef<
   HTMLAnchorElement | HTMLButtonElement,
-  Props
+  RecordItemProps
 >(
   (
     {

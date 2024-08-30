@@ -47,7 +47,7 @@ type WithoutAnchor = {
   onDismiss?: () => void
 }
 
-type NonNullableAlert = NonNullable<Props['alert']>
+type NonNullableAlert = NonNullable<BannerProps['alert']>
 
 type ContainerProps = BoxProps & {
   $alert: NonNullableAlert
@@ -166,7 +166,7 @@ const ActionButton = ({
   icon,
   hasHref,
   onDismiss,
-}: Pick<Props, 'alert' | 'onDismiss'> & { hasHref: boolean } & WithIcon) => {
+}: Pick<BannerProps, 'alert' | 'onDismiss'> & { hasHref: boolean } & WithIcon) => {
   if (onDismiss) {
     const Icon = (icon || <CrossSVG />) as React.ReactElement
     return (
@@ -190,14 +190,14 @@ const ActionButton = ({
   return null
 }
 
-export type Props = BaseProps &
+export type BannerProps = BaseProps &
   (WithAnchor | WithoutAnchor) &
   (WithIcon | WithoutIcon) &
   WithAlert
 
 export const Banner = React.forwardRef<
   HTMLDivElement,
-  React.PropsWithChildren<Props>
+  React.PropsWithChildren<BannerProps>
 >(
   (
     { title, alert = 'info', icon, as: asProp, children, onDismiss, ...props },
