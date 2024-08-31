@@ -36,7 +36,7 @@ export default defineConfig(({ mode }) => {
       ],
     },
     plugins: [
-      tsconfigPaths(),
+      tsconfigPaths({ projects: ['tsconfig.json'] }),
       vanillaExtractPlugin({
         identifiers: mode === 'development' ? ({ hash }) => `thorin-${hash}` : 'short',
       }),
@@ -50,15 +50,6 @@ export default defineConfig(({ mode }) => {
           content: content.replace(/\/\.\.\/src/g, ''),
           filePath: filePath.replace('src', ''),
         }),
-        compilerOptions: {
-          baseUrl: '.',
-          emitDeclarationOnly: true,
-          noEmit: false,
-          paths: {
-            '!/*': ['../*'],
-            '@/*': ['./*'],
-          },
-        },
         staticImport: true,
         outDir: 'dist/types',
       }),
