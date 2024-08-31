@@ -9,5 +9,6 @@
   "stylelint.configFile": "stylelint.config.mjs",
   "svg.preview.background": "custom",
   "prettier.enable": false,
-  "stylelint.configBasedir": "."
+  "stylelint.configBasedir": ".",
+  "typescript.tsdk": "node_modules/typescript/lib"
 }
