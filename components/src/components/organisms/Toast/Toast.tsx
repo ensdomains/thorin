@@ -108,7 +108,7 @@ const Draggable = () => (
 
 type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 
-type Props = {
+export type ToastProps = {
   onClose: () => void
   open: boolean
   msToShow?: number
@@ -137,7 +137,7 @@ const DesktopToast = ({
   state,
   children,
   ...props
-}: Props & InternalProps) => {
+}: ToastProps & InternalProps) => {
   return (
     <Container
       {...{
@@ -176,7 +176,7 @@ export const TouchToast = ({
   popped,
   setPopped,
   ...props
-}: Props &
+}: ToastProps &
 InternalProps & {
   popped: boolean
   setPopped: (popped: boolean) => void
@@ -311,7 +311,7 @@ InternalProps & {
   )
 }
 
-export const Toast: React.FC<Props> = ({
+export const Toast: React.FC<ToastProps> = ({
   onClose,
   open,
   msToShow = 8000,

@@ -6,9 +6,9 @@ import { backdropSurface } from './styles.css'
 import type { BoxProps } from '../Box/Box'
 import { Box } from '../Box/Box'
 
-type Props = { $state: TransitionState['status'], $empty: boolean } & BoxProps
+export type BackdropSurfaceProps = { $state: TransitionState['status'], $empty: boolean } & BoxProps
 
-export const BackdropSurface = React.forwardRef<HTMLElement, Props>(
+export const BackdropSurface = React.forwardRef<HTMLElement, BackdropSurfaceProps>(
   ({ $empty, $state, ...props }, ref) => (
     <Box
       {...props}

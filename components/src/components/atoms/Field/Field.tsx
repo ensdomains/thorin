@@ -6,7 +6,7 @@ import type { Space } from '@/src/tokens'
 
 import type { ReactNodeNoStrings } from '../../../types'
 import { useFieldIds } from '../../../hooks'
-import { VisuallyHidden } from '../VisuallyHidden'
+import { VisuallyHidden } from '../VisuallyHidden/VisuallyHidden'
 import { Typography } from '../Typography/Typography'
 import type { BoxProps } from '../Box/Box'
 import { Box } from '../Box/Box'

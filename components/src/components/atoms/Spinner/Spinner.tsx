@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { VisuallyHidden } from '../VisuallyHidden'
+import { VisuallyHidden } from '../VisuallyHidden/VisuallyHidden'
 import * as styles from './styles.css'
 import type { BoxProps } from '../Box/Box'
 import { Box } from '../Box/Box'

@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import type { ReactNodeNoStrings } from '../../../types'
 import { useFieldIds } from '../../../hooks'
-import { VisuallyHidden } from '../VisuallyHidden'
+import { VisuallyHidden } from '../VisuallyHidden/VisuallyHidden'
 import { validateAccept } from './utils'
 
 type Context = {
