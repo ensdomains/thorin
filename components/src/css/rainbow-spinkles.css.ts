@@ -1,5 +1,7 @@
 import { createRainbowSprinkles, defineProperties } from 'rainbow-sprinkles'
 
+import type { SprinklesFn } from 'rainbow-sprinkles/createRuntimeFn'
+
 import { commonVars, modeVars } from './theme.css'
 
 // TODO: Review order of properties. More specific properties should come last.
@@ -154,6 +156,6 @@ const responsiveProperties = defineProperties({
   },
 })
 
-export const rainbowSprinkles = createRainbowSprinkles(responsiveProperties)
+export const rainbowSprinkles = createRainbowSprinkles(responsiveProperties) as SprinklesFn<[typeof responsiveProperties]>
 
 export type Sprinkles = Parameters<typeof rainbowSprinkles>[0]
