@@ -48,7 +48,7 @@ const DividerBox = ({
   )
 }
 
-type Props = {
+export type ScrollBoxProps = {
   /** If true, the dividers will be hidden */
   hideDividers?: boolean | { top?: boolean, bottom?: boolean }
   /** If true, the dividers will always be shown */
@@ -75,7 +75,7 @@ export const ScrollBox = ({
   horizontalPadding,
   children,
   ...props
-}: Props) => {
+}: ScrollBoxProps) => {
   const ref = React.useRef<HTMLDivElement>(null)
   const topRef = React.useRef<HTMLDivElement>(null)
   const bottomRef = React.useRef<HTMLDivElement>(null)
