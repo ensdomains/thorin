@@ -4,7 +4,7 @@ import { useTransition } from 'react-transition-state'
 
 import { Portal } from '../../atoms/Portal/Portal'
 
-import { BackdropSurface } from '../../atoms/BackdropSurface'
+import { BackdropSurface } from '../../atoms/BackdropSurface/BackdropSurface'
 
 export type BackdropProps = {
   /** A function that renders the children nodes */

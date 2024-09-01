@@ -12,6 +12,7 @@
     "target": "ESNext",
     "skipLibCheck": true,
     "jsx": "preserve",
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "isolatedModules": true
   }
 }

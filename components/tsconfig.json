@@ -1,16 +1,15 @@
 {
-    "extends":"../tsconfig.json",
-    "compilerOptions": {
-        "types": ["vite/client", "vitest/globals", "node"],
-        "outDir": "dist",
-        "declaration": true,
-        "baseUrl": ".",
-        "paths": {
-            "!/*": ["../*"],
-            "@/*": ["./*"],
-            "test-utils": ["./test"]
-        }
-    },
-    "include": ["src/**/*"],
-    "exclude": ["dist"]
+  "extends":"../tsconfig.json",
+  "compilerOptions": {
+    "types": ["vite/client", "vitest/globals", "node"],
+    "outDir": "dist",
+    "declaration": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"],
+      "test-utils": ["./test"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["dist"]
 }
