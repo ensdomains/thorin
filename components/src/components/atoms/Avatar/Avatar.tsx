@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { rainbowSprinkles } from '@/src/css/rainbow-spinkles.css'
 
-import { rawColorToRGBA } from '@/src/tokens/color3'
+import { rawColorToRGBA } from '@/src/tokens/color'
 
 import { Box, type BoxProps } from '../Box/Box'
 import { avatar } from './styles.css'

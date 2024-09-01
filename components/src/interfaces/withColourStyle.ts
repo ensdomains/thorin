@@ -1,13 +1,13 @@
 import { P, match } from 'ts-pattern'
 
-import type { Color, PrimaryColor } from '../tokens/color3'
-import { validatePrimaryColor } from '../tokens/color3'
+import type { Color, Hue } from '../tokens/color'
+import { validatePrimaryColor } from '../tokens/color'
 
 type Shade = 'Primary' | 'Secondary'
 
 type ColourStyle =
-  | PrimaryColor
-  | `${PrimaryColor}${Shade}`
+  | Hue
+  | `${Hue}${Shade}`
   | 'background'
   | 'disabled'
 
@@ -22,14 +22,14 @@ type Properties = {
 
 type Property = keyof Properties
 
-const getPrimaryColor = (colour: PrimaryColor, property: Property): Color =>
+const getPrimaryColor = (colour: Hue, property: Property): Color =>
   match(property)
     .with(P.union('background', 'border'), () => `${colour}Primary` as const)
     .with('content', () => 'textAccent' as const)
     .with('hover', () => `${colour}Bright` as const)
     .exhaustive()
 
-const getSecondaryColor = (colour: PrimaryColor, property: Property): Color =>
+const getSecondaryColor = (colour: Hue, property: Property): Color =>
   match(property)
     .with(P.union('background', 'border'), () => `${colour}Surface` as const)
     .with('content', () => `${colour}Dim` as const)

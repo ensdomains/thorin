@@ -1,7 +1,7 @@
-import type { PrimaryColor } from '@/src/tokens/color3'
-import { validatePrimaryColor } from '@/src/tokens/color3'
+import type { Hue } from '@/src/tokens/color'
+import { validatePrimaryColor } from '@/src/tokens/color'
 
-export type Color = PrimaryColor
+export type Color = Hue
 
 export type WithColor = { color: Color }
 
