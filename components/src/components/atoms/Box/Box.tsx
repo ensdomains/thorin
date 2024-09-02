@@ -3,16 +3,14 @@ import type {
   ElementType,
   ReactElement } from 'react'
 import React, {
-  cloneElement,
   forwardRef,
-  isValidElement,
 } from 'react'
-import classNames from 'clsx'
+import { clsx } from 'clsx'
 
 import {
   type Sprinkles,
-  rainbowSprinkles,
-} from '@/src/css/rainbow-spinkles.css'
+  sprinkles,
+} from '../../../css/sprinkles.css'
 
 type HTMLProperties = Omit<
   AllHTMLAttributes<HTMLElement>,
@@ -22,32 +20,29 @@ type HTMLProperties = Omit<
 export type BoxProps = Sprinkles &
   HTMLProperties & { as?: ElementType | ReactElement<any> }
 
-export const Box = forwardRef<HTMLElement, BoxProps & { log?: boolean }>(
+export const Box = forwardRef<HTMLElement, BoxProps >(
   (
-    { as: _as, className: _className, style: _style, children, log, ...props },
+    { as, className, ...props },
     ref,
   ) => {
-    const {
-      className: sprinklesClassName,
-      style: sprinklesStyle,
-      otherProps,
-    } = rainbowSprinkles(props)
+    const atomProps: Record<string, unknown> = {}
+    const nativeProps: Record<string, unknown> = {}
 
-    const className = classNames(sprinklesClassName, _className)
-    const style = { ...sprinklesStyle, ..._style }
-
-    if (isValidElement(_as)) {
-      const as = _as as ReactElement<any>
-      if (log) console.log('as', className, style, otherProps)
-      return cloneElement(as, { className, style, ...otherProps })
+    for (const key in props) {
+      if (sprinkles.properties.has(key as keyof Omit<Sprinkles, 'reset'>)) {
+        atomProps[key] = props[key as keyof typeof props]
+      }
+      else {
+        nativeProps[key] = props[key as keyof typeof props]
+      }
     }
-    const as = _as as ElementType
-    const Component = as || 'div'
-    if (log) console.log('as', className, style, otherProps)
-    return (
-      <Component className={className} ref={ref} style={style} {...otherProps}>
-        {children}
-      </Component>
-    )
+
+    const atomicCss = sprinkles(props)
+
+    return React.createElement(as, {
+      className: clsx(atomicCss, className),
+      ...nativeProps,
+      ref,
+    })
   },
 )

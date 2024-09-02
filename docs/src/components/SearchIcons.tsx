@@ -33,6 +33,7 @@ const IconGrid = (props: BoxProps) => (
     {...props}
     display="grid"
     gap="$4"
+
     gridTemplateColumns={{
       base: 'repeat(auto-fit, minmax(4.5rem, 1fr))',
       md: 'repeat(auto-fit, minmax(5rem, 1fr))',

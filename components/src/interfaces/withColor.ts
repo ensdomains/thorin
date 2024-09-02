@@ -8,11 +8,11 @@ import {
   PRIMARY_COLORS,
 } from '@/src/tokens/color'
 
-export type Color = Hue | PaletteColor | AdditionalColor
+export type Color = Hue | PaletteColor | AdditionalColor | 'inherit' | 'initial' | 'unset'
 
 export type WithColor = { color?: Color }
 
-const COLORS = [...PRIMARY_COLORS, ...PALETTE_COLORS, ...ADDITIONAL_COLORS]
+const COLORS = [...PRIMARY_COLORS, ...PALETTE_COLORS, ...ADDITIONAL_COLORS, 'inherit', 'initial', 'unset'] as const
 
 export const validateColor = (color: unknown, fallback = 'unset') => {
   if (!color) return fallback

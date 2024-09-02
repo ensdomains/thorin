@@ -3,13 +3,13 @@ import * as React from 'react'
 import type { Font, FontSize, FontWeight } from '@/src/tokens/typography'
 
 import type { Color, WithColor } from '@/src/interfaces/withColor'
-import { validateColor } from '@/src/interfaces/withColor'
 
 import { removeNullishProps } from '@/src/utils/removeNullishProps'
 
 import { Box, type BoxProps } from '../Box/Box'
-import type { FontVariant } from './utils/getValueForVariant'
-import { getValueForVariant } from './utils/getValueForVariant'
+import type { FontVariant } from './utils/variant.css'
+import { fontVariant } from './utils/variant.css'
+import clsx from 'clsx'
 
 type ContainerProps = {
   $ellipsis?: boolean
@@ -22,23 +22,21 @@ type ContainerProps = {
 
 const ContainerBox = React.forwardRef<HTMLElement, BoxProps & ContainerProps>(
   (
-    { $ellipsis, $fontVariant = 'body', $color, $font, $weight, as, ...props },
+    { $ellipsis, $fontVariant = 'body', $color, $font, $weight, as, $size, className, ...props },
     ref,
   ) => (
     <Box
       as={as ?? 'div'}
-      color={validateColor($color, '$text')}
-      fontFamily={$font === 'mono' ? '$mono' : '$sans'}
-      fontSize={getValueForVariant($fontVariant, 'fontSize')}
-      fontWeight={
-        $weight ? `$${$weight}` : getValueForVariant($fontVariant, 'fontWeight')
-      }
-      lineHeight={getValueForVariant($fontVariant, 'lineHeight')}
+      color={$color}
+      fontFamily={$font}
+      fontSize={$size}
+      fontWeight={$weight}
       overflow={$ellipsis ? 'hidden' : undefined}
       ref={ref}
       textOverflow={$ellipsis ? 'ellipsis' : undefined}
       whiteSpace={$ellipsis ? 'nowrap' : undefined}
       {...props}
+      className={clsx(fontVariant({ fontVariant: $fontVariant }), className)}
     />
   ),
 )
