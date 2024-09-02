@@ -8,6 +8,7 @@ export const space = {
   ...negativeSpace,
   '0': '0',
   'px': '1px',
+  '-px': '-1px',
   '0.25': '0.0625rem',
   '0.5': '0.125rem',
   '0.75': '0.1875rem',

@@ -18,15 +18,15 @@ const CloseIcon = (props: BoxProps) => (
     {...props}
     as={<CrossSVG />}
     cursor="pointer"
-    opacity={{ base: '0.5', hover: '0.7' }}
-    padding="$1.5"
+    opacity={{ base: 0.5, hover: 0.7 }}
+    padding="1.5"
     position="absolute"
-    right="$2.5"
-    top="$2.5"
-    transitionDuration="$150"
+    right="2.5"
+    top="2.5"
+    transitionDuration={150}
     transitionProperty="all"
-    transitionTimingFunction="$inOut"
-    wh="$9"
+    transitionTimingFunction="inOut"
+    wh="9"
   />
 )
 
@@ -50,10 +50,10 @@ const Container = React.forwardRef<HTMLElement, BoxProps & ContainerProps>(
       alignItems="flex-start"
       backdropFilter="blur(16px)"
       backgroundColor="rbga(255,255,255,0.8)"
-      borderColor="$greySurface"
-      borderRadius="$2xLarge"
+      borderColor="greySurface"
+      borderRadius="2xLarge"
       borderStyle="solid"
-      borderWidth="$1x"
+      borderWidth="1x"
       bottom={match($mobile)
         .with(true, () => 'unset')
         .otherwise(() => ($bottom ? `$${$bottom}` : 'unset'))}
@@ -68,7 +68,7 @@ const Container = React.forwardRef<HTMLElement, BoxProps & ContainerProps>(
         .with(true, () => 'unset')
         .otherwise(() => '$112')}
       opacity={$state.status === 'entered' ? 1 : 0}
-      padding="$4.5"
+      padding="4.5"
       position="fixed"
       ref={ref}
       right={match($mobile)
@@ -94,14 +94,14 @@ const Draggable = () => (
     display="flex"
     justifyContent="center"
     marginBottom="calc(-1 * 0.5rem)"
-    paddingTop="$3"
-    width="$full"
+    paddingTop="3"
+    width="full"
   >
     <Box
-      backgroundColor="$border"
-      borderRadius="$full"
-      height="$1"
-      width="$8"
+      backgroundColor="border"
+      borderRadius="full"
+      height="1"
+      width="8"
     />
   </Box>
 )
@@ -284,11 +284,11 @@ InternalProps & {
         'onClick': () => setPopped(true),
         'onTouchEnd': () => setTouches(touches => [...touches, undefined]),
       }}
-      $bottom={bottom}
-      $left={left}
+      bottom={bottom}
+      left={left}
       $mobile
       $popped={popped}
-      $right={right}
+      right={right}
       $state={state}
       ref={ref}
     >
