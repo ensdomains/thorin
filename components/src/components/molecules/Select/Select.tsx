@@ -101,7 +101,7 @@ const SelectContainer = ({
   />
 )
 
-const RootInput = React.forwardRef<HTMLElement, BoxProps>((props, ref) => (
+const RootInput = React.forwardRef<HTMLInputElement, BoxProps>((props, ref) => (
   <Box
     {...props}
     appearance="none"
@@ -146,7 +146,7 @@ const SelectLabelWithPrefix = ({
       )
     : null
 
-const SelectInput = React.forwardRef<HTMLElement, BoxProps>((props, ref) => (
+const SelectInput = React.forwardRef<HTMLInputElement, BoxProps>((props, ref) => (
   <Box
     {...props}
     as="input"
@@ -440,7 +440,7 @@ export type SelectProps = {
   /** The string or component to prefix the value in the create value option. */
   createablePrefix?: string
   /** The handler for change events. */
-  onChange?: BoxProps['onChange']
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
   /** The tabindex attribute for  */
   tabIndex?: NativeSelectProps['tabIndex']
   /** The handler for focus events. */
@@ -559,7 +559,7 @@ export const Select = React.forwardRef<HTMLInputElement, SelectProps>(
     const isCreateable = createable && queryValue !== ''
     const isAutocomplete = createable || autocomplete
 
-    const [id] = React.useState(_id || uniqueId())
+    const [id] = React.useState(() => _id || uniqueId())
 
     // Internal tracker of value
     const [value, setValue] = React.useState<SelectProps['value']>('')
@@ -851,7 +851,7 @@ export const Select = React.forwardRef<HTMLInputElement, SelectProps>(
                   const option = options?.find(o => o.value === newValue)
                   if (option) {
                     setValue(option.value)
-                    onChange?.(e)
+                    onChange?.(e as React.ChangeEvent<HTMLInputElement>)
                   }
                 }}
                 onFocus={() => {
