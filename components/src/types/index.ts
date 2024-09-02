@@ -4,13 +4,6 @@ import type { Hue as TokenHue, Mode as TokenMode, Tokens } from '@/src/tokens'
 
 export type AllOrNone<T> = T | { [K in keyof T]?: never }
 
-export type {
-  Color,
-  ColorStyle,
-  WithColor,
-  WithColorStyle,
-} from './withColorOrColorStyle'
-
 export type { FontVariant, WithTypography } from './withTypography'
 
 /*

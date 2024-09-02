@@ -3,7 +3,7 @@ import {
   createGlobalThemeContract,
 } from '@vanilla-extract/css'
 
-import { darkColors, lightColors } from '../tokens/color3'
+import { darkColors, lightColors } from '../tokens/color'
 import { borderStyles, borderWidths, radii } from '../tokens/border'
 import { space } from '../tokens/space'
 import {

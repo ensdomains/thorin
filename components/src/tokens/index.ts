@@ -91,5 +91,5 @@ export type { Hue, Mode } from './color'
 export type Tokens = typeof lightTheme
 export type Breakpoints = keyof typeof breakpoints
 export type Space = keyof typeof space
-export type Colors = Exclude<keyof typeof colors.light, 'raw' | 'gradients'>
+export type Colors = keyof typeof colors.light
 export type Radii = keyof typeof radii

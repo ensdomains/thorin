@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import type { WithColor } from '@/src/types/withColorOrColorStyle'
+import type { WithColor } from '@/src/interfaces/withColor'
 
 import type { BoxProps } from '../Box/Box'
 import { Box } from '../Box/Box'
