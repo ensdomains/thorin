@@ -15,6 +15,7 @@ import type { FieldBaseProps } from '../../atoms/Field/Field'
 import { getTestId } from '../../../utils/utils'
 import type { BoxProps } from '../../atoms/Box/Box'
 import { Box } from '../../atoms/Box/Box'
+import type { ColorStyle } from '../CheckboxRow/utils/getValueForColorStyle'
 
 type NativeInputProps = React.InputHTMLAttributes<HTMLInputElement>
 
@@ -61,7 +62,7 @@ Omit<
 > &
 WithColorStyle
 
-const InputBox = React.forwardRef<HTMLElement, BoxProps & { $colorStyle: any }>(
+const InputBox = React.forwardRef<HTMLElement, BoxProps & { $colorStyle: ColorStyle }>(
   ({ $colorStyle, disabled, checked, ...props }, ref) => (
     <Box
       position="relative"

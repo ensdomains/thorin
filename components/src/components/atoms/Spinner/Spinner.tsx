@@ -64,7 +64,7 @@ export const Spinner = React.forwardRef<HTMLElement, SpinnerProps>(
         $color={color}
         $size={size}
         className={styles.animation}
-        ref={ref as any}
+        ref={ref}
       >
         {accessibilityLabel && (
           <VisuallyHidden>{accessibilityLabel}</VisuallyHidden>

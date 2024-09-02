@@ -35,7 +35,7 @@ export const Tag: React.FC<TagProps> = ({
       backgroundColor={{
         base: getValueForColorStyle(colorStyle, 'background'),
         hover: getValueForColorStyle(
-          colorStyle as any,
+          colorStyle,
           hover ? 'hover' : 'background',
         ),
         active: getValueForColorStyle(colorStyle, 'hover'),

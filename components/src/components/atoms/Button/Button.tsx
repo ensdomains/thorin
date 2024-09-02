@@ -59,7 +59,7 @@ type BaseProps = {
   /** Show indicator that button has extra info via tooltip. */
   shouldShowTooltipIndicator?: boolean
   color?: Color
-} & Omit<BoxProps, 'size'>
+} & Omit<BoxProps, 'size' | 'prefix'>
 
 type WithAnchor = {
   /** The href attribute for the anchor element. */
