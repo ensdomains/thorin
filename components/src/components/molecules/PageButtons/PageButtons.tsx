@@ -50,7 +50,7 @@ const PageButton = ({
   <Box
     {...props}
     as="button"
-    backgroundColor={{ base: '$background', hover: 'greySurface' }}
+    backgroundColor={{ base: 'background', hover: 'greySurface' }}
     border="1px solid"
     borderColor="border"
     borderRadius={getValueForSize($size, 'borderRadius')}

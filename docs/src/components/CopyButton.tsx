@@ -41,7 +41,7 @@ export const CopyButton = ({ content }: Props) => {
       <Box
         wh="6"
         backgroundColor={{
-          base: '$background',
+          base: 'background',
           hover: 'greyLight',
         }}
         display="flex"

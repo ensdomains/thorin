@@ -22,7 +22,7 @@ export type BoxProps = Sprinkles &
 
 export const Box = forwardRef<HTMLElement, BoxProps >(
   (
-    { as, className, ...props },
+    { as = 'div', className, ...props },
     ref,
   ) => {
     const atomProps: Record<string, unknown> = {}
