@@ -68,7 +68,7 @@ const InputBox = React.forwardRef<HTMLElement, BoxProps & { $colorStyle: ColorSt
       position="relative"
       transform={{ base: translateY(0), hover: translateY(-1) }}
       transition="transform 150ms ease-in-out"
-      wh="$5"
+      wh="5"
     >
       <Box
         as="input"

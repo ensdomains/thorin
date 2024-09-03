@@ -79,9 +79,9 @@ const Container = React.forwardRef<HTMLElement, BoxProps & ContainerProps>(
         .otherwise(() => ($top ? `$${$top}` : 'unset'))}
       touchAction={$popped ? 'none' : 'unset'}
       transform={$state.status === 'entered' ? translateY(0) : translateY(-64)}
-      transitionDuration="$300"
+      transitionDuration={300}
       transitionProperty="all"
-      transitionTimingFunction="$popIn"
+      transitionTimingFunction="popIn"
       width={$popped ? '95%' : '92.5%'}
       zIndex="10000"
     />

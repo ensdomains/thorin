@@ -11,7 +11,7 @@ const Container = (props: React.PropsWithChildren<SkipNavLinkProps>) => (
   <Box
     as={ReachSkipNavLink}
     {...props}
-    backgroundColor="$accent"
+    backgroundColor="accent"
     color="$background"
     fontFamily="$sans"
   />

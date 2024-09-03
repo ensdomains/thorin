@@ -35,7 +35,7 @@ const Label = ({
     {...props}
     alignItems="center"
     as="label"
-    color="$textAccent"
+    color="textAccent"
     cursor="pointer"
     display="flex"
     fontFamily="$sans"
@@ -59,7 +59,7 @@ const Checkbox = React.forwardRef<HTMLElement, BoxProps & { $size: Size }>(
       {...props}
       alignItems="center"
       as="input"
-      backgroundColor="$greySurface"
+      backgroundColor="greySurface"
       borderRadius={getValueForCheckbox($size, 'borderRadius')}
       cursor={{ base: 'pointer', disabled: 'not-allowed' }}
       display="flex"

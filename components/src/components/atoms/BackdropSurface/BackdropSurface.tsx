@@ -21,9 +21,9 @@ export const BackdropSurface = React.forwardRef<HTMLElement, BackdropSurfaceProp
       position="fixed"
       ref={ref}
       top="0"
-      transitionDuration="$300"
+      transitionDuration={300}
       transitionProperty="all"
-      transitionTimingFunction="$popIn"
+      transitionTimingFunction="popIn"
       width="100vw"
       zIndex="999"
     />

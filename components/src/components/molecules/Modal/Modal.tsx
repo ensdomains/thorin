@@ -49,9 +49,9 @@ const Container: React.FC<BoxProps & ContainerProps> = ({
           ? 'translateY(0px)'
           : getValueForMode(desktopMode, 'transform'),
       }}
-      transitionDuration="$300"
+      transitionDuration={300}
       transitionProperty="all"
-      transitionTimingFunction="$popIn"
+      transitionTimingFunction="popIn"
       translate={{
         base: getValueForMode(mobileMode, 'translate'),
         sm: getValueForMode(desktopMode, 'translate'),

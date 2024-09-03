@@ -20,7 +20,7 @@ type TooltipPopoverElementProps = {
 }
 
 const TooltipPopoverElement = ({
-  $background = '$backgroundPrimary',
+  $background = 'backgroundPrimary',
   $placement,
   $mobilePlacement,
   children,
@@ -33,7 +33,7 @@ const TooltipPopoverElement = ({
     boxSizing="border-box"
     filter="drop-shadow(0px 0px 1px #e8e8e8) drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.2))"
     overflow="visible"
-    padding="$2.5"
+    padding="2.5"
     position="relative"
   >
     {children}

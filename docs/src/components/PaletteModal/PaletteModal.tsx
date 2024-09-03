@@ -70,12 +70,12 @@ export const PaletteModal = ({
         >
           <Box
             width="full"
-            height="$45"
+            height="45"
             position="relative"
             overflow="hidden"
             borderRadius="large"
             border="1px solid"
-            borderColor="$border"
+            borderColor="border"
             backgroundColor={
               shadeRawColor
                 ? rawColorToRGB(shadeRawColor)
@@ -95,7 +95,7 @@ export const PaletteModal = ({
                   as="button"
                   cursor="pointer"
                   key={name}
-                  flex="1"
+                  flex={1}
                   height="4"
                   backgroundColor={rawColorToRGB(color)}
                   onClick={() => setSelectedIndex(i)}

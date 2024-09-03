@@ -88,11 +88,11 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
                 borderSpacing="0"
                 borderWidth="1x"
                 borderStyle="solid"
-                borderColor="$border"
+                borderColor="border"
                 borderRadius="large"
                 overflow="hidden"
               >
-                <Box as="thead" backgroundColor="$greySurface">
+                <Box as="thead" backgroundColor="greySurface">
                   <tr>
                     {headers.map(x => (
                       <TableHead key={x}>

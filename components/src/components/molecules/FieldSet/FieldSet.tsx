@@ -32,7 +32,7 @@ const Row = (props: BoxProps) => (
 )
 
 const Description = (props: BoxProps) => (
-  <Box {...props} color="$textSecondary" fontSize="$body" lineHeight="$body" />
+  <Box {...props} color="textSecondary" fontSize="$body" lineHeight="body" />
 )
 
 const ChildrenContainer = (props: BoxProps) => (

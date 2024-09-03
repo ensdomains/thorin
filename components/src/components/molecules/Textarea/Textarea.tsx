@@ -36,14 +36,14 @@ const Container = ({
 }: BoxProps & ContainerProps) => (
   <Box
     {...props}
-    backgroundColor="$backgroundSecondary"
+    backgroundColor="backgroundSecondary"
     borderRadius="large"
     className={statusDot({
       error: $error,
       validated: $validated,
       show: $showDot && !$disabled,
     })}
-    color="$text"
+    color="text"
     display="flex"
     position="relative"
     transitionDuration={150}
@@ -74,11 +74,11 @@ const TextArea = React.forwardRef<HTMLElement, BoxProps & TextAreaProps>(
     <Box
       {...props}
       as="textarea"
-      backgroundColor={{ base: '$backgroundPrimary', disabled: '$greyLight' }}
-      borderColor="$border"
+      backgroundColor={{ base: 'backgroundPrimary', disabled: 'greyLight' }}
+      borderColor="border"
       borderRadius="large"
       borderStyle="solid"
-      borderWidth="1px"
+      borderWidth="1x"
       className={classNames(
         styles.textarea({ showAction: $alwaysShowAction }),
         statusBorder({
@@ -87,7 +87,7 @@ const TextArea = React.forwardRef<HTMLElement, BoxProps & TextAreaProps>(
           disabled: disabled,
         }),
       )}
-      color={{ base: '$textPrimary', disabled: '$greyPrimary' }}
+      color={{ base: 'textPrimary', disabled: 'greyPrimary' }}
       disabled={disabled}
       display="flex"
       fontSize={getValueForSize($size, 'fontSize')}
@@ -124,7 +124,7 @@ const ActionButton = ({
       {...props}
       alignItems="center"
       as="button"
-      color={{ base: '$greyPrimary', hover: '$greyBright' }}
+      color={{ base: 'greyPrimary', hover: 'greyBright' }}
       cursor="pointer"
       display="flex"
       justifyContent="center"

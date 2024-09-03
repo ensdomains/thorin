@@ -21,7 +21,7 @@ const NumberBox = ({
   <Box
     {...props}
     alignItems="center"
-    color={disabled ? '$greyPrimary' : getValidatedColor($color)}
+    color={disabled ? 'greyPrimary' : getValidatedColor($color)}
     display="flex"
     fontSize={getValueForNumberForSize($size, 'fontSize')}
     fontWeight="extraBold"
@@ -43,7 +43,7 @@ const ContainerBox = React.forwardRef<
 >(({ $size, $color, disabled, ...props }, ref) => (
   <Box
     {...props}
-    color={disabled ? '$greyLight' : getValidatedColor($color)}
+    color={disabled ? 'greyLight' : getValidatedColor($color)}
     ref={ref}
     stroke="currentColor"
     strokeWidth="1"

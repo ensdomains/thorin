@@ -49,7 +49,7 @@ export const MDX: MDXProviderProps['components'] = {
               display="inline-block"
               marginLeft="$2"
               wh="4"
-              color="$greyPrimary"
+              color="greyPrimary"
             >
             </Box>
           </Box>

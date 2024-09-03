@@ -7,8 +7,8 @@ import { Box } from '../Box/Box'
 import { getValueForLevel } from './utils/getValueForLevel'
 
 interface HeadingContainerProps {
-  $textAlign?: React.CSSProperties['textAlign']
-  $textTransform: React.CSSProperties['textTransform']
+  textAlign?: React.CSSProperties['textAlign']
+  textTransform: React.CSSProperties['textTransform']
   $level: '1' | '2'
   $responsive?: boolean
   $color: NonNullable<WithColor['color']>
@@ -19,7 +19,7 @@ const ContainerBox = React.forwardRef<
   BoxProps & HeadingContainerProps
 >(
   (
-    { $textAlign, $textTransform, $level, $responsive, $color, ...props },
+    { textAlign, textTransform, $level, $responsive, $color, ...props },
     ref,
   ) => (
     <Box
@@ -29,8 +29,8 @@ const ContainerBox = React.forwardRef<
       fontWeight={getValueForLevel($level, 'fontWeight', $responsive)}
       lineHeight={getValueForLevel($level, 'lineHeight', $responsive)}
       ref={ref}
-      textAlign={$textAlign as any}
-      textTransform={$textTransform as any}
+      textAlign={textAlign as any}
+      textTransform={textTransform as any}
       {...props}
     />
   ),
@@ -74,8 +74,8 @@ export const Heading = React.forwardRef<HTMLDivElement, HeadingProps>(
       $color={color}
       $level={level}
       $responsive={responsive}
-      $textAlign={align}
-      $textTransform={transform}
+      textAlign={align}
+      textTransform={transform}
       as={as}
       id={id}
       ref={ref}

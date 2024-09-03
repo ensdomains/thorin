@@ -60,9 +60,9 @@ const IconGridFlex = (props: BoxProps) => (
 const ComponentContainer = (props: BoxProps) => (
   <Box
     {...props}
-    backgroundColor="$greySurface"
+    backgroundColor="greySurface"
     borderRadius="large"
-    color="$grey"
+    color="grey"
     padding="4"
     width="max"
     transitionDuration={150}

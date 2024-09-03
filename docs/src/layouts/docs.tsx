@@ -20,7 +20,7 @@ const Container = (props: React.ComponentProps<typeof Typography>) => (
     {...props}
     display="flex"
     flexDirection="column"
-    backgroundColor="$backgroundPrimary"
+    backgroundColor="backgroundPrimary"
     justifyContent={{ base: 'center', lg: 'flex-end', xl: 'center' }}
     margin="0 auto"
     width="full"

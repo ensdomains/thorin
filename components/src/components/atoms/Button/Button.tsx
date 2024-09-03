@@ -123,7 +123,7 @@ const ButtonBox = React.forwardRef<
       borderRadius={['circle', 'rounded'].includes($shape) ? 'full' : '$large'}
       borderStyle="solid"
       borderWidth="1x"
-      boxShadow={$shadow ? '0.25 $grey' : 'none'}
+      boxShadow={$shadow ? '0.25 grey' : 'none'}
       color={{
         base: getValidatedColor(
           $color,
@@ -224,7 +224,7 @@ const CounterIconBox = ({
     pointerEvents="none"
     px="1"
     transform={$visible ? scale(1) : scale(0.3)}
-    transitionDuration="$300"
+    transitionDuration={300}
     transitionProperty="all"
     transitionTimingFunction="inOut"
     {...props}
@@ -234,9 +234,9 @@ const CounterIconBox = ({
 const TooltipIndicatorBox = (props: BoxProps) => (
   <Box
     alignItems="center"
-    backgroundColor="$yellowPrimary"
+    backgroundColor="yellowPrimary"
     borderRadius="full"
-    color="$backgroundPrimary"
+    color="backgroundPrimary"
     display="flex"
     justifyContent="center"
     position="absolute"

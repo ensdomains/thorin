@@ -54,7 +54,7 @@ const Container = React.forwardRef<HTMLElement, BoxProps & ContainerProps>(
   ({ $size, $hasDropdown, $open, ...props }, ref) => (
     <Box
       alignItems="center"
-      backgroundColor={$open ? '$border' : '$backgroundPrimary'}
+      backgroundColor={$open ? '$border' : 'backgroundPrimary'}
       borderRadius="full"
       cursor={$hasDropdown ? 'pointer' : 'unset'}
       display="flex"
@@ -104,7 +104,7 @@ const ProfileInnerContainer = ({
       {...props}
       data-testid="profile-inner-container"
       display={$size === 'small' ? 'none' : 'block'}
-      flex="1"
+      flex={1}
       minWidth="none"
       overflow="hidden"
     />

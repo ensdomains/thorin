@@ -64,8 +64,8 @@ const ContainerBox = ({
 }: BoxProps & { $inline: boolean }) => (
   <Box
     alignItems="flex-start"
-    backgroundColor={{ base: '$greySurface', hover: '$greyLight' }}
-    borderColor="$border"
+    backgroundColor={{ base: 'greySurface', hover: 'greyLight' }}
+    borderColor="border"
     borderRadius="large"
     borderStyle="solid"
     borderWidth="1x"
@@ -125,12 +125,12 @@ const PrefixLabelsContainerBox = ({
 // )
 
 const PrefixSVGBox = (props: BoxProps) => (
-  <Box display="block" height="$5" width="$5" {...props} />
+  <Box display="block" height="5" width="$5" {...props} />
 )
 
 // const LabelBox = ({ $inline, ...props }: BoxProps & { $inline: boolean }) => (
 //   <Typography
-//     flex="1"
+//     flex={1}
 //     textAlign="left"
 //     wordBreak={$inline ? 'normal' : 'break-all'}
 //     {...props}
@@ -142,11 +142,11 @@ const TrailingSVGBox = ({
   ...props
 }: BoxProps & { $rotate: boolean }) => (
   <Box
-    color="$greyPrimary"
+    color="greyPrimary"
     display="block"
     marginTop="$1"
     transform={$rotate ? 'rotate(45deg)' : 'none'}
-    wh="$3"
+    wh="3"
     {...props}
   />
 )
@@ -247,7 +247,7 @@ export const RecordItem = React.forwardRef<
           </PrefixBox>
         )}
         <Typography
-          flex="1"
+          flex={1}
           fontVariant={size === 'large' ? 'body' : 'small'}
           textAlign="left"
           wordBreak={inline ? 'normal' : 'break-all'}

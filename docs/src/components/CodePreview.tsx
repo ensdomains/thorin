@@ -40,9 +40,9 @@ const initialState = {
 const Container = (props: BoxProps) => (
   <Box
     {...props}
-    backgroundColor="$background"
-    borderColor="$border"
-    borderRadius="$2xLarge"
+    backgroundColor="background"
+    borderColor="border"
+    borderRadius="2xLarge"
     borderWidth="1x"
     borderStyle="solid"
     overflow="hidden"
@@ -56,7 +56,7 @@ const ContainerInner = React.forwardRef<
   <Box
     {...props}
     ref={ref}
-    backgroundColor="$background"
+    backgroundColor="background"
     borderTopLeftRadius="$2xLarge"
     borderTopRightRadius="$2xLarge"
     borderBottomLeftRadius={$expand ? '2xLarge' : 'unset'}
@@ -70,9 +70,9 @@ ContainerInner.displayName = 'ComponentInner'
 const LiveEditorContainer = (props: BoxProps) => (
   <Box
     {...props}
-    backgroundColor="$greySurface"
+    backgroundColor="greySurface"
     position="relative"
-    padding="$1.5"
+    padding="1.5"
     borderColor="transparent"
     borderTopColor="$border"
     borderStyle="solid"

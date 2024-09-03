@@ -37,24 +37,24 @@ export const CopyButton = ({ content }: Props) => {
   }, [content])
 
   return (
-    <Box as="button" wh="$10" shape="square" cursor="pointer" onClick={onClick}>
+    <Box as="button" wh="10" shape="square" cursor="pointer" onClick={onClick}>
       <Box
         wh="6"
         backgroundColor={{
           base: '$background',
-          hover: '$greyLight',
+          hover: 'greyLight',
         }}
         display="flex"
         justifyContent="center"
         alignItems="center"
-        borderRadius="$medium"
+        borderRadius="medium"
         transform={{ base: 'translateY(0)', hover: 'translateY(-1px)' }}
         transition="all 0.3s ease-in-out"
       >
         <Box
           as={state.copied ? <CheckSVG /> : <CopySVG />}
-          wh="$3"
-          color="$textPrimary"
+          wh="3"
+          color="textPrimary"
         />
       </Box>
     </Box>

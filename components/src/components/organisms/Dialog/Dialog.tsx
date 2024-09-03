@@ -21,7 +21,7 @@ const CloseButton = (props: BoxProps) => (
     {...props}
     alignItems="center"
     as="button"
-    backgroundColor={{ base: 'transparent', hover: '$greySurface' }}
+    backgroundColor={{ base: 'transparent', hover: 'greySurface' }}
     borderRadius="full"
     cursor="pointer"
     data-testid="close-icon"
@@ -34,9 +34,9 @@ const CloseButton = (props: BoxProps) => (
     transitionDuration={150}
     transitionProperty="all"
     transitionTimingFunction="inOut"
-    wh="$8"
+    wh="8"
   >
-    <Box as={<CrossSVG />} color="$greyPrimary" display="block" wh="4" />
+    <Box as={<CrossSVG />} color="greyPrimary" display="block" wh="4" />
   </Box>
 )
 
@@ -44,10 +44,10 @@ const StyledCard = (props: BoxProps) => (
   <Box
     {...props}
     alignItems="center"
-    backgroundColor="$backgroundPrimary"
+    backgroundColor="backgroundPrimary"
     borderBottomLeftRadius={{ xs: '0', sm: '$3xLarge' }}
     borderBottomRightRadius={{ xs: '0', sm: '$3xLarge' }}
-    borderRadius="$3xLarge"
+    borderRadius="3xLarge"
     display="flex"
     flexDirection="column"
     gap={{ xs: '4', sm: '6' }}
@@ -77,7 +77,7 @@ const Icon = ({
       flexBasis="$8"
       flexGrow="0"
       flexShrink="0"
-      wh="$8"
+      wh="8"
     >
       <Box
         as={Icon}
@@ -144,7 +144,7 @@ const StepItem = ({ $type, ...props }: BoxProps & { $type: StepType }) => (
     borderRadius="full"
     borderStyle="solid"
     borderWidth={getValueForStepType($type, 'borderWidth')}
-    wh="$3.5"
+    wh="3.5"
   />
 )
 

@@ -28,7 +28,7 @@ const NavLink = ({
     <Link href={href}>
       <Box
         backgroundColor={active ? '$blueSurface' : 'transparent'}
-        height="$9"
+        height="9"
         display="flex"
         alignItems="center"
         borderRadius="large"
@@ -44,7 +44,7 @@ const Heading = ({
   children,
   ...props
 }: BoxProps & { icon: React.ReactElement }) => (
-  <Box {...props} display="flex" gap="$2" alignItems="center" height="$9">
+  <Box {...props} display="flex" gap="$2" alignItems="center" height="9">
     <Typography fontVariant="bodyBold" color="textSecondary">
       {children}
     </Typography>
@@ -54,8 +54,8 @@ const Heading = ({
 const Divider = () => (
   <Box
     width="full"
-    backgroundColor="$border"
-    height="$px"
+    backgroundColor="border"
+    height="px"
     flex="0 0 1px"
   />
 )
@@ -72,7 +72,7 @@ export const SideBar = ({ open, links }: { open: boolean, links: Links }) => {
       left={{ base: open ? '0' : '-100%', sm: '0' }}
       width="$64"
       bottom="0"
-      backgroundColor="$backgroundPrimary"
+      backgroundColor="backgroundPrimary"
       borderRight="1px solid"
       borderRightColor="$border"
       gap="4"

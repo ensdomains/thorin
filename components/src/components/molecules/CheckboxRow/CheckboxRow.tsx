@@ -41,7 +41,7 @@ const Input = React.forwardRef<HTMLElement, BoxProps>((props, ref) => (
     position="absolute"
     ref={ref}
     type="checkbox"
-    wh="$px"
+    wh="px"
   />
 ))
 
@@ -74,7 +74,7 @@ const CircleFrame = (props: BoxProps) => (
     flexGrow="0"
     flexShrink="0"
     position="relative"
-    wh="$7"
+    wh="7"
   />
 )
 

@@ -50,18 +50,18 @@ const PageButton = ({
   <Box
     {...props}
     as="button"
-    backgroundColor={{ base: '$background', hover: '$greySurface' }}
+    backgroundColor={{ base: '$background', hover: 'greySurface' }}
     border="1px solid"
-    borderColor="$border"
+    borderColor="border"
     borderRadius={getValueForSize($size, 'borderRadius')}
-    color={$selected ? '$accent' : '$greyPrimary'}
+    color={$selected ? '$accent' : 'greyPrimary'}
     cursor={$selected ? 'default' : 'pointer'}
     fontSize={getValueForSize($size, 'fontSize')}
     fontWeight="bold"
     height={getValueForSize($size, 'height')}
     lineHeight={getValueForSize($size, 'lineHeight')}
     minWidth={getValueForSize($size, 'minWidth')}
-    padding="$2"
+    padding="2"
     pointerEvents={$selected ? 'none' : 'auto'}
     transition="all 0.15s ease-in-out"
   />
@@ -71,7 +71,7 @@ const Dots = (props: BoxProps) => (
   <Box
     {...props}
     as="p"
-    color="$greyPrimary"
+    color="greyPrimary"
     fontSize="small"
     fontWeight="bold"
   />

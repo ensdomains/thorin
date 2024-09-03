@@ -81,8 +81,8 @@ const SelectContainer = ({
   <Box
     {...props}
     alignItems="center"
-    backgroundColor="$backgroundPrimary"
-    borderColor="$border"
+    backgroundColor="backgroundPrimary"
+    borderColor="border"
     borderRadius="large"
     borderStyle="solid"
     borderWidth="1x"
@@ -93,7 +93,7 @@ const SelectContainer = ({
     })}
     cursor="pointer"
     display="flex"
-    flex="1"
+    flex={1}
     gap="$2"
     height="full"
     overflow="hidden"
@@ -110,14 +110,14 @@ const RootInput = React.forwardRef<HTMLInputElement, BoxProps>((props, ref) => (
     position="absolute"
     ref={ref}
     visibility="hidden"
-    wh="$px"
+    wh="px"
   />
 ))
 
 const SelectLabel = (props: BoxProps) => (
   <Box
     {...props}
-    flex="1"
+    flex={1}
     overflow="hidden"
     textOverflow="ellipsis"
     whiteSpace="nowrap"
@@ -152,8 +152,8 @@ const SelectInput = React.forwardRef<HTMLInputElement, BoxProps>((props, ref) =>
     as="input"
     backgroundColor="transparent"
     className={styles.input}
-    color="$textPrimary"
-    flex="1"
+    color="textPrimary"
+    flex={1}
     height="full"
     paddingRight="0"
     ref={ref}
@@ -169,7 +169,7 @@ const SelectActionButton = ({
     {...props}
     alignItems="center"
     as="button"
-    color="$greyPrimary"
+    color="greyPrimary"
     cursor={$disabled ? 'not-allowed' : 'pointer'}
     display="flex"
     height="full"
@@ -207,7 +207,7 @@ const ToggleMenuButton = ({
       {...props}
       alignItems="center"
       as="button"
-      color="$greyPrimary"
+      color="greyPrimary"
       cursor={$disabled ? 'not-allowed' : 'pointer'}
       display="flex"
       height="full"
@@ -248,20 +248,20 @@ const SelectOptionContainer = ({
 }: BoxProps & SelectOptionContainerProps) => (
   <Box
     {...props}
-    backgroundColor="$backgroundPrimary"
-    borderColor="$border"
-    borderRadius="$2xLarge"
+    backgroundColor="backgroundPrimary"
+    borderColor="border"
+    borderRadius="2xLarge"
     borderStyle="solid"
     borderWidth="1x"
     bottom={getValueForTransitionState($state, 'bottom', $direction)}
     display={$state === 'exited' ? 'none' : 'block'}
     fontSize={getValueForSize($size, 'fontSize')}
     left={$align === 'left' ? 0 : 'unset'}
-    lineHeight="$body"
+    lineHeight="body"
     minWidth="full"
     opacity={getValueForTransitionState($state, 'opacity', $direction)}
     overflow="hidden"
-    padding="$2"
+    padding="2"
     position="absolute"
     right={$align === 'right' ? 0 : 'unset'}
     top={getValueForTransitionState($state, 'top', $direction)}
@@ -337,14 +337,14 @@ const SelectOptionRow = ({
       as="button"
       backgroundColor={{
         base: $selected
-          ? '$greyLight'
+          ? 'greyLight'
           : $highlighted
-            ? '$greySurface'
+            ? 'greySurface'
             : 'transparent',
         disabled: 'transparent',
       }}
       borderRadius="large"
-      color={{ base: $color || '$textPrimary', disabled: '$greyPrimary' }}
+      color={{ base: $color || 'textPrimary', disabled: 'greyPrimary' }}
       cursor={{ base: 'pointer', disabled: 'not-allowed' }}
       display="flex"
       flexBasis={getValueForSize($size, 'rowHeight')}
@@ -372,11 +372,11 @@ const NoResultsContainer = (props: BoxProps) => (
   <Box
     {...props}
     alignItems="center"
-    borderRadius="$medium"
+    borderRadius="medium"
     display="flex"
     fontStyle="italic"
     gap="$3"
-    height="$9"
+    height="9"
     justifyContent="flex-start"
     my="0.5"
     px="2"
@@ -884,7 +884,7 @@ export const Select = React.forwardRef<HTMLInputElement, SelectProps>(
                       <OptionElement data-testid="selected" option={selectedOption} />
                     )
                   : (
-                      <SelectLabel color="$greyPrimary" pointerEvents="none">
+                      <SelectLabel color="greyPrimary" pointerEvents="none">
                         {placeholder}
                       </SelectLabel>
                     )}

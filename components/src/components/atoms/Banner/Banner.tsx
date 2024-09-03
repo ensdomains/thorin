@@ -64,7 +64,7 @@ const ContainerBox = React.forwardRef<HTMLElement, ContainerProps>(
         hover: getValueForAlert($alert, 'hover'),
       }}
       borderColor={getValueForAlert($alert, 'border')}
-      borderRadius="$2xLarge"
+      borderRadius="2xLarge"
       borderStyle="solid"
       borderWidth="1x"
       display="flex"
@@ -119,7 +119,7 @@ const ActionButtonBox = (props: BoxProps) => (
   <Box
     as="button"
     backgroundColor="transparent"
-    padding="$2"
+    padding="2"
     position="absolute"
     right="0"
     top="0"
@@ -145,7 +145,7 @@ const ActionButtonIconBox = ({
     }}
     cursor="pointer"
     display="flex"
-    height="$5"
+    height="5"
     justifyContent="center"
     transform={{
       base: 'translateY(0)',
@@ -160,7 +160,7 @@ const ActionButtonIconBox = ({
 )
 
 const ActionButtonSVGBox = (props: BoxProps) => (
-  <Box display="block" height="$3" width="$3" {...props} {...props} />
+  <Box display="block" height="3" width="$3" {...props} {...props} />
 )
 
 const ActionButton = ({
@@ -231,7 +231,7 @@ export const Banner = React.forwardRef<
         </IconBox>
         <Box
           display="flex"
-          flex="1"
+          flex={1}
           flexDirection="column"
           gap="$1"
           justifyContent="center"

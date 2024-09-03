@@ -114,16 +114,16 @@ const DropdownMenuBox = React.forwardRef<
 >(({ $shortThrow, $direction, $state, ...props }, ref) => (
   <Box
     {...props}
-    backgroundColor="$background"
-    borderColor="$border"
-    borderRadius="$2xLarge"
+    backgroundColor="background"
+    borderColor="border"
+    borderRadius="2xLarge"
     borderStyle="solid"
     borderWidth="1x"
     bottom={$direction === 'up' ? 'full' : 'unset'}
     marginBottom={$direction === 'up' ? '$1.5' : 'unset'}
     marginTop={$direction === 'down' ? '$1.5' : 'unset'}
     opacity={1}
-    padding="$1.5"
+    padding="1.5"
     ref={ref}
     transform={match([$state, $direction, $shortThrow])
       .with([P.union('entering', 'entered'), P._, P._], () => `translateY(0)`)
@@ -161,19 +161,19 @@ const MenuButton = React.forwardRef<HTMLElement, BoxProps & MenuButtonProps>(
     <Box
       {...props}
       alignItems="center"
-      backgroundColor={{ base: '$backgroundPrimary', hover: '$greySurface' }}
+      backgroundColor={{ base: 'backgroundPrimary', hover: 'greySurface' }}
       borderRadius="large"
       color={
-        disabled ? '$textTertiary' : $color ? `$${$color}` : '$textPrimary'
+        disabled ? 'textTertiary' : $color ? `$${$color}` : 'textPrimary'
       }
       cursor={disabled ? 'not-allowed' : 'pointer'}
       display="flex"
       filter={{ base: 'brightness(1)', active: 'brightness(0.9)' }}
       fontWeight="normal"
       gap="$2"
-      height="$12"
+      height="12"
       justifyContent="flex-start"
-      padding="$3"
+      padding="3"
       paddingRight={$showIndicator ? '6' : '$3'}
       position="relative"
       ref={ref}
@@ -187,7 +187,7 @@ const MenuButton = React.forwardRef<HTMLElement, BoxProps & MenuButtonProps>(
         ? (
             <Box
               as={$icon}
-              color={$color ? `$${$color}` : '$textPrimary'}
+              color={$color ? `$${$color}` : 'textPrimary'}
               flexBasis="4"
               flexGrow="0"
               flexShrink="0"
@@ -208,7 +208,7 @@ const MenuButton = React.forwardRef<HTMLElement, BoxProps & MenuButtonProps>(
           right="$3"
           top="50%"
           transform="translateY(-50%)"
-          wh="$2"
+          wh="2"
         />
       )}
     </Box>

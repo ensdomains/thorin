@@ -10,10 +10,10 @@ type Item = {
 const Panel = ({ background = 'background', alt, src }: Item) => {
   return (
     <Box
-      flex="1"
+      flex={1}
       position="relative"
       border="1px solid"
-      borderColor="$border"
+      borderColor="border"
       borderRadius="large"
       display="flex"
       alignItems="center"
@@ -28,7 +28,7 @@ const Panel = ({ background = 'background', alt, src }: Item) => {
         href={src}
         download
         wh="6"
-        backgroundColor="$background"
+        backgroundColor="background"
         position="absolute"
         top="4"
         right="4"

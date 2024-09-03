@@ -260,7 +260,7 @@ const ContainerBox = ({
 const ContainerInnerBox = (props: BoxProps) => (
   <Box
     display="flex"
-    flex="1"
+    flex={1}
     flexDirection="column"
     gap="$1"
     overflow="hidden"

@@ -146,8 +146,8 @@ const Label = ({
     {...props}
     alignItems="center"
     as="label"
-    backgroundColor={$disabled ? '$border' : '$greySurface'}
-    color="$greyPrimary"
+    backgroundColor={$disabled ? '$border' : 'greySurface'}
+    color="greyPrimary"
     cursor={$disabled ? 'not-allowed' : 'pointer'}
     display="flex"
     fontSize={getValueForSize($size, 'labelFontSize')}
@@ -208,7 +208,7 @@ const ActionButton = ({
       {...props}
       alignItems="center"
       as="button"
-      color={{ base: '$greyPrimary', hover: '$greyBright' }}
+      color={{ base: 'greyPrimary', hover: 'greyBright' }}
       cursor="pointer"
       display="flex"
       flexBasis={getValueForSize($size, 'iconPadding')}
@@ -256,11 +256,11 @@ const InputComponent = React.forwardRef<HTMLElement, BoxProps & InputComponentPr
     <Box
       {...props}
       as="input"
-      backgroundColor={{ base: 'transparent', disabled: '$greyLight' }}
+      backgroundColor={{ base: 'transparent', disabled: 'greyLight' }}
       color={
         $hasError
           ? '$redPrimary'
-          : { base: '$textPrimary', disabled: '$greyPrimary' }
+          : { base: 'textPrimary', disabled: 'greyPrimary' }
       }
       cursor={{ base: 'text', disabled: 'not-allowed', readonly: 'default' }}
       fontSize={getValueForSize($size, 'labelFontSize')}
@@ -298,10 +298,10 @@ const InnerContainer = ({
 }: BoxProps & InnerContainerProps) => (
   <Box
     {...props}
-    backgroundColor={$disabled ? '$greyLight' : '$backgroundPrimary'}
+    backgroundColor={$disabled ? 'greyLight' : 'backgroundPrimary'}
     borderRadius={getValueForSize($size, 'borderRadius')}
     borderWidth="1x"
-    color="$textPrimary"
+    color="textPrimary"
     display="flex"
     overflow="hidden"
     position="relative"

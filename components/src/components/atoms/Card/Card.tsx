@@ -12,9 +12,9 @@ export type CardProps = {
 
 const ContainerBox = (props: BoxProps) => (
   <Box
-    backgroundColor="$backgroundPrimary"
-    borderColor="$border"
-    borderRadius="$2xLarge"
+    backgroundColor="backgroundPrimary"
+    borderColor="border"
+    borderRadius="2xLarge"
     borderStyle="solid"
     borderWidth="1x"
     display="flex"
@@ -28,8 +28,8 @@ const ContainerBox = (props: BoxProps) => (
 
 export const CardDivider = (props: BoxProps) => (
   <Box
-    backgroundColor="$border"
-    height="$px"
+    backgroundColor="border"
+    height="px"
     mx={{ xs: '$-4', sm: '$-6' }}
     width={{ xs: '$dialogMobileWidth', sm: '$dialogDesktopWidth' }}
     {...props}

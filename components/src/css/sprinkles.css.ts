@@ -41,7 +41,7 @@ const responsivePropeties = defineProperties({
     alignItems: ['flex-start', 'flex-end', 'center', 'stretch', 'baseline', 'inherit'],
     justifySelf: ['flex-start', 'flex-end', 'center', 'stretch', 'baseline', 'inherit'],
     justifyContent: ['flex-start', 'flex-end', 'center', 'stretch', 'baseline', 'inherit'],
-    display: ['none', 'block', 'flex', 'inline-block', 'grid', 'table', 'inherit'],
+    display: ['none', 'block', 'flex', 'inline-block', 'grid', 'table', 'inherit', 'initial'],
     flexDirection: ['row', 'row-reverse', 'column', 'column-reverse', 'inherit'],
     flex: [1, '0 0 1px', 'auto', 'initial', 'none', 'inherit'],
     flexShrink: [0, 1, 2, 'inherit'],
@@ -113,6 +113,8 @@ const staticProperties = defineProperties({
     visibility: ['visible', 'hidden', 'initial', 'inherit'],
     zIndex: [1, 10, 100, 9999, 10000, 999999],
     strokeWidth: commonVars.space,
+    fontStyle: ['italic', 'normal', 'inherit'],
+    boxSizing: ['border-box', 'content-box', 'inherit'],
   },
   shorthands: {
     typeSize: ['fontSize', 'lineHeight'],

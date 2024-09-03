@@ -22,7 +22,7 @@ export const NavBar = ({
       left="0"
       right="0"
       padding={{ base: '4', sm: '6' }}
-      backgroundColor="$backgroundPrimary"
+      backgroundColor="backgroundPrimary"
       height={{ base: '$20', sm: '$24' }}
       borderBottom="1px solid"
       borderBottomColor="$border"
@@ -55,12 +55,12 @@ export const NavBar = ({
           </Box>
         </Box>
         <Link href="/">
-          <Box as={<LogoSVG />} height="$12" />
+          <Box as={<LogoSVG />} height="12" />
         </Link>
       </Box>
       <Box display="flex" gap="$2" alignItems="center">
         <Link href="https://github.com/ensdomains/thorin">
-          <Box as={<GithubSVG />} color="$text" wh="4" />
+          <Box as={<GithubSVG />} color="text" wh="4" />
         </Link>
         <Link href="https://github.com/ensdomains/thorin">
           <Box as={<FigmaSVG />} wh="4" />

@@ -19,7 +19,7 @@ interface Container {
 
 const Container = ({ $shape, $size, ...props }: BoxProps & Container) => (
   <Box
-    backgroundColor="$backgroundSecondary"
+    backgroundColor="backgroundSecondary"
     borderRadius={$shape === 'circle' ? 'full' : '$2xLarge'}
     className={avatar}
     height={$size}
