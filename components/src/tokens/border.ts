@@ -6,6 +6,8 @@ export const borderStyles = {
 export const borderWidths = {
   '0': '0px',
   '1x': '1px',
+  'px': '1px',
+  '-px': '-1px',
   '2x': '2px',
   '10x': '10px',
 }

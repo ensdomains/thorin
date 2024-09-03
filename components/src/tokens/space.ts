@@ -2,13 +2,13 @@ export const negativeSpace = {
   '-1.5': '-0.375rem',
   '-4': '-1rem',
   '-6': '-1.5rem',
+  '-px': '-1px',
 }
 
 export const space = {
   ...negativeSpace,
   '0': '0',
   'px': '1px',
-  '-px': '-1px',
   '0.25': '0.0625rem',
   '0.5': '0.125rem',
   '0.75': '0.1875rem',
@@ -82,4 +82,5 @@ export const space = {
   'none': '0',
   'dialogMobileWidth': 'calc(100% + 2 * 1rem)',
   'dialogDesktopWidth': 'calc(100% + 2 * 1.5rem)',
+  'unset': 'unset',
 }

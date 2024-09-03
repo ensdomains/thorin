@@ -2,7 +2,7 @@ import { createSprinkles, defineProperties } from '@vanilla-extract/sprinkles'
 
 import { commonVars, modeVars } from './theme.css'
 
-const colorPropertiesObject = { ...modeVars.color, inherit: 'inherit', initial: 'initial', unset: 'unset' }
+const colorPropertiesObject = { ...modeVars.color, inherit: 'inherit', initial: 'initial', unset: 'unset', transparent: 'transparent' }
 
 const colorProperties = defineProperties({
   conditions: {
@@ -109,7 +109,9 @@ const staticProperties = defineProperties({
     cursor: ['pointer', 'not-allowed', 'initial', 'inherit'],
     transitionTimingFunction: commonVars.transitionTimingFunction,
     transitionDuration: commonVars.transitionDuration,
-    transitionProperty: ['all', 'none', 'box-shadow', 'initial', 'inherit'],
+    transitionProperty: ['all', 'none', 'box-shadow', 'background-color', 'initial', 'inherit'],
+    visibility: ['visible', 'hidden', 'initial', 'inherit'],
+    zIndex: [1, 10, 100, 9999, 10000, 999999],
   },
   shorthands: {
     typeSize: ['fontSize', 'lineHeight'],

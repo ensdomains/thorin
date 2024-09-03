@@ -25,25 +25,25 @@ const DividerBox = ({
 }) => {
   return (
     <Box
-      backgroundColor={show ? '$border' : 'transparent'}
-      bottom={position === 'bottom' ? '-$px' : 'unset'}
+      backgroundColor={show ? 'border' : 'transparent'}
+      bottom={position === 'bottom' ? '-px' : 'unset'}
       visibility={show ? 'visible' : 'hidden'}
       data-testid={`scrollbox-${position}-divider`}
       display="block"
-      height="$px"
-      left={horizontalPadding ? commonVars.space[horizontalPadding] : '$0'}
+      height="px"
+      left={horizontalPadding ? horizontalPadding : '0'}
       position="absolute"
       style={
         horizontalPadding
           ? { width: `calc(100% - 2 * ${commonVars.space[horizontalPadding]})` }
           : {}
       }
-      top={position === 'top' ? '$0' : 'unset'}
-      transitionDuration="$150"
+      top={position === 'top' ? '0' : 'unset'}
+      transitionDuration={150}
       transitionProperty="background-color"
-      transitionTimingFunction="$inOut"
-      width="$full"
-      zIndex="100"
+      transitionTimingFunction="inOut"
+      width="full"
+      zIndex={100}
     />
   )
 }
@@ -150,14 +150,16 @@ export const ScrollBox = ({
 
   return (
     <Box
-      border="solid $px transparent"
+      borderWidth="px"
+      borderColor="transparent"
       style={{
         borderLeftWidth: 0,
         borderRightWidth: 0,
+        borderStyle: 'solid',
       }}
-      height="$full"
+      height="full"
       position="relative"
-      width="$full"
+      width="full"
       {...props}
     >
       <ScrollBoxBox
@@ -173,14 +175,14 @@ export const ScrollBox = ({
         <Box
           data-testid="scrollbox-top-intersect"
           display="block"
-          height="$0"
+          height="0"
           ref={topRef}
         />
         {children}
         <Box
           data-testid="scrollbox-bottom-intersect"
           display="block"
-          height="$0"
+          height="0"
           ref={bottomRef}
         />
       </ScrollBoxBox>
