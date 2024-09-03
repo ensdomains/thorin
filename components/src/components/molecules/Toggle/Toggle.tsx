@@ -23,9 +23,9 @@ const CheckBox = React.forwardRef<
     alignItems="center"
     as="input"
     backgroundColor={{
-      base: '$border',
+      base: 'border',
       checked: getValidatedColor($color),
-      disabled: '$border',
+      disabled: 'border',
     }}
     borderRadius="full"
     cursor={{ base: 'pointer', disabled: 'not-allowed' }}

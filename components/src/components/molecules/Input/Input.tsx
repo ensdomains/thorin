@@ -146,7 +146,7 @@ const Label = ({
     {...props}
     alignItems="center"
     as="label"
-    backgroundColor={$disabled ? '$border' : 'greySurface'}
+    backgroundColor={$disabled ? 'border' : 'greySurface'}
     color="greyPrimary"
     cursor={$disabled ? 'not-allowed' : 'pointer'}
     display="flex"

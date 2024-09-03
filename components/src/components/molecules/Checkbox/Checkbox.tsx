@@ -73,8 +73,8 @@ const InputBox = React.forwardRef<HTMLElement, BoxProps & { $colorStyle: ColorSt
       <Box
         as="input"
         backgroundColor={{
-          base: '$border',
-          disabled: '$border',
+          base: 'border',
+          disabled: 'border',
           checked: getValueForColorStyle($colorStyle, 'background'),
         }}
         borderRadius="small"
