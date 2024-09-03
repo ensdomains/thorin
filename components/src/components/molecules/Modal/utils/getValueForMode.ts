@@ -13,7 +13,7 @@ type Property = keyof Properties
 
 const modeMap: { [key in Mode]: Properties } = {
   mobileBottom: {
-    width: '$full',
+    width: 'full',
     top: 'unset',
     left: '$0',
     translate: 'unset',
@@ -21,7 +21,7 @@ const modeMap: { [key in Mode]: Properties } = {
     bottom: '$0',
   },
   mobileTop: {
-    width: '$full',
+    width: 'full',
     top: '$0',
     left: '$0',
     transform: 'translateY(-128px)',

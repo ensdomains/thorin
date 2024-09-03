@@ -39,8 +39,8 @@ const Label = ({
     cursor="pointer"
     display="flex"
     fontFamily="$sans"
-    fontSize="$small"
-    fontWeight={$size === 'extraSmall' ? '$normal' : '$bold'}
+    fontSize="small"
+    fontWeight={$size === 'extraSmall' ? '$normal' : 'bold'}
     height={getValuesForKnob($size, 'height')}
     justifyContent="center"
     left="50%"
@@ -81,7 +81,7 @@ const Slider = ({
   <Box
     {...props}
     backgroundColor={getValidatedColor($color)}
-    borderRadius={$size === 'extraSmall' ? '$full' : '$medium'}
+    borderRadius={$size === 'extraSmall' ? 'full' : '$medium'}
     display="block"
     height={getValuesForKnob($size, 'height')}
     left="50%"

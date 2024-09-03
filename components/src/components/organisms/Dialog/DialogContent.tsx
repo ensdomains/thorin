@@ -45,7 +45,7 @@ const Container = forwardRef<
     display="flex"
     flex={1}
     flexDirection="column"
-    gap="$4"
+    gap="4"
     justifyContent="flex-start"
     margin={{
       base: $fullWidth
@@ -81,7 +81,7 @@ const ScrollBoxContent = ({
     flexDirection="column"
     gap={gap}
     justifyContent="flex-start"
-    width="$full"
+    width="full"
   >
     {children}
   </Box>

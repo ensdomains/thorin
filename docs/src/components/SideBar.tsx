@@ -31,8 +31,8 @@ const NavLink = ({
         height="$9"
         display="flex"
         alignItems="center"
-        borderRadius="$large"
-        px="$4"
+        borderRadius="large"
+        px="4"
       >
         <Typography color={active ? 'accent' : 'text'}>{children}</Typography>
       </Box>
@@ -53,7 +53,7 @@ const Heading = ({
 
 const Divider = () => (
   <Box
-    width="$full"
+    width="full"
     backgroundColor="$border"
     height="$px"
     flex="0 0 1px"
@@ -69,21 +69,21 @@ export const SideBar = ({ open, links }: { open: boolean, links: Links }) => {
       position="fixed"
       flexDirection="column"
       top={{ base: '$20', sm: '$24' }}
-      left={{ base: open ? '$0' : '-100%', sm: '$0' }}
+      left={{ base: open ? '0' : '-100%', sm: '0' }}
       width="$64"
-      bottom="$0"
+      bottom="0"
       backgroundColor="$backgroundPrimary"
       borderRight="1px solid"
       borderRightColor="$border"
-      gap="$4"
+      gap="4"
       transition="left 0.2s ease-in-out"
       paddingRight="$1"
     >
-      <ScrollBox width="$full" hideDividers>
-        <Box padding="$4" display="flex" flexDirection="column" gap="$4">
+      <ScrollBox width="full" hideDividers>
+        <Box padding="4" display="flex" flexDirection="column" gap="4">
           <Field
             label={(
-              <Box height="$6.5" display="flex" alignItems="center">
+              <Box height="6.5" display="flex" alignItems="center">
                 {mode === 'light' ? 'Light Theme' : 'Dark Theme'}
               </Box>
             )}
@@ -152,7 +152,7 @@ export const SideBar = ({ open, links }: { open: boolean, links: Links }) => {
                   key={name}
                   fontVariant="smallBold"
                   color="textSecondary"
-                  px="$4"
+                  px="4"
                   textTransform="capitalize"
                   paddingTop="$3"
                   paddingBottom="$1"

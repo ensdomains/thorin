@@ -83,9 +83,9 @@ const SelectContainer = ({
     alignItems="center"
     backgroundColor="$backgroundPrimary"
     borderColor="$border"
-    borderRadius="$large"
+    borderRadius="large"
     borderStyle="solid"
-    borderWidth="$1x"
+    borderWidth="1x"
     className={statusBorder({
       error: $hasError,
       readonly: $readOnly,
@@ -95,7 +95,7 @@ const SelectContainer = ({
     display="flex"
     flex="1"
     gap="$2"
-    height="$full"
+    height="full"
     overflow="hidden"
     paddingLeft={getValueForSize($size, 'outerPadding')}
   />
@@ -135,7 +135,7 @@ const SelectLabelWithPrefix = ({
     ? (
         <>
           {React.isValidElement(option.prefix) && (
-            <Box display="block" height="$4" width="$4">
+            <Box display="block" height="4" width="4">
               {option.prefix}
             </Box>
           )}
@@ -154,8 +154,8 @@ const SelectInput = React.forwardRef<HTMLInputElement, BoxProps>((props, ref) =>
     className={styles.input}
     color="$textPrimary"
     flex="1"
-    height="$full"
-    paddingRight="$0"
+    height="full"
+    paddingRight="0"
     ref={ref}
   />
 ))
@@ -172,10 +172,10 @@ const SelectActionButton = ({
     color="$greyPrimary"
     cursor={$disabled ? 'not-allowed' : 'pointer'}
     display="flex"
-    height="$full"
+    height="full"
     justifyContent="flex-end"
-    margin="$0"
-    padding="$0"
+    margin="0"
+    padding="0"
     paddingLeft="$2"
     paddingRight={getValueForSize($size, 'outerPadding')}
   >
@@ -210,10 +210,10 @@ const ToggleMenuButton = ({
       color="$greyPrimary"
       cursor={$disabled ? 'not-allowed' : 'pointer'}
       display="flex"
-      height="$full"
+      height="full"
       justifyContent="flex-end"
-      margin="$0"
-      padding="$0"
+      margin="0"
+      padding="0"
       paddingLeft="$2"
       paddingRight={getValueForSize($size, 'outerPadding')}
     >
@@ -224,7 +224,7 @@ const ToggleMenuButton = ({
         transform={rotate(rotation)}
         transitionDuration="$200"
         transitionProperty="all"
-        transitionTimingFunction="$inOut"
+        transitionTimingFunction="inOut"
         wh={getValueForSize($size, 'iconWidth')}
       />
     </Box>
@@ -252,13 +252,13 @@ const SelectOptionContainer = ({
     borderColor="$border"
     borderRadius="$2xLarge"
     borderStyle="solid"
-    borderWidth="$1x"
+    borderWidth="1x"
     bottom={getValueForTransitionState($state, 'bottom', $direction)}
     display={$state === 'exited' ? 'none' : 'block'}
     fontSize={getValueForSize($size, 'fontSize')}
     left={$align === 'left' ? 0 : 'unset'}
     lineHeight="$body"
-    minWidth="$full"
+    minWidth="full"
     opacity={getValueForTransitionState($state, 'opacity', $direction)}
     overflow="hidden"
     padding="$2"
@@ -293,7 +293,7 @@ const SelectOptionList = ({
         hideDividers
         maxHeight={getValueForSize($size, 'maxHeightFunc')($rows)}
         paddingRight="$1"
-        width="$full"
+        width="full"
       >
         {children}
       </ScrollBox>
@@ -308,7 +308,7 @@ const SelectOptionList = ({
       gap="$1"
       justifyContent="space-between"
       overflow="hidden"
-      wh="$full"
+      wh="full"
     >
       {children}
     </Box>
@@ -343,7 +343,7 @@ const SelectOptionRow = ({
             : 'transparent',
         disabled: 'transparent',
       }}
-      borderRadius="$large"
+      borderRadius="large"
       color={{ base: $color || '$textPrimary', disabled: '$greyPrimary' }}
       cursor={{ base: 'pointer', disabled: 'not-allowed' }}
       display="flex"
@@ -351,17 +351,17 @@ const SelectOptionRow = ({
       flexGrow="0"
       flexShrink="0"
       fontSize={getValueForSize($size, 'fontSize')}
-      fontWeight="$normal"
+      fontWeight="normal"
       height={getValueForSize($size, 'rowHeight')}
       justifyContent="flex-start"
       lineHeight={getValueForSize($size, 'lineHeight')}
-      px="$3"
+      px="3"
       textAlign="left"
-      transitionDuration="$150"
+      transitionDuration={150}
       transitionProperty="all"
-      transitionTimingFunction="$inOut"
+      transitionTimingFunction="inOut"
       whiteSpace="nowrap"
-      width="$full"
+      width="full"
     >
       <SelectLabelWithPrefix option={option} />
     </Box>
@@ -378,13 +378,13 @@ const NoResultsContainer = (props: BoxProps) => (
     gap="$3"
     height="$9"
     justifyContent="flex-start"
-    my="$0.5"
-    px="$2"
-    transitionDuration="$150"
+    my="0.5"
+    px="2"
+    transitionDuration={150}
     transitionProperty="all"
-    transitionTimingFunction="$inOut"
+    transitionTimingFunction="inOut"
     whiteSpace="nowrap"
-    width="$full"
+    width="full"
   />
 )
 

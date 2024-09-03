@@ -66,14 +66,14 @@ export const PaletteModal = ({
         <Box
           display="flex"
           flexDirection="column"
-          gap={{ base: '$4', sm: '$6' }}
+          gap={{ base: '4', sm: '6' }}
         >
           <Box
-            width="$full"
+            width="full"
             height="$45"
             position="relative"
             overflow="hidden"
-            borderRadius="$large"
+            borderRadius="large"
             border="1px solid"
             borderColor="$border"
             backgroundColor={
@@ -84,7 +84,7 @@ export const PaletteModal = ({
           >
             <Box
               display="flex"
-              width="$full"
+              width="full"
               position="absolute"
               bottom="0"
               left="0"
@@ -96,7 +96,7 @@ export const PaletteModal = ({
                   cursor="pointer"
                   key={name}
                   flex="1"
-                  height="$4"
+                  height="4"
                   backgroundColor={rawColorToRGB(color)}
                   onClick={() => setSelectedIndex(i)}
                 />

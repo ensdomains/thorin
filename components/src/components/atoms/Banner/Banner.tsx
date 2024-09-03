@@ -66,10 +66,10 @@ const ContainerBox = React.forwardRef<HTMLElement, ContainerProps>(
       borderColor={getValueForAlert($alert, 'border')}
       borderRadius="$2xLarge"
       borderStyle="solid"
-      borderWidth="$1x"
+      borderWidth="1x"
       display="flex"
-      gap={{ base: '$4', sm: '$6' }}
-      padding={{ base: '$4', sm: '$6' }}
+      gap={{ base: '4', sm: '6' }}
+      padding={{ base: '4', sm: '6' }}
       position="relative"
       pr={$hasAction ? '$8' : undefined}
       ref={ref}
@@ -77,10 +77,10 @@ const ContainerBox = React.forwardRef<HTMLElement, ContainerProps>(
         base: 'translateY(0)',
         hover: $hasAction ? 'translateY(-1px)' : 'translateY(0px)',
       }}
-      transitionDuration="$150"
+      transitionDuration={150}
       transitionProperty="all"
       transitionTimingFunction="$ease-in-out"
-      width="$full"
+      width="full"
       {...props}
     />
   ),
@@ -92,7 +92,7 @@ const IconBox = ({
 }: BoxProps & { $alert: NonNullableAlert }) => (
   <Box
     backgroundColor={getValueForAlert($alert, 'icon')}
-    borderRadius="$full"
+    borderRadius="full"
     color={getValueForAlert($alert, 'svg')}
     flex="0"
     flexBasis={{ base: '$8', sm: '$10' }}
@@ -108,9 +108,9 @@ const SVGBox = ({
 }: BoxProps & { $alert: NonNullableAlert }) => (
   <Box
     display="block"
-    height="$full"
+    height="full"
     transform={$alert === 'info' ? 'scale(1)' : 'scale(0.5)'}
-    width="$full"
+    width="full"
     {...props}
   />
 )
@@ -138,7 +138,7 @@ const ActionButtonIconBox = ({
       base: getValueForAlert($alert, 'actionIcon'),
       hover: getValueForAlert($alert, 'actionIconHover'),
     }}
-    borderRadius="$full"
+    borderRadius="full"
     color={{
       base: getValueForAlert($alert, 'actionSvg'),
       hover: getValueForAlert($alert, 'actionSvgHover'),
@@ -151,7 +151,7 @@ const ActionButtonIconBox = ({
       base: 'translateY(0)',
       hover: $hasAction ? 'translateY(-1px)' : 'translateY(0px)',
     }}
-    transitionDuration="$150"
+    transitionDuration={150}
     transitionProperty="all"
     transitionTimingFunction="$ease-in-out"
     width="$5"

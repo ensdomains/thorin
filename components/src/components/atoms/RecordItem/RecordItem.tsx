@@ -66,21 +66,21 @@ const ContainerBox = ({
     alignItems="flex-start"
     backgroundColor={{ base: '$greySurface', hover: '$greyLight' }}
     borderColor="$border"
-    borderRadius="$large"
+    borderRadius="large"
     borderStyle="solid"
-    borderWidth="$1x"
+    borderWidth="1x"
     cursor="pointer"
     display="flex"
     gap="$2"
     height={$inline ? '$10' : 'fit-content'}
     padding="2.5 3"
-    px="$3"
+    px="3"
     py="$2.5"
     transform={{ base: 'translateY(0)', hover: 'translateY(-1px)' }}
-    transitionDuration="$150"
+    transitionDuration={150}
     transitionProperty="all"
-    transitionTimingFunction="$inOut"
-    width={$inline ? 'fit-content' : '$full'}
+    transitionTimingFunction="inOut"
+    width={$inline ? 'fit-content' : 'full'}
     {...props}
   />
 )
@@ -114,14 +114,14 @@ const PrefixLabelsContainerBox = ({
     alignItems={$inline ? 'center' : 'flex-start'}
     display="flex"
     flexDirection={$inline ? 'row' : 'column'}
-    gap={$inline ? '$2' : '$0'}
+    gap={$inline ? '$2' : '0'}
     overflow="hidden"
     {...props}
   />
 )
 
 // const PrefixLabelBox = (props: BoxProps) => (
-//   <Typography textAlign="left" width="$full" {...props} />
+//   <Typography textAlign="left" width="full" {...props} />
 // )
 
 const PrefixSVGBox = (props: BoxProps) => (
@@ -200,7 +200,7 @@ export const RecordItem = React.forwardRef<
               ellipsis={!inline}
               fontVariant={size === 'large' ? 'bodyBold' : 'smallBold'}
               textAlign="left"
-              width="$full"
+              width="full"
             >
               {keyLabel}
             </Typography>
@@ -217,7 +217,7 @@ export const RecordItem = React.forwardRef<
               ellipsis={!inline}
               fontVariant={size === 'large' ? 'smallBold' : 'extraSmallBold'}
               textAlign="left"
-              width="$full"
+              width="full"
             >
               {keySublabel}
             </Typography>

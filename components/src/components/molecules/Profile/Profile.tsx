@@ -55,7 +55,7 @@ const Container = React.forwardRef<HTMLElement, BoxProps & ContainerProps>(
     <Box
       alignItems="center"
       backgroundColor={$open ? '$border' : '$backgroundPrimary'}
-      borderRadius="$full"
+      borderRadius="full"
       cursor={$hasDropdown ? 'pointer' : 'unset'}
       display="flex"
       filter={{
@@ -75,9 +75,9 @@ const Container = React.forwardRef<HTMLElement, BoxProps & ContainerProps>(
         base: translateY(0),
         hover: translateY($hasDropdown ? -1 : 0),
       }}
-      transitionDuration="$150"
+      transitionDuration={150}
       transitionProperty="color, border-color, background-color, transform, filter"
-      transitionTimingFunction="$inOut"
+      transitionTimingFunction="inOut"
       width={getValueForSize($size, 'width')}
       zIndex={10}
       {...props}

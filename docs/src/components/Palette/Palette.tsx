@@ -16,7 +16,7 @@ const ColorLabel = ({ children }: React.PropsWithChildren) => (
     display="flex"
     alignItems="center"
     justifyContent="center"
-    fontWeight="$bold"
+    fontWeight="bold"
     fontSize="$body"
   >
     {children}
@@ -29,7 +29,7 @@ const ShadeLabel = ({ children }: React.PropsWithChildren) => (
     alignItems="center"
     justifyContent="center"
     fontSize="$body"
-    fontWeight="$bold"
+    fontWeight="bold"
   >
     {children}
   </Box>
@@ -45,7 +45,7 @@ const ColorCell = ({
   <Box
     transform={{ base: 'scale(1)', hover: 'scale(1.05)' }}
     backgroundColor={`rgb(${color[0]}, ${color[1]}, ${color[2]})`}
-    borderRadius="$large"
+    borderRadius="large"
     transition="transform 0.15s ease-in-out"
     onClick={onClick}
   />

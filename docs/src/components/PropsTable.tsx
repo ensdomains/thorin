@@ -24,7 +24,7 @@ const TableHead = ({
   children,
 }: React.PropsWithChildren) => (
   <Box as="th" position="sticky">
-    <Box as="div" padding="$4" textAlign="left">
+    <Box as="div" padding="4" textAlign="left">
       <Typography fontVariant="bodyBold" textTransform="capitalize">
         {children}
       </Typography>
@@ -33,7 +33,7 @@ const TableHead = ({
 )
 
 const DataCell = ({ children }: React.PropsWithChildren) => (
-  <Box as="td" borderTop="1px solid" borderTopColor="$border" padding="$4">
+  <Box as="td" borderTop="1px solid" borderTopColor="$border" padding="4">
     {children}
   </Box>
 )
@@ -84,12 +84,12 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
             <ScrollBox>
               <Box
                 as="table"
-                width="$full"
+                width="full"
                 borderSpacing="0"
-                borderWidth="$1x"
+                borderWidth="1x"
                 borderStyle="solid"
                 borderColor="$border"
-                borderRadius="$large"
+                borderRadius="large"
                 overflow="hidden"
               >
                 <Box as="thead" backgroundColor="$greySurface">

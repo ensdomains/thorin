@@ -41,8 +41,8 @@ const Label = ({
     color="$textAccent"
     cursor="pointer"
     display="flex"
-    fontSize="$small"
-    fontWeight={$size === 'extraSmall' ? '$normal' : '$bold'}
+    fontSize="small"
+    fontWeight={$size === 'extraSmall' ? '$normal' : 'bold'}
     justifyContent="center"
     left="50%"
     pointerEvents="none"
@@ -62,7 +62,7 @@ const Checkbox = React.forwardRef<HTMLElement, BoxProps & { $size: Size }>(
       alignItems="center"
       as="input"
       backgroundColor="$greySurface"
-      borderRadius="$full"
+      borderRadius="full"
       cursor={{ base: 'pointer', disabled: 'not-allowed' }}
       display="flex"
       height={getValueForSize($size, 'height')}
@@ -83,7 +83,7 @@ const Slider = ({
   <Box
     {...props}
     backgroundColor={getValidatedColor($color)}
-    borderRadius="$full"
+    borderRadius="full"
     display="block"
     left="50%"
     pointerEvents="none"

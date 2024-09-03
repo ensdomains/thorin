@@ -13,8 +13,8 @@ export const Header = ({ description, title }: Props) => {
       <Box
         display="flex"
         flexDirection="column"
-        gap="$6"
-        paddingTop={{ base: '$4', sm: '$6' }}
+        gap="6"
+        paddingTop={{ base: '4', sm: '6' }}
       >
         <Heading color="text" level="1">
           {title}

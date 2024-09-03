@@ -74,7 +74,7 @@ export const Spinner = React.forwardRef<HTMLElement, SpinnerProps>(
           display="block"
           fill="currentColor"
           stroke="currentColor"
-          wh="$full"
+          wh="full"
         />
       </ContainerBox>
     )

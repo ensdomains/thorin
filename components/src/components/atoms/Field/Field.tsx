@@ -84,7 +84,7 @@ const LabelBox = ({
 )
 
 const InnerLabelBox = (props: React.ComponentProps<typeof Typography>) => (
-  <Typography {...props} width="$full" />
+  <Typography {...props} width="full" />
 )
 
 const SecondaryLabelBox = (props: React.ComponentProps<typeof Typography>) => (
@@ -108,7 +108,7 @@ const LabelContentContainerBox = ({
     display="flex"
     gap="$2"
     overflow="hidden"
-    px={$inline ? '$0' : '$2'}
+    px={$inline ? '0' : '$2'}
     {...props}
   />
 )
@@ -172,8 +172,8 @@ const DescriptionBox = ({
 }: React.ComponentProps<typeof Typography> & { $inline: boolean }) => (
   <Typography
     overflow="hidden"
-    padding={$inline ? '$0' : '$2'}
-    width="$full"
+    padding={$inline ? '0' : '$2'}
+    width="full"
     {...props}
   />
 )
@@ -182,7 +182,7 @@ const ErrorBox = ({
   $inline,
   ...props
 }: React.ComponentProps<typeof Typography> & { $inline: boolean }) => (
-  <Typography padding={$inline ? '$0' : '$2'} {...props} />
+  <Typography padding={$inline ? '0' : '$2'} {...props} />
 )
 
 const DecorativeContent = ({

@@ -32,7 +32,7 @@ const IconGrid = (props: BoxProps) => (
   <Box
     {...props}
     display="grid"
-    gap="$4"
+    gap="4"
 
     gridTemplateColumns={{
       base: 'repeat(auto-fit, minmax(4.5rem, 1fr))',
@@ -61,14 +61,14 @@ const ComponentContainer = (props: BoxProps) => (
   <Box
     {...props}
     backgroundColor="$greySurface"
-    borderRadius="$large"
+    borderRadius="large"
     color="$grey"
-    padding="$4"
-    width="$max"
-    transitionDuration="$150"
+    padding="4"
+    width="max"
+    transitionDuration={150}
     transitionProperty="box-shadow"
-    transitionTimingFunction="$inOut"
-    boxShadow={{ base: '$1', hover: '$1', active: '$0.5' }}
+    transitionTimingFunction="inOut"
+    boxShadow={{ base: '$1', hover: '$1', active: '0.5' }}
   />
 )
 
@@ -87,7 +87,7 @@ export const SearchIcons = () => {
   }, [state.query])
 
   return (
-    <Box my="$6">
+    <Box my="6">
       <Card>
         <FlexContainer>
           <Input

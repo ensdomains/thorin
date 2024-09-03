@@ -13,12 +13,12 @@ const Container = (props: BoxProps) => (
     as="fieldset"
     display="flex"
     flexDirection="column"
-    gap="$4"
+    gap="4"
   />
 )
 
 const ContainerInner = (props: BoxProps) => (
-  <Box {...props} display="flex" flexDirection="column" gap="$1" px="$4" />
+  <Box {...props} display="flex" flexDirection="column" gap="$1" px="4" />
 )
 
 const Row = (props: BoxProps) => (
@@ -36,7 +36,7 @@ const Description = (props: BoxProps) => (
 )
 
 const ChildrenContainer = (props: BoxProps) => (
-  <Box {...props} display="flex" flexDirection="column" gap="$4" />
+  <Box {...props} display="flex" flexDirection="column" gap="4" />
 )
 
 type NativeFieldSetProps = React.FieldsetHTMLAttributes<HTMLFieldSetElement>

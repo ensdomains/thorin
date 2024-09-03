@@ -27,7 +27,7 @@ const CheckBox = React.forwardRef<
       checked: getValidatedColor($color),
       disabled: '$border',
     }}
-    borderRadius="$full"
+    borderRadius="full"
     cursor={{ base: 'pointer', disabled: 'not-allowed' }}
     display="flex"
     height={getValueForSize($size, 'height')}

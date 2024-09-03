@@ -39,7 +39,7 @@ export const CopyButton = ({ content }: Props) => {
   return (
     <Box as="button" wh="$10" shape="square" cursor="pointer" onClick={onClick}>
       <Box
-        wh="$6"
+        wh="6"
         backgroundColor={{
           base: '$background',
           hover: '$greyLight',

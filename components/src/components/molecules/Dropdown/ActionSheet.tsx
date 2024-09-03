@@ -19,7 +19,7 @@ const ActionSheetContent = React.forwardRef<HTMLElement, BoxProps>(
       gap="$2.5"
       padding="$2.5"
       ref={ref}
-      width="$full"
+      width="full"
     />
   ),
 )
@@ -27,12 +27,12 @@ const ActionSheetContent = React.forwardRef<HTMLElement, BoxProps>(
 const ActionSheetOptions = (props: BoxProps) => (
   <Box
     {...props}
-    borderRadius="$large"
+    borderRadius="large"
     display="flex"
     flexDirection="column"
     gap="$px"
     textAlign="center"
-    width="$full"
+    width="full"
   />
 )
 
@@ -48,12 +48,12 @@ const ActionSheetItem = (props: BoxProps) => (
     justifyContent="center"
     padding="$5"
     position="relative"
-    width="$full"
+    width="full"
   />
 )
 
 const ActionSheetLinkItem = (props: BoxProps) => (
-  <Box {...props} color={props.color || '$text'} fontWeight="$normal" />
+  <Box {...props} color={props.color || '$text'} fontWeight="normal" />
 )
 
 type Props = {

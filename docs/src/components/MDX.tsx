@@ -48,7 +48,7 @@ export const MDX: MDXProviderProps['components'] = {
               as={<LinkSVG />}
               display="inline-block"
               marginLeft="$2"
-              wh="$4"
+              wh="4"
               color="$greyPrimary"
             >
             </Box>

@@ -57,7 +57,7 @@ const PageButton = ({
     color={$selected ? '$accent' : '$greyPrimary'}
     cursor={$selected ? 'default' : 'pointer'}
     fontSize={getValueForSize($size, 'fontSize')}
-    fontWeight="$bold"
+    fontWeight="bold"
     height={getValueForSize($size, 'height')}
     lineHeight={getValueForSize($size, 'lineHeight')}
     minWidth={getValueForSize($size, 'minWidth')}
@@ -72,8 +72,8 @@ const Dots = (props: BoxProps) => (
     {...props}
     as="p"
     color="$greyPrimary"
-    fontSize="$small"
-    fontWeight="$bold"
+    fontSize="small"
+    fontWeight="bold"
   />
 )
 

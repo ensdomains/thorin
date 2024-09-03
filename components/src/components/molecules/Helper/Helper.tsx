@@ -29,23 +29,23 @@ const Container = ({
     alignItems="center"
     backgroundColor={getValueForAlert($alert, 'background')}
     borderColor={getValueForAlert($alert, 'border')}
-    borderRadius="$large"
+    borderRadius="large"
     borderStyle="solid"
-    borderWidth="$1x"
+    borderWidth="1x"
     display="flex"
     flexDirection={$alignment === 'horizontal' ? 'row' : 'column'}
-    gap={$alignment === 'horizontal' ? '$4' : '$2'}
+    gap={$alignment === 'horizontal' ? '4' : '$2'}
     justifyContent={$alignment === 'horizontal' ? 'flex-start' : 'center'}
     overflowX="auto"
-    px="$4"
-    py={$alignment === 'horizontal' ? '$4' : '$6'}
+    px="4"
+    py={$alignment === 'horizontal' ? '4' : '6'}
     textAlign={$alignment === 'horizontal' ? 'left' : 'center'}
-    width="$full"
+    width="full"
   />
 )
 
 const IconElement = ({ $alert, ...props }: BoxProps & { $alert: Alert }) => (
-  <Box {...props} color={getValueForAlert($alert, 'svg')} wh="$6" />
+  <Box {...props} color={getValueForAlert($alert, 'svg')} wh="6" />
 )
 
 export const Helper: React.FC<HelperProps> = ({

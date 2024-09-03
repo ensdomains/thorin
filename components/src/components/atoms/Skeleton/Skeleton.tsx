@@ -5,16 +5,15 @@ import classNames from 'clsx'
 import * as styles from './styles.css'
 
 import { SkeletonGroupContext } from '../../molecules/SkeletonGroup/SkeletonGroup'
+import type { BoxProps } from '../Box/Box'
 import { Box } from '../Box/Box'
-
-type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 
 export type SkeletonProps = {
   /** An alternative element type to render the component as. */
   as?: 'span'
   /** If true, hides the content and shows the skeleton style. */
   loading?: boolean
-} & NativeDivProps
+} & BoxProps
 
 export const Skeleton: React.FC<SkeletonProps> = ({ as, children, loading, ...props }) => {
   const groupLoading = React.useContext(SkeletonGroupContext)

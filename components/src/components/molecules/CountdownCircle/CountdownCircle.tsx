@@ -24,7 +24,7 @@ const NumberBox = ({
     color={disabled ? '$greyPrimary' : getValidatedColor($color)}
     display="flex"
     fontSize={getValueForNumberForSize($size, 'fontSize')}
-    fontWeight="$extraBold"
+    fontWeight="extraBold"
     justifyContent="center"
     lineHeight={getValueForNumberForSize($size, 'lineHeight')}
     marginTop={getValueForNumberForSize($size, 'marginTop')}
@@ -46,7 +46,7 @@ const ContainerBox = React.forwardRef<
     color={disabled ? '$greyLight' : getValidatedColor($color)}
     ref={ref}
     stroke="currentColor"
-    strokeWidth="$1"
+    strokeWidth="1"
     wh={$size === 'large' ? '$24' : '$16'}
   />
 ))
@@ -161,7 +161,7 @@ export const CountdownCircle = React.forwardRef<HTMLDivElement, CountdownCircleP
                 display="block"
                 id="countdown-complete-check"
                 overflow="visible"
-                strokeWidth="$1.5"
+                strokeWidth="1.5"
               />
             ))
             .exhaustive()}

@@ -16,7 +16,7 @@ const PaletteCell = ({
     <Box flex="1" display="flex" flexDirection="column" gap="$2">
       <Typography
         fontVariant="bodyBold"
-        px="$2"
+        px="2"
         textTransform="lowercase"
         overflow="hidden"
         ellipsis
@@ -24,10 +24,10 @@ const PaletteCell = ({
         {name}
       </Typography>
       <Box
-        width="$full"
+        width="full"
         height="$24"
         backgroundColor={rawColorToRGB(color)}
-        borderRadius="$large"
+        borderRadius="large"
         border="1px solid"
         borderColor="$border"
         transform={{ base: 'scale(1)', hover: 'scale(1.05)' }}
@@ -61,10 +61,10 @@ export const PaletteRow = ({
   return (
     <>
       <Box
-        width="$full"
+        width="full"
         height="$max"
         display="flex"
-        gap={{ base: '$4', sm: '$6' }}
+        gap={{ base: '4', sm: '6' }}
       >
         {shades.map(([shade, rawColor]) => (
           <PaletteCell

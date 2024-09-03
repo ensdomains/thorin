@@ -57,7 +57,7 @@ const Container = React.forwardRef<HTMLElement, BoxProps & ContainerProps>(
       bottom={match($mobile)
         .with(true, () => 'unset')
         .otherwise(() => ($bottom ? `$${$bottom}` : 'unset'))}
-      boxShadow="$0.02"
+      boxShadow="0.02"
       display="flex"
       flexDirection="column"
       justifyContent="center"
@@ -160,7 +160,7 @@ const DesktopToast = ({
 }
 
 const ActionWrapper = (props: BoxProps) => (
-  <Box {...props} marginTop="$3" width="$full" />
+  <Box {...props} marginTop="$3" width="full" />
 )
 
 export const TouchToast = ({

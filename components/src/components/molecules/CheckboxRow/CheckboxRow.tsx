@@ -30,7 +30,7 @@ const ContainerBox = ({ disabled, ...props }: BoxProps) => (
     }}
     transition="transform 150ms ease-in-out"
     {...props}
-    width="$full"
+    width="full"
   />
 )
 
@@ -55,15 +55,15 @@ const Label = ({
     as="label"
     backgroundColor={getValueForColorStyle($colorStyle, 'background')}
     borderColor="transparent"
-    borderRadius="$large"
+    borderRadius="large"
     borderStyle="solid"
-    borderWidth="$1x"
+    borderWidth="1x"
     cursor="pointer"
     display="flex"
-    gap="$4"
-    padding="$4"
+    gap="4"
+    padding="4"
     transition="all 0.3s ease-in-out"
-    wh="$full"
+    wh="full"
   />
 )
 
@@ -79,7 +79,7 @@ const CircleFrame = (props: BoxProps) => (
 )
 
 const SVG = (props: BoxProps) => (
-  <Box {...props} display="block" fill="currentColor" wh="$4" />
+  <Box {...props} display="block" fill="currentColor" wh="4" />
 )
 
 const Circle = ({
@@ -95,15 +95,15 @@ const Circle = ({
       $hover ? 'iconHover' : 'icon',
     )}
     borderColor="transparent"
-    borderRadius="$full"
+    borderRadius="full"
     borderStyle="solid"
-    borderWidth="$1x"
+    borderWidth="1x"
     color={getValueForColorStyle($colorStyle, 'svg')}
     display="flex"
     justifyContent="center"
     position="absolute"
     transition="all 0.3s ease-in-out"
-    wh="$full"
+    wh="full"
   >
     <SVG as={<CheckSVG />} />
   </Box>

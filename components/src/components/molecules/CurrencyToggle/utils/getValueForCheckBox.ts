@@ -12,7 +12,7 @@ const checkBoxValues: { [key in Size]: Properties } = {
   extraSmall: {
     width: '$22.5',
     height: '$7',
-    borderRadius: '$full',
+    borderRadius: 'full',
   },
   small: {
     width: '$26',

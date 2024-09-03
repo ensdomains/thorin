@@ -45,7 +45,7 @@ const SliderComponent = React.forwardRef<HTMLElement, BoxProps>(
       appearance="none"
       as="input"
       backgroundColor={{ base: '$blueSurface', hover: '$blueLight' }}
-      borderRadius="$full"
+      borderRadius="full"
       className={styles.slider}
       cursor={{ base: 'pointer', disabled: 'not-allowed' }}
       filter={{ base: 'grayscale(0)', disabled: 'grayscale(100%)' }}
@@ -53,7 +53,7 @@ const SliderComponent = React.forwardRef<HTMLElement, BoxProps>(
       opacity={{ base: '1', disabled: '1.0' }}
       ref={ref}
       type="range"
-      width="$full"
+      width="full"
     />
   ),
 )

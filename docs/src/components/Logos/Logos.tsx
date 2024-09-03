@@ -14,12 +14,12 @@ const Panel = ({ background = 'background', alt, src }: Item) => {
       position="relative"
       border="1px solid"
       borderColor="$border"
-      borderRadius="$large"
+      borderRadius="large"
       display="flex"
       alignItems="center"
       justifyContent="center"
       py="$10"
-      px="$4"
+      px="4"
       backgroundColor={`$${background}`}
     >
       <Image src={src} height="56" width="126" alt={alt} />
@@ -27,15 +27,15 @@ const Panel = ({ background = 'background', alt, src }: Item) => {
         as="a"
         href={src}
         download
-        wh="$6"
+        wh="6"
         backgroundColor="$background"
         position="absolute"
-        top="$4"
-        right="$4"
+        top="4"
+        right="4"
         display="flex"
         alignItems="center"
         justifyContent="center"
-        borderRadius="$small"
+        borderRadius="small"
       >
         <DownArrowSVG />
       </Box>
@@ -51,9 +51,9 @@ export const Logos = ({ items }: LogosProps) => {
   return (
     <Box
       display="flex"
-      width="$full"
+      width="full"
       flexDirection={{ base: 'column', md: 'row' }}
-      gap={{ base: '$4', sm: '$6' }}
+      gap={{ base: '4', sm: '6' }}
     >
       {items.map(item => (
         <Panel key={item.src} {...item} alt="hello" />

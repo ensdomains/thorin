@@ -67,7 +67,7 @@ export const AdditionalColors = () => {
         <Box
           display="flex"
           flexDirection="column"
-          gap={{ base: '$4', sm: '$6' }}
+          gap={{ base: '4', sm: '6' }}
           marginBottom="$2"
           mx="$2"
         >

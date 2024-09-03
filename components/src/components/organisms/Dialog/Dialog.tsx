@@ -22,7 +22,7 @@ const CloseButton = (props: BoxProps) => (
     alignItems="center"
     as="button"
     backgroundColor={{ base: 'transparent', hover: '$greySurface' }}
-    borderRadius="$full"
+    borderRadius="full"
     cursor="pointer"
     data-testid="close-icon"
     display="flex"
@@ -31,12 +31,12 @@ const CloseButton = (props: BoxProps) => (
     right="$2"
     top="$2"
     transform={{ base: translateY(0), hover: translateY(-1) }}
-    transitionDuration="$150"
+    transitionDuration={150}
     transitionProperty="all"
-    transitionTimingFunction="$inOut"
+    transitionTimingFunction="inOut"
     wh="$8"
   >
-    <Box as={<CrossSVG />} color="$greyPrimary" display="block" wh="$4" />
+    <Box as={<CrossSVG />} color="$greyPrimary" display="block" wh="4" />
   </Box>
 )
 
@@ -50,14 +50,14 @@ const StyledCard = (props: BoxProps) => (
     borderRadius="$3xLarge"
     display="flex"
     flexDirection="column"
-    gap={{ xs: '$4', sm: '$6' }}
+    gap={{ xs: '4', sm: '6' }}
     maxHeight={{ xs: '80vh', sm: 'min(90vh, $144)' }}
     maxWidth={{ xs: 'unset', sm: '80vw' }}
     minWidth={{ xs: 'unset', sm: '$64' }}
     overflow="hidden"
-    padding={{ xs: '$4', sm: '$6' }}
+    padding={{ xs: '4', sm: '6' }}
     position="relative"
-    width="$full"
+    width="full"
   />
 )
 
@@ -72,7 +72,7 @@ const Icon = ({
     <Box
       {...props}
       backgroundColor={getValueForAlert($alert, 'backgroundColor')}
-      borderRadius="$full"
+      borderRadius="full"
       color={getValueForAlert($alert, 'color')}
       flexBasis="$8"
       flexGrow="0"
@@ -83,7 +83,7 @@ const Icon = ({
         as={Icon}
         display="block"
         transform={getValueForAlert($alert, 'svgTransform')}
-        wh="$full"
+        wh="full"
       />
     </Box>
   )
@@ -97,7 +97,7 @@ const ButtonsContainer = (props: BoxProps) => (
     flexDirection={{ xs: 'column', sm: 'row' }}
     gap="$2"
     justifyContent="stretch"
-    width="$full"
+    width="full"
   />
 )
 
@@ -107,8 +107,8 @@ const FooterContainer = (props: BoxProps) => (
     alignItems="center"
     display="flex"
     flexDirection="column"
-    gap="$4"
-    width="$full"
+    gap="4"
+    width="full"
   />
 )
 
@@ -141,7 +141,7 @@ const StepItem = ({ $type, ...props }: BoxProps & { $type: StepType }) => (
     {...props}
     backgroundColor={getValueForStepType($type, 'backgroundColor')}
     borderColor={getValueForStepType($type, 'borderColor')}
-    borderRadius="$full"
+    borderRadius="full"
     borderStyle="solid"
     borderWidth={getValueForStepType($type, 'borderWidth')}
     wh="$3.5"
@@ -209,7 +209,7 @@ const Heading = ({
           color="textSecondary"
           fontVariant="bodyBold"
           maxWidth="$72"
-          px="$4"
+          px="4"
           textAlign="center"
         >
           {subtitle}
@@ -226,7 +226,7 @@ const Heading = ({
 //       maxWidth={{ base: '100vw', sm: '$128' }}
 //       width={{ base: '100vw', sm: '80vw' }}
 //     >
-//       <ScrollBox height="$full" width="$full">
+//       <ScrollBox height="full" width="full">
 //         <Box paddingRight="$2">{children}</Box>
 //       </ScrollBox>
 //     </Box>

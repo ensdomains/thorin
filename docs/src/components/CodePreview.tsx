@@ -43,7 +43,7 @@ const Container = (props: BoxProps) => (
     backgroundColor="$background"
     borderColor="$border"
     borderRadius="$2xLarge"
-    borderWidth="$1x"
+    borderWidth="1x"
     borderStyle="solid"
     overflow="hidden"
   />
@@ -62,7 +62,7 @@ const ContainerInner = React.forwardRef<
     borderBottomLeftRadius={$expand ? '2xLarge' : 'unset'}
     borderBottomRightRadius={$expand ? '2xLarge' : 'unset'}
     overflow="auto"
-    padding="$4"
+    padding="4"
   />
 ))
 ContainerInner.displayName = 'ComponentInner'
@@ -77,7 +77,7 @@ const LiveEditorContainer = (props: BoxProps) => (
     borderTopColor="$border"
     borderStyle="solid"
     fontFamily="$mono"
-    borderWidth="$1x"
+    borderWidth="1x"
   />
 )
 

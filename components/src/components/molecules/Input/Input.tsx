@@ -132,7 +132,7 @@ const Container = ({
     display="flex"
     height={getValueForSize($size, 'height')}
     position="relative"
-    transitionDuration="$150"
+    transitionDuration={150}
     transitionProperty="color, border-colror, background-color"
   />
 )
@@ -151,9 +151,9 @@ const Label = ({
     cursor={$disabled ? 'not-allowed' : 'pointer'}
     display="flex"
     fontSize={getValueForSize($size, 'labelFontSize')}
-    fontWeight="$normal"
+    fontWeight="normal"
     gap="$2"
-    height="$full"
+    height="full"
     lineHeight={getValueForSize($size, 'labelFontSize')}
     px={getValueForSize($size, 'outerPadding')}
   />
@@ -264,7 +264,7 @@ const InputComponent = React.forwardRef<HTMLElement, BoxProps & InputComponentPr
       }
       cursor={{ base: 'text', disabled: 'not-allowed', readonly: 'default' }}
       fontSize={getValueForSize($size, 'labelFontSize')}
-      fontWeight="$normal"
+      fontWeight="normal"
       paddingLeft={
         $hasIcon
           ? getValueForSize($size, 'innerPadding')
@@ -278,7 +278,7 @@ const InputComponent = React.forwardRef<HTMLElement, BoxProps & InputComponentPr
       position="relative"
       ref={ref}
       textOverflow="ellipsis"
-      wh="$full"
+      wh="full"
     />
   ),
 )
@@ -300,15 +300,15 @@ const InnerContainer = ({
     {...props}
     backgroundColor={$disabled ? '$greyLight' : '$backgroundPrimary'}
     borderRadius={getValueForSize($size, 'borderRadius')}
-    borderWidth="$1x"
+    borderWidth="1x"
     color="$textPrimary"
     display="flex"
     overflow="hidden"
     position="relative"
-    transitionDuration="$150"
+    transitionDuration={150}
     transitionProperty="color, border-color, background-color"
-    transitionTimingFunction="$inOut"
-    wh="$full"
+    transitionTimingFunction="inOut"
+    wh="full"
   />
 )
 

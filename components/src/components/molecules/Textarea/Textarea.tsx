@@ -37,7 +37,7 @@ const Container = ({
   <Box
     {...props}
     backgroundColor="$backgroundSecondary"
-    borderRadius="$large"
+    borderRadius="large"
     className={statusDot({
       error: $error,
       validated: $validated,
@@ -46,9 +46,9 @@ const Container = ({
     color="$text"
     display="flex"
     position="relative"
-    transitionDuration="$150"
+    transitionDuration={150}
     transitionProperty="color, border-color, background-color"
-    transitionTimingFunction="$inOut"
+    transitionTimingFunction="inOut"
   />
 )
 
@@ -76,7 +76,7 @@ const TextArea = React.forwardRef<HTMLElement, BoxProps & TextAreaProps>(
       as="textarea"
       backgroundColor={{ base: '$backgroundPrimary', disabled: '$greyLight' }}
       borderColor="$border"
-      borderRadius="$large"
+      borderRadius="large"
       borderStyle="solid"
       borderWidth="1px"
       className={classNames(
@@ -91,7 +91,7 @@ const TextArea = React.forwardRef<HTMLElement, BoxProps & TextAreaProps>(
       disabled={disabled}
       display="flex"
       fontSize={getValueForSize($size, 'fontSize')}
-      fontWeight="$normal"
+      fontWeight="normal"
       fontFamily="inherit"
       lineHeight={getValueForSize($size, 'fontSize')}
       minHeight="$14"
@@ -108,7 +108,7 @@ const TextArea = React.forwardRef<HTMLElement, BoxProps & TextAreaProps>(
       ref={ref}
       resize="none"
       transition="all 0.3s ease-in-out"
-      width="$full"
+      width="full"
     />
   ),
 )
@@ -129,8 +129,8 @@ const ActionButton = ({
       display="flex"
       justifyContent="center"
       position="absolute"
-      right="$0"
-      top="$0"
+      right="0"
+      top="0"
       transform={{ base: translateY(0), hover: translateY(-1) }}
       transition="all 0.1s ease-in-out"
       type="button"

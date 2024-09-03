@@ -95,7 +95,7 @@ const staticProperties = defineProperties({
   defaultCondition: 'base',
   properties: {
     textAlign: ['center', 'left', 'right', 'justify', 'initial', 'inherit'],
-    fontFamily: commonVars.fonts,
+    fontFamily: { ...commonVars.fonts, inherit: 'inherit' },
     fontWeight: commonVars.fontWeights,
     fontSize: commonVars.fontSizes,
     lineHeight: commonVars.lineHeights,
@@ -112,6 +112,7 @@ const staticProperties = defineProperties({
     transitionProperty: ['all', 'none', 'box-shadow', 'background-color', 'initial', 'inherit'],
     visibility: ['visible', 'hidden', 'initial', 'inherit'],
     zIndex: [1, 10, 100, 9999, 10000, 999999],
+    strokeWidth: commonVars.space,
   },
   shorthands: {
     typeSize: ['fontSize', 'lineHeight'],

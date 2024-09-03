@@ -53,7 +53,7 @@ const Mark = ({ $color, disabled, ...props }: BoxProps & { $color: Color }) => (
   <Box
     {...props}
     backgroundColor={disabled ? '$greyPrimary' : getValidatedColor($color)}
-    borderRadius="$full"
+    borderRadius="full"
     left="50%"
     pointerEvents="none"
     position="absolute"
@@ -71,7 +71,7 @@ const Input = React.forwardRef<HTMLElement, BoxProps & { $color: Color }>(
         {...props}
         as="input"
         backgroundColor="$border"
-        borderRadius="$full"
+        borderRadius="full"
         cursor={{ base: 'pointer', disabled: 'not-allowed' }}
         display="grid"
         filter={{

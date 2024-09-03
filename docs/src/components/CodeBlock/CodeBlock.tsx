@@ -16,7 +16,7 @@ import type { PropsWithChildren } from 'react'
 import { Box, useTheme } from '@ensdomains/thorin'
 
 const CodePreviewContainer = (props: PropsWithChildren) => (
-  <Box {...props} borderRadius="$large" height="$48" width="$full" />
+  <Box {...props} borderRadius="large" height="$48" width="full" />
 )
 
 const CodePreview = dynamic<CodePreviewProps>(
@@ -32,8 +32,8 @@ const Pre = (props: PropsWithChildren) => (
     as="pre"
     display="block"
     backgroundColor="$greySurface"
-    borderRadius="$large"
-    padding="$4"
+    borderRadius="large"
+    padding="4"
     border="1px solid"
     borderColor="$border"
     position="relative"

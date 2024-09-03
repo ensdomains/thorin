@@ -16,11 +16,11 @@ export const BackdropSurface = React.forwardRef<HTMLElement, BackdropSurfaceProp
         entered: !$empty && $state === 'entered',
       })}
       height="100vh"
-      left="$0"
+      left="0"
       overflow="hidden"
       position="fixed"
       ref={ref}
-      top="$0"
+      top="0"
       transitionDuration="$300"
       transitionProperty="all"
       transitionTimingFunction="$popIn"

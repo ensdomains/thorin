@@ -29,7 +29,7 @@ const TooltipPopoverElement = ({
   <Box
     {...props}
     backgroundColor={$background}
-    borderRadius="$large"
+    borderRadius="large"
     boxSizing="border-box"
     filter="drop-shadow(0px 0px 1px #e8e8e8) drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.2))"
     overflow="visible"
@@ -79,13 +79,13 @@ const TooltipPopoverElement = ({
           'borderTopColorFunction',
         )($background),
       }}
-      borderWidth="$10x"
+      borderWidth="10x"
       bottom={{
         base: getValueForPlacement($mobilePlacement, 'bottom'),
         sm: getValueForPlacement($placement, 'bottom'),
       }}
       display="initial"
-      height="$0"
+      height="0"
       left={{
         base: getValueForPlacement($mobilePlacement, 'left'),
         sm: getValueForPlacement($placement, 'left'),
@@ -103,7 +103,7 @@ const TooltipPopoverElement = ({
         base: getValueForPlacement($mobilePlacement, 'top'),
         sm: getValueForPlacement($placement, 'top'),
       }}
-      width="$0"
+      width="0"
     />
   </Box>
 )

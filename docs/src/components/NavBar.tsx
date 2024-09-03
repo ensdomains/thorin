@@ -21,7 +21,7 @@ export const NavBar = ({
       top="0"
       left="0"
       right="0"
-      padding={{ base: '$4', sm: '$6' }}
+      padding={{ base: '4', sm: '6' }}
       backgroundColor="$backgroundPrimary"
       height={{ base: '$20', sm: '$24' }}
       borderBottom="1px solid"
@@ -32,15 +32,15 @@ export const NavBar = ({
           as="button"
           display={{ base: 'block', sm: 'none' }}
           onClick={onToggle}
-          padding="$4"
+          padding="4"
           marginLeft="-16px"
           backgroundColor="transparent"
           outline="none"
         >
-          <Box wh="$6" position="relative">
+          <Box wh="6" position="relative">
             <Box
               as={<CrossSVG />}
-              wh="$full"
+              wh="full"
               position="absolute"
               opacity={open ? 1 : 0}
               transition="opacity 0.2s ease-in-out"
@@ -48,7 +48,7 @@ export const NavBar = ({
             <Box
               as={<MenuSVG />}
               position="absolute"
-              wh="$full"
+              wh="full"
               opacity={open ? 0 : 1}
               transition="opacity 0.2s ease-in-out"
             />
@@ -60,10 +60,10 @@ export const NavBar = ({
       </Box>
       <Box display="flex" gap="$2" alignItems="center">
         <Link href="https://github.com/ensdomains/thorin">
-          <Box as={<GithubSVG />} color="$text" wh="$4" />
+          <Box as={<GithubSVG />} color="$text" wh="4" />
         </Link>
         <Link href="https://github.com/ensdomains/thorin">
-          <Box as={<FigmaSVG />} wh="$4" />
+          <Box as={<FigmaSVG />} wh="4" />
         </Link>
         <Tag size="small">v1.0</Tag>
       </Box>

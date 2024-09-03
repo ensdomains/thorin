@@ -23,9 +23,9 @@ const Container = (props: React.ComponentProps<typeof Typography>) => (
     backgroundColor="$backgroundPrimary"
     justifyContent={{ base: 'center', lg: 'flex-end', xl: 'center' }}
     margin="0 auto"
-    width="$full"
+    width="full"
     minHeight="100vh"
-    px="$6"
+    px="6"
     boxSizing="border-box"
   />
 )
@@ -35,7 +35,7 @@ const Article = (props: BoxProps) => (
 )
 
 const Main = (props: BoxProps) => (
-  <Box {...props} as="main" paddingLeft={{ base: '$0', sm: '$64' }} />
+  <Box {...props} as="main" paddingLeft={{ base: '0', sm: '$64' }} />
 )
 
 export type Props = {

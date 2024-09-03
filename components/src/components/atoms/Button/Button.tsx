@@ -120,10 +120,10 @@ const ButtonBox = React.forwardRef<
         disabled: getValueForColourStyle('disabled', 'border'),
         hover: getValueForColourStyle($colorStyle, 'hover'),
       }}
-      borderRadius={['circle', 'rounded'].includes($shape) ? '$full' : '$large'}
+      borderRadius={['circle', 'rounded'].includes($shape) ? 'full' : '$large'}
       borderStyle="solid"
-      borderWidth="$1x"
-      boxShadow={$shadow ? '$0.25 $grey' : 'none'}
+      borderWidth="1x"
+      boxShadow={$shadow ? '0.25 $grey' : 'none'}
       color={{
         base: getValidatedColor(
           $color,
@@ -135,7 +135,7 @@ const ButtonBox = React.forwardRef<
       display="flex"
       fill={getValueForColourStyle($colorStyle, 'content')}
       fontSize={getValueForSize($size, 'fontSize')}
-      fontWeight="$bold"
+      fontWeight="bold"
       gap="$2"
       height={getValueForSize($size, 'height')}
       justifyContent="center"
@@ -148,13 +148,13 @@ const ButtonBox = React.forwardRef<
         active: translateY(-1),
         disabled: translateY(0),
       }}
-      transitionDuration="$150"
+      transitionDuration={150}
       transitionProperty="all"
-      transitionTimingFunction="$inOut"
+      transitionTimingFunction="inOut"
       width={
         ['square', 'circle'].includes($shape)
           ? getValueForSize($size, 'height')
-          : '$full'
+          : 'full'
       }
       {...{
         px: $hasCounter ? '$12' : getValueForSize($size, 'px'),
@@ -179,7 +179,7 @@ const ContentBox = ({
     overflow="hidden"
     textOverflow="ellipsis"
     whiteSpace="nowrap"
-    width={$fullWidth ? '$full' : undefined}
+    width={$fullWidth ? 'full' : undefined}
     {...props}
   />
 )
@@ -188,7 +188,7 @@ const CounterBox = (props: BoxProps) => (
   <Box
     alignItems="center"
     display="flex"
-    height="$full"
+    height="full"
     justifyContent="flex-end"
     pointerEvents="none"
     position="absolute"
@@ -210,23 +210,23 @@ const CounterIconBox = ({
   <Box
     alignItems="center"
     borderColor={getValueForColourStyle($colorStyle, 'content')}
-    borderRadius="$full"
+    borderRadius="full"
     borderStyle="solid"
-    borderWidth="$2x"
+    borderWidth="2x"
     boxSizing="border-box"
     color={getValueForColourStyle($colorStyle, 'content')}
     display="flex"
-    fontSize="$extraSmall"
-    height="$6"
+    fontSize="extraSmall"
+    height="6"
     justifyContent="center"
-    minWidth="$6"
+    minWidth="6"
     opacity={$visible ? 1 : 0}
     pointerEvents="none"
-    px="$1"
+    px="1"
     transform={$visible ? scale(1) : scale(0.3)}
     transitionDuration="$300"
     transitionProperty="all"
-    transitionTimingFunction="$inOut"
+    transitionTimingFunction="inOut"
     {...props}
   />
 )
@@ -235,14 +235,14 @@ const TooltipIndicatorBox = (props: BoxProps) => (
   <Box
     alignItems="center"
     backgroundColor="$yellowPrimary"
-    borderRadius="$full"
+    borderRadius="full"
     color="$backgroundPrimary"
     display="flex"
     justifyContent="center"
     position="absolute"
     right="-10px"
     top="-10px"
-    wh="$6"
+    wh="6"
     {...props}
   />
 )

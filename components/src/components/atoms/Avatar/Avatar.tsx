@@ -20,13 +20,13 @@ interface Container {
 const Container = ({ $shape, $size, ...props }: BoxProps & Container) => (
   <Box
     backgroundColor="$backgroundSecondary"
-    borderRadius={$shape === 'circle' ? '$full' : '$2xLarge'}
+    borderRadius={$shape === 'circle' ? 'full' : '$2xLarge'}
     className={avatar}
     height={$size}
     overflow="hidden"
-    paddingBottom={$size ? 'unset' : '$full'}
+    paddingBottom={$size ? 'unset' : 'full'}
     position="relative"
-    width={$size ?? '$full'}
+    width={$size ?? 'full'}
     {...props}
   />
 )
