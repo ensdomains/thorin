@@ -79,9 +79,9 @@ const Input = React.forwardRef<HTMLElement, BoxProps & { $color: Color }>(
           hover: brightness(1.05),
           disabled: brightness(1),
         }}
-        flexBasis="$5"
-        flexGrow="0"
-        flexShrink="0"
+        flexBasis="5"
+        flexGrow={0}
+        flexShrink={0}
         placeContent="center"
         ref={ref}
         role="radio"

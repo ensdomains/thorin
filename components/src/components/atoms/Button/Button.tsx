@@ -136,11 +136,11 @@ const ButtonBox = React.forwardRef<
       fill={getValueForColourStyle($colorStyle, 'content')}
       fontSize={getValueForSize($size, 'fontSize')}
       fontWeight="bold"
-      gap="$2"
+      gap="2"
       height={getValueForSize($size, 'height')}
       justifyContent="center"
       position="relative"
-      // px={$hasCounter ? '$12' : getValueForSize($size, 'px')}
+      // px={$hasCounter ? '12' : getValueForSize($size, 'px')}
       ref={ref}
       transform={{
         base: translateY(0),
@@ -157,7 +157,7 @@ const ButtonBox = React.forwardRef<
           : 'full'
       }
       {...{
-        px: $hasCounter ? '$12' : getValueForSize($size, 'px'),
+        px: $hasCounter ? '12' : getValueForSize($size, 'px'),
         ...props,
       }}
     />
@@ -192,7 +192,7 @@ const CounterBox = (props: BoxProps) => (
     justifyContent="flex-end"
     pointerEvents="none"
     position="absolute"
-    pr="$3"
+    pr="3"
     right="0"
     top="0"
     {...props}

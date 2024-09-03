@@ -22,7 +22,7 @@ const Container = (props: BoxProps) => (
     {...props}
     height="fit-content"
     position="relative"
-    width="fit-content"
+    width="fit"
   />
 )
 
@@ -38,7 +38,7 @@ const Label = ({
     color="textAccent"
     cursor="pointer"
     display="flex"
-    fontFamily="$sans"
+    fontFamily="sans"
     fontSize="small"
     fontWeight={$size === 'extraSmall' ? '$normal' : 'bold'}
     height={getValuesForKnob($size, 'height')}

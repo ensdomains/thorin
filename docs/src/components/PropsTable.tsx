@@ -33,7 +33,7 @@ const TableHead = ({
 )
 
 const DataCell = ({ children }: React.PropsWithChildren) => (
-  <Box as="td" borderTop="1px solid" borderTopColor="$border" padding="4">
+  <Box as="td" borderTop="1px solid" borderTopColor="border" padding="4">
     {children}
   </Box>
 )
@@ -144,7 +144,7 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
               <Typography color="textSecondary">No props</Typography>
             </div>
           )}
-      <Box display="flex" justifyContent="flex-end" marginTop="$2">
+      <Box display="flex" justifyContent="flex-end" marginTop="2">
         {!!props.length && (
           <div>
             <Button
@@ -173,7 +173,7 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
               colorStyle="transparent"
               color="accent"
               size="small"
-              prefix={<Box as={<GithubSVG />} width="$3" />}
+              prefix={<Box as={<GithubSVG />} width="3" />}
             >
               View Source
             </Button>

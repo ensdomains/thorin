@@ -18,7 +18,7 @@ const Container = (props: BoxProps) => (
 )
 
 const ContainerInner = (props: BoxProps) => (
-  <Box {...props} display="flex" flexDirection="column" gap="$1" px="4" />
+  <Box {...props} display="flex" flexDirection="column" gap="1" px="4" />
 )
 
 const Row = (props: BoxProps) => (
@@ -27,12 +27,12 @@ const Row = (props: BoxProps) => (
     alignItems="center"
     display="flex"
     flexDirection="row"
-    gap="$3"
+    gap="3"
   />
 )
 
 const Description = (props: BoxProps) => (
-  <Box {...props} color="textSecondary" fontSize="$body" lineHeight="body" />
+  <Box {...props} color="textSecondary" fontSize="body" lineHeight="body" />
 )
 
 const ChildrenContainer = (props: BoxProps) => (

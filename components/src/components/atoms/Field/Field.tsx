@@ -48,7 +48,7 @@ export type FieldProps = FieldBaseProps & {
 } & Omit<NativeLabelProps, 'id' | 'children'>
 
 const RequiredBox = () => (
-  <Box as="span" color="$redPrimary" marginLeft="$1" whiteSpace="pre">
+  <Box as="span" color="redPrimary" marginLeft="1" whiteSpace="pre">
     *
   </Box>
 )
@@ -71,7 +71,7 @@ const LabelBox = ({
       .with([false, false], () => 'pointer')
       .exhaustive()}
     display="flex"
-    flexBasis="$auto"
+    flexBasis="auto"
     flexGrow="2"
     flexShrink="1"
     overflow="hidden"
@@ -89,8 +89,8 @@ const InnerLabelBox = (props: React.ComponentProps<typeof Typography>) => (
 
 const SecondaryLabelBox = (props: React.ComponentProps<typeof Typography>) => (
   <Typography
-    flexBasis="$auto"
-    flexGrow="0"
+    flexBasis="auto"
+    flexGrow={0}
     flexShrink="2"
     overflow="hidden"
     position="relative"
@@ -106,9 +106,9 @@ const LabelContentContainerBox = ({
   <Box
     alignItems="center"
     display="flex"
-    gap="$2"
+    gap="2"
     overflow="hidden"
-    px={$inline ? '0' : '$2'}
+    px={$inline ? '0' : '2'}
     {...props}
   />
 )
@@ -172,7 +172,7 @@ const DescriptionBox = ({
 }: React.ComponentProps<typeof Typography> & { $inline: boolean }) => (
   <Typography
     overflow="hidden"
-    padding={$inline ? '0' : '$2'}
+    padding={$inline ? '0' : '2'}
     width="full"
     {...props}
   />
@@ -182,7 +182,7 @@ const ErrorBox = ({
   $inline,
   ...props
 }: React.ComponentProps<typeof Typography> & { $inline: boolean }) => (
-  <Typography padding={$inline ? '0' : '$2'} {...props} />
+  <Typography padding={$inline ? '0' : '2'} {...props} />
 )
 
 const DecorativeContent = ({
@@ -249,7 +249,7 @@ const ContainerBox = ({
       .with([true, false], () => 'row' as const)
       .with([false, P._], () => 'column' as const)
       .exhaustive()}
-    gap="$2"
+    gap="2"
     justifyContent="flex-start"
     position="relative"
     width={$width}
@@ -262,7 +262,7 @@ const ContainerInnerBox = (props: BoxProps) => (
     display="flex"
     flex={1}
     flexDirection="column"
-    gap="$1"
+    gap="1"
     overflow="hidden"
     {...props}
   />

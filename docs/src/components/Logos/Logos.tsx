@@ -18,7 +18,7 @@ const Panel = ({ background = 'background', alt, src }: Item) => {
       display="flex"
       alignItems="center"
       justifyContent="center"
-      py="$10"
+      py="10"
       px="4"
       backgroundColor={`$${background}`}
     >

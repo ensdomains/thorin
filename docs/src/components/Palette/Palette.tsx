@@ -17,7 +17,7 @@ const ColorLabel = ({ children }: React.PropsWithChildren) => (
     alignItems="center"
     justifyContent="center"
     fontWeight="bold"
-    fontSize="$body"
+    fontSize="body"
   >
     {children}
   </Box>
@@ -28,7 +28,7 @@ const ShadeLabel = ({ children }: React.PropsWithChildren) => (
     display="flex"
     alignItems="center"
     justifyContent="center"
-    fontSize="$body"
+    fontSize="body"
     fontWeight="bold"
   >
     {children}

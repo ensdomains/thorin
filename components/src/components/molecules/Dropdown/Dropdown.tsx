@@ -120,8 +120,8 @@ const DropdownMenuBox = React.forwardRef<
     borderStyle="solid"
     borderWidth="1x"
     bottom={$direction === 'up' ? 'full' : 'unset'}
-    marginBottom={$direction === 'up' ? '$1.5' : 'unset'}
-    marginTop={$direction === 'down' ? '$1.5' : 'unset'}
+    marginBottom={$direction === 'up' ? '1.5' : 'unset'}
+    marginTop={$direction === 'down' ? '1.5' : 'unset'}
     opacity={1}
     padding="1.5"
     ref={ref}
@@ -170,17 +170,17 @@ const MenuButton = React.forwardRef<HTMLElement, BoxProps & MenuButtonProps>(
       display="flex"
       filter={{ base: 'brightness(1)', active: 'brightness(0.9)' }}
       fontWeight="normal"
-      gap="$2"
+      gap="2"
       height="12"
       justifyContent="flex-start"
       padding="3"
-      paddingRight={$showIndicator ? '6' : '$3'}
+      paddingRight={$showIndicator ? '6' : '3'}
       position="relative"
       ref={ref}
       transform={{ base: 'translateY(0px)', active: 'translateY(0px)' }}
       transitionDuration={150}
       transitionProperty="color, transform, filter"
-      transitionTimingFunction="$ease-in-out"
+      transitionTimingFunction="ease-in-out"
       width="full"
     >
       {$icon
@@ -189,8 +189,8 @@ const MenuButton = React.forwardRef<HTMLElement, BoxProps & MenuButtonProps>(
               as={$icon}
               color={$color ? `$${$color}` : 'textPrimary'}
               flexBasis="4"
-              flexGrow="0"
-              flexShrink="0"
+              flexGrow={0}
+              flexShrink={0}
               wh="4"
             />
           )
@@ -205,7 +205,7 @@ const MenuButton = React.forwardRef<HTMLElement, BoxProps & MenuButtonProps>(
           }
           borderRadius="full"
           position="absolute"
-          right="$3"
+          right="3"
           top="50%"
           transform="translateY(-50%)"
           wh="2"
@@ -306,7 +306,7 @@ const DropdownMenu = React.forwardRef<HTMLDivElement, DropdownMenuProps>(
     if (height) {
       return (
         <DropdownMenuBox {...menuProps}>
-          <ScrollBox paddingRight="$1" style={{ height }}>
+          <ScrollBox paddingRight="1" style={{ height }}>
             {Content}
           </ScrollBox>
         </DropdownMenuBox>
@@ -319,7 +319,7 @@ const DropdownMenu = React.forwardRef<HTMLDivElement, DropdownMenuProps>(
           alignItems="center"
           display="flex"
           flexDirection="column"
-          gap="$1"
+          gap="1"
           justifyContent="center"
           width="full"
         >
@@ -345,13 +345,13 @@ const Chevron = ({
   <Box
     as={<DownChevronSVG />}
     fill="currentColor"
-    marginLeft="$1"
+    marginLeft="1"
     marginRight="0.5"
     transform={rotation($direction, !!$open)}
-    transitionDuration="$200"
+    transitionDuration="200"
     transitionProperty="all"
     transitionTimingFunction="inOut"
-    width="$3"
+    width="3"
   />
 )
 
@@ -420,7 +420,7 @@ const DropdownButton: React.FC<DropdownButtonProps> = ({
               pressed={isOpen}
               ref={buttonRef}
               suffix={chevron && <Chevron $direction={direction} $open={isOpen} />}
-              width="$fit"
+              width="fit"
               onClick={() => setIsOpen(prev => !prev)}
               {...buttonPropsWithIndicator}
             >

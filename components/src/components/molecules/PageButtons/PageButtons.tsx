@@ -32,7 +32,7 @@ const Container = (props: BoxProps) => (
     alignItems="center"
     display="flex"
     flexDirection="row"
-    gap="$2"
+    gap="2"
     justifyContent="center"
   />
 )

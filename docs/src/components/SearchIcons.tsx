@@ -25,7 +25,7 @@ const initialState: State = {
 }
 
 const FlexContainer = (props: BoxProps) => (
-  <Box {...props} gap="$8" display="flex" flexDirection="column" />
+  <Box {...props} gap="8" display="flex" flexDirection="column" />
 )
 
 const IconGrid = (props: BoxProps) => (
@@ -42,7 +42,7 @@ const IconGrid = (props: BoxProps) => (
 )
 
 const IconGridInner = (props: BoxProps) => (
-  <Box {...props} maxWidth={{ base: '$18', md: '$20' }} />
+  <Box {...props} maxWidth={{ base: '18', md: '20' }} />
 )
 
 const IconGridFlex = (props: BoxProps) => (
@@ -52,7 +52,7 @@ const IconGridFlex = (props: BoxProps) => (
     alignItems="center"
     flexDirection="column"
     justifyContent="center"
-    gap="$2"
+    gap="2"
     cursor="pointer"
   />
 )
@@ -68,12 +68,12 @@ const ComponentContainer = (props: BoxProps) => (
     transitionDuration={150}
     transitionProperty="box-shadow"
     transitionTimingFunction="inOut"
-    boxShadow={{ base: '$1', hover: '$1', active: '0.5' }}
+    boxShadow={{ base: '1', hover: '1', active: '0.5' }}
   />
 )
 
 const IconNameContainer = (props: BoxProps) => (
-  <Box {...props} width={{ base: '$14', md: '$18' }} />
+  <Box {...props} width={{ base: '14', md: '18' }} />
 )
 
 export const SearchIcons = () => {

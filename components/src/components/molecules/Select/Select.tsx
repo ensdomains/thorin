@@ -94,7 +94,7 @@ const SelectContainer = ({
     cursor="pointer"
     display="flex"
     flex={1}
-    gap="$2"
+    gap="2"
     height="full"
     overflow="hidden"
     paddingLeft={getValueForSize($size, 'outerPadding')}
@@ -176,7 +176,7 @@ const SelectActionButton = ({
     justifyContent="flex-end"
     margin="0"
     padding="0"
-    paddingLeft="$2"
+    paddingLeft="2"
     paddingRight={getValueForSize($size, 'outerPadding')}
   >
     <Box
@@ -214,7 +214,7 @@ const ToggleMenuButton = ({
       justifyContent="flex-end"
       margin="0"
       padding="0"
-      paddingLeft="$2"
+      paddingLeft="2"
       paddingRight={getValueForSize($size, 'outerPadding')}
     >
       <Box
@@ -222,7 +222,7 @@ const ToggleMenuButton = ({
         display="block"
         fill="currentColor"
         transform={rotate(rotation)}
-        transitionDuration="$200"
+        transitionDuration="200"
         transitionProperty="all"
         transitionTimingFunction="inOut"
         wh={getValueForSize($size, 'iconWidth')}
@@ -292,7 +292,7 @@ const SelectOptionList = ({
         flexDirection={$direction === 'up' ? 'column-reverse' : 'column'}
         hideDividers
         maxHeight={getValueForSize($size, 'maxHeightFunc')($rows)}
-        paddingRight="$1"
+        paddingRight="1"
         width="full"
       >
         {children}
@@ -305,7 +305,7 @@ const SelectOptionList = ({
       alignItems="flex-start"
       display="flex"
       flexDirection={$direction === 'up' ? 'column-reverse' : 'column'}
-      gap="$1"
+      gap="1"
       justifyContent="space-between"
       overflow="hidden"
       wh="full"
@@ -348,8 +348,8 @@ const SelectOptionRow = ({
       cursor={{ base: 'pointer', disabled: 'not-allowed' }}
       display="flex"
       flexBasis={getValueForSize($size, 'rowHeight')}
-      flexGrow="0"
-      flexShrink="0"
+      flexGrow={0}
+      flexShrink={0}
       fontSize={getValueForSize($size, 'fontSize')}
       fontWeight="normal"
       height={getValueForSize($size, 'rowHeight')}
@@ -375,7 +375,7 @@ const NoResultsContainer = (props: BoxProps) => (
     borderRadius="medium"
     display="flex"
     fontStyle="italic"
-    gap="$3"
+    gap="3"
     height="9"
     justifyContent="flex-start"
     my="0.5"
@@ -616,7 +616,7 @@ export const Select = React.forwardRef<HTMLInputElement, SelectProps>(
         ...(isCreateable && !exactMatch
           ? [
               {
-                label: `${createablePrefix}"${queryValue}"`,
+                label: `${createablePrefix}"{queryValue}"`,
                 value: CREATE_OPTION_VALUE,
               },
             ]

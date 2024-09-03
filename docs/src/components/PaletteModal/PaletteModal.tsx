@@ -103,7 +103,7 @@ export const PaletteModal = ({
               ))}
             </Box>
           </Box>
-          <Box display="flex" flexDirection="column" gap="$2">
+          <Box display="flex" flexDirection="column" gap="2">
             <RecordItem keyLabel="variable" value={variable}>
               {variable}
             </RecordItem>

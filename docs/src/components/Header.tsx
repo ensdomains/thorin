@@ -9,7 +9,7 @@ type Props = {
 
 export const Header = ({ description, title }: Props) => {
   return (
-    <Box as="header" paddingTop={{ base: '$20', sm: '$24' }}>
+    <Box as="header" paddingTop={{ base: '20', sm: '24' }}>
       <Box
         display="flex"
         flexDirection="column"

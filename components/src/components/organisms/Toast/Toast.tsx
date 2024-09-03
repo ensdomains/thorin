@@ -66,7 +66,7 @@ const Container = React.forwardRef<HTMLElement, BoxProps & ContainerProps>(
         .otherwise(() => ($left ? `$${$left}` : 'unset'))}
       maxWidth={match($mobile)
         .with(true, () => 'unset')
-        .otherwise(() => '$112')}
+        .otherwise(() => '112')}
       opacity={$state.status === 'entered' ? 1 : 0}
       padding="4.5"
       position="fixed"
@@ -160,7 +160,7 @@ const DesktopToast = ({
 }
 
 const ActionWrapper = (props: BoxProps) => (
-  <Box {...props} marginTop="$3" width="full" />
+  <Box {...props} marginTop="3" width="full" />
 )
 
 export const TouchToast = ({

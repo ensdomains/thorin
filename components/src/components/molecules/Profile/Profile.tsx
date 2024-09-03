@@ -45,7 +45,7 @@ interface ContainerProps {
 }
 
 const calculateWidth = (size: Size) => {
-  if (size === 'small') return '$10'
+  if (size === 'small') return '10'
   if (size === 'medium') return '$45'
   return '$80'
 }
@@ -63,7 +63,7 @@ const Container = React.forwardRef<HTMLElement, BoxProps & ContainerProps>(
         hover: brightness($hasDropdown ? 1.05 : 1),
       }}
       flexDirection="row"
-      gap="$2"
+      gap="2"
       height={getValueForSize($size, 'height')}
       justifyContent="flex-start"
       maxWidth={getValueForSize($size, 'maxWidth')}
@@ -88,10 +88,10 @@ const Container = React.forwardRef<HTMLElement, BoxProps & ContainerProps>(
 const AvatarContainer = ({ $size, ...props }: BoxProps & { $size: Size }) => (
   <Box
     {...props}
-    flexBasis={$size === 'large' ? '$12' : '$10'}
-    flexGrow="0"
-    flexShrink="0"
-    width={$size === 'large' ? '$12' : '$10'}
+    flexBasis={$size === 'large' ? '12' : '10'}
+    flexGrow={0}
+    flexShrink={0}
+    width={$size === 'large' ? '12' : '10'}
   />
 )
 

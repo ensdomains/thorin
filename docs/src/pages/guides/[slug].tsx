@@ -63,7 +63,7 @@ const Page: NextPageWithLayout<Props> = ({ docsLink, source }: Props) => {
     <>
       <MDXRemote {...source} scope={source.scope} />
 
-      <Box my="$10">
+      <Box my="10">
         <GitHubLink href={docsLink} />
       </Box>
     </>

@@ -31,7 +31,7 @@ const Container = (props: React.ComponentProps<typeof Typography>) => (
 )
 
 const Article = (props: BoxProps) => (
-  <Box {...props} as="article" maxWidth="$192" margin="0 auto" />
+  <Box {...props} as="article" maxWidth="192" margin="0 auto" />
 )
 
 const Main = (props: BoxProps) => (

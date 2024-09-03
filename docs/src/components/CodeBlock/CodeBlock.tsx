@@ -41,15 +41,15 @@ const Pre = (props: PropsWithChildren) => (
 )
 
 const LineContainer = (props: PropsWithChildren) => (
-  <Box {...props} paddingRight="$8" whiteSpace="pre-wrap" />
+  <Box {...props} paddingRight="8" whiteSpace="pre-wrap" />
 )
 
 const Token = (props: PropsWithChildren) => (
   <Box
     {...props}
     as="span"
-    fontFamily="$mono"
-    fontSize="$body"
+    fontFamily="mono"
+    fontSize="body"
     lineHeight="body"
   />
 )
@@ -108,7 +108,7 @@ export const CodeBlock = ({
         getTokenProps,
       }) => (
         <Pre>
-          <Box position="absolute" top="$2" right="$2">
+          <Box position="absolute" top="2" right="2">
             <CopyButton content={code} />
           </Box>
           {tokens.map((line, i) => (

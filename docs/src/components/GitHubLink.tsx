@@ -6,11 +6,11 @@ export const GitHubLink = ({ href }: { href: string }) => (
     <Link href={href}>
       <Box
         display="flex"
-        gap="$2"
+        gap="2"
         alignItems="center"
         justifyContent="center"
       >
-        <Box as={<GithubSVG />} wh="4" display="inline" color="$accent" />
+        <Box as={<GithubSVG />} wh="4" display="inline" color="accent" />
         <Typography color="accent" fontVariant="body">
           Edit on GitHub
         </Typography>

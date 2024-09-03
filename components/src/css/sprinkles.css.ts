@@ -48,6 +48,7 @@ const responsivePropeties = defineProperties({
     flexGrow: [0, 2, 'initial', 'unset', 'inherit'],
     flexBasis: commonVars.space,
     flexWrap: ['wrap', 'nowrap', 'wrap-reverse', 'initial', 'inherit'],
+    gap: commonVars.space,
     top: commonVars.space,
     left: commonVars.space,
     right: commonVars.space,
@@ -115,6 +116,8 @@ const staticProperties = defineProperties({
     strokeWidth: commonVars.space,
     fontStyle: ['italic', 'normal', 'inherit'],
     boxSizing: ['border-box', 'content-box', 'inherit'],
+    wordBreak: ['break-all', 'normal', 'inherit'],
+    borderStyle: ['solid', 'none', 'inherit'],
   },
   shorthands: {
     typeSize: ['fontSize', 'lineHeight'],

@@ -57,8 +57,8 @@ const ContainerInner = React.forwardRef<
     {...props}
     ref={ref}
     backgroundColor="background"
-    borderTopLeftRadius="$2xLarge"
-    borderTopRightRadius="$2xLarge"
+    borderTopLeftRadius="2xLarge"
+    borderTopRightRadius="2xLarge"
     borderBottomLeftRadius={$expand ? '2xLarge' : 'unset'}
     borderBottomRightRadius={$expand ? '2xLarge' : 'unset'}
     overflow="auto"
@@ -74,9 +74,9 @@ const LiveEditorContainer = (props: BoxProps) => (
     position="relative"
     padding="1.5"
     borderColor="transparent"
-    borderTopColor="$border"
+    borderTopColor="border"
     borderStyle="solid"
-    fontFamily="$mono"
+    fontFamily="mono"
     borderWidth="1x"
   />
 )
@@ -139,14 +139,14 @@ export const CodePreview = ({
               prism={Prism}
               onChange={newCode => setCode(newCode)}
             />
-            <Box position="absolute" top="$2" right="$2">
+            <Box position="absolute" top="2" right="2">
               <CopyButton content={code} />
             </Box>
           </LiveEditorContainer>
         )}
       </Container>
 
-      <Box display="flex" justifyContent="flex-end" marginTop="$2">
+      <Box display="flex" justifyContent="flex-end" marginTop="2">
         <div>
           <Button
             colorStyle="transparent"

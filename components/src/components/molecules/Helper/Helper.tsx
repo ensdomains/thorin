@@ -34,7 +34,7 @@ const Container = ({
     borderWidth="1x"
     display="flex"
     flexDirection={$alignment === 'horizontal' ? 'row' : 'column'}
-    gap={$alignment === 'horizontal' ? '4' : '$2'}
+    gap={$alignment === 'horizontal' ? '4' : '2'}
     justifyContent={$alignment === 'horizontal' ? 'flex-start' : 'center'}
     overflowX="auto"
     px="4"

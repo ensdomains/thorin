@@ -79,7 +79,7 @@ const ContainerBox = React.forwardRef<HTMLElement, ContainerProps>(
       }}
       transitionDuration={150}
       transitionProperty="all"
-      transitionTimingFunction="$ease-in-out"
+      transitionTimingFunction="ease-in-out"
       width="full"
       {...props}
     />
@@ -95,9 +95,9 @@ const IconBox = ({
     borderRadius="full"
     color={getValueForAlert($alert, 'svg')}
     flex="0"
-    flexBasis={{ base: '$8', sm: '$10' }}
-    height={{ base: '$8', sm: '$10' }}
-    width={{ base: '$8', sm: '$10' }}
+    flexBasis={{ base: '$8', sm: '10' }}
+    height={{ base: '$8', sm: '10' }}
+    width={{ base: '$8', sm: '10' }}
     {...props}
   />
 )
@@ -153,14 +153,14 @@ const ActionButtonIconBox = ({
     }}
     transitionDuration={150}
     transitionProperty="all"
-    transitionTimingFunction="$ease-in-out"
-    width="$5"
+    transitionTimingFunction="ease-in-out"
+    width="5"
     {...props}
   />
 )
 
 const ActionButtonSVGBox = (props: BoxProps) => (
-  <Box display="block" height="3" width="$3" {...props} {...props} />
+  <Box display="block" height="3" width="3" {...props} {...props} />
 )
 
 const ActionButton = ({
@@ -233,7 +233,7 @@ export const Banner = React.forwardRef<
           display="flex"
           flex={1}
           flexDirection="column"
-          gap="$1"
+          gap="1"
           justifyContent="center"
         >
           {title && <Typography fontVariant="largeBold">{title}</Typography>}

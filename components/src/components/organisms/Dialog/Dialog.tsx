@@ -28,8 +28,8 @@ const CloseButton = (props: BoxProps) => (
     display="flex"
     justifyContent="center"
     position="absolute"
-    right="$2"
-    top="$2"
+    right="2"
+    top="2"
     transform={{ base: translateY(0), hover: translateY(-1) }}
     transitionDuration={150}
     transitionProperty="all"
@@ -45,13 +45,13 @@ const StyledCard = (props: BoxProps) => (
     {...props}
     alignItems="center"
     backgroundColor="backgroundPrimary"
-    borderBottomLeftRadius={{ xs: '0', sm: '$3xLarge' }}
-    borderBottomRightRadius={{ xs: '0', sm: '$3xLarge' }}
+    borderBottomLeftRadius={{ xs: '0', sm: '3xLarge' }}
+    borderBottomRightRadius={{ xs: '0', sm: '3xLarge' }}
     borderRadius="3xLarge"
     display="flex"
     flexDirection="column"
     gap={{ xs: '4', sm: '6' }}
-    maxHeight={{ xs: '80vh', sm: 'min(90vh, $144)' }}
+    maxHeight={{ xs: '80vh', sm: 'min(90vh, 144)' }}
     maxWidth={{ xs: 'unset', sm: '80vw' }}
     minWidth={{ xs: 'unset', sm: '$64' }}
     overflow="hidden"
@@ -74,9 +74,9 @@ const Icon = ({
       backgroundColor={getValueForAlert($alert, 'backgroundColor')}
       borderRadius="full"
       color={getValueForAlert($alert, 'color')}
-      flexBasis="$8"
-      flexGrow="0"
-      flexShrink="0"
+      flexBasis="8"
+      flexGrow={0}
+      flexShrink={0}
       wh="8"
     >
       <Box
@@ -95,7 +95,7 @@ const ButtonsContainer = (props: BoxProps) => (
     alignItems="center"
     display="flex"
     flexDirection={{ xs: 'column', sm: 'row' }}
-    gap="$2"
+    gap="2"
     justifyContent="stretch"
     width="full"
   />
@@ -118,7 +118,7 @@ const TitleContainer = (props: BoxProps) => (
     alignItems="center"
     display="flex"
     flexDirection="column"
-    gap="$px"
+    gap="px"
     justifyContent="center"
   />
 )
@@ -129,7 +129,7 @@ const StepContainer = (props: BoxProps) => (
     alignItems="center"
     display="flex"
     flexDirection="row"
-    gap="$2"
+    gap="2"
     justifyContent="center"
   />
 )
@@ -208,7 +208,7 @@ const Heading = ({
         <Typography
           color="textSecondary"
           fontVariant="bodyBold"
-          maxWidth="$72"
+          maxWidth="72"
           px="4"
           textAlign="center"
         >
@@ -223,11 +223,11 @@ const Heading = ({
 //   return (
 //     <Box
 //       maxHeight="60vh"
-//       maxWidth={{ base: '100vw', sm: '$128' }}
+//       maxWidth={{ base: '100vw', sm: '128' }}
 //       width={{ base: '100vw', sm: '80vw' }}
 //     >
 //       <ScrollBox height="full" width="full">
-//         <Box paddingRight="$2">{children}</Box>
+//         <Box paddingRight="2">{children}</Box>
 //       </ScrollBox>
 //     </Box>
 //   )

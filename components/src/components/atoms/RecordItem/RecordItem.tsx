@@ -71,16 +71,15 @@ const ContainerBox = ({
     borderWidth="1x"
     cursor="pointer"
     display="flex"
-    gap="$2"
-    height={$inline ? '$10' : 'fit-content'}
-    padding="2.5 3"
+    gap="2"
+    height={$inline ? '10' : 'fit'}
     px="3"
-    py="$2.5"
+    py="2.5"
     transform={{ base: 'translateY(0)', hover: 'translateY(-1px)' }}
     transitionDuration={150}
     transitionProperty="all"
     transitionTimingFunction="inOut"
-    width={$inline ? 'fit-content' : 'full'}
+    width={$inline ? 'fit' : 'full'}
     {...props}
   />
 )
@@ -95,13 +94,13 @@ const PrefixBox = ({
     display="flex"
     flexBasis={match($inline)
       .with(true, () => 'initial')
-      .otherwise(() => ($size === 'large' ? '$30' : '$22.5'))}
-    flexGrow="0"
-    flexShrink="0"
-    gap="$2"
+      .otherwise(() => ($size === 'large' ? '30' : '22.5'))}
+    flexGrow={0}
+    flexShrink={0}
+    gap="2"
     width={match($inline)
-      .with(true, () => 'fit-content' as const)
-      .otherwise(() => ($size === 'large' ? '$30' : '$22.5'))}
+      .with(true, () => 'fit' as const)
+      .otherwise(() => ($size === 'large' ? '30' : '22.5'))}
     {...props}
   />
 )
@@ -114,7 +113,7 @@ const PrefixLabelsContainerBox = ({
     alignItems={$inline ? 'center' : 'flex-start'}
     display="flex"
     flexDirection={$inline ? 'row' : 'column'}
-    gap={$inline ? '$2' : '0'}
+    gap={$inline ? '2' : '0'}
     overflow="hidden"
     {...props}
   />
@@ -125,7 +124,7 @@ const PrefixLabelsContainerBox = ({
 // )
 
 const PrefixSVGBox = (props: BoxProps) => (
-  <Box display="block" height="5" width="$5" {...props} />
+  <Box display="block" height="5" width="5" {...props} />
 )
 
 // const LabelBox = ({ $inline, ...props }: BoxProps & { $inline: boolean }) => (
@@ -144,7 +143,7 @@ const TrailingSVGBox = ({
   <Box
     color="greyPrimary"
     display="block"
-    marginTop="$1"
+    marginTop="1"
     transform={$rotate ? 'rotate(45deg)' : 'none'}
     wh="3"
     {...props}

@@ -70,9 +70,9 @@ const Label = ({
 const CircleFrame = (props: BoxProps) => (
   <Box
     {...props}
-    flexBasis="$7"
-    flexGrow="0"
-    flexShrink="0"
+    flexBasis="7"
+    flexGrow={0}
+    flexShrink={0}
     position="relative"
     wh="7"
   />

@@ -25,7 +25,7 @@ const Container = (props: BoxProps) => (
     {...props}
     height="fit-content"
     position="relative"
-    width="fit-content"
+    width="fit"
   />
 )
 

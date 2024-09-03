@@ -13,7 +13,7 @@ const PaletteCell = ({
   onClick: () => void
 }) => {
   return (
-    <Box flex={1} display="flex" flexDirection="column" gap="$2">
+    <Box flex={1} display="flex" flexDirection="column" gap="2">
       <Typography
         fontVariant="bodyBold"
         px="2"

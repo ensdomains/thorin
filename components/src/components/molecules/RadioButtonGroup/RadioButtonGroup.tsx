@@ -16,7 +16,7 @@ const Container = React.forwardRef<
     display="flex"
     flexDirection={$inline ? 'row' : 'column'}
     flexWrap={$inline ? 'wrap' : 'nowrap'}
-    gap="$2"
+    gap="2"
     justifyContent="flex-start"
     ref={ref}
   />

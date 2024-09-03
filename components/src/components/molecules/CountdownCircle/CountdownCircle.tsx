@@ -47,7 +47,7 @@ const ContainerBox = React.forwardRef<
     ref={ref}
     stroke="currentColor"
     strokeWidth="1"
-    wh={$size === 'large' ? '$24' : '$16'}
+    wh={$size === 'large' ? '24' : '16'}
   />
 ))
 

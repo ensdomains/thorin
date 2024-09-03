@@ -20,7 +20,7 @@ interface Container {
 const Container = ({ $shape, $size, ...props }: BoxProps & Container) => (
   <Box
     backgroundColor="backgroundSecondary"
-    borderRadius={$shape === 'circle' ? 'full' : '$2xLarge'}
+    borderRadius={$shape === 'circle' ? 'full' : '2xLarge'}
     className={avatar}
     height={$size}
     overflow="hidden"
@@ -139,7 +139,7 @@ export const Avatar: React.FC<AvatarProps> = ({
             ? rawColorToRGBA([56, 137, 255], 0.75)
             : rawColorToRGBA([0, 0, 0], 0.25)
         }
-        color="$white"
+        color="white"
         display="flex"
         justifyContent="center"
       >
