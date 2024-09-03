@@ -71,7 +71,7 @@ const ContainerBox = React.forwardRef<HTMLElement, ContainerProps>(
       gap={{ base: '4', sm: '6' }}
       padding={{ base: '4', sm: '6' }}
       position="relative"
-      pr={$hasAction ? '$8' : undefined}
+      pr={$hasAction ? '8' : undefined}
       ref={ref}
       transform={{
         base: 'translateY(0)',
@@ -95,9 +95,9 @@ const IconBox = ({
     borderRadius="full"
     color={getValueForAlert($alert, 'svg')}
     flex="0"
-    flexBasis={{ base: '$8', sm: '10' }}
-    height={{ base: '$8', sm: '10' }}
-    width={{ base: '$8', sm: '10' }}
+    flexBasis={{ base: '8', sm: '10' }}
+    height={{ base: '8', sm: '10' }}
+    width={{ base: '8', sm: '10' }}
     {...props}
   />
 )

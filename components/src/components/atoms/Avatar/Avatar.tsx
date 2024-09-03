@@ -42,7 +42,7 @@ const Placeholder = ({
 }: PlaceholderProps & BoxProps) => (
   <Box
     alignItems="center"
-    background={$url || '$blueGradient'}
+    background={$url || 'blueGradient'}
     display="flex"
     filter={$disabled ? 'grayscale(1)' : 'unset'}
     height="100%"

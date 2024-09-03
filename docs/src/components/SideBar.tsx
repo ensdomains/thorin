@@ -27,7 +27,7 @@ const NavLink = ({
   <Box>
     <Link href={href}>
       <Box
-        backgroundColor={active ? '$blueSurface' : 'transparent'}
+        backgroundColor={active ? 'blueSurface' : 'transparent'}
         height="9"
         display="flex"
         alignItems="center"

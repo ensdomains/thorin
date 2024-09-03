@@ -107,7 +107,7 @@ const staticProperties = defineProperties({
     borderWidth: commonVars.borderWidths,
     position: ['static', 'absolute', 'relative', 'fixed', 'sticky', 'initial', 'inherit'],
     borderRadius: commonVars.radii,
-    cursor: ['pointer', 'not-allowed', 'initial', 'inherit'],
+    cursor: ['pointer', 'not-allowed', 'text', 'initial', 'inherit'],
     transitionTimingFunction: commonVars.transitionTimingFunction,
     transitionDuration: commonVars.transitionDuration,
     transitionProperty: ['all', 'none', 'box-shadow', 'background-color', 'initial', 'inherit'],

@@ -259,7 +259,7 @@ const InputComponent = React.forwardRef<HTMLElement, BoxProps & InputComponentPr
       backgroundColor={{ base: 'transparent', disabled: 'greyLight' }}
       color={
         $hasError
-          ? '$redPrimary'
+          ? 'redPrimary'
           : { base: 'textPrimary', disabled: 'greyPrimary' }
       }
       cursor={{ base: 'text', disabled: 'not-allowed', readonly: 'default' }}

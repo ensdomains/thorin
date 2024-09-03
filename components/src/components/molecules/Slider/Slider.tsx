@@ -44,7 +44,7 @@ const SliderComponent = React.forwardRef<HTMLElement, BoxProps>(
       {...props}
       appearance="none"
       as="input"
-      backgroundColor={{ base: '$blueSurface', hover: '$blueLight' }}
+      backgroundColor={{ base: 'blueSurface', hover: 'blueLight' }}
       borderRadius="full"
       className={styles.slider}
       cursor={{ base: 'pointer', disabled: 'not-allowed' }}
