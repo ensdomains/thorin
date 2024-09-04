@@ -30,8 +30,8 @@ export const CardDivider = (props: BoxProps) => (
   <Box
     backgroundColor="border"
     height="px"
-    mx={{ xs: '$-4', sm: '$-6' }}
-    width={{ xs: '$dialogMobileWidth', sm: '$dialogDesktopWidth' }}
+    mx={{ xs: '-4', sm: '-6' }}
+    width={{ xs: 'dialogMobileWidth', sm: 'dialogDesktopWidth' }}
     {...props}
   />
 )

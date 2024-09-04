@@ -194,7 +194,7 @@ const PopoverBox = React.forwardRef<HTMLElement, BoxProps & PopoverBoxProps>(
       )}
       visibility={getValueForTransitionState($state.status, 'visibility')}
       width={{ xs: makeWidth($mobileWidth), sm: makeWidth($width) }}
-      zIndex="999999"
+      zIndex={999999}
     />
   ),
 )
