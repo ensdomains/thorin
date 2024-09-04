@@ -12,9 +12,12 @@ import type { Colors } from '@/src/tokens'
 import type { BoxProps } from '../../atoms/Box/Box'
 import { Box } from '../../atoms/Box/Box'
 import { getValueForPlacement } from './utils/getValueForPlacement'
+import * as styles from './styles.css'
+import clsx from 'clsx'
+import type { Color } from '@/src/tokens/color'
 
 type TooltipPopoverElementProps = {
-  $background: any
+  $background: Color
   $placement: DynamicPopoverSide
   $mobilePlacement: DynamicPopoverSide
 }
@@ -24,6 +27,7 @@ const TooltipPopoverElement = ({
   $placement,
   $mobilePlacement,
   children,
+  className,
   ...props
 }: BoxProps & TooltipPopoverElementProps) => (
   <Box
@@ -31,7 +35,7 @@ const TooltipPopoverElement = ({
     backgroundColor={$background}
     borderRadius="large"
     boxSizing="border-box"
-    filter="drop-shadow(0px 0px 1px #e8e8e8) drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.2))"
+    className={clsx(className, styles.popover)}
     overflow="visible"
     padding="2.5"
     position="relative"

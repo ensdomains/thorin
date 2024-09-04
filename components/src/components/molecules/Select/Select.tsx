@@ -256,14 +256,14 @@ const SelectOptionContainer = ({
     bottom={getValueForTransitionState($state, 'bottom', $direction)}
     display={$state === 'exited' ? 'none' : 'block'}
     fontSize={getValueForSize($size, 'fontSize')}
-    left={$align === 'left' ? 0 : 'unset'}
+    left={$align === 'left' ? '0' : 'unset'}
     lineHeight="body"
     minWidth="full"
     opacity={getValueForTransitionState($state, 'opacity', $direction)}
     overflow="hidden"
     padding="2"
     position="absolute"
-    right={$align === 'right' ? 0 : 'unset'}
+    right={$align === 'right' ? '0' : 'unset'}
     top={getValueForTransitionState($state, 'top', $direction)}
     transition="all 0.3s cubic-bezier(1, 0, 0.22, 1.6), z-index 0.3s linear"
     visibility={getValueForTransitionState($state, 'visibility', $direction)}

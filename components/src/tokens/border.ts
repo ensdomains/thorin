@@ -13,6 +13,7 @@ export const borderWidths = {
 }
 
 export const radii = {
+  '0': '0',
   'none': '0',
   'extraSmall': '2px',
   'small': '4px',

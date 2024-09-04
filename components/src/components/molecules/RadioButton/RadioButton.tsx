@@ -9,9 +9,7 @@ import { Field } from '../../atoms/Field/Field'
 import { getTestId } from '../../../utils/utils'
 import type { BoxProps } from '../../atoms/Box/Box'
 import { Box } from '../../atoms/Box/Box'
-import type { Color } from './utils/getValidatedColor'
-import { getValidatedColor } from './utils/getValidatedColor'
-
+import type { Color } from '@/src/tokens/color'
 type NativeInputProps = React.InputHTMLAttributes<HTMLInputElement>
 
 export type RadioButtonProps = {
@@ -52,12 +50,12 @@ Omit<
 const Mark = ({ $color, disabled, ...props }: BoxProps & { $color: Color }) => (
   <Box
     {...props}
-    backgroundColor={disabled ? 'greyPrimary' : getValidatedColor($color)}
+    backgroundColor={disabled ? 'greyPrimary' : $color}
     borderRadius="full"
-    left="50%"
+    left="1/2"
     pointerEvents="none"
     position="absolute"
-    top="50%"
+    top="1/2"
     transition="all 150ms ease-in-out"
     translate="-50% -50%"
     wh="3"

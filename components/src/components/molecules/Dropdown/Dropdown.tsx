@@ -206,7 +206,7 @@ const MenuButton = React.forwardRef<HTMLElement, BoxProps & MenuButtonProps>(
           borderRadius="full"
           position="absolute"
           right="3"
-          top="50%"
+          top="1/2"
           transform="translateY(-50%)"
           wh="2"
         />

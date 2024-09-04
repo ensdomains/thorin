@@ -43,9 +43,9 @@ const Label = ({
     fontWeight={$size === 'extraSmall' ? '$normal' : 'bold'}
     height={getValuesForKnob($size, 'height')}
     justifyContent="center"
-    left="50%"
+    left="1/2"
     position="absolute"
-    top="50%"
+    top="1/2"
     transform={$type === 'eth' ? 'translateX(-50%)' : 'translateX(50%)'}
     transition="color 0.1s linear"
     translate="-50% -50%"
@@ -84,9 +84,9 @@ const Slider = ({
     borderRadius={$size === 'extraSmall' ? 'full' : '$medium'}
     display="block"
     height={getValuesForKnob($size, 'height')}
-    left="50%"
+    left="1/2"
     position="absolute"
-    top="50%"
+    top="1/2"
     transition="transform 0.3s ease-in-out, background-color 0.1s ease-in-out"
     translate="-50% -50%"
     width={getValuesForKnob($size, 'width')}

@@ -44,10 +44,10 @@ const Label = ({
     fontSize="small"
     fontWeight={$size === 'extraSmall' ? '$normal' : 'bold'}
     justifyContent="center"
-    left="50%"
+    left="1/2"
     pointerEvents="none"
     position="absolute"
-    top="50%"
+    top="1/2"
     transform={$mode === 'dark' ? 'translateX(-50%)' : 'translateX(50%)'}
     transition="color 0.1s linear"
     translate="-50% -50%"
@@ -85,10 +85,10 @@ const Slider = ({
     backgroundColor={getValidatedColor($color)}
     borderRadius="full"
     display="block"
-    left="50%"
+    left="1/2"
     pointerEvents="none"
     position="absolute"
-    top="50%"
+    top="1/2"
     transition="transform 0.3s ease-in-out, background-color 0.1s ease-in-out"
     translate="-50% -50%"
     wh={getValueForSize($size, 'knobSize')}
