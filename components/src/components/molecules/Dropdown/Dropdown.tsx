@@ -200,7 +200,7 @@ const MenuButton = React.forwardRef<HTMLElement, BoxProps & MenuButtonProps>(
         <Box
           backgroundColor={
             typeof $showIndicator === 'boolean'
-              ? '$accent'
+              ? 'accent'
               : `$${$showIndicator}`
           }
           borderRadius="full"

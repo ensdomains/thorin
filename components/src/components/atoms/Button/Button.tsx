@@ -120,7 +120,7 @@ const ButtonBox = React.forwardRef<
         disabled: getValueForColourStyle('disabled', 'border'),
         hover: getValueForColourStyle($colorStyle, 'hover'),
       }}
-      borderRadius={['circle', 'rounded'].includes($shape) ? 'full' : '$large'}
+      borderRadius={['circle', 'rounded'].includes($shape) ? 'full' : 'large'}
       borderStyle="solid"
       borderWidth="1x"
       boxShadow={$shadow ? '0.25 grey' : 'none'}

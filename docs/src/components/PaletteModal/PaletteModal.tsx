@@ -79,7 +79,7 @@ export const PaletteModal = ({
             backgroundColor={
               shadeRawColor
                 ? rawColorToRGB(shadeRawColor)
-                : '$backgroundSecondary'
+                : 'backgroundSecondary'
             }
           >
             <Box

@@ -53,7 +53,7 @@ const StyledCard = (props: BoxProps) => (
     gap={{ xs: '4', sm: '6' }}
     maxHeight={{ xs: '80vh', sm: 'min(90vh, 144)' }}
     maxWidth={{ xs: 'unset', sm: '80vw' }}
-    minWidth={{ xs: 'unset', sm: '$64' }}
+    minWidth={{ xs: 'unset', sm: '64' }}
     overflow="hidden"
     padding={{ xs: '4', sm: '6' }}
     position="relative"
