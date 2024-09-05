@@ -63,10 +63,7 @@ const StyledCard = (props: BoxProps) => (
 
 type NonNullableAlert = NonNullable<WithAlert['alert']>
 
-const Icon = ({
-  $alert,
-  ...props
-}: BoxProps & { $alert: NonNullableAlert }) => {
+const Icon = ({ $alert, ...props }: BoxProps & { $alert: NonNullableAlert }) => {
   const Icon = ['error', 'warning'].includes($alert) ? <AlertSVG /> : <EthSVG />
   return (
     <Box
@@ -223,8 +220,8 @@ const Heading = ({
 //   return (
 //     <Box
 //       maxHeight="60vh"
-//       maxWidth={{ base: '100vw', sm: '128' }}
-//       width={{ base: '100vw', sm: '80vw' }}
+//       maxWidth={{ base: 'viewWidth', sm: '128' }}
+//       width={{ base: 'viewWidth', sm: '80vw' }}
 //     >
 //       <ScrollBox height="full" width="full">
 //         <Box paddingRight="2">{children}</Box>

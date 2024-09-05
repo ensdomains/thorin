@@ -46,7 +46,7 @@ interface ContainerProps {
 
 const calculateWidth = (size: Size) => {
   if (size === 'small') return '10'
-  if (size === 'medium') return '$45'
+  if (size === 'medium') return '45'
   return '80'
 }
 

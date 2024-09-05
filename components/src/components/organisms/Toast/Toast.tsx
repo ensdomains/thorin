@@ -83,7 +83,7 @@ const Container = React.forwardRef<HTMLElement, BoxProps & ContainerProps>(
       transitionProperty="all"
       transitionTimingFunction="popIn"
       width={$popped ? '95%' : '92.5%'}
-      zIndex="10000"
+      zIndex={10000}
     />
   ),
 )

@@ -77,6 +77,8 @@ export const space = {
   'fit': 'fit-content',
   'max': 'max-content',
   'min': 'min-content',
+  '60vh': '60vh',
+  '80vw': '80vw',
   'viewHeight': '100vh',
   'viewWidth': '100vw',
   'none': '0',

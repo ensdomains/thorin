@@ -57,7 +57,7 @@ const Container = forwardRef<
     }}
     maxHeight="60vh"
     maxWidth={{
-      base: '$viewWidth',
+      base: 'viewWidth',
       sm: `calc(${space['128']} + 2 * ${space[$horizontalPadding]})`,
     }}
     overflow="hidden"
