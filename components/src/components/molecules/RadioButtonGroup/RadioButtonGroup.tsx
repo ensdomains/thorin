@@ -1,25 +1,30 @@
 import * as React from 'react'
 
-import styled, { css } from 'styled-components'
-
-import { RadioButton } from '@/src/components'
+import type { RadioButton } from '@/src/components/molecules'
 
 import { getTestId } from '../../../utils/utils'
 import { createSyntheticEvent } from '../../../utils/createSyntheticEvent'
+import type { BoxProps } from '../../atoms/Box/Box'
+import { Box } from '../../atoms/Box/Box'
 
-const Container = styled.div<{ $inline?: boolean }>(
-  ({ theme, $inline }) => css`
-    display: flex;
-    flex-direction: ${$inline ? 'row' : 'column'};
-    gap: ${theme.space['2']};
-    justify-content: flex-start;
-    flex-wrap: ${$inline ? 'wrap' : 'nowrap'};
-  `,
-)
+const Container = React.forwardRef<
+  HTMLElement,
+  BoxProps & { $inline?: boolean }
+>(({ $inline, ...props }, ref) => (
+  <Box
+    {...props}
+    display="flex"
+    flexDirection={$inline ? 'row' : 'column'}
+    flexWrap={$inline ? 'wrap' : 'nowrap'}
+    gap="2"
+    justifyContent="flex-start"
+    ref={ref}
+  />
+))
 
 type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 type NativeInputProps = React.InputHTMLAttributes<HTMLInputElement>
-export type Props = {
+export type RadioButtonGroupProps = {
   /** Display the radio buttons in a row */
   inline?: boolean
   /** The children of the component that conform to the basic input attributes  */
@@ -34,7 +39,7 @@ export type Props = {
   onBlur?: NativeInputProps['onBlur']
 } & Omit<NativeDivProps, 'onFocus' | 'onChange' | 'onBlur'>
 
-export const RadioButtonGroup = React.forwardRef(
+export const RadioButtonGroup = React.forwardRef<HTMLDivElement, RadioButtonGroupProps>(
   (
     {
       value: _value,
@@ -43,8 +48,8 @@ export const RadioButtonGroup = React.forwardRef(
       onChange,
       onBlur,
       ...props
-    }: Props,
-    ref: React.Ref<HTMLDivElement>,
+    },
+    ref,
   ) => {
     const defaultRef = React.useRef<HTMLDivElement>(null)
     const rootRef = (ref as React.RefObject<HTMLDivElement>) || defaultRef
@@ -54,7 +59,6 @@ export const RadioButtonGroup = React.forwardRef(
     const [value, setValue] = React.useState(_value)
     React.useEffect(() => {
       if (_value && _value != value) setValue(_value)
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [_value])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -91,8 +95,8 @@ export const RadioButtonGroup = React.forwardRef(
 
     return (
       <Container
-        $inline={inline}
         {...props}
+        $inline={inline}
         data-testid={getTestId(props, 'radiogroup')}
         ref={rootRef}
         role="radiogroup"

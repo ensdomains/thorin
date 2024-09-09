@@ -1,10 +1,13 @@
 import * as React from 'react'
 
-import { ThemeProvider } from 'styled-components'
-
-import { cleanup, render, screen, userEvent, waitFor } from '@/test'
-
-import { lightTheme } from '@/src/tokens'
+import {
+  cleanup,
+  getPropertyValue,
+  render,
+  screen,
+  userEvent,
+  waitFor,
+} from '@/test'
 
 import { Profile } from './Profile'
 
@@ -14,45 +17,31 @@ describe('<Profile />', () => {
   afterEach(cleanup)
 
   it('renders', async () => {
-    render(
-      <ThemeProvider theme={lightTheme}>
-        <Profile address="" />
-      </ThemeProvider>,
-    )
+    render(<Profile address="" />)
     expect(screen.getByTestId('profile')).toBeInTheDocument()
   })
 
   it('should add middle ellipsis to address', () => {
-    render(
-      <ThemeProvider theme={lightTheme}>
-        <Profile address={TEST_ADDRESS} />
-      </ThemeProvider>,
-    )
+    render(<Profile address={TEST_ADDRESS} />)
     const addressDisplay = screen.getByTestId('profile-title')
     expect(addressDisplay.innerHTML).toEqual('0x155...ccb92')
   })
 
   it('should display only ensName if provided', () => {
-    render(
-      <ThemeProvider theme={lightTheme}>
-        <Profile address={TEST_ADDRESS} ensName="nick.eth" />
-      </ThemeProvider>,
-    )
+    render(<Profile address={TEST_ADDRESS} ensName="nick.eth" />)
     const addressDisplay = screen.getByTestId('profile-title')
     expect(addressDisplay.innerHTML).toEqual('nick.eth')
   })
 
   it('should display dropdown if items are provided', async () => {
     render(
-      <ThemeProvider theme={lightTheme}>
-        <Profile
-          address={TEST_ADDRESS}
-          dropdownItems={[
-            { label: 'Disconnect', onClick: () => null, color: 'red' },
-          ]}
-          ensName="nick.eth"
-        />
-      </ThemeProvider>,
+      <Profile
+        address={TEST_ADDRESS}
+        dropdownItems={[
+          { label: 'Disconnect', onClick: () => null, color: 'red' },
+        ]}
+        ensName="nick.eth"
+      />,
     )
     await userEvent.click(screen.getByText('nick.eth'))
     await waitFor(() => {
@@ -61,11 +50,11 @@ describe('<Profile />', () => {
   })
 
   it('should hide text if size is small', () => {
-    render(
-      <ThemeProvider theme={lightTheme}>
-        <Profile address={TEST_ADDRESS} ensName="nick.eth" size="small" />
-      </ThemeProvider>,
+    render(<Profile address={TEST_ADDRESS} ensName="nick.eth" size="small" />)
+    const display = getPropertyValue(
+      screen.getByTestId('profile-inner-container'),
+      'display',
     )
-    expect(screen.queryByText('nick.eth')).not.toBeVisible()
+    expect(display).toEqual('none')
   })
 })

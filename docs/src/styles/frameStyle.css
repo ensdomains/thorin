@@ -1,0 +1,4 @@
+body {
+  background-color: var(--thorin-color-background);
+  padding: var(--thorin-space-4);
+}

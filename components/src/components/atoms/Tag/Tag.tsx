@@ -1,83 +1,66 @@
 import * as React from 'react'
-import styled, { css } from 'styled-components'
 
-import {
-  WithColorStyle,
-  getColorStyle,
-} from '@/src/types/withColorOrColorStyle'
+import { translateY } from '@/src/css/utils/common'
 
-interface ContainerProps {
-  $hover?: boolean
-  $size: 'small' | 'medium'
-  $colorStyle: NonNullable<Props['colorStyle']>
-}
+import { removeNullishProps } from '@/src/utils/removeNullishProps'
 
-const Container = styled.div<ContainerProps>(
-  ({ theme, $hover, $size, $colorStyle }) => css`
-    align-items: center;
-    display: flex;
-    border-radius: ${theme.radii['full']};
-    font-size: ${theme.fontSizes.small};
-    line-height: ${theme.lineHeights.small};
-    font-weight: ${theme.fontWeights.bold};
-    width: ${theme.space['max']};
-    padding: ${theme.space['0.5']} ${theme.space['2']};
-    background: ${getColorStyle($colorStyle, 'background')};
-    color: ${getColorStyle($colorStyle, 'text')};
-    border: 1px solid ${getColorStyle($colorStyle, 'border')};
-    cursor: default;
+import type { WithColorStyle } from './utils/withColorStyle'
+import { getValueForColorStyle } from './utils/withColorStyle'
 
-    ${$size === 'small' &&
-    css`
-      font-size: ${theme.fontSizes.extraSmall};
-      line-height: ${theme.lineHeights.extraSmall};
-    `}
+import type { BoxProps } from '../Box/Box'
+import { Box } from '../Box/Box'
 
-    ${$hover &&
-    css`
-      transition-duration: ${theme.transitionDuration['150']};
-      transition-property: color, border-color, background-color;
-      transition-timing-function: ${theme.transitionTimingFunction['inOut']};
-
-      &:hover,
-      &:active {
-        transform: translateY(-1px);
-        background-color: ${getColorStyle($colorStyle, 'hover')};
-      }
-    `}
-  `,
-)
-
-type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
-
-export type Props = {
+export type TagProps = {
   /** Element type of container */
   as?: 'div' | 'span'
   /** If true, changes colors on hover */
   hover?: boolean
   /** Size of element */
   size?: 'small' | 'medium'
-} & NativeDivProps &
-  WithColorStyle
+} & Omit<BoxProps, 'size'> &
+WithColorStyle
 
-export const Tag = ({
+export const Tag: React.FC<TagProps> = ({
   as = 'div',
   children,
   hover,
   size = 'small',
   colorStyle = 'accentSecondary',
   ...props
-}: Props) => {
+}) => {
   return (
-    <Container
-      {...props}
-      $colorStyle={colorStyle}
-      $hover={hover}
-      $size={size}
+    <Box
+      alignItems="center"
       as={as}
+      backgroundColor={{
+        base: getValueForColorStyle(colorStyle, 'background'),
+        hover: getValueForColorStyle(
+          colorStyle,
+          hover ? 'hover' : 'background',
+        ),
+        active: getValueForColorStyle(colorStyle, 'hover'),
+      }}
+      borderRadius="full"
+      color={getValueForColorStyle(colorStyle, 'content')}
+      display="flex"
+      fontSize={size === 'small' ? 'extraSmall' : 'small'}
+      fontWeight="bold"
+      lineHeight={size === 'small' ? 'extraSmall' : 'small'}
+      px="2"
+      py="0.5"
+      transform={{
+        base: translateY(0),
+        hover: translateY(hover ? -1 : 0),
+        active: translateY(-1),
+      }}
+      transitionDuration={150}
+      transitionProperty="color, border-color, background-color, transform"
+      transitionTimingFunction="inOut"
+      width="max"
+      {...removeNullishProps(props)}
     >
       {children}
-    </Container>
+    </Box>
   )
 }
 

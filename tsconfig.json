@@ -1,36 +1,18 @@
 {
   "compilerOptions": {
-    "allowJs": false,
-    "allowSyntheticDefaultImports": true,
-    "alwaysStrict": true,
-    "baseUrl": "./",
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "isolatedModules": true,
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "module": "esnext",
-    "moduleResolution": "node",
-    "noEmit": true,
+    "moduleDetection": "force",
+    "moduleResolution": "Node",
+    "strict": true,
+    "resolveJsonModule": true,
+    "baseUrl": ".",
     "paths": {
       "@/*": ["./components/*"]
     },
-    "resolveJsonModule": true,
+    "module": "ESNext",
+    "target": "ESNext",
     "skipLibCheck": true,
-    "strict": true,
-    "strictNullChecks": true,
-    "target": "esnext",
-    "types": ["node", "webpack-env"],
-    "plugins": [
-      {
-        "name": "@styled/typescript-styled-plugin",
-        "tags": ["styled", "css", "mq"],
-        "validate": false,
-        "lint": {
-          "validProperties": ["flex-gap"]
-        }
-      }
-    ]
-  },
-  "include": ["components/**/*", "docs/**/*", "playroom/**/*"],
-  "exclude": ["node_modules"]
+    "jsx": "preserve",
+    "allowSyntheticDefaultImports": true,
+    "isolatedModules": true
+  }
 }

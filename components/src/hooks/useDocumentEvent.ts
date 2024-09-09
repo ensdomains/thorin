@@ -1,4 +1,5 @@
-import { RefObject, useEffect } from 'react'
+import type { RefObject } from 'react'
+import { useEffect } from 'react'
 
 export const useDocumentEvent = (
   ref: RefObject<any>,
@@ -15,6 +16,5 @@ export const useDocumentEvent = (
     return () => {
       document.removeEventListener(event, callback)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shouldCallback])
 }

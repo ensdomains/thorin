@@ -1,7 +1,6 @@
-// import { useTheme } from '@ensdomains/thorin/components'
-// import { vars } from '@ensdomains/thorin/css'
+import { useTheme } from '@ensdomains/thorin'
+import { cssVars } from '@ensdomains/thorin'
 
-import { useTheme } from 'styled-components'
 import React from 'react'
 
 import { usePlayroomStore } from './PlayroomState'
@@ -25,7 +24,7 @@ const useScope = () => {
   return {
     ...useTheme(),
     ...usePlayroomStore(),
-    // vars,
+    vars: cssVars,
     avatars,
     React,
   }

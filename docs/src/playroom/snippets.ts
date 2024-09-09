@@ -3,7 +3,7 @@ import reactElementToJSXString from 'react-element-to-jsx-string'
 
 import capitalize from 'lodash/capitalize'
 
-import { Snippet } from './types'
+import type { Snippet } from './types'
 
 const req = (require as any).context(
   '../reference/snippets',
@@ -23,8 +23,8 @@ const snippets = flatten(
     return snippets.map((snippet) => {
       const groupName = capitalize(matches[1])
       const displayName = matches[2]
-      const code =
-        typeof snippet.code === 'string'
+      const code
+        = typeof snippet.code === 'string'
           ? snippet.code
           : reactElementToJSXString(snippet.code)
 

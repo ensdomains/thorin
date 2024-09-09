@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Banner } from '@ensdomains/thorin'
 
-import { Snippet } from '../../../types'
+import type { Snippet } from '../../../types'
 
 export const snippets: Snippet[] = [
   {

@@ -1,7 +1,0 @@
-dist
-coverage
-src/components/icons/generated
-
-node_modules
-pnpm-lock.yaml
-pnpm-workspace.yaml

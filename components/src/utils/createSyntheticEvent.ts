@@ -1,4 +1,4 @@
-import React from 'react'
+import type React from 'react'
 
 export const createSyntheticEvent = <T extends Element, E extends Event>(
   event: E,
@@ -26,7 +26,7 @@ export const createSyntheticEvent = <T extends Element, E extends Event>(
     isDefaultPrevented: () => isDefaultPrevented,
     stopPropagation,
     isPropagationStopped: () => isPropagationStopped,
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
+
     persist: () => {},
     timeStamp: event.timeStamp,
     type: event.type,
