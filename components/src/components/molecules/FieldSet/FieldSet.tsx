@@ -63,7 +63,7 @@ export type FieldSetProps = {
       name: string
       tone: TagProps['color']
     }
-} & Omit<NativeFieldSetProps, 'children'>
+} & Omit<BoxProps, 'children'>
 
 export const FieldSet: React.FC<FieldSetProps> = ({
   children,

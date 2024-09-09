@@ -69,14 +69,14 @@ export const SideBar = ({ open, links }: { open: boolean, links: Links }) => {
       position="fixed"
       flexDirection="column"
       top={{ base: '20', sm: '24' }}
-      left={{ base: open ? '0' : '-100%', sm: '0' }}
+      // left={{ base: open ? '0' : '-100%', sm: '0' }}
       width="64"
       bottom="0"
       backgroundColor="backgroundPrimary"
-      borderRight="1px solid"
-      borderRightColor="border"
+      // borderRight="1px solid"
+      // borderRightColor="border"
       gap="4"
-      transition="left 0.2s ease-in-out"
+      // transition="left 0.2s ease-in-out"
       paddingRight="1"
     >
       <ScrollBox width="full" hideDividers>

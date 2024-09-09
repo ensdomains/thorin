@@ -25,9 +25,9 @@ const ContainerBox = React.forwardRef<
     <Box
       color={$color}
       fontFamily="sans"
-      fontSize={getValueForLevel($level, 'fontSize', $responsive)}
-      fontWeight={getValueForLevel($level, 'fontWeight', $responsive)}
-      lineHeight={getValueForLevel($level, 'lineHeight', $responsive)}
+      // fontSize={getValueForLevel($level, 'fontSize', $responsive)}
+      // fontWeight={getValueForLevel($level, 'fontWeight', $responsive)}
+      // lineHeight={getValueForLevel($level, 'lineHeight', $responsive)}
       ref={ref}
       textAlign={textAlign}
       textTransform={textTransform}

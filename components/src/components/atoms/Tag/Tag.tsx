@@ -32,29 +32,29 @@ export const Tag: React.FC<TagProps> = ({
     <Box
       alignItems="center"
       as={as}
-      backgroundColor={{
-        base: getValueForColorStyle(colorStyle, 'background'),
-        hover: getValueForColorStyle(
-          colorStyle,
-          hover ? 'hover' : 'background',
-        ),
-        active: getValueForColorStyle(colorStyle, 'hover'),
-      }}
+      // backgroundColor={{
+      //   base: getValueForColorStyle(colorStyle, 'background'),
+      //   hover: getValueForColorStyle(
+      //     colorStyle,
+      //     hover ? 'hover' : 'background',
+      //   ),
+      //   active: getValueForColorStyle(colorStyle, 'hover'),
+      // }}
       borderRadius="full"
-      color={getValueForColorStyle(colorStyle, 'content')}
+      // color={getValueForColorStyle(colorStyle, 'content')}
       display="flex"
       fontSize={size === 'small' ? 'extraSmall' : 'small'}
       fontWeight="bold"
       lineHeight={size === 'small' ? 'extraSmall' : 'small'}
       px="2"
       py="0.5"
-      transform={{
-        base: translateY(0),
-        hover: translateY(hover ? -1 : 0),
-        active: translateY(-1),
-      }}
+      // transform={{
+      //   base: translateY(0),
+      //   hover: translateY(hover ? -1 : 0),
+      //   active: translateY(-1),
+      // }}
       transitionDuration={150}
-      transitionProperty="color, border-color, background-color, transform"
+      // transitionProperty="color, border-color, background-color, transform"
       transitionTimingFunction="inOut"
       width="max"
       {...removeNullishProps(props)}

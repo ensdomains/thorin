@@ -33,7 +33,7 @@ const CREATE_OPTION_VALUE = 'CREATE_OPTION_VALUE'
 export type Size = 'small' | 'medium'
 
 type ContainerProps = {
-  $size: Size
+  // $size: Size
   $disabled: boolean
   $hasError: boolean
   $validated: boolean
@@ -43,7 +43,9 @@ type ContainerProps = {
 
 const Container = React.forwardRef<HTMLElement, BoxProps & ContainerProps>(
   (
-    { $size, $showDot, $hasError, $validated, $disabled, $readOnly, ...props },
+    {
+      // $size,
+      $showDot, $hasError, $validated, $disabled, $readOnly, ...props },
     ref,
   ) => (
     <Box
@@ -54,9 +56,9 @@ const Container = React.forwardRef<HTMLElement, BoxProps & ContainerProps>(
         show: $showDot && !$disabled,
       })}
       cursor="pointer"
-      fontSize={getValueForSize($size, 'fontSize')}
-      height={getValueForSize($size, 'height')}
-      lineHeight={getValueForSize($size, 'lineHeight')}
+      // fontSize={getValueForSize($size, 'fontSize')}
+      // height={getValueForSize($size, 'height')}
+      // lineHeight={getValueForSize($size, 'lineHeight')}
       pointerEvents={$readOnly ? 'none' : 'all'}
       position="relative"
       ref={ref}
@@ -67,7 +69,7 @@ const Container = React.forwardRef<HTMLElement, BoxProps & ContainerProps>(
 type SelectContainerProps = {
   $hasError: boolean
   $disabled: boolean
-  $size: Size
+  // $size: Size
   $readOnly: boolean
 }
 
@@ -75,7 +77,7 @@ const SelectContainer = ({
   $hasError,
   $disabled,
   $readOnly,
-  $size,
+  // $size,
   ...props
 }: BoxProps & SelectContainerProps) => (
   <Box
@@ -97,14 +99,14 @@ const SelectContainer = ({
     gap="2"
     height="full"
     overflow="hidden"
-    paddingLeft={getValueForSize($size, 'outerPadding')}
+    // paddingLeft={getValueForSize($size, 'outerPadding')}
   />
 )
 
 const RootInput = React.forwardRef<HTMLInputElement, BoxProps>((props, ref) => (
   <Box
     {...props}
-    appearance="none"
+    // appearance="none"
     as="input"
     overflow="hidden"
     position="absolute"
@@ -161,10 +163,12 @@ const SelectInput = React.forwardRef<HTMLInputElement, BoxProps>((props, ref) =>
 ))
 
 const SelectActionButton = ({
-  $size,
+  // $size,
   $disabled,
   ...props
-}: BoxProps & { $size: Size, $disabled: boolean }) => (
+}: BoxProps & {
+  // $size: Size,
+  $disabled: boolean }) => (
   <Box
     {...props}
     alignItems="center"
@@ -177,12 +181,12 @@ const SelectActionButton = ({
     margin="0"
     padding="0"
     paddingLeft="2"
-    paddingRight={getValueForSize($size, 'outerPadding')}
+    // paddingRight={getValueForSize($size, 'outerPadding')}
   >
     <Box
-      as={<CrossCircleSVG />}
+      as={CrossCircleSVG}
       display="block"
-      wh={getValueForSize($size, 'iconWidth')}
+      // wh={getValueForSize($size, 'iconWidth')}
     />
   </Box>
 )
@@ -190,11 +194,11 @@ const SelectActionButton = ({
 const ToggleMenuButton = ({
   $open,
   $direction,
-  $size,
+  // $size,
   $disabled,
   ...props
 }: BoxProps & {
-  $size: Size
+  // $size: Size
   $open: boolean
   $direction: Direction
   $disabled: boolean
@@ -215,17 +219,17 @@ const ToggleMenuButton = ({
       margin="0"
       padding="0"
       paddingLeft="2"
-      paddingRight={getValueForSize($size, 'outerPadding')}
+      // paddingRight={getValueForSize($size, 'outerPadding')}
     >
       <Box
-        as={<DownChevronSVG />}
+        as={DownChevronSVG}
         display="block"
-        fill="currentColor"
-        transform={rotate(rotation)}
-        transitionDuration="200"
+        // fill="currentColor"
+        // transform={rotate(rotation)}
+        // transitionDuration="200"
         transitionProperty="all"
         transitionTimingFunction="inOut"
-        wh={getValueForSize($size, 'iconWidth')}
+        // wh={getValueForSize($size, 'iconWidth')}
       />
     </Box>
   )
@@ -235,14 +239,14 @@ type SelectOptionContainerProps = {
   $state?: TransitionState['status'] | 'default'
   $direction?: Direction
   $rows?: number
-  $size?: Size
+  // $size?: Size
   $align?: 'left' | 'right'
 }
 const SelectOptionContainer = ({
   $state = 'default',
   $direction = 'down',
   // $rows,
-  $size = 'medium',
+  // $size = 'medium',
   $align,
   ...props
 }: BoxProps & SelectOptionContainerProps) => (
@@ -253,34 +257,34 @@ const SelectOptionContainer = ({
     borderRadius="2xLarge"
     borderStyle="solid"
     borderWidth="1x"
-    bottom={getValueForTransitionState($state, 'bottom', $direction)}
+    // bottom={getValueForTransitionState($state, 'bottom', $direction)}
     display={$state === 'exited' ? 'none' : 'block'}
-    fontSize={getValueForSize($size, 'fontSize')}
+    // fontSize={getValueForSize($size, 'fontSize')}
     left={$align === 'left' ? '0' : 'unset'}
     lineHeight="body"
     minWidth="full"
-    opacity={getValueForTransitionState($state, 'opacity', $direction)}
+    // opacity={getValueForTransitionState($state, 'opacity', $direction)}
     overflow="hidden"
     padding="2"
     position="absolute"
     right={$align === 'right' ? '0' : 'unset'}
-    top={getValueForTransitionState($state, 'top', $direction)}
-    transition="all 0.3s cubic-bezier(1, 0, 0.22, 1.6), z-index 0.3s linear"
-    visibility={getValueForTransitionState($state, 'visibility', $direction)}
-    zIndex={getValueForTransitionState($state, 'zIndex', $direction)}
+    // top={getValueForTransitionState($state, 'top', $direction)}
+    // transition="all 0.3s cubic-bezier(1, 0, 0.22, 1.6), z-index 0.3s linear"
+    // visibility={getValueForTransitionState($state, 'visibility', $direction)}
+    // zIndex={getValueForTransitionState($state, 'zIndex', $direction)}
   />
 )
 
 type SelectOptionListProps = {
   $rows?: number
   $direction: Direction
-  $size: Size
+  // $size: Size
 }
 
 const SelectOptionList = ({
   $rows,
   $direction,
-  $size = 'medium',
+  // $size = 'medium',
   children,
   ...props
 }: BoxProps & SelectOptionListProps) => {
@@ -291,7 +295,7 @@ const SelectOptionList = ({
         display="flex"
         flexDirection={$direction === 'up' ? 'column-reverse' : 'column'}
         hideDividers
-        maxHeight={getValueForSize($size, 'maxHeightFunc')($rows)}
+        // maxHeight={getValueForSize($size, 'maxHeightFunc')($rows)}
         paddingRight="1"
         width="full"
       >
@@ -306,7 +310,7 @@ const SelectOptionList = ({
       display="flex"
       flexDirection={$direction === 'up' ? 'column-reverse' : 'column'}
       gap="1"
-      justifyContent="space-between"
+      // justifyContent="space-between"
       overflow="hidden"
       wh="full"
     >
@@ -319,14 +323,14 @@ type SelectOptionRowProps = {
   $selected?: boolean
   $color?: Colors
   $highlighted?: boolean
-  $size: Size
+  // $size: Size
   option: SelectOptionProps
 }
 const SelectOptionRow = ({
   $selected,
   $highlighted,
   $color,
-  $size,
+  // $size,
   option,
   ...props
 }: BoxProps & SelectOptionRowProps) => {
@@ -347,14 +351,14 @@ const SelectOptionRow = ({
       color={{ base: $color || 'textPrimary', disabled: 'greyPrimary' }}
       cursor={{ base: 'pointer', disabled: 'not-allowed' }}
       display="flex"
-      flexBasis={getValueForSize($size, 'rowHeight')}
+      // flexBasis={getValueForSize($size, 'rowHeight')}
       flexGrow={0}
       flexShrink={0}
-      fontSize={getValueForSize($size, 'fontSize')}
+      // fontSize={getValueForSize($size, 'fontSize')}
       fontWeight="normal"
-      height={getValueForSize($size, 'rowHeight')}
+      // height={getValueForSize($size, 'rowHeight')}
       justifyContent="flex-start"
-      lineHeight={getValueForSize($size, 'lineHeight')}
+      // lineHeight={getValueForSize($size, 'lineHeight')}
       px="3"
       textAlign="left"
       transitionDuration={150}
@@ -475,7 +479,7 @@ export type SelectProps = {
   readOnly?: boolean
 } & FieldBaseProps & Pick<React.InputHTMLAttributes<HTMLInputElement>, 'placeholder'> &
 Omit<
-  NativeDivProps,
+  BoxProps,
   | 'children'
   | 'id'
   | 'onChange'
@@ -820,7 +824,7 @@ export const Select = React.forwardRef<HTMLInputElement, SelectProps>(
             $hasError={!!error}
             $readOnly={readOnly}
             $showDot={showDot}
-            $size={size}
+            // $size={size}
             $validated={!!validated}
             id={`combo-${id}`}
             ref={displayRef}
@@ -832,7 +836,8 @@ export const Select = React.forwardRef<HTMLInputElement, SelectProps>(
               $disabled={!!disabled}
               $hasError={!!error}
               $readOnly={readOnly}
-              $size={size}
+              // $size={size}
+              {...{}}
             >
               <RootInput
                 ref={inputRef}
@@ -892,7 +897,7 @@ export const Select = React.forwardRef<HTMLInputElement, SelectProps>(
                 ? (
                     <SelectActionButton
                       $disabled={disabled}
-                      $size={size}
+                      // $size={size}
                       type="button"
                       onClick={handleInputClear}
                     >
@@ -905,7 +910,7 @@ export const Select = React.forwardRef<HTMLInputElement, SelectProps>(
                           $direction={direction}
                           $disabled={disabled}
                           $open={isOpen}
-                          $size={size}
+                          // $size={size}
                           id="chevron"
                           type="button"
                           onClick={() => setMenuOpen(!menuOpen)}
@@ -919,7 +924,7 @@ export const Select = React.forwardRef<HTMLInputElement, SelectProps>(
               $align={align}
               $direction={direction}
               $rows={rows}
-              $size={size}
+              // $size={size}
               $state={state.status}
               id={`listbox-${id}`}
               role="listbox"
@@ -929,7 +934,7 @@ export const Select = React.forwardRef<HTMLInputElement, SelectProps>(
               <SelectOptionList
                 $direction={direction}
                 $rows={rows}
-                $size={size}
+                // $size={size}
               >
                 {visibleOptions.length === 0 && (
                   <NoResultsContainer>{emptyListMessage}</NoResultsContainer>
@@ -939,9 +944,9 @@ export const Select = React.forwardRef<HTMLInputElement, SelectProps>(
                     {...{
                       $selected: option?.value === value,
                       $highlighted: index === highlightedIndex,
-                      gap: cssVars.space[innerPadding],
+                      // gap: cssVars.space[innerPadding],
                       $color: option.color,
-                      $size: size,
+                      // $size: size,
                     }}
                     data-option-index={index}
                     data-testid={`select-option-${option.value}`}

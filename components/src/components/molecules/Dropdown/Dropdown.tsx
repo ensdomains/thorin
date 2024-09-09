@@ -76,7 +76,7 @@ export type DropdownProps = {
   responsive?: boolean
   /** The label for the cancel button when showing an action sheet */
   cancelLabel?: string
-} & NativeDivProps
+} & BoxProps
 
 type PropsWithIsOpen = {
   isOpen: boolean
@@ -99,7 +99,7 @@ type DropdownMenuProps = {
   direction: Direction
   state?: TransitionState['status']
   height?: string | number
-} & NativeDivProps &
+} & BoxProps &
 PopoverProps
 
 type DropdownMenuContainerProps = {
@@ -125,26 +125,26 @@ const DropdownMenuBox = React.forwardRef<
     opacity={1}
     padding="1.5"
     ref={ref}
-    transform={match([$state, $direction, $shortThrow])
-      .with([P.union('entering', 'entered'), P._, P._], () => `translateY(0)`)
-      .with(
-        [P._, 'up', true],
-        () => `translateY(calc(${commonVars.space['2.5']}))`,
-      )
-      .with(
-        [P._, 'down', true],
-        () => `translateY(calc(-1 * ${commonVars.space['2.5']}))`,
-      )
-      .with(
-        [P._, 'up', false],
-        () => `translateY(calc(${commonVars.space['12']}))`,
-      )
-      .with(
-        [P._, 'down', false],
-        () => `translateY(calc(-1 * ${commonVars.space['12']}))`,
-      )
-      .exhaustive()}
-    transition="all .35s cubic-bezier(1, 0, 0.22, 1.6)"
+    // transform={match([$state, $direction, $shortThrow])
+    //   .with([P.union('entering', 'entered'), P._, P._], () => `translateY(0)`)
+    //   .with(
+    //     [P._, 'up', true],
+    //     () => `translateY(calc(${commonVars.space['2.5']}))`,
+    //   )
+    //   .with(
+    //     [P._, 'down', true],
+    //     () => `translateY(calc(-1 * ${commonVars.space['2.5']}))`,
+    //   )
+    //   .with(
+    //     [P._, 'up', false],
+    //     () => `translateY(calc(${commonVars.space['12']}))`,
+    //   )
+    //   .with(
+    //     [P._, 'down', false],
+    //     () => `translateY(calc(-1 * ${commonVars.space['12']}))`,
+    //   )
+    //   .exhaustive()}
+    // transition="all .35s cubic-bezier(1, 0, 0.22, 1.6)"
     width="full"
     zIndex={1}
   />
@@ -152,7 +152,7 @@ const DropdownMenuBox = React.forwardRef<
 
 interface MenuButtonProps {
   $color?: Colors
-  $icon?: React.ReactElement
+  $icon?: React.FC
   $showIndicator?: boolean | Colors
 }
 
@@ -163,12 +163,12 @@ const MenuButton = React.forwardRef<HTMLElement, BoxProps & MenuButtonProps>(
       alignItems="center"
       backgroundColor={{ base: 'backgroundPrimary', hover: 'greySurface' }}
       borderRadius="large"
-      color={
-        disabled ? 'textTertiary' : $color ? `$${$color}` : 'textPrimary'
-      }
+      // color={
+      //   disabled ? 'textTertiary' : $color ? `$${$color}` : 'textPrimary'
+      // }
       cursor={disabled ? 'not-allowed' : 'pointer'}
       display="flex"
-      filter={{ base: 'brightness(1)', active: 'brightness(0.9)' }}
+      // filter={{ base: 'brightness(1)', active: 'brightness(0.9)' }}
       fontWeight="normal"
       gap="2"
       height="12"
@@ -177,17 +177,17 @@ const MenuButton = React.forwardRef<HTMLElement, BoxProps & MenuButtonProps>(
       paddingRight={$showIndicator ? '6' : '3'}
       position="relative"
       ref={ref}
-      transform={{ base: 'translateY(0px)', active: 'translateY(0px)' }}
+      // transform={{ base: 'translateY(0px)', active: 'translateY(0px)' }}
       transitionDuration={150}
-      transitionProperty="color, transform, filter"
-      transitionTimingFunction="ease-in-out"
+      // transitionProperty="color, transform, filter"
+      // transitionTimingFunction="ease-in-out"
       width="full"
     >
       {$icon
         ? (
             <Box
               as={$icon}
-              color={$color ? `$${$color}` : 'textPrimary'}
+              // color={$color ? `$${$color}` : 'textPrimary'}
               flexBasis="4"
               flexGrow={0}
               flexShrink={0}
@@ -198,16 +198,16 @@ const MenuButton = React.forwardRef<HTMLElement, BoxProps & MenuButtonProps>(
       {children}
       {$showIndicator && (
         <Box
-          backgroundColor={
-            typeof $showIndicator === 'boolean'
-              ? 'accent'
-              : `$${$showIndicator}`
-          }
+          // backgroundColor={
+          //   typeof $showIndicator === 'boolean'
+          //     ? 'accent'
+          //     : `$${$showIndicator}`
+          // }
           borderRadius="full"
           position="absolute"
           right="3"
           top="1/2"
-          transform="translateY(-50%)"
+          // transform="translateY(-50%)"
           wh="2"
         />
       )}
@@ -343,12 +343,12 @@ const Chevron = ({
   $direction,
 }: { $open?: boolean, $direction: Direction } & BoxProps) => (
   <Box
-    as={<DownChevronSVG />}
-    fill="currentColor"
+    as={DownChevronSVG}
+    // fill="currentColor"
     marginLeft="1"
     marginRight="0.5"
-    transform={rotation($direction, !!$open)}
-    transitionDuration="200"
+    // transform={rotation($direction, !!$open)}
+    // transitionDuration="200"
     transitionProperty="all"
     transitionTimingFunction="inOut"
     width="3"

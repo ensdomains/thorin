@@ -183,17 +183,17 @@ const PopoverBox = React.forwardRef<HTMLElement, BoxProps & PopoverBoxProps>(
       position="absolute"
       ref={ref}
       top={getValueForTransitionState($state.status, 'topFunc')($y)}
-      transform={{
-        base: `translate3d(0, 0, 0) ${$mobileTranslate}`,
-        sm: `translate3d(0, 0, 0) ${$translate}`,
-      }}
-      transitionDuration={`${$transitionDuration}ms`}
+      // transform={{
+      //   base: `translate3d(0, 0, 0) ${$mobileTranslate}`,
+      //   sm: `translate3d(0, 0, 0) ${$translate}`,
+      // }}
+      // transitionDuration={`${$transitionDuration}ms`}
       transitionProperty={getValueForTransitionState(
         $state.status,
         'transitionProperty',
       )}
       visibility={getValueForTransitionState($state.status, 'visibility')}
-      width={{ xs: makeWidth($mobileWidth), sm: makeWidth($width) }}
+      // width={{ xs: makeWidth($mobileWidth), sm: makeWidth($width) }}
       zIndex={999999}
     />
   ),

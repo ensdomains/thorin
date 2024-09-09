@@ -33,7 +33,12 @@ const TableHead = ({
 )
 
 const DataCell = ({ children }: React.PropsWithChildren) => (
-  <Box as="td" borderTop="1px solid" borderTopColor="border" padding="4">
+  <Box
+    as="td"
+    // borderTop="1px solid"
+    // borderTopColor="border"
+    padding="4"
+  >
     {children}
   </Box>
 )

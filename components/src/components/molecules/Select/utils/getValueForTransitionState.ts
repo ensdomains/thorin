@@ -1,12 +1,10 @@
 import type { TransitionState } from 'react-transition-state'
 
-import type { Sprinkles } from '@/src/css/rainbow-spinkles.css'
-
 import type { Direction } from '../Select'
 
 type Properties = {
   zIndex: string
-  visibility: Sprinkles['visibility']
+  // visibility: Sprinkles['visibility']
   top: string
   bottom: string
   opacity: string
@@ -20,14 +18,14 @@ const transitionMap: {
   entered: {
     up: {
       zIndex: '20',
-      visibility: 'visible',
+      // visibility: 'visible',
       top: 'auto',
       bottom: 'calc(100% + 0.5rem)',
       opacity: '1',
     },
     down: {
       zIndex: '20',
-      visibility: 'visible',
+      // visibility: 'visible',
       top: 'calc(100% + 0.5rem)',
       bottom: 'auto',
       opacity: '1',
@@ -36,14 +34,14 @@ const transitionMap: {
   default: {
     up: {
       zIndex: '1',
-      visibility: 'hidden',
+      // visibility: 'hidden',
       top: 'auto',
       bottom: 'calc(100% - 3rem)',
       opacity: '0',
     },
     down: {
       zIndex: '1',
-      visibility: 'hidden',
+      // visibility: 'hidden',
       top: 'calc(100% - 3rem)',
       bottom: 'auto',
       opacity: '0',

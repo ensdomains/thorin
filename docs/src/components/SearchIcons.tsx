@@ -34,10 +34,10 @@ const IconGrid = (props: BoxProps) => (
     display="grid"
     gap="4"
 
-    gridTemplateColumns={{
-      base: 'repeat(auto-fit, minmax(4.5rem, 1fr))',
-      md: 'repeat(auto-fit, minmax(5rem, 1fr))',
-    }}
+    // gridTemplateColumns={{
+    //   base: 'repeat(auto-fit, minmax(4.5rem, 1fr))',
+    //   md: 'repeat(auto-fit, minmax(5rem, 1fr))',
+    // }}
   />
 )
 
@@ -68,7 +68,7 @@ const ComponentContainer = (props: BoxProps) => (
     transitionDuration={150}
     transitionProperty="box-shadow"
     transitionTimingFunction="inOut"
-    boxShadow={{ base: '1', hover: '1', active: '0.5' }}
+    // boxShadow={{ base: '1', hover: '1', active: '0.5' }}
   />
 )
 
@@ -98,6 +98,7 @@ export const SearchIcons = () => {
             value={state.query}
             onChange={event =>
               setState(x => ({ ...x, query: event.target.value }))}
+            size="large" // TODO: Check what size this should be
           />
 
           <IconGrid>

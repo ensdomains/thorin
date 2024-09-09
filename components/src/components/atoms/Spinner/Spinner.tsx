@@ -17,22 +17,22 @@ export type SpinnerProps = {
   /** A tokens 'mode' color value */
   color?: Color
   size?: Size
-} & Omit<NativeDivProps, 'children' | 'color'>
+} & Omit<BoxProps, 'children' | 'color'>
 
 const ContainerBox = React.forwardRef<
   HTMLElement,
-  BoxProps & { $size: Size, $color?: Color }
+  BoxProps & { $size?: Size, $color?: Color }
 >(({ $size, $color, ...props }, ref) => (
   <Box
     {...props}
-    color={validateColor($color)}
+    // color={validateColor($color)}
     ref={ref}
-    strokeWidth={getValueForSize($size, 'strokeWidth')}
-    wh={getValueForSize($size, 'size')}
+    // strokeWidth={getValueForSize($size, 'strokeWidth')}
+    // wh={getValueForSize($size, 'size')}
   />
 ))
 
-const svg = (
+const svg = () => (
   <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     <circle
       cx="12"
@@ -62,7 +62,7 @@ export const Spinner = React.forwardRef<HTMLElement, SpinnerProps>(
       <ContainerBox
         {...props}
         $color={color}
-        $size={size}
+        // $size={size}
         className={styles.animation}
         ref={ref}
       >
@@ -72,8 +72,8 @@ export const Spinner = React.forwardRef<HTMLElement, SpinnerProps>(
         <Box
           as={svg}
           display="block"
-          fill="currentColor"
-          stroke="currentColor"
+          // fill="currentColor"
+          // stroke="currentColor"
           wh="full"
         />
       </ContainerBox>

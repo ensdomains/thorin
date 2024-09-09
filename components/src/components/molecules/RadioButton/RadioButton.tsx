@@ -37,7 +37,7 @@ export type RadioButtonProps = {
   onBlur?: NativeInputProps['onBlur']
 } & Omit<FieldBaseProps, 'labelRight'> &
 Omit<
-  NativeInputProps,
+  BoxProps,
   | 'children'
   | 'value'
   | 'defaultValue'
@@ -56,8 +56,8 @@ const Mark = ({ $color, disabled, ...props }: BoxProps & { $color: Color }) => (
     pointerEvents="none"
     position="absolute"
     top="1/2"
-    transition="all 150ms ease-in-out"
-    translate="-50% -50%"
+    // transition="all 150ms ease-in-out"
+    // translate="-50% -50%"
     wh="3"
   />
 )
@@ -72,23 +72,23 @@ const Input = React.forwardRef<HTMLElement, BoxProps & { $color: Color }>(
         borderRadius="full"
         cursor={{ base: 'pointer', disabled: 'not-allowed' }}
         display="grid"
-        filter={{
-          base: brightness(1.0),
-          hover: brightness(1.05),
-          disabled: brightness(1),
-        }}
+        // filter={{
+        //   base: brightness(1.0),
+        //   hover: brightness(1.05),
+        //   disabled: brightness(1),
+        // }}
         flexBasis="5"
         flexGrow={0}
         flexShrink={0}
-        placeContent="center"
+        // placeContent="center"
         ref={ref}
         role="radio"
-        transform={{
-          base: translateY(0),
-          hover: translateY(-1),
-          disabled: translateY(0),
-        }}
-        transition="all 150ms ease-in-out"
+        // transform={{
+        //   base: translateY(0),
+        //   hover: translateY(-1),
+        //   disabled: translateY(0),
+        // }}
+        // transition="all 150ms ease-in-out"
         type="radio"
         wh="5"
       />

@@ -47,21 +47,21 @@ const Container = ({
     display="flex"
     position="relative"
     transitionDuration={150}
-    transitionProperty="color, border-color, background-color"
+    // transitionProperty="color, border-color, background-color"
     transitionTimingFunction="inOut"
   />
 )
 
 type TextAreaProps = {
   $error?: boolean
-  $size: TextareaProps['size']
+  $size?: TextareaProps['size']
   $hasAction?: boolean
   $alwaysShowAction?: boolean
 }
 const TextArea = React.forwardRef<HTMLElement, BoxProps & TextAreaProps>(
   (
     {
-      $size = 'medium',
+      // $size = 'medium',
       $hasAction,
       $error,
       $alwaysShowAction,
@@ -90,35 +90,35 @@ const TextArea = React.forwardRef<HTMLElement, BoxProps & TextAreaProps>(
       color={{ base: 'textPrimary', disabled: 'greyPrimary' }}
       disabled={disabled}
       display="flex"
-      fontSize={getValueForSize($size, 'fontSize')}
+      // fontSize={getValueForSize($size, 'fontSize')}
       fontWeight="normal"
       fontFamily="inherit"
-      lineHeight={getValueForSize($size, 'fontSize')}
+      // lineHeight={getValueForSize($size, 'fontSize')}
       minHeight="14"
-      outline="none"
+      // outline="none"
       overflow="hidden"
-      paddingLeft={getValueForSize($size, 'paddingX')}
-      paddingRight={getValueForSize(
-        $size,
-        $hasAction ? 'paddingAction' : 'paddingX',
-      )}
+      // paddingLeft={getValueForSize($size, 'paddingX')}
+      // paddingRight={getValueForSize(
+      //   $size,
+      //   $hasAction ? 'paddingAction' : 'paddingX',
+      // )}
       position="relative"
-      py={getValueForSize($size, 'paddingY')}
+      // py={getValueForSize($size, 'paddingY')}
       readOnly={readOnly}
       ref={ref}
-      resize="none"
-      transition="all 0.3s ease-in-out"
+      // resize="none"
+      // transition="all 0.3s ease-in-out"
       width="full"
     />
   ),
 )
 
 const ActionButton = ({
-  $size = 'medium',
+  // $size = 'medium',
   $icon,
   ...props
-}: BoxProps & { $size: Size, $icon: React.ReactNode }) => {
-  const icon = React.isValidElement($icon) ? $icon : <CrossCircleSVG />
+}: BoxProps & { $size?: Size, $icon?: React.FC }) => {
+  const icon = React.isValidElement($icon) ? $icon : CrossCircleSVG
   return (
     <Box
       {...props}
@@ -131,15 +131,15 @@ const ActionButton = ({
       position="absolute"
       right="0"
       top="0"
-      transform={{ base: translateY(0), hover: translateY(-1) }}
-      transition="all 0.1s ease-in-out"
+      // transform={{ base: translateY(0), hover: translateY(-1) }}
+      // transition="all 0.1s ease-in-out"
       type="button"
-      wh={getValueForSize($size, 'actionSize')}
+      // wh={getValueForSize($size, 'actionSize')}
     >
       <Box
         as={icon}
-        transition="all 0.1s ease-in-out"
-        wh={getValueForSize($size, 'iconSize')}
+        // transition="all 0.1s ease-in-out"
+        // wh={getValueForSize($size, 'iconSize')}
       />
     </Box>
   )
@@ -183,7 +183,7 @@ export type TextareaProps = Omit<FieldBaseProps, 'inline'> & {
   /** If true, shows a status dot of the current state of validation */
   showDot?: boolean
   /** A replacement icon for the action button */
-  actionIcon?: React.ReactNode
+  actionIcon?: React.FC
   /** If true, will show the action button even when there is not input */
   alwaysShowAction?: boolean
   /** A custom handler that replaces the clear handler */
@@ -195,7 +195,7 @@ export type TextareaProps = Omit<FieldBaseProps, 'inline'> & {
   /** The handler for focus events. */
   onFocus?: NativeTextareaProps['onFocus']
 } & Omit<
-  NativeTextareaProps,
+  BoxProps,
     'children' | 'value' | 'defaultValue' | 'aria-invalid'
 >
 
@@ -306,7 +306,7 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
               }}
               $error={hasError}
               $hasAction={hasAction}
-              $size={size}
+              // $size={size}
               autoCorrect={autoCorrect}
               autoFocus={autoFocus}
               defaultValue={defaultValue}
@@ -327,11 +327,11 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
             {showAction && (
               <ActionButton
                 $icon={actionIcon}
-                $size={size}
+                // $size={size}
                 type="button"
                 onClick={handleClickAction}
               >
-                {actionIcon || <CrossCircleSVG />}
+                {/* {actionIcon || <CrossCircleSVG />} */}
               </ActionButton>
             )}
           </Container>

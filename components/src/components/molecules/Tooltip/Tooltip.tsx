@@ -17,22 +17,22 @@ import clsx from 'clsx'
 import type { Color } from '@/src/tokens/color'
 
 type TooltipPopoverElementProps = {
-  $background: Color
-  $placement: DynamicPopoverSide
-  $mobilePlacement: DynamicPopoverSide
+  // $background: Color
+  // $placement: DynamicPopoverSide
+  // $mobilePlacement: DynamicPopoverSide
 }
 
 const TooltipPopoverElement = ({
-  $background = 'backgroundPrimary',
-  $placement,
-  $mobilePlacement,
+  // $background = 'backgroundPrimary',
+  // $placement,
+  // $mobilePlacement,
   children,
   className,
   ...props
 }: BoxProps & TooltipPopoverElementProps) => (
   <Box
     {...props}
-    backgroundColor={$background}
+    // backgroundColor={$background}
     borderRadius="large"
     boxSizing="border-box"
     className={clsx(className, styles.popover)}
@@ -42,71 +42,71 @@ const TooltipPopoverElement = ({
   >
     {children}
     <Box
-      borderBottomColor={{
-        base: getValueForPlacement(
-          $mobilePlacement,
-          'borderBottomColorFunction',
-        )($background),
-        sm: getValueForPlacement(
-          $placement,
-          'borderBottomColorFunction',
-        )($background),
-      }}
-      borderLeftColor={{
-        base: getValueForPlacement(
-          $mobilePlacement,
-          'borderLeftColorFunction',
-        )($background),
-        sm: getValueForPlacement(
-          $placement,
-          'borderLeftColorFunction',
-        )($background),
-      }}
-      borderRightColor={{
-        base: getValueForPlacement(
-          $mobilePlacement,
-          'borderRightColorFunction',
-        )($background),
-        sm: getValueForPlacement(
-          $placement,
-          'borderRightColorFunction',
-        )($background),
-      }}
+      // borderBottomColor={{
+      //   base: getValueForPlacement(
+      //     $mobilePlacement,
+      //     'borderBottomColorFunction',
+      //   )($background),
+      //   sm: getValueForPlacement(
+      //     $placement,
+      //     'borderBottomColorFunction',
+      //   )($background),
+      // }}
+      // borderLeftColor={{
+      //   base: getValueForPlacement(
+      //     $mobilePlacement,
+      //     'borderLeftColorFunction',
+      //   )($background),
+      //   sm: getValueForPlacement(
+      //     $placement,
+      //     'borderLeftColorFunction',
+      //   )($background),
+      // }}
+      // borderRightColor={{
+      //   base: getValueForPlacement(
+      //     $mobilePlacement,
+      //     'borderRightColorFunction',
+      //   )($background),
+      //   sm: getValueForPlacement(
+      //     $placement,
+      //     'borderRightColorFunction',
+      //   )($background),
+      // }}
       borderStyle="solid"
-      borderTopColor={{
-        base: getValueForPlacement(
-          $mobilePlacement,
-          'borderTopColorFunction',
-        )($background),
-        sm: getValueForPlacement(
-          $placement,
-          'borderTopColorFunction',
-        )($background),
-      }}
+      // borderTopColor={{
+      //   base: getValueForPlacement(
+      //     $mobilePlacement,
+      //     'borderTopColorFunction',
+      //   )($background),
+      //   sm: getValueForPlacement(
+      //     $placement,
+      //     'borderTopColorFunction',
+      //   )($background),
+      // }}
       borderWidth="10x"
-      bottom={{
-        base: getValueForPlacement($mobilePlacement, 'bottom'),
-        sm: getValueForPlacement($placement, 'bottom'),
-      }}
+      // bottom={{
+      //   base: getValueForPlacement($mobilePlacement, 'bottom'),
+      //   sm: getValueForPlacement($placement, 'bottom'),
+      // }}
       display="initial"
       height="0"
-      left={{
-        base: getValueForPlacement($mobilePlacement, 'left'),
-        sm: getValueForPlacement($placement, 'left'),
-      }}
-      margin={{
-        xs: getValueForPlacement($mobilePlacement, 'margin'),
-        sm: getValueForPlacement($placement, 'margin'),
-      }}
+      // left={{
+      //   base: getValueForPlacement($mobilePlacement, 'left'),
+      //   sm: getValueForPlacement($placement, 'left'),
+      // }}
+      // margin={{
+      //   xs: getValueForPlacement($mobilePlacement, 'margin'),
+      //   sm: getValueForPlacement($placement, 'margin'),
+      // }}
       position="absolute"
-      right={{
-        base: getValueForPlacement($mobilePlacement, 'right'),
-        sm: getValueForPlacement($placement, 'right'),
-      }}
-      top={{
-        base: getValueForPlacement($mobilePlacement, 'top'),
-        sm: getValueForPlacement($placement, 'top'),
-      }}
+      // right={{
+      //   base: getValueForPlacement($mobilePlacement, 'right'),
+      //   sm: getValueForPlacement($placement, 'right'),
+      // }}
+      // top={{
+      //   base: getValueForPlacement($mobilePlacement, 'top'),
+      //   sm: getValueForPlacement($placement, 'top'),
+      // }}
       width="0"
     />
   </Box>
@@ -122,9 +122,9 @@ const TooltipPopover = ({
 }: TooltipPopoverProps) => {
   return (
     <TooltipPopoverElement
-      $background={background}
-      $mobilePlacement={mobilePlacement}
-      $placement={placement}
+      // $background={background}
+      // $mobilePlacement={mobilePlacement}
+      // $placement={placement}
       data-testid="tooltip-popover"
     >
       {children}

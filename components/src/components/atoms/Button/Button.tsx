@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { P, match } from 'ts-pattern'
 
-import { scale, translateY } from '@/src/css/utils/common'
+// import { scale, translateY } from '@/src/css/utils/common'
 
 import { removeNullishProps } from '@/src/utils/removeNullishProps'
 
@@ -10,16 +10,17 @@ import type {
   ColorStyle,
   WithColorStyle } from './utils/withColorStyle'
 import {
-  getValueForColourStyle,
+// getValueForColourStyle,
 } from './utils/withColorStyle'
 
 import type { Color } from './utils/getValidatedColor'
-import { getValidatedColor } from './utils/getValidatedColor'
+// import { getValidatedColor } from './utils/getValidatedColor'
 
-import { getValueForSize } from './utils/getValueForSize'
+// import { getValueForSize } from './utils/getValueForSize'
 
 import type { ReactNodeNoStrings } from '../../../types'
-import { Spinner } from '../Spinner/Spinner'
+// import { Spinner } from '../Spinner/Spinner'
+const Spinner = () => <div>Spinner</div>
 import type { BoxProps } from '../Box/Box'
 import { Box } from '../Box/Box'
 
@@ -77,12 +78,12 @@ type WithoutAnchor = {
 }
 
 type ButtonBoxProps = {
-  $pressed: boolean
-  $shadow: boolean
+  $pressed?: boolean
+  $shadow?: boolean
   $shape?: BaseProps['shape']
   $size?: BaseProps['size']
   $type?: BaseProps['type']
-  $colorStyle: WithColorStyle['colorStyle']
+  $colorStyle?: WithColorStyle['colorStyle']
   $color?: Color
   $hasCounter?: boolean
 }
@@ -92,14 +93,15 @@ const ButtonBox = React.forwardRef<
 >(
   (
     {
-      $pressed,
-      $shadow,
-      $shape = 'rectangle',
-      $size = 'medium',
-      $colorStyle = 'accentPrimary',
-      $hasCounter,
-      $color,
+      // $pressed,
+      // $shadow,
+      // $shape = 'rectangle',
+      // $size = 'medium',
+      // $colorStyle = 'accentPrimary',
+      // $hasCounter,
+      // $color,
       as,
+      children,
       ...props
     },
     ref,
@@ -107,69 +109,77 @@ const ButtonBox = React.forwardRef<
     <Box
       alignItems="center"
       as={as ?? 'button'}
-      backgroundColor={{
-        base: getValueForColourStyle(
-          $colorStyle,
-          $pressed ? 'hover' : 'background',
-        ),
-        hover: getValueForColourStyle($colorStyle, 'hover'),
-        disabled: getValueForColourStyle('disabled', 'background'),
-      }}
-      borderColor={{
-        base: getValueForColourStyle($colorStyle, 'border'),
-        disabled: getValueForColourStyle('disabled', 'border'),
-        hover: getValueForColourStyle($colorStyle, 'hover'),
-      }}
-      borderRadius={['circle', 'rounded'].includes($shape) ? 'full' : 'large'}
+      // backgroundColor={{
+      //   base: getValueForColourStyle(
+      //     $colorStyle,
+      //     $pressed ? 'hover' : 'background',
+      //   ),
+      //   hover: getValueForColourStyle($colorStyle, 'hover'),
+      //   disabled: getValueForColourStyle('disabled', 'background'),
+      // }}
+      // borderColor={{
+      //   base: getValueForColourStyle($colorStyle, 'border'),
+      //   disabled: getValueForColourStyle('disabled', 'border'),
+      //   hover: getValueForColourStyle($colorStyle, 'hover'),
+      // }}
+      // borderRadius={['circle', 'rounded'].includes($shape) ? 'full' : '$large'}
       borderStyle="solid"
       borderWidth="1x"
-      boxShadow={$shadow ? '0.25 grey' : 'none'}
-      color={{
-        base: getValidatedColor(
-          $color,
-          getValueForColourStyle($colorStyle, 'content'),
-        ),
-        disabled: getValueForColourStyle('disabled', 'content'),
-      }}
+      // boxShadow={$shadow ? '0.25 grey' : 'none'}
+      // color={{
+      //   base: getValidatedColor(
+      //     $color,
+      //     getValueForColourStyle($colorStyle, 'content'),
+      //   ),
+      //   disabled: getValueForColourStyle('disabled', 'content'),
+      // }}
       cursor={{ base: 'pointer', disabled: 'not-allowed' }}
       display="flex"
-      fill={getValueForColourStyle($colorStyle, 'content')}
-      fontSize={getValueForSize($size, 'fontSize')}
+      // fill={getValueForColourStyle($colorStyle, 'content')}
+      // fontSize={getValueForSize($size, 'fontSize')}
       fontWeight="bold"
       gap="2"
-      height={getValueForSize($size, 'height')}
+      // height={getValueForSize($size, 'height')}
       justifyContent="center"
       position="relative"
       // px={$hasCounter ? '12' : getValueForSize($size, 'px')}
       ref={ref}
-      transform={{
-        base: translateY(0),
-        hover: translateY(-1),
-        active: translateY(-1),
-        disabled: translateY(0),
-      }}
+      // transform={{
+      //   base: translateY(0),
+      //   hover: translateY(-1),
+      //   active: translateY(-1),
+      //   disabled: translateY(0),
+      // }}
       transitionDuration={150}
       transitionProperty="all"
       transitionTimingFunction="inOut"
-      width={
-        ['square', 'circle'].includes($shape)
-          ? getValueForSize($size, 'height')
-          : 'full'
-      }
-      {...{
-        px: $hasCounter ? '12' : getValueForSize($size, 'px'),
-        ...props,
-      }}
+      // width={
+      //   ['square', 'circle'].includes($shape)
+      //     ? getValueForSize($size, 'height')
+      //     : 'full'
+      // }
+      // {...{
+      //   px: $hasCounter ? '12' : getValueForSize($size, 'px'),
+      //   ...props,
+      // }}
+      // {...props}
+      children={children}
     />
   ),
 )
 
 const SVGBox = ({
-  $size,
+  // $size,
   ...props
 }: BoxProps & {
   $size: 'small' | 'medium' | 'flexible'
-}) => <Box display="block" wh={getValueForSize($size, 'svgSize')} {...props} />
+}) => (
+  <Box
+    display="block"
+    // wh={getValueForSize($size, 'svgSize')}
+    {...props}
+  />
+)
 
 const ContentBox = ({
   $fullWidth,
@@ -201,7 +211,8 @@ const CounterBox = (props: BoxProps) => (
 
 const CounterIconBox = ({
   $visible,
-  $colorStyle,
+  // $colorStyle,
+  children,
   ...props
 }: BoxProps & {
   $visible: boolean
@@ -209,12 +220,12 @@ const CounterIconBox = ({
 }) => (
   <Box
     alignItems="center"
-    borderColor={getValueForColourStyle($colorStyle, 'content')}
+    // borderColor={getValueForColourStyle($colorStyle, 'content')}
     borderRadius="full"
     borderStyle="solid"
     borderWidth="2x"
     boxSizing="border-box"
-    color={getValueForColourStyle($colorStyle, 'content')}
+    // color={getValueForColourStyle($colorStyle, 'content')}
     display="flex"
     fontSize="extraSmall"
     height="6"
@@ -223,11 +234,12 @@ const CounterIconBox = ({
     opacity={$visible ? 1 : 0}
     pointerEvents="none"
     px="1"
-    transform={$visible ? scale(1) : scale(0.3)}
+    // transform={$visible ? scale(1) : scale(0.3)}
     transitionDuration={300}
     transitionProperty="all"
     transitionTimingFunction="inOut"
-    {...props}
+    children={children}
+    // {...props}
   />
 )
 
@@ -240,8 +252,8 @@ const TooltipIndicatorBox = (props: BoxProps) => (
     display="flex"
     justifyContent="center"
     position="absolute"
-    right="-10px"
-    top="-10px"
+    // right="-10px"
+    // top="-10px"
     wh="6"
     {...props}
   />
@@ -293,7 +305,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         .with([P._, true, P._], () =>
           React.isValidElement(prefix)
             ? (
-                <SVGBox $size={size} as={prefix} />
+                <SVGBox $size={size} as={prefix as any} />
               )
             : null,
         )
@@ -304,7 +316,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         .with([P._, P._, true], () =>
           React.isValidElement(suffix)
             ? (
-                <SVGBox $size={size} as={suffix} />
+                <SVGBox $size={size} as={suffix as any} />
               )
             : null,
         )
@@ -321,21 +333,21 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     return (
       <ButtonBox
-        $color={color}
-        $colorStyle={colorStyle}
-        $hasCounter={!!count}
-        $pressed={pressed}
-        $shadow={shadow}
-        $shape={shape}
-        $size={size}
+        // $color={color}
+        // $colorStyle={colorStyle}
+        // $hasCounter={!!count}
+        // $pressed={pressed}
+        // $shadow={shadow}
+        // $shape={shape}
+        // $size={size}
         as={asProp as any}
-        disabled={disabled}
-        href={href}
-        ref={ref}
-        rel={rel}
-        tabIndex={tabIndex}
-        target={target}
-        type={type}
+        // disabled={disabled}
+        // href={href}
+        // ref={ref}
+        // rel={rel}
+        // tabIndex={tabIndex}
+        // target={target}
+        // type={type}
         // position={zIndex && 'relative'}
         zIndex={zIndex}
         onClick={onClick}

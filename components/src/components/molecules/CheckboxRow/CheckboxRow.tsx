@@ -19,16 +19,16 @@ export type CheckboxRowProps = {
   label: string
   subLabel?: string
   colorStyle?: ColorStyle
-} & React.InputHTMLAttributes<HTMLInputElement>
+} & BoxProps
 
 const ContainerBox = ({ disabled, ...props }: BoxProps) => (
   <Box
     position="relative"
-    transform={{
-      base: translateY(0),
-      hover: translateY(disabled ? 0 : -1),
-    }}
-    transition="transform 150ms ease-in-out"
+    // transform={{
+    //   base: translateY(0),
+    //   hover: translateY(disabled ? 0 : -1),
+    // }}
+    // transition="transform 150ms ease-in-out"
     {...props}
     width="full"
   />
@@ -53,7 +53,7 @@ const Label = ({
     {...props}
     alignItems="center"
     as="label"
-    backgroundColor={getValueForColorStyle($colorStyle, 'background')}
+    // backgroundColor={getValueForColorStyle($colorStyle, 'background')}
     borderColor="transparent"
     borderRadius="large"
     borderStyle="solid"
@@ -62,7 +62,7 @@ const Label = ({
     display="flex"
     gap="4"
     padding="4"
-    transition="all 0.3s ease-in-out"
+    // transition="all 0.3s ease-in-out"
     wh="full"
   />
 )
@@ -79,7 +79,12 @@ const CircleFrame = (props: BoxProps) => (
 )
 
 const SVG = (props: BoxProps) => (
-  <Box {...props} display="block" fill="currentColor" wh="4" />
+  <Box
+    {...props}
+    display="block"
+    // fill="currentColor"
+    wh="4"
+  />
 )
 
 const Circle = ({
@@ -90,22 +95,22 @@ const Circle = ({
   <Box
     {...props}
     alignItems="center"
-    backgroundColor={getValueForColorStyle(
-      $colorStyle,
-      $hover ? 'iconHover' : 'icon',
-    )}
+    // backgroundColor={getValueForColorStyle(
+    //   $colorStyle,
+    //   $hover ? 'iconHover' : 'icon',
+    // )}
     borderColor="transparent"
     borderRadius="full"
     borderStyle="solid"
     borderWidth="1x"
-    color={getValueForColorStyle($colorStyle, 'svg')}
+    // color={getValueForColorStyle($colorStyle, 'svg')}
     display="flex"
     justifyContent="center"
     position="absolute"
-    transition="all 0.3s ease-in-out"
+    // transition="all 0.3s ease-in-out"
     wh="full"
   >
-    <SVG as={<CheckSVG />} />
+    <SVG as={CheckSVG} />
   </Box>
 )
 

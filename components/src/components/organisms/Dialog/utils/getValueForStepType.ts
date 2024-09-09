@@ -1,9 +1,8 @@
-import type { Sprinkles } from '@/src/css/rainbow-spinkles.css'
-
 import type { StepType } from '../Dialog'
 
 type Properties = {
-  borderWidth: Sprinkles['borderWidth']
+  // borderWidth: Sprinkles['borderWidth']
+  borderWidth: string
   borderColor: string
   backgroundColor: string
 }

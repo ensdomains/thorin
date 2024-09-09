@@ -12,7 +12,7 @@ export type Size = 'small' | 'medium' | 'large'
 export type ToggleProps = {
   size?: Size
   color?: Color
-} & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type' | 'size'>
+} & Omit<BoxProps, 'type' | 'size'>
 
 const CheckBox = React.forwardRef<
   HTMLElement,
@@ -22,21 +22,21 @@ const CheckBox = React.forwardRef<
     {...props}
     alignItems="center"
     as="input"
-    backgroundColor={{
-      base: 'border',
-      checked: getValidatedColor($color),
-      disabled: 'border',
-    }}
+    // backgroundColor={{
+    //   base: 'border',
+    //   checked: getValidatedColor($color),
+    //   disabled: 'border',
+    // }}
     borderRadius="full"
     cursor={{ base: 'pointer', disabled: 'not-allowed' }}
     display="flex"
-    height={getValueForSize($size, 'height')}
+    // height={getValueForSize($size, 'height')}
     justifyContent="center"
     position="relative"
     ref={ref}
-    transition="background-color 0.1s ease-in-out"
+    // transition="background-color 0.1s ease-in-out"
     type="checkbox"
-    width={getValueForSize($size, 'width')}
+    // width={getValueForSize($size, 'width')}
   />
 ))
 

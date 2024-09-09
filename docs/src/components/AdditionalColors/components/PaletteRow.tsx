@@ -26,12 +26,12 @@ const PaletteCell = ({
       <Box
         width="full"
         height="24"
-        backgroundColor={rawColorToRGB(color)}
+        // backgroundColor={rawColorToRGB(color)}
         borderRadius="large"
-        border="1px solid"
+        // border="1px solid"
         borderColor="border"
-        transform={{ base: 'scale(1)', hover: 'scale(1.05)' }}
-        transition="transform 0.15s ease-in-out"
+        // transform={{ base: 'scale(1)', hover: 'scale(1.05)' }}
+        // transition="transform 0.15s ease-in-out"
         onClick={onClick}
       />
     </Box>
