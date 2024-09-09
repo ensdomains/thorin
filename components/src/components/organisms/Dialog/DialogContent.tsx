@@ -47,28 +47,28 @@ const Container = forwardRef<
     flexDirection="column"
     gap="4"
     justifyContent="flex-start"
-    margin={{
-      base: $fullWidth
-        ? `margin: 0 -${space['4']};`
-        : `0 -${space[$horizontalPadding]}`,
-      sm: $fullWidth
-        ? `margin: 0 -${space['6']}`
-        : `0 -${space[$horizontalPadding]}`,
-    }}
+    // margin={{
+    //   base: $fullWidth
+    //     ? `margin: 0 -${space['4']};`
+    //     : `0 -${space[$horizontalPadding]}`,
+    //   sm: $fullWidth
+    //     ? `margin: 0 -${space['6']}`
+    //     : `0 -${space[$horizontalPadding]}`,
+    // }}
     maxHeight="60vh"
-    maxWidth={{
-      base: 'viewWidth',
-      sm: `calc(${space['128']} + 2 * ${space[$horizontalPadding]})`,
-    }}
+    // maxWidth={{
+    //   base: 'viewWidth',
+    //   sm: `calc(${space['128']} + 2 * ${space[$horizontalPadding]})`,
+    // }}
     overflow="hidden"
-    width={{
-      sm: $fullWidth
-        ? '80vw'
-        : `calc(80vw - 2 * ${space['6']} + 2 * ${space[$horizontalPadding]})`,
-      base: $fullWidth
-        ? `width: calc(100% + 2 * ${space['4']});`
-        : `calc(100% + 2 * ${space[$horizontalPadding]})`,
-    }}
+    // width={{
+    //   sm: $fullWidth
+    //     ? '80vw'
+    //     : `calc(80vw - 2 * ${space['6']} + 2 * ${space[$horizontalPadding]})`,
+    //   base: $fullWidth
+    //     ? `width: calc(100% + 2 * ${space['4']});`
+    //     : `calc(100% + 2 * ${space[$horizontalPadding]})`,
+    // }}
   />
 ))
 const ScrollBoxContent = ({

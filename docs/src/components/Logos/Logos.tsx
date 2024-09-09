@@ -12,7 +12,7 @@ const Panel = ({ background = 'background', alt, src }: Item) => {
     <Box
       flex={1}
       position="relative"
-      border="1px solid"
+      // border="1px solid"
       borderColor="border"
       borderRadius="large"
       display="flex"
@@ -20,7 +20,7 @@ const Panel = ({ background = 'background', alt, src }: Item) => {
       justifyContent="center"
       py="10"
       px="4"
-      backgroundColor={`$${background}`}
+      // backgroundColor={`$${background}`}
     >
       <Image src={src} height="56" width="126" alt={alt} />
       <Box

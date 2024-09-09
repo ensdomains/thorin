@@ -21,15 +21,15 @@ const NumberBox = ({
   <Box
     {...props}
     alignItems="center"
-    color={disabled ? 'greyPrimary' : getValidatedColor($color)}
+    // color={disabled ? 'greyPrimary' : getValidatedColor($color)}
     display="flex"
-    fontSize={getValueForNumberForSize($size, 'fontSize')}
+    // fontSize={getValueForNumberForSize($size, 'fontSize')}
     fontWeight="extraBold"
     justifyContent="center"
-    lineHeight={getValueForNumberForSize($size, 'lineHeight')}
-    marginTop={getValueForNumberForSize($size, 'marginTop')}
+    // lineHeight={getValueForNumberForSize($size, 'lineHeight')}
+    // marginTop={getValueForNumberForSize($size, 'marginTop')}
     position="absolute"
-    wh={getValueForNumberForSize($size, 'size')}
+    // wh={getValueForNumberForSize($size, 'size')}
   />
 )
 
@@ -43,13 +43,25 @@ const ContainerBox = React.forwardRef<
 >(({ $size, $color, disabled, ...props }, ref) => (
   <Box
     {...props}
-    color={disabled ? 'greyLight' : getValidatedColor($color)}
+    // color={disabled ? 'greyLight' : getValidatedColor($color)}
     ref={ref}
-    stroke="currentColor"
+    // stroke="currentColor"
     strokeWidth="1"
     wh={$size === 'large' ? '24' : '16'}
   />
 ))
+
+const CircleIcon = () => (
+  <circle
+    cx="12"
+    cy="12"
+    fill="none"
+    // opacity={opacity}
+    r="9"
+    // strokeDasharray={strokeDashArray}
+    strokeLinecap="round"
+  />
+)
 
 const Circle = ({
   $progress,
@@ -66,24 +78,8 @@ const Circle = ({
   return (
     <Box
       {...props}
-      as={(
-        <circle
-          cx="12"
-          cy="12"
-          fill="none"
-          opacity={opacity}
-          r="9"
-          strokeDasharray={strokeDashArray}
-          strokeLinecap="round"
-          strokeWidth={match([!!disabled, $progress])
-            .with(
-              [false, P.when((x?: number) => typeof x === 'number' && x <= 0)],
-              () => '0',
-            )
-            .otherwise(() => '4')}
-        />
-      )}
-      transition="all 1s linear, stroke-width 0.2s ease-in-out 1s"
+      as={CircleIcon}
+      // transition="all 1s linear, stroke-width 0.2s ease-in-out 1s"
     />
   )
 }
@@ -156,7 +152,7 @@ export const CountdownCircle = React.forwardRef<HTMLDivElement, CountdownCircleP
             .with([false, true], () => currentCount)
             .with([false, false], () => (
               <Box
-                as={<CheckSVG />}
+                as={CheckSVG}
                 data-testid="countdown-complete-check"
                 display="block"
                 id="countdown-complete-check"

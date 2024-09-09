@@ -18,12 +18,12 @@ export type ThemeToggleProps = {
   size?: Size
   color?: Color
   mode?: Mode
-} & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'>
+} & Omit<BoxProps, 'size'>
 
 const Container = (props: BoxProps) => (
   <Box
     {...props}
-    height="fit-content"
+    // height="fit-content"
     position="relative"
     width="fit"
   />
@@ -42,16 +42,16 @@ const Label = ({
     cursor="pointer"
     display="flex"
     fontSize="small"
-    fontWeight={$size === 'extraSmall' ? '$normal' : 'bold'}
+    // fontWeight={$size === 'extraSmall' ? '$normal' : 'bold'}
     justifyContent="center"
     left="1/2"
     pointerEvents="none"
     position="absolute"
     top="1/2"
-    transform={$mode === 'dark' ? 'translateX(-50%)' : 'translateX(50%)'}
-    transition="color 0.1s linear"
-    translate="-50% -50%"
-    wh={getValueForSize($size, 'knobSize')}
+    // transform={$mode === 'dark' ? 'translateX(-50%)' : 'translateX(50%)'}
+    // transition="color 0.1s linear"
+    // translate="-50% -50%"
+    // wh={getValueForSize($size, 'knobSize')}
   />
 )
 
@@ -65,12 +65,12 @@ const Checkbox = React.forwardRef<HTMLElement, BoxProps & { $size: Size }>(
       borderRadius="full"
       cursor={{ base: 'pointer', disabled: 'not-allowed' }}
       display="flex"
-      height={getValueForSize($size, 'height')}
+      // height={getValueForSize($size, 'height')}
       justifyContent="center"
       position="relative"
       ref={ref}
       type="checkbox"
-      width={getValueForSize($size, 'width')}
+      // width={getValueForSize($size, 'width')}
     />
   ),
 )
@@ -82,16 +82,16 @@ const Slider = ({
 }: BoxProps & { $size: Size, $color: Color }) => (
   <Box
     {...props}
-    backgroundColor={getValidatedColor($color)}
+    // backgroundColor={getValidatedColor($color)}
     borderRadius="full"
     display="block"
     left="1/2"
     pointerEvents="none"
     position="absolute"
     top="1/2"
-    transition="transform 0.3s ease-in-out, background-color 0.1s ease-in-out"
-    translate="-50% -50%"
-    wh={getValueForSize($size, 'knobSize')}
+    // transition="transform 0.3s ease-in-out, background-color 0.1s ease-in-out"
+    // translate="-50% -50%"
+    // wh={getValueForSize($size, 'knobSize')}
   />
 )
 

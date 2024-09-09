@@ -48,11 +48,11 @@ export const CopyButton = ({ content }: Props) => {
         justifyContent="center"
         alignItems="center"
         borderRadius="medium"
-        transform={{ base: 'translateY(0)', hover: 'translateY(-1px)' }}
-        transition="all 0.3s ease-in-out"
+        // transform={{ base: 'translateY(0)', hover: 'translateY(-1px)' }}
+        // transition="all 0.3s ease-in-out"
       >
         <Box
-          as={state.copied ? <CheckSVG /> : <CopySVG />}
+          as={state.copied ? CheckSVG : CopySVG}
           wh="3"
           color="textPrimary"
         />

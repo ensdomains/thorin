@@ -18,9 +18,9 @@ type BaseProps = {
   as?: 'a'
   onDismiss?: () => void
   actionIcon?: React.ReactNode
-  icon?: React.ReactNode
+  icon?: React.FC
   iconType?: IconTypes
-} & NativeDivProps
+} & BoxProps
 
 type WithIcon = {
   icon?: React.ReactNode
@@ -59,11 +59,11 @@ const ContainerBox = React.forwardRef<HTMLElement, ContainerProps>(
   ({ $alert, $hasAction, ...props }, ref) => (
     <Box
       alignItems={{ base: 'stretch', sm: 'center' }}
-      backgroundColor={{
-        base: getValueForAlert($alert, 'background'),
-        hover: getValueForAlert($alert, 'hover'),
-      }}
-      borderColor={getValueForAlert($alert, 'border')}
+      // backgroundColor={{
+      //   base: getValueForAlert($alert, 'background'),
+      //   hover: getValueForAlert($alert, 'hover'),
+      // }}
+      // borderColor={getValueForAlert($alert, 'border')}
       borderRadius="2xLarge"
       borderStyle="solid"
       borderWidth="1x"
@@ -73,13 +73,13 @@ const ContainerBox = React.forwardRef<HTMLElement, ContainerProps>(
       position="relative"
       pr={$hasAction ? '8' : undefined}
       ref={ref}
-      transform={{
-        base: 'translateY(0)',
-        hover: $hasAction ? 'translateY(-1px)' : 'translateY(0px)',
-      }}
+      // transform={{
+      //   base: 'translateY(0)',
+      //   hover: $hasAction ? 'translateY(-1px)' : 'translateY(0px)',
+      // }}
       transitionDuration={150}
       transitionProperty="all"
-      transitionTimingFunction="ease-in-out"
+      // transitionTimingFunction="ease-in-out"
       width="full"
       {...props}
     />
@@ -91,9 +91,9 @@ const IconBox = ({
   ...props
 }: BoxProps & { $alert: NonNullableAlert }) => (
   <Box
-    backgroundColor={getValueForAlert($alert, 'icon')}
+    // backgroundColor={getValueForAlert($alert, 'icon')}
     borderRadius="full"
-    color={getValueForAlert($alert, 'svg')}
+    // color={getValueForAlert($alert, 'svg')}
     flex={0}
     flexBasis={{ base: '8', sm: '10' }}
     height={{ base: '8', sm: '10' }}
@@ -109,7 +109,7 @@ const SVGBox = ({
   <Box
     display="block"
     height="full"
-    transform={$alert === 'info' ? 'scale(1)' : 'scale(0.5)'}
+    // transform={$alert === 'info' ? 'scale(1)' : 'scale(0.5)'}
     width="full"
     {...props}
   />
@@ -134,26 +134,26 @@ const ActionButtonIconBox = ({
 }: BoxProps & { $alert: NonNullableAlert, $hasAction: boolean }) => (
   <Box
     alignItems="center"
-    backgroundColor={{
-      base: getValueForAlert($alert, 'actionIcon'),
-      hover: getValueForAlert($alert, 'actionIconHover'),
-    }}
+    // backgroundColor={{
+    //   base: getValueForAlert($alert, 'actionIcon'),
+    //   hover: getValueForAlert($alert, 'actionIconHover'),
+    // }}
     borderRadius="full"
-    color={{
-      base: getValueForAlert($alert, 'actionSvg'),
-      hover: getValueForAlert($alert, 'actionSvgHover'),
-    }}
+    // color={{
+    //   base: getValueForAlert($alert, 'actionSvg'),
+    //   hover: getValueForAlert($alert, 'actionSvgHover'),
+    // }}
     cursor="pointer"
     display="flex"
     height="5"
     justifyContent="center"
-    transform={{
-      base: 'translateY(0)',
-      hover: $hasAction ? 'translateY(-1px)' : 'translateY(0px)',
-    }}
+    // transform={{
+    //   base: 'translateY(0)',
+    //   hover: $hasAction ? 'translateY(-1px)' : 'translateY(0px)',
+    // }}
     transitionDuration={150}
     transitionProperty="all"
-    transitionTimingFunction="ease-in-out"
+    // transitionTimingFunction="ease-in-out"
     width="5"
     {...props}
   />
@@ -170,7 +170,7 @@ const ActionButton = ({
   onDismiss,
 }: Pick<BannerProps, 'alert' | 'onDismiss'> & { hasHref: boolean } & WithIcon) => {
   if (onDismiss) {
-    const Icon = (icon || <CrossSVG />) as React.ReactElement
+    const Icon = (icon || CrossSVG) as React.FC
     return (
       <ActionButtonBox onClick={() => onDismiss()}>
         <ActionButtonIconBox $alert={alert} $hasAction>
@@ -180,7 +180,7 @@ const ActionButton = ({
     )
   }
   if (hasHref || icon) {
-    const Icon = (icon || <UpRightArrowSVG />) as React.ReactElement
+    const Icon = (icon || UpRightArrowSVG) as React.FC
     return (
       <ActionButtonBox as="div">
         <ActionButtonIconBox $alert={alert} $hasAction={false}>

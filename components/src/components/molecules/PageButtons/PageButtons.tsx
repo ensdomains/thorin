@@ -20,7 +20,7 @@ export type PageButtonsProps = {
   alwaysShowLast?: boolean
   showEllipsis?: boolean
   onChange: (value: number) => void
-} & Omit<NativeDivProps, 'children' | 'onChange'>
+} & Omit<BoxProps, 'children' | 'onChange'>
 
 enum Marker {
   ellipsis = -1,
@@ -39,31 +39,31 @@ const Container = (props: BoxProps) => (
 
 type PageButtonProps = {
   $selected?: boolean
-  $size: Size
+  // $size: Size
 }
 
 const PageButton = ({
   $selected,
-  $size,
+  // $size,
   ...props
 }: PageButtonProps & BoxProps) => (
   <Box
     {...props}
     as="button"
     backgroundColor={{ base: 'background', hover: 'greySurface' }}
-    border="1px solid"
+    // border="1px solid"
     borderColor="border"
-    borderRadius={getValueForSize($size, 'borderRadius')}
+    // borderRadius={getValueForSize($size, 'borderRadius')}
     color={$selected ? 'accent' : 'greyPrimary'}
     cursor={$selected ? 'default' : 'pointer'}
-    fontSize={getValueForSize($size, 'fontSize')}
+    // fontSize={getValueForSize($size, 'fontSize')}
     fontWeight="bold"
-    height={getValueForSize($size, 'height')}
-    lineHeight={getValueForSize($size, 'lineHeight')}
-    minWidth={getValueForSize($size, 'minWidth')}
+    // height={getValueForSize($size, 'height')}
+    // lineHeight={getValueForSize($size, 'lineHeight')}
+    // minWidth={getValueForSize($size, 'minWidth')}
     padding="2"
     pointerEvents={$selected ? 'none' : 'auto'}
-    transition="all 0.15s ease-in-out"
+    // transition="all 0.15s ease-in-out"
   />
 )
 
@@ -140,7 +140,7 @@ export const PageButtons: React.FC<PageButtonsProps> = ({
           : (
               <PageButton
                 $selected={value === current}
-                $size={size}
+                // $size={size}
                 data-testid="pagebutton"
                 key={value}
                 type="button"

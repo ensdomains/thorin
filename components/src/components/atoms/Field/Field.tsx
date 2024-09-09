@@ -45,7 +45,7 @@ export type FieldProps = FieldBaseProps & {
   /** The id attribute of the label element */
   id?: NativeFormProps['id']
   disabled?: boolean
-} & Omit<NativeLabelProps, 'id' | 'children'>
+} & Omit<BoxProps, 'id' | 'children'>
 
 const RequiredBox = () => (
   <Box as="span" color="redPrimary" marginLeft="1" whiteSpace="pre">
@@ -65,15 +65,15 @@ const LabelBox = ({
   $required?: boolean
 }) => (
   <Box
-    cursor={match([$disabled, $readOnly])
-      .with([true, P._], () => 'not-allowed')
-      .with([false, true], () => 'none')
-      .with([false, false], () => 'pointer')
-      .exhaustive()}
+    // cursor={match([$disabled, $readOnly])
+    //   .with([true, P._], () => 'not-allowed')
+    //   .with([false, true], () => 'none')
+    //   .with([false, false], () => 'pointer')
+    //   .exhaustive()}
     display="flex"
     flexBasis="auto"
-    flexGrow="2"
-    flexShrink="1"
+    // flexGrow="2"
+    // flexShrink="1"
     overflow="hidden"
     position="relative"
     {...props}
@@ -91,7 +91,7 @@ const SecondaryLabelBox = (props: React.ComponentProps<typeof Typography>) => (
   <Typography
     flexBasis="auto"
     flexGrow={0}
-    flexShrink="2"
+    // flexShrink="2"
     overflow="hidden"
     position="relative"
     textAlign="right"
@@ -242,7 +242,7 @@ const ContainerBox = ({
   ...props
 }: BoxProps & ContainerProps) => (
   <Box
-    alignItems={$inline ? 'flex-start' : 'normal'}
+    // alignItems={$inline ? 'flex-start' : 'normal'}
     display="flex"
     flexDirection={match([!!$inline, !!$reverse])
       .with([true, true], () => 'row-reverse' as const)

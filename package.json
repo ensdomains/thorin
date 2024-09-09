@@ -68,7 +68,11 @@
   "pnpm": {
     "overrides": {
       "ts-morph": "17.0.1"
+    
     }
+  },
+  "resolutions": {
+    "rollup": "npm:@rollup/wasm-node"
   },
   "packageManager": "pnpm@9.4.0"
 }

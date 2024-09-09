@@ -18,7 +18,9 @@ const App = ({ Component, pageProps }: AppProps) => {
       {/* <Head /> */}
       {/* Prevent theme flash */}
       <MDXProvider components={MDX}>
-        <ThemeProvider>{getLayout(<Component {...pageProps} />)}</ThemeProvider>
+        <ThemeProvider>
+          {getLayout(<Component {...pageProps} />)}
+        </ThemeProvider>
       </MDXProvider>
     </>
   )

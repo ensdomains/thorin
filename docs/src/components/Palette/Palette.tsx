@@ -43,10 +43,10 @@ const ColorCell = ({
   onClick: () => void
 }) => (
   <Box
-    transform={{ base: 'scale(1)', hover: 'scale(1.05)' }}
-    backgroundColor={`rgb(${color[0]}, ${color[1]}, ${color[2]})`}
+    // transform={{ base: 'scale(1)', hover: 'scale(1.05)' }}
+    // backgroundColor={`rgb(${color[0]}, ${color[1]}, ${color[2]})`}
     borderRadius="large"
-    transition="transform 0.15s ease-in-out"
+    // transition="transform 0.15s ease-in-out"
     onClick={onClick}
   />
 )

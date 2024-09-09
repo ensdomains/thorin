@@ -1,7 +1,8 @@
 import type {
   AllHTMLAttributes,
-  ElementType,
-  ReactElement } from 'react'
+  FunctionComponent,
+  ComponentClass,
+} from 'react'
 import React, {
   forwardRef,
 } from 'react'
@@ -18,11 +19,11 @@ type HTMLProperties = Omit<
 >
 
 export type BoxProps = Sprinkles &
-  HTMLProperties & { as?: ElementType | ReactElement<any> }
+  HTMLProperties & { as?: string | FunctionComponent<any> | ComponentClass<any, any> }
 
 export const Box = forwardRef<HTMLElement, BoxProps >(
   (
-    { as = 'div', className, ...props },
+    { as = 'div', className, children, ...props },
     ref,
   ) => {
     const atomProps: Record<string, unknown> = {}
@@ -37,12 +38,13 @@ export const Box = forwardRef<HTMLElement, BoxProps >(
       }
     }
 
-    const atomicCss = sprinkles(props)
+    const atomicCss = sprinkles(atomProps)
 
     return React.createElement(as, {
       className: clsx(atomicCss, className),
       ...nativeProps,
       ref,
+      children,
     })
   },
 )

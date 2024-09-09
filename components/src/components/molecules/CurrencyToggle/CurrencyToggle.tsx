@@ -15,12 +15,12 @@ export type CurrencyToggleProps = {
   size?: Size
   fiat?: string
   color?: Color
-} & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'>
+} & Omit<BoxProps, 'size'>
 
 const Container = (props: BoxProps) => (
   <Box
     {...props}
-    height="fit-content"
+    // height="fit-content"
     position="relative"
     width="fit"
   />
@@ -40,16 +40,16 @@ const Label = ({
     display="flex"
     fontFamily="sans"
     fontSize="small"
-    fontWeight={$size === 'extraSmall' ? '$normal' : 'bold'}
-    height={getValuesForKnob($size, 'height')}
+    // fontWeight={$size === 'extraSmall' ? '$normal' : 'bold'}
+    // height={getValuesForKnob($size, 'height')}
     justifyContent="center"
     left="1/2"
     position="absolute"
     top="1/2"
-    transform={$type === 'eth' ? 'translateX(-50%)' : 'translateX(50%)'}
-    transition="color 0.1s linear"
-    translate="-50% -50%"
-    width={getValuesForKnob($size, 'width')}
+    // transform={$type === 'eth' ? 'translateX(-50%)' : 'translateX(50%)'}
+    // transition="color 0.1s linear"
+    // translate="-50% -50%"
+    // width={getValuesForKnob($size, 'width')}
   />
 )
 
@@ -60,15 +60,15 @@ const Checkbox = React.forwardRef<HTMLElement, BoxProps & { $size: Size }>(
       alignItems="center"
       as="input"
       backgroundColor="greySurface"
-      borderRadius={getValueForCheckbox($size, 'borderRadius')}
+      // borderRadius={getValueForCheckbox($size, 'borderRadius')}
       cursor={{ base: 'pointer', disabled: 'not-allowed' }}
       display="flex"
-      height={getValueForCheckbox($size, 'height')}
+      // height={getValueForCheckbox($size, 'height')}
       justifyContent="center"
       position="relative"
       ref={ref}
       type="checkbox"
-      width={getValueForCheckbox($size, 'width')}
+      // width={getValueForCheckbox($size, 'width')}
     />
   ),
 )
@@ -80,16 +80,16 @@ const Slider = ({
 }: BoxProps & { $size: Size, $color: Color }) => (
   <Box
     {...props}
-    backgroundColor={getValidatedColor($color)}
-    borderRadius={$size === 'extraSmall' ? 'full' : '$medium'}
+    // backgroundColor={getValidatedColor($color)}
+    // borderRadius={$size === 'extraSmall' ? 'full' : '$medium'}
     display="block"
-    height={getValuesForKnob($size, 'height')}
+    // height={getValuesForKnob($size, 'height')}
     left="1/2"
     position="absolute"
     top="1/2"
-    transition="transform 0.3s ease-in-out, background-color 0.1s ease-in-out"
-    translate="-50% -50%"
-    width={getValuesForKnob($size, 'width')}
+    // transition="transform 0.3s ease-in-out, background-color 0.1s ease-in-out"
+    // translate="-50% -50%"
+    // width={getValuesForKnob($size, 'width')}
   />
 )
 

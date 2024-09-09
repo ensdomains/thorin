@@ -34,7 +34,7 @@ export type SliderProps = FieldBaseProps & {
   /** The handler for focus events. */
   onFocus?: NativeInputProps['onFocus']
 } & Omit<
-  NativeInputProps,
+  BoxProps,
     'children' | 'value' | 'defaultValue' | 'aria-invalid' | 'type'
 >
 
@@ -42,13 +42,13 @@ const SliderComponent = React.forwardRef<HTMLElement, BoxProps>(
   (props, ref) => (
     <Box
       {...props}
-      appearance="none"
+      // appearance="none"
       as="input"
       backgroundColor={{ base: 'blueSurface', hover: 'blueLight' }}
       borderRadius="full"
       className={styles.slider}
       cursor={{ base: 'pointer', disabled: 'not-allowed' }}
-      filter={{ base: 'grayscale(0)', disabled: 'grayscale(100%)' }}
+      // filter={{ base: 'grayscale(0)', disabled: 'grayscale(100%)' }}
       height="1.5"
       opacity={1}
       ref={ref}

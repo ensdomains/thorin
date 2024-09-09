@@ -13,7 +13,7 @@ type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 
 type Alignment = 'horizontal' | 'vertical'
 
-export type HelperProps = NativeDivProps & {
+export type HelperProps = BoxProps & {
   alert?: Alert
   alignment?: Alignment
   children: React.ReactNode
@@ -27,8 +27,8 @@ const Container = ({
   <Box
     {...props}
     alignItems="center"
-    backgroundColor={getValueForAlert($alert, 'background')}
-    borderColor={getValueForAlert($alert, 'border')}
+    // backgroundColor={getValueForAlert($alert, 'background')}
+    // borderColor={getValueForAlert($alert, 'border')}
     borderRadius="large"
     borderStyle="solid"
     borderWidth="1x"
@@ -36,7 +36,7 @@ const Container = ({
     flexDirection={$alignment === 'horizontal' ? 'row' : 'column'}
     gap={$alignment === 'horizontal' ? '4' : '2'}
     justifyContent={$alignment === 'horizontal' ? 'flex-start' : 'center'}
-    overflowX="auto"
+    // overflowX="auto"
     px="4"
     py={$alignment === 'horizontal' ? '4' : '6'}
     textAlign={$alignment === 'horizontal' ? 'left' : 'center'}
@@ -45,7 +45,11 @@ const Container = ({
 )
 
 const IconElement = ({ $alert, ...props }: BoxProps & { $alert: Alert }) => (
-  <Box {...props} color={getValueForAlert($alert, 'svg')} wh="6" />
+  <Box
+    {...props}
+    // color={getValueForAlert($alert, 'svg')}
+    wh="6"
+  />
 )
 
 export const Helper: React.FC<HelperProps> = ({

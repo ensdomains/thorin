@@ -25,41 +25,41 @@ const Container: React.FC<BoxProps & ContainerProps> = ({
   return (
     <Box
       {...props}
-      bottom={{
-        base: getValueForMode(mobileMode, 'bottom'),
-        sm: getValueForMode(desktopMode, 'bottom'),
-      }}
+      // bottom={{
+      //   base: getValueForMode(mobileMode, 'bottom'),
+      //   sm: getValueForMode(desktopMode, 'bottom'),
+      // }}
       display="flex"
       flexDirection="row"
-      left={{
-        base: getValueForMode(mobileMode, 'left'),
-        sm: getValueForMode(desktopMode, 'left'),
-      }}
+      // left={{
+      //   base: getValueForMode(mobileMode, 'left'),
+      //   sm: getValueForMode(desktopMode, 'left'),
+      // }}
       opacity={entered ? 1 : 0}
       position="fixed"
-      top={{
-        base: getValueForMode(mobileMode, 'top'),
-        sm: getValueForMode(desktopMode, 'top'),
-      }}
-      transform={{
-        base: entered
-          ? 'translateY(0px)'
-          : getValueForMode(mobileMode, 'transform'),
-        sm: entered
-          ? 'translateY(0px)'
-          : getValueForMode(desktopMode, 'transform'),
-      }}
+      // top={{
+      //   base: getValueForMode(mobileMode, 'top'),
+      //   sm: getValueForMode(desktopMode, 'top'),
+      // }}
+      // transform={{
+      //   base: entered
+      //     ? 'translateY(0px)'
+      //     : getValueForMode(mobileMode, 'transform'),
+      //   sm: entered
+      //     ? 'translateY(0px)'
+      //     : getValueForMode(desktopMode, 'transform'),
+      // }}
       transitionDuration={300}
       transitionProperty="all"
       transitionTimingFunction="popIn"
-      translate={{
-        base: getValueForMode(mobileMode, 'translate'),
-        sm: getValueForMode(desktopMode, 'translate'),
-      }}
-      width={{
-        base: getValueForMode(mobileMode, 'width'),
-        sm: getValueForMode(desktopMode, 'width'),
-      }}
+      // translate={{
+      //   base: getValueForMode(mobileMode, 'translate'),
+      //   sm: getValueForMode(desktopMode, 'translate'),
+      // }}
+      // width={{
+      //   base: getValueForMode(mobileMode, 'width'),
+      //   sm: getValueForMode(desktopMode, 'width'),
+      // }}
       zIndex={9999}
     />
   )
@@ -81,7 +81,7 @@ export type ModalProps = {
   renderCallback?: () => void
   /** if true, modal will remain centered to bottom of page */
   mobileOnly?: boolean
-} & NativeDivProps
+} & BoxProps
 
 export const Modal = ({
   children,

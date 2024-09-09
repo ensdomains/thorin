@@ -9,7 +9,7 @@ import { scale } from '@/src/css/utils/common'
 
 import * as styles from './styles.css'
 
-import type { FieldBaseProps } from '../../atoms/Field/Field'
+import type { FieldBaseProps, FieldProps } from '../../atoms/Field/Field'
 import { Field } from '../../atoms/Field/Field'
 import type { Space } from '../../../tokens/index'
 import type { BoxProps } from '../../atoms/Box/Box'
@@ -86,7 +86,7 @@ type BaseProps = Omit<FieldBaseProps, 'inline'> & {
   /** Set of styles  */
   // parentStyles?: BoxProps
 } & Omit<
-  NativeInputProps,
+  BoxProps,
   | 'size'
   | 'prefix'
   | 'children'
@@ -115,7 +115,7 @@ type WithTypeDateTimeLocal = {
 export type Size = NonNullable<BaseProps['size']>
 
 type ContainerProps = {
-  $size: Size
+  $size?: Size
   $disabled?: boolean
   $hasError?: boolean
   $suffix?: boolean
@@ -124,24 +124,24 @@ type ContainerProps = {
   $userStyles?: BoxProps
 }
 const Container = ({
-  $size,
+  // $size,
   ...props
 }: BoxProps & ContainerProps & StatusDot) => (
   <Box
     {...props}
     display="flex"
-    height={getValueForSize($size, 'height')}
+    // height={getValueForSize($size, 'height')}
     position="relative"
     transitionDuration={150}
-    transitionProperty="color, border-colror, background-color"
+    // transitionProperty="color, border-colror, background-color"
   />
 )
 
 const Label = ({
-  $size,
+  // $size,
   $disabled,
   ...props
-}: BoxProps & { $disabled?: boolean, $size: Size }) => (
+}: BoxProps & { $disabled?: boolean, $size?: Size }) => (
   <Box
     {...props}
     alignItems="center"
@@ -150,19 +150,19 @@ const Label = ({
     color="greyPrimary"
     cursor={$disabled ? 'not-allowed' : 'pointer'}
     display="flex"
-    fontSize={getValueForSize($size, 'labelFontSize')}
+    // fontSize={getValueForSize($size, 'labelFontSize')}
     fontWeight="normal"
     gap="2"
     height="full"
-    lineHeight={getValueForSize($size, 'labelFontSize')}
-    px={getValueForSize($size, 'outerPadding')}
+    // lineHeight={getValueForSize($size, 'labelFontSize')}
+    // px={getValueForSize($size, 'outerPadding')}
   />
 )
 
 type IconBoxProps = {
   $icon: React.ReactElement
   $iconWidth?: any
-  $size: Size
+  $size?: Size
 }
 
 const Icon = ({
@@ -178,13 +178,13 @@ const Icon = ({
     boxSizing="content-box"
     cursor="pointer"
     display="flex"
-    flexBasis={$iconWidth ? `$${$iconWidth}` : getValueForSize($size, 'icon')}
+    // flexBasis={$iconWidth ? `$${$iconWidth}` : getValueForSize($size, 'icon')}
     flexGrow={0}
     flexShrink={0}
     justifyContent="flex-start"
-    order={-1}
-    paddingLeft={getValueForSize($size, 'outerPadding')}
-    width={$iconWidth ? `$${$iconWidth}` : getValueForSize($size, 'icon')}
+    // order={-1}
+    // paddingLeft={getValueForSize($size, 'outerPadding')}
+    // width={$iconWidth ? `$${$iconWidth}` : getValueForSize($size, 'icon')}
     zIndex={1}
   >
     {$icon}
@@ -195,14 +195,15 @@ const ActionButton = ({
   $icon,
   $size,
   ...props
-}: BoxProps & { $size: Size, $icon?: React.ReactNode }) => {
-  const Icon: React.ReactElement = React.isValidElement($icon)
-    ? (
-        $icon
-      )
-    : (
-        <CrossCircleSVG />
-      )
+}: BoxProps & { $size?: Size, $icon?: React.FC }) => {
+  // const Icon: React.FC = React.isValidElement($icon)
+  //   ? (
+  //       $icon
+  //     )
+  //   : (
+  //       <CrossCircleSVG />
+  //     )
+  const Icon = $icon
   return (
     <Box
       {...props}
@@ -211,23 +212,23 @@ const ActionButton = ({
       color={{ base: 'greyPrimary', hover: 'greyBright' }}
       cursor="pointer"
       display="flex"
-      flexBasis={getValueForSize($size, 'iconPadding')}
+      // flexBasis={getValueForSize($size, 'iconPadding')}
       flexGrow={0}
       flexShrink={0}
       justifyContent="flex-start"
-      marginLeft={`calc(-1 * ${getValueForSize($size, 'iconPadding')})`}
+      // marginLeft={`calc(-1 * ${getValueForSize($size, 'iconPadding')})`}
       opacity={1}
-      paddingRight={getValueForSize($size, 'outerPadding')}
-      transform={scale(1)}
-      transition="all 0.1s ease-in-out"
+      // paddingRight={getValueForSize($size, 'outerPadding')}
+      // transform={scale(1)}
+      // transition="all 0.1s ease-in-out"
     >
       <Box
         as={Icon}
         display="block"
-        fill="CurrentColor"
-        stroke="CurrentColor"
-        transition="all 150ms ease-in-out"
-        wh={getValueForSize($size, 'icon')}
+        // fill="CurrentColor"
+        // stroke="CurrentColor"
+        // transition="all 150ms ease-in-out"
+        // wh={getValueForSize($size, 'icon')}
       />
     </Box>
   )
@@ -248,7 +249,6 @@ const InputComponent = React.forwardRef<HTMLElement, BoxProps & InputComponentPr
       $hasIcon,
       $hasAction,
       $hasError,
-      // $iconWidth,
       ...props
     },
     ref,
@@ -262,19 +262,21 @@ const InputComponent = React.forwardRef<HTMLElement, BoxProps & InputComponentPr
           ? 'redPrimary'
           : { base: 'textPrimary', disabled: 'greyPrimary' }
       }
-      cursor={{ base: 'text', disabled: 'not-allowed', readonly: 'default' }}
-      fontSize={getValueForSize($size, 'labelFontSize')}
+      cursor={{ base: 'text', disabled: 'not-allowed',
+        // readonly: 'default'
+      }}
+      // fontSize={getValueForSize($size, 'labelFontSize')}
       fontWeight="normal"
-      paddingLeft={
-        $hasIcon
-          ? getValueForSize($size, 'innerPadding')
-          : getValueForSize($size, 'outerPadding')
-      }
-      paddingRight={
-        $hasAction
-          ? getValueForSize($size, 'innerPadding')
-          : getValueForSize($size, 'outerPadding')
-      }
+      // paddingLeft={
+      //   $hasIcon
+      //     ? getValueForSize($size, 'innerPadding')
+      //     : getValueForSize($size, 'outerPadding')
+      // }
+      // paddingRight={
+      //   $hasAction
+      //     ? getValueForSize($size, 'innerPadding')
+      //     : getValueForSize($size, 'outerPadding')
+      // }
       position="relative"
       ref={ref}
       textOverflow="ellipsis"
@@ -284,7 +286,7 @@ const InputComponent = React.forwardRef<HTMLElement, BoxProps & InputComponentPr
 )
 
 type InnerContainerProps = {
-  $size: Size
+  $size?: Size
   $hasError?: boolean
   $disabled: boolean
   $readOnly?: boolean
@@ -292,27 +294,27 @@ type InnerContainerProps = {
 }
 
 const InnerContainer = ({
-  $size,
+  // $size,
   $disabled,
   ...props
 }: BoxProps & InnerContainerProps) => (
   <Box
     {...props}
     backgroundColor={$disabled ? 'greyLight' : 'backgroundPrimary'}
-    borderRadius={getValueForSize($size, 'borderRadius')}
+    // borderRadius={getValueForSize($size, 'borderRadius')}
     borderWidth="1x"
     color="textPrimary"
     display="flex"
     overflow="hidden"
     position="relative"
     transitionDuration={150}
-    transitionProperty="color, border-color, background-color"
+    // transitionProperty="color, border-color, background-color"
     transitionTimingFunction="inOut"
     wh="full"
   />
 )
 
-export type InputProps = BaseProps & (WithTypeEmail | WithTypeText | WithTypeDateTimeLocal)
+export type InputProps = Omit<BaseProps, 'size'> & { size: Size } & (WithTypeEmail | WithTypeText | WithTypeDateTimeLocal)
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   (
@@ -349,7 +351,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       type = 'text',
       units,
       value,
-      width,
+      // width,
       onBlur,
       onChange,
       onFocus,
@@ -376,7 +378,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       e.stopPropagation()
 
       if (onClickAction) {
-        onClickAction()
+        // onClickAction()
         return inputRef.current?.focus()
       }
 
@@ -400,7 +402,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         labelSecondary={labelSecondary}
         readOnly={readOnly}
         required={required}
-        width={width}
+        // width={width}
       >
         {ids => (
           <Container
@@ -409,16 +411,16 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
               validated,
               show: showDot,
             })}
-            {...{
-              $size: size,
-            }}
+            // {...{
+            //   $size: size,
+            // }}
           >
             <InnerContainer
               // $alwaysShowAction={alwaysShowAction}
               $disabled={!!disabled}
               // $hasError={!!error}
               // $readOnly={!!readOnly}
-              $size={size}
+              // $size={size}
               className={statusBorder({
                 readonly: readOnly,
                 disabled: disabled,
@@ -441,7 +443,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 autoCorrect={autoCorrect}
                 autoFocus={autoFocus}
                 className={styles.input({
-                  size: size,
+                  // size: size,
                   showAction: alwaysShowAction,
                 })}
                 defaultValue={defaultValue}
@@ -463,10 +465,10 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
                   aria-hidden="true"
                   as={prefixAs}
                   className={styles.label}
-                  order={-2}
+                  // order={-2}
                   {...ids?.label}
                   $disabled={disabled}
-                  $size={size}
+                  // $size={size}
                 >
                   {prefix}
                 </Label>
@@ -475,15 +477,15 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 <Icon
                   $icon={icon}
                   $iconWidth={iconWidth}
-                  $size={size}
+                  // $size={size}
                   className={styles.icon}
                   {...ids?.label}
                 />
               )}
               {hasAction && (
                 <ActionButton
-                  $icon={actionIcon}
-                  $size={size}
+                  // $icon={actionIcon}
+                  // $size={size}
                   data-testid="input-action-button"
                   onClick={handleClickAction}
                   onMouseDown={e => e.preventDefault()}
@@ -492,7 +494,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
               {suffix && (
                 <Label
                   $disabled={disabled}
-                  $size={size}
+                  // $size={size}
                   aria-hidden="true"
                   className={styles.label}
                   {...ids?.label}

@@ -1,4 +1,6 @@
-import type { Size } from '../Textarea'
+// import type { Size } from '../Textarea'
+
+type Size = 'small' | 'medium'
 
 type Properties = {
   actionSize: string

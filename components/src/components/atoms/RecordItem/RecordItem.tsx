@@ -18,7 +18,7 @@ type BaseProps = {
   value: string
   size?: Size
   inline?: boolean
-  icon?: ReactNode
+  icon?: React.FC
   keyLabel?: string | ReactNode
   keySublabel?: string | ReactNode
   children: string
@@ -75,7 +75,7 @@ const ContainerBox = ({
     height={$inline ? '10' : 'fit'}
     px="3"
     py="2.5"
-    transform={{ base: 'translateY(0)', hover: 'translateY(-1px)' }}
+    // transform={{ base: 'translateY(0)', hover: 'translateY(-1px)' }}
     transitionDuration={150}
     transitionProperty="all"
     transitionTimingFunction="inOut"
@@ -92,9 +92,9 @@ const PrefixBox = ({
   <Box
     alignItems="flex-start"
     display="flex"
-    flexBasis={match($inline)
-      .with(true, () => 'initial')
-      .otherwise(() => ($size === 'large' ? '30' : '22.5'))}
+    // flexBasis={match($inline)
+    //   .with(true, () => 'initial')
+    //   .otherwise(() => ($size === 'large' ? '30' : '22.5'))}
     flexGrow={0}
     flexShrink={0}
     gap="2"
@@ -139,12 +139,12 @@ const PrefixSVGBox = (props: BoxProps) => (
 const TrailingSVGBox = ({
   $rotate,
   ...props
-}: BoxProps & { $rotate: boolean }) => (
+}: BoxProps & { $rotate?: boolean }) => (
   <Box
     color="greyPrimary"
     display="block"
     marginTop="1"
-    transform={$rotate ? 'rotate(45deg)' : 'none'}
+    // transform={$rotate ? 'rotate(45deg)' : 'none'}
     wh="3"
     {...props}
   />
@@ -180,13 +180,13 @@ export const RecordItem = React.forwardRef<
             rel: 'nofollow noreferrer',
             target: '_blank',
             ...props,
-          } as NativeElementProps & NativeAnchorProps)
+          } as BoxProps)
         : ({
             onClick: () => {
               copy(value)
             },
             ...props,
-          } as NativeElementProps & NativeButtonProps)
+          } as BoxProps)
 
     const hasPrefix = !!icon || !!keyLabel
     const hasLabels = !!keyLabel || !!keySublabel
@@ -236,7 +236,7 @@ export const RecordItem = React.forwardRef<
       <ContainerBox $inline={inline} as={asProp} {...generatedProps}>
         {hasPrefix && (
           <PrefixBox $inline={inline} $size={size}>
-            {icon && <PrefixSVGBox as={icon as React.ReactElement} />}
+            {icon && <PrefixSVGBox as={icon as React.FC} />}
             {hasLabels && (
               <PrefixLabelsContainerBox $inline={inline}>
                 {KeyLabel}

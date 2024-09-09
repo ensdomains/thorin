@@ -1,7 +1,5 @@
 import * as React from 'react'
 
-import { rainbowSprinkles } from '@/src/css/rainbow-spinkles.css'
-
 import { rawColorToRGBA } from '@/src/tokens/color'
 
 import { Box, type BoxProps } from '../Box/Box'
@@ -42,13 +40,13 @@ const Placeholder = ({
 }: PlaceholderProps & BoxProps) => (
   <Box
     alignItems="center"
-    background={$url || 'blueGradient'}
+    // background={$url || 'blueGradient'}
     display="flex"
-    filter={$disabled ? 'grayscale(1)' : 'unset'}
-    height="100%"
+    // filter={$disabled ? 'grayscale(1)' : 'unset'}
+    // height="100%"
     justifyContent="center"
     position="absolute"
-    width="100%"
+    // width="100%"
     {...props}
   />
 )
@@ -67,7 +65,7 @@ export type AvatarProps = {
   /** An element that overlays the avatar */
   checked?: boolean
   /** An svg to overlay over the avatar */
-  icon?: React.ReactElement
+  icon?: React.FC
   /** The deconding attribute of an img element */
   decoding?: NativeImgAttributes['decoding']
   /** A custom sizing for the avatar */
@@ -84,7 +82,7 @@ export const Avatar: React.FC<AvatarProps> = ({
   icon,
   checked,
   size,
-  ...props
+  // ...props
 }) => {
   const ref = React.useRef<HTMLImageElement>(null)
   const [showImage, setShowImage] = React.useState(!!src)
@@ -115,35 +113,38 @@ export const Avatar: React.FC<AvatarProps> = ({
 
   const isImageVisible = showImage && !!src
 
-  const {
-    className: imgClassName,
-    style: imgStyle,
-    otherProps: imgOtherProps,
-  } = rainbowSprinkles({
-    display: isImageVisible ? 'block' : 'none',
-    position: 'absolute',
-    height: '100%',
-    objectFit: 'cover',
-    width: '100%',
-    filter: disabled ? 'grayscale(1)' : undefined,
-    ...props,
-  })
+  // const {
+  //   className: imgClassName,
+  //   style: imgStyle,
+  //   otherProps: imgOtherProps,
+  // } = rainbowSprinkles({
+  //   display: isImageVisible ? 'block' : 'none',
+  //   position: 'absolute',
+  //   height: '100%',
+  //   objectFit: 'cover',
+  //   width: '100%',
+  //   filter: disabled ? 'grayscale(1)' : undefined,
+  //   ...props,
+  // })
 
   const overlay = React.useMemo(() => {
     if (disabled || (!icon && !checked)) return null
     return (
       <Box
         alignItems="center"
-        bg={
-          checked
-            ? rawColorToRGBA([56, 137, 255], 0.75)
-            : rawColorToRGBA([0, 0, 0], 0.25)
-        }
+        // bg={
+        //   checked
+        //     ? rawColorToRGBA([56, 137, 255], 0.75)
+        //     : rawColorToRGBA([0, 0, 0], 0.25)
+        // }
         color="white"
         display="flex"
         justifyContent="center"
       >
-        <Box as={icon ?? <CheckSVG />} wh="40%" />
+        <Box
+          as={icon ?? CheckSVG}
+        // wh="40%"
+        />
       </Box>
     )
   }, [checked, disabled, icon])
@@ -157,9 +158,9 @@ export const Avatar: React.FC<AvatarProps> = ({
         />
       )}
       <img
-        className={imgClassName}
-        style={imgStyle}
-        {...imgOtherProps}
+        // className={imgClassName}
+        // style={imgStyle}
+        // {...imgOtherProps}
         alt={label}
         decoding={decoding}
         ref={ref}

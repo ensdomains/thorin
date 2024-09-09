@@ -12,7 +12,7 @@ import { DialogContent } from './DialogContent'
 import type { BoxProps } from '../../atoms/Box/Box'
 import { Box } from '../../atoms/Box/Box'
 import { getValueForAlert } from './utils/getValueForAlert'
-import { getValueForStepType } from './utils/getValueForStepType'
+// import { getValueForStepType } from './utils/getValueForStepType'
 import { Typography } from '../../atoms'
 import { Modal } from '../../molecules'
 
@@ -30,13 +30,13 @@ const CloseButton = (props: BoxProps) => (
     position="absolute"
     right="2"
     top="2"
-    transform={{ base: translateY(0), hover: translateY(-1) }}
+    // transform={{ base: translateY(0), hover: translateY(-1) }}
     transitionDuration={150}
     transitionProperty="all"
     transitionTimingFunction="inOut"
     wh="8"
   >
-    <Box as={<CrossSVG />} color="greyPrimary" display="block" wh="4" />
+    <Box as={CrossSVG} color="greyPrimary" display="block" wh="4" />
   </Box>
 )
 
@@ -51,7 +51,7 @@ const StyledCard = (props: BoxProps) => (
     display="flex"
     flexDirection="column"
     gap={{ xs: '4', sm: '6' }}
-    maxHeight={{ xs: '80vh', sm: 'min(90vh, 144)' }}
+    // maxHeight={{ xs: '80vh', sm: 'min(90vh, 144)' }}
     maxWidth={{ xs: 'unset', sm: '80vw' }}
     minWidth={{ xs: 'unset', sm: '64' }}
     overflow="hidden"
@@ -64,13 +64,13 @@ const StyledCard = (props: BoxProps) => (
 type NonNullableAlert = NonNullable<WithAlert['alert']>
 
 const Icon = ({ $alert, ...props }: BoxProps & { $alert: NonNullableAlert }) => {
-  const Icon = ['error', 'warning'].includes($alert) ? <AlertSVG /> : <EthSVG />
+  const Icon = ['error', 'warning'].includes($alert) ? AlertSVG : EthSVG
   return (
     <Box
       {...props}
-      backgroundColor={getValueForAlert($alert, 'backgroundColor')}
+      // backgroundColor={getValueForAlert($alert, 'backgroundColor')}
       borderRadius="full"
-      color={getValueForAlert($alert, 'color')}
+      // color={getValueForAlert($alert, 'color')}
       flexBasis="8"
       flexGrow={0}
       flexShrink={0}
@@ -79,7 +79,7 @@ const Icon = ({ $alert, ...props }: BoxProps & { $alert: NonNullableAlert }) => 
       <Box
         as={Icon}
         display="block"
-        transform={getValueForAlert($alert, 'svgTransform')}
+        // transform={getValueForAlert($alert, 'svgTransform')}
         wh="full"
       />
     </Box>
@@ -136,11 +136,11 @@ export type StepType = 'notStarted' | 'inProgress' | 'completed'
 const StepItem = ({ $type, ...props }: BoxProps & { $type: StepType }) => (
   <Box
     {...props}
-    backgroundColor={getValueForStepType($type, 'backgroundColor')}
-    borderColor={getValueForStepType($type, 'borderColor')}
+    // backgroundColor={getValueForStepType($type, 'backgroundColor')}
+    // borderColor={getValueForStepType($type, 'borderColor')}
     borderRadius="full"
     borderStyle="solid"
-    borderWidth={getValueForStepType($type, 'borderWidth')}
+    // borderWidth={getValueForStepType($type, 'borderWidth')}
     wh="3.5"
   />
 )

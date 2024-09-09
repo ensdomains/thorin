@@ -59,8 +59,8 @@ const ContainerInner = React.forwardRef<
     backgroundColor="background"
     borderTopLeftRadius="2xLarge"
     borderTopRightRadius="2xLarge"
-    borderBottomLeftRadius={$expand ? '2xLarge' : 'unset'}
-    borderBottomRightRadius={$expand ? '2xLarge' : 'unset'}
+    // borderBottomLeftRadius={$expand ? '2xLarge' : 'unset'}
+    // borderBottomRightRadius={$expand ? '2xLarge' : 'unset'}
     overflow="auto"
     padding="4"
   />
@@ -74,7 +74,7 @@ const LiveEditorContainer = (props: BoxProps) => (
     position="relative"
     padding="1.5"
     borderColor="transparent"
-    borderTopColor="border"
+    // borderTopColor="border"
     borderStyle="solid"
     fontFamily="mono"
     borderWidth="1x"
@@ -151,7 +151,7 @@ export const CodePreview = ({
           <Button
             colorStyle="transparent"
             color="blue"
-            prefix={state.expand ? <UpChevronSVG /> : <DownChevronSVG />}
+            prefix={state.expand ? UpChevronSVG : DownChevronSVG}
             size="small"
             onClick={() => setState(x => ({ ...x, expand: !x.expand }))}
           >
@@ -164,7 +164,7 @@ export const CodePreview = ({
             as="a"
             colorStyle="transparent"
             color="blue"
-            prefix={<OutlinkSVG />}
+            prefix={OutlinkSVG}
             href={createPlayroomLink({ code })}
             size="small"
             target="_blank"

@@ -50,7 +50,7 @@ export type CheckboxProps = {
   readOnly?: NativeInputProps['readOnly']
 } & Omit<FieldBaseProps, 'labelRight'> &
 Omit<
-  NativeInputProps,
+  BoxProps,
   | 'size'
   | 'color'
   | 'type'
@@ -66,17 +66,17 @@ const InputBox = React.forwardRef<HTMLElement, BoxProps & { $colorStyle: ColorSt
   ({ $colorStyle, disabled, checked, ...props }, ref) => (
     <Box
       position="relative"
-      transform={{ base: translateY(0), hover: translateY(-1) }}
-      transition="transform 150ms ease-in-out"
+      // transform={{ base: translateY(0), hover: translateY(-1) }}
+      // transition="transform 150ms ease-in-out"
       wh="5"
     >
       <Box
         as="input"
-        backgroundColor={{
-          base: 'border',
-          disabled: 'border',
-          checked: getValueForColorStyle($colorStyle, 'background'),
-        }}
+        // backgroundColor={{
+        //   base: 'border',
+        //   disabled: 'border',
+        //   checked: getValueForColorStyle($colorStyle, 'background'),
+        // }}
         borderRadius="small"
         checked={checked}
         className={styles.checkbox}
@@ -84,25 +84,25 @@ const InputBox = React.forwardRef<HTMLElement, BoxProps & { $colorStyle: ColorSt
         disabled={disabled}
         display="grid"
         fontFamily="inherit"
-        placeContent="center"
+        // placeContent="center"
         position="relative"
         ref={ref}
-        transition="background-color 150ms ease-in-out"
+        // transition="background-color 150ms ease-in-out"
         type="checkbox"
         wh="full"
         {...props}
       />
       <Box
-        backgroundColor={getValueForColorStyle($colorStyle, 'content')}
+        // backgroundColor={getValueForColorStyle($colorStyle, 'content')}
         className={styles.icon}
         left="0"
-        maskImage={`url('data:image/svg+xml; utf8, <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 12.625L10.125 20.125L22 3.875" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" /></svg>')`}
-        maskPosition="center"
-        maskRepeat="no-repeat"
+        // maskImage={`url('data:image/svg+xml; utf8, <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 12.625L10.125 20.125L22 3.875" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" /></svg>')`}
+        // maskPosition="center"
+        // maskRepeat="no-repeat"
         pointerEvents="none"
         position="absolute"
         top="0"
-        transition="background-color 150ms ease-in-out"
+        // transition="background-color 150ms ease-in-out"
         wh="full"
       />
     </Box>
