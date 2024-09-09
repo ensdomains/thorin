@@ -320,7 +320,7 @@ export const DynamicPopover = ({
       }
     }
 
-    const top = window.scrollY + anchorRect.y + anchorHeight - popoverHeight
+    const top = window.innerHeight + anchorRect.y + anchorHeight - popoverHeight
     const left = anchorRect.x + anchorWidth - popoverWidth
     const horizontalClearance = popoverWidth + anchorWidth + additionalGap + 10
     const verticalClearance = popoverHeight + anchorHeight + additionalGap + 10
