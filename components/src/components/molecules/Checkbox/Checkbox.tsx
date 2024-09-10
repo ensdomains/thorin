@@ -1,7 +1,5 @@
 import * as React from 'react'
 
-import { translateY } from '@/src/css/utils/common'
-
 import type {
   WithColorStyle } from './utils/getValueForColorStyle'
 import {
@@ -67,9 +65,8 @@ WithColorStyle
 const InputBox = React.forwardRef<HTMLElement, BoxProps & { $colorStyle: ColorStyle }>(
   ({ $colorStyle, disabled, checked, ...props }, ref) => (
     <Box
+      className={styles.inputBox}
       position="relative"
-      transform={{ base: translateY(0), hover: translateY(-1) }}
-      transition="transform 150ms ease-in-out"
       wh="5"
     >
       <Box

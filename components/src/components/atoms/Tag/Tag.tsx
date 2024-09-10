@@ -6,9 +6,10 @@ import { removeNullishProps } from '@/src/utils/removeNullishProps'
 
 import type { WithColorStyle } from './utils/withColorStyle'
 import { getValueForColorStyle } from './utils/withColorStyle'
-
+import * as styles from './styles.css'
 import type { BoxProps } from '../Box/Box'
 import { Box } from '../Box/Box'
+import clsx from 'clsx'
 
 export type TagProps = {
   /** Element type of container */
@@ -26,10 +27,12 @@ export const Tag: React.FC<TagProps> = ({
   hover,
   size = 'small',
   colorStyle = 'accentSecondary',
+  className,
   ...props
 }) => {
   return (
     <Box
+      className={clsx(className, styles.tag)}
       alignItems="center"
       as={as}
       backgroundColor={{
@@ -54,7 +57,6 @@ export const Tag: React.FC<TagProps> = ({
         active: translateY(-1),
       }}
       transitionDuration={150}
-      transitionProperty="color, border-color, background-color, transform"
       transitionTimingFunction="inOut"
       width="max"
       {...removeNullishProps(props)}

@@ -17,11 +17,11 @@ const NumberBox = ({
   $color,
   disabled,
   ...props
-}: BoxProps & { $size: 'small' | 'large', $color: any }) => (
+}: BoxProps & { $size: 'small' | 'large', $color: Color }) => (
   <Box
     {...props}
     alignItems="center"
-    color={disabled ? 'greyPrimary' : getValidatedColor($color)}
+    color={disabled ? 'greyPrimary' : $color}
     display="flex"
     fontSize={getValueForNumberForSize($size, 'fontSize')}
     fontWeight="extraBold"

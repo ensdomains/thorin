@@ -11,6 +11,9 @@ import { Typography } from '../Typography/Typography'
 import { useCopied } from '../../../hooks/useCopied'
 import type { BoxProps } from '../Box/Box'
 import { Box } from '../Box/Box'
+import * as styles from './styles.css'
+import { assignInlineVars } from '@vanilla-extract/dynamic'
+import { clsx } from 'clsx'
 
 type Size = 'small' | 'large'
 
@@ -60,6 +63,7 @@ export type RecordItemProps = BaseProps &
 
 const ContainerBox = ({
   $inline,
+  className,
   ...props
 }: BoxProps & { $inline: boolean }) => (
   <Box
@@ -75,12 +79,12 @@ const ContainerBox = ({
     height={$inline ? '10' : 'fit'}
     px="3"
     py="2.5"
-    transform={{ base: 'translateY(0)', hover: 'translateY(-1px)' }}
     transitionDuration={150}
     transitionProperty="all"
     transitionTimingFunction="inOut"
     width={$inline ? 'fit' : 'full'}
     {...props}
+    className={clsx(className, styles.containerBox)}
   />
 )
 
@@ -93,7 +97,7 @@ const PrefixBox = ({
     alignItems="flex-start"
     display="flex"
     flexBasis={match($inline)
-      .with(true, () => 'initial')
+      .with(true, () => 'initial' as const)
       .otherwise(() => ($size === 'large' ? '30' : '22.5'))}
     flexGrow={0}
     flexShrink={0}
@@ -138,13 +142,16 @@ const PrefixSVGBox = (props: BoxProps) => (
 
 const TrailingSVGBox = ({
   $rotate,
+  className,
+  style,
   ...props
 }: BoxProps & { $rotate: boolean }) => (
   <Box
+    className={clsx(className, styles.trailingSVGBox)}
+    style={{ ...style, ...assignInlineVars({ [styles.trailingSvgBoxTransform]: $rotate ? 'rotate(45deg)' : 'none' }) }}
     color="greyPrimary"
     display="block"
     marginTop="1"
-    transform={$rotate ? 'rotate(45deg)' : 'none'}
     wh="3"
     {...props}
   />
@@ -180,13 +187,13 @@ export const RecordItem = React.forwardRef<
             rel: 'nofollow noreferrer',
             target: '_blank',
             ...props,
-          } as NativeElementProps & NativeAnchorProps)
+          } as Omit<NativeElementProps & NativeAnchorProps, 'color'>)
         : ({
             onClick: () => {
               copy(value)
             },
             ...props,
-          } as NativeElementProps & NativeButtonProps)
+          } as Omit<NativeElementProps & NativeButtonProps, 'color'>)
 
     const hasPrefix = !!icon || !!keyLabel
     const hasLabels = !!keyLabel || !!keySublabel

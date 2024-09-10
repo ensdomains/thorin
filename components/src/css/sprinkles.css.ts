@@ -2,7 +2,7 @@ import { createSprinkles, defineProperties } from '@vanilla-extract/sprinkles'
 
 import { commonVars, modeVars } from './theme.css'
 
-const colorPropertiesObject = { ...modeVars.color, inherit: 'inherit', initial: 'initial', unset: 'unset', transparent: 'transparent' }
+const colorPropertiesObject = { ...modeVars.color, inherit: 'inherit', initial: 'initial', unset: 'unset', transparent: 'transparent', currentColor: 'currentColor' }
 
 const colorProperties = defineProperties({
   conditions: {
@@ -16,6 +16,8 @@ const colorProperties = defineProperties({
   defaultCondition: 'base',
   properties: {
     color: colorPropertiesObject,
+    fill: colorPropertiesObject,
+    stroke: colorPropertiesObject,
     background: colorPropertiesObject,
     backgroundColor: colorPropertiesObject,
     borderColor: colorPropertiesObject,
@@ -26,15 +28,17 @@ const colorProperties = defineProperties({
   },
 })
 
+export const responsiveConditions: Record<string, { '@media': `screen and (${string})` } | object> = {
+  base: {},
+  xs: { '@media': 'screen and (min-width: 360px)' },
+  sm: { '@media': 'screen and (min-width: 640px)' },
+  md: { '@media': 'screen and (min-width: 768px)' },
+  lg: { '@media': 'screen and (min-width: 1024px)' },
+  xl: { '@media': 'screen and (min-width: 1280px)' },
+} as const
+
 const responsivePropeties = defineProperties({
-  conditions: {
-    base: {},
-    xs: { '@media': 'screen and (min-width: 360px)' },
-    sm: { '@media': 'screen and (min-width: 640px)' },
-    md: { '@media': 'screen and (min-width: 768px)' },
-    lg: { '@media': 'screen and (min-width: 1024px)' },
-    xl: { '@media': 'screen and (min-width: 1280px)' },
-  },
+  conditions: responsiveConditions,
   defaultCondition: 'base',
   properties: {
     alignSelf: ['flex-start', 'flex-end', 'center', 'stretch', 'baseline', 'inherit'],

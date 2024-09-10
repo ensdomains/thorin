@@ -6,8 +6,7 @@ import { Box } from '../../atoms/Box/Box'
 import { getValuesForKnob } from './utils/getValuesForKnob'
 import * as styles from './styles.css'
 import { getValueForCheckbox } from './utils/getValueForCheckBox'
-import type { Color } from './utils/getValidatedColor'
-import { getValidatedColor } from './utils/getValidatedColor'
+import type { Color } from '@/src/tokens/color'
 
 export type Size = 'extraSmall' | 'small' | 'medium'
 
@@ -80,7 +79,7 @@ const Slider = ({
 }: BoxProps & { $size: Size, $color: Color }) => (
   <Box
     {...props}
-    backgroundColor={getValidatedColor($color)}
+    backgroundColor={$color}
     borderRadius={$size === 'extraSmall' ? 'full' : 'medium'}
     display="block"
     height={getValuesForKnob($size, 'height')}

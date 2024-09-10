@@ -85,4 +85,5 @@ export const space = {
   'dialogMobileWidth': 'calc(100% + 2 * 1rem)',
   'dialogDesktopWidth': 'calc(100% + 2 * 1.5rem)',
   'unset': 'unset',
+  'initial': 'initial',
 }

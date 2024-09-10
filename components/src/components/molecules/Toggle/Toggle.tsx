@@ -24,7 +24,7 @@ const CheckBox = React.forwardRef<
     as="input"
     backgroundColor={{
       base: 'border',
-      checked: getValidatedColor($color),
+      checked: $color,
       disabled: 'border',
     }}
     borderRadius="full"

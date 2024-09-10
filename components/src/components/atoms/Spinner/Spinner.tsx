@@ -4,9 +4,8 @@ import { VisuallyHidden } from '../VisuallyHidden/VisuallyHidden'
 import * as styles from './styles.css'
 import type { BoxProps } from '../Box/Box'
 import { Box } from '../Box/Box'
-import { getValueForSize } from './utils/getValueForSize'
 import type { Color } from '@/src/interfaces/withColor'
-import { validateColor } from '@/src/interfaces/withColor'
+import clsx from 'clsx'
 
 type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 type Size = 'small' | 'medium' | 'large'
@@ -22,13 +21,12 @@ export type SpinnerProps = {
 const ContainerBox = React.forwardRef<
   HTMLElement,
   BoxProps & { $size: Size, $color?: Color }
->(({ $size, $color, ...props }, ref) => (
+>(({ $size, $color, className, ...props }, ref) => (
   <Box
     {...props}
-    color={validateColor($color)}
+    className={clsx(className, styles.variants({ size: $size }))}
+    color={$color}
     ref={ref}
-    strokeWidth={getValueForSize($size, 'strokeWidth')}
-    wh={getValueForSize($size, 'size')}
   />
 ))
 
