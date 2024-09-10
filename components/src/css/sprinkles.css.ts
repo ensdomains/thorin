@@ -127,6 +127,7 @@ const staticProperties = defineProperties({
     boxSizing: ['border-box', 'content-box', 'inherit'],
     wordBreak: ['break-all', 'normal', 'inherit'],
     borderStyle: ['solid', 'none', 'inherit'],
+    touchAction: ['auto', 'none', 'inherit', 'unset'],
   },
   shorthands: {
     typeSize: ['fontSize', 'lineHeight'],

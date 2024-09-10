@@ -1,6 +1,6 @@
 import * as React from 'react'
 import type { TransitionState } from 'react-transition-state'
-
+import { assignInlineVars } from '@vanilla-extract/dynamic'
 import { match } from 'ts-pattern'
 
 import { translateY } from '@/src/css/utils/common'
@@ -44,46 +44,50 @@ type ContainerProps = {
 
 const Container = React.forwardRef<HTMLElement, BoxProps & ContainerProps>(
   (
-    { $state, $top, $left, $right, $bottom, $mobile, $popped, className, ...props },
+    { $state, $top, $left, $right, $bottom, $mobile, $popped, className, style, ...props },
     ref,
   ) => (
     <Box
       {...props}
       className={clsx(styles.container, className)}
+      style={{
+        ...style,
+        ...assignInlineVars({
+          [styles.containerLeft]: match($mobile)
+            .with(true, () => ($popped ? '2.5%' : '3.75%'))
+            .otherwise(() => ($left ? `$${$left}` : 'unset')),
+          [styles.containerRight]: match($mobile)
+            .with(true, () => 'unset')
+            .otherwise(() => ($right ? `$${$right}` : 'unset')),
+          [styles.containerTop]: match($mobile)
+            .with(true, () => 'calc(100vh / 100 * 2.5)')
+            .otherwise(() => ($top ? `$${$top}` : 'unset')),
+          [styles.containerBottom]: match($mobile)
+            .with(true, () => 'unset' as const)
+            .otherwise(() => ($bottom ? $bottom : 'unset')),
+          [styles.containerWidth]: $popped ? '95%' : '92.5%',
+          [styles.containerTransform]: $state.status === 'entered' ? translateY(0) : translateY(-64),
+        }),
+      }}
       alignItems="flex-start"
       borderColor="greySurface"
       borderRadius="2xLarge"
       borderStyle="solid"
       borderWidth="1x"
-      bottom={match($mobile)
-        .with(true, () => 'unset' as const)
-        .otherwise(() => ($bottom ? $bottom : 'unset'))}
-      boxShadow="0.02"
       display="flex"
       flexDirection="column"
       justifyContent="center"
-      left={match($mobile)
-        .with(true, () => ($popped ? '2.5%' : '3.75%'))
-        .otherwise(() => ($left ? `$${$left}` : 'unset'))}
       maxWidth={match($mobile)
-        .with(true, () => 'unset')
+        .with(true, () => 'unset' as const)
         .otherwise(() => '112')}
       opacity={$state.status === 'entered' ? 1 : 0}
       padding="4.5"
       position="fixed"
       ref={ref}
-      right={match($mobile)
-        .with(true, () => 'unset')
-        .otherwise(() => ($right ? `$${$right}` : 'unset'))}
-      top={match($mobile)
-        .with(true, () => 'calc(100vh / 100 * 2.5)')
-        .otherwise(() => ($top ? `$${$top}` : 'unset'))}
       touchAction={$popped ? 'none' : 'unset'}
-      transform={$state.status === 'entered' ? translateY(0) : translateY(-64)}
       transitionDuration={300}
       transitionProperty="all"
       transitionTimingFunction="popIn"
-      width={$popped ? '95%' : '92.5%'}
       zIndex={10000}
     />
   ),
