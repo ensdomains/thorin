@@ -59,6 +59,8 @@ Omit<
   | 'defaultValue'
   | 'type'
   | 'aria-invalid'
+  | 'height'
+  | 'width'
 > &
 WithColorStyle
 

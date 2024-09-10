@@ -19,7 +19,7 @@ export type CheckboxRowProps = {
   label: string
   subLabel?: string
   colorStyle?: ColorStyle
-} & React.InputHTMLAttributes<HTMLInputElement>
+} & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'height' | 'width' | 'color'>
 
 const ContainerBox = ({ disabled, ...props }: BoxProps) => (
   <Box

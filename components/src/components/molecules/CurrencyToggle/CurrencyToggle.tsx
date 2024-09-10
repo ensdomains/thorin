@@ -15,12 +15,12 @@ export type CurrencyToggleProps = {
   size?: Size
   fiat?: string
   color?: Color
-} & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'>
+} & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'height' | 'width'>
 
 const Container = (props: BoxProps) => (
   <Box
     {...props}
-    height="fit-content"
+    height="fit"
     position="relative"
     width="fit"
   />
@@ -40,7 +40,7 @@ const Label = ({
     display="flex"
     fontFamily="sans"
     fontSize="small"
-    fontWeight={$size === 'extraSmall' ? '$normal' : 'bold'}
+    fontWeight={$size === 'extraSmall' ? 'normal' : 'bold'}
     height={getValuesForKnob($size, 'height')}
     justifyContent="center"
     left="1/2"
@@ -81,7 +81,7 @@ const Slider = ({
   <Box
     {...props}
     backgroundColor={getValidatedColor($color)}
-    borderRadius={$size === 'extraSmall' ? 'full' : '$medium'}
+    borderRadius={$size === 'extraSmall' ? 'full' : 'medium'}
     display="block"
     height={getValuesForKnob($size, 'height')}
     left="1/2"

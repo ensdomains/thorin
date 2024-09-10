@@ -5,7 +5,6 @@ import type { BoxProps } from '../../atoms/Box/Box'
 import { Box } from '../../atoms/Box/Box'
 import * as styles from './styles.css'
 import type { Color } from './utils/getValidatedColor'
-import { getValidatedColor } from './utils/getValidatedColor'
 import { getValueForSize } from './utils/getValueForSize'
 import { icon } from './styles.css'
 import { MoonSVG, SunSVG } from '@/src/icons'
@@ -18,12 +17,12 @@ export type ThemeToggleProps = {
   size?: Size
   color?: Color
   mode?: Mode
-} & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'>
+} & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'height' | 'width'>
 
 const Container = (props: BoxProps) => (
   <Box
     {...props}
-    height="fit-content"
+    height="fit"
     position="relative"
     width="fit"
   />
@@ -42,7 +41,7 @@ const Label = ({
     cursor="pointer"
     display="flex"
     fontSize="small"
-    fontWeight={$size === 'extraSmall' ? '$normal' : 'bold'}
+    fontWeight={$size === 'extraSmall' ? 'normal' : 'bold'}
     justifyContent="center"
     left="1/2"
     pointerEvents="none"
@@ -82,7 +81,7 @@ const Slider = ({
 }: BoxProps & { $size: Size, $color: Color }) => (
   <Box
     {...props}
-    backgroundColor={getValidatedColor($color)}
+    backgroundColor={$color}
     borderRadius="full"
     display="block"
     left="1/2"
