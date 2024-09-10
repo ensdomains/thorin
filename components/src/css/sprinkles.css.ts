@@ -38,7 +38,7 @@ const responsivePropeties = defineProperties({
   defaultCondition: 'base',
   properties: {
     alignSelf: ['flex-start', 'flex-end', 'center', 'stretch', 'baseline', 'inherit'],
-    alignItems: ['flex-start', 'flex-end', 'center', 'stretch', 'baseline', 'inherit'],
+    alignItems: ['flex-start', 'flex-end', 'center', 'stretch', 'normal', 'baseline', 'inherit'],
     justifySelf: ['flex-start', 'flex-end', 'center', 'stretch', 'baseline', 'inherit'],
     justifyContent: ['flex-start', 'flex-end', 'center', 'stretch', 'baseline', 'inherit'],
     display: ['none', 'block', 'flex', 'inline-block', 'grid', 'table', 'inherit', 'initial'],

@@ -12,6 +12,8 @@ import { getTestId } from '../../../utils/utils'
 import type { BoxProps } from '../../atoms/Box/Box'
 import { Box } from '../../atoms/Box/Box'
 import type { Space } from '@/src/tokens'
+import * as styles from './styles.css'
+import clsx from 'clsx'
 
 const CloseIcon = (props: BoxProps) => (
   <Box
@@ -42,21 +44,20 @@ type ContainerProps = {
 
 const Container = React.forwardRef<HTMLElement, BoxProps & ContainerProps>(
   (
-    { $state, $top, $left, $right, $bottom, $mobile, $popped, ...props },
+    { $state, $top, $left, $right, $bottom, $mobile, $popped, className, ...props },
     ref,
   ) => (
     <Box
       {...props}
+      className={clsx(styles.container, className)}
       alignItems="flex-start"
-      backdropFilter="blur(16px)"
-      backgroundColor="rbga(255,255,255,0.8)"
       borderColor="greySurface"
       borderRadius="2xLarge"
       borderStyle="solid"
       borderWidth="1x"
       bottom={match($mobile)
-        .with(true, () => 'unset')
-        .otherwise(() => ($bottom ? `$${$bottom}` : 'unset'))}
+        .with(true, () => 'unset' as const)
+        .otherwise(() => ($bottom ? $bottom : 'unset'))}
       boxShadow="0.02"
       display="flex"
       flexDirection="column"
@@ -90,10 +91,10 @@ const Container = React.forwardRef<HTMLElement, BoxProps & ContainerProps>(
 
 const Draggable = () => (
   <Box
+    className={styles.draggable}
     alignItems="center"
     display="flex"
     justifyContent="center"
-    marginBottom="calc(-1 * 0.5rem)"
     paddingTop="3"
     width="full"
   >
@@ -120,7 +121,7 @@ export type ToastProps = {
   right?: Space
   bottom?: Space
   variant?: 'touch' | 'desktop'
-} & Omit<NativeDivProps, 'title'>
+} & Omit<NativeDivProps, 'title' | 'color'>
 
 type InternalProps = {
   state: TransitionState

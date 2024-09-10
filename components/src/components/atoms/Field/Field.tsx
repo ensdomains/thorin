@@ -72,8 +72,8 @@ const LabelBox = ({
       .exhaustive()}
     display="flex"
     flexBasis="auto"
-    flexGrow="2"
-    flexShrink="1"
+    flexGrow={2}
+    flexShrink={1}
     overflow="hidden"
     position="relative"
     {...props}
@@ -91,7 +91,7 @@ const SecondaryLabelBox = (props: React.ComponentProps<typeof Typography>) => (
   <Typography
     flexBasis="auto"
     flexGrow={0}
-    flexShrink="2"
+    flexShrink={2}
     overflow="hidden"
     position="relative"
     textAlign="right"
