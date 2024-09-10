@@ -7,29 +7,27 @@ import { CheckSVG } from '@/src/icons'
 import { getTestId } from '../../../utils/utils'
 import type { BoxProps } from '../../atoms/Box/Box'
 import { Box } from '../../atoms/Box/Box'
-import { getValueForNumberForSize } from './utils/getValueForNumberForSize'
-import type { Color } from './utils/getValidatedColor'
-import { getValidatedColor } from './utils/getValidatedColor'
 import { VisuallyHidden } from '../../atoms'
+import type { Color } from '@/src/tokens/color'
+import clsx from 'clsx'
+import * as styles from './styles.css'
 
 const NumberBox = ({
   $size,
   $color,
   disabled,
+  className,
   ...props
 }: BoxProps & { $size: 'small' | 'large', $color: Color }) => (
   <Box
     {...props}
+    className={clsx(styles.variants({ size: $size }), className)}
     alignItems="center"
     color={disabled ? 'greyPrimary' : $color}
     display="flex"
-    fontSize={getValueForNumberForSize($size, 'fontSize')}
     fontWeight="extraBold"
     justifyContent="center"
-    lineHeight={getValueForNumberForSize($size, 'lineHeight')}
-    marginTop={getValueForNumberForSize($size, 'marginTop')}
     position="absolute"
-    wh={getValueForNumberForSize($size, 'size')}
   />
 )
 
@@ -43,7 +41,7 @@ const ContainerBox = React.forwardRef<
 >(({ $size, $color, disabled, ...props }, ref) => (
   <Box
     {...props}
-    color={disabled ? 'greyLight' : getValidatedColor($color)}
+    color={disabled ? 'greyLight' : $color}
     ref={ref}
     stroke="currentColor"
     strokeWidth="1"
