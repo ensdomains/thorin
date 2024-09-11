@@ -2,7 +2,7 @@ import { createSprinkles, defineProperties } from '@vanilla-extract/sprinkles'
 
 import { commonVars, modeVars } from './theme.css'
 
-const colorPropertiesObject = { ...modeVars.color, inherit: 'inherit', initial: 'initial', unset: 'unset', transparent: 'transparent', currentColor: 'currentColor' }
+const colorPropertiesObject = { ...modeVars.color, inherit: 'inherit', initial: 'initial', unset: 'unset', transparent: 'transparent', currentColor: 'currentColor', none: 'none' }
 
 const colorProperties = defineProperties({
   conditions: {
@@ -28,7 +28,7 @@ const colorProperties = defineProperties({
   },
 })
 
-export const responsiveConditions: Record<string, { '@media': `screen and (${string})` } | object> = {
+export const responsiveConditions = {
   base: {},
   xs: { '@media': 'screen and (min-width: 360px)' },
   sm: { '@media': 'screen and (min-width: 640px)' },

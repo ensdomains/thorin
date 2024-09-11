@@ -4,21 +4,21 @@ import { AlertSVG, CrossSVG, EthSVG } from '@/src/icons'
 
 import type { WithAlert } from '@/src/types'
 
-import { translateY } from '@/src/css/utils/common'
 import type { FontSize } from '@/src/tokens/typography'
 
 import { DialogContent } from './DialogContent'
 
 import type { BoxProps } from '../../atoms/Box/Box'
 import { Box } from '../../atoms/Box/Box'
-import { getValueForAlert } from './utils/getValueForAlert'
-import { getValueForStepType } from './utils/getValueForStepType'
 import { Typography } from '../../atoms'
 import { Modal } from '../../molecules'
+import clsx from 'clsx'
+import * as styles from './styles.css'
 
-const CloseButton = (props: BoxProps) => (
+const CloseButton = ({ className, ...props }: BoxProps) => (
   <Box
     {...props}
+    className={clsx(styles.closeButton, className)}
     alignItems="center"
     as="button"
     backgroundColor={{ base: 'transparent', hover: 'greySurface' }}
@@ -30,7 +30,6 @@ const CloseButton = (props: BoxProps) => (
     position="absolute"
     right="2"
     top="2"
-    transform={{ base: translateY(0), hover: translateY(-1) }}
     transitionDuration={150}
     transitionProperty="all"
     transitionTimingFunction="inOut"
@@ -40,9 +39,10 @@ const CloseButton = (props: BoxProps) => (
   </Box>
 )
 
-const StyledCard = (props: BoxProps) => (
+const StyledCard = ({ className, ...props }: BoxProps) => (
   <Box
     {...props}
+    className={clsx(styles.styledCard, className)}
     alignItems="center"
     backgroundColor="backgroundPrimary"
     borderBottomLeftRadius={{ xs: '0', sm: '3xLarge' }}
@@ -51,7 +51,6 @@ const StyledCard = (props: BoxProps) => (
     display="flex"
     flexDirection="column"
     gap={{ xs: '4', sm: '6' }}
-    maxHeight={{ xs: '80vh', sm: 'min(90vh, 144)' }}
     maxWidth={{ xs: 'unset', sm: '80vw' }}
     minWidth={{ xs: 'unset', sm: '64' }}
     overflow="hidden"
@@ -63,23 +62,22 @@ const StyledCard = (props: BoxProps) => (
 
 type NonNullableAlert = NonNullable<WithAlert['alert']>
 
-const Icon = ({ $alert, ...props }: BoxProps & { $alert: NonNullableAlert }) => {
+const Icon = ({ $alert, className, ...props }: BoxProps & { $alert: NonNullableAlert }) => {
   const Icon = ['error', 'warning'].includes($alert) ? <AlertSVG /> : <EthSVG />
   return (
     <Box
       {...props}
-      backgroundColor={getValueForAlert($alert, 'backgroundColor')}
+      className={clsx(styles.variants({ alert: $alert }), className)}
       borderRadius="full"
-      color={getValueForAlert($alert, 'color')}
       flexBasis="8"
       flexGrow={0}
       flexShrink={0}
       wh="8"
     >
       <Box
+        className={styles.variants({ svgAlert: $alert })}
         as={Icon}
         display="block"
-        transform={getValueForAlert($alert, 'svgTransform')}
         wh="full"
       />
     </Box>
@@ -133,14 +131,12 @@ const StepContainer = (props: BoxProps) => (
 
 export type StepType = 'notStarted' | 'inProgress' | 'completed'
 
-const StepItem = ({ $type, ...props }: BoxProps & { $type: StepType }) => (
+const StepItem = ({ $type, className, ...props }: BoxProps & { $type: StepType }) => (
   <Box
     {...props}
-    backgroundColor={getValueForStepType($type, 'backgroundColor')}
-    borderColor={getValueForStepType($type, 'borderColor')}
+    className={clsx(styles.variants({ stepType: $type }), className)}
     borderRadius="full"
     borderStyle="solid"
-    borderWidth={getValueForStepType($type, 'borderWidth')}
     wh="3.5"
   />
 )
