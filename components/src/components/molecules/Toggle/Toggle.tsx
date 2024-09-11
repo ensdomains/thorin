@@ -5,7 +5,6 @@ import { Box } from '../../atoms/Box/Box'
 import { getValueForSize } from './utils/getValueForSize'
 import * as styles from './styles.css'
 import type { Color } from './utils/getValidatedColor'
-import { getValidatedColor } from './utils/getValidatedColor'
 
 export type Size = 'small' | 'medium' | 'large'
 

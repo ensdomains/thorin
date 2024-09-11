@@ -4,9 +4,13 @@ import { commonVars, modeVars } from '@/src/css/theme.css'
 import { brightness } from '@/src/css/utils/common'
 
 export const slider = style({
-  appearance: 'none',
-  outline: 'none',
-  selectors: {
+  'appearance': 'none',
+  'outline': 'none',
+  'filter': 'grayscale(0)',
+  ':disabled': {
+    filter: 'grayscale(100%)',
+  },
+  'selectors': {
     '&::-webkit-slider-thumb': {
       appearance: 'none',
       width: commonVars.space['4'],

@@ -5,6 +5,7 @@ import type { FieldBaseProps } from '../../atoms/Field/Field'
 import { Field } from '../../atoms/Field/Field'
 import type { BoxProps } from '../../atoms/Box/Box'
 import { Box } from '../../atoms/Box/Box'
+import { clsx } from 'clsx'
 
 type NativeInputProps = React.InputHTMLAttributes<HTMLInputElement>
 
@@ -35,20 +36,18 @@ export type SliderProps = FieldBaseProps & {
   onFocus?: NativeInputProps['onFocus']
 } & Omit<
   NativeInputProps,
-    'children' | 'value' | 'defaultValue' | 'aria-invalid' | 'type'
+    'children' | 'value' | 'defaultValue' | 'aria-invalid' | 'type' | 'color' | 'height' | 'width'
 >
 
 const SliderComponent = React.forwardRef<HTMLElement, BoxProps>(
-  (props, ref) => (
+  ({ className, ...props }, ref) => (
     <Box
       {...props}
-      appearance="none"
       as="input"
       backgroundColor={{ base: 'blueSurface', hover: 'blueLight' }}
       borderRadius="full"
-      className={styles.slider}
+      className={clsx(styles.slider, className)}
       cursor={{ base: 'pointer', disabled: 'not-allowed' }}
-      filter={{ base: 'grayscale(0)', disabled: 'grayscale(100%)' }}
       height="1.5"
       opacity={1}
       ref={ref}
