@@ -114,6 +114,8 @@ const staticProperties = defineProperties({
     fontSize: commonVars.fontSizes,
     lineHeight: commonVars.lineHeights,
     overflow: ['hidden', 'visible', 'scroll', 'auto', 'initial', 'inherit'],
+    overflowX: ['hidden', 'visible', 'scroll', 'auto', 'initial', 'inherit'],
+    overflowY: ['hidden', 'visible', 'scroll', 'auto', 'initial', 'inherit'],
     textOverflow: ['clip', 'ellipsis', 'initial', 'inherit'],
     whiteSpace: ['normal', 'nowrap', 'pre', 'pre-line', 'pre-wrap', 'initial', 'inherit'],
     textTransform: ['capitalize', 'uppercase', 'lowercase', 'none', 'initial', 'inherit'],

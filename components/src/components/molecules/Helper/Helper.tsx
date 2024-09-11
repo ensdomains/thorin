@@ -7,9 +7,10 @@ import type { Alert } from '@/src/types'
 import type { BoxProps } from '../../atoms/Box/Box'
 import { Box } from '../../atoms/Box/Box'
 
-import { getValueForAlert } from './utils/getValueForAlert'
+import * as styles from './styles.css'
+import clsx from 'clsx'
 
-type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
+type NativeDivProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'color'>
 
 type Alignment = 'horizontal' | 'vertical'
 
@@ -22,13 +23,13 @@ export type HelperProps = NativeDivProps & {
 const Container = ({
   $alert,
   $alignment,
+  className,
   ...props
 }: BoxProps & { $alert: Alert, $alignment: Alignment }) => (
   <Box
     {...props}
+    className={clsx(styles.variants({ alert: $alert }), className)}
     alignItems="center"
-    backgroundColor={getValueForAlert($alert, 'background')}
-    borderColor={getValueForAlert($alert, 'border')}
     borderRadius="large"
     borderStyle="solid"
     borderWidth="1x"
@@ -44,8 +45,8 @@ const Container = ({
   />
 )
 
-const IconElement = ({ $alert, ...props }: BoxProps & { $alert: Alert }) => (
-  <Box {...props} color={getValueForAlert($alert, 'svg')} wh="6" />
+const IconElement = ({ $alert, className, ...props }: BoxProps & { $alert: Alert }) => (
+  <Box {...props} className={clsx(styles.variants({ svgAlert: $alert }), className)} wh="6" />
 )
 
 export const Helper: React.FC<HelperProps> = ({
