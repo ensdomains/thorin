@@ -5,9 +5,9 @@ import type { BoxProps } from '../../atoms/Box/Box'
 import { Box } from '../../atoms/Box/Box'
 import * as styles from './styles.css'
 import type { Color } from './utils/getValidatedColor'
-import { getValueForSize } from './utils/getValueForSize'
 import { icon } from './styles.css'
 import { MoonSVG, SunSVG } from '@/src/icons'
+import clsx from 'clsx'
 
 export type Size = 'extraSmall' | 'small' | 'medium'
 
@@ -31,10 +31,12 @@ const Container = (props: BoxProps) => (
 const Label = ({
   $size,
   $mode,
+  className,
   ...props
 }: BoxProps & { $size: Size, $mode: Mode }) => (
   <Box
     {...props}
+    className={clsx(styles.variants({ knob: $size }), className)}
     alignItems="center"
     as="label"
     color="textAccent"
@@ -50,26 +52,24 @@ const Label = ({
     transform={$mode === 'dark' ? 'translateX(-50%)' : 'translateX(50%)'}
     transition="color 0.1s linear"
     translate="-50% -50%"
-    wh={getValueForSize($size, 'knobSize')}
   />
 )
 
 const Checkbox = React.forwardRef<HTMLElement, BoxProps & { $size: Size }>(
-  ({ $size, ...props }, ref) => (
+  ({ $size, className, ...props }, ref) => (
     <Box
       {...props}
+      className={clsx(styles.variants({ size: $size }), className)}
       alignItems="center"
       as="input"
       backgroundColor="greySurface"
       borderRadius="full"
       cursor={{ base: 'pointer', disabled: 'not-allowed' }}
       display="flex"
-      height={getValueForSize($size, 'height')}
       justifyContent="center"
       position="relative"
       ref={ref}
       type="checkbox"
-      width={getValueForSize($size, 'width')}
     />
   ),
 )
@@ -77,10 +77,12 @@ const Checkbox = React.forwardRef<HTMLElement, BoxProps & { $size: Size }>(
 const Slider = ({
   $size,
   $color,
+  className,
   ...props
 }: BoxProps & { $size: Size, $color: Color }) => (
   <Box
     {...props}
+    className={clsx(styles.variants({ knob: $size }), className)}
     backgroundColor={$color}
     borderRadius="full"
     display="block"
@@ -90,7 +92,6 @@ const Slider = ({
     top="1/2"
     transition="transform 0.3s ease-in-out, background-color 0.1s ease-in-out"
     translate="-50% -50%"
-    wh={getValueForSize($size, 'knobSize')}
   />
 )
 

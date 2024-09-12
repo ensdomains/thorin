@@ -121,7 +121,7 @@ const staticProperties = defineProperties({
     textTransform: ['capitalize', 'uppercase', 'lowercase', 'none', 'initial', 'inherit'],
     borderWidth: commonVars.borderWidths,
     position: ['static', 'absolute', 'relative', 'fixed', 'sticky', 'initial', 'inherit'],
-    cursor: ['default', 'pointer', 'not-allowed', 'text', 'initial', 'inherit'],
+    cursor: ['default', 'pointer', 'not-allowed', 'text', 'initial', 'inherit', 'unset'],
     pointerEvents: ['none', 'auto', 'all', 'initial', 'inherit'],
     transitionTimingFunction: commonVars.transitionTimingFunction,
     transitionDuration: commonVars.transitionDuration,

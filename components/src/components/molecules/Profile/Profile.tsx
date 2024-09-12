@@ -14,9 +14,9 @@ import type { DropdownItem } from '../Dropdown/Dropdown'
 import { Dropdown } from '../Dropdown/Dropdown'
 import type { BoxProps } from '../../atoms/Box/Box'
 import { Box } from '../../atoms/Box/Box'
-import { getValueForSize } from './utils/getValueForSize'
 import { Typography } from '../../atoms/Typography/Typography'
-
+import * as styles from './styles.css'
+import clsx from 'clsx'
 export type Size = 'small' | 'medium' | 'large'
 
 type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
@@ -51,7 +51,7 @@ const calculateWidth = (size: Size) => {
 }
 
 const Container = React.forwardRef<HTMLElement, BoxProps & ContainerProps>(
-  ({ $size, $hasDropdown, $open, ...props }, ref) => (
+  ({ $size, $hasDropdown, $open, className, ...props }, ref) => (
     <Box
       alignItems="center"
       backgroundColor={$open ? 'border' : 'backgroundPrimary'}
@@ -64,11 +64,7 @@ const Container = React.forwardRef<HTMLElement, BoxProps & ContainerProps>(
       }}
       flexDirection="row"
       gap="2"
-      height={getValueForSize($size, 'height')}
       justifyContent="flex-start"
-      maxWidth={getValueForSize($size, 'maxWidth')}
-      padding={getValueForSize($size, 'padding')}
-      paddingRight={getValueForSize($size, 'paddingRight')}
       position="relative"
       ref={ref}
       transform={{
@@ -78,9 +74,9 @@ const Container = React.forwardRef<HTMLElement, BoxProps & ContainerProps>(
       transitionDuration={150}
       transitionProperty="color, border-color, background-color, transform, filter"
       transitionTimingFunction="inOut"
-      width={getValueForSize($size, 'width')}
       zIndex={10}
       {...props}
+      className={clsx(styles.variants({ size: $size }), className)}
     />
   ),
 )
