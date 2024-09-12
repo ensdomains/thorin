@@ -7,6 +7,12 @@ import { mq } from '@/src/utils/responsiveHelpers'
 
 import { Backdrop } from '../..'
 
+const StyledBackdrop = styled(Backdrop)`
+  z-index: 9999;
+  position: fixed;
+  inset: 0px;
+`
+
 const Container = styled.div<{
   $state: TransitionState['status']
   $alignTop?: boolean
@@ -85,7 +91,7 @@ export const Modal = ({
   mobileOnly = false,
   ...props
 }: Props) => (
-  <Backdrop
+  <StyledBackdrop
     open={open}
     renderCallback={renderCallback}
     surface={backdropSurface}
@@ -101,7 +107,7 @@ export const Modal = ({
         {children}
       </Container>
     )}
-  </Backdrop>
+  </StyledBackdrop>
 )
 
 Modal.displayName = 'Modal'
