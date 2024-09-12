@@ -2,9 +2,9 @@ import * as React from 'react'
 
 import type { BoxProps } from '../../atoms/Box/Box'
 import { Box } from '../../atoms/Box/Box'
-import { getValueForSize } from './utils/getValueForSize'
 import * as styles from './styles.css'
 import type { Color } from '@/src/tokens/color'
+import { clsx } from 'clsx'
 
 export type Size = 'small' | 'medium' | 'large'
 
@@ -16,9 +16,10 @@ export type ToggleProps = {
 const CheckBox = React.forwardRef<
   HTMLElement,
   BoxProps & { $size: Size, $color: Color }
->(({ $size, $color, ...props }, ref) => (
+>(({ $size, $color, className, ...props }, ref) => (
   <Box
     {...props}
+    className={clsx(styles.checkbox({ size: $size }), className)}
     alignItems="center"
     as="input"
     backgroundColor={{
@@ -29,13 +30,11 @@ const CheckBox = React.forwardRef<
     borderRadius="full"
     cursor={{ base: 'pointer', disabled: 'not-allowed' }}
     display="flex"
-    height={getValueForSize($size, 'height')}
     justifyContent="center"
     position="relative"
     ref={ref}
     transition="background-color 0.1s ease-in-out"
     type="checkbox"
-    width={getValueForSize($size, 'width')}
   />
 ))
 

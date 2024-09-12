@@ -5,6 +5,7 @@ import { commonVars, modeVars } from '@/src/css/theme.css'
 import { translateX } from '@/src/css/utils/common'
 
 import { getValueForSize } from './utils/getValueForSize'
+import { sprinkles } from '@/src/css/sprinkles.css'
 
 export const toggle = recipe({
   base: {
@@ -94,6 +95,25 @@ export const toggle = recipe({
           },
         },
       },
+    },
+  },
+})
+
+export const checkbox = recipe({
+  variants: {
+    size: {
+      small: sprinkles({
+        width: '12',
+        height: '7',
+      }),
+      medium: sprinkles({
+        width: '12',
+        height: '8',
+      }),
+      large: sprinkles({
+        width: '16',
+        height: '10',
+      }),
     },
   },
 })
