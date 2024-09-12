@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { rainbowSprinkles } from '@/src/css/rainbow-spinkles.css'
+import { sprinkles } from '@/src/css/sprinkles.css'
 
 import { rawColorToRGBA } from '@/src/tokens/color'
 
@@ -119,7 +119,7 @@ export const Avatar: React.FC<AvatarProps> = ({
     className: imgClassName,
     style: imgStyle,
     otherProps: imgOtherProps,
-  } = rainbowSprinkles({
+  } = sprinkles({
     display: isImageVisible ? 'block' : 'none',
     position: 'absolute',
     height: '100%',

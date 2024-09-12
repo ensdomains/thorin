@@ -4,14 +4,14 @@ import type { BoxProps } from '../../atoms/Box/Box'
 import { Box } from '../../atoms/Box/Box'
 import { getValueForSize } from './utils/getValueForSize'
 import * as styles from './styles.css'
-import type { Color } from './utils/getValidatedColor'
+import type { Color } from '@/src/tokens/color'
 
 export type Size = 'small' | 'medium' | 'large'
 
 export type ToggleProps = {
   size?: Size
   color?: Color
-} & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type' | 'size'>
+} & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type' | 'size' | 'color' | 'width' | 'height'>
 
 const CheckBox = React.forwardRef<
   HTMLElement,

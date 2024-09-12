@@ -1,6 +1,6 @@
 import type { TransitionState } from 'react-transition-state'
 
-import type { Sprinkles } from '@/src/css/rainbow-spinkles.css'
+import type { Sprinkles } from '@/src/css/sprinkles.css'
 
 import type { Direction } from '../Select'
 
