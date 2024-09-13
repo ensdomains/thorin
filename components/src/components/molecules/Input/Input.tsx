@@ -16,6 +16,7 @@ import type { BoxProps } from '../../atoms/Box/Box'
 import { Box } from '../../atoms/Box/Box'
 import { getValueForSize } from './utils/getValueForSize'
 import { CrossCircleSVG } from '@/src/icons'
+import clsx from 'clsx'
 
 type NativeInputProps = React.InputHTMLAttributes<HTMLInputElement>
 
@@ -125,37 +126,36 @@ type ContainerProps = {
 }
 const Container = ({
   $size,
+  className,
   ...props
 }: BoxProps & ContainerProps & StatusDot) => (
   <Box
     {...props}
+    className={clsx(styles.container({ size: $size }), className)}
     display="flex"
-    height={getValueForSize($size, 'height')}
     position="relative"
     transitionDuration={150}
-    transitionProperty="color, border-colror, background-color"
   />
 )
 
 const Label = ({
   $size,
   $disabled,
+  className,
   ...props
 }: BoxProps & { $disabled?: boolean, $size: Size }) => (
   <Box
     {...props}
+    className={clsx(styles.label({ size: $size }), className)}
     alignItems="center"
     as="label"
     backgroundColor={$disabled ? 'border' : 'greySurface'}
     color="greyPrimary"
     cursor={$disabled ? 'not-allowed' : 'pointer'}
     display="flex"
-    fontSize={getValueForSize($size, 'labelFontSize')}
     fontWeight="normal"
     gap="2"
     height="full"
-    lineHeight={getValueForSize($size, 'labelFontSize')}
-    px={getValueForSize($size, 'outerPadding')}
   />
 )
 
@@ -169,22 +169,23 @@ const Icon = ({
   $icon,
   $iconWidth,
   $size,
+  className,
   ...props
 }: BoxProps & IconBoxProps) => (
   <Box
     {...props}
+    flexBasis={$iconWidth}
+    paddingLeft={$iconWidth}
+    width={$iconWidth}
+    className={clsx(styles.icon({ size: $size }), className)}
     alignItems="center"
     as="label"
     boxSizing="content-box"
     cursor="pointer"
     display="flex"
-    flexBasis={$iconWidth ? `$${$iconWidth}` : getValueForSize($size, 'icon')}
     flexGrow={0}
     flexShrink={0}
     justifyContent="flex-start"
-    order={-1}
-    paddingLeft={getValueForSize($size, 'outerPadding')}
-    width={$iconWidth ? `$${$iconWidth}` : getValueForSize($size, 'icon')}
     zIndex={1}
   >
     {$icon}
