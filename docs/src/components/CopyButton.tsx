@@ -52,7 +52,7 @@ export const CopyButton = ({ content }: Props) => {
         transition="all 0.3s ease-in-out"
       >
         <Box
-          as={state.copied ? <CheckSVG /> : <CopySVG />}
+          as={state.copied ? CheckSVG : CopySVG}
           wh="3"
           color="textPrimary"
         />

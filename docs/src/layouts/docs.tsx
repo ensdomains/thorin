@@ -22,16 +22,22 @@ const Container = (props: React.ComponentProps<typeof Typography>) => (
     flexDirection="column"
     backgroundColor="backgroundPrimary"
     justifyContent={{ base: 'center', lg: 'flex-end', xl: 'center' }}
-    margin="0 auto"
+    // margin="0 auto"
     width="full"
-    minHeight="100vh"
+    // minHeight="100vh"
     px="6"
     boxSizing="border-box"
   />
 )
 
 const Article = (props: BoxProps) => (
-  <Box {...props} as="article" maxWidth="192" margin="0 auto" />
+  <Box
+    {...props}
+    as="article"
+    maxWidth="192"
+
+  // margin="0 auto"
+  />
 )
 
 const Main = (props: BoxProps) => (

@@ -16,7 +16,7 @@ export const NavBar = ({
     <Box
       display="flex"
       position="fixed"
-      justifyContent="space-between"
+      // justifyContent="space-between"
       alignItems="center"
       top="0"
       left="0"
@@ -24,8 +24,8 @@ export const NavBar = ({
       padding={{ base: '4', sm: '6' }}
       backgroundColor="backgroundPrimary"
       height={{ base: '20', sm: '24' }}
-      borderBottom="1px solid"
-      borderBottomColor="border"
+      // borderBottom="1px solid"
+      // borderBottomColor="border"
     >
       <Box display="flex">
         <Box
@@ -33,20 +33,20 @@ export const NavBar = ({
           display={{ base: 'block', sm: 'none' }}
           onClick={onToggle}
           padding="4"
-          marginLeft="-16px"
+          // marginLeft="-16px"
           backgroundColor="transparent"
-          outline="none"
+          // outline="none"
         >
           <Box wh="6" position="relative">
             <Box
-              as={<CrossSVG />}
+              as={CrossSVG}
               wh="full"
               position="absolute"
               opacity={open ? 1 : 0}
-              transition="opacity 0.2s ease-in-out"
+              // transition="opacity 0.2s ease-in-out"
             />
             <Box
-              as={<MenuSVG />}
+              as={MenuSVG}
               position="absolute"
               wh="full"
               opacity={open ? 0 : 1}
@@ -55,17 +55,18 @@ export const NavBar = ({
           </Box>
         </Box>
         <Link href="/">
-          <Box as={<LogoSVG />} height="12" />
+          <Box as={LogoSVG} height="12" />
         </Link>
       </Box>
       <Box display="flex" gap="2" alignItems="center">
         <Link href="https://github.com/ensdomains/thorin">
-          <Box as={<GithubSVG />} color="text" wh="4" />
+          <Box as={GithubSVG} color="text" wh="4" />
         </Link>
         <Link href="https://github.com/ensdomains/thorin">
-          <Box as={<FigmaSVG />} wh="4" />
+          <Box as={FigmaSVG} wh="4" />
         </Link>
-        <Tag size="small">v1.0</Tag>
+        {/* TODO: Readd after fixing. Crashing docs page. */}
+        {/* <Tag size="small">v1.0</Tag> */}
       </Box>
     </Box>
   )

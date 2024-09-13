@@ -140,18 +140,18 @@ export const CodePreview = ({
               onChange={newCode => setCode(newCode)}
             />
             <Box position="absolute" top="2" right="2">
-              <CopyButton content={code} />
+              {/* <CopyButton content={code} /> */}
             </Box>
           </LiveEditorContainer>
         )}
       </Container>
 
-      <Box display="flex" justifyContent="flex-end" marginTop="2">
+      {/* <Box display="flex" justifyContent="flex-end" marginTop="2">
         <div>
           <Button
             colorStyle="transparent"
             color="blue"
-            prefix={state.expand ? <UpChevronSVG /> : <DownChevronSVG />}
+            prefix={state.expand ? UpChevronSVG : DownChevronSVG}
             size="small"
             onClick={() => setState(x => ({ ...x, expand: !x.expand }))}
           >
@@ -164,7 +164,7 @@ export const CodePreview = ({
             as="a"
             colorStyle="transparent"
             color="blue"
-            prefix={<OutlinkSVG />}
+            prefix={OutlinkSVG}
             href={createPlayroomLink({ code })}
             size="small"
             target="_blank"
@@ -172,7 +172,7 @@ export const CodePreview = ({
             Playroom
           </Button>
         </div>
-      </Box>
+      </Box> */}
     </LiveProvider>
   )
 }

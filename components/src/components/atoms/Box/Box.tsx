@@ -22,7 +22,7 @@ export type BoxProps = Sprinkles &
 
 export const Box = forwardRef<HTMLElement, BoxProps >(
   (
-    { as = 'div', className, ...props },
+    { as = 'div', className, children, ...props },
     ref,
   ) => {
     const atomProps: Record<string, unknown> = {}
@@ -37,11 +37,12 @@ export const Box = forwardRef<HTMLElement, BoxProps >(
       }
     }
 
-    const atomicCss = sprinkles(props)
+    const atomicCss = sprinkles(atomProps)
 
     return React.createElement(as, {
       className: clsx(atomicCss, className),
       ...nativeProps,
+      children,
       ref,
     })
   },

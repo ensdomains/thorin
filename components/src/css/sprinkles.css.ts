@@ -45,7 +45,7 @@ const responsivePropeties = defineProperties({
     alignItems: ['flex-start', 'flex-end', 'center', 'stretch', 'normal', 'baseline', 'inherit'],
     justifySelf: ['flex-start', 'flex-end', 'center', 'stretch', 'baseline', 'inherit'],
     justifyContent: ['flex-start', 'flex-end', 'center', 'stretch', 'baseline', 'inherit'],
-    display: ['none', 'block', 'flex', 'inline-block', 'grid', 'table', 'inherit', 'initial'],
+    display: ['none', 'block', 'flex', 'inline-block', 'grid', 'table', 'inherit', 'initial', 'inline'],
     flexDirection: ['row', 'row-reverse', 'column', 'column-reverse', 'inherit'],
     flex: [1, '0 0 1px', 'auto', 'initial', 'none', 'inherit'],
     flexShrink: [0, 1, 2, 'inherit'],

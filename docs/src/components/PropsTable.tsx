@@ -147,7 +147,7 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
       <Box display="flex" justifyContent="flex-end" marginTop="2">
         {!!props.length && (
           <div>
-            <Button
+            {/* <Button
               colorStyle="transparent"
               color="accent"
               size="small"
@@ -161,13 +161,13 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
                 }))}
             >
               {state.showDescriptions ? 'Description' : 'Description'}
-            </Button>
+            </Button> */}
           </div>
         )}
 
         {sourceLink && (
           <div>
-            <Button
+            {/* <Button
               as="a"
               href={sourceLink}
               colorStyle="transparent"
@@ -176,7 +176,7 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
               prefix={<Box as={<GithubSVG />} width="3" />}
             >
               View Source
-            </Button>
+            </Button> */}
           </div>
         )}
       </Box>

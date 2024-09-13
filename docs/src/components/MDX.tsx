@@ -13,7 +13,8 @@ import { Logos } from './Logos/Logos'
 
 const StyledLink = (props: React.ComponentProps<typeof Link>) => (
   <Box
-    as={<Link {...props} />}
+    as={Link}
+    {...props}
     color="accent"
     cursor="pointer"
     // textDecoration="underline"
@@ -45,7 +46,7 @@ export const MDX: MDXProviderProps['components'] = {
           <Box as="a" href={`#${id}`} display="inline">
             {children}
             <Box
-              as={<LinkSVG />}
+              as={LinkSVG}
               display="inline-block"
               marginLeft="2"
               wh="4"
