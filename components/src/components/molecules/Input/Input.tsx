@@ -146,7 +146,7 @@ const Label = ({
 }: BoxProps & { $disabled?: boolean, $size: Size }) => (
   <Box
     {...props}
-    className={clsx(styles.label({ size: $size }), className)}
+    className={clsx(styles.label, styles.labelVariants({ size: $size }), className)}
     alignItems="center"
     as="label"
     backgroundColor={$disabled ? 'border' : 'greySurface'}
@@ -177,7 +177,7 @@ const Icon = ({
     flexBasis={$iconWidth}
     paddingLeft={$iconWidth}
     width={$iconWidth}
-    className={clsx(styles.icon({ size: $size }), className)}
+    className={clsx(styles.icon, styles.iconVariants({ size: $size }), className)}
     alignItems="center"
     as="label"
     boxSizing="content-box"

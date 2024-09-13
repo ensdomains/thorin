@@ -1,6 +1,6 @@
 import { recipe } from '@vanilla-extract/recipes'
 
-import { globalStyle } from '@vanilla-extract/css'
+import { globalStyle, style } from '@vanilla-extract/css'
 
 import { commonVars, modeVars } from '@/src/css/theme.css'
 import { scale } from '@/src/css/utils/common'
@@ -78,15 +78,7 @@ export const container = recipe({
   },
 })
 
-export const label = recipe({
-  base: {
-    selectors: {
-      '& svg': {
-        display: 'block',
-        color: modeVars.color.greyPrimary,
-      },
-    },
-  },
+export const labelVariants = recipe({
   variants: {
     size: {
       small: sprinkles({ fontSize: 'small', lineHeight: 'small', px: '3.5' }),
@@ -96,17 +88,16 @@ export const label = recipe({
     },
   },
 })
+export const label = style({})
 
-export const icon = recipe({
+globalStyle(`${label} svg`, {
+  display: 'block',
+  color: modeVars.color.greyPrimary,
+})
+
+export const iconVariants = recipe({
   base: {
     order: -1,
-    selectors: {
-      '& svg': {
-        width: commonVars.space.full,
-        height: commonVars.space.full,
-        color: modeVars.color.greyPrimary,
-      },
-    },
   },
   variants: {
     size: {
@@ -116,4 +107,12 @@ export const icon = recipe({
       extraLarge: sprinkles({ flexBasis: '6', paddingLeft: '6', width: '6' }),
     },
   },
+})
+
+export const icon = style({})
+
+globalStyle(`${icon} svg`, {
+  width: commonVars.space.full,
+  height: commonVars.space.full,
+  color: modeVars.color.greyPrimary,
 })
