@@ -59,8 +59,8 @@ const ContainerInner = React.forwardRef<
     backgroundColor="background"
     borderTopLeftRadius="2xLarge"
     borderTopRightRadius="2xLarge"
-    borderBottomLeftRadius={$expand ? '2xLarge' : 'unset'}
-    borderBottomRightRadius={$expand ? '2xLarge' : 'unset'}
+    // borderBottomLeftRadius={$expand ? '2xLarge' : 'unset'}
+    // borderBottomRightRadius={$expand ? '2xLarge' : 'unset'}
     overflow="auto"
     padding="4"
   />
