@@ -4,10 +4,11 @@ import { useId } from '../../../hooks/useId'
 import type { BoxProps } from '../../atoms/Box/Box'
 import { Box } from '../../atoms/Box/Box'
 import * as styles from './styles.css'
-import type { Color } from './utils/getValidatedColor'
 import { icon } from './styles.css'
 import { MoonSVG, SunSVG } from '@/src/icons'
 import clsx from 'clsx'
+import { assignInlineVars } from '@vanilla-extract/dynamic'
+import type { Color } from '@/src/tokens/color'
 
 export type Size = 'extraSmall' | 'small' | 'medium'
 
@@ -32,11 +33,12 @@ const Label = ({
   $size,
   $mode,
   className,
+  style,
   ...props
 }: BoxProps & { $size: Size, $mode: Mode }) => (
   <Box
     {...props}
-    className={clsx(styles.variants({ knob: $size }), className)}
+    className={clsx(styles.variants({ knob: $size }), styles.label, className)}
     alignItems="center"
     as="label"
     color="textAccent"
@@ -49,9 +51,7 @@ const Label = ({
     pointerEvents="none"
     position="absolute"
     top="1/2"
-    transform={$mode === 'dark' ? 'translateX(-50%)' : 'translateX(50%)'}
-    transition="color 0.1s linear"
-    translate="-50% -50%"
+    style={{ ...style, ...assignInlineVars({ [styles.labelTransform]: $mode === 'dark' ? 'translateX(-50%)' : 'translateX(50%)' }) }}
   />
 )
 
@@ -82,7 +82,7 @@ const Slider = ({
 }: BoxProps & { $size: Size, $color: Color }) => (
   <Box
     {...props}
-    className={clsx(styles.variants({ knob: $size }), className)}
+    className={clsx(styles.variants({ knob: $size }), styles.slider, className)}
     backgroundColor={$color}
     borderRadius="full"
     display="block"
@@ -90,8 +90,6 @@ const Slider = ({
     pointerEvents="none"
     position="absolute"
     top="1/2"
-    transition="transform 0.3s ease-in-out, background-color 0.1s ease-in-out"
-    translate="-50% -50%"
   />
 )
 
@@ -109,7 +107,7 @@ export const ThemeToggle = React.forwardRef<HTMLInputElement, ThemeToggleProps>(
           {...props}
           $size={size}
         />
-        <Slider $color={color} $size={size} className={styles.slider} />
+        <Slider $color={color} $size={size} />
         <Label
           $mode="dark"
           $size={size}

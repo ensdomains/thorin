@@ -1,13 +1,15 @@
 import { commonVars } from '@/src/css/theme.css'
 
 import type { Size } from '../Select'
+import type { FontSize, LineHeight } from '@/src/tokens/typography'
+import type { Space } from '@/src/tokens'
 type Properties = {
-  fontSize: string
-  lineHeight: string
-  height: string
-  outerPadding: string
-  iconWidth: string
-  rowHeight: string
+  fontSize: FontSize
+  lineHeight: LineHeight
+  height: Space
+  outerPadding: Space
+  iconWidth: Space
+  rowHeight: Space
   maxHeightFunc: (rows: number) => string
 }
 
@@ -19,8 +21,8 @@ const sizeMap: { [key in Size]: Properties } = {
     lineHeight: 'small',
     height: '10',
     outerPadding: '3.5',
-    iconWidth: '$3',
-    rowHeight: '$9',
+    iconWidth: '3',
+    rowHeight: '9',
     maxHeightFunc: (rows: number) => `calc(${rows} * ${commonVars.space['9']})`,
   },
   medium: {

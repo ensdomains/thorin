@@ -1,11 +1,13 @@
+import type { FontSize, LineHeight } from '@/src/tokens/typography'
 import type { Size } from '../Button'
+import type { Space } from '@/src/tokens'
 
 type Properties = {
-  fontSize: string
-  lineHeight: string
-  height: string
-  px: string
-  svgSize: string
+  fontSize: FontSize
+  lineHeight: LineHeight
+  height: Space
+  px: Space
+  svgSize: Space
 }
 
 type Property = keyof Properties
@@ -16,7 +18,7 @@ const sizeMap: { [key in Size]: Properties } = {
     lineHeight: 'small',
     height: '10',
     px: '3.5',
-    svgSize: '$3',
+    svgSize: '3',
   },
   medium: {
     fontSize: 'body',

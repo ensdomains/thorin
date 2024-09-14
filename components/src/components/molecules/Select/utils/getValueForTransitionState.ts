@@ -9,7 +9,7 @@ type Properties = {
   visibility: Sprinkles['visibility']
   top: string
   bottom: string
-  opacity: string
+  opacity: '0' | '1'
 }
 
 type Property = keyof Properties

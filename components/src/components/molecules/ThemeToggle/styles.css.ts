@@ -1,4 +1,4 @@
-import { globalStyle, style } from '@vanilla-extract/css'
+import { createVar, globalStyle, style } from '@vanilla-extract/css'
 
 import { modeVars } from '@/src/css/theme.css'
 import { recipe } from '@vanilla-extract/recipes'
@@ -10,7 +10,18 @@ export const labelFiat = style({})
 
 export const checkbox = style({})
 
-export const slider = style({})
+export const labelTransform = createVar()
+
+export const label = style({
+  transition: 'color 0.1s linear',
+  translate: '-50% -50%',
+  transform: labelTransform,
+})
+
+export const slider = style({
+  transition: 'transform 0.3s ease-in-out, background-color 0.1s ease-in-out',
+  translate: '-50% -50%',
+})
 
 globalStyle(`${checkbox}:not(:checked) ~ ${slider}`, {
   transform: 'translateX(-50%)',

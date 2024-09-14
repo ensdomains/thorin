@@ -20,7 +20,7 @@ const checkBoxValues: { [key in Size]: Properties } = {
     borderRadius: '$large',
   },
   medium: {
-    width: '$32',
+    width: '32',
     height: '12',
     borderRadius: '$large',
   },

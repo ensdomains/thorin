@@ -225,8 +225,8 @@ const ActionButton = ({
       <Box
         as={Icon}
         display="block"
-        fill="CurrentColor"
-        stroke="CurrentColor"
+        fill="currentColor"
+        stroke="currentColor"
         transition="all 150ms ease-in-out"
         wh={getValueForSize($size, 'icon')}
       />
