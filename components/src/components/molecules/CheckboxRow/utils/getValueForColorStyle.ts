@@ -20,18 +20,18 @@ type Property = keyof Properties
 
 const getPrimaryColor = (color: Hue, property: Property): string =>
   match(property)
-    .with('background', () => `$${color}Surface`)
-    .with('svg', () => '$textAccent')
-    .with('icon', () => `$${color}Primary`)
-    .with('iconHover', () => `$${color}Bright`)
+    .with('background', () => `${color}Surface`)
+    .with('svg', () => 'textAccent')
+    .with('icon', () => `${color}Primary`)
+    .with('iconHover', () => `${color}Bright`)
     .exhaustive()
 
 const getSecondaryColor = (color: Hue, property: Property): string =>
   match(property)
-    .with('background', () => `$${color}Surface`)
-    .with('svg', () => `$${color}Dim`)
-    .with('iconHover', () => `$${color}Light`)
-    .with('icon', () => `$${color}Light`)
+    .with('background', () => `${color}Surface`)
+    .with('svg', () => `${color}Dim`)
+    .with('iconHover', () => `${color}Light`)
+    .with('icon', () => `${color}Light`)
     .exhaustive()
 
 export const getValueForColorStyle = (

@@ -18,14 +18,14 @@ type Property = keyof Properties
 
 const getPrimaryColor = (color: Hue, property: Property): string =>
   match(property)
-    .with('background', () => `$${color}Primary`)
-    .with('content', () => '$textAccent')
+    .with('background', () => `${color}Primary`)
+    .with('content', () => 'textAccent')
     .exhaustive()
 
 const getSecondaryColor = (color: Hue, property: Property): string =>
   match(property)
-    .with(P.union('background'), () => `$${color}Surface`)
-    .with('content', () => `$${color}Primary`)
+    .with(P.union('background'), () => `${color}Surface`)
+    .with('content', () => `${color}Primary`)
     .exhaustive()
 
 export const getValueForColorStyle = (

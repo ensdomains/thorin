@@ -20,7 +20,7 @@ import { Heading } from '@ensdomains/thorin'
 By default, the semantic heading level matches the visual heading level, e.g. `<Heading level="2">` will render an `h2` element. If you need the semantics to be different from the visuals, you can provide the desired HTML tag via the `as` prop.
 
 ```tsx live=true
-<Box display="flex" flexDirection="column" gap="$4">
+<Box display="flex" flexDirection="column" gap="4">
   <Heading level="1">Level 1</Heading>
   <Heading level="2">Level 2</Heading>
   <Heading as="h3" level="2">
@@ -32,7 +32,7 @@ By default, the semantic heading level matches the visual heading level, e.g. `<
 ## Align
 
 ```tsx live=true
-<Box display="flex" flexDirection="column" gap="$4">
+<Box display="flex" flexDirection="column" gap="4">
   <Heading align="left">Left</Heading>
   <Heading align="center">Center</Heading>
   <Heading align="right">Right</Heading>
@@ -42,7 +42,7 @@ By default, the semantic heading level matches the visual heading level, e.g. `<
 ## Color
 
 ```tsx live=true
-<Box display="flex" flexDirection="column" gap="$4">
+<Box display="flex" flexDirection="column" gap="4">
   <Heading color="foreground">Foreground</Heading>
   <Heading color="text">Text</Heading>
   <Heading color="textSecondary">Text Secondary</Heading>
@@ -56,7 +56,7 @@ By default, the semantic heading level matches the visual heading level, e.g. `<
 Use the responsive flag to resize the heading based on breakpoints.
 
 ```tsx live=true
-<Box display="flex" flexDirection="column" gap="$4">
+<Box display="flex" flexDirection="column" gap="4">
   <Heading level="2" responsive>
     Foreground
   </Heading>

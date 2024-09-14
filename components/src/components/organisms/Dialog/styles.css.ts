@@ -1,6 +1,6 @@
 import { responsiveConditions, sprinkles } from '@/src/css/sprinkles.css'
 import { scale } from '@/src/css/utils/common'
-import { style } from '@vanilla-extract/css'
+import { createVar, style } from '@vanilla-extract/css'
 import { recipe } from '@vanilla-extract/recipes'
 
 export const closeButton = style({
@@ -68,3 +68,23 @@ export const styledCard = style({
     },
   },
 })
+
+export const dialogContentMargin = createVar()
+export const dialogContentWidth = createVar()
+export const dialogContentWidthSm = createVar()
+export const dialogContentMarginSm = createVar()
+export const dialogContentMaxWidthSm = createVar()
+
+export const dialogContent = style([sprinkles({
+  maxWidth: 'max',
+}), {
+  'margin': dialogContentMargin,
+  'width': dialogContentWidth,
+  '@media': {
+    [responsiveConditions.sm['@media']]: {
+      width: dialogContentWidthSm,
+      margin: dialogContentMarginSm,
+      maxWidth: dialogContentMaxWidthSm,
+    },
+  },
+}])

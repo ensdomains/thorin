@@ -22,7 +22,7 @@ import { Avatar } from '@ensdomains/thorin'
 The size of the avatar is controlled by the width of it's parent component.
 
 ```tsx live=true
-<Box display="flex" alignItems="center" flexDirection="row" flexWrap="wrap" gap="$4">
+<Box display="flex" alignItems="center" flexDirection="row" flexWrap="wrap" gap="4">
   <div style={{ width: '100px' }}>
     <Avatar label="Noun 97" src={avatars.noun97} />
   </div>
@@ -43,14 +43,14 @@ The size of the avatar is controlled by the width of it's parent component.
 The placeholder is shown if the src property is undefined or if an error occurs loading the src.
 
 ```tsx live=true
-<Box display="flex" alignItems="center" flexDirection="row" flexWrap="wrap" gap="$4">
-  <Box display="flex" alignItems="center" gap="$4"> 
+<Box display="flex" alignItems="center" flexDirection="row" flexWrap="wrap" gap="4">
+  <Box display="flex" alignItems="center" gap="4"> 
     <Typography variant="label">undefined src</Typography>
     <div style={{ width: '100px' }}>
       <Avatar />
     </div>
   </Box>
-  <Box display="flex" alignItems="center" gap="$4">  
+  <Box display="flex" alignItems="center" gap="4">  
     <Typography variant="label">broken Link</Typography>
     <div style={{ width: '100px' }}>
       <Avatar src="http://thisisa.com/brockenLink.jpg" />
@@ -62,7 +62,7 @@ The placeholder is shown if the src property is undefined or if an error occurs 
 ## Shapes
 
 ```tsx live=true
-<Box display="flex" alignItems="center" flexDirection="row" flexWrap="wrap" gap="$4">
+<Box display="flex" alignItems="center" flexDirection="row" flexWrap="wrap" gap="4">
   <div style={{ width: '100px' }}>
     <Avatar label="Noun 97 circle" shape="circle" src={avatars.noun97} />
   </div>
@@ -75,35 +75,35 @@ The placeholder is shown if the src property is undefined or if an error occurs 
 ## Overlay
 
 ```tsx live=true
-<Box display="flex" alignItems="center" flexDirection="row" flexWrap="wrap" gap="$4">
+<Box display="flex" alignItems="center" flexDirection="row" flexWrap="wrap" gap="4">
   <Avatar
     label="Noun 97"
     src={avatars.noun97}
-    wh="$10"
+    wh="10"
   />
   <Avatar
     label="Noun 97"
     checked
     src={avatars.noun97}
-    wh="$10"
+    wh="10"
   />
   <Avatar
     label="Noun 97"
     src={avatars.noun97}
     disabled
-    wh="$10"
+    wh="10"
   />
   <Avatar
     label="Noun 97"
     icon={<CrossSVG/>}
     src={avatars.noun97}
-    wh="$10"
+    wh="10"
   />
   <Avatar
     label="Noun 97"
     icon={<PersonSVG/>}
     src={avatars.noun97}
-    wh="$10"
+    wh="10"
   />
 </Box>
 ```
@@ -113,7 +113,7 @@ The placeholder is shown if the src property is undefined or if an error occurs 
 The placeholder is shown if the src property is undefined or if an error occurs loading the src.
 
 ```tsx live=true
-<Box display="flex"  alignItems="center" flexDirection="row" flexWrap="wrap" gap="$4">
+<Box display="flex"  alignItems="center" flexDirection="row" flexWrap="wrap" gap="4">
   <Typography variant="label">Placeholder</Typography>
   <div style={{ width: '100px' }}>
     <Avatar disabled />

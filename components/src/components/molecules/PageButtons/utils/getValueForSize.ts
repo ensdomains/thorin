@@ -12,18 +12,18 @@ type Property = keyof Properties
 
 const sizeMap: { [key in Size]: Properties } = {
   small: {
-    fontSize: '$small',
-    lineHeight: '$small',
+    fontSize: 'small',
+    lineHeight: 'small',
     borderRadius: '$large',
     minWidth: '$9',
     height: '$9',
   },
   medium: {
-    fontSize: '$body',
-    lineHeight: '$body',
+    fontSize: 'body',
+    lineHeight: 'body',
     borderRadius: '$extraLarge',
-    minWidth: '$10',
-    height: '$10',
+    minWidth: '10',
+    height: '10',
   },
 }
 

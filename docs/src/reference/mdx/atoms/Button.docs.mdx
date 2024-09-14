@@ -18,9 +18,9 @@ import { Button } from '@ensdomains/thorin'
 ## States
 
 ```tsx live=true expand=true
-<Box display="flex" flexDirection="row" flexWrap="wrap" gap="$4">
-  <Button loading width="$fit">Loading</Button>
-  <Button disabled width="$fit">Disabled</Button>
+<Box display="flex" flexDirection="row" flexWrap="wrap" gap="4">
+  <Button loading width="fit">Loading</Button>
+  <Button disabled width="fit">Disabled</Button>
   <Button
     disabled={getState('loading')}
     loading={getState('loading')}
@@ -28,7 +28,7 @@ import { Button } from '@ensdomains/thorin'
       toggleState('loading')
       setTimeout(() => toggleState('loading'), 1000)
     }}
-    width="$fit"
+    width="fit"
   >
     Click Me
   </Button>
@@ -38,9 +38,9 @@ import { Button } from '@ensdomains/thorin'
 ## Sizes
 
 ```tsx live=true
-<Box display="flex" alignItems="center" flexDirection="row" flexWrap="wrap" gap="$4">
-  <Button size="medium" width="$fit">Connect Wallet</Button>
-  <Button size="small" width="$fit">Connect Wallet</Button>
+<Box display="flex" alignItems="center" flexDirection="row" flexWrap="wrap" gap="4">
+  <Button size="medium" width="fit">Connect Wallet</Button>
+  <Button size="small" width="fit">Connect Wallet</Button>
 </Box>
 ```
 
@@ -49,7 +49,7 @@ import { Button } from '@ensdomains/thorin'
 ### States
 
 ```tsx live=true
-<Box display="flex" flexDirection="column" gap="$4">
+<Box display="flex" flexDirection="column" gap="4">
   <Button colorStyle="transparent">Transparent</Button>
   <Button colorStyle="background">Background</Button>
 </Box>
@@ -58,7 +58,7 @@ import { Button } from '@ensdomains/thorin'
 ### Primary
 
 ```tsx live=true
-<Box display="flex" flexDirection="column" flexWrap="wrap" gap="$4">
+<Box display="flex" flexDirection="column" flexWrap="wrap" gap="4">
   <Button colorStyle="accentPrimary">Accent</Button>
   <Button colorStyle="bluePrimary">Blue</Button>
   <Button colorStyle="indigoPrimary">Indigo</Button>
@@ -75,7 +75,7 @@ import { Button } from '@ensdomains/thorin'
 ### Secondary
 
 ```tsx live=true
-<Box display="flex" flexDirection="column" gap="$4">
+<Box display="flex" flexDirection="column" gap="4">
   <Button colorStyle="accentSecondary">Accent</Button>
   <Button colorStyle="blueSecondary">Blue</Button>
   <Button colorStyle="indigoSecondary">Indigo</Button>
@@ -94,7 +94,7 @@ import { Button } from '@ensdomains/thorin'
 The loading icon will replace either the prefix or suffix in that order. If no prefix or suffix is set it will inject itself into the prefix
 
 ```tsx live=true
-<Box display="flex" flexDirection="column" gap="$4">
+<Box display="flex" flexDirection="column" gap="4">
   <Button loading={getState('loading')} prefix={<PlusSVG />}>
     With Prefix
   </Button>
@@ -109,7 +109,7 @@ The loading icon will replace either the prefix or suffix in that order. If no p
 ## Count
 
 ```tsx live=true
-<Box gap="$4" display="flex" flexDirection="column">
+<Box gap="4" display="flex" flexDirection="column">
   <Button center count={3} prefix={<PlusSVG />}>
     Add Entry
   </Button>
@@ -125,14 +125,14 @@ The loading icon will replace either the prefix or suffix in that order. If no p
 ## Shapes
 
 ```tsx live=true
-<Box display="flex" flexDirection="row" flexWrap="wrap" gap="$4">
+<Box display="flex" flexDirection="row" flexWrap="wrap" gap="4">
   <Button loading={getState('loading')} shape="square">
     Square
   </Button>
   <Button loading={getState('loading')} shape="circle">
     Circle
   </Button>
-  <Button loading={getState('loading')} shape="rounded" width="$fit">
+  <Button loading={getState('loading')} shape="rounded" width="fit">
     Rounded
   </Button>
   <Button onClick={() => toggleState('loading')}>Toggle Loading</Button>
@@ -142,12 +142,12 @@ The loading icon will replace either the prefix or suffix in that order. If no p
 ## Link
 
 ```tsx live=true
-<Box display="flex" flexDirection="row" flexWrap="wrap" gap="$4" gap="$4">
-  <Button as="a" href="https://ens.domains" rel="noreferrer" target="_blank" width="$fit">
+<Box display="flex" flexDirection="row" flexWrap="wrap" gap="4" gap="4">
+  <Button as="a" href="https://ens.domains" rel="noreferrer" target="_blank" width="fit">
     Visit ENS
   </Button>
   <NextLink href="/" passHref>
-    <Button as="a" width="$fit">Go to Home</Button>
+    <Button as="a" width="fit">Go to Home</Button>
   </NextLink>
 </Box>
 ```

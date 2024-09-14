@@ -7,6 +7,9 @@ import type { Space } from '@/src/tokens'
 import { space } from '@/src/tokens/space'
 import type { BoxProps } from '../../atoms'
 import { ScrollBox, Box } from '../../atoms'
+import * as styles from './styles.css'
+import clsx from 'clsx'
+import { assignInlineVars } from '@vanilla-extract/dynamic'
 
 type NativeFromProps = React.FormHTMLAttributes<HTMLFormElement>
 
@@ -37,7 +40,7 @@ type DialogContentProps = BaseProps & (WithForm | WithoutForm)
 const Container = forwardRef<
   HTMLElement,
   BoxProps & { $fullWidth?: boolean, $horizontalPadding: Space }
->(({ $horizontalPadding, $fullWidth, ...props }, ref) => (
+>(({ $horizontalPadding, $fullWidth, className, style, ...props }, ref) => (
   <Box
     ref={ref}
     {...props}
@@ -47,28 +50,27 @@ const Container = forwardRef<
     flexDirection="column"
     gap="4"
     justifyContent="flex-start"
-    margin={{
-      base: $fullWidth
-        ? `margin: 0 -${space['4']};`
-        : `0 -${space[$horizontalPadding]}`,
-      sm: $fullWidth
-        ? `margin: 0 -${space['6']}`
-        : `0 -${space[$horizontalPadding]}`,
+    className={clsx(styles.dialogContent, className)}
+    style={{
+      ...assignInlineVars({
+        [styles.dialogContentMargin]: $fullWidth
+          ? `margin: 0 -${space['4']};`
+          : `0 -${space[$horizontalPadding]}`,
+        [styles.dialogContentMarginSm]: $fullWidth
+          ? `margin: 0 -${space['6']}`
+          : `0 -${space[$horizontalPadding]}`,
+        [styles.dialogContentWidthSm]: $fullWidth
+          ? '80vw'
+          : `calc(80vw - 2 * ${space['6']} + 2 * ${space[$horizontalPadding]})`,
+        [styles.dialogContentWidth]: $fullWidth
+          ? `width: calc(100% + 2 * ${space['4']});`
+          : `width: calc(100% + 2 * ${space[$horizontalPadding]})`,
+        [styles.dialogContentMaxWidthSm]: `calc(${space['128']} + 2 * ${space[$horizontalPadding]})`,
+      }),
+      ...style,
     }}
     maxHeight="60vh"
-    maxWidth={{
-      base: 'viewWidth',
-      sm: `calc(${space['128']} + 2 * ${space[$horizontalPadding]})`,
-    }}
     overflow="hidden"
-    width={{
-      sm: $fullWidth
-        ? '80vw'
-        : `calc(80vw - 2 * ${space['6']} + 2 * ${space[$horizontalPadding]})`,
-      base: $fullWidth
-        ? `width: calc(100% + 2 * ${space['4']});`
-        : `calc(100% + 2 * ${space[$horizontalPadding]})`,
-    }}
   />
 ))
 const ScrollBoxContent = ({

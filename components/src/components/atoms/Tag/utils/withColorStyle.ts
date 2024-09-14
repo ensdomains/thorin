@@ -19,16 +19,16 @@ type Property = keyof Properties
 
 const getPrimaryColor = (color: Hue, property: Property): string =>
   match(property)
-    .with('background', () => `$${color}Primary`)
-    .with('content', () => '$textAccent')
-    .with('hover', () => `$${color}Bright`)
+    .with('background', () => `${color}Primary`)
+    .with('content', () => 'textAccent')
+    .with('hover', () => `${color}Bright`)
     .exhaustive()
 
 const getSecondaryColor = (color: Hue, property: Property): string =>
   match(property)
-    .with('background', () => `$${color}Surface`)
-    .with('content', () => `$${color}Primary`)
-    .with('hover', () => `$${color}Light`)
+    .with('background', () => `${color}Surface`)
+    .with('content', () => `${color}Primary`)
+    .with('hover', () => `${color}Light`)
     .exhaustive()
 
 export const getValueForColorStyle = (

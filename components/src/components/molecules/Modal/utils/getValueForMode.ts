@@ -1,9 +1,11 @@
+import type { Space } from '@/src/tokens'
+
 type Mode = 'mobileTop' | 'mobileBottom' | 'desktop'
 
 type Properties = {
-  width: string
-  top: string
-  left: string
+  width: Space
+  top: Space
+  left: Space
   translate: string
   transform: string
   bottom: string
@@ -15,23 +17,23 @@ const modeMap: { [key in Mode]: Properties } = {
   mobileBottom: {
     width: 'full',
     top: 'unset',
-    left: '$0',
+    left: '0',
     translate: 'unset',
     transform: 'translateY(128px)',
-    bottom: '$0',
+    bottom: '0',
   },
   mobileTop: {
     width: 'full',
-    top: '$0',
-    left: '$0',
+    top: '0',
+    left: '0',
     transform: 'translateY(-128px)',
     translate: 'unset',
     bottom: 'uset',
   },
   desktop: {
-    width: 'min-content',
-    top: '50%',
-    left: '50%',
+    width: 'min',
+    top: '1/2',
+    left: '1/2',
     transform: 'translateY(128px)',
     translate: '-50% -50%',
     bottom: 'unset',

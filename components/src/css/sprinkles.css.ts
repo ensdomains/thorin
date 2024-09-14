@@ -105,7 +105,7 @@ const responsivePropeties = defineProperties({
 })
 
 const staticProperties = defineProperties({
-  conditions: { base: {}, disabled: { selector: '&:disabled' } },
+  conditions: { base: {}, disabled: { selector: '&:disabled' }, readonly: { selector: '&:read-only' } },
   defaultCondition: 'base',
   properties: {
     textAlign: ['center', 'left', 'right', 'justify', 'initial', 'inherit'],

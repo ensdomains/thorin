@@ -7,7 +7,7 @@ export type WithColor = { color: Color }
 
 export const getValidatedColor = (
   color?: Color,
-  fallback = '$textPrimary',
+  fallback = 'textPrimary',
 ): string => {
   if (!color) return fallback
   const matches = color.match('^(.*?)(Primary|Secondary)?$')

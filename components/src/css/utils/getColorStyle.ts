@@ -105,4 +105,4 @@ type ColorStyleProperty = 'text' | 'background' | 'border' | 'hover'
 export const getColorStyle = (
   colorStyle: ColorStyle,
   property: ColorStyleProperty,
-) => colorStyleMap[colorStyle]?.[property] || '$redPrimary'
+) => colorStyleMap[colorStyle]?.[property] || 'redPrimary'

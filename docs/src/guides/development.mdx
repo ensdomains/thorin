@@ -82,18 +82,6 @@ const Component = () => <div />
 Component.displayName = 'Component'
 ```
 
-### Styled Components
-
-When using styled components **prefix property names with $** to avoid passing component props directly to styled components.
-
-```tsx
-const Container = styled.div<{
-  $property: string
-}>`
-  ${({ $property }) => ``}
-`
-```
-
 ### Snippets
 
 Playroom uses [react-element-to-jsx-string](https://www.npmjs.com/package/react-element-to-jsx-string) to convert a react component into a string which can be used by playroom. In certain situations it is not able to accurately convert the element, such as if the components' children includes a function.

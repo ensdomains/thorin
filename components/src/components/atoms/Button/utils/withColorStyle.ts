@@ -25,40 +25,40 @@ type Property = keyof Properties
 
 const getPrimaryColor = (color: Hue, property: Property): string =>
   match(property)
-    .with(P.union('background', 'border'), () => `$${color}Primary`)
-    .with('content', () => '$textAccent')
-    .with('hover', () => `$${color}Bright`)
+    .with(P.union('background', 'border'), () => `${color}Primary`)
+    .with('content', () => 'textAccent')
+    .with('hover', () => `${color}Bright`)
     .exhaustive()
 
 const getSecondaryColor = (color: Hue, property: Property): string =>
   match(property)
-    .with(P.union('background', 'border'), () => `$${color}Surface`)
-    .with('content', () => `$${color}Dim`)
-    .with('hover', () => `$${color}Light`)
+    .with(P.union('background', 'border'), () => `${color}Surface`)
+    .with('content', () => `${color}Dim`)
+    .with('hover', () => `${color}Light`)
     .exhaustive()
 
 const getBackgroundColor = (property: Property): string =>
   match(property)
-    .with('background', () => '$backgroundPrimary')
-    .with('content', () => '$textSecondary')
-    .with('border', () => '$border')
-    .with('hover', () => '$greySurface')
+    .with('background', () => 'backgroundPrimary')
+    .with('content', () => 'textSecondary')
+    .with('border', () => 'border')
+    .with('hover', () => 'greySurface')
     .exhaustive()
 
 const getDisabledColor = (property: Property): string =>
   match(property)
-    .with('background', () => '$greyLight')
-    .with('content', () => '$textDisabled')
-    .with('border', () => '$greyLight')
-    .with('hover', () => '$greyLight')
+    .with('background', () => 'greyLight')
+    .with('content', () => 'textDisabled')
+    .with('border', () => 'greyLight')
+    .with('hover', () => 'greyLight')
     .exhaustive()
 
 const getTransparentColor = (property: Property): string =>
   match(property)
     .with('background', () => 'transparent')
-    .with('content', () => '$textPrimary')
+    .with('content', () => 'textPrimary')
     .with('border', () => 'transparent')
-    .with('hover', () => '$greyLight')
+    .with('hover', () => 'greyLight')
     .exhaustive()
 
 export const getValueForColourStyle = (

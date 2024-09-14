@@ -12,25 +12,25 @@ type Property = keyof Properties
 
 const sizeMap: { [key in Size]: Properties } = {
   small: {
-    fontSize: '$small',
-    lineHeight: '$small',
-    height: '$10',
-    px: '$3.5',
+    fontSize: 'small',
+    lineHeight: 'small',
+    height: '10',
+    px: '3.5',
     svgSize: '$3',
   },
   medium: {
-    fontSize: '$body',
-    lineHeight: '$body',
-    height: '$12',
-    px: '$4',
-    svgSize: '$4',
+    fontSize: 'body',
+    lineHeight: 'body',
+    height: '12',
+    px: '4',
+    svgSize: '4',
   },
   flexible: {
-    fontSize: '$body',
-    lineHeight: '$body',
+    fontSize: 'body',
+    lineHeight: 'body',
     height: 'initial',
-    px: '$4',
-    svgSize: '$4',
+    px: '4',
+    svgSize: '4',
   },
 }
 
