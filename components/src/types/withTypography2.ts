@@ -1,7 +1,8 @@
 import type {
   FontSize,
   FontWeight,
-  fontWeights } from '../tokens/typography'
+  fontWeights,
+  LineHeight } from '../tokens/typography'
 import {
   fontSizes,
 } from '../tokens/typography'
@@ -37,9 +38,9 @@ const fontOverides: {
 }
 
 type FontDetail = {
-  size: `$${FontSize}`
-  lineHeight: `$${FontSize}`
-  weight: `$${FontWeight}`
+  size: FontSize
+  lineHeight: LineHeight
+  weight: FontWeight
 }
 
 const boldFontSizes = [
@@ -52,14 +53,14 @@ const boldFontSizes = [
 
 const legacy = {
   label: {
-    size: '$extraSmall',
-    lineHeight: '$extraSmall',
-    weight: '$normal',
+    size: 'extraSmall',
+    lineHeight: 'extraSmall',
+    weight: 'normal',
   },
   labelHeading: {
-    size: '$small',
-    lineHeight: '$small',
-    weight: '$normal',
+    size: 'small',
+    lineHeight: 'small',
+    weight: 'normal',
   },
 } as { [key in Legacy]: FontDetail }
 
@@ -70,9 +71,9 @@ const makeFonts = () => {
       return [
         font,
         {
-          size: `$${font}`,
-          lineHeight: `$${font}`,
-          weight: `$${fontWeight}`,
+          size: font,
+          lineHeight: font,
+          weight: fontWeight,
         },
       ]
     }),
@@ -84,9 +85,9 @@ const makeBoldFonts = () => {
     boldFontSizes.map(font => [
       `${font}Bold`,
       {
-        size: `$${font}`,
-        lineHeight: `$${font}`,
-        weight: '$bold',
+        size: font,
+        lineHeight: font,
+        weight: 'bold',
       },
     ]),
   ) as {

@@ -2,14 +2,14 @@ type Property = 'fontSize' | 'fontWeight' | 'lineHeight'
 
 const levelMap = {
   1: {
-    fontSize: { xs: '$headingTwo', lg: '$headingOne' },
-    fontWeight: { xs: '$extraBold', lg: '$extraBold' },
-    lineHeight: { xs: '$headingTwo', lg: '$headingOne' },
+    fontSize: { xs: 'headingTwo', lg: 'headingOne' },
+    fontWeight: { xs: 'extraBold', lg: 'extraBold' },
+    lineHeight: { xs: 'headingTwo', lg: 'headingOne' },
   },
   2: {
-    fontSize: { xs: '$extraLarge', sm: '$headingTwo' },
-    fontWeight: { xs: '$bold', sm: '$bold' },
-    lineHeight: { xs: '$extraLarge', sm: '$headingTwo' },
+    fontSize: { xs: 'extraLarge', sm: 'headingTwo' },
+    fontWeight: { xs: 'bold', sm: 'bold' },
+    lineHeight: { xs: 'extraLarge', sm: 'headingTwo' },
   },
 }
 

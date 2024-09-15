@@ -67,25 +67,25 @@ const makeColorStyleMap = () => {
     [key in `${GradientColor}Gradient`]: any
   }
 
-  const transparent: any = {
+  const transparent = {
     text: 'initial',
     background: 'transparent',
     border: 'transparent',
-    hover: '$greyLight',
+    hover: 'greyLight',
   } as const
 
-  const disabled: any = {
-    text: '$greyPrimary',
-    background: '$greyLight',
-    border: '$greyLight',
-    hover: '$greyLight',
+  const disabled = {
+    text: 'greyPrimary',
+    background: 'greyLight',
+    border: 'greyLight',
+    hover: 'greyLight',
   } as const
 
-  const background: any = {
-    text: '$textPrimary',
-    background: '$backgroundPrimary',
-    border: '$border',
-    hover: '$backgroundSecondary',
+  const background = {
+    text: 'textPrimary',
+    background: 'backgroundPrimary',
+    border: 'border',
+    hover: 'backgroundSecondary',
   } as const
 
   return {

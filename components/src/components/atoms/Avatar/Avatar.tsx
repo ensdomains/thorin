@@ -45,10 +45,10 @@ const Placeholder = ({
     background={$url || 'blueGradient'}
     display="flex"
     filter={$disabled ? 'grayscale(1)' : 'unset'}
-    height="100%"
+    height="full"
     justifyContent="center"
     position="absolute"
-    width="100%"
+    width="full"
     {...props}
   />
 )
@@ -122,9 +122,9 @@ export const Avatar: React.FC<AvatarProps> = ({
   } = sprinkles({
     display: isImageVisible ? 'block' : 'none',
     position: 'absolute',
-    height: '100%',
+    height: 'full',
     objectFit: 'cover',
-    width: '100%',
+    width: 'full',
     filter: disabled ? 'grayscale(1)' : undefined,
     ...props,
   })

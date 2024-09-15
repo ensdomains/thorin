@@ -1,11 +1,11 @@
 import { recipe } from '@vanilla-extract/recipes'
 
-import { modeVars } from '../theme.css'
+import { commonVars, modeVars } from '../theme.css'
 
 export const statusBorder = recipe({
   base: {
     borderColor: modeVars.color.border,
-    borderWidth: '$1x',
+    borderWidth: commonVars.borderWidths['1x'],
     borderStyle: 'solid',
     selectors: {
       '&:not(:disabled):focus-within': {
