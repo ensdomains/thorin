@@ -4,13 +4,13 @@ import type { WithColor } from '@/src/interfaces/withColor'
 
 import type { BoxProps } from '../Box/Box'
 import { Box } from '../Box/Box'
-import { getValueForLevel } from './utils/getValueForLevel'
+import clsx from 'clsx'
+import * as styles from './Heading.css'
 
 interface HeadingContainerProps {
   textAlign?: React.CSSProperties['textAlign']
   textTransform: React.CSSProperties['textTransform']
   $level: '1' | '2'
-  $responsive?: boolean
   $color: NonNullable<WithColor['color']>
 }
 
@@ -19,20 +19,17 @@ const ContainerBox = React.forwardRef<
   BoxProps & HeadingContainerProps
 >(
   (
-    { textAlign, textTransform, $level, $responsive, $color, ...props },
+    { textAlign, textTransform, $level, $color, className, ...props },
     ref,
   ) => (
     <Box
       color={$color}
       fontFamily="sans"
-      // TODO: Implement responsive
-      // fontSize={getValueForLevel($level, 'fontSize', $responsive)}
-      // fontWeight={getValueForLevel($level, 'fontWeight', $responsive)}
-      // lineHeight={getValueForLevel($level, 'lineHeight', $responsive)}
       ref={ref}
       textAlign={textAlign}
       textTransform={textTransform}
       {...props}
+      className={clsx(styles.heading({ level: $level }), className)}
     />
   ),
 )
@@ -49,8 +46,6 @@ export type HeadingProps = {
   id?: NativeDivAttributes['id']
   /** CSS property of text-transform */
   transform?: React.CSSProperties['textTransform']
-  /**  */
-  responsive?: boolean
   level?: '1' | '2'
 } & WithColor &
 Omit<NativeDivAttributes, 'color'>
@@ -63,7 +58,6 @@ export const Heading = React.forwardRef<HTMLDivElement, HeadingProps>(
       as = 'h1',
       id,
       level = '2',
-      responsive,
       transform,
       color = 'text',
       ...props
@@ -74,7 +68,6 @@ export const Heading = React.forwardRef<HTMLDivElement, HeadingProps>(
       {...props}
       $color={color}
       $level={level}
-      $responsive={responsive}
       textAlign={align}
       textTransform={transform}
       as={as}
