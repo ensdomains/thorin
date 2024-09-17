@@ -28,6 +28,6 @@ const checkBoxValues: { [key in Size]: Properties } = {
   },
 }
 
-export const getValueForCheckbox = <T extends Property>(size: Size, property: Property): Properties[T] => {
+export const getValueForCheckbox = <T extends Property>(size: Size, property: T): Properties[T] => {
   return (checkBoxValues[size][property] || checkBoxValues.extraSmall[property]) as Properties[T]
 }

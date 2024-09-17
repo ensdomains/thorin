@@ -8,8 +8,6 @@ import { AlertSVG, CrossSVG, EthSVG, UpRightArrowSVG } from '../../../index'
 import type { BoxProps } from '../Box/Box'
 import { Box } from '../Box/Box'
 
-type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
-
 type IconTypes = 'filledCircle' | 'normal' | 'none'
 
 type BaseProps = {
@@ -20,7 +18,7 @@ type BaseProps = {
   actionIcon?: React.ReactNode
   icon?: React.ReactNode
   iconType?: IconTypes
-} & NativeDivProps
+} & BoxProps
 
 type WithIcon = {
   icon?: React.ReactNode
@@ -223,7 +221,7 @@ export const Banner = React.forwardRef<
         {...props}
         $alert={alert}
         $hasAction={hasAction}
-        as={asProp as any}
+        as={asProp}
         ref={ref}
       >
         <IconBox $alert={alert}>

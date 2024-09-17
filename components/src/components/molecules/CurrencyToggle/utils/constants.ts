@@ -1,3 +1,4 @@
+import type { Space } from '@/src/tokens'
 import type { Size } from '../CurrencyToggle'
 
 export const CONTAINER_SIZES: {
@@ -22,9 +23,9 @@ export const CONTAINER_SIZES: {
 
 export const KNOB_SIZES: {
   [key in Size]: {
-    width: string
-    height: string
-    translateX: string
+    width: Space
+    height: Space
+    translateX: Space
   }
 } = {
   extraSmall: {
@@ -42,4 +43,4 @@ export const KNOB_SIZES: {
     height: '10',
     translateX: '7.5',
   },
-}
+} as const

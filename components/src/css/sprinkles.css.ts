@@ -7,6 +7,7 @@ const colorPropertiesObject = { ...modeVars.color, inherit: 'inherit', initial: 
 const colorProperties = defineProperties({
   conditions: {
     base: {},
+    sm: { '@media': 'screen and (min-width: 640px)' }, // for tooltip
     hover: { selector: '&:hover' },
     active: { selector: '&:active' },
     readonly: { selector: '&:read-only' },
@@ -21,6 +22,10 @@ const colorProperties = defineProperties({
     background: colorPropertiesObject,
     backgroundColor: colorPropertiesObject,
     borderColor: colorPropertiesObject,
+    borderBottomColor: colorPropertiesObject,
+    borderTopColor: colorPropertiesObject,
+    borderLeftColor: colorPropertiesObject,
+    borderRightColor: colorPropertiesObject,
     opacity: [0, 1, 0.5, 0.7, 0.9, 0.95, 1, 'inherit', 'initial'],
   },
   shorthands: {
@@ -45,9 +50,10 @@ const responsivePropeties = defineProperties({
     alignItems: ['flex-start', 'flex-end', 'center', 'stretch', 'normal', 'baseline', 'inherit'],
     justifySelf: ['flex-start', 'flex-end', 'center', 'stretch', 'baseline', 'inherit'],
     justifyContent: ['flex-start', 'flex-end', 'center', 'stretch', 'baseline', 'inherit'],
+    placeContent: ['center', 'flex-start', 'flex-end', 'space-between', 'space-around', 'space-evenly', 'stretch', 'inherit'],
     display: ['none', 'block', 'flex', 'inline-block', 'grid', 'table', 'inherit', 'initial', 'inline'],
     flexDirection: ['row', 'row-reverse', 'column', 'column-reverse', 'inherit'],
-    flex: [1, '0 0 1px', 'auto', 'initial', 'none', 'inherit'],
+    flex: [0, 1, '0 0 1px', 'auto', 'initial', 'none', 'inherit'],
     flexShrink: [0, 1, 2, 'inherit'],
     flexGrow: [0, 2, 'initial', 'unset', 'inherit'],
     flexBasis: commonVars.space,

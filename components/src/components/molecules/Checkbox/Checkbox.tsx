@@ -86,7 +86,9 @@ const InputBox = React.forwardRef<HTMLElement, BoxProps & { $colorStyle: ColorSt
         placeContent="center"
         position="relative"
         ref={ref}
-        transition="background-color 150ms ease-in-out"
+        transitionProperty="background-color"
+        transitionDuration={150}
+        transitionTimingFunction="ease-in-out"
         type="checkbox"
         wh="full"
         {...props}
@@ -95,13 +97,12 @@ const InputBox = React.forwardRef<HTMLElement, BoxProps & { $colorStyle: ColorSt
         backgroundColor={getValueForColorStyle($colorStyle, 'content')}
         className={styles.icon}
         left="0"
-        maskImage={`url('data:image/svg+xml; utf8, <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 12.625L10.125 20.125L22 3.875" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" /></svg>')`}
-        maskPosition="center"
-        maskRepeat="no-repeat"
         pointerEvents="none"
         position="absolute"
         top="0"
-        transition="background-color 150ms ease-in-out"
+        transitionProperty="background-color"
+        transitionDuration={150}
+        transitionTimingFunction="ease-in-out"
         wh="full"
       />
     </Box>

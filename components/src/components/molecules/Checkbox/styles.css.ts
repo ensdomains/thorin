@@ -5,7 +5,11 @@ import { translateY } from '@/src/css/utils/common'
 
 export const checkbox = style({})
 
-export const icon = style({})
+export const icon = style({
+  maskImage: `url('data:image/svg+xml; utf8, <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 12.625L10.125 20.125L22 3.875" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" /></svg>')`,
+  maskPosition: 'center',
+  maskRepeat: 'no-repeat',
+})
 
 globalStyle(`${checkbox}:disabled:checked ~ ${icon}`, {
   backgroundColor: `${modeVars.color.greyPrimary} !important`,

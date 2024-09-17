@@ -2,6 +2,7 @@ export const negativeSpace = {
   '-0.5': '-0.125rem',
   '-1.5': '-0.375rem',
   '-4': '-1rem',
+  '-4.5': '-1.125rem',
   '-6': '-1.5rem',
   '-px': '-1px',
 }
@@ -43,6 +44,7 @@ export const space = {
   '20': '5rem',
   '22.5': '5.625rem',
   '24': '6rem',
+  '25': '6.25rem', // 10px
   '26': '6.5rem',
   '28': '7rem',
   '30': '7.5rem',
@@ -87,4 +89,5 @@ export const space = {
   'dialogDesktopWidth': 'calc(100% + 2 * 1.5rem)',
   'unset': 'unset',
   'initial': 'initial',
+  'center': '0 auto',
 }

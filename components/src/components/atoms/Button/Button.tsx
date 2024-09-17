@@ -240,8 +240,8 @@ const TooltipIndicatorBox = (props: BoxProps) => (
     display="flex"
     justifyContent="center"
     position="absolute"
-    right="-10px"
-    top="-10px"
+    right="-4.5"
+    top="-4.5"
     wh="6"
     {...props}
   />

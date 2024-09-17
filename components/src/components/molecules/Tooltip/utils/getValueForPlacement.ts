@@ -1,75 +1,67 @@
 import type { DynamicPopoverSide } from '@/src/components/atoms/DynamicPopover/DynamicPopover'
+import type { Space } from '@/src/tokens'
+import type { Color } from '@/src/tokens/color'
 
 type Properties = {
-  display: string
-  alignItems: string
-  top: string
-  left: string
-  right: string
-  bottom: string
-  margin: string
-  borderTopColorFunction: (color: string) => string
-  borderRightColorFunction: (color: string) => string
-  borderBottomColorFunction: (color: string) => string
-  borderLeftColorFunction: (color: string) => string
+  top: Space
+  left: Space
+  right: Space
+  bottom: Space
+  margin: Space
+  borderTopColorFunction: (color: Color) => Color
+  borderRightColorFunction: (color: Color) => Color
+  borderBottomColorFunction: (color: Color) => Color
+  borderLeftColorFunction: (color: Color) => Color
 }
 
 type Property = keyof Properties
 
 const propertyMap: { [key in DynamicPopoverSide]: Properties } = {
   top: {
-    display: '',
-    alignItems: '',
     top: 'unset',
     left: '0',
     right: '0',
-    bottom: '-18px',
-    margin: '0 auto',
-    borderTopColorFunction: (color: string) => color,
-    borderRightColorFunction: () => 'transparent',
-    borderBottomColorFunction: () => 'transparent',
-    borderLeftColorFunction: () => 'transparent',
+    bottom: '-4.5',
+    margin: 'center',
+    borderTopColorFunction: (color: Color) => color,
+    borderRightColorFunction: () => 'transparent' as Color,
+    borderBottomColorFunction: () => 'transparent' as Color,
+    borderLeftColorFunction: () => 'transparent' as Color,
   },
   bottom: {
-    display: '',
-    alignItems: '',
-    top: '-18px',
+    top: '-4.5',
     left: '0',
     right: '0',
     bottom: 'unset',
-    margin: '0 auto',
-    borderTopColorFunction: () => 'transparent',
-    borderRightColorFunction: () => 'transparent',
-    borderBottomColorFunction: (color: string) => color,
-    borderLeftColorFunction: () => 'transparent',
+    margin: 'center',
+    borderTopColorFunction: () => 'transparent' as Color,
+    borderRightColorFunction: () => 'transparent' as Color,
+    borderBottomColorFunction: (color: Color) => color,
+    borderLeftColorFunction: () => 'transparent' as Color,
   },
   left: {
-    display: '',
-    alignItems: '',
     top: '0',
     left: 'unset',
-    right: '-18px',
+    right: '-4.5',
     bottom: '0',
-    margin: 'auto 0',
-    borderTopColorFunction: () => 'transparent',
-    borderRightColorFunction: () => 'transparent',
-    borderBottomColorFunction: () => 'transparent',
-    borderLeftColorFunction: (color: string) => color,
+    margin: 'center',
+    borderTopColorFunction: () => 'transparent' as Color,
+    borderRightColorFunction: () => 'transparent' as Color,
+    borderBottomColorFunction: () => 'transparent' as Color,
+    borderLeftColorFunction: (color: Color) => color,
   },
   right: {
-    display: '',
-    alignItems: '',
     top: '0',
-    left: '-18px',
+    left: '-4.5',
     right: 'unset',
     bottom: '0',
-    margin: 'auto 0',
-    borderTopColorFunction: () => 'transparent',
-    borderRightColorFunction: (color: string) => color,
-    borderBottomColorFunction: () => 'transparent',
-    borderLeftColorFunction: () => 'transparent',
+    margin: 'center',
+    borderTopColorFunction: () => 'transparent' as Color,
+    borderRightColorFunction: (color: Color) => color,
+    borderBottomColorFunction: () => 'transparent' as Color,
+    borderLeftColorFunction: () => 'transparent' as Color,
   },
-}
+} as const
 
 export const getValueForPlacement = <T extends Property>(
   placement: DynamicPopoverSide,

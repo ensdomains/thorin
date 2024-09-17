@@ -1,6 +1,6 @@
 import { P, match } from 'ts-pattern'
 
-import type { Hue } from '@/src/tokens/color'
+import type { Color, Hue } from '@/src/tokens/color'
 import { validatePrimaryColor } from '@/src/tokens/color'
 
 type Shade = 'Primary' | 'Secondary'
@@ -16,22 +16,22 @@ type Properties = {
 
 type Property = keyof Properties
 
-const getPrimaryColor = (color: Hue, property: Property): string =>
+const getPrimaryColor = (color: Hue, property: Property): Color =>
   match(property)
-    .with('background', () => `${color}Primary`)
-    .with('content', () => 'textAccent')
+    .with('background', () => `${color}Primary` as const)
+    .with('content', () => 'textAccent' as const)
     .exhaustive()
 
-const getSecondaryColor = (color: Hue, property: Property): string =>
+const getSecondaryColor = (color: Hue, property: Property): Color =>
   match(property)
-    .with(P.union('background'), () => `${color}Surface`)
-    .with('content', () => `${color}Primary`)
+    .with(P.union('background'), () => `${color}Surface` as const)
+    .with('content', () => `${color}Primary` as const)
     .exhaustive()
 
 export const getValueForColorStyle = (
   colorStyle: ColorStyle,
   property: Property,
-): string => {
+): Color => {
   const matches = colorStyle.match('^(.*?)(Primary|Secondary)?$')
   const color = matches?.[1] || 'accent'
   const style = matches?.[2]
