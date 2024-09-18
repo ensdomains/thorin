@@ -14,7 +14,6 @@ import {
 } from './utils/withColorStyle'
 
 import type { Color } from './utils/getValidatedColor'
-import { getValidatedColor } from './utils/getValidatedColor'
 
 import { getValueForSize } from './utils/getValueForSize'
 
@@ -22,6 +21,9 @@ import type { ReactNodeNoStrings } from '../../../types'
 import { Spinner } from '../Spinner/Spinner'
 import type { BoxProps } from '../Box/Box'
 import { Box } from '../Box/Box'
+import * as styles from './Button.css'
+import clsx from 'clsx'
+import { assignInlineVars } from '@vanilla-extract/dynamic'
 
 export type Size = 'small' | 'medium' | 'flexible'
 
@@ -125,10 +127,7 @@ const ButtonBox = React.forwardRef<
       borderWidth="1x"
       boxShadow={$shadow ? '0.25 grey' : 'none'}
       color={{
-        base: getValidatedColor(
-          $color,
-          getValueForColourStyle($colorStyle, 'content'),
-        ),
+        base: $color || getValueForColourStyle($colorStyle, 'content'),
         disabled: getValueForColourStyle('disabled', 'content'),
       }}
       cursor={{ base: 'pointer', disabled: 'not-allowed' }}
@@ -202,6 +201,8 @@ const CounterBox = (props: BoxProps) => (
 const CounterIconBox = ({
   $visible,
   $colorStyle,
+  className,
+  style,
   ...props
 }: BoxProps & {
   $visible: boolean
@@ -223,11 +224,14 @@ const CounterIconBox = ({
     opacity={$visible ? 1 : 0}
     pointerEvents="none"
     px="1"
-    transform={$visible ? scale(1) : scale(0.3)}
     transitionDuration={300}
     transitionProperty="all"
     transitionTimingFunction="inOut"
     {...props}
+    className={clsx(styles.counterIconBox, className)}
+    style={{ ...style, ...assignInlineVars({
+      [styles.counterIconBoxTransform]: $visible ? scale(1) : scale(0.3),
+    }) }}
   />
 )
 
