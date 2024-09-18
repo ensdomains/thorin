@@ -34,7 +34,7 @@ const sizeMap = {
 
 export const getValueForSize = <T extends Property>(
   size: NonNullable<Size>,
-  property: Property,
+  property: T,
 ): Properties[T] => {
   return (sizeMap[size]?.[property] || sizeMap.medium[property]) as Properties[T]
 }

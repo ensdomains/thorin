@@ -140,6 +140,8 @@ const staticProperties = defineProperties({
     wordBreak: ['break-all', 'normal', 'inherit'],
     borderStyle: ['solid', 'none', 'inherit'],
     touchAction: ['auto', 'none', 'inherit', 'unset'],
+    outline: ['none', 'initial', 'inherit'],
+    resize: ['none', 'initial', 'inherit'],
   },
   shorthands: {
     typeSize: ['fontSize', 'lineHeight'],

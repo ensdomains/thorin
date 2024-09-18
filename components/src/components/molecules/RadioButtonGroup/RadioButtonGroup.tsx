@@ -22,8 +22,8 @@ const Container = React.forwardRef<
   />
 ))
 
-type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 type NativeInputProps = React.InputHTMLAttributes<HTMLInputElement>
+
 export type RadioButtonGroupProps = {
   /** Display the radio buttons in a row */
   inline?: boolean
@@ -37,7 +37,7 @@ export type RadioButtonGroupProps = {
   onChange?: NativeInputProps['onChange']
   /** The handler for the blur event. */
   onBlur?: NativeInputProps['onBlur']
-} & Omit<NativeDivProps, 'onFocus' | 'onChange' | 'onBlur'>
+} & BoxProps
 
 export const RadioButtonGroup = React.forwardRef<HTMLDivElement, RadioButtonGroupProps>(
   (
@@ -102,7 +102,7 @@ export const RadioButtonGroup = React.forwardRef<HTMLDivElement, RadioButtonGrou
         role="radiogroup"
         onFocus={handleFocus}
       >
-        {React.Children.map(children, (child: any) => {
+        {React.Children.map(children as React.ReactElement<typeof RadioButton>[], (child) => {
           if (child.props.checked && !didSetDefault) {
             setDidSetDefault(true)
             if (value !== child.props.value) {

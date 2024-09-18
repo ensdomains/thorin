@@ -58,7 +58,7 @@ type TextAreaProps = {
   $hasAction?: boolean
   $alwaysShowAction?: boolean
 }
-const TextArea = React.forwardRef<HTMLElement, BoxProps & TextAreaProps>(
+const TextArea = React.forwardRef<HTMLTextAreaElement, BoxProps & TextAreaProps>(
   (
     {
       $size = 'medium',
@@ -107,7 +107,9 @@ const TextArea = React.forwardRef<HTMLElement, BoxProps & TextAreaProps>(
       readOnly={readOnly}
       ref={ref}
       resize="none"
-      transition="all 0.3s ease-in-out"
+      transitionProperty="all"
+      transitionDuration={300}
+      transitionTimingFunction="ease-in-out"
       width="full"
     />
   ),
@@ -138,7 +140,9 @@ const ActionButton = ({
     >
       <Box
         as={icon}
-        transition="all 0.1s ease-in-out"
+        transitionProperty="all"
+        transitionDuration={100}
+        transitionTimingFunction="ease-in-out"
         wh={getValueForSize($size, 'iconSize')}
       />
     </Box>
