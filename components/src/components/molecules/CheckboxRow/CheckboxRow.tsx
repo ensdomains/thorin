@@ -1,12 +1,7 @@
 import * as React from 'react'
 
 import { translateY } from '@/src/css/utils/common'
-
-import type {
-  ColorStyle } from './utils/getValueForColorStyle'
-import {
-  getValueForColorStyle,
-} from './utils/getValueForColorStyle'
+import { match, P } from 'ts-pattern'
 
 import * as styles from './styles.css'
 import { useId } from '../../../hooks/useId'
@@ -14,12 +9,16 @@ import type { BoxProps } from '../../atoms/Box/Box'
 import { Box } from '../../atoms/Box/Box'
 import { CheckSVG } from '@/src/icons'
 import { Typography } from '../../atoms'
+import type { Colors, ColorStyles, Hue } from '@/src/tokens'
+import { getColorStyleParts } from '@/src/utils/getColorStyleParts'
 
 export type CheckboxRowProps = {
   label: string
   subLabel?: string
-  colorStyle?: ColorStyle
+  colorStyle?: ColorStyles
 } & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'height' | 'width' | 'color'>
+
+type BaseTheme = 'Primary' | 'Secondary'
 
 const ContainerBox = ({ disabled, ...props }: BoxProps) => (
   <Box
@@ -46,14 +45,18 @@ const Input = React.forwardRef<HTMLElement, BoxProps>((props, ref) => (
 ))
 
 const Label = ({
-  $colorStyle = 'blueSecondary',
+  baseColor,
+  baseTheme,
   ...props
-}: BoxProps & { $colorStyle?: ColorStyle }) => (
+}: BoxProps & { baseColor?: Hue, baseTheme: BaseTheme }) => (
   <Box
     {...props}
     alignItems="center"
     as="label"
-    backgroundColor={getValueForColorStyle($colorStyle, 'background')}
+    // backgroundColor={getValueForColorStyle($colorStyle, 'background')}
+    backgroundColor={match(baseTheme)
+      .with(P.string.includes('Secondary'), () => `${baseColor}Surface` as Colors)
+      .otherwise(() => `${baseColor}Surface` as Colors)}
     borderColor="transparent"
     borderRadius="large"
     borderStyle="solid"
@@ -84,28 +87,35 @@ const SVG = (props: BoxProps) => (
 
 const Circle = ({
   $hover,
-  $colorStyle,
+  baseColor,
+  baseTheme,
   ...props
-}: BoxProps & { $hover: boolean, $colorStyle: ColorStyle }) => (
+}: BoxProps & { $hover: boolean, baseColor: Hue, baseTheme: BaseTheme }) => (
   <Box
     {...props}
     alignItems="center"
-    backgroundColor={getValueForColorStyle(
-      $colorStyle,
-      $hover ? 'iconHover' : 'icon',
-    )}
+    // backgroundColor={getValueForColorStyle(
+    //   $colorStyle,
+    //   $hover ? 'iconHover' : 'icon',
+    // )}
+    backgroundColor={match(baseTheme)
+      .with(P.string.includes('Secondary'), () => `${baseColor}Light` as Colors)
+      .otherwise(() => ($hover ? `${baseColor}Bright` : `${baseColor}Primary`) as Colors)}
     borderColor="transparent"
     borderRadius="full"
     borderStyle="solid"
     borderWidth="1x"
-    color={getValueForColorStyle($colorStyle, 'svg')}
+    // color={getValueForColorStyle($colorStyle, 'svg')}
+    color={match(baseTheme)
+      .with(P.string.includes('Secondary'), () => `${baseColor}Dim` as Colors)
+      .otherwise(() => 'textAccent')}
     display="flex"
     justifyContent="center"
     position="absolute"
     transition="all 0.3s ease-in-out"
     wh="full"
   >
-    <SVG as={<CheckSVG />} />
+    <SVG as={CheckSVG} />
   </Box>
 )
 
@@ -118,6 +128,8 @@ export const CheckboxRow = React.forwardRef<HTMLInputElement, CheckboxRowProps>(
 
     const textColor = disabled ? 'grey' : 'text'
 
+    const [baseColor, baseTheme] = getColorStyleParts(colorStyle)
+
     return (
       <ContainerBox disabled={disabled}>
         <Input
@@ -129,20 +141,23 @@ export const CheckboxRow = React.forwardRef<HTMLInputElement, CheckboxRowProps>(
           ref={inputRef}
         />
         <Label
-          $colorStyle={colorStyle}
+          baseColor={baseColor}
+          baseTheme={baseTheme}
           className={styles.label}
           htmlFor={id}
           id="permissions-label"
         >
           <CircleFrame>
             <Circle
-              $colorStyle={colorStyle}
+              baseColor={baseColor}
+              baseTheme={baseTheme}
               $hover
               className={styles.circleHover}
               id="circle-hover"
             />
             <Circle
-              $colorStyle={colorStyle}
+              baseColor={baseColor}
+              baseTheme={baseTheme}
               $hover={false}
               className={styles.circle}
               id="circle"

@@ -30,8 +30,8 @@ const ContainerBox = React.forwardRef<
   />
 ))
 
-const svg = (
-  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+const SVG = () => (
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="currentColor">
     <circle
       cx="12"
       cy="12"
@@ -68,7 +68,7 @@ export const Spinner = React.forwardRef<HTMLElement, SpinnerProps>(
           <VisuallyHidden>{accessibilityLabel}</VisuallyHidden>
         )}
         <Box
-          as={svg}
+          as={SVG}
           display="block"
           fill="currentColor"
           stroke="currentColor"

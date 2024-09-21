@@ -1,11 +1,5 @@
 import * as React from 'react'
 
-import type {
-  WithColorStyle } from './utils/getValueForColorStyle'
-import {
-  getValueForColorStyle,
-} from './utils/getValueForColorStyle'
-
 import * as styles from './styles.css'
 
 import { Field } from '../../atoms/Field/Field'
@@ -13,7 +7,9 @@ import type { FieldBaseProps } from '../../atoms/Field/Field'
 import { getTestId } from '../../../utils/utils'
 import type { BoxProps } from '../../atoms/Box/Box'
 import { Box } from '../../atoms/Box/Box'
-import type { ColorStyle } from '../CheckboxRow/utils/getValueForColorStyle'
+import { getColorStyleParts } from '@/src/utils/getColorStyleParts'
+import type { Colors, ColorStyles, Hue } from '@/src/tokens'
+import { match } from 'ts-pattern'
 
 type NativeInputProps = React.InputHTMLAttributes<HTMLInputElement>
 
@@ -46,6 +42,7 @@ export type CheckboxProps = {
   background?: 'white' | 'grey'
   /** Set the input to readonly mode */
   readOnly?: NativeInputProps['readOnly']
+  colorStyle?: ColorStyles
 } & Omit<FieldBaseProps, 'labelRight'> &
 Omit<
   NativeInputProps,
@@ -59,11 +56,13 @@ Omit<
   | 'aria-invalid'
   | 'height'
   | 'width'
-> &
-WithColorStyle
+>
 
-const InputBox = React.forwardRef<HTMLElement, BoxProps & { $colorStyle: ColorStyle }>(
-  ({ $colorStyle, disabled, checked, ...props }, ref) => (
+// TODO: Fix the SVG type
+const SVG = (props: any) => <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}><path d="M2 12.625L10.125 20.125L22 3.875" fill="none" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" /></svg>
+
+const InputBox = React.forwardRef<HTMLElement, BoxProps & { baseColor: Hue, baseTheme: 'Primary' | 'Secondary' }>(
+  ({ baseColor, baseTheme, disabled, checked, ...props }, ref) => (
     <Box
       className={styles.inputBox}
       position="relative"
@@ -74,7 +73,9 @@ const InputBox = React.forwardRef<HTMLElement, BoxProps & { $colorStyle: ColorSt
         backgroundColor={{
           base: 'border',
           disabled: 'border',
-          checked: getValueForColorStyle($colorStyle, 'background'),
+          checked: match(baseTheme)
+            .with('Secondary', () => `${baseColor}Surface` as Colors)
+            .otherwise(() => `${baseColor}Primary` as Colors),
         }}
         borderRadius="small"
         checked={checked}
@@ -94,13 +95,18 @@ const InputBox = React.forwardRef<HTMLElement, BoxProps & { $colorStyle: ColorSt
         {...props}
       />
       <Box
-        backgroundColor={getValueForColorStyle($colorStyle, 'content')}
+        as={SVG}
+        stroke={match(baseTheme)
+          .with('Secondary', () => `${baseColor}Primary` as Colors)
+          .otherwise(() => `textAccent` as Colors)}
         className={styles.icon}
-        left="0"
+        left="1"
+        width="3"
+        height="3"
         pointerEvents="none"
         position="absolute"
-        top="0"
-        transitionProperty="background-color"
+        top="1"
+        transitionProperty="stroke"
         transitionDuration={150}
         transitionTimingFunction="ease-in-out"
         wh="full"
@@ -136,6 +142,7 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
   ) => {
     const defaultRef = React.useRef<HTMLInputElement>(null)
     const inputRef = (ref as React.RefObject<HTMLInputElement>) || defaultRef
+    const [baseColor, baseTheme] = getColorStyleParts(colorStyle)
 
     return (
       <Field
@@ -151,7 +158,8 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
         width={width}
       >
         <InputBox
-          $colorStyle={colorStyle}
+          baseColor={baseColor}
+          baseTheme={baseTheme}
           aria-invalid={error ? true : undefined}
           checked={checked}
           data-testid={getTestId(props, 'checkbox')}

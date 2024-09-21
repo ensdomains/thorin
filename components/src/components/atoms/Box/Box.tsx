@@ -1,6 +1,7 @@
 import type {
   AllHTMLAttributes,
   ElementType,
+  FC,
   ReactElement } from 'react'
 import React, {
   forwardRef,
@@ -18,7 +19,7 @@ type HTMLProperties = Omit<
 >
 
 export type BoxProps = Sprinkles &
-  HTMLProperties & { as?: ElementType | ReactElement<any> }
+  HTMLProperties & { as?: string | FC }
 
 export const Box = forwardRef<HTMLElement, BoxProps >(
   (

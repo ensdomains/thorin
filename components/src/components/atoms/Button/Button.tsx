@@ -6,13 +6,6 @@ import { scale, translateY } from '@/src/css/utils/common'
 
 import { removeNullishProps } from '@/src/utils/removeNullishProps'
 
-import type {
-  ColorStyle,
-  WithColorStyle } from './utils/withColorStyle'
-import {
-  getValueForColourStyle,
-} from './utils/withColorStyle'
-
 import type { Color } from './utils/getValidatedColor'
 
 import { getValueForSize } from './utils/getValueForSize'
@@ -24,6 +17,7 @@ import { Box } from '../Box/Box'
 import * as styles from './Button.css'
 import clsx from 'clsx'
 import { assignInlineVars } from '@vanilla-extract/dynamic'
+import type { ColorStyles } from '@/src/tokens'
 
 export type Size = 'small' | 'medium' | 'flexible'
 
@@ -61,6 +55,7 @@ type BaseProps = {
   /** Show indicator that button has extra info via tooltip. */
   shouldShowTooltipIndicator?: boolean
   color?: Color
+  colorStyle?: ColorStyles
 } & Omit<BoxProps, 'size' | 'prefix'>
 
 type WithAnchor = {
@@ -84,7 +79,7 @@ type ButtonBoxProps = {
   $shape?: BaseProps['shape']
   $size?: BaseProps['size']
   $type?: BaseProps['type']
-  $colorStyle: WithColorStyle['colorStyle']
+  $colorStyle: ColorStyles
   $color?: Color
   $hasCounter?: boolean
 }
@@ -109,30 +104,28 @@ const ButtonBox = React.forwardRef<
     <Box
       alignItems="center"
       as={as ?? 'button'}
+      color={`$${$colorStyle}Text`}
       backgroundColor={{
-        base: getValueForColourStyle(
-          $colorStyle,
-          $pressed ? 'hover' : 'background',
-        ),
-        hover: getValueForColourStyle($colorStyle, 'hover'),
-        disabled: getValueForColourStyle('disabled', 'background'),
+        base: $pressed ? `${$colorStyle}Hover` : `${$colorStyle}Background`,
+        hover: `${$colorStyle}Hover`,
+        disabled: `disabledBackground`,
       }}
       borderColor={{
-        base: getValueForColourStyle($colorStyle, 'border'),
-        disabled: getValueForColourStyle('disabled', 'border'),
-        hover: getValueForColourStyle($colorStyle, 'hover'),
+        base: `${$colorStyle}Border`,
+        disabled: `disabledBorder`,
+        hover: `${$colorStyle}Hover`,
       }}
       borderRadius={['circle', 'rounded'].includes($shape) ? 'full' : 'large'}
       borderStyle="solid"
       borderWidth="1x"
-      boxShadow={$shadow ? '0.25 grey' : 'none'}
+      // boxShadow={$shadow ? '0.25 grey' : 'none'}
       color={{
-        base: $color || getValueForColourStyle($colorStyle, 'content'),
-        disabled: getValueForColourStyle('disabled', 'content'),
+        base: $color || `${$colorStyle}Text`,
+        disabled: 'disabledText',
       }}
       cursor={{ base: 'pointer', disabled: 'not-allowed' }}
       display="flex"
-      fill={getValueForColourStyle($colorStyle, 'content')}
+      fill={`${$colorStyle}Text`}
       fontSize={getValueForSize($size, 'fontSize')}
       fontWeight="bold"
       gap="2"
@@ -206,16 +199,16 @@ const CounterIconBox = ({
   ...props
 }: BoxProps & {
   $visible: boolean
-  $colorStyle: ColorStyle
+  $colorStyle: ColorStyles
 }) => (
   <Box
     alignItems="center"
-    borderColor={getValueForColourStyle($colorStyle, 'content')}
+    borderColor={`${$colorStyle}Text`}
     borderRadius="full"
     borderStyle="solid"
     borderWidth="2x"
     boxSizing="border-box"
-    color={getValueForColourStyle($colorStyle, 'content')}
+    color={`${$colorStyle}Text`}
     display="flex"
     fontSize="extraSmall"
     height="6"
@@ -251,7 +244,7 @@ const TooltipIndicatorBox = (props: BoxProps) => (
   />
 )
 
-export type ButtonProps = BaseProps & (WithoutAnchor | WithAnchor) & WithColorStyle
+export type ButtonProps = BaseProps & (WithoutAnchor | WithAnchor)
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
@@ -267,7 +260,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       suffix,
       tabIndex,
       target,
-      colorStyle = 'accent',
+      colorStyle = 'accentPrimary',
       type = 'button',
       zIndex,
       onClick,

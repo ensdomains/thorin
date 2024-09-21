@@ -11,6 +11,12 @@ import {
   lineHeights,
 } from './typography'
 import { transitionDuration, transitionTimingFunction } from './transition'
+import { colorStyles, type ColorStyleBase } from './colorStyle'
+
+const combinedColors = {
+  light: { ...colors.light, ...colorStyles.light },
+  dark: { ...colors.dark, ...colorStyles.dark },
+}
 
 export const breakpoints = {
   xs: 360,
@@ -40,7 +46,7 @@ const boxShadows = {
 export const tokens = {
   borderStyles,
   borderWidths,
-  colors,
+  colors: combinedColors,
   fonts,
   fontSizes,
   fontWeights,
@@ -92,4 +98,5 @@ export type Tokens = typeof lightTheme
 export type Breakpoints = keyof typeof breakpoints
 export type Space = keyof typeof space
 export type Colors = keyof typeof colors.light
+export type ColorStyles = ColorStyleBase
 export type Radii = keyof typeof radii
