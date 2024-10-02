@@ -12,7 +12,7 @@ import {
   useTheme,
 } from '@ensdomains/thorin'
 import { Link } from './Link'
-import type { PropsWithChildren } from 'react'
+import { type PropsWithChildren } from 'react'
 import { useRouter } from 'next/router'
 
 type Link = { name: string, route: string }
@@ -63,6 +63,7 @@ const Divider = () => (
 export const SideBar = ({ open, links }: { open: boolean, links: Links }) => {
   const router = useRouter()
   const { setMode, mode } = useTheme()
+
   return (
     <Box
       display="flex"
@@ -81,23 +82,27 @@ export const SideBar = ({ open, links }: { open: boolean, links: Links }) => {
     >
       <ScrollBox width="full" hideDividers>
         <Box padding="4" display="flex" flexDirection="column" gap="4">
-          <Field
-            label={(
-              <Box height="6.5" display="flex" alignItems="center">
-                {mode === 'light' ? 'Light Theme' : 'Dark Theme'}
-              </Box>
-            )}
-            inline
-          >
-            <ThemeToggle
-              size="extraSmall"
-              checked={mode === 'light'}
-              onChange={(e) => {
-                const newValue = e.target.checked ? 'light' : 'dark'
-                if (newValue !== mode) setMode(newValue)
-              }}
-            />
-          </Field>
+          {typeof window !== 'undefined' && (
+            <Field
+              label={(
+                <Box height="6.5" display="flex" alignItems="center">
+                  {mode === 'light' ? 'Light Theme' : 'Dark Theme'}
+                </Box>
+              )}
+              inline
+            >
+              <ThemeToggle
+                size="extraSmall"
+                checked={mode === 'light'}
+                onChange={(e) => {
+                  const newValue = e.target.checked ? 'light' : 'dark'
+                  if (newValue !== mode) {
+                    setMode(newValue)
+                  }
+                }}
+              />
+            </Field>
+          )}
           <Divider />
           <Box>
             <Heading icon={<StarSVG />}>Getting Started</Heading>
