@@ -158,7 +158,7 @@ const ActionButtonIconBox = ({
 )
 
 const ActionButtonSVGBox = (props: BoxProps) => (
-  <Box display="block" height="3" width="3" {...props} {...props} />
+  <Box display="block" height="3" width="3" {...props} />
 )
 
 const ActionButton = ({
@@ -168,7 +168,7 @@ const ActionButton = ({
   onDismiss,
 }: Pick<BannerProps, 'alert' | 'onDismiss'> & { hasHref: boolean } & WithIcon) => {
   if (onDismiss) {
-    const Icon = (icon || <CrossSVG />) as React.ReactElement
+    const Icon = (icon || CrossSVG) as React.ReactElement
     return (
       <ActionButtonBox onClick={() => onDismiss()}>
         <ActionButtonIconBox $alert={alert} $hasAction>
@@ -178,7 +178,7 @@ const ActionButton = ({
     )
   }
   if (hasHref || icon) {
-    const Icon = (icon || <UpRightArrowSVG />) as React.ReactElement
+    const Icon = (icon || UpRightArrowSVG)
     return (
       <ActionButtonBox as="div">
         <ActionButtonIconBox $alert={alert} $hasAction={false}>
@@ -207,14 +207,16 @@ export const Banner = React.forwardRef<
       = icon
       || (alert && ['error', 'warning'].includes(alert)
         ? (
-            <AlertSVG />
+            AlertSVG
           )
         : (
-            <EthSVG />
+            EthSVG
           ))
 
     const hasHref = !!props.href
     const hasAction = hasHref || !!props.onClick
+
+    console.log('as', asProp, props)
 
     return (
       <ContainerBox

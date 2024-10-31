@@ -140,13 +140,13 @@ export const CodePreview = ({
               onChange={newCode => setCode(newCode)}
             />
             <Box position="absolute" top="2" right="2">
-              {/* <CopyButton content={code} /> */}
+              <CopyButton content={code} />
             </Box>
           </LiveEditorContainer>
         )}
       </Container>
 
-      {/* <Box display="flex" justifyContent="flex-end" marginTop="2">
+      <Box display="flex" justifyContent="flex-end" marginTop="2">
         <div>
           <Button
             colorStyle="transparent"
@@ -172,7 +172,7 @@ export const CodePreview = ({
             Playroom
           </Button>
         </div>
-      </Box> */}
+      </Box>
     </LiveProvider>
   )
 }

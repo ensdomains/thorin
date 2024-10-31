@@ -66,9 +66,9 @@ const LabelBox = ({
 }) => (
   <Box
     cursor={match([$disabled, $readOnly])
-      .with([true, P._], () => 'not-allowed')
-      .with([false, true], () => 'none')
-      .with([false, false], () => 'pointer')
+      .with([true, P._], () => 'not-allowed' as const)
+      .with([false, true], () => 'default' as const)
+      .with([false, false], () => 'pointer' as const)
       .exhaustive()}
     display="flex"
     flexBasis="auto"

@@ -45,9 +45,7 @@ const Label = ({
     left="1/2"
     position="absolute"
     top="1/2"
-    transform={$type === 'eth' ? 'translateX(-50%)' : 'translateX(50%)'}
     transition="color 0.1s linear"
-    translate="-50% -50%"
     width={getValuesForKnob($size, 'width')}
   />
 )
@@ -87,7 +85,6 @@ const Slider = ({
     position="absolute"
     top="1/2"
     transition="transform 0.3s ease-in-out, background-color 0.1s ease-in-out"
-    translate="-50% -50%"
     width={getValuesForKnob($size, 'width')}
   />
 )

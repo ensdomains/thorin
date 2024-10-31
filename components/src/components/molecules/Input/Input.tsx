@@ -197,28 +197,26 @@ const ActionButton = ({
   $size,
   ...props
 }: BoxProps & { $size: Size, $icon?: React.ReactNode }) => {
-  const Icon: React.ReactElement = React.isValidElement($icon)
-    ? (
-        $icon
-      )
-    : (
-        <CrossCircleSVG />
-      )
+  const Icon: React.FC = typeof $icon === 'function'
+    ? $icon
+    : CrossCircleSVG
+
   return (
     <Box
       {...props}
+      className={styles.actionButton[$size]}
       alignItems="center"
       as="button"
       color={{ base: 'greyPrimary', hover: 'greyBright' }}
       cursor="pointer"
       display="flex"
-      flexBasis={getValueForSize($size, 'iconPadding')}
+      // flexBasis={getValueForSize($size, 'iconPadding')}
       flexGrow={0}
       flexShrink={0}
       justifyContent="flex-start"
-      marginLeft={`calc(-1 * ${getValueForSize($size, 'iconPadding')})`}
+      // marginLeft={`calc(-1 * ${getValueForSize($size, 'iconPadding')})`}
       opacity={1}
-      paddingRight={getValueForSize($size, 'outerPadding')}
+      // paddingRight={getValueForSize($size, 'outerPadding')}
       transform={scale(1)}
       transition="all 0.1s ease-in-out"
     >
@@ -307,7 +305,7 @@ const InnerContainer = ({
     overflow="hidden"
     position="relative"
     transitionDuration={150}
-    transitionProperty="color, border-color, background-color"
+    // transitionProperty="color, border-color, background-color"
     transitionTimingFunction="inOut"
     wh="full"
   />
@@ -463,8 +461,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 <Label
                   aria-hidden="true"
                   as={prefixAs}
-                  className={styles.label}
-                  order={-2}
+                  className={styles.prefix}
                   {...ids?.label}
                   $disabled={disabled}
                   $size={size}

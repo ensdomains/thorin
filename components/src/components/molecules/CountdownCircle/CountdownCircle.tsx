@@ -64,7 +64,7 @@ const Circle = ({
   return (
     <Box
       {...props}
-      as={(
+      as={() => (
         <circle
           cx="12"
           cy="12"
@@ -154,12 +154,13 @@ export const CountdownCircle = React.forwardRef<HTMLDivElement, CountdownCircleP
             .with([false, true], () => currentCount)
             .with([false, false], () => (
               <Box
-                as={<CheckSVG />}
+                as={CheckSVG}
                 data-testid="countdown-complete-check"
                 display="block"
                 id="countdown-complete-check"
                 overflow="visible"
                 strokeWidth="1.5"
+                width={size === 'large' ? '5' : '4'}
               />
             ))
             .exhaustive()}

@@ -80,18 +80,18 @@ export const FieldSet: React.FC<FieldSetProps> = ({
   switch (status) {
     case 'complete': {
       statusText = 'Complete'
-      statusTone = 'green'
+      statusTone = 'greenSecondary'
       break
     }
     case 'required':
     case 'pending': {
       statusText = status === 'pending' ? 'Pending' : 'Required'
-      statusTone = 'accent'
+      statusTone = 'accentSecondary'
       break
     }
     case 'optional': {
       statusText = 'Optional'
-      statusTone = 'grey'
+      statusTone = 'greySecondary'
       break
     }
   }
@@ -104,7 +104,7 @@ export const FieldSet: React.FC<FieldSetProps> = ({
     <Container {...props} disabled={disabled} form={form} name={name}>
       <ContainerInner>
         <Row>
-          <Heading as="legend" level="2" responsive>
+          <Heading as="legend" level="2">
             {legend}
           </Heading>
           {statusTone && statusText && (

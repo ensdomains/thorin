@@ -8,6 +8,7 @@ import { Box } from '../Box/Box'
 import { getValueForTransitionState } from './utils/getValueForTransitionState'
 import { container } from './style.css'
 import { debounce } from '../../../utils/debounce'
+import { useBreakPoints } from '@/src/hooks/useBreakpoints'
 
 export type DynamicPopoverSide = 'top' | 'right' | 'bottom' | 'left'
 
@@ -24,7 +25,8 @@ export type DynamicPopoverAnimationFunc = (
   verticalClearance: number,
   side: DynamicPopoverSide,
   mobileSide: DynamicPopoverSide,
-) => { translate: string, mobileTranslate: string }
+  isDesktop: boolean,
+) => string
 
 export type DynamicPopoverButtonProps = {
   pressed?: boolean
@@ -104,6 +106,7 @@ const defaultAnimationFunc: DynamicPopoverAnimationFunc = (
   verticalClearance: number,
   side: string,
   mobileSide: string,
+  isDesktop: boolean,
 ) => {
   let translate = ''
   if (side === 'top') translate = `translate(0, -${verticalClearance}px)`
@@ -121,7 +124,7 @@ const defaultAnimationFunc: DynamicPopoverAnimationFunc = (
     mobileTranslate = `translate(0, ${verticalClearance}px)`
   else mobileTranslate = `translate(-${horizontalClearance}px, 0)`
 
-  return { translate, mobileTranslate }
+  return isDesktop ? translate : mobileTranslate
 }
 
 const checkRectContainsPoint = (
@@ -138,12 +141,11 @@ const checkRectContainsPoint = (
 }
 
 const makeWidth = (width: number | string) =>
-  typeof width === 'number' ? `${width}px` : width
+  typeof width === 'number' ? width : width
 
 type PopoverBoxProps = {
   $state: TransitionState
   $translate: string
-  $mobileTranslate: string
   $width: number | string
   $mobileWidth: number | string
   $x: number
@@ -158,7 +160,6 @@ const PopoverBox = React.forwardRef<HTMLElement, BoxProps & PopoverBoxProps>(
     {
       $state,
       $translate,
-      $mobileTranslate,
       $width,
       $mobileWidth,
       $x,
@@ -176,18 +177,23 @@ const PopoverBox = React.forwardRef<HTMLElement, BoxProps & PopoverBoxProps>(
       className={container}
       display="block"
       fontFamily="sans"
-      left={getValueForTransitionState($state.status, 'leftFunc')($x)}
+      style={{
+        left: getValueForTransitionState($state.status, 'leftFunc')($x),
+        top: getValueForTransitionState($state.status, 'topFunc')($y),
+        transform: `translate3d(0,0,0) ${$translate}`,
+      }}
+      // left={getValueForTransitionState($state.status, 'leftFunc')($x)}
       opacity={getValueForTransitionState($state.status, 'opacity')}
       overflow={$hideOverflow ? 'hidden' : 'visible'}
       pointerEvents={getValueForTransitionState($state.status, 'pointerEvents')}
       position="absolute"
       ref={ref}
-      top={getValueForTransitionState($state.status, 'topFunc')($y)}
-      transform={{
-        base: `translate3d(0, 0, 0) ${$mobileTranslate}`,
-        sm: `translate3d(0, 0, 0) ${$translate}`,
-      }}
-      transitionDuration={`${$transitionDuration}ms`}
+      // top={getValueForTransitionState($state.status, 'topFunc')($y)}
+      // transform={{
+      //   base: `translate3d(0, 0, 0) ${$mobileTranslate}`,
+      //   sm: `translate3d(0, 0, 0) ${$translate}`,
+      // }}
+      transitionDuration={$transitionDuration}
       transitionProperty={getValueForTransitionState(
         $state.status,
         'transitionProperty',
@@ -206,11 +212,11 @@ export const DynamicPopover: React.FC<DynamicPopoverProps> = ({
   animationFn: _animationFn,
   anchorRef,
   onShowCallback,
-  width = 250,
-  mobileWidth = 150,
+  width = 60,
+  mobileWidth = 36,
   useIdealPlacement = false,
   additionalGap = 0,
-  transitionDuration = 350,
+  transitionDuration = 300,
   isOpen,
   align = 'center',
   hideOverflow,
@@ -329,20 +335,23 @@ export const DynamicPopover: React.FC<DynamicPopoverProps> = ({
         verticalClearance: number,
         side: DynamicPopoverSide,
         mobileSide: DynamicPopoverSide,
+        isDesktop: boolean,
       ) =>
-        _animationFn(horizontalClearance, verticalClearance, side, mobileSide)
+        _animationFn(horizontalClearance, verticalClearance, side, mobileSide, isDesktop)
     }
     return (
       horizontalClearance: number,
       verticalClearance: number,
       side: DynamicPopoverSide,
       mobileSide: DynamicPopoverSide,
+      isDesktop: boolean,
     ) =>
       defaultAnimationFunc(
         horizontalClearance,
         verticalClearance,
         side,
         mobileSide,
+        isDesktop,
       )
   }, [_animationFn])
 
@@ -439,11 +448,15 @@ export const DynamicPopover: React.FC<DynamicPopoverProps> = ({
     ? positionState.idealMobilePlacement
     : mobilePlacement
 
-  const { translate, mobileTranslate } = animationFn(
+  const breakpoints = useBreakPoints()
+  console.log('breakpoints', breakpoints)
+
+  const translate = animationFn(
     positionState.horizontalClearance,
     positionState.verticalClearance,
     _placement,
     _mobilePlacement,
+    breakpoints.sm,
   )
 
   const renderCallback = React.useCallback(() => {
@@ -456,7 +469,6 @@ export const DynamicPopover: React.FC<DynamicPopoverProps> = ({
       <PopoverBox
         $hideOverflow={hideOverflow}
         // $isControlled={isControlled}
-        $mobileTranslate={mobileTranslate}
         $mobileWidth={mobileWidth}
         $state={state}
         $transitionDuration={transitionDuration}

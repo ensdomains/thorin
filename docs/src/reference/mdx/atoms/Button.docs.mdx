@@ -95,10 +95,10 @@ The loading icon will replace either the prefix or suffix in that order. If no p
 
 ```tsx live=true
 <Box display="flex" flexDirection="column" gap="4">
-  <Button loading={getState('loading')} prefix={<PlusSVG />}>
+  <Button loading={getState('loading')} prefix={PlusSVG}>
     With Prefix
   </Button>
-  <Button loading={getState('loading')} suffix={<PlusSVG />}>
+  <Button loading={getState('loading')} suffix={PlusSVG}>
     With Suffix
   </Button>
   <Button loading={getState('loading')}>No Prefix or Suffix</Button>
@@ -110,13 +110,13 @@ The loading icon will replace either the prefix or suffix in that order. If no p
 
 ```tsx live=true
 <Box gap="4" display="flex" flexDirection="column">
-  <Button center count={3} prefix={<PlusSVG />}>
+  <Button center count={3} prefix={PlusSVG}>
     Add Entry
   </Button>
-  <Button center count={3} suffix={<PlusSVG />}>
+  <Button center count={3} suffix={PlusSVG}>
     Add Entry
   </Button>
-  <Button center count={300} prefix={<PlusSVG />} suffix={<PlusSVG />}>
+  <Button center count={300} prefix={PlusSVG} suffix={PlusSVG}>
     Add Entry
   </Button>
 </Box>

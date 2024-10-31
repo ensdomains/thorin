@@ -25,7 +25,7 @@ export const BackdropSurface = React.forwardRef<HTMLElement, BackdropSurfaceProp
       transitionProperty="all"
       transitionTimingFunction="popIn"
       width="viewWidth"
-      zIndex={999}
+      zIndex={9999}
     />
   ),
 )

@@ -79,31 +79,31 @@ The placeholder is shown if the src property is undefined or if an error occurs 
   <Avatar
     label="Noun 97"
     src={avatars.noun97}
-    wh="10"
+    size="10"
   />
   <Avatar
     label="Noun 97"
     checked
     src={avatars.noun97}
-    wh="10"
+    size="10"
   />
   <Avatar
     label="Noun 97"
     src={avatars.noun97}
     disabled
-    wh="10"
+    size="10"
   />
   <Avatar
     label="Noun 97"
-    icon={<CrossSVG/>}
+    icon={CrossSVG}
     src={avatars.noun97}
-    wh="10"
+    size="10"
   />
   <Avatar
     label="Noun 97"
-    icon={<PersonSVG/>}
+    icon={PersonSVG}
     src={avatars.noun97}
-    wh="10"
+    size="10"
   />
 </Box>
 ```
@@ -130,7 +130,7 @@ The placeholder is shown if the src property is undefined or if an error occurs 
 If you are using Next.js and configured [`next/image`](https://nextjs.org/docs/api-reference/next/image) appropriately, you can pass it in with the `as` prop.
 
 ```tsx live=true expand=true
-<Box wh="50px">
+<div style={{width: "50px"}}>
 <Avatar as={NextImage} label="Noun 97" src={avatars.noun97} />
-</Box>
+</div>
 ``` 

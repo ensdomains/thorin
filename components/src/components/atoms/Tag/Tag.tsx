@@ -4,12 +4,13 @@ import { translateY } from '@/src/css/utils/common'
 
 import { removeNullishProps } from '@/src/utils/removeNullishProps'
 
-import type { WithColorStyle } from './utils/withColorStyle'
-import { getValueForColorStyle } from './utils/withColorStyle'
 import * as styles from './styles.css'
 import type { BoxProps } from '../Box/Box'
 import { Box } from '../Box/Box'
 import clsx from 'clsx'
+import type { Colors, ColorStyles } from '@/src/tokens'
+import { getColorStyleParts } from '@/src/utils/getColorStyleParts'
+import { match } from 'ts-pattern'
 
 export type TagProps = {
   /** Element type of container */
@@ -18,8 +19,8 @@ export type TagProps = {
   hover?: boolean
   /** Size of element */
   size?: 'small' | 'medium'
-} & Omit<BoxProps, 'size'> &
-WithColorStyle
+  colorStyle?: ColorStyles
+} & Omit<BoxProps, 'size'>
 
 export const Tag: React.FC<TagProps> = ({
   as = 'div',
@@ -30,21 +31,25 @@ export const Tag: React.FC<TagProps> = ({
   className,
   ...props
 }) => {
+  const [baseColor, baseTheme] = getColorStyleParts(colorStyle)
   return (
     <Box
       className={clsx(className, styles.tag)}
       alignItems="center"
       as={as}
       backgroundColor={{
-        base: getValueForColorStyle(colorStyle, 'background'),
-        hover: getValueForColorStyle(
-          colorStyle,
-          hover ? 'hover' : 'background',
-        ),
-        active: getValueForColorStyle(colorStyle, 'hover'),
+        base: match(baseTheme)
+          .with('Primary', () => `${baseColor}Primary` as Colors)
+          .otherwise(() => `${baseColor}Surface` as Colors),
+        hover: match(baseTheme)
+          .with('Primary', (): Colors => hover ? `${baseColor}Bright` : `${baseColor}Primary`)
+          .otherwise((): Colors => hover ? `${baseColor}Light` : `${baseColor}Surface`),
+        active: match(baseTheme)
+          .with('Primary', (): Colors => `${baseColor}Bright`)
+          .otherwise((): Colors => `${baseColor}Light`),
       }}
       borderRadius="full"
-      color={getValueForColorStyle(colorStyle, 'content')}
+      color={match(baseTheme).with('Primary', (): Colors => 'textAccent').otherwise((): Colors => `${baseColor}Primary`)}
       display="flex"
       fontSize={size === 'small' ? 'extraSmall' : 'small'}
       fontWeight="bold"

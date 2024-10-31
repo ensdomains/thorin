@@ -1,6 +1,6 @@
 import { recipe } from '@vanilla-extract/recipes'
 
-import { globalStyle, style } from '@vanilla-extract/css'
+import { globalStyle, style, styleVariants } from '@vanilla-extract/css'
 
 import { commonVars, modeVars } from '@/src/css/theme.css'
 import { scale } from '@/src/css/utils/common'
@@ -116,3 +116,27 @@ globalStyle(`${icon} svg`, {
   height: commonVars.space.full,
   color: modeVars.color.greyPrimary,
 })
+
+export const actionButton = styleVariants({
+  small: [sprinkles({
+    flexBasis: '8.5',
+    paddingRight: '3.5',
+  }), { marginLeft: `calc(-1 * ${commonVars.space['8.5']})` }],
+  medium: [sprinkles({
+    flexBasis: '10',
+    paddingRight: '4',
+  }), { marginLeft: `calc(-1 * ${commonVars.space['10']})` }],
+  large: [
+    sprinkles({
+      flexBasis: '11',
+      paddingRight: '4',
+    }),
+    { marginLeft: `calc(-1 * ${commonVars.space['11']})` },
+  ],
+  extraLarge: [sprinkles({
+    flexBasis: '14',
+    paddingRight: '6',
+  }), { marginLeft: `calc(-1 * ${commonVars.space['14']})` }],
+})
+
+export const prefix = style({ order: -2 })

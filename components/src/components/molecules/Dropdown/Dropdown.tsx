@@ -20,6 +20,7 @@ import { DynamicPopover } from '../../atoms/DynamicPopover/DynamicPopover'
 import { debounce } from '@/src/utils/debounce'
 import { DownChevronSVG } from '@/src/icons'
 import { ScrollBox } from '../../atoms/ScrollBox/ScrollBox'
+import { menu } from './styles.css'
 
 type Align = 'left' | 'right'
 type LabelAlign = 'flex-start' | 'flex-end' | 'center'
@@ -111,44 +112,66 @@ type DropdownMenuContainerProps = {
 const DropdownMenuBox = React.forwardRef<
   HTMLElement,
   BoxProps & DropdownMenuContainerProps
->(({ $shortThrow, $direction, $state, ...props }, ref) => (
-  <Box
-    {...props}
-    backgroundColor="background"
-    borderColor="border"
-    borderRadius="2xLarge"
-    borderStyle="solid"
-    borderWidth="1x"
-    bottom={$direction === 'up' ? 'full' : 'unset'}
-    marginBottom={$direction === 'up' ? '1.5' : 'unset'}
-    marginTop={$direction === 'down' ? '1.5' : 'unset'}
-    opacity={1}
-    padding="1.5"
-    ref={ref}
-    transform={match([$state, $direction, $shortThrow])
-      .with([P.union('entering', 'entered'), P._, P._], () => `translateY(0)`)
-      .with(
-        [P._, 'up', true],
-        () => `translateY(calc(${commonVars.space['2.5']}))`,
-      )
-      .with(
-        [P._, 'down', true],
-        () => `translateY(calc(-1 * ${commonVars.space['2.5']}))`,
-      )
-      .with(
-        [P._, 'up', false],
-        () => `translateY(calc(${commonVars.space['12']}))`,
-      )
-      .with(
-        [P._, 'down', false],
-        () => `translateY(calc(-1 * ${commonVars.space['12']}))`,
-      )
-      .exhaustive()}
-    transition="all .35s cubic-bezier(1, 0, 0.22, 1.6)"
-    width="full"
-    zIndex={1}
-  />
-))
+>(({ $shortThrow, $direction, $state, ...props }, ref) => {
+  const transformVariant = match([$state, $direction, $shortThrow])
+    .with([P.union('entering', 'entered'), P._, P._], () => 'enteringOrEntered' as const)
+    .with(
+      [P._, 'up', true],
+      () => 'upShort' as const,
+    )
+    .with(
+      [P._, 'down', true],
+      () => 'downShort' as const,
+    )
+    .with(
+      [P._, 'up', false],
+      () => 'upLong' as const,
+    )
+    .with(
+      [P._, 'down', false],
+      () => 'downLong' as const,
+    )
+    .exhaustive()
+  return (
+    <Box
+      {...props}
+      className={menu({ transform: transformVariant })}
+      backgroundColor="background"
+      borderColor="border"
+      borderRadius="2xLarge"
+      borderStyle="solid"
+      borderWidth="1x"
+      bottom={$direction === 'up' ? 'full' : 'unset'}
+      marginBottom={$direction === 'up' ? '1.5' : 'unset'}
+      marginTop={$direction === 'down' ? '1.5' : 'unset'}
+      opacity={1}
+      padding="1.5"
+      ref={ref}
+      // transform={match([$state, $direction, $shortThrow])
+      //   .with([P.union('entering', 'entered'), P._, P._], () => `translateY(0)`)
+      //   .with(
+      //     [P._, 'up', true],
+      //     () => `translateY(calc(${commonVars.space['2.5']}))`,
+      //   )
+      //   .with(
+      //     [P._, 'down', true],
+      //     () => `translateY(calc(-1 * ${commonVars.space['2.5']}))`,
+      //   )
+      //   .with(
+      //     [P._, 'up', false],
+      //     () => `translateY(calc(${commonVars.space['12']}))`,
+      //   )
+      //   .with(
+      //     [P._, 'down', false],
+      //     () => `translateY(calc(-1 * ${commonVars.space['12']}))`,
+      //   )
+      //   .exhaustive()}
+      // transition="all .35s cubic-bezier(1, 0, 0.22, 1.6)"
+      width="full"
+      zIndex={1}
+    />
+  )
+})
 
 interface MenuButtonProps {
   $color?: Colors
@@ -164,7 +187,7 @@ const MenuButton = React.forwardRef<HTMLElement, BoxProps & MenuButtonProps>(
       backgroundColor={{ base: 'backgroundPrimary', hover: 'greySurface' }}
       borderRadius="large"
       color={
-        disabled ? 'textTertiary' : $color ? `$${$color}` : 'textPrimary'
+        disabled ? 'textTertiary' : $color ? $color : 'textPrimary'
       }
       cursor={disabled ? 'not-allowed' : 'pointer'}
       display="flex"
@@ -179,7 +202,7 @@ const MenuButton = React.forwardRef<HTMLElement, BoxProps & MenuButtonProps>(
       ref={ref}
       transform={{ base: 'translateY(0px)', active: 'translateY(0px)' }}
       transitionDuration={150}
-      transitionProperty="color, transform, filter"
+      // transitionProperty="color, transform, filter"
       transitionTimingFunction="ease-in-out"
       width="full"
     >
@@ -187,7 +210,7 @@ const MenuButton = React.forwardRef<HTMLElement, BoxProps & MenuButtonProps>(
         ? (
             <Box
               as={$icon}
-              color={$color ? `$${$color}` : 'textPrimary'}
+              color={$color || 'textPrimary'}
               flexBasis="4"
               flexGrow={0}
               flexShrink={0}
@@ -201,7 +224,7 @@ const MenuButton = React.forwardRef<HTMLElement, BoxProps & MenuButtonProps>(
           backgroundColor={
             typeof $showIndicator === 'boolean'
               ? 'accent'
-              : `$${$showIndicator}`
+              : $showIndicator
           }
           borderRadius="full"
           position="absolute"
@@ -341,19 +364,23 @@ const rotation = (direction: Direction, open: boolean) =>
 const Chevron = ({
   $open,
   $direction,
-}: { $open?: boolean, $direction: Direction } & BoxProps) => (
-  <Box
-    as={<DownChevronSVG />}
-    fill="currentColor"
-    marginLeft="1"
-    marginRight="0.5"
-    transform={rotation($direction, !!$open)}
-    transitionDuration="200"
-    transitionProperty="all"
-    transitionTimingFunction="inOut"
-    width="3"
-  />
-)
+  enabled,
+}: { $open?: boolean, $direction: Direction, enabled: boolean } & BoxProps) => {
+  if (!enabled) return null
+  return (
+    <Box
+      as={DownChevronSVG}
+      fill="currentColor"
+      marginLeft="1"
+      marginRight="0.5"
+      transform={rotation($direction, !!$open)}
+      transitionDuration={200}
+      transitionProperty="all"
+      transitionTimingFunction="inOut"
+      width="3"
+    />
+  )
+}
 
 interface DropdownButtonProps {
   children?: React.ReactNode
@@ -419,7 +446,7 @@ const DropdownButton: React.FC<DropdownButtonProps> = ({
               data-testid="dropdown-btn"
               pressed={isOpen}
               ref={buttonRef}
-              suffix={chevron && <Chevron $direction={direction} $open={isOpen} />}
+              suffix={() => <Chevron $direction={direction} $open={isOpen} enabled={chevron} />}
               width="fit"
               onClick={() => setIsOpen(prev => !prev)}
               {...buttonPropsWithIndicator}
@@ -486,7 +513,7 @@ export const Dropdown: React.FC<DropdownProps & (PropsWithIsOpen | PropsWithoutI
   chevron = true,
   align = 'left',
   // menuLabelAlign,
-  width = 150,
+  width = 36,
   mobileWidth = width,
   shortThrow = false,
   keepMenuOnTop = false,

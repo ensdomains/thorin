@@ -1,6 +1,32 @@
-import { style } from '@vanilla-extract/css'
+import { style, styleVariants } from '@vanilla-extract/css'
 
 import { commonVars } from '@/src/css/theme.css'
+import { recipe } from '@vanilla-extract/recipes'
+
+export const menu = recipe({
+  base: {
+    transition: 'all .35s cubic-bezier(1, 0, 0.22, 1.6)',
+  },
+  variants: {
+    transform: {
+      enteringOrEntered: {
+        transform: 'translateY(0)',
+      },
+      upShort: {
+        transform: `translateY(${commonVars.space['2.5']})`,
+      },
+      downShort: {
+        transform: `translateY(calc(-1 * ${commonVars.space['2.5']}))`,
+      },
+      upLong: {
+        transform: `translateY(${commonVars.space['12']})`,
+      },
+      downLong: {
+        transform: `translateY(calc(-1 * ${commonVars.space['12']}))`,
+      },
+    },
+  },
+})
 
 export const actionSheeItem = style({
   selectors: {
