@@ -5,7 +5,7 @@ import type { Sprinkles } from '@/src/css/sprinkles.css'
 import type { Direction } from '../Select'
 
 type Properties = {
-  zIndex: string
+  zIndex: Sprinkles['zIndex']
   visibility: Sprinkles['visibility']
   top: string
   bottom: string
@@ -19,14 +19,14 @@ const transitionMap: {
 } & { default: { [key in Direction]: Properties } } = {
   entered: {
     up: {
-      zIndex: '20',
+      zIndex: 20,
       visibility: 'visible',
       top: 'auto',
       bottom: 'calc(100% + 0.5rem)',
       opacity: '1',
     },
     down: {
-      zIndex: '20',
+      zIndex: 20,
       visibility: 'visible',
       top: 'calc(100% + 0.5rem)',
       bottom: 'auto',
@@ -35,14 +35,14 @@ const transitionMap: {
   },
   default: {
     up: {
-      zIndex: '1',
+      zIndex: 1,
       visibility: 'hidden',
       top: 'auto',
       bottom: 'calc(100% - 3rem)',
       opacity: '0',
     },
     down: {
-      zIndex: '1',
+      zIndex: 1,
       visibility: 'hidden',
       top: 'calc(100% - 3rem)',
       bottom: 'auto',

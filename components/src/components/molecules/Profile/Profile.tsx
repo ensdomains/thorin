@@ -36,7 +36,7 @@ type BaseProps = {
   size?: Size
   /** The colour of the indicator */
   indicatorColor?: Colors
-} & Omit<NativeDivProps, 'children'>
+} & Omit<NativeDivProps, 'children' | 'color'>
 
 interface ContainerProps {
   $size: Size

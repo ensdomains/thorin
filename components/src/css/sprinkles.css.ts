@@ -133,7 +133,7 @@ const staticProperties = defineProperties({
     transitionDuration: commonVars.transitionDuration,
     transitionProperty: ['all', 'none', 'box-shadow', 'background-color', 'initial', 'inherit', 'stroke'],
     visibility: ['visible', 'hidden', 'initial', 'inherit'],
-    zIndex: [1, 10, 100, 9999, 10000, 999999],
+    zIndex: [1, 10, 20, 100, 9999, 10000, 999999],
     strokeWidth: commonVars.space,
     fontStyle: ['italic', 'normal', 'inherit'],
     boxSizing: ['border-box', 'content-box', 'inherit'],
