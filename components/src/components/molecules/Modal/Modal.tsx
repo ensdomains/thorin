@@ -35,7 +35,7 @@ const Container: React.FC<BoxProps & ContainerProps> = ({
         base: getValueForMode(mobileMode, 'left'),
         sm: getValueForMode(desktopMode, 'left'),
       }}
-      opacity={entered ? 1 : 0}
+      opacity={entered ? '1' : '0'}
       position="fixed"
       top={{
         base: getValueForMode(mobileMode, 'top'),

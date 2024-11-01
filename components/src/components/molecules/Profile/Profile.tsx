@@ -72,7 +72,6 @@ const Container = React.forwardRef<HTMLElement, BoxProps & ContainerProps>(
         hover: translateY($hasDropdown ? -1 : 0),
       }}
       transitionDuration={150}
-      transitionProperty="color, border-color, background-color, transform, filter"
       transitionTimingFunction="inOut"
       zIndex={10}
       {...props}

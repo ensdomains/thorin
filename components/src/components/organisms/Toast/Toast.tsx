@@ -20,7 +20,7 @@ const CloseIcon = (props: BoxProps) => (
     {...props}
     as={<CrossSVG />}
     cursor="pointer"
-    opacity={{ base: 0.5, hover: 0.7 }}
+    opacity={{ base: '0.5', hover: '0.7' }}
     padding="1.5"
     position="absolute"
     right="2.5"
@@ -80,7 +80,7 @@ const Container = React.forwardRef<HTMLElement, BoxProps & ContainerProps>(
       maxWidth={match($mobile)
         .with(true, () => 'unset' as const)
         .otherwise(() => '112')}
-      opacity={$state.status === 'entered' ? 1 : 0}
+      opacity={$state.status === 'entered' ? '1' : '0'}
       padding="4.5"
       position="fixed"
       ref={ref}

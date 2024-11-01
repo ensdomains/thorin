@@ -144,7 +144,7 @@ const DropdownMenuBox = React.forwardRef<
       bottom={$direction === 'up' ? 'full' : 'unset'}
       marginBottom={$direction === 'up' ? '1.5' : 'unset'}
       marginTop={$direction === 'down' ? '1.5' : 'unset'}
-      opacity={1}
+      opacity="1"
       padding="1.5"
       ref={ref}
       // transform={match([$state, $direction, $shortThrow])

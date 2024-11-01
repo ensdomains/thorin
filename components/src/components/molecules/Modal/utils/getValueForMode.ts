@@ -8,7 +8,7 @@ type Properties = {
   left: Space
   translate: string
   transform: string
-  bottom: string
+  bottom: Space
 }
 
 type Property = keyof Properties
@@ -28,7 +28,7 @@ const modeMap: { [key in Mode]: Properties } = {
     left: '0',
     transform: 'translateY(-128px)',
     translate: 'unset',
-    bottom: 'uset',
+    bottom: 'unset',
   },
   desktop: {
     width: 'min',
@@ -39,6 +39,6 @@ const modeMap: { [key in Mode]: Properties } = {
     bottom: 'unset',
   },
 }
-export const getValueForMode = (mode: Mode, property: Property) => {
+export const getValueForMode = <P extends Property>(mode: Mode, property: P) => {
   return modeMap[mode]?.[property] || modeMap.desktop[property]
 }

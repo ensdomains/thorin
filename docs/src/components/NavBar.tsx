@@ -3,7 +3,6 @@ import LogoSVG from '~/assets/ENSLogo.svg'
 import GithubSVG from '~/assets/Github.svg'
 import FigmaSVG from '~/assets/Figma.svg'
 import { Link } from './Link'
-import { Tag } from '@ensdomains/thorin'
 
 export const NavBar = ({
   open,
@@ -42,14 +41,14 @@ export const NavBar = ({
               as={CrossSVG}
               wh="full"
               position="absolute"
-              opacity={open ? 1 : 0}
+              opacity={open ? '1' : '0'}
               // transition="opacity 0.2s ease-in-out"
             />
             <Box
               as={MenuSVG}
               position="absolute"
               wh="full"
-              opacity={open ? 0 : 1}
+              opacity={open ? '0' : '1'}
               transition="opacity 0.2s ease-in-out"
             />
           </Box>

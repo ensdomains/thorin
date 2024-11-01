@@ -9,3 +9,7 @@ export const input = style({
     },
   },
 })
+
+export const rootInput = style({
+  appearance: 'none',
+})

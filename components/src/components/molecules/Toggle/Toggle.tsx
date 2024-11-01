@@ -33,7 +33,9 @@ const CheckBox = React.forwardRef<
     justifyContent="center"
     position="relative"
     ref={ref}
-    transition="background-color 0.1s ease-in-out"
+    transitionProperty="background-color"
+    transitionDuration={100}
+    transitionTimingFunction="ease-in-out"
     type="checkbox"
   />
 ))

@@ -2,6 +2,9 @@ import { sprinkles } from '@/src/css/sprinkles.css'
 import { recipe } from '@vanilla-extract/recipes'
 
 export const variants = recipe({
+  base: {
+    transitionProperty: 'color, border-color, background-color, transform, filter',
+  },
   variants: {
     size: {
       small: sprinkles({

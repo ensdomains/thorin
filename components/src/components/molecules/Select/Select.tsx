@@ -27,6 +27,7 @@ import { getValueForTransitionState } from './utils/getValueForTransitionState'
 import { cssVars } from '@/src/css/theme.css'
 import { uniqueId } from '@/src/utils/uniqueId'
 import { ScrollBox } from '../../atoms'
+import clsx from 'clsx'
 
 const CREATE_OPTION_VALUE = 'CREATE_OPTION_VALUE'
 
@@ -101,10 +102,10 @@ const SelectContainer = ({
   />
 )
 
-const RootInput = React.forwardRef<HTMLInputElement, BoxProps>((props, ref) => (
+const RootInput = React.forwardRef<HTMLInputElement, BoxProps>(({ className, ...props }, ref) => (
   <Box
     {...props}
-    appearance="none"
+    className={clsx(styles.rootInput, className)}
     as="input"
     overflow="hidden"
     position="absolute"
@@ -222,7 +223,7 @@ const ToggleMenuButton = ({
         display="block"
         fill="currentColor"
         transform={rotate(rotation)}
-        transitionDuration="200"
+        transitionDuration={200}
         transitionProperty="all"
         transitionTimingFunction="inOut"
         wh={getValueForSize($size, 'iconWidth')}
