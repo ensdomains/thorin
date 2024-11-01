@@ -1,14 +1,12 @@
 import * as React from 'react'
 
-import classNames from 'clsx'
+import classNames, { clsx } from 'clsx'
 
 import { createSyntheticEvent } from '@/src/utils/createSyntheticEvent'
 
 import { statusDot } from '@/src/css/recipes/statusDot.css'
 
 import { statusBorder } from '@/src/css/recipes/statusBorder.css'
-
-import { translateY } from '@/src/css/utils/common'
 
 import * as styles from './styles.css'
 
@@ -32,22 +30,22 @@ const Container = ({
   $validated,
   $showDot,
   $disabled,
+  className,
   ...props
 }: BoxProps & ContainerProps) => (
   <Box
     {...props}
     backgroundColor="backgroundSecondary"
     borderRadius="large"
-    className={statusDot({
+    className={clsx(styles.container, statusDot({
       error: $error,
       validated: $validated,
       show: $showDot && !$disabled,
-    })}
+    }), className)}
     color="text"
     display="flex"
     position="relative"
     transitionDuration={150}
-    transitionProperty="color, border-color, background-color"
     transitionTimingFunction="inOut"
   />
 )
@@ -117,7 +115,7 @@ const TextArea = React.forwardRef<HTMLTextAreaElement, BoxProps & TextAreaProps>
 
 const ActionButton = ({
   $size = 'medium',
-  $icon,
+  $icon, className,
   ...props
 }: BoxProps & { $size: Size, $icon: React.ReactNode }) => {
   const icon = React.isValidElement($icon) ? $icon : <CrossCircleSVG />
@@ -133,10 +131,12 @@ const ActionButton = ({
       position="absolute"
       right="0"
       top="0"
-      transform={{ base: translateY(0), hover: translateY(-1) }}
-      transition="all 0.1s ease-in-out"
+      transitionDuration={100}
+      transitionProperty="all"
+      transitionTimingFunction="ease-in-out"
       type="button"
       wh={getValueForSize($size, 'actionSize')}
+      className={clsx(styles.actionButton, className)}
     >
       <Box
         as={icon}
@@ -200,7 +200,7 @@ export type TextareaProps = Omit<FieldBaseProps, 'inline'> & {
   onFocus?: NativeTextareaProps['onFocus']
 } & Omit<
   NativeTextareaProps,
-    'children' | 'value' | 'defaultValue' | 'aria-invalid'
+    'children' | 'value' | 'defaultValue' | 'aria-invalid' | 'color'
 >
 
 export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(

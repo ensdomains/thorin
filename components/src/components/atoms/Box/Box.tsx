@@ -1,8 +1,5 @@
 import type {
-  AllHTMLAttributes,
-  ElementType,
-  FC,
-  ReactElement } from 'react'
+  AllHTMLAttributes, FC } from 'react'
 import React, {
   forwardRef,
 } from 'react'
@@ -43,8 +40,7 @@ export const Box = forwardRef<HTMLElement, BoxProps >(
     return React.createElement(as, {
       className: clsx(atomicCss, className),
       ...nativeProps,
-      children,
       ref,
-    })
+    }, children)
   },
 )

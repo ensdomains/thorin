@@ -97,6 +97,8 @@ const ButtonBox = React.forwardRef<
       $hasCounter,
       $color,
       as,
+      className,
+      style,
       ...props
     },
     ref,
@@ -104,7 +106,6 @@ const ButtonBox = React.forwardRef<
     <Box
       alignItems="center"
       as={as ?? 'button'}
-      color={`$${$colorStyle}Text`}
       backgroundColor={{
         base: $pressed ? `${$colorStyle}Hover` : `${$colorStyle}Background`,
         hover: `${$colorStyle}Hover`,
@@ -118,7 +119,8 @@ const ButtonBox = React.forwardRef<
       borderRadius={['circle', 'rounded'].includes($shape) ? 'full' : 'large'}
       borderStyle="solid"
       borderWidth="1x"
-      // boxShadow={$shadow ? '0.25 grey' : 'none'}
+      className={clsx(styles.buttonBox, className)}
+      style={{ ...style, ...assignInlineVars({ [styles.hasShadow]: $shadow ? '0.25 grey' : 'none' }) }}
       color={{
         base: $color || `${$colorStyle}Text`,
         disabled: 'disabledText',
@@ -134,12 +136,6 @@ const ButtonBox = React.forwardRef<
       position="relative"
       // px={$hasCounter ? '12' : getValueForSize($size, 'px')}
       ref={ref}
-      transform={{
-        base: translateY(0),
-        hover: translateY(-1),
-        active: translateY(-1),
-        disabled: translateY(0),
-      }}
       transitionDuration={150}
       transitionProperty="all"
       transitionTimingFunction="inOut"
