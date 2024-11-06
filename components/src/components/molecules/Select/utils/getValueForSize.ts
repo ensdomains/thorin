@@ -10,7 +10,7 @@ type Properties = {
   outerPadding: Space
   iconWidth: Space
   rowHeight: Space
-  maxHeightFunc: (rows: number) => string
+  maxHeightFunc: (rows: number) => `calc(${string})`
 }
 
 type Property = keyof Properties

@@ -24,10 +24,10 @@ import { Field } from '../../atoms/Field/Field'
 import { Box, type BoxProps } from '../../atoms/Box/Box'
 import { getValueForSize } from './utils/getValueForSize'
 import { getValueForTransitionState } from './utils/getValueForTransitionState'
-import { cssVars } from '@/src/css/theme.css'
 import { uniqueId } from '@/src/utils/uniqueId'
 import { ScrollBox } from '../../atoms'
 import clsx from 'clsx'
+import { assignInlineVars } from '@vanilla-extract/dynamic'
 
 const CREATE_OPTION_VALUE = 'CREATE_OPTION_VALUE'
 
@@ -245,6 +245,8 @@ const SelectOptionContainer = ({
   // $rows,
   $size = 'medium',
   $align,
+  className,
+  style,
   ...props
 }: BoxProps & SelectOptionContainerProps) => (
   <Box
@@ -254,7 +256,6 @@ const SelectOptionContainer = ({
     borderRadius="2xLarge"
     borderStyle="solid"
     borderWidth="1x"
-    bottom={getValueForTransitionState($state, 'bottom', $direction)}
     display={$state === 'exited' ? 'none' : 'block'}
     fontSize={getValueForSize($size, 'fontSize')}
     left={$align === 'left' ? '0' : 'unset'}
@@ -265,10 +266,13 @@ const SelectOptionContainer = ({
     padding="2"
     position="absolute"
     right={$align === 'right' ? '0' : 'unset'}
-    top={getValueForTransitionState($state, 'top', $direction)}
-    transition="all 0.3s cubic-bezier(1, 0, 0.22, 1.6), z-index 0.3s linear"
     visibility={getValueForTransitionState($state, 'visibility', $direction)}
     zIndex={getValueForTransitionState($state, 'zIndex', $direction)}
+    className={clsx(styles.selectOptionContainer, className)}
+    style={{ ...style, ...assignInlineVars({
+      [styles.selectOptionContainerTop]: getValueForTransitionState($state, 'top', $direction),
+      [styles.selectOptionContainerBottom]: getValueForTransitionState($state, 'bottom', $direction),
+    }) }}
   />
 )
 
@@ -283,6 +287,8 @@ const SelectOptionList = ({
   $direction,
   $size = 'medium',
   children,
+  style,
+  className,
   ...props
 }: BoxProps & SelectOptionListProps) => {
   if ($rows) {
@@ -292,9 +298,12 @@ const SelectOptionList = ({
         display="flex"
         flexDirection={$direction === 'up' ? 'column-reverse' : 'column'}
         hideDividers
-        maxHeight={getValueForSize($size, 'maxHeightFunc')($rows)}
         paddingRight="1"
         width="full"
+        className={clsx(styles.selectOptionList, className)}
+        style={{ ...style, ...assignInlineVars({
+          [styles.selectOptionListSize]: getValueForSize($size, 'maxHeightFunc')($rows),
+        }) }}
       >
         {children}
       </ScrollBox>
@@ -940,7 +949,7 @@ export const Select = React.forwardRef<HTMLInputElement, SelectProps>(
                     {...{
                       $selected: option?.value === value,
                       $highlighted: index === highlightedIndex,
-                      gap: cssVars.space[innerPadding],
+                      gap: innerPadding,
                       $color: option.color,
                       $size: size,
                     }}
