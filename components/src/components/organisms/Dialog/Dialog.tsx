@@ -35,7 +35,7 @@ const CloseButton = ({ className, ...props }: BoxProps) => (
     transitionTimingFunction="inOut"
     wh="8"
   >
-    <Box as={<CrossSVG />} color="greyPrimary" display="block" wh="4" />
+    <Box as={CrossSVG} color="greyPrimary" display="block" wh="4" />
   </Box>
 )
 
@@ -63,7 +63,7 @@ const StyledCard = ({ className, ...props }: BoxProps) => (
 type NonNullableAlert = NonNullable<WithAlert['alert']>
 
 const Icon = ({ $alert, className, ...props }: BoxProps & { $alert: NonNullableAlert }) => {
-  const Icon = ['error', 'warning'].includes($alert) ? <AlertSVG /> : <EthSVG />
+  const Icon = ['error', 'warning'].includes($alert) ? AlertSVG : EthSVG
   return (
     <Box
       {...props}

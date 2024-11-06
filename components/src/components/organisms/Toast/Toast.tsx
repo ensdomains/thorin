@@ -18,7 +18,7 @@ import clsx from 'clsx'
 const CloseIcon = (props: BoxProps) => (
   <Box
     {...props}
-    as={<CrossSVG />}
+    as={CrossSVG}
     cursor="pointer"
     opacity={{ base: '0.5', hover: '0.7' }}
     padding="1.5"

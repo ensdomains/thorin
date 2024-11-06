@@ -6,6 +6,9 @@ import type { BoxProps } from '../../atoms/Box/Box'
 import { Box } from '../../atoms/Box/Box'
 import { getValueForMode } from './utils/getValueForMode'
 import { Backdrop } from '../Backdrop/Backdrop'
+import { clsx } from 'clsx'
+import * as styles from './styles.css'
+import { assignInlineVars } from '@vanilla-extract/dynamic'
 
 type ContainerProps = {
   $state: TransitionState['status']
@@ -17,6 +20,8 @@ const Container: React.FC<BoxProps & ContainerProps> = ({
   $state,
   $alignTop,
   $mobileOnly,
+  className,
+  style,
   ...props
 }) => {
   const mobileMode = $alignTop ? 'mobileTop' : 'mobileBottom'
@@ -41,26 +46,28 @@ const Container: React.FC<BoxProps & ContainerProps> = ({
         base: getValueForMode(mobileMode, 'top'),
         sm: getValueForMode(desktopMode, 'top'),
       }}
-      transform={{
-        base: entered
-          ? 'translateY(0px)'
-          : getValueForMode(mobileMode, 'transform'),
-        sm: entered
-          ? 'translateY(0px)'
-          : getValueForMode(desktopMode, 'transform'),
-      }}
+
       transitionDuration={300}
       transitionProperty="all"
       transitionTimingFunction="popIn"
-      translate={{
-        base: getValueForMode(mobileMode, 'translate'),
-        sm: getValueForMode(desktopMode, 'translate'),
-      }}
       width={{
         base: getValueForMode(mobileMode, 'width'),
         sm: getValueForMode(desktopMode, 'width'),
       }}
       zIndex={9999}
+      className={clsx(styles.container, className)}
+      style={{
+        ...style, ...assignInlineVars({
+          [styles.transformBase]: entered
+            ? 'translateY(0px)'
+            : getValueForMode(mobileMode, 'transform'),
+          [styles.translateBase]: getValueForMode(mobileMode, 'translate'),
+          [styles.transformSm]: entered
+            ? 'translateY(0px)'
+            : getValueForMode(desktopMode, 'transform'),
+          [styles.translateSm]: getValueForMode(desktopMode, 'translate'),
+        }),
+      }}
     />
   )
 }
@@ -81,7 +88,7 @@ export type ModalProps = {
   renderCallback?: () => void
   /** if true, modal will remain centered to bottom of page */
   mobileOnly?: boolean
-} & NativeDivProps
+} & Omit<NativeDivProps, 'color'>
 
 export const Modal = ({
   children,
