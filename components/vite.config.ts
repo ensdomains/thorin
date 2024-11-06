@@ -7,6 +7,7 @@ import dtsPlugin from 'vite-plugin-dts'
 
 export default defineConfig(({ mode }) => {
   return ({
+    define: mode === 'test' ? { global: 'window' } : {},
     server: {
       fs: {
         allow: ['..'],

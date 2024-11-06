@@ -131,7 +131,7 @@ const staticProperties = defineProperties({
     pointerEvents: ['none', 'auto', 'all', 'initial', 'inherit'],
     transitionTimingFunction: commonVars.transitionTimingFunction,
     transitionDuration: commonVars.transitionDuration,
-    transitionProperty: ['all', 'none', 'box-shadow', 'background-color', 'initial', 'inherit', 'stroke'],
+    transitionProperty: ['all', 'none', 'box-shadow', 'background-color', 'transform', 'initial', 'inherit', 'stroke'],
     visibility: ['visible', 'hidden', 'initial', 'inherit'],
     zIndex: [1, 10, 20, 100, 9999, 10000, 999999],
     strokeWidth: commonVars.space,

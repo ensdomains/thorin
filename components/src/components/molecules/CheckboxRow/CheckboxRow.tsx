@@ -11,6 +11,8 @@ import { CheckSVG } from '@/src/icons'
 import { Typography } from '../../atoms'
 import type { Colors, ColorStyles, Hue } from '@/src/tokens'
 import { getColorStyleParts } from '@/src/utils/getColorStyleParts'
+import clsx from 'clsx'
+import { assignInlineVars } from '@vanilla-extract/dynamic'
 
 export type CheckboxRowProps = {
   label: string
@@ -20,14 +22,16 @@ export type CheckboxRowProps = {
 
 type BaseTheme = 'Primary' | 'Secondary'
 
-const ContainerBox = ({ disabled, ...props }: BoxProps) => (
+const ContainerBox = ({ disabled, className, style, ...props }: BoxProps) => (
   <Box
     position="relative"
-    transform={{
-      base: translateY(0),
-      hover: translateY(disabled ? 0 : -1),
-    }}
-    transition="transform 150ms ease-in-out"
+    className={clsx(styles.containerBox, className)}
+    style={{ ...style, ...assignInlineVars({
+      [styles.isContainerBoxDisabled]: translateY(disabled ? 0 : -1),
+    }) }}
+    transitionProperty="transform"
+    transitionDuration={150}
+    transitionTimingFunction="ease-in-out"
     {...props}
     width="full"
   />
@@ -65,7 +69,9 @@ const Label = ({
     display="flex"
     gap="4"
     padding="4"
-    transition="all 0.3s ease-in-out"
+    transitionProperty="all"
+    transitionDuration={300}
+    transitionTimingFunction="ease-in-out"
     wh="full"
   />
 )
@@ -112,7 +118,9 @@ const Circle = ({
     display="flex"
     justifyContent="center"
     position="absolute"
-    transition="all 0.3s ease-in-out"
+    transitionProperty="all"
+    transitionDuration={300}
+    transitionTimingFunction="ease-in-out"
     wh="full"
   >
     <SVG as={CheckSVG} />

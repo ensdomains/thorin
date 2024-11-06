@@ -1,6 +1,7 @@
-import { globalStyle, style } from '@vanilla-extract/css'
+import { createVar, globalStyle, style } from '@vanilla-extract/css'
 
 import { modeVars } from '@/src/css/theme.css'
+import { translateY } from '@/src/css/utils/common'
 
 export const input = style({})
 
@@ -53,4 +54,13 @@ globalStyle(`${input}:disabled:checked ~ ${label} ${circle}`, {
   backgroundColor: modeVars.color.border,
   color: modeVars.color.greyPrimary,
   borderColor: 'transparent',
+})
+
+export const isContainerBoxDisabled = createVar()
+
+export const containerBox = style({
+  'transform': translateY(0),
+  ':hover': {
+    transform: isContainerBoxDisabled,
+  },
 })
