@@ -24,5 +24,3 @@ export const brightness = (value: number | string) =>
 
 export const rotate = (value: number | string) =>
   base('rotate', value, 0, 'deg')
-
-export const rgb = (value: string) => `rgb(${value})`
