@@ -1,7 +1,5 @@
 import * as React from 'react'
 
-import { brightness, translateY } from '@/src/css/utils/common'
-
 import * as styles from './styles.css'
 
 import type { FieldBaseProps } from '../../atoms/Field/Field'
@@ -10,6 +8,7 @@ import { getTestId } from '../../../utils/utils'
 import type { BoxProps } from '../../atoms/Box/Box'
 import { Box } from '../../atoms/Box/Box'
 import type { Color } from '@/src/tokens/color'
+import clsx from 'clsx'
 type NativeInputProps = React.InputHTMLAttributes<HTMLInputElement>
 
 export type RadioButtonProps = {
@@ -45,9 +44,11 @@ Omit<
   | 'type'
   | 'role'
   | 'color'
+  | 'height'
+  | 'width'
 > & { color?: Color }
 
-const Mark = ({ $color, disabled, ...props }: BoxProps & { $color: Color }) => (
+const Mark = ({ $color, disabled, className, ...props }: BoxProps & { $color: Color }) => (
   <Box
     {...props}
     backgroundColor={disabled ? 'greyPrimary' : $color}
@@ -56,14 +57,16 @@ const Mark = ({ $color, disabled, ...props }: BoxProps & { $color: Color }) => (
     pointerEvents="none"
     position="absolute"
     top="1/2"
-    transition="all 150ms ease-in-out"
-    translate="-50% -50%"
+    transitionProperty="all"
+    transitionDuration={150}
+    transitionTimingFunction="ease-in-out"
     wh="3"
+    className={clsx(styles.mark, className)}
   />
 )
 
 const Input = React.forwardRef<HTMLElement, BoxProps & { $color: Color }>(
-  ({ $color, ...props }, ref) => (
+  ({ $color, className, ...props }, ref) => (
     <Box position="relative" wh="5">
       <Box
         {...props}
@@ -72,27 +75,20 @@ const Input = React.forwardRef<HTMLElement, BoxProps & { $color: Color }>(
         borderRadius="full"
         cursor={{ base: 'pointer', disabled: 'not-allowed' }}
         display="grid"
-        filter={{
-          base: brightness(1.0),
-          hover: brightness(1.05),
-          disabled: brightness(1),
-        }}
         flexBasis="5"
         flexGrow={0}
         flexShrink={0}
         placeContent="center"
         ref={ref}
         role="radio"
-        transform={{
-          base: translateY(0),
-          hover: translateY(-1),
-          disabled: translateY(0),
-        }}
-        transition="all 150ms ease-in-out"
+        className={clsx(styles.input, className)}
+        transitionProperty="all"
+        transitionDuration={150}
+        transitionTimingFunction="ease-in-out"
         type="radio"
         wh="5"
       />
-      <Mark $color={$color} className={styles.mark} />
+      <Mark $color={$color} />
     </Box>
   ),
 )
