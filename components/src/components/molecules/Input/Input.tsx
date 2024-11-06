@@ -225,7 +225,9 @@ const ActionButton = ({
         display="block"
         fill="currentColor"
         stroke="currentColor"
-        transition="all 150ms ease-in-out"
+        transitionDuration={150}
+        transitionProperty="all"
+        transitionTimingFunction="ease-in-out"
         wh={getValueForSize($size, 'icon')}
       />
     </Box>

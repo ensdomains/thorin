@@ -11,6 +11,7 @@ import clsx from 'clsx'
 import type { Colors, ColorStyles } from '@/src/tokens'
 import { getColorStyleParts } from '@/src/utils/getColorStyleParts'
 import { match } from 'ts-pattern'
+import { assignInlineVars } from '@vanilla-extract/dynamic'
 
 export type TagProps = {
   /** Element type of container */
@@ -29,12 +30,12 @@ export const Tag: React.FC<TagProps> = ({
   size = 'small',
   colorStyle = 'accentSecondary',
   className,
+  style,
   ...props
 }) => {
   const [baseColor, baseTheme] = getColorStyleParts(colorStyle)
   return (
     <Box
-      className={clsx(className, styles.tag)}
       alignItems="center"
       as={as}
       backgroundColor={{
@@ -56,15 +57,17 @@ export const Tag: React.FC<TagProps> = ({
       lineHeight={size === 'small' ? 'extraSmall' : 'small'}
       px="2"
       py="0.5"
-      transform={{
-        base: translateY(0),
-        hover: translateY(hover ? -1 : 0),
-        active: translateY(-1),
-      }}
+
       transitionDuration={150}
       transitionTimingFunction="inOut"
       width="max"
       {...removeNullishProps(props)}
+      style={{
+        ...style, ...assignInlineVars({
+          [styles.tagHover]: translateY(hover ? -1 : 0),
+        }),
+      }}
+      className={clsx(className, styles.tag)}
     >
       {children}
     </Box>

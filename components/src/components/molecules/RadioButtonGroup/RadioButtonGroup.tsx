@@ -37,7 +37,7 @@ export type RadioButtonGroupProps = {
   onChange?: NativeInputProps['onChange']
   /** The handler for the blur event. */
   onBlur?: NativeInputProps['onBlur']
-} & BoxProps
+} & Omit<BoxProps, 'onChange' | 'onBlur'>
 
 export const RadioButtonGroup = React.forwardRef<HTMLDivElement, RadioButtonGroupProps>(
   (

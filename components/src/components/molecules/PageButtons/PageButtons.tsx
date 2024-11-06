@@ -51,7 +51,8 @@ const PageButton = ({
     {...props}
     as="button"
     backgroundColor={{ base: 'background', hover: 'greySurface' }}
-    border="1px solid"
+    borderWidth="1x"
+    borderStyle="solid"
     borderColor="border"
     borderRadius={getValueForSize($size, 'borderRadius')}
     color={$selected ? 'accent' : 'greyPrimary'}

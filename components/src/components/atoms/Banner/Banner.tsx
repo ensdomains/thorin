@@ -7,6 +7,9 @@ import { Typography } from '../Typography/Typography'
 import { AlertSVG, CrossSVG, EthSVG, UpRightArrowSVG } from '../../../index'
 import type { BoxProps } from '../Box/Box'
 import { Box } from '../Box/Box'
+import * as styles from './styles.css'
+import { clsx } from 'clsx'
+import { assignInlineVars } from '@vanilla-extract/dynamic'
 
 type IconTypes = 'filledCircle' | 'normal' | 'none'
 
@@ -54,7 +57,7 @@ type ContainerProps = BoxProps & {
   $hasAction: boolean
 }
 const ContainerBox = React.forwardRef<HTMLElement, ContainerProps>(
-  ({ $alert, $hasAction, ...props }, ref) => (
+  ({ $alert, $hasAction, className, style, ...props }, ref) => (
     <Box
       alignItems={{ base: 'stretch', sm: 'center' }}
       backgroundColor={{
@@ -71,15 +74,15 @@ const ContainerBox = React.forwardRef<HTMLElement, ContainerProps>(
       position="relative"
       pr={$hasAction ? '8' : undefined}
       ref={ref}
-      transform={{
-        base: 'translateY(0)',
-        hover: $hasAction ? 'translateY(-1px)' : 'translateY(0px)',
-      }}
       transitionDuration={150}
       transitionProperty="all"
       transitionTimingFunction="ease-in-out"
       width="full"
       {...props}
+      className={clsx(styles.containerBox, className)}
+      style={{ ...style, ...assignInlineVars({
+        [styles.containerBoxHasAction]: $hasAction ? 'translateY(-1px)' : 'translateY(0px)',
+      }) }}
     />
   ),
 )
