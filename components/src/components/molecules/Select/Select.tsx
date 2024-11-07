@@ -181,7 +181,7 @@ const SelectActionButton = ({
     paddingRight={getValueForSize($size, 'outerPadding')}
   >
     <Box
-      as={<CrossCircleSVG />}
+      as={CrossCircleSVG}
       display="block"
       wh={getValueForSize($size, 'iconWidth')}
     />
@@ -499,6 +499,9 @@ Omit<
   | 'aria-invalid'
   | 'onClick'
   | 'onKeyDown'
+  | 'color'
+  | 'height'
+  | 'width'
 >
 
 const getPadding = (

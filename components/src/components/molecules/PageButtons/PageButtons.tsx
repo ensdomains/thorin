@@ -20,7 +20,7 @@ export type PageButtonsProps = {
   alwaysShowLast?: boolean
   showEllipsis?: boolean
   onChange: (value: number) => void
-} & Omit<NativeDivProps, 'children' | 'onChange'>
+} & Omit<NativeDivProps, 'children' | 'onChange' | 'color' | 'height' | 'width'>
 
 enum Marker {
   ellipsis = -1,
@@ -64,7 +64,9 @@ const PageButton = ({
     minWidth={getValueForSize($size, 'minWidth')}
     padding="2"
     pointerEvents={$selected ? 'none' : 'auto'}
-    transition="all 0.15s ease-in-out"
+    transitionDuration={150}
+    transitionProperty="all"
+    transitionTimingFunction="ease-in-out"
   />
 )
 
