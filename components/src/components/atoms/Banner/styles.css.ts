@@ -14,3 +14,18 @@ export const containerBox = style({
     transform: containerBoxHasAction,
   },
 })
+
+export const svgBoxTransform = createVar()
+
+export const svgBox = style({
+  transform: svgBoxTransform,
+})
+
+export const actionButtonIconBoxHasAction = createVar()
+
+export const actionButtonIconBox = style({
+  'transform': translateY(0),
+  ':hover': {
+    transform: actionButtonIconBoxHasAction,
+  },
+})

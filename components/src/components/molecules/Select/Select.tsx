@@ -219,10 +219,13 @@ const ToggleMenuButton = ({
       paddingRight={getValueForSize($size, 'outerPadding')}
     >
       <Box
-        as={<DownChevronSVG />}
+        as={DownChevronSVG}
         display="block"
         fill="currentColor"
-        transform={rotate(rotation)}
+        className={styles.toggleMenuButton}
+        style={assignInlineVars({
+          [styles.toggleMenuButtonRotation]: rotate(rotation),
+        })}
         transitionDuration={200}
         transitionProperty="all"
         transitionTimingFunction="inOut"

@@ -29,3 +29,9 @@ export const selectOptionContainer = style({
   top: selectOptionContainerTop,
   bottom: selectOptionContainerBottom,
 })
+
+export const toggleMenuButtonRotation = createVar()
+
+export const toggleMenuButton = style({
+  transform: toggleMenuButtonRotation,
+})

@@ -18,13 +18,13 @@ type BaseProps = {
   title?: string
   as?: 'a'
   onDismiss?: () => void
-  actionIcon?: React.ReactNode
-  icon?: React.ReactNode
+  actionIcon?: React.FC
+  icon?: React.FC
   iconType?: IconTypes
 } & BoxProps
 
 type WithIcon = {
-  icon?: React.ReactNode
+  icon?: React.FC
   iconType?: Omit<IconTypes, 'none'>
 }
 
@@ -96,6 +96,9 @@ const IconBox = ({
     borderRadius="full"
     color={getValueForAlert($alert, 'svg')}
     flex={0}
+    display="flex"
+    alignItems="center"
+    justifyContent="center"
     flexBasis={{ base: '8', sm: '10' }}
     height={{ base: '8', sm: '10' }}
     width={{ base: '8', sm: '10' }}
@@ -105,14 +108,17 @@ const IconBox = ({
 
 const SVGBox = ({
   $alert,
-  ...props
+  as,
 }: BoxProps & { $alert: NonNullableAlert }) => (
   <Box
     display="block"
-    height="full"
-    transform={$alert === 'info' ? 'scale(1)' : 'scale(0.5)'}
-    width="full"
-    {...props}
+    height={{ base: '4', sm: '5' }}
+    width={{ base: '4', sm: '5' }}
+    as={as}
+    className={styles.svgBoxTransform}
+    style={assignInlineVars({
+      [styles.svgBoxTransform]: $alert === 'info' ? 'scale(1)' : 'scale(0.5)',
+    })}
   />
 )
 
@@ -131,6 +137,8 @@ const ActionButtonBox = (props: BoxProps) => (
 const ActionButtonIconBox = ({
   $alert,
   $hasAction,
+  className,
+  style,
   ...props
 }: BoxProps & { $alert: NonNullableAlert, $hasAction: boolean }) => (
   <Box
@@ -148,15 +156,17 @@ const ActionButtonIconBox = ({
     display="flex"
     height="5"
     justifyContent="center"
-    transform={{
-      base: 'translateY(0)',
-      hover: $hasAction ? 'translateY(-1px)' : 'translateY(0px)',
-    }}
     transitionDuration={150}
     transitionProperty="all"
     transitionTimingFunction="ease-in-out"
     width="5"
     {...props}
+    className={
+      clsx(styles.actionButtonIconBox, className)
+    }
+    style={{ ...style, ...assignInlineVars({
+      [styles.actionButtonIconBoxHasAction]: $hasAction ? 'translateY(-1px)' : 'translateY(0px)',
+    }) }}
   />
 )
 
@@ -171,7 +181,7 @@ const ActionButton = ({
   onDismiss,
 }: Pick<BannerProps, 'alert' | 'onDismiss'> & { hasHref: boolean } & WithIcon) => {
   if (onDismiss) {
-    const Icon = (icon || CrossSVG) as React.ReactElement
+    const Icon = (icon || CrossSVG)
     return (
       <ActionButtonBox onClick={() => onDismiss()}>
         <ActionButtonIconBox $alert={alert} $hasAction>
@@ -219,8 +229,6 @@ export const Banner = React.forwardRef<
     const hasHref = !!props.href
     const hasAction = hasHref || !!props.onClick
 
-    console.log('as', asProp, props)
-
     return (
       <ContainerBox
         {...props}
@@ -230,7 +238,7 @@ export const Banner = React.forwardRef<
         ref={ref}
       >
         <IconBox $alert={alert}>
-          <SVGBox $alert={alert} as={Icon as any} />
+          <SVGBox $alert={alert} as={Icon} />
         </IconBox>
         <Box
           display="flex"
