@@ -41,6 +41,8 @@ export const Box = forwardRef<HTMLElement, BoxProps >(
       className: clsx(atomicCss, className),
       ...nativeProps,
       ref,
-    }, children)
+    } as React.RefAttributes<HTMLElement>,
+    children,
+    )
   },
 )
