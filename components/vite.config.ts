@@ -39,7 +39,7 @@ export default defineConfig(({ mode }) => {
     plugins: [
       tsconfigPaths({ projects: ['tsconfig.json'] }),
       vanillaExtractPlugin({
-        identifiers: mode === 'development' ? ({ hash }) => `thorin-${hash}` : 'short',
+        identifiers: mode === 'development' || mode === 'test' ? ({ hash }) => `thorin-${hash}` : 'short',
       }),
       dtsPlugin({ entryRoot: path.resolve(__dirname),
         exclude: [
@@ -56,6 +56,7 @@ export default defineConfig(({ mode }) => {
       }),
     ],
     test: {
+      css: true,
       environment: 'jsdom',
       globals: true,
       coverage: {

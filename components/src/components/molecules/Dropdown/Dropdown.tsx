@@ -8,7 +8,7 @@ import { Button } from '@/src/components/atoms/Button/Button'
 import type { Colors } from '@/src/tokens'
 import { breakpoints } from '@/src/tokens'
 
-import { commonVars, modeVars } from '@/src/css/theme.css'
+import { modeVars } from '@/src/css/theme.css'
 
 import type { Color } from '@/src/interfaces/withColor'
 

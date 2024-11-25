@@ -7,7 +7,9 @@ import { translateY } from '@/src/css/utils/common'
 
 import { Typography } from '../../atoms'
 import { Backdrop } from '../../molecules'
-import { CrossSVG } from '@/src/icons'
+import { CrossSVG } from '../../../index'
+import { commonVars } from '@/src/css/theme.css'
+
 import { getTestId } from '../../../utils/utils'
 import type { BoxProps } from '../../atoms/Box/Box'
 import { Box } from '../../atoms/Box/Box'
@@ -25,6 +27,7 @@ const CloseIcon = (props: BoxProps) => (
     position="absolute"
     right="2.5"
     top="2.5"
+    color={{ base: 'textAccent' }}
     transitionDuration={150}
     transitionProperty="all"
     transitionTimingFunction="inOut"
@@ -55,16 +58,16 @@ const Container = React.forwardRef<HTMLElement, BoxProps & ContainerProps>(
         ...assignInlineVars({
           [styles.containerLeft]: match($mobile)
             .with(true, () => ($popped ? '2.5%' : '3.75%'))
-            .otherwise(() => ($left ? `$${$left}` : 'unset')),
+            .otherwise(() => ($left ? commonVars.space[$left] : 'unset')),
           [styles.containerRight]: match($mobile)
             .with(true, () => 'unset')
-            .otherwise(() => ($right ? `$${$right}` : 'unset')),
+            .otherwise(() => ($right ? commonVars.space[$right] : 'unset')),
           [styles.containerTop]: match($mobile)
             .with(true, () => 'calc(100vh / 100 * 2.5)')
-            .otherwise(() => ($top ? `$${$top}` : 'unset')),
+            .otherwise(() => ($top ? commonVars.space[$top] : 'unset')),
           [styles.containerBottom]: match($mobile)
             .with(true, () => 'unset' as const)
-            .otherwise(() => ($bottom ? $bottom : 'unset')),
+            .otherwise(() => ($bottom ? commonVars.space[$bottom] : 'unset')),
           [styles.containerWidth]: $popped ? '95%' : '92.5%',
           [styles.containerTransform]: $state.status === 'entered' ? translateY(0) : translateY(-64),
         }),
@@ -327,11 +330,16 @@ export const Toast: React.FC<ToastProps> = ({
   const currentTimeout = React.useRef<number | undefined>()
 
   React.useEffect(() => {
+    console.log('open', open)
     const originalPopped = popped
     if (open && window) {
+      console.log('setting timeout')
       if (originalPopped) setPopped(false)
       currentTimeout.current = window.setTimeout(
-        () => onClose(),
+        () => {
+          console.log('closing')
+          onClose()
+        },
         msToShow || 8000,
       )
       return () => {

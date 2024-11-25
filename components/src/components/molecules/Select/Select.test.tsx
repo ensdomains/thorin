@@ -133,21 +133,13 @@ describe('<Select />', () => {
         />
       </div>,
     )
-
-    const getDisplayValue = () =>
-      getPropertyValue(screen.getByRole('listbox'), 'display')
-    expect(getDisplayValue()).toEqual('none')
+    expect(screen.queryByRole('listbox')).toBeNull()
 
     await userEvent.click(screen.getByTestId('select-container'))
+    expect(screen.queryByRole('listbox')).not.toBeNull()
 
-    await waitFor(() => {
-      expect(getDisplayValue()).toEqual('block')
-    })
     await userEvent.click(screen.getByText('outside'))
-
-    await waitFor(() => {
-      expect(getDisplayValue()).toEqual('none')
-    })
+    expect(screen.queryByRole('listbox')).toBeNull()
   })
 
   /** Autocomplete */

@@ -19,7 +19,7 @@ describe('<RecordItem />', () => {
   it('renders', () => {
     render(
       <RecordItem
-        icon={<FlameSVG />}
+        icon={FlameSVG}
         keyLabel="Title"
         keySublabel="Subtitle"
         value="Real value"
@@ -36,7 +36,7 @@ describe('<RecordItem />', () => {
   it('should copy value to clipboard if clicked', () => {
     render(
       <RecordItem
-        icon={<FlameSVG />}
+        icon={FlameSVG}
         keyLabel="Title"
         keySublabel="Subtitle"
         value="Real value"
@@ -54,7 +54,7 @@ describe('<RecordItem />', () => {
       <RecordItem
         as="a"
         data-testid="record-item"
-        icon={<FlameSVG />}
+        icon={FlameSVG}
         keyLabel="Title"
         keySublabel="Subtitle"
         value="Real value"
@@ -70,7 +70,7 @@ describe('<RecordItem />', () => {
       <RecordItem
         as="a"
         data-testid="record-item"
-        icon={<FlameSVG />}
+        icon={FlameSVG}
         keyLabel="Title"
         keySublabel="Subtitle"
         link="https://ens.domains"
@@ -90,7 +90,7 @@ describe('<RecordItem />', () => {
       <RecordItem
         as="a"
         data-testid="record-item"
-        icon={<FlameSVG />}
+        icon={FlameSVG}
         keyLabel="Title"
         keySublabel="Subtitle"
         target="_parent"
@@ -110,7 +110,7 @@ describe('<RecordItem />', () => {
       <RecordItem
         as="button"
         data-testid="record-item"
-        icon={<FlameSVG />}
+        icon={FlameSVG}
         keyLabel="Title"
         keySublabel="Subtitle"
         value="Real value"

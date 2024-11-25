@@ -39,6 +39,8 @@ export const Backdrop: React.FC<BackdropProps> = ({
     mountOnEnter: true,
     unmountOnExit: true,
   })
+
+  console.log('state', state)
   const boxRef = React.useRef<HTMLDivElement | null>(null)
   const Background = surface || BackdropSurface
 

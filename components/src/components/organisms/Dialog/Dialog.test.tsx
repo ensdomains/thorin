@@ -1,13 +1,19 @@
 import * as React from 'react'
 
-import { cleanup, render, screen, userEvent, waitFor } from '@/test'
+import { cleanup, render, screen, userEvent, waitFor, act } from '@/test'
+import { vi } from 'vitest'
 
 import { Dialog } from './Dialog'
 
 window.scroll = vi.fn()
 
 describe('<Modal />', () => {
-  afterEach(cleanup)
+  beforeEach(() => vi.useFakeTimers({ shouldAdvanceTime: true }))
+
+  afterEach(() => {
+    vi.useRealTimers()
+    cleanup()
+  })
 
   it('renders', async () => {
     render(
@@ -15,7 +21,7 @@ describe('<Modal />', () => {
         Modal
       </Dialog>,
     )
-
+    await act(() => vi.advanceTimersByTime(1000))
     await waitFor(() => expect(screen.getByText('Modal')).toBeVisible(), {
       timeout: 300,
     })

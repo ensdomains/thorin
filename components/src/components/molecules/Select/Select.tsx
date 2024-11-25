@@ -700,6 +700,8 @@ export const Select = React.forwardRef<HTMLInputElement, SelectProps>(
       preEnter: true,
     })
 
+    console.log('state', state)
+
     useEffect(() => {
       toggle(isOpen)
     }, [isOpen])

@@ -26,6 +26,7 @@ export const BackdropSurface = React.forwardRef<HTMLElement, BackdropSurfaceProp
       transitionTimingFunction="popIn"
       width="viewWidth"
       zIndex={9999}
+      data-testid="backdrop-surface"
     />
   ),
 )

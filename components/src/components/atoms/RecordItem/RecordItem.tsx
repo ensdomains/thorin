@@ -21,7 +21,7 @@ type BaseProps = {
   value: string
   size?: Size
   inline?: boolean
-  icon?: ReactNode
+  icon?: React.ComponentProps<typeof Box>['as']
   keyLabel?: string | ReactNode
   keySublabel?: string | ReactNode
   children: string
@@ -243,7 +243,7 @@ export const RecordItem = React.forwardRef<
       <ContainerBox $inline={inline} as={asProp} {...generatedProps}>
         {hasPrefix && (
           <PrefixBox $inline={inline} $size={size}>
-            {icon && <PrefixSVGBox as={icon as React.ReactElement} />}
+            {icon && <PrefixSVGBox as={icon} />}
             {hasLabels && (
               <PrefixLabelsContainerBox $inline={inline}>
                 {KeyLabel}
