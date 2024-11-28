@@ -1,4 +1,5 @@
-import fs from 'fs-extra'
+import fs from 'node:fs/promises'
+import { existsSync } from 'node:fs'
 import dedent from 'dedent'
 import prompt from 'prompt'
 import path from 'node:path'
@@ -46,7 +47,7 @@ const COMPONENT_GROUPS = {
 
     const componentDir = path.join(componentsDir, componentGroup, componentName)
 
-    const exists = fs.existsSync(componentDir)
+    const exists = existsSync(componentDir)
     if (exists) {
       console.log('Component already exists.')
       return
@@ -56,7 +57,7 @@ const COMPONENT_GROUPS = {
 
     // Create directory
     console.log(`Create directory at ${componentDir}`)
-    await fs.mkdirp(componentDir)
+    await fs.mkdir(componentDir, { recursive: true })
 
     /**
      * Write component file
