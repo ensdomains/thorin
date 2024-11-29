@@ -34,7 +34,8 @@ const Pre = (props: PropsWithChildren) => (
     backgroundColor="greySurface"
     borderRadius="large"
     padding="4"
-    border="1px solid"
+    borderWidth="1x"
+    borderStyle="solid"
     borderColor="border"
     position="relative"
   />

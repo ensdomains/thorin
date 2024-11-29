@@ -1,7 +1,9 @@
 import React from 'react'
 import type { RawColor } from '@ensdomains/thorin'
-import { Box, Typography } from '@ensdomains/thorin'
+import { Box, rawColorToRGB, Typography } from '@ensdomains/thorin'
 import { match, P } from 'ts-pattern'
+import * as styles from './PaletteRow.css'
+import { assignInlineVars } from '@vanilla-extract/dynamic'
 
 const PaletteCell = ({
   name,
@@ -26,11 +28,14 @@ const PaletteCell = ({
       <Box
         width="full"
         height="24"
-        // backgroundColor={rawColorToRGB(color)}
+        className={styles.paletteCell}
+        style={assignInlineVars({
+          [styles.paletteCellBackgroundColor]: rawColorToRGB(color),
+        })}
         borderRadius="large"
-        // border="1px solid"
+        borderWidth="1x"
+        borderStyle="solid"
         borderColor="border"
-        // transform={{ base: 'scale(1)', hover: 'scale(1.05)' }}
         transitionDuration={150}
         transitionTimingFunction="ease-in-out"
         transitionProperty="transform"
