@@ -6,10 +6,11 @@ import { Portal } from '../Portal/Portal'
 import type { BoxProps } from '../Box/Box'
 import { Box } from '../Box/Box'
 import { getValueForTransitionState } from './utils/getValueForTransitionState'
-import { container } from './style.css'
+import * as styles from './style.css'
 import { debounce } from '../../../utils/debounce'
 import { useBreakPoints } from '@/src/hooks/useBreakpoints'
 import type { TransitionDuration } from '@/src/tokens'
+import { assignInlineVars } from '@vanilla-extract/dynamic'
 
 export type DynamicPopoverSide = 'top' | 'right' | 'bottom' | 'left'
 
@@ -172,21 +173,23 @@ const PopoverBox = React.forwardRef<HTMLElement, BoxProps & PopoverBoxProps>(
     <Box
       {...props}
       boxSizing="border-box"
-      className={container}
+      className={styles.container}
       display="block"
       fontFamily="sans"
       style={{
         left: getValueForTransitionState($state.status, 'leftFunc')($x),
         top: getValueForTransitionState($state.status, 'topFunc')($y),
         transform: `translate3d(0,0,0) ${$translate}`,
+        ...assignInlineVars({
+          [styles.popoverBoxWidth]: $width.toString(),
+          [styles.popoverBoxWidth]: $mobileWidth.toString(),
+        }),
       }}
-      // left={getValueForTransitionState($state.status, 'leftFunc')($x)}
       opacity={getValueForTransitionState($state.status, 'opacity')}
       overflow={$hideOverflow ? 'hidden' : 'visible'}
       pointerEvents={getValueForTransitionState($state.status, 'pointerEvents')}
       position="absolute"
       ref={ref}
-      // top={getValueForTransitionState($state.status, 'topFunc')($y)}
       // transform={{
       //   base: `translate3d(0, 0, 0) ${$mobileTranslate}`,
       //   sm: `translate3d(0, 0, 0) ${$translate}`,
@@ -197,7 +200,6 @@ const PopoverBox = React.forwardRef<HTMLElement, BoxProps & PopoverBoxProps>(
         'transitionProperty',
       )}
       visibility={getValueForTransitionState($state.status, 'visibility')}
-      width={{ xs: $mobileWidth, sm: $width }}
       zIndex={999999}
     />
   ),
