@@ -20,8 +20,6 @@ import clsx from 'clsx'
 import { assignInlineVars } from '@vanilla-extract/dynamic'
 export type Size = 'small' | 'medium' | 'large'
 
-type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
-
 type BaseProps = {
   /** The url of the avatar icon, or the avatar props to passthrough */
   avatar?: AvatarProps['src'] | Omit<AvatarProps, 'label'>
@@ -37,7 +35,7 @@ type BaseProps = {
   size?: Size
   /** The colour of the indicator */
   indicatorColor?: Colors
-} & Omit<NativeDivProps, 'children' | 'color'>
+} & Omit<BoxProps, 'size'>
 
 interface ContainerProps {
   $size: Size

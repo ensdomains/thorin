@@ -5,9 +5,8 @@ import * as styles from './styles.css'
 import type { BoxProps } from '../Box/Box'
 import { Box } from '../Box/Box'
 import type { Color } from '@/src/interfaces/withColor'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 
-type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 type Size = 'small' | 'medium' | 'large'
 
 export type SpinnerProps = {
@@ -16,7 +15,7 @@ export type SpinnerProps = {
   /** A tokens 'mode' color value */
   color?: Color
   size?: Size
-} & Omit<NativeDivProps, 'children' | 'color'>
+} & Omit<BoxProps, 'size'>
 
 const ContainerBox = React.forwardRef<
   HTMLElement,

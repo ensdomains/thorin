@@ -10,14 +10,11 @@ import { Box } from '../../atoms/Box/Box'
 import * as styles from './styles.css'
 import clsx from 'clsx'
 
-type NativeDivProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'color'>
-
 type Alignment = 'horizontal' | 'vertical'
 
-export type HelperProps = NativeDivProps & {
+export type HelperProps = BoxProps & {
   alert?: Alert
   alignment?: Alignment
-  children: React.ReactNode
 }
 
 const Container = ({

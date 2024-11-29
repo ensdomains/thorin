@@ -5,8 +5,6 @@ import type { BoxProps } from '../../atoms'
 import { Box } from '../../atoms'
 import { getValueForSize } from './utils/getValueForSize'
 
-type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
-
 export type Size = 'small' | 'medium'
 
 export type PageButtonsProps = {
@@ -20,7 +18,7 @@ export type PageButtonsProps = {
   alwaysShowLast?: boolean
   showEllipsis?: boolean
   onChange: (value: number) => void
-} & Omit<NativeDivProps, 'children' | 'onChange' | 'color' | 'height' | 'width'>
+} & Omit<BoxProps, 'children' | 'onChange' | 'size'>
 
 enum Marker {
   ellipsis = -1,

@@ -86,8 +86,6 @@ const Circle = ({
   )
 }
 
-type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
-
 export type CountdownCircleProps = {
   accessibilityLabel?: string
   color?: Color
@@ -96,7 +94,7 @@ export type CountdownCircleProps = {
   disabled?: boolean
   callback?: () => void
   size?: 'small' | 'large'
-} & Omit<NativeDivProps, 'children' | 'color'>
+} & Omit<BoxProps, 'children' | 'color' | 'size'>
 
 export const CountdownCircle = React.forwardRef<HTMLDivElement, CountdownCircleProps>(
   (

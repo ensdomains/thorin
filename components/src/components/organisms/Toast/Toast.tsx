@@ -114,21 +114,18 @@ const Draggable = () => (
   </Box>
 )
 
-type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
-
 export type ToastProps = {
   onClose: () => void
   open: boolean
   msToShow?: number
   title: string
   description?: string
-  children?: NativeDivProps['children']
   top?: Space
   left?: Space
   right?: Space
   bottom?: Space
   variant?: 'touch' | 'desktop'
-} & Omit<NativeDivProps, 'title' | 'color'>
+} & Omit<BoxProps, 'title' | 'color'>
 
 type InternalProps = {
   state: TransitionState

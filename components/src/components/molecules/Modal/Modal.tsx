@@ -72,10 +72,8 @@ const Container: React.FC<BoxProps & ContainerProps> = ({
   )
 }
 
-type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
-
 export type ModalProps = {
-  children: NativeDivProps['children']
+  children: React.ReactNode
   /** An element providing styling for the backdrop component. Defaults to the BackdropSurface component. */
   backdropSurface?: React.ElementType
   /** A handler for click events in the background. */
@@ -88,7 +86,7 @@ export type ModalProps = {
   renderCallback?: () => void
   /** if true, modal will remain centered to bottom of page */
   mobileOnly?: boolean
-} & Omit<NativeDivProps, 'color'>
+} & BoxProps
 
 export const Modal = ({
   children,
