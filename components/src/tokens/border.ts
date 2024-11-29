@@ -29,4 +29,5 @@ export const radii = {
   'input': '0.5rem',
   'card': '1rem',
   'checkbox': '0.25rem',
+  'unset': 'unset',
 }

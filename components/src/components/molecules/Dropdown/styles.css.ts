@@ -1,7 +1,8 @@
-import { style, styleVariants } from '@vanilla-extract/css'
+import { style } from '@vanilla-extract/css'
 
 import { commonVars } from '@/src/css/theme.css'
 import { recipe } from '@vanilla-extract/recipes'
+import { brightness } from '@/src/css/utils/common'
 
 export const menu = recipe({
   base: {
@@ -28,6 +29,14 @@ export const menu = recipe({
   },
 })
 
+export const menuButton = style({
+  'filter': brightness(1),
+  'transitionProperty': 'color, transform, filter',
+  ':active': {
+    filter: brightness(0.9),
+  },
+})
+
 export const actionSheeItem = style({
   selectors: {
     '&:first-child': {
@@ -39,4 +48,8 @@ export const actionSheeItem = style({
       borderBottomRightRadius: commonVars.radii.large,
     },
   },
+})
+
+export const menuButtonIndicator = style({
+  transform: 'translateY(-50%)',
 })

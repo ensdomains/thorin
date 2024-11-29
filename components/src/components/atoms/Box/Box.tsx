@@ -1,5 +1,6 @@
 import type {
-  AllHTMLAttributes, FC } from 'react'
+  AllHTMLAttributes, ComponentClass,
+  FunctionComponent } from 'react'
 import React, {
   forwardRef,
 } from 'react'
@@ -15,10 +16,12 @@ type HTMLProperties = Omit<
   'as' | 'width' | 'height' | 'color' | 'translate' | 'transform'
 >
 
-export type BoxProps = Sprinkles &
-  HTMLProperties & { as?: string | FC }
+export type AsProp = string | FunctionComponent | ComponentClass
 
-export const Box = forwardRef<HTMLElement, BoxProps >(
+export type BoxProps = Sprinkles &
+  HTMLProperties & { as?: AsProp }
+
+export const Box = forwardRef<HTMLElement, BoxProps>(
   (
     { as = 'div', className, children, ...props },
     ref,

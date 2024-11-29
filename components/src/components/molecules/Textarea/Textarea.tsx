@@ -119,6 +119,7 @@ const ActionButton = ({
   ...props
 }: BoxProps & { $size: Size, $icon: React.ReactNode }) => {
   const icon = React.isValidElement($icon) ? $icon : <CrossCircleSVG />
+
   return (
     <Box
       {...props}

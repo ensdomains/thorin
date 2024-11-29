@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import type { RadioButton } from '@/src/components/molecules'
+import type { RadioButton, RadioButtonProps } from '@/src/components/molecules'
 
 import { getTestId } from '../../../utils/utils'
 import { createSyntheticEvent } from '../../../utils/createSyntheticEvent'
@@ -102,7 +102,7 @@ export const RadioButtonGroup = React.forwardRef<HTMLDivElement, RadioButtonGrou
         role="radiogroup"
         onFocus={handleFocus}
       >
-        {React.Children.map(children as React.ReactElement<typeof RadioButton>[], (child) => {
+        {React.Children.map(children as unknown as React.ReactElement<RadioButtonProps>[], (child) => {
           if (child.props.checked && !didSetDefault) {
             setDidSetDefault(true)
             if (value !== child.props.value) {
@@ -114,6 +114,7 @@ export const RadioButtonGroup = React.forwardRef<HTMLDivElement, RadioButtonGrou
 
           const isChecked = child.props.value === value
 
+          // eslint-disable-next-line @eslint-react/no-clone-element
           return React.cloneElement(child, {
             ref: isChecked ? checkedRef : undefined,
             checked: isChecked,

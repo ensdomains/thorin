@@ -10,17 +10,18 @@ import { breakpoints } from '@/src/tokens'
 
 import { modeVars } from '@/src/css/theme.css'
 
-import type { Color } from '@/src/interfaces/withColor'
+import type { Color } from '@/src/tokens/color'
 
 import { ActionSheet } from './ActionSheet'
-import type { BoxProps } from '../../atoms/Box/Box'
+import type { AsProp, BoxProps } from '../../atoms/Box/Box'
 import { Box } from '../../atoms/Box/Box'
 import type { PopoverProps } from '../../atoms/DynamicPopover/DynamicPopover'
 import { DynamicPopover } from '../../atoms/DynamicPopover/DynamicPopover'
 import { debounce } from '@/src/utils/debounce'
 import { DownChevronSVG } from '@/src/icons'
 import { ScrollBox } from '../../atoms/ScrollBox/ScrollBox'
-import { menu } from './styles.css'
+import * as styles from './styles.css'
+import { clsx } from 'clsx'
 
 type Align = 'left' | 'right'
 type LabelAlign = 'flex-start' | 'flex-end' | 'center'
@@ -30,7 +31,7 @@ export type DropdownItemObject = {
   label: string
   onClick?: (value?: string) => void
   wrapper?: (children: React.ReactNode, key: React.Key) => JSX.Element
-  icon?: React.ReactNode
+  icon?: AsProp
   value?: string
   color?: Color
   disabled?: boolean
@@ -89,12 +90,11 @@ type PropsWithoutIsOpen = {
   setIsOpen?: never
 }
 
-type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
+type NativeDivProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'height' | 'width' | 'color'>
 
 type DropdownMenuProps = {
   items: DropdownItem[]
   setIsOpen: (isOpen: boolean) => void
-  width?: number | string
   shortThrow: boolean
   labelAlign?: LabelAlign
   direction: Direction
@@ -135,7 +135,7 @@ const DropdownMenuBox = React.forwardRef<
   return (
     <Box
       {...props}
-      className={menu({ transform: transformVariant })}
+      className={styles.menu({ transform: transformVariant })}
       backgroundColor="background"
       borderColor="border"
       borderRadius="2xLarge"
@@ -175,23 +175,23 @@ const DropdownMenuBox = React.forwardRef<
 
 interface MenuButtonProps {
   $color?: Colors
-  $icon?: React.ReactElement
+  $icon?: AsProp
   $showIndicator?: boolean | Colors
 }
 
 const MenuButton = React.forwardRef<HTMLElement, BoxProps & MenuButtonProps>(
-  ({ $color, $icon, $showIndicator, disabled, children, ...props }, ref) => (
+  ({ $color, $icon, $showIndicator, disabled, children, className, ...props }, ref) => (
     <Box
       {...props}
       alignItems="center"
       backgroundColor={{ base: 'backgroundPrimary', hover: 'greySurface' }}
       borderRadius="large"
       color={
-        disabled ? 'textTertiary' : $color ? $color : 'textPrimary'
+        disabled ? 'textDisabled' : $color ? $color : 'textPrimary'
       }
       cursor={disabled ? 'not-allowed' : 'pointer'}
       display="flex"
-      filter={{ base: 'brightness(1)', active: 'brightness(0.9)' }}
+      className={clsx(styles.menuButton, className)}
       fontWeight="normal"
       gap="2"
       height="12"
@@ -200,9 +200,7 @@ const MenuButton = React.forwardRef<HTMLElement, BoxProps & MenuButtonProps>(
       paddingRight={$showIndicator ? '6' : '3'}
       position="relative"
       ref={ref}
-      transform={{ base: 'translateY(0px)', active: 'translateY(0px)' }}
       transitionDuration={150}
-      // transitionProperty="color, transform, filter"
       transitionTimingFunction="ease-in-out"
       width="full"
     >
@@ -230,7 +228,7 @@ const MenuButton = React.forwardRef<HTMLElement, BoxProps & MenuButtonProps>(
           position="absolute"
           right="3"
           top="1/2"
-          transform="translateY(-50%)"
+          className={styles.menuButtonIndicator}
           wh="2"
         />
       )}
@@ -293,7 +291,7 @@ const DropdownMenu = React.forwardRef<HTMLDivElement, DropdownMenuProps>(
         href,
       } = item as DropdownItemObject
 
-      const props: React.ComponentProps<any> = {
+      const props = {
         $color: color,
         $showIndicator: showIndicator,
         $icon: icon,

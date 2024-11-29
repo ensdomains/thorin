@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { P, match } from 'ts-pattern'
 
-import { scale, translateY } from '@/src/css/utils/common'
+import { scale } from '@/src/css/utils/common'
 
 import { removeNullishProps } from '@/src/utils/removeNullishProps'
 
@@ -12,7 +12,7 @@ import { getValueForSize } from './utils/getValueForSize'
 
 import type { ReactNodeNoStrings } from '../../../types'
 import { Spinner } from '../Spinner/Spinner'
-import type { BoxProps } from '../Box/Box'
+import type { AsProp, BoxProps } from '../Box/Box'
 import { Box } from '../Box/Box'
 import * as styles from './Button.css'
 import clsx from 'clsx'
@@ -31,7 +31,7 @@ type BaseProps = {
   /** If true, prevents user interaction with button. */
   disabled?: NativeButtonProps['disabled']
   /** Insert a ReactNode before the children */
-  prefix?: ReactNodeNoStrings
+  prefix?: AsProp
   /** Shows loading spinner inside button */
   loading?: boolean
   /** Constrains button to specific shape */
@@ -39,7 +39,7 @@ type BaseProps = {
   /** Sets dimensions and layout  */
   size?: Size
   /** Adds ReactNode after children */
-  suffix?: ReactNodeNoStrings
+  suffix?: AsProp
   /** The zIndex attribute for button element. */
   zIndex?: string
   /** If true, sets the style to indicate "on" state. Useful for toggles switches. */

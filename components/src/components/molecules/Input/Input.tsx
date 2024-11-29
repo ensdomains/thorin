@@ -5,8 +5,6 @@ import { statusDot } from '@/src/css/recipes/statusDot.css'
 import { statusBorder } from '@/src/css/recipes/statusBorder.css'
 import { setNativeValue } from '@/src/utils/setNativeValue'
 
-import { scale } from '@/src/css/utils/common'
-
 import * as styles from './styles.css'
 
 import type { FieldBaseProps } from '../../atoms/Field/Field'
@@ -98,6 +96,8 @@ type BaseProps = Omit<FieldBaseProps, 'inline'> & {
   | 'onInput'
   | 'onKeyDown'
   | 'onWheel'
+  | 'height'
+  | 'color'
 >
 
 type WithTypeEmail = {
@@ -210,15 +210,13 @@ const ActionButton = ({
       color={{ base: 'greyPrimary', hover: 'greyBright' }}
       cursor="pointer"
       display="flex"
-      // flexBasis={getValueForSize($size, 'iconPadding')}
       flexGrow={0}
       flexShrink={0}
       justifyContent="flex-start"
-      // marginLeft={`calc(-1 * ${getValueForSize($size, 'iconPadding')})`}
       opacity="1"
-      // paddingRight={getValueForSize($size, 'outerPadding')}
-      transform={scale(1)}
-      transition="all 0.1s ease-in-out"
+      transitionDuration={100}
+      transitionProperty="all"
+      transitionTimingFunction="ease-in-out"
     >
       <Box
         as={Icon}
@@ -242,7 +240,7 @@ type InputComponentProps = {
   $iconWidth?: Space
 }
 
-const InputComponent = React.forwardRef<HTMLElement, BoxProps & InputComponentProps>(
+const InputComponent = React.forwardRef<HTMLInputElement, BoxProps & InputComponentProps>(
   (
     {
       $size,

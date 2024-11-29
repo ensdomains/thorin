@@ -1,6 +1,6 @@
 import React from 'react'
 import type { RawColor } from '@ensdomains/thorin'
-import { Box, Typography, rawColorToRGB } from '@ensdomains/thorin'
+import { Box, Typography } from '@ensdomains/thorin'
 import { match, P } from 'ts-pattern'
 
 const PaletteCell = ({
@@ -31,7 +31,9 @@ const PaletteCell = ({
         // border="1px solid"
         borderColor="border"
         // transform={{ base: 'scale(1)', hover: 'scale(1.05)' }}
-        // transition="transform 0.15s ease-in-out"
+        transitionDuration={150}
+        transitionTimingFunction="ease-in-out"
+        transitionProperty="transform"
         onClick={onClick}
       />
     </Box>

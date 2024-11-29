@@ -185,10 +185,10 @@ export const TouchToast = ({
   setPopped,
   ...props
 }: ToastProps &
-InternalProps & {
-  popped: boolean
-  setPopped: (popped: boolean) => void
-}) => {
+  InternalProps & {
+    popped: boolean
+    setPopped: (popped: boolean) => void
+  }) => {
   const ref = React.useRef<HTMLDivElement>(null)
   const [calcTop, setCalcTop] = React.useState(0.025 * window.innerHeight)
   const [touches, setTouches] = React.useState<Array<number | undefined>>([])

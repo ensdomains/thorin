@@ -1,9 +1,20 @@
 import { sprinkles } from '@/src/css/sprinkles.css'
+import { brightness, translateY } from '@/src/css/utils/common'
+import { createVar } from '@vanilla-extract/css'
 import { recipe } from '@vanilla-extract/recipes'
+
+export const hasDropdownBrightness = createVar()
+export const hasDropdownTransform = createVar()
 
 export const variants = recipe({
   base: {
-    transitionProperty: 'color, border-color, background-color, transform, filter',
+    'transitionProperty': 'color, border-color, background-color, transform, filter',
+    'filter': brightness(1),
+    'transform': translateY(0),
+    ':hover': {
+      filter: hasDropdownBrightness,
+      transform: hasDropdownTransform,
+    },
   },
   variants: {
     size: {

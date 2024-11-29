@@ -117,23 +117,27 @@ globalStyle(`${icon} svg`, {
   color: modeVars.color.greyPrimary,
 })
 
+const actionButtonBase = style({
+  transform: scale(1),
+})
+
 export const actionButton = styleVariants({
-  small: [sprinkles({
+  small: [actionButtonBase, sprinkles({
     flexBasis: '8.5',
     paddingRight: '3.5',
   }), { marginLeft: `calc(-1 * ${commonVars.space['8.5']})` }],
-  medium: [sprinkles({
+  medium: [actionButtonBase, sprinkles({
     flexBasis: '10',
     paddingRight: '4',
   }), { marginLeft: `calc(-1 * ${commonVars.space['10']})` }],
-  large: [
+  large: [actionButtonBase,
     sprinkles({
       flexBasis: '11',
       paddingRight: '4',
     }),
     { marginLeft: `calc(-1 * ${commonVars.space['11']})` },
   ],
-  extraLarge: [sprinkles({
+  extraLarge: [actionButtonBase, sprinkles({
     flexBasis: '14',
     paddingRight: '6',
   }), { marginLeft: `calc(-1 * ${commonVars.space['14']})` }],

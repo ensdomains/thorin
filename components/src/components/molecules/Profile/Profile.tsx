@@ -17,6 +17,7 @@ import { Box } from '../../atoms/Box/Box'
 import { Typography } from '../../atoms/Typography/Typography'
 import * as styles from './styles.css'
 import clsx from 'clsx'
+import { assignInlineVars } from '@vanilla-extract/dynamic'
 export type Size = 'small' | 'medium' | 'large'
 
 type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
@@ -51,31 +52,24 @@ const calculateWidth = (size: Size) => {
 }
 
 const Container = React.forwardRef<HTMLElement, BoxProps & ContainerProps>(
-  ({ $size, $hasDropdown, $open, className, ...props }, ref) => (
+  ({ $size, $hasDropdown, $open, className, style, ...props }, ref) => (
     <Box
       alignItems="center"
       backgroundColor={$open ? 'border' : 'backgroundPrimary'}
       borderRadius="full"
       cursor={$hasDropdown ? 'pointer' : 'unset'}
       display="flex"
-      filter={{
-        base: brightness(1),
-        hover: brightness($hasDropdown ? 1.05 : 1),
-      }}
       flexDirection="row"
       gap="2"
       justifyContent="flex-start"
       position="relative"
       ref={ref}
-      transform={{
-        base: translateY(0),
-        hover: translateY($hasDropdown ? -1 : 0),
-      }}
       transitionDuration={150}
       transitionTimingFunction="inOut"
       zIndex={10}
       {...props}
       className={clsx(styles.variants({ size: $size }), className)}
+      style={{ ...style, ...assignInlineVars({ [styles.hasDropdownBrightness]: brightness($hasDropdown ? 1.05 : 1) }), [styles.hasDropdownTransform]: translateY($hasDropdown ? -1 : 0) }}
     />
   ),
 )

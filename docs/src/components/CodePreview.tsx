@@ -17,9 +17,7 @@ import { Prism } from './Prism'
 import ComponentWrapper from '../playroom/ComponentWrapper'
 import { CopyButton } from './CopyButton'
 import type { BoxProps } from '@ensdomains/thorin'
-import { Box } from '@ensdomains/thorin'
-import { DownChevronSVG } from '@ensdomains/thorin'
-import { OutlinkSVG } from '@ensdomains/thorin'
+import { Box, DownChevronSVG, OutlinkSVG } from '@ensdomains/thorin'
 
 export type Props = {
   backgroundColor?: Colors
@@ -59,8 +57,8 @@ const ContainerInner = React.forwardRef<
     backgroundColor="background"
     borderTopLeftRadius="2xLarge"
     borderTopRightRadius="2xLarge"
-    // borderBottomLeftRadius={$expand ? '2xLarge' : 'unset'}
-    // borderBottomRightRadius={$expand ? '2xLarge' : 'unset'}
+    borderBottomLeftRadius={$expand ? '2xLarge' : 'unset'}
+    borderBottomRightRadius={$expand ? '2xLarge' : 'unset'}
     overflow="auto"
     padding="4"
   />
