@@ -8,7 +8,7 @@
     "limit": "50 kB"
   },
   {
-    "path": "./components/dist/style.css",
+    "path": "./components/dist/thorin.css",
     "limit": "40 kB",
     "webpack": false
   }

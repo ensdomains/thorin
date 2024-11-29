@@ -3,15 +3,18 @@
   "version": "1.0.0-beta.9",
   "description": "A web3 native design system",
   "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
-    "./style.css": {
-      "import": "./dist/style.css",
-      "require": "./dist/style.css"
+    "./thorin.css": {
+      "import": "./dist/thorin.css",
+      "require": "./dist/thorin.css"
     }
   },
   "sideEffects": [
@@ -33,7 +36,7 @@
     "prepack": "pnpm build",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
-    "ver": "pnpm npm version"
+    "ver": "npm version"
   },
   "dependencies": {
     "@vanilla-extract/sprinkles": "^1.6.3",

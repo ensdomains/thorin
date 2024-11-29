@@ -7,7 +7,7 @@ import {
   RAW_PALETTE_COLORS,
   useTheme,
 } from '@ensdomains/thorin'
-import { grid, colorLabel } from './styles.css'
+import { grid, colorLabel, colorCell } from './styles.css'
 import { PaletteModal } from '../PaletteModal/PaletteModal'
 
 const ColorLabel = ({ children }: React.PropsWithChildren) => (
@@ -43,10 +43,11 @@ const ColorCell = ({
   onClick: () => void
 }) => (
   <Box
-    transform={{ base: 'scale(1)', hover: 'scale(1.05)' }}
-    backgroundColor={`rgb(${color[0]}, ${color[1]}, ${color[2]})`}
+    style={{
+      backgroundColor: `rgb(${color[0]}, ${color[1]}, ${color[2]})`,
+    }}
     borderRadius="large"
-    transition="transform 0.15s ease-in-out"
+    className={colorCell}
     onClick={onClick}
   />
 )

@@ -36,7 +36,7 @@ export const letterSpacings = {
   '0.03': '0.03em',
 } as const
 
-export type LetterSapcing = keyof typeof letterSpacings
+export type LetterSpacing = keyof typeof letterSpacings
 
 export const lineHeights = {
   headingOne: '3rem',

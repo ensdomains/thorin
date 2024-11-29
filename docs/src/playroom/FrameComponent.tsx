@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import { ThemeProvider } from '@ensdomains/thorin'
-import '@ensdomains/thorin/dist/style.css'
+import '@ensdomains/thorin/dist/thorin.css'
 import '../styles/frameStyle.css'
 
 import { PlayroomStateProvider } from './PlayroomState'

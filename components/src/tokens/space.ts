@@ -1,4 +1,4 @@
-export const negativeSpace = {
+const negativeSpace = {
   '-0.5': '-0.125rem',
   '-1.5': '-0.375rem',
   '-4': '-1rem',

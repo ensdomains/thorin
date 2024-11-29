@@ -1,7 +1,6 @@
 import * as React from 'react'
 
-import type {
-  BoxProps } from '@ensdomains/thorin'
+import type { BoxProps } from '@ensdomains/thorin'
 import {
   Card,
   Input,
@@ -10,6 +9,7 @@ import {
   Box,
 } from '@ensdomains/thorin'
 import * as Components from '@ensdomains/thorin'
+import { iconGrid } from './SearchIcons.css'
 
 const icons = Object.entries(Components as Record<string, any>)
   .filter(([k]) => k.includes('SVG'))
@@ -28,17 +28,14 @@ const FlexContainer = (props: BoxProps) => (
   <Box {...props} gap="8" display="flex" flexDirection="column" />
 )
 
-const IconGrid = (props: BoxProps) => (
+const IconGrid = ({ children }: { children: React.ReactNode }) => (
   <Box
-    {...props}
     display="grid"
     gap="4"
-
-    gridTemplateColumns={{
-      base: 'repeat(auto-fit, minmax(4.5rem, 1fr))',
-      md: 'repeat(auto-fit, minmax(5rem, 1fr))',
-    }}
-  />
+    className={iconGrid}
+  >
+    {children}
+  </Box>
 )
 
 const IconGridInner = (props: BoxProps) => (
@@ -57,9 +54,8 @@ const IconGridFlex = (props: BoxProps) => (
   />
 )
 
-const ComponentContainer = (props: BoxProps) => (
+const ComponentContainer = ({ children }: { children: React.ReactNode }) => (
   <Box
-    {...props}
     backgroundColor="greySurface"
     borderRadius="large"
     color="grey"
@@ -68,8 +64,9 @@ const ComponentContainer = (props: BoxProps) => (
     transitionDuration={150}
     transitionProperty="box-shadow"
     transitionTimingFunction="inOut"
-    boxShadow={{ base: '1', hover: '1', active: '0.5' }}
-  />
+  >
+    {children}
+  </Box>
 )
 
 const IconNameContainer = (props: BoxProps) => (

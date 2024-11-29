@@ -14,3 +14,11 @@ export const colorLabel = style({
   writingMode: 'vertical-rl',
   transform: 'rotate(180deg)',
 })
+
+export const colorCell = style({
+  'transform': 'scale(1)',
+  ':hover': {
+    transform: 'scale(1.05)',
+  },
+  'transition': 'transform 0.15s ease-in-out',
+})

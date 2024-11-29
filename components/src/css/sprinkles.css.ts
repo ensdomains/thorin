@@ -27,6 +27,7 @@ const colorProperties = defineProperties({
     borderLeftColor: colorPropertiesObject,
     borderRightColor: colorPropertiesObject,
     opacity: ['0', '1', '0.5', '0.7', '0.9', '0.95', '1', 'inherit', 'initial'],
+
   },
   shorthands: {
     bg: ['backgroundColor'],

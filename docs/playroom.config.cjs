@@ -27,7 +27,7 @@ const config = {
       rules: [
         {
           test: (filename) => {
-            const pass = filename.endsWith('dist/style.css') || filename.endsWith('frameStyle.css')
+            const pass = filename.endsWith('dist/thorin.css') || filename.endsWith('frameStyle.css')
             if (pass) {
               console.log('pass', filename)
             }

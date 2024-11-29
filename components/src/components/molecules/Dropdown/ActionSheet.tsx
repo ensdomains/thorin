@@ -97,7 +97,7 @@ export const ActionSheet = React.forwardRef<HTMLDivElement, Props>(
                   setIsOpen(false)
                 }}
               >
-                {icon}
+                <Box as={icon} />
                 {href
                   ? (
                       <ActionSheetLinkItem color={color} href={href}>
