@@ -1,4 +1,4 @@
-import fs from 'fs-extra'
+import fs from 'node:fs/promises'
 import path from 'node:path'
 
 const ICONS_DIR = path.join(import.meta.dirname, '../components/src/icons')

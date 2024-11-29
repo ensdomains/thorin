@@ -4,7 +4,7 @@ import type {
   InferGetStaticPropsType,
   NextPageWithLayout,
 } from 'next'
-import fs from 'fs-extra'
+import fs from 'node:fs'
 import type { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { MDXRemote } from 'next-mdx-remote'
 import { serialize } from 'next-mdx-remote/serialize'
