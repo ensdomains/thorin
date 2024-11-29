@@ -21,6 +21,7 @@ import { ScrollBox } from '../../atoms/ScrollBox/ScrollBox'
 import * as styles from './styles.css'
 import { clsx } from 'clsx'
 import type { Color } from '@/src/interfaces/withColor'
+import { assignInlineVars } from '@vanilla-extract/dynamic'
 
 type Align = 'left' | 'right'
 type LabelAlign = 'flex-start' | 'flex-end' | 'center'
@@ -370,11 +371,12 @@ const Chevron = ({
       fill="currentColor"
       marginLeft="1"
       marginRight="0.5"
-      transform={rotation($direction, !!$open)}
       transitionDuration={200}
       transitionProperty="all"
       transitionTimingFunction="inOut"
       width="3"
+      className={styles.chevron}
+      style={assignInlineVars({ [styles.chevronTransform]: rotation($direction, !!$open) })}
     />
   )
 }

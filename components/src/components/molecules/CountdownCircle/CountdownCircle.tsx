@@ -81,7 +81,7 @@ const Circle = ({
             .otherwise(() => '4')}
         />
       )}
-      transition="all 1s linear, stroke-width 0.2s ease-in-out 1s"
+      className={styles.circle}
     />
   )
 }

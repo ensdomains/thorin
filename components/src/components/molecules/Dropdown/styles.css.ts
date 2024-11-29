@@ -1,4 +1,4 @@
-import { style } from '@vanilla-extract/css'
+import { createVar, style } from '@vanilla-extract/css'
 
 import { commonVars } from '@/src/css/theme.css'
 import { recipe } from '@vanilla-extract/recipes'
@@ -52,4 +52,10 @@ export const actionSheeItem = style({
 
 export const menuButtonIndicator = style({
   transform: 'translateY(-50%)',
+})
+
+export const chevronTransform = createVar()
+
+export const chevron = style({
+  transform: chevronTransform,
 })
