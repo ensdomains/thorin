@@ -100,3 +100,4 @@ export type Space = keyof typeof space
 export type Colors = keyof typeof colors.light
 export type ColorStyles = ColorStyleBase
 export type Radii = keyof typeof radii
+export type TransitionDuration = keyof typeof transitionDuration

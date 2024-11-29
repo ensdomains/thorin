@@ -12,7 +12,7 @@ import * as styles from './styles.css'
 
 import type { FieldBaseProps } from '../../atoms/Field/Field'
 import { Field } from '../../atoms/Field/Field'
-import type { BoxProps } from '../../atoms/Box/Box'
+import type { AsProp, BoxProps } from '../../atoms/Box/Box'
 import { Box } from '../../atoms/Box/Box'
 import { getValueForSize } from './utils/getValueForSize'
 import { CrossCircleSVG } from '@/src/icons'
@@ -115,11 +115,9 @@ const TextArea = React.forwardRef<HTMLTextAreaElement, BoxProps & TextAreaProps>
 
 const ActionButton = ({
   $size = 'medium',
-  $icon, className,
+  $icon = CrossCircleSVG, className,
   ...props
-}: BoxProps & { $size: Size, $icon: React.ReactNode }) => {
-  const icon = React.isValidElement($icon) ? $icon : <CrossCircleSVG />
-
+}: BoxProps & { $size: Size, $icon?: AsProp }) => {
   return (
     <Box
       {...props}
@@ -140,7 +138,7 @@ const ActionButton = ({
       className={clsx(styles.actionButton, className)}
     >
       <Box
-        as={icon}
+        as={$icon}
         transitionProperty="all"
         transitionDuration={100}
         transitionTimingFunction="ease-in-out"
@@ -188,7 +186,7 @@ export type TextareaProps = Omit<FieldBaseProps, 'inline'> & {
   /** If true, shows a status dot of the current state of validation */
   showDot?: boolean
   /** A replacement icon for the action button */
-  actionIcon?: React.ReactNode
+  actionIcon?: AsProp
   /** If true, will show the action button even when there is not input */
   alwaysShowAction?: boolean
   /** A custom handler that replaces the clear handler */
@@ -335,9 +333,7 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
                 $size={size}
                 type="button"
                 onClick={handleClickAction}
-              >
-                {actionIcon || <CrossCircleSVG />}
-              </ActionButton>
+              />
             )}
           </Container>
         )}

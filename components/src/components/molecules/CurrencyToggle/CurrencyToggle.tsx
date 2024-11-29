@@ -45,7 +45,9 @@ const Label = ({
     left="1/2"
     position="absolute"
     top="1/2"
-    transition="color 0.1s linear"
+    transitionProperty="color"
+    transitionDuration={100}
+    transitionTimingFunction="linear"
     width={getValuesForKnob($size, 'width')}
   />
 )
@@ -74,7 +76,7 @@ const Slider = ({
   $size,
   $color,
   ...props
-}: BoxProps & { $size: Size, $color: Color }) => (
+}: { $size: Size, $color: Color }) => (
   <Box
     {...props}
     backgroundColor={$color}
@@ -84,7 +86,7 @@ const Slider = ({
     left="1/2"
     position="absolute"
     top="1/2"
-    transition="transform 0.3s ease-in-out, background-color 0.1s ease-in-out"
+    className={styles.slider}
     width={getValuesForKnob($size, 'width')}
   />
 )
@@ -106,7 +108,7 @@ export const CurrencyToggle = React.forwardRef<HTMLInputElement, CurrencyToggleP
           {...props}
           $size={size}
         />
-        <Slider $color={color} $size={size} className={styles.slider} />
+        <Slider $color={color} $size={size} />
         <Label
           $size={size}
           $type="eth"

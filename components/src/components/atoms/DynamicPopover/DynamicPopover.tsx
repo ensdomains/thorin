@@ -9,6 +9,7 @@ import { getValueForTransitionState } from './utils/getValueForTransitionState'
 import { container } from './style.css'
 import { debounce } from '../../../utils/debounce'
 import { useBreakPoints } from '@/src/hooks/useBreakpoints'
+import type { TransitionDuration } from '@/src/tokens'
 
 export type DynamicPopoverSide = 'top' | 'right' | 'bottom' | 'left'
 
@@ -57,7 +58,7 @@ export type DynamicPopoverProps = {
   /** Aligns the popover */
   align?: DynamicPopoverAlignment
   /** The duration of the transition */
-  transitionDuration?: number
+  transitionDuration?: TransitionDuration
   /** If this is not undefined, popover becomes externally controlled */
   isOpen?: boolean
   /** Hides the overflow of the content */
@@ -140,9 +141,6 @@ const checkRectContainsPoint = (
   )
 }
 
-const makeWidth = (width: number | string) =>
-  typeof width === 'number' ? width : width
-
 type PopoverBoxProps = {
   $state: TransitionState
   $translate: string
@@ -151,7 +149,7 @@ type PopoverBoxProps = {
   $x: number
   $y: number
   // $isControlled: boolean
-  $transitionDuration: number
+  $transitionDuration: TransitionDuration
   $hideOverflow: boolean | undefined
 }
 
@@ -199,7 +197,7 @@ const PopoverBox = React.forwardRef<HTMLElement, BoxProps & PopoverBoxProps>(
         'transitionProperty',
       )}
       visibility={getValueForTransitionState($state.status, 'visibility')}
-      width={{ xs: makeWidth($mobileWidth), sm: makeWidth($width) }}
+      width={{ xs: $mobileWidth, sm: $width }}
       zIndex={999999}
     />
   ),

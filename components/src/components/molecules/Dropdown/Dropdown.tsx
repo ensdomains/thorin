@@ -10,8 +10,6 @@ import { breakpoints } from '@/src/tokens'
 
 import { modeVars } from '@/src/css/theme.css'
 
-import type { Color } from '@/src/tokens/color'
-
 import { ActionSheet } from './ActionSheet'
 import type { AsProp, BoxProps } from '../../atoms/Box/Box'
 import { Box } from '../../atoms/Box/Box'
@@ -22,6 +20,7 @@ import { DownChevronSVG } from '@/src/icons'
 import { ScrollBox } from '../../atoms/ScrollBox/ScrollBox'
 import * as styles from './styles.css'
 import { clsx } from 'clsx'
+import type { Color } from '@/src/interfaces/withColor'
 
 type Align = 'left' | 'right'
 type LabelAlign = 'flex-start' | 'flex-end' | 'center'
@@ -174,7 +173,7 @@ const DropdownMenuBox = React.forwardRef<
 })
 
 interface MenuButtonProps {
-  $color?: Colors
+  $color?: Color
   $icon?: AsProp
   $showIndicator?: boolean | Colors
 }
