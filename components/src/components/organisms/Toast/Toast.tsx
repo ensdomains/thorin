@@ -197,19 +197,19 @@ export const TouchToast = ({
   }, [open])
 
   React.useEffect(() => {
-    const originalTop = 0.025 * window.innerHeight
+    // const originalTop = 0.025 * window.innerHeight
     if (touches.length && !popped) {
-      let didEnd = false
+      // let didEnd = false
       let lastTouch = touches[touches.length - 1]
       if (lastTouch === undefined) {
         lastTouch = touches[touches.length - 2] || 0
-        didEnd = true
+        // didEnd = true
       }
 
-      const fontSize = parseInt(
-        getComputedStyle(document.documentElement).fontSize,
-      )
-      const difference = ((touches[0] as number) - lastTouch) as number
+      // const fontSize = parseInt(
+      //   getComputedStyle(document.documentElement).fontSize,
+      // )
+      // const difference = ((touches[0] as number) - lastTouch) as number
 
       // if (didEnd) {
       //   if (
