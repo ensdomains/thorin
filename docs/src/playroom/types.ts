@@ -1,5 +1,6 @@
 // import { Snippets as PlayroomSnippets } from 'playroom'
-import type { Optional } from 'utility-types'
+
+import type { Optional } from '~/types'
 
 interface PlayroomSnippet {
   group: string
