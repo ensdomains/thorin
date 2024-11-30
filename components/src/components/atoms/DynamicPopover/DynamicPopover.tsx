@@ -449,7 +449,6 @@ export const DynamicPopover: React.FC<DynamicPopoverProps> = ({
     : mobilePlacement
 
   const breakpoints = useBreakPoints()
-  console.log('breakpoints', breakpoints)
 
   const translate = animationFn(
     positionState.horizontalClearance,

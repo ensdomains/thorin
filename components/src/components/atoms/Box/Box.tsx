@@ -16,7 +16,7 @@ type HTMLProperties = Omit<
   'as' | 'width' | 'height' | 'color' | 'translate' | 'transform'
 >
 
-export type AsProp = string | FunctionComponent | ComponentClass
+export type AsProp = React.ElementType | FunctionComponent | ComponentClass
 
 export type BoxProps = Sprinkles &
   HTMLProperties & { as?: AsProp }
@@ -44,7 +44,7 @@ export const Box = forwardRef<HTMLElement, BoxProps>(
       className: clsx(atomicCss, className),
       ...nativeProps,
       ref,
-    } as React.RefAttributes<HTMLElement>,
+    } as React.RefAttributes<typeof as>,
     children,
     )
   },

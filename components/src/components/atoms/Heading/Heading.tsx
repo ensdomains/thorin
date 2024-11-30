@@ -50,7 +50,7 @@ export type HeadingProps = {
 } & WithColor &
 Omit<NativeDivAttributes, 'color'>
 
-export const Heading = React.forwardRef<HTMLDivElement, HeadingProps>(
+export const Heading = React.forwardRef<HTMLHeadingElement | HTMLLegendElement, HeadingProps>(
   (
     {
       align,

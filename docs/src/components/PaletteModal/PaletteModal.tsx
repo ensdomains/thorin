@@ -7,6 +7,7 @@ import {
   Button,
   Dialog,
   RecordItem,
+  modeVars,
   rawColorToHSL,
   rawColorToHex,
   rawColorToRGB,
@@ -30,6 +31,7 @@ export const PaletteModal = ({
   ...props
 }: PaletteModalProps) => {
   const [selectedIndex, setSelectedIndex] = React.useState(0)
+
   React.useEffect(() => {
     if (open && shades && selectedShade) {
       setSelectedIndex(
@@ -74,13 +76,12 @@ export const PaletteModal = ({
             position="relative"
             overflow="hidden"
             borderRadius="large"
-            border="1px solid"
+            borderWidth="1x"
+            borderStyle="solid"
             borderColor="border"
-            backgroundColor={
-              shadeRawColor
-                ? rawColorToRGB(shadeRawColor)
-                : 'backgroundSecondary'
-            }
+            style={{
+              backgroundColor: shadeRawColor ? rawColorToRGB(shadeRawColor) : modeVars.color.backgroundSecondary,
+            }}
           >
             <Box
               display="flex"
@@ -97,7 +98,9 @@ export const PaletteModal = ({
                   key={name}
                   flex={1}
                   height="4"
-                  backgroundColor={rawColorToRGB(color)}
+                  style={{
+                    backgroundColor: rawColorToRGB(color),
+                  }}
                   onClick={() => setSelectedIndex(i)}
                 />
               ))}

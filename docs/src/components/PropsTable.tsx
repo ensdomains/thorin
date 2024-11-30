@@ -33,7 +33,7 @@ const TableHead = ({
 )
 
 const DataCell = ({ children }: React.PropsWithChildren) => (
-  <Box as="td" borderTop="1px solid" borderTopColor="border" padding="4">
+  <Box as="td" borderTopWidth="1x" borderStyle="solid" borderTopColor="border" padding="4">
     {children}
   </Box>
 )
@@ -85,7 +85,7 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
               <Box
                 as="table"
                 width="full"
-                borderSpacing="0"
+                style={{ borderSpacing: '0' }}
                 borderWidth="1x"
                 borderStyle="solid"
                 borderColor="border"

@@ -2,6 +2,7 @@ import * as React from 'react'
 import { default as copy } from 'copy-to-clipboard'
 
 import { CheckSVG, CopySVG, Box } from '@ensdomains/thorin'
+import { copyButton } from './CopyButton.css'
 
 type Props = {
   content: string
@@ -48,8 +49,10 @@ export const CopyButton = ({ content }: Props) => {
         justifyContent="center"
         alignItems="center"
         borderRadius="medium"
-        transform={{ base: 'translateY(0)', hover: 'translateY(-1px)' }}
-        transition="all 0.3s ease-in-out"
+        className={copyButton}
+        transitionProperty="all"
+        transitionDuration={300}
+        transitionTimingFunction="ease-in-out"
       >
         <Box
           as={state.copied ? CheckSVG : CopySVG}

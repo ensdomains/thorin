@@ -211,7 +211,6 @@ export const TouchToast = ({
       )
       const difference = ((touches[0] as number) - lastTouch) as number
 
-      console.log(originalTop, didEnd, fontSize, difference)
       // if (didEnd) {
       //   if (
       //     parseFloat(space['8']) * fontSize >
@@ -327,14 +326,11 @@ export const Toast: React.FC<ToastProps> = ({
   const currentTimeout = React.useRef<number | undefined>()
 
   React.useEffect(() => {
-    console.log('open', open)
     const originalPopped = popped
     if (open && window) {
-      console.log('setting timeout')
       if (originalPopped) setPopped(false)
       currentTimeout.current = window.setTimeout(
         () => {
-          console.log('closing')
           onClose()
         },
         msToShow || 8000,

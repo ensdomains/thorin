@@ -114,7 +114,7 @@ export const CodeBlock = ({
           </Box>
           {tokens.map((line, i) => {
             const { key: lineKey, ...lineProps } = getLineProps({ line, key: i })
-            console.log('lineProps', lineProps)
+
             return (
               <LineContainer key={lineKey} {...lineProps}>
                 {line.map((token, key) => {

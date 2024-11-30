@@ -13,7 +13,7 @@ import { Logos } from './Logos/Logos'
 
 const StyledLink = (props: React.ComponentProps<typeof Link>) => (
   <Box
-    as={Link}
+    as={Link as unknown as 'a'}
     {...props}
     color="accent"
     cursor="pointer"

@@ -5,7 +5,7 @@ import { getValueForAlert } from './utils/getValueForAlert'
 import { Typography } from '../Typography/Typography'
 
 import { AlertSVG, CrossSVG, EthSVG, UpRightArrowSVG } from '../../../index'
-import type { BoxProps } from '../Box/Box'
+import type { AsProp, BoxProps } from '../Box/Box'
 import { Box } from '../Box/Box'
 import * as styles from './styles.css'
 import { clsx } from 'clsx'
@@ -109,7 +109,7 @@ const IconBox = ({
 const SVGBox = ({
   $alert,
   as,
-}: BoxProps & { $alert: NonNullableAlert }) => (
+}: { as: AsProp, $alert: NonNullableAlert }) => (
   <Box
     display="block"
     height={{ base: '4', sm: '5' }}
