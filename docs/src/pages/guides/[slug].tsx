@@ -29,6 +29,7 @@ export const getStaticPaths: GetStaticPaths = async () => ({
 
 type StaticProps = {
   docsLink: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   frontMatter: Record<string, any>
   source: MDXRemoteSerializeResult
 }

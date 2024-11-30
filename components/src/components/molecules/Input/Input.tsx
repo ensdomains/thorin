@@ -161,7 +161,7 @@ const Label = ({
 
 type IconBoxProps = {
   $icon: React.ReactElement
-  $iconWidth?: any
+  $iconWidth?: Space
   $size: Size
 }
 

@@ -3,16 +3,17 @@ import { useState } from 'react'
 
 import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 
+import type { RadioButtonProps } from './RadioButton'
 import { RadioButton } from './RadioButton'
 
-const RadioWithState = React.forwardRef(({ ...props }: any, ref) => {
+const RadioWithState = React.forwardRef<HTMLInputElement, Omit<RadioButtonProps, 'label' | 'value' | 'name' | 'id'>>((props, ref) => {
   const [checked, setChecked] = useState<boolean>(false)
   return (
     <div>
       hello there
       {checked ? <div>checked</div> : <div>unchecked</div>}
       <RadioButton
-        {...props}
+        {...props as RadioButtonProps}
         id="radio-id"
         label="radio-label"
         ref={ref}
@@ -64,7 +65,7 @@ describe('<Radio />', () => {
   })
 
   it('should pass a ref down', async () => {
-    const ref = { current: null } as React.RefObject<any>
+    const ref = { current: null } as React.RefObject<HTMLInputElement>
     render(<RadioWithState ref={ref} />)
     await waitFor(() => {
       expect(ref.current).toBeInstanceOf(HTMLInputElement)

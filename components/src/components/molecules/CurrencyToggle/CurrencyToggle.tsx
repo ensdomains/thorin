@@ -26,10 +26,9 @@ const Container = (props: BoxProps) => (
 )
 
 const Label = ({
-  $type,
   $size,
   ...props
-}: BoxProps & { $size: Size, $type: 'eth' | 'fiat' }) => (
+}: BoxProps & { $size: Size }) => (
   <Box
     {...props}
     alignItems="center"
@@ -111,7 +110,6 @@ export const CurrencyToggle = React.forwardRef<HTMLInputElement, CurrencyToggleP
         <Slider $color={color} $size={size} />
         <Label
           $size={size}
-          $type="eth"
           className={styles.labelEth}
           htmlFor={id}
           id="eth"
@@ -120,7 +118,6 @@ export const CurrencyToggle = React.forwardRef<HTMLInputElement, CurrencyToggleP
         </Label>
         <Label
           $size={size}
-          $type="fiat"
           className={styles.labelFiat}
           htmlFor={id}
           id="fiat"

@@ -30,8 +30,6 @@
   "scripts": {
     "build": "vite build",
     "build:watch": "vite build --watch --mode development",
-    "lint": "eslint . -c eslint.config.mjs",
-    "lint:fix": "eslint . -c eslint.config.mjs --fix",
     "lint:types": "tsc --noEmit",
     "prepack": "pnpm build",
     "test": "vitest run",

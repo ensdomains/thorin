@@ -6,17 +6,17 @@ type DeepPartial<T> = T extends object
     }
   : T
 
-export type PartialMockedFunction<T extends (...args: any) => any> = (
+export type PartialMockedFunction<T extends (...args: unknown[]) => unknown> = (
   ...args: Parameters<T>
 ) => DeepPartial<ReturnType<T>>
 
-export const mockFunction = <T extends (...args: any) => any>(func: T) =>
+export const mockFunction = <T extends (...args: unknown[]) => unknown>(func: T) =>
   func as unknown as MockedFunction<PartialMockedFunction<T>>
 
 export const makeMockIntersectionObserver
   = (
     mockIntersectionObserverCls: MockedFunction<any>,
-    mockObserve: MockedFunction<any>,
+    mockObserve: MockedFunction<(t: Element) => void>,
     mockDisconnect: MockedFunction<any>,
   ) =>
     (intersectTop: boolean, intersectBottom: boolean) => {
@@ -30,6 +30,7 @@ export const makeMockIntersectionObserver
       })
       const els: HTMLElement[] = []
       window.IntersectionObserver = mockIntersectionObserverCls
+
       mockObserve.mockImplementation((el) => {
         if (intersectTop && intersectBottom) {
           els.push(el as HTMLElement)

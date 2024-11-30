@@ -58,8 +58,7 @@ Omit<
   | 'width'
 >
 
-// TODO: Fix the SVG type
-const SVG = (props: any) => <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}><path d="M2 12.625L10.125 20.125L22 3.875" fill="none" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" /></svg>
+const SVG = (props: React.SVGProps<SVGSVGElement>) => <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}><path d="M2 12.625L10.125 20.125L22 3.875" fill="none" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" /></svg>
 
 const InputBox = React.forwardRef<HTMLElement, BoxProps & { baseColor: Hue, baseTheme: 'Primary' | 'Secondary' }>(
   ({ baseColor, baseTheme, disabled, checked, ...props }, ref) => (

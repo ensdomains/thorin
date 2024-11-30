@@ -2,7 +2,6 @@ import * as React from 'react'
 
 import {
   cleanup,
-  getPropertyValue,
   render,
   screen,
   userEvent,
@@ -46,7 +45,7 @@ describe('<Select />', () => {
   })
 
   it('should call onChange when selection made', async () => {
-    const mockCallback = vi.fn((e: any) => [
+    const mockCallback = vi.fn<((e: React.ChangeEvent<HTMLInputElement>) => void)>(e => [
       e.target.value,
       e.currentTarget.value,
     ])

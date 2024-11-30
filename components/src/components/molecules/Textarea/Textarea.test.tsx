@@ -55,7 +55,7 @@ describe('<Textarea />', () => {
   })
 
   it('should pass a ref down', async () => {
-    const ref = { current: null } as React.RefObject<any>
+    const ref = { current: null } as React.RefObject<HTMLTextAreaElement>
     render(<Textarea label="Why are you entering $WRITE Race?" ref={ref} />)
     await waitFor(() => {
       expect(ref.current).toBeInstanceOf(HTMLTextAreaElement)

@@ -87,7 +87,7 @@ describe('<RadioButtonGroup />', () => {
   })
 
   it('should fire onChange when checked value does not match value', () => {
-    const mockCallback = vi.fn((e: any) => {
+    const mockCallback = vi.fn<React.ChangeEventHandler<HTMLInputElement>>((e) => {
       return e.target.value
     })
     render(

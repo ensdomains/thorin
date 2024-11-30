@@ -18,7 +18,7 @@ describe('<FileInput />', () => {
   })
 
   it('should pass a ref down', async () => {
-    const ref = { current: null } as React.RefObject<any>
+    const ref = { current: null } as React.RefObject<HTMLDivElement>
     render(
       <FileInput ref={ref}>
         {context =>
