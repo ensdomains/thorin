@@ -15,7 +15,7 @@ export const NavBar = ({
     <Box
       display="flex"
       position="fixed"
-      // justifyContent="space-between"
+      justifyContent="space-between"
       alignItems="center"
       top="0"
       left="0"
@@ -23,8 +23,9 @@ export const NavBar = ({
       padding={{ base: '4', sm: '6' }}
       backgroundColor="backgroundPrimary"
       height={{ base: '20', sm: '24' }}
-      // borderBottom="1px solid"
-      // borderBottomColor="border"
+      borderBottomWidth="1x"
+      borderBottomStyle="solid"
+      borderBottomColor="border"
     >
       <Box display="flex">
         <Box
@@ -42,14 +43,18 @@ export const NavBar = ({
               wh="full"
               position="absolute"
               opacity={open ? '1' : '0'}
-              // transition="opacity 0.2s ease-in-out"
+              transitionDuration={200}
+              transitionProperty="all"
+              transitionTimingFunction="ease-in-out"
             />
             <Box
               as={MenuSVG}
               position="absolute"
               wh="full"
               opacity={open ? '0' : '1'}
-              transition="opacity 0.2s ease-in-out"
+              transitionProperty="all"
+              transitionDuration={200}
+              transitionTimingFunction="ease-in-out"
             />
           </Box>
         </Box>

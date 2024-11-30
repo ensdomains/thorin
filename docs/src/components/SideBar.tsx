@@ -24,20 +24,19 @@ const NavLink = ({
   href,
   children,
 }: PropsWithChildren<{ active: boolean, href: string, target?: string }>) => (
-  <Box>
-    <Link href={href}>
-      <Box
-        backgroundColor={active ? 'blueSurface' : 'transparent'}
-        height="9"
-        display="flex"
-        alignItems="center"
-        borderRadius="large"
-        px="4"
-      >
-        <Typography color={active ? 'accent' : 'text'}>{children}</Typography>
-      </Box>
-    </Link>
-  </Box>
+  <Link href={href}>
+    <Box
+      backgroundColor={active ? 'blueSurface' : 'transparent'}
+      height="9"
+      display="flex"
+      alignItems="center"
+      borderRadius="large"
+      px="4"
+    >
+      <Typography color={active ? 'accent' : 'text'}>{children}</Typography>
+    </Box>
+  </Link>
+
 )
 
 const Heading = ({
@@ -70,14 +69,15 @@ export const SideBar = ({ open, links }: { open: boolean, links: Links }) => {
       position="fixed"
       flexDirection="column"
       top={{ base: '20', sm: '24' }}
-      // left={{ base: open ? '0' : '-100%', sm: '0' }}
       width="64"
       bottom="0"
       backgroundColor="backgroundPrimary"
-      borderRight="1px solid"
+      borderRightWidth="1x"
+      borderRightStyle="solid"
       borderRightColor="border"
       gap="4"
-      transition="left 0.2s ease-in-out"
+      left={{ sm: '0', base: open ? '0' : '-full' }}
+      style={{ transition: 'left 0.2s ease-in-out' }}
       paddingRight="1"
     >
       <ScrollBox width="full" hideDividers>
@@ -155,7 +155,7 @@ export const SideBar = ({ open, links }: { open: boolean, links: Links }) => {
               <div key={name}>
                 <Typography
                   key={name}
-                  fontVariant="smallBold"
+                  fontVariant="extraSmallBold"
                   color="textSecondary"
                   px="4"
                   textTransform="capitalize"

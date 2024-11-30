@@ -72,7 +72,7 @@ export const PlayroomStateProvider = ({
 }: React.PropsWithChildren<Props>) => {
   const [fallbackDefaultState] = React.useState(() => new Map())
   const defaultState = defaultStateProp ?? fallbackDefaultState
-  const state = React.useState(new Map<string, any>())
+  const state = React.useState(() => new Map<string, any>())
   const storeConsumer = React.useMemo(
     () => makeStoreConsumer(defaultState, ...state),
     [state, defaultState],
