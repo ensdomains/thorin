@@ -116,6 +116,7 @@ export const RadioButtonGroup = React.forwardRef<HTMLDivElement, RadioButtonGrou
 
           // eslint-disable-next-line @eslint-react/no-clone-element
           return React.cloneElement(child, {
+            // @ts-expect-error https://github.com/DefinitelyTyped/DefinitelyTyped/issues/40888
             ref: isChecked ? checkedRef : undefined,
             checked: isChecked,
             onChange: handleChange,
