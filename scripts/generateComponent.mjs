@@ -67,11 +67,8 @@ const COMPONENT_GROUPS = {
     console.log('Creating component...')
     const componentImports = dedent`
       import * as React from 'react'
-      import styled from 'styled-components'
 
       export type Props = {}
-
-      const Container = styled.div(() => css\`\`)
     `
     const componentBasic = dedent`
       ${componentImports}

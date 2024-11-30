@@ -13,12 +13,12 @@ import { Header, Link } from '~/components'
 ## Install
 
 ```bash
-pnpm i @ensdomains/thorin react-transition-state@1.1.5
+pnpm i @ensdomains/thorin
 ```
 
 ## Set Up
 
-Wrap the root of your app in a [`ThemeProvider`](https://styled-components.com/docs/advanced) module. Import **ThorinGlobalStyles** and declare it as a child of **ThemeProvider**. Import **lightTheme** or **darkTheme** and pass it to the **ThemeProvider**. Add [Satoshi](https://www.fontshare.com/fonts/satoshi) to your font stack.
+Wrap the root of your app in a ThemeProvider. Import **ThorinGlobalStyles** and declare it as a child of **ThemeProvider**. Import **lightTheme** or **darkTheme** and pass it to the **ThemeProvider**. Add [Satoshi](https://www.fontshare.com/fonts/satoshi) to your font stack.
 
 In this example we are adding the **lightTheme**.
 
@@ -42,13 +42,12 @@ To use the dark theme, import `darkTheme` and pass it to the `ThemeProvider`.
 
 ```tsx
 import React, { useState } from 'react'
-import { ThemeProvider } from 'styled-components'
-import { ThorinGlobalStyles, darkTheme } from '@ensdomains/thorin'
+import { ThemeProvider, darkTheme } from '@ensdomains/thorin'
+import 'thorin/dist/thorin.css'
 
 const App = () => {
   return (
     <ThemeProvider theme={darkTheme}>
-      <ThorinGlobalStyles />
       {children}
     </ThemeProvider>
   )

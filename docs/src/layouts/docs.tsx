@@ -62,7 +62,7 @@ const Layout: NextLayout<Props> = ({ children, meta }) => {
         <meta
           content={
             meta?.description
-            ?? 'Design system for ENS built with React and styled-components.'
+            ?? 'Design system for ENS built with React and vanilla-extract.'
           }
           key="description"
           name="description"
