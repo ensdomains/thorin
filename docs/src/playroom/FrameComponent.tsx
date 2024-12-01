@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import type { Mode } from '@ensdomains/thorin'
 import { ThemeProvider } from '@ensdomains/thorin'
 import '@ensdomains/thorin/dist/thorin.css'
 import '../styles/frameStyle.css'
@@ -10,7 +11,7 @@ const FrameComponent = ({
   theme,
   children,
 }: // theme,
-React.PropsWithChildren<any>) => (
+React.PropsWithChildren<{ theme: Mode }>) => (
   <>
     <link href="https://rsms.me/inter/inter.css" rel="stylesheet" />
 

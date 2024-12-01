@@ -145,7 +145,7 @@ const TrailingSVGBox = ({
   className,
   style,
   ...props
-}: BoxProps & { $rotate: boolean }) => (
+}: BoxProps & { $rotate?: boolean }) => (
   <Box
     className={clsx(className, styles.trailingSVGBox)}
     style={{ ...style, ...assignInlineVars({ [styles.trailingSvgBoxTransform]: $rotate ? 'rotate(45deg)' : 'none' }) }}
@@ -260,7 +260,7 @@ export const RecordItem = React.forwardRef<
         >
           {children}
         </Typography>
-        <TrailingSVGBox {...(PostfixProps as any)} />
+        <TrailingSVGBox {...(PostfixProps)} />
       </ContainerBox>
     )
   },

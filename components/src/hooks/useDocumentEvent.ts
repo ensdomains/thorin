@@ -7,8 +7,8 @@ export const useDocumentEvent = (
   _callback: () => void,
   shouldCallback?: boolean,
 ) => {
-  const callback = (e: any) => {
-    if (ref.current && !ref.current.contains(e.target)) _callback()
+  const callback = (e: Event) => {
+    if (ref.current && !ref.current.contains(e.target as Node)) _callback()
   }
   useEffect(() => {
     if (shouldCallback) document.addEventListener(event, callback)
