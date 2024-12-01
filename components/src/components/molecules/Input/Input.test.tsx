@@ -30,7 +30,7 @@ describe('<Input />', () => {
   })
 
   it('should pass a ref down', async () => {
-    const ref = { current: null } as React.RefObject<any>
+    const ref = { current: null } as React.RefObject<HTMLInputElement>
     render(
       <Input label="Funding Goal" placeholder="10" ref={ref} units="ETH" />,
     )
@@ -40,7 +40,7 @@ describe('<Input />', () => {
   })
 
   it('should fire onChange if clear button is pressed', async () => {
-    const ref = { current: null } as React.RefObject<any>
+    const ref = { current: null } as React.RefObject<HTMLInputElement>
     const handleOnChange = vi.fn()
     render(
       <Input

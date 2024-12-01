@@ -585,7 +585,7 @@ export const Select = React.forwardRef<HTMLInputElement, SelectProps>(
 
     const selectedOption = options?.find(o => o.value === value) || null
 
-    const changeSelectedOption = (option?: SelectOptionProps, event?: any) => {
+    const changeSelectedOption = (option?: SelectOptionProps, event?: React.SyntheticEvent<HTMLElement>) => {
       if (option?.disabled) return
       if (option?.value === CREATE_OPTION_VALUE) {
         onCreate?.(queryValue)
@@ -594,6 +594,7 @@ export const Select = React.forwardRef<HTMLInputElement, SelectProps>(
         setValue(option?.value)
         if (event) {
           const nativeEvent = event.nativeEvent || event
+          // @ts-expect-error use of Function.constructor
           const clonedEvent = new nativeEvent.constructor(
             nativeEvent.type,
             nativeEvent,
@@ -673,7 +674,7 @@ export const Select = React.forwardRef<HTMLInputElement, SelectProps>(
       } while (visibleOptions[nextIndex])
     }
 
-    const selectHighlightedIndex = (event: any) => {
+    const selectHighlightedIndex = (event: React.KeyboardEvent<HTMLDivElement> | React.KeyboardEvent<HTMLInputElement>) => {
       const option = visibleOptions[highlightedIndex]
       if (option) changeSelectedOption(option, event)
       handleReset()

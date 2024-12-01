@@ -11,7 +11,7 @@ import {
 import * as Components from '@ensdomains/thorin'
 import { iconGrid } from './SearchIcons.css'
 
-const icons = Object.entries(Components as Record<string, any>)
+const icons = Object.entries(Components)
   .filter(([k]) => k.includes('SVG'))
   .map(([name, Component]) => ({ name, Component }))
   .sort((a, b) => (a.name > b.name ? 1 : -1))
@@ -105,7 +105,7 @@ export const SearchIcons = () => {
               >
                 <IconGridFlex>
                   <ComponentContainer>
-                    {React.createElement(x.Component as any, { height: 16, width: 16 })}
+                    {React.createElement(x.Component as React.FunctionComponent<React.SVGAttributes<SVGSVGElement>>, { height: 16, width: 16 })}
                   </ComponentContainer>
                   <IconNameContainer>
                     <Typography

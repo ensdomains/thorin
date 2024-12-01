@@ -13,22 +13,25 @@ export type PartialMockedFunction<T extends (...args: unknown[]) => unknown> = (
 export const mockFunction = <T extends (...args: unknown[]) => unknown>(func: T) =>
   func as unknown as MockedFunction<PartialMockedFunction<T>>
 
+type Entry = Pick<IntersectionObserverEntry, 'isIntersecting' | 'target' | 'time'>
+
 export const makeMockIntersectionObserver
   = (
-    mockIntersectionObserverCls: MockedFunction<any>,
+    mockIntersectionObserverCls: MockedFunction<(callback: (entries: Entry[]) => void) => Pick<IntersectionObserver, 'observe' | 'disconnect'>>,
     mockObserve: MockedFunction<(t: Element) => void>,
-    mockDisconnect: MockedFunction<any>,
+    mockDisconnect: MockedFunction<() => void>,
   ) =>
     (intersectTop: boolean, intersectBottom: boolean) => {
-      let cb: (entries: any) => void
-      mockIntersectionObserverCls.mockImplementation((callback: any) => {
+      let cb: (entries: Entry[]) => void
+      mockIntersectionObserverCls.mockImplementation((callback) => {
         cb = callback
         return {
           observe: mockObserve,
           disconnect: mockDisconnect,
-        }
+        } as Pick<IntersectionObserver, 'observe' | 'disconnect'>
       })
       const els: HTMLElement[] = []
+      // @ts-expect-error mock interface
       window.IntersectionObserver = mockIntersectionObserverCls
 
       mockObserve.mockImplementation((el) => {

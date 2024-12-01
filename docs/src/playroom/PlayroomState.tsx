@@ -26,12 +26,12 @@ const makeStoreConsumer = (
   store: Store,
   setStore: (newStore: Store) => void,
 ) => {
-  const setDefaultState = (key: string, value: any) =>
+  const setDefaultState = (key: string, value: unknown) =>
     defaultState.set(key, value)
 
   const getState = (key: string) => store.get(key) ?? defaultState.get(key)
 
-  const setState = curry((key: string, value: any) =>
+  const setState = curry((key: string, value: unknown) =>
     setStore(new Map(store.set(key, unwrapValue(value)))),
   )
 

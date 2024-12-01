@@ -83,8 +83,8 @@ describe('<ScrollBox />', () => {
     expectLine('bottom', false)
   })
   it('should show most recent intersection if multiple updates', () => {
-    let cb: (entries: any) => void
-    mockIntersectionObserverCls.mockImplementation((callback: any) => {
+    let cb: (entries: Pick<IntersectionObserverEntry, 'isIntersecting' | 'target' | 'time'>[]) => void
+    mockIntersectionObserverCls.mockImplementation((callback: typeof cb) => {
       cb = callback
       return {
         observe: mockObserve,

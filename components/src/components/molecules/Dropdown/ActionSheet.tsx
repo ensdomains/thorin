@@ -63,7 +63,7 @@ type Props = {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
   DropdownChild: React.FC<{
     setIsOpen: (isOpen: boolean) => void
-    item: React.ReactElement<React.PropsWithRef<any>>
+    item: React.ReactElement<React.PropsWithRef<unknown>>
   }>
   cancelLabel?: string
 }

@@ -31,17 +31,17 @@
     ]
   },
   "devDependencies": {
-    "@eslint-react/eslint-plugin": "^1.15.2",
+    "@eslint-react/eslint-plugin": "^1.17.2",
     "@eslint/compat": "^1.2.2",
     "@eslint/js": "^9.14.0",
-    "@next/eslint-plugin-next": "^14.2.17",
+    "@next/eslint-plugin-next": "^15.0.3",
     "@size-limit/preset-big-lib": "^11.1.6",
-    "@stylistic/eslint-plugin": "^2.10.1",
+    "@stylistic/eslint-plugin": "^2.11.0",
     "@stylistic/stylelint-config": "^2.0.0",
     "@types/dedent": "^0.7.2",
     "@vitest/coverage-v8": "^2.1.4",
     "dedent": "^1.5.3",
-    "eslint": "^9.14.0",
+    "eslint": "^9.16.0",
     "globals": "^15.12.0",
     "husky": "^7.0.4",
     "lint-staged": "^11.2.6",
@@ -54,7 +54,7 @@
     "stylelint": "^16.10.0",
     "stylelint-config-recommended": "^14.0.1",
     "typescript": "5.7.2",
-    "typescript-eslint": "^8.13.0",
+    "typescript-eslint": "^8.16.0",
     "utility-types": "^3.11.0"
   },
   "dependencies": {
