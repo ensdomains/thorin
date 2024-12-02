@@ -127,6 +127,7 @@ const StepContainer = ({ children }: React.PropsWithChildren) => (
     flexDirection="row"
     gap="2"
     justifyContent="center"
+    data-testid="step-container"
   >
     {children}
   </Box>
@@ -260,7 +261,7 @@ const Footer: React.FC<{
   return (
     <FooterContainer>
       {stepCount && (
-        <StepContainer data-testid="step-container">
+        <StepContainer>
           {Array.from({ length: stepCount }, (_, i) => (
             <StepItem
               $type={calcStepType(i)}
