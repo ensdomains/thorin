@@ -5,7 +5,7 @@ description: Guidelines for working on thorin
 
 ## Set Up
 
-Clone repository, install dependencies, and run the dev script to start the docs and playroom sites.
+Clone repository, install dependencies, and run the dev script to start the docs.
 
 ```bash
 gh repo clone @ensdomains/thorin
@@ -147,11 +147,11 @@ yarn build
 
 ## Common Issues
 
-### My component did not update in my mdx file or playroom.?
+### My component did not update in my mdx file?
 
 Update the component using `yarn build:component` and reload the page after the script has completed.
 
-### My snippet looks malformed or doesn't work in playroom
+### My snippet looks malformed
 
 Check if displayName has been added to component. If not, then you may need to conver the snippet to a string. See the [snippets section](#snippets) for more details.
 

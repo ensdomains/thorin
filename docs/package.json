@@ -5,8 +5,8 @@
   "scripts": {
     "build": "next build",
     "build:next": "next build",
-    "clean": "rm -rf .next public/playroom",
-    "dev": "NODE_OPTIONS='--inspect' next dev & playroom start",
+    "clean": "rm -rf .next",
+    "dev": "NODE_OPTIONS='--inspect' next dev",
     "start": "next start"
   },
   "dependencies": {
@@ -42,11 +42,8 @@
     "@types/react-dom": "^18.2.13",
     "@types/webpack-env": "^1.18.5",
     "@vanilla-extract/css": "^1.13.0",
-    "babel-loader": "^8.2.4",
-    "css-loader": "^6.8.1",
     "mini-css-extract-plugin": "^2.7.6",
     "react-docgen-typescript": "^2.1.1",
-    "style-loader": "^3.3.3",
     "typescript": "^5.7.2"
   }
 }

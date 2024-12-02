@@ -8,7 +8,6 @@ import vsDark from 'prism-react-renderer/themes/vsDark'
 import type { Colors } from '@ensdomains/thorin'
 
 import { useIsMounted } from '~/utils/isMounted'
-import { PlayroomStateProvider } from '~/playroom/PlayroomState'
 
 import { CopyButton } from '../CopyButton'
 import type { Props as CodePreviewProps } from '../CodePreview'
@@ -79,15 +78,13 @@ export const CodeBlock = ({
   if (!isMounted) return null
   if (live)
     return (
-      <PlayroomStateProvider>
-        <CodePreview
-          // backgroundColor={backgroundColor}
-          code={code}
-          expand={expand}
-          minHeight={minHeight}
-          theme={prismTheme}
-        />
-      </PlayroomStateProvider>
+      <CodePreview
+        // backgroundColor={backgroundColor}
+        code={code}
+        expand={expand}
+        minHeight={minHeight}
+        theme={prismTheme}
+      />
     )
 
   const language = className?.replace(/language-/, '') as Language

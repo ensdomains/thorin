@@ -9,15 +9,10 @@ import type { Colors } from '@ensdomains/thorin'
 import { Button, UpChevronSVG } from '@ensdomains/thorin'
 import * as Components from '@ensdomains/thorin'
 
-import { createPlayroomLink } from '~/utils/playroom'
-import { usePlayroomStore } from '~/playroom/PlayroomState'
-import { avatars } from '~/playroom/useScope'
-
 import { Prism } from './Prism'
-import ComponentWrapper from '../playroom/ComponentWrapper'
 import { CopyButton } from './CopyButton'
 import type { BoxProps } from '@ensdomains/thorin'
-import { Box, DownChevronSVG, OutlinkSVG } from '@ensdomains/thorin'
+import { Box, DownChevronSVG } from '@ensdomains/thorin'
 
 export type Props = {
   backgroundColor?: Colors
@@ -94,7 +89,6 @@ export const CodePreview = ({
   React.useEffect(() => {
     if (_code && _code !== code) setCode(_code)
   }, [_code])
-  const store = usePlayroomStore()
 
   return (
     <LiveProvider
@@ -103,12 +97,9 @@ export const CodePreview = ({
       scope={{
         mdx,
         ...Components,
-        ComponentWrapper,
-        ...store,
         previewRef,
         NextImage,
         NextLink,
-        avatars,
       }}
       theme={theme}
       transformCode={code => '/** @jsx mdx */' + code}
@@ -154,20 +145,6 @@ export const CodePreview = ({
             onClick={() => setState(x => ({ ...x, expand: !x.expand }))}
           >
             {state.expand ? 'Collapse Code' : 'Expand Code'}
-          </Button>
-        </div>
-
-        <div>
-          <Button
-            as="a"
-            colorStyle="transparent"
-            color="blue"
-            prefix={OutlinkSVG}
-            href={createPlayroomLink({ code })}
-            size="small"
-            target="_blank"
-          >
-            Playroom
           </Button>
         </div>
       </Box>
