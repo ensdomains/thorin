@@ -4,7 +4,7 @@ import { AlertSVG, InfoCircleSVG } from '@/src/icons'
 
 import type { Alert } from '@/src/types'
 
-import type { BoxProps } from '../../atoms/Box/Box'
+import type { AsProp, BoxProps } from '../../atoms/Box/Box'
 import { Box } from '../../atoms/Box/Box'
 
 import * as styles from './styles.css'
@@ -42,8 +42,8 @@ const Container = ({
   />
 )
 
-const IconElement = ({ $alert, className, ...props }: BoxProps & { $alert: Alert }) => (
-  <Box {...props} className={clsx(styles.variants({ svgAlert: $alert }), className)} wh="6" />
+const IconElement = ({ $alert, as }: { $alert: Alert, as: AsProp }) => (
+  <Box as={as} className={clsx(styles.variants({ svgAlert: $alert }))} wh="6" />
 )
 
 export const Helper: React.FC<HelperProps> = ({

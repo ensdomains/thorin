@@ -12,13 +12,13 @@ import type { BoxProps } from '../../atoms/Box/Box'
 import { Box } from '../../atoms/Box/Box'
 import { Typography } from '../../atoms'
 import { Modal } from '../../molecules'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import * as styles from './styles.css'
 
-const CloseButton = ({ className, ...props }: BoxProps) => (
+const CloseButton = ({ onClick }: Pick<BoxProps, 'onClick'>) => (
   <Box
-    {...props}
-    className={clsx(styles.closeButton, className)}
+    onClick={onClick}
+    className={styles.closeButton}
     alignItems="center"
     as="button"
     backgroundColor={{ base: 'transparent', hover: 'greySurface' }}
@@ -39,10 +39,9 @@ const CloseButton = ({ className, ...props }: BoxProps) => (
   </Box>
 )
 
-const StyledCard = ({ className, ...props }: BoxProps) => (
+const StyledCard = ({ children }: React.PropsWithChildren) => (
   <Box
-    {...props}
-    className={clsx(styles.styledCard, className)}
+    className={styles.styledCard}
     alignItems="center"
     backgroundColor="backgroundPrimary"
     borderBottomLeftRadius={{ xs: '0', sm: '3xLarge' }}
@@ -57,7 +56,9 @@ const StyledCard = ({ className, ...props }: BoxProps) => (
     padding={{ xs: '4', sm: '6' }}
     position="relative"
     width="full"
-  />
+  >
+    {children}
+  </Box>
 )
 
 type NonNullableAlert = NonNullable<WithAlert['alert']>
@@ -107,34 +108,36 @@ const FooterContainer = (props: BoxProps) => (
   />
 )
 
-const TitleContainer = (props: BoxProps) => (
+const TitleContainer = ({ children }: React.PropsWithChildren) => (
   <Box
-    {...props}
     alignItems="center"
     display="flex"
     flexDirection="column"
     gap="px"
     justifyContent="center"
-  />
+  >
+    {children}
+  </Box>
 )
 
-const StepContainer = (props: BoxProps) => (
+const StepContainer = ({ children }: React.PropsWithChildren) => (
   <Box
-    {...props}
     alignItems="center"
     display="flex"
     flexDirection="row"
     gap="2"
     justifyContent="center"
-  />
+  >
+    {children}
+  </Box>
 )
 
 export type StepType = 'notStarted' | 'inProgress' | 'completed'
 
-const StepItem = ({ $type, className, ...props }: BoxProps & { $type: StepType }) => (
+const StepItem = ({ $type, ...props }: React.PropsWithChildren<{ $type: StepType }>) => (
   <Box
     {...props}
-    className={clsx(styles.variants({ stepType: $type }), className)}
+    className={styles.variants({ stepType: $type })}
     borderRadius="full"
     borderStyle="solid"
     wh="3.5"

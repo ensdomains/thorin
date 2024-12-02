@@ -17,26 +17,27 @@ const Container = (props: BoxProps) => (
   />
 )
 
-const ContainerInner = (props: BoxProps) => (
-  <Box {...props} display="flex" flexDirection="column" gap="1" px="4" />
+const ContainerInner = ({ children }: React.PropsWithChildren) => (
+  <Box display="flex" flexDirection="column" gap="1" px="4">{children}</Box>
 )
 
-const Row = (props: BoxProps) => (
+const Row = ({ children }: React.PropsWithChildren) => (
   <Box
-    {...props}
     alignItems="center"
     display="flex"
     flexDirection="row"
     gap="3"
-  />
+  >
+    {children}
+  </Box>
 )
 
-const Description = (props: BoxProps) => (
-  <Box {...props} color="textSecondary" fontSize="body" lineHeight="body" />
+const Description = ({ children }: React.PropsWithChildren) => (
+  <Box color="textSecondary" fontSize="body" lineHeight="body">{children}</Box>
 )
 
-const ChildrenContainer = (props: BoxProps) => (
-  <Box {...props} display="flex" flexDirection="column" gap="4" />
+const ChildrenContainer = ({ children }: React.PropsWithChildren) => (
+  <Box display="flex" flexDirection="column" gap="4">{children}</Box>
 )
 
 type NativeFieldSetProps = React.FieldsetHTMLAttributes<HTMLFieldSetElement>

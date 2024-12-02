@@ -13,7 +13,7 @@ import type { BoxProps } from '../../atoms/Box/Box'
 import { Box } from '../../atoms/Box/Box'
 import { getValueForPlacement } from './utils/getValueForPlacement'
 import * as styles from './styles.css'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import type { Color } from '@/src/tokens/color'
 
 type TooltipPopoverElementProps = {

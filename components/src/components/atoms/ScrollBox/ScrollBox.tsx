@@ -8,10 +8,9 @@ import type { Space } from '@/src/tokens'
 import * as styles from './styles.css'
 import type { BoxProps } from '../Box/Box'
 import { Box } from '../Box/Box'
-import clsx from 'clsx'
 
-const ScrollBoxBox = React.forwardRef<HTMLElement, BoxProps>((props, ref) => (
-  <Box className={clsx(styles.scrollBox, props.className)} ref={ref} {...props} />
+const ScrollBoxBox = React.forwardRef<HTMLElement, Pick<BoxProps, 'style' | 'children'>>((props, ref) => (
+  <Box className={styles.scrollBox} ref={ref} {...props} />
 ))
 
 const DividerBox = ({
