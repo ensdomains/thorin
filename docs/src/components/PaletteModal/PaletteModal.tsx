@@ -8,12 +8,10 @@ import {
   Dialog,
   RecordItem,
   modeVars,
-  rawColorToHSL,
-  rawColorToHex,
   rawColorToRGB,
-  rawColorToRGBA,
 } from '@ensdomains/thorin'
 import { match, P } from 'ts-pattern'
+import { rawColorToHex, rawColorToHSL, rawColorToRGBA } from '~/utils/color'
 
 const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1)
 
