@@ -133,7 +133,7 @@ const StepContainer = ({ children }: React.PropsWithChildren) => (
   </Box>
 )
 
-export type StepType = 'notStarted' | 'inProgress' | 'completed'
+type StepType = 'notStarted' | 'inProgress' | 'completed'
 
 const StepItem = ({ $type, ...props }: React.PropsWithChildren<{ $type: StepType }>) => (
   <Box

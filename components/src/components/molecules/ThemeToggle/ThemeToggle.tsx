@@ -10,9 +10,9 @@ import clsx from 'clsx'
 import { assignInlineVars } from '@vanilla-extract/dynamic'
 import type { Color } from '@/src/tokens/color'
 
-export type Size = 'extraSmall' | 'small' | 'medium'
+type Size = 'extraSmall' | 'small' | 'medium'
 
-export type Mode = 'light' | 'dark'
+type Mode = 'light' | 'dark'
 
 export type ThemeToggleProps = {
   size?: Size

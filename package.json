@@ -39,7 +39,6 @@
     "@stylistic/eslint-plugin": "^2.11.0",
     "@stylistic/stylelint-config": "^2.0.0",
     "@types/dedent": "^0.7.2",
-    "@vitest/coverage-v8": "^2.1.7",
     "dedent": "^1.5.3",
     "eslint": "^9.16.0",
     "globals": "^15.13.0",

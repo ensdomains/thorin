@@ -2,8 +2,6 @@ import type * as React from 'react'
 
 import type { Hue as TokenHue, Mode as TokenMode, Tokens } from '@/src/tokens'
 
-export type AllOrNone<T> = T | { [K in keyof T]?: never }
-
 /*
  * Disallow string from React.ReactNode
  */
@@ -24,11 +22,6 @@ export type Accent = TokenHue | 'foreground'
 export type Mode = TokenMode
 
 export type DefaultTheme = Tokens
-
-export type OptionalTitle = AllOrNone<{
-  title: string
-  titleId: string
-}>
 
 export type Alert = 'error' | 'warning' | 'info'
 export type WithAlert = {

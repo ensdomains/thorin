@@ -16,9 +16,10 @@ import type { BoxProps } from '../../atoms/Box/Box'
 import { Box } from '../../atoms/Box/Box'
 import { Typography } from '../../atoms/Typography/Typography'
 import * as styles from './styles.css'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import { assignInlineVars } from '@vanilla-extract/dynamic'
-export type Size = 'small' | 'medium' | 'large'
+
+type Size = 'small' | 'medium' | 'large'
 
 type BaseProps = {
   /** The url of the avatar icon, or the avatar props to passthrough */
