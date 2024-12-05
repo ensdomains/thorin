@@ -1,10 +1,8 @@
 import React from 'react'
-import type { RawColor } from '@ensdomains/thorin'
 import { Box, Typography } from '@ensdomains/thorin'
 import { match, P } from 'ts-pattern'
 import * as styles from './PaletteRow.css'
 import { assignInlineVars } from '@vanilla-extract/dynamic'
-import { rawColorToRGB } from '~/utils/color'
 
 const PaletteCell = ({
   name,
@@ -12,7 +10,7 @@ const PaletteCell = ({
   onClick,
 }: {
   name: string
-  color: RawColor
+  color: string
   onClick: () => void
 }) => {
   return (
@@ -31,7 +29,7 @@ const PaletteCell = ({
         height="24"
         className={styles.paletteCell}
         style={assignInlineVars({
-          [styles.paletteCellBackgroundColor]: rawColorToRGB(color),
+          [styles.paletteCellBackgroundColor]: color,
         })}
         borderRadius="large"
         borderWidth="1x"
@@ -48,10 +46,10 @@ const PaletteCell = ({
 
 type PaletteRowProps = {
   color?: string
-  shades: [string, RawColor][]
+  shades: [string, string][]
   onSelectShade: (data: {
     color?: string
-    shades: [string, RawColor][]
+    shades: [string, string][]
     selectedShade: string
   }) => void
 }

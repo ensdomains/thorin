@@ -1,6 +1,4 @@
 import React from 'react'
-import type {
-  RawColor } from '@ensdomains/thorin'
 import {
   Box,
   ScrollBox,
@@ -39,12 +37,12 @@ const ColorCell = ({
   color,
   onClick,
 }: {
-  color: Readonly<[number, number, number]>
+  color: string
   onClick: () => void
 }) => (
   <Box
     style={{
-      backgroundColor: `rgb(${color[0]}, ${color[1]}, ${color[2]})`,
+      backgroundColor: color,
     }}
     borderRadius="large"
     className={colorCell}
@@ -56,7 +54,7 @@ export const Palette = () => {
   const [modalProps, setModalProps] = React.useState<{
     open: boolean
     color?: string
-    shades?: [string, RawColor][]
+    shades?: [string, string][]
     selectedShade?: string
   }>({
     open: false,

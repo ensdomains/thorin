@@ -1,6 +1,4 @@
 import React from 'react'
-import type {
-  RawColor } from '@ensdomains/thorin'
 import {
   Box,
   RAW_ADDITIONAL_COLORS,
@@ -17,9 +15,9 @@ export const AdditionalColors = () => {
   const additionalColors = RAW_ADDITIONAL_COLORS[mode]
 
   const { text, bw, background } = Object.entries(additionalColors).reduce<{
-    text: [string, RawColor][]
-    bw: [string, RawColor][]
-    background: [string, RawColor][]
+    text: [string, string][]
+    bw: [string, string][]
+    background: [string, string][]
   }>(
     (acc, [name, color]) => {
       if (name === 'border') acc.background.push([name, color])
@@ -38,7 +36,7 @@ export const AdditionalColors = () => {
   const [modalProps, setModalProps] = React.useState<{
     open: boolean
     color?: string
-    shades?: [string, RawColor][]
+    shades?: [string, string][]
     selectedShade?: string
   }>({
     open: false,
@@ -50,7 +48,7 @@ export const AdditionalColors = () => {
     selectedShade,
   }: {
     color?: string
-    shades: [string, RawColor][]
+    shades: [string, string][]
     selectedShade: string
   }) => {
     setModalProps({

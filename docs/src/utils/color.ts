@@ -1,16 +1,19 @@
-import type { RawColor } from '@ensdomains/thorin'
+/* eslint-disable @typescript-eslint/no-unused-vars */
+export const RGBtoRGBA = (color: string, opacity = 1): string =>
+  color.replace('rgb(', 'rgba(').replace(')', `, ${opacity})`)
 
-export const rawColorToRGB = (color: RawColor): string =>
-  `rgb(${color.join(', ')})`
-
-export const rawColorToRGBA = (color: RawColor, opacity = 1): string =>
-  `rgba(${[...color, opacity].join(', ')})`
-
-export const rawColorToHex = (color: RawColor): string => {
-  return `#${color.map(c => c.toString(16)).join('')}`
+const colorToRgb = (color: string): [number, number, number] => {
+  const [_, r, g, b] = (color.match(/(\d+),\s*(\d+),\s*(\d+)/)!).map(x => Number.parseInt(x))
+  return [r, g, b]
 }
 
-export const rawColorToHSL = ([r, g, b]: RawColor): string => {
+export const RGBtoHex = (color: string): string => {
+  const [r, g, b] = colorToRgb(color)
+  return `#${(+r).toString(16).padStart(2, '0')}${(+g).toString(16).padStart(2, '0')}${(+b).toString(16).padStart(2, '0')}`
+}
+
+export const RGBToHSL = (color: string): string => {
+  let [r, g, b] = colorToRgb(color)
   r /= 255
   g /= 255
   b /= 255

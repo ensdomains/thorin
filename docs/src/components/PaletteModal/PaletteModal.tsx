@@ -1,7 +1,5 @@
 import type { ComponentProps } from 'react'
 import React from 'react'
-import type {
-  RawColor } from '@ensdomains/thorin'
 import {
   Box,
   Button,
@@ -10,13 +8,13 @@ import {
   modeVars,
 } from '@ensdomains/thorin'
 import { match, P } from 'ts-pattern'
-import { rawColorToHex, rawColorToHSL, rawColorToRGB, rawColorToRGBA } from '~/utils/color'
+import { RGBtoRGBA, RGBToHSL, RGBtoHex } from '~/utils/color'
 
 const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1)
 
 export type PaletteModalProps = {
   color?: string | null
-  shades?: [string, RawColor][] | null
+  shades?: [string, string][] | null
   selectedShade?: string | null
 } & Omit<ComponentProps<typeof Dialog>, 'children'>
 
@@ -77,7 +75,7 @@ export const PaletteModal = ({
             borderStyle="solid"
             borderColor="border"
             style={{
-              backgroundColor: shadeRawColor ? rawColorToRGB(shadeRawColor) : modeVars.color.backgroundSecondary,
+              backgroundColor: shadeRawColor ? shadeRawColor : modeVars.color.backgroundSecondary,
             }}
           >
             <Box
@@ -96,7 +94,7 @@ export const PaletteModal = ({
                   flex={1}
                   height="4"
                   style={{
-                    backgroundColor: rawColorToRGB(color),
+                    backgroundColor: color,
                   }}
                   onClick={() => setSelectedIndex(i)}
                 />
@@ -109,20 +107,20 @@ export const PaletteModal = ({
             </RecordItem>
             {shadeRawColor && (
               <>
-                <RecordItem keyLabel="HEX" value={rawColorToHex(shadeRawColor)}>
-                  {rawColorToHex(shadeRawColor)}
+                <RecordItem keyLabel="HEX" value={RGBtoHex(shadeRawColor)}>
+                  {RGBtoHex(shadeRawColor)}
                 </RecordItem>
-                <RecordItem keyLabel="RGB" value={rawColorToRGB(shadeRawColor)}>
-                  {rawColorToRGB(shadeRawColor)}
+                <RecordItem keyLabel="RGB" value={shadeRawColor}>
+                  {shadeRawColor}
                 </RecordItem>
                 <RecordItem
                   keyLabel="RGBA"
-                  value={rawColorToRGBA(shadeRawColor, 1)}
+                  value={RGBtoRGBA(shadeRawColor, 1)}
                 >
-                  {rawColorToRGBA(shadeRawColor, 1)}
+                  {RGBtoRGBA(shadeRawColor, 1)}
                 </RecordItem>
-                <RecordItem keyLabel="HSL" value={rawColorToHSL(shadeRawColor)}>
-                  {rawColorToHSL(shadeRawColor)}
+                <RecordItem keyLabel="HSL" value={RGBToHSL(shadeRawColor)}>
+                  {RGBToHSL(shadeRawColor)}
                 </RecordItem>
               </>
             )}
