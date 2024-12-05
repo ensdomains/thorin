@@ -11,7 +11,7 @@ import { CheckSVG } from '@/src/icons'
 import { Typography } from '../../atoms'
 import type { Colors, ColorStyles, Hue } from '@/src/tokens'
 import { getColorStyleParts } from '@/src/utils/getColorStyleParts'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import { assignInlineVars } from '@vanilla-extract/dynamic'
 
 export type CheckboxRowProps = {

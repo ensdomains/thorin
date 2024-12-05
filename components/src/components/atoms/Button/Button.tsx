@@ -6,8 +6,6 @@ import { scale } from '@/src/css/utils/common'
 
 import { removeNullishProps } from '@/src/utils/removeNullishProps'
 
-import type { Color } from './utils/getValidatedColor'
-
 import { getValueForSize } from './utils/getValueForSize'
 
 import type { ReactNodeNoStrings } from '../../../types'
@@ -17,7 +15,7 @@ import { Box } from '../Box/Box'
 import * as styles from './Button.css'
 import clsx from 'clsx'
 import { assignInlineVars } from '@vanilla-extract/dynamic'
-import type { ColorStyles } from '@/src/tokens'
+import type { ColorStyles, Hue } from '@/src/tokens'
 
 export type Size = 'small' | 'medium' | 'flexible'
 
@@ -54,7 +52,7 @@ type BaseProps = {
   onClick?: NativeButtonProps['onClick']
   /** Show indicator that button has extra info via tooltip. */
   shouldShowTooltipIndicator?: boolean
-  color?: Color
+  color?: Hue
   colorStyle?: ColorStyles
 } & Omit<BoxProps, 'size' | 'prefix'>
 
@@ -80,7 +78,7 @@ type ButtonBoxProps = {
   $size?: BaseProps['size']
   $type?: BaseProps['type']
   $colorStyle: ColorStyles
-  $color?: Color
+  $color?: Hue
   $hasCounter?: boolean
 }
 const ButtonBox = React.forwardRef<

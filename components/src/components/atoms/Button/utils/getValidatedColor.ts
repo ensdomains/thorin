@@ -1,12 +1,8 @@
 import type { Hue } from '@/src/tokens/color'
 import { validatePrimaryColor } from '@/src/tokens/color'
 
-export type Color = Hue
-
-export type WithColor = { color: Color }
-
 export const getValidatedColor = (
-  color?: Color,
+  color?: Hue,
   fallback = 'textPrimary',
 ): string => {
   if (!color) return fallback
