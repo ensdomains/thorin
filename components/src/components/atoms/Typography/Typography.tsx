@@ -2,20 +2,19 @@ import * as React from 'react'
 
 import type { Font, FontSize, FontWeight } from '@/src/tokens/typography'
 
-import type { Color, WithColor } from '@/src/interfaces/withColor'
-
 import { removeNullishProps } from '@/src/utils/removeNullishProps'
 
 import { Box, type BoxProps } from '../Box/Box'
 import type { FontVariant } from './utils/variant.css'
 import { fontVariant } from './utils/variant.css'
 import clsx from 'clsx'
+import type { Color } from '@/src/tokens/color'
 
 type ContainerProps = {
   $ellipsis?: boolean
   $fontVariant: FontVariant
   $size?: FontSize
-  $color: Color
+  $color?: Color
   $weight?: FontWeight
   $font: Font
 }
@@ -65,10 +64,9 @@ export type TypographyProps = {
   font?: Font
   /** A weight value that overrides existing weight property */
   weight?: FontWeight
-
+  color?: Color
   fontVariant?: FontVariant
 } & Omit<NativeDivProps, 'color' | 'as' | 'translate'> &
-WithColor &
 Omit<BoxProps, 'color'> & { fontVariant?: FontVariant }
 
 export const Typography = React.forwardRef<HTMLElement, TypographyProps>(

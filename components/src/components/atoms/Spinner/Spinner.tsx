@@ -4,8 +4,8 @@ import { VisuallyHidden } from '../VisuallyHidden/VisuallyHidden'
 import * as styles from './styles.css'
 import type { BoxProps } from '../Box/Box'
 import { Box } from '../Box/Box'
-import type { Color } from '@/src/interfaces/withColor'
 import { clsx } from 'clsx'
+import type { Color } from '@/src/tokens/color'
 
 type Size = 'small' | 'medium' | 'large'
 

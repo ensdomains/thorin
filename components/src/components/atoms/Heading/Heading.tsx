@@ -1,17 +1,16 @@
 import * as React from 'react'
 
-import type { WithColor } from '@/src/interfaces/withColor'
-
 import type { BoxProps } from '../Box/Box'
 import { Box } from '../Box/Box'
 import clsx from 'clsx'
 import * as styles from './Heading.css'
+import type { Color } from '@/src/tokens/color'
 
 interface HeadingContainerProps {
   textAlign?: React.CSSProperties['textAlign']
   textTransform: React.CSSProperties['textTransform']
   $level: '1' | '2'
-  $color: NonNullable<WithColor['color']>
+  $color: NonNullable<Color>
 }
 
 const ContainerBox = React.forwardRef<
@@ -47,7 +46,8 @@ export type HeadingProps = {
   /** CSS property of text-transform */
   transform?: React.CSSProperties['textTransform']
   level?: '1' | '2'
-} & WithColor &
+  color: Color
+} &
 Omit<NativeDivAttributes, 'color'>
 
 export const Heading = React.forwardRef<HTMLHeadingElement | HTMLLegendElement, HeadingProps>(

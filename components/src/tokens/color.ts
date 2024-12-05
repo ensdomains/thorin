@@ -347,18 +347,31 @@ const GRADIENT_MAP: { [key in Gradient]: string } = {
     'linear-gradient(330.4deg, #DFDFDF 4.54%, #959595 59.2%, #474747 148.85%)',
 }
 
-export type Color = PaletteColor | AdditionalColor | Gradient
+const STATIC_VALUES = {
+  inherit: 'inherit',
+  initial: 'initial',
+  unset: 'unset',
+  transparent: 'transparent',
+  currentColor: 'currentColor',
+  none: 'none',
+}
+
+type StaticValue = keyof typeof STATIC_VALUES
+
+export type Color = PaletteColor | AdditionalColor | Gradient | StaticValue
 
 export const lightColors: { [key in Color]: string } = {
   ...RAW_PALETTE_COLORS_LIGHT,
   ...RAW_ADDITIONAL_COLORS_LIGHT,
   ...GRADIENT_MAP,
+  ...STATIC_VALUES,
 }
 
 export const darkColors: { [key in Color]: string } = {
   ...RAW_PALETTE_COLORS_LIGHT,
   ...RAW_ADDITIONAL_COLORS_DARK,
   ...GRADIENT_MAP,
+  ...STATIC_VALUES,
 }
 
 export const colors = {

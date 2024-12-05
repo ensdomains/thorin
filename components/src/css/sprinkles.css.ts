@@ -2,8 +2,6 @@ import { createSprinkles, defineProperties } from '@vanilla-extract/sprinkles'
 
 import { commonVars, modeVars } from './theme.css'
 
-const colorPropertiesObject = { ...modeVars.color, inherit: 'inherit', initial: 'initial', unset: 'unset', transparent: 'transparent', currentColor: 'currentColor', none: 'none' }
-
 const colorProperties = defineProperties({
   conditions: {
     base: {},
@@ -16,16 +14,16 @@ const colorProperties = defineProperties({
   },
   defaultCondition: 'base',
   properties: {
-    color: colorPropertiesObject,
-    fill: colorPropertiesObject,
-    stroke: colorPropertiesObject,
-    background: colorPropertiesObject,
-    backgroundColor: colorPropertiesObject,
-    borderColor: colorPropertiesObject,
-    borderBottomColor: colorPropertiesObject,
-    borderTopColor: colorPropertiesObject,
-    borderLeftColor: colorPropertiesObject,
-    borderRightColor: colorPropertiesObject,
+    color: modeVars.color,
+    fill: modeVars.color,
+    stroke: modeVars.color,
+    background: modeVars.color,
+    backgroundColor: modeVars.color,
+    borderColor: modeVars.color,
+    borderBottomColor: modeVars.color,
+    borderTopColor: modeVars.color,
+    borderLeftColor: modeVars.color,
+    borderRightColor: modeVars.color,
     opacity: ['0', '1', '0.5', '0.7', '0.9', '0.95', '1', 'inherit', 'initial'],
 
   },
