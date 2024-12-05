@@ -1,5 +1,8 @@
 import type { RawColor } from '@ensdomains/thorin'
 
+export const rawColorToRGB = (color: RawColor): string =>
+  `rgb(${color.join(', ')})`
+
 export const rawColorToRGBA = (color: RawColor, opacity = 1): string =>
   `rgba(${[...color, opacity].join(', ')})`
 

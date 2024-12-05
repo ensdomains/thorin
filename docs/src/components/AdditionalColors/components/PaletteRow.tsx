@@ -1,9 +1,10 @@
 import React from 'react'
 import type { RawColor } from '@ensdomains/thorin'
-import { Box, rawColorToRGB, Typography } from '@ensdomains/thorin'
+import { Box, Typography } from '@ensdomains/thorin'
 import { match, P } from 'ts-pattern'
 import * as styles from './PaletteRow.css'
 import { assignInlineVars } from '@vanilla-extract/dynamic'
+import { rawColorToRGB } from '~/utils/color'
 
 const PaletteCell = ({
   name,
