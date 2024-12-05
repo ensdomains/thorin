@@ -46,7 +46,7 @@ export type HeadingProps = {
   /** CSS property of text-transform */
   transform?: React.CSSProperties['textTransform']
   level?: '1' | '2'
-  color: Color
+  color?: Color
 } &
 Omit<NativeDivAttributes, 'color'>
 
