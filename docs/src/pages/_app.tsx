@@ -4,7 +4,7 @@ import { MDXProvider } from '@mdx-js/react'
 
 import type { Mode } from '@ensdomains/thorin'
 import { ThemeProvider } from '@ensdomains/thorin'
-import '@ensdomains/thorin/dist/thorin.css'
+import '@ensdomains/thorin/dist/style.css'
 import { MDX } from '~/components'
 import { getLayout as getDocsLayout } from '~/layouts/docs'
 import '~/styles/globalStyles.css'
