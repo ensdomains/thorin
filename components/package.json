@@ -12,10 +12,7 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
-    "./thorin.css": {
-      "import": "./dist/thorin.css",
-      "require": "./dist/thorin.css"
-    }
+    "./dist/*.css": "./dist/*.css"
   },
   "sideEffects": [
     "src/atoms/**/*",

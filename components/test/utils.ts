@@ -6,7 +6,7 @@ type DeepPartial<T> = T extends object
     }
   : T
 
-export type PartialMockedFunction<T extends (...args: unknown[]) => unknown> = (
+type PartialMockedFunction<T extends (...args: unknown[]) => unknown> = (
   ...args: Parameters<T>
 ) => DeepPartial<ReturnType<T>>
 
