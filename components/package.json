@@ -22,6 +22,9 @@
   "files": [
     "dist"
   ],
+  "engines": {
+    "node": ">=20"
+  },
   "repository": "ensdomains/thorin",
   "license": "MIT",
   "scripts": {
