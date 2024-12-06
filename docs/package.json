@@ -22,12 +22,10 @@
     "next": "14.2.7",
     "next-mdx-remote": "^3.0.6",
     "prism-react-renderer": "^1.2.1",
-    "prism-theme-vars": "^0.2.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-element-to-jsx-string": "^14.3.4",
     "react-live": "3.1.1",
-    "react-transition-state": "^2.1.2",
     "ts-pattern": "^5.5.0"
   },
   "devDependencies": {
@@ -42,7 +40,6 @@
     "@types/react-dom": "^18.2.13",
     "@types/webpack-env": "^1.18.5",
     "@vanilla-extract/css": "^1.13.0",
-    "mini-css-extract-plugin": "^2.7.6",
     "react-docgen-typescript": "^2.1.1",
     "typescript": "^5.7.2"
   }

@@ -12,7 +12,7 @@ import { RGBtoRGBA, RGBToHSL, RGBtoHex } from '~/utils/color'
 
 const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1)
 
-export type PaletteModalProps = {
+type PaletteModalProps = {
   color?: string | null
   shades?: [string, string][] | null
   selectedShade?: string | null
