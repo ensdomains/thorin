@@ -4,7 +4,8 @@ import type { WithAlert } from './utils/getValueForAlert'
 import { getValueForAlert } from './utils/getValueForAlert'
 import { Typography } from '../Typography/Typography'
 
-import { AlertSVG, CrossSVG, EthSVG, UpRightArrowSVG } from '../../../index'
+import type { IconProps } from '@/src/icons'
+import { AlertSVG, CrossSVG, EthSVG, UpRightArrowSVG } from '@/src/icons'
 import type { AsProp, BoxProps } from '../Box/Box'
 import { Box } from '../Box/Box'
 import * as styles from './styles.css'
@@ -208,12 +209,21 @@ export type BannerProps = BaseProps &
   (WithIcon | WithoutIcon) &
   WithAlert
 
+const defaultIconType = (
+  alert: NonNullableAlert,
+  icon?: React.FC<IconProps>,
+): IconTypes => {
+  if (alert !== 'info') return 'filledCircle'
+  if (icon) return 'normal'
+  return 'none'
+}
+
 export const Banner = React.forwardRef<
   HTMLDivElement,
   React.PropsWithChildren<BannerProps>
 >(
   (
-    { title, alert = 'info', icon, as: asProp, children, onDismiss, ...props },
+    { title, alert = 'info', icon, iconType, as: asProp, children, onDismiss, ...props },
     ref,
   ) => {
     const Icon
@@ -228,6 +238,7 @@ export const Banner = React.forwardRef<
 
     const hasHref = !!props.href
     const hasAction = hasHref || !!props.onClick
+    const _iconType = iconType || defaultIconType(alert, icon)
 
     return (
       <ContainerBox
@@ -237,9 +248,11 @@ export const Banner = React.forwardRef<
         as={asProp}
         ref={ref}
       >
-        <IconBox $alert={alert}>
-          <SVGBox $alert={alert} as={Icon} />
-        </IconBox>
+        {_iconType !== 'none' && (
+          <IconBox $alert={alert}>
+            <SVGBox $alert={alert} as={Icon} />
+          </IconBox>
+        )}
         <Box
           display="flex"
           flex={1}
