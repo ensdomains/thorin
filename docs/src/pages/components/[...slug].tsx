@@ -33,7 +33,7 @@ export const getStaticPaths: GetStaticPaths = async () => ({
 
 type StaticProps = {
   docsLink: string
-  frontMatter: Record<string, any>
+  frontMatter: Record<string, unknown>
   source: MDXRemoteSerializeResult
   sourceLink: string
   staticTypes?: Record<string, PropItem>
