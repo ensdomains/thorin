@@ -275,29 +275,22 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     let childContent: ReactNodeNoStrings
     if (shape === 'circle' || shape === 'square') {
-      childContent = loading ? <Spinner /> : labelContent
+      childContent = loading ? <Spinner data-testid="spinner" /> : labelContent
     }
     else {
       const prefixOrLoading = match([loading, !!prefix, !!suffix])
-        .with([true, true, P._], () => <Spinner />)
-        .with([true, false, false], () => <Spinner />)
-        .with([P._, true, P._], () =>
-          React.isValidElement(prefix)
-            ? (
-                <SVGBox $size={size} as={prefix} />
-              )
-            : null,
+        .with([true, true, P._], () => <Spinner data-testid="spinner" />)
+        .with([true, false, false], () => <Spinner data-testid="spinner" />)
+        .with([P._, true, P._], () => <SVGBox data-testid="spinner" $size={size} as={prefix} />
+          ,
         )
         .otherwise(() => null)
 
       const suffixOrLoading = match([loading, !!prefix, !!suffix])
         .with([true, false, true], () => <Spinner />)
-        .with([P._, P._, true], () =>
-          React.isValidElement(suffix)
-            ? (
-                <SVGBox $size={size} as={suffix} />
-              )
-            : null,
+        .with([P._, P._, true], () => (
+          <SVGBox $size={size} as={suffix} />
+        ),
         )
         .otherwise(() => null)
 
