@@ -254,6 +254,8 @@ const flattenPalette = (
 
 const RAW_PALETTE_COLORS_LIGHT = flattenPalette(RAW_PALETTE_LIGHT)
 
+const RAW_PALETTE_COLORS_DARK = flattenPalette(RAW_PALETTE_DARK)
+
 export const PALETTE_COLORS = Object.keys(
   RAW_PALETTE_COLORS_LIGHT,
 ) as PaletteColor[]
@@ -368,7 +370,7 @@ export const lightColors: { [key in Color]: string } = {
 }
 
 export const darkColors: { [key in Color]: string } = {
-  ...RAW_PALETTE_COLORS_LIGHT,
+  ...RAW_PALETTE_COLORS_DARK,
   ...RAW_ADDITIONAL_COLORS_DARK,
   ...GRADIENT_MAP,
   ...STATIC_VALUES,
