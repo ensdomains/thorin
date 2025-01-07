@@ -20,7 +20,7 @@ const ContainerBox = (props: BoxProps) => (
     display="flex"
     flexDirection="column"
     gap="4"
-    padding={{ xs: '4', sm: '6' }}
+    padding={{ base: '4', sm: '6' }}
     position="relative"
     {...props}
   />
