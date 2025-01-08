@@ -1,9 +1,5 @@
 [
   {
-    "path": "./components/dist/index.cjs",
-    "limit": "150 KB"
-  },
-  {
     "path": "./components/dist/index.js",
     "limit": "125 KB"
   },

@@ -17,8 +17,8 @@ export default defineConfig(({ mode }) => {
       minify: false,
       lib: {
         entry: './src/index.ts',
-        fileName: format => `index.${format === 'cjs' ? 'cjs' : 'js'}`,
-        formats: ['es', 'cjs'],
+        fileName: format => format === 'es' ? 'index.js' : 'thorin.css',
+        formats: ['es'],
       },
       rollupOptions: {
         external: Object.keys(pkg.peerDependencies),

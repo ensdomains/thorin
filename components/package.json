@@ -3,14 +3,12 @@
   "version": "1.0.0-beta.17",
   "description": "A web3 native design system",
   "type": "module",
-  "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "default": "./dist/index.js"
     },
     "./dist/*.css": "./dist/*.css"
   },
