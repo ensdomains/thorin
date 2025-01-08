@@ -1,5 +1,6 @@
 import { responsiveConditions, sprinkles } from '@/src/css/sprinkles.css'
 import { scale } from '@/src/css/utils/common'
+import { space } from '@/src/tokens/space'
 import { createVar, style } from '@vanilla-extract/css'
 import { recipe } from '@vanilla-extract/recipes'
 
@@ -64,7 +65,7 @@ export const styledCard = style({
       maxHeight: '80vh',
     },
     [responsiveConditions.sm['@media']]: {
-      maxHeight: `min(90vh, var(--thorin-space-144))`,
+      maxHeight: `min(90vh, ${space[144]})`,
     },
   },
 })
