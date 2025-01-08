@@ -1,10 +1,10 @@
 [
   {
-    "path": "./components/dist/index.cjs.js",
+    "path": "./components/dist/index.cjs",
     "limit": "50 kB"
   },
   {
-    "path": "./components/dist/index.es.js",
+    "path": "./components/dist/index.js",
     "limit": "50 kB"
   },
   {

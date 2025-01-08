@@ -1,5 +1,5 @@
 import type { MDXProviderProps } from '@mdx-js/react'
-import slugify from '@sindresorhus/slugify'
+import slugify from 'slugify'
 
 import { Typography, tokens, Box, LinkSVG } from '@ensdomains/thorin'
 
