@@ -10,8 +10,6 @@ import {
   EyeSVG,
 } from '@ensdomains/thorin'
 
-import property from 'lodash/property'
-
 import { ScrollBox } from '@ensdomains/thorin'
 import { GithubSVG } from '~/assets'
 
@@ -53,7 +51,7 @@ const formatPropType = (type: PropItemType): string => {
     return type.raw
   if (type.raw.indexOf('Ref') === 0) return type.raw
   if (type.raw.indexOf('ElementType') === 0) return type.raw
-  if (type.value) return type.value.map(property('value')).join(' | ')
+  if (type.value) return (type.value as { value: string }[]).map(x => x.value).join(' | ')
   return type.raw ?? type.name
 }
 
