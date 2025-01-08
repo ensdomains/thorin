@@ -181,8 +181,8 @@ const PopoverBox = React.forwardRef<HTMLElement, BoxProps & PopoverBoxProps>(
         top: getValueForTransitionState($state.status, 'topFunc')($y),
         transform: `translate3d(0,0,0) ${$translate}`,
         ...assignInlineVars({
-          [styles.popoverBoxWidth]: $width.toString(),
-          [styles.popoverBoxWidth]: $mobileWidth.toString(),
+          [styles.popoverBoxWidth]: typeof $width === 'string' ? $width : `${$width}px`,
+          [styles.mobileWidth]: typeof $mobileWidth === 'string' ? $mobileWidth : `${$mobileWidth}px`,
         }),
       }}
       opacity={getValueForTransitionState($state.status, 'opacity')}
