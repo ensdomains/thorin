@@ -69,7 +69,7 @@ export const getStaticProps: GetStaticProps<StaticProps> = async (context) => {
   )
   const componentPathname = globComponentPath[0]
   const staticTypes
-    = getStaticTypes(componentPathname)[slug[slug.length - 1]] ?? null
+    = getStaticTypes(componentPathname)[slug[slug.length - 1] as keyof PropItem] ?? null
   const docsLink = createGitHubLink(pathname.replace(/^\/.*thorin/i, ''))
   const sourceLink = createGitHubLink(
     componentPathname.replace(/^\/.*thorin/i, ''),
