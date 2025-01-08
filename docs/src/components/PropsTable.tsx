@@ -1,6 +1,5 @@
 import * as React from 'react'
 import type { PropItem, PropItemType } from 'react-docgen-typescript'
-import GithubSVG from '~/assets/Github.svg'
 
 import {
   Button,
@@ -14,6 +13,7 @@ import {
 import property from 'lodash/property'
 
 import { ScrollBox } from '@ensdomains/thorin'
+import { GithubSVG } from '~/assets'
 
 type Props = {
   sourceLink?: string

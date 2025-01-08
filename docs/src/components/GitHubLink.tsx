@@ -1,6 +1,6 @@
 import { Box, Typography } from '@ensdomains/thorin'
 import { Link } from './Link'
-import GithubSVG from '~/assets/Github.svg'
+import { GithubSVG } from '~/assets'
 export const GitHubLink = ({ href }: { href: string }) => (
   <Box width="full" paddingBottom="6" justifyContent="center">
     <Link href={href}>
