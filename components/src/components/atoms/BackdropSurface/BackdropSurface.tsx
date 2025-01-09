@@ -5,16 +5,16 @@ import type { TransitionState } from 'react-transition-state'
 import { backdropSurface } from './styles.css'
 import type { BoxProps } from '../Box/Box'
 import { Box } from '../Box/Box'
+import { clsx } from 'clsx'
 
 export type BackdropSurfaceProps = { $state: TransitionState['status'], $empty: boolean } & BoxProps
 
 export const BackdropSurface = React.forwardRef<HTMLElement, BackdropSurfaceProps>(
-  ({ $empty, $state, ...props }, ref) => (
+  ({ $empty, $state, className, ...props }, ref) => (
     <Box
-      {...props}
-      className={backdropSurface({
+      className={clsx(className, backdropSurface({
         entered: !$empty && $state === 'entered',
-      })}
+      }))}
       height="viewHeight"
       left="0"
       overflow="hidden"
@@ -27,6 +27,7 @@ export const BackdropSurface = React.forwardRef<HTMLElement, BackdropSurfaceProp
       width="viewWidth"
       zIndex={9999}
       data-testid="backdrop-surface"
+      {...props}
     />
   ),
 )
