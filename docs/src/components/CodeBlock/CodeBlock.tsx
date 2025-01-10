@@ -13,6 +13,7 @@ import { CopyButton } from '../CopyButton'
 import type { Props as CodePreviewProps } from '../CodePreview'
 import type { PropsWithChildren } from 'react'
 import { Box, useTheme } from '@ensdomains/thorin'
+import { PlayroomStateProvider } from '~/playroom/PlayroomState'
 
 const CodePreviewContainer = (props: PropsWithChildren) => (
   <Box {...props} borderRadius="large" height="48" width="full" />
@@ -78,13 +79,15 @@ export const CodeBlock = ({
   if (!isMounted) return null
   if (live)
     return (
-      <CodePreview
+      <PlayroomStateProvider>
+        <CodePreview
         // backgroundColor={backgroundColor}
-        code={code}
-        expand={expand}
-        minHeight={minHeight}
-        theme={prismTheme}
-      />
+          code={code}
+          expand={expand}
+          minHeight={minHeight}
+          theme={prismTheme}
+        />
+      </PlayroomStateProvider>
     )
 
   const language = className?.replace(/language-/, '') as Language

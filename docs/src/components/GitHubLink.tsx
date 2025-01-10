@@ -10,7 +10,9 @@ export const GitHubLink = ({ href }: { href: string }) => (
         alignItems="center"
         justifyContent="center"
       >
-        <Box as={GithubSVG} wh="4" display="inline" color="accent" />
+        <Box width="4" display="inline" color="accent">
+          <GithubSVG />
+        </Box>
         <Typography color="accent" fontVariant="body">
           Edit on GitHub
         </Typography>

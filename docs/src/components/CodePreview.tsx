@@ -13,6 +13,8 @@ import { Prism } from './Prism'
 import { CopyButton } from './CopyButton'
 import type { BoxProps } from '@ensdomains/thorin'
 import { Box, DownChevronSVG } from '@ensdomains/thorin'
+import { usePlayroomStore } from '~/playroom/PlayroomState'
+import { avatars } from '~/playroom/useStore'
 
 export type Props = {
   backgroundColor?: Colors
@@ -85,6 +87,8 @@ export const CodePreview = ({
     ...initialState,
     expand,
   })
+
+  const store = usePlayroomStore()
   const [code, setCode] = React.useState(_code)
   React.useEffect(() => {
     if (_code && _code !== code) setCode(_code)
@@ -98,8 +102,10 @@ export const CodePreview = ({
         mdx,
         ...Components,
         previewRef,
+        ...store,
         NextImage,
         NextLink,
+        avatars,
       }}
       theme={theme}
       transformCode={code => '/** @jsx mdx */' + code}

@@ -171,7 +171,7 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
               colorStyle="transparent"
               color="accent"
               size="small"
-              prefix={() => <Box as={GithubSVG} width="3" />}
+              prefix={() => <Box wh="3"><GithubSVG /></Box>}
             >
               View Source
             </Button>
