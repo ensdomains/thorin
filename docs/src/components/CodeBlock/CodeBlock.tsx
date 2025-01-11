@@ -100,7 +100,6 @@ export const CodeBlock = ({
       theme={prismTheme}
       // theme={modifiedTheme}
     >
-      { }
       {({
         // className,
         // style,
@@ -128,7 +127,6 @@ export const CodeBlock = ({
           })}
         </Pre>
       )}
-      { }
     </Highlight>
   )
 }
