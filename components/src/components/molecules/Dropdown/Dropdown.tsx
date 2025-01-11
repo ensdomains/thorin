@@ -512,7 +512,7 @@ export const Dropdown: React.FC<DropdownProps & (PropsWithIsOpen | PropsWithoutI
   chevron = true,
   align = 'left',
   // menuLabelAlign,
-  width = 36,
+  width = 150,
   mobileWidth = width,
   shortThrow = false,
   keepMenuOnTop = false,

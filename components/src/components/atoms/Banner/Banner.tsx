@@ -63,7 +63,7 @@ const ContainerBox = React.forwardRef<HTMLElement, ContainerProps>(
       alignItems={{ base: 'stretch', sm: 'center' }}
       backgroundColor={{
         base: getValueForAlert($alert, 'background'),
-        hover: getValueForAlert($alert, 'hover'),
+        hover: $hasAction ? getValueForAlert($alert, 'hover') : undefined,
       }}
       borderColor={getValueForAlert($alert, 'border')}
       borderRadius="2xLarge"

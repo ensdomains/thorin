@@ -64,7 +64,7 @@ export const NavBar = ({
         <Link href="https://github.com/ensdomains/thorin">
           <Box as={GithubSVG} color="text" wh="4" />
         </Link>
-        <Link href="https://github.com/ensdomains/thorin">
+        <Link href="https://www.figma.com/community/file/1303431204471074291/thorin">
           <Box as={FigmaSVG} wh="4" />
         </Link>
         {/* TODO: Readd after fixing. Crashing docs page. */}

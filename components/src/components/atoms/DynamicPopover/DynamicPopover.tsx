@@ -212,8 +212,8 @@ export const DynamicPopover: React.FC<DynamicPopoverProps> = ({
   animationFn: _animationFn,
   anchorRef,
   onShowCallback,
-  width = 60,
-  mobileWidth = 36,
+  width = 250,
+  mobileWidth = 150,
   useIdealPlacement = false,
   additionalGap = 0,
   transitionDuration = 300,
@@ -438,7 +438,6 @@ export const DynamicPopover: React.FC<DynamicPopoverProps> = ({
     return () => {
       if (originalIsControlled) toggle(!originalIsOpen)
     }
-    return () => toggle(false)
   }, [isControlled, isOpen])
 
   const _placement = useIdealPlacement

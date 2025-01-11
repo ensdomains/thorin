@@ -115,9 +115,6 @@ export const SideBar = ({ open, links }: { open: boolean, links: Links }) => {
             >
               Development
             </NavLink>
-            <NavLink href="/" active={router.asPath === '/'}>
-              Design
-            </NavLink>
           </Box>
           <Divider />
           <Box>

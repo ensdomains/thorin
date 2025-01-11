@@ -1,5 +1,4 @@
 import { responsiveConditions } from '@/src/css/sprinkles.css'
-import type { ComplexStyleRule } from '@vanilla-extract/css'
 import { createVar, style } from '@vanilla-extract/css'
 
 export const popoverBoxWidth = createVar()
@@ -10,12 +9,10 @@ export const container = style({
   'WebkitBackfaceVisibility': 'hidden',
   'MozBackfaceVisibility': 'hidden',
   'backfaceVisibility': 'hidden',
+  'width': mobileWidth,
   '@media': {
-    [responsiveConditions.sm['@media']]: {
+    [responsiveConditions.xs['@media']]: {
       width: popoverBoxWidth,
     },
-    [responsiveConditions.xs['@media']]: {
-      width: mobileWidth,
-    },
   },
-} as ComplexStyleRule)
+})

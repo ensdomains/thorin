@@ -1,5 +1,6 @@
 body {
   margin: 0;
+  background-color: var(--thrn-color-background);
 }
 
 a {
@@ -7,16 +8,16 @@ a {
 }
 
 .npm__react-simple-code-editor__textarea {
-  font-family: var(--thorin-fonts-mono) !important;
-  font-size: var(--thorin-fonts-sans) !important;
-  padding: var(--thorin-space-6) !important;
-  padding-right: var(--thorin-space-14) !important;
+  font-family: var(--thrn-fonts-mono) !important;
+  font-size: var(--thrn-fonts-sans) !important;
+  padding: var(--thrn-space-6) !important;
+  padding-right: var(--thrn-space-14) !important;
 }
 
 .npm__react-simple-code-editor__textarea *,
 .npm__react-simple-code-editor__textarea + pre * {
-  font-family: var(--thorin-fonts-mono) !important;
-  font-size: var(--thorin-fonts-sans) !important;
+  font-family: var(--thrn-fonts-mono) !important;
+  font-size: var(--thrn-fonts-sans) !important;
 }
 
 .npm__react-simple-code-editor__textarea:focus-visible {
@@ -24,8 +25,8 @@ a {
 }
 
 .npm__react-simple-code-editor__textarea + pre {
-  font-family: var(--thorin-fonts-mono) !important;
-  font-size: var(--thorin-fonts-sans) !important;
+  font-family: var(--thrn-fonts-mono) !important;
+  font-size: var(--thrn-fonts-sans) !important;
   padding: var(--space-6) !important;
   padding-right: var(--space-14) !important;
 }

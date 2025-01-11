@@ -91,7 +91,7 @@ export const SearchIcons = () => {
             hideLabel
             label="Search icons"
             placeholder="Search icons"
-            prefix={<MagnifyingGlassSimpleSVG />}
+            prefix={<MagnifyingGlassSimpleSVG width="16" />}
             value={state.query}
             onChange={event =>
               setState(x => ({ ...x, query: event.target.value }))}

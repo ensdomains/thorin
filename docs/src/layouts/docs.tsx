@@ -34,7 +34,7 @@ const Article = (props: BoxProps) => (
   <Box
     {...props}
     as="article"
-    maxWidth="192"
+    maxWidth="256"
 
   // margin="0 auto"
   />
