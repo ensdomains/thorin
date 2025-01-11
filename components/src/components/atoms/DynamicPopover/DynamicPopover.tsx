@@ -1,6 +1,6 @@
 import * as React from 'react'
 import type { TransitionState } from 'react-transition-state'
-import { useTransition } from 'react-transition-state'
+import { useTransitionState } from 'react-transition-state'
 
 import { Portal } from '../Portal/Portal'
 import type { BoxProps } from '../Box/Box'
@@ -225,7 +225,7 @@ export const DynamicPopover: React.FC<DynamicPopoverProps> = ({
 
   const isControlled = isOpen !== undefined
 
-  const [state, toggle] = useTransition({
+  const [state, toggle] = useTransitionState({
     preEnter: true,
     exit: true,
     mountOnEnter: true,

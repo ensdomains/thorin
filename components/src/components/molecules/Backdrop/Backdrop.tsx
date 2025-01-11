@@ -1,6 +1,6 @@
 import * as React from 'react'
 import type { TransitionState } from 'react-transition-state'
-import { useTransition } from 'react-transition-state'
+import { useTransitionState } from 'react-transition-state'
 
 import { Portal } from '../../atoms/Portal/Portal'
 
@@ -31,7 +31,7 @@ export const Backdrop: React.FC<BackdropProps> = ({
   open,
   renderCallback,
 }) => {
-  const [state, toggle] = useTransition({
+  const [state, toggle] = useTransitionState({
     timeout: {
       enter: 50,
       exit: 300,

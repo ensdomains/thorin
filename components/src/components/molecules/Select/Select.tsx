@@ -3,7 +3,7 @@ import * as React from 'react'
 import { useEffect } from 'react'
 
 import type { TransitionState } from 'react-transition-state'
-import { useTransition } from 'react-transition-state'
+import { useTransitionState } from 'react-transition-state'
 
 import { useDocumentEvent } from '@/src/hooks/useDocumentEvent'
 
@@ -693,7 +693,7 @@ export const Select = React.forwardRef<HTMLInputElement, SelectProps>(
       maxInputSize,
     )
 
-    const [state, toggle] = useTransition({
+    const [state, toggle] = useTransitionState({
       timeout: {
         enter: 0,
         exit: 300,

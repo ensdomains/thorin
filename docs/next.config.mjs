@@ -1,12 +1,8 @@
 import { createVanillaExtractPlugin } from '@vanilla-extract/next-plugin'
 import path from 'node:path'
 const withVanillaExtract = createVanillaExtractPlugin({ identifiers: 'short' })
-import nextMDX from '@next/mdx'
-import { globSync } from 'node:fs'
 
-const withMDX = nextMDX({
-  extension: /\.mdx?$/,
-})
+import { globSync } from 'node:fs'
 
 const getComponentPaths = category =>
   globSync(`./src/reference/mdx/${category}/*.docs.mdx`, {
@@ -55,4 +51,4 @@ const config = {
 }
 
 /** @type {import('next').NextConfig} */
-export default withVanillaExtract(withMDX(config))
+export default withVanillaExtract(config)
