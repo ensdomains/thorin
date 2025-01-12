@@ -22,7 +22,7 @@ export const variants = recipe({
         height: '10',
         padding: '0',
         width: '10',
-        maxWidth: '0',
+        maxWidth: '10',
         paddingRight: '0',
       }),
       medium: sprinkles({

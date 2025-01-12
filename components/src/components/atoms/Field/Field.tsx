@@ -182,7 +182,12 @@ const ErrorBox = ({
   $inline,
   ...props
 }: React.ComponentProps<typeof Typography> & { $inline: boolean }) => (
-  <Typography padding={$inline ? '0' : '2'} {...props} />
+  <Typography
+    color="redPrimary"
+    fontVariant="smallBold"
+    px={$inline ? '0' : '2'}
+    {...props}
+  />
 )
 
 const DecorativeContent = ({
@@ -207,8 +212,7 @@ const DecorativeContent = ({
         aria-live="polite"
         {...ids.error}
         $inline={inline}
-        color="redPrimary"
-        fontVariant="smallBold"
+
       >
         {error}
       </ErrorBox>
