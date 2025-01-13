@@ -203,6 +203,7 @@ const MenuButton = React.forwardRef<HTMLElement, BoxProps & MenuButtonProps>(
       transitionDuration={150}
       transitionTimingFunction="ease-in-out"
       width="full"
+
     >
       {$icon
         ? (

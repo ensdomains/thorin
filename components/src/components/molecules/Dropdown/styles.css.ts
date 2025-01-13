@@ -30,6 +30,7 @@ export const menu = recipe({
 })
 
 export const menuButton = style({
+  'fontSize': '100%',
   'filter': brightness(1),
   'transitionProperty': 'color, transform, filter',
   ':active': {

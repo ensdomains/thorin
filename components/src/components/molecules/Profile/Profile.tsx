@@ -18,6 +18,7 @@ import { Typography } from '../../atoms/Typography/Typography'
 import * as styles from './styles.css'
 import { clsx } from 'clsx'
 import { assignInlineVars } from '@vanilla-extract/dynamic'
+import { commonVars } from '@/src/css/theme.css'
 
 type Size = 'small' | 'medium' | 'large'
 
@@ -144,7 +145,7 @@ export const Profile: React.FC<ProfileProps> = ({
   if (dropdownItems) {
     return (
       <Dropdown
-        width={calculateWidth(size)}
+        width={commonVars.space[calculateWidth(size)]}
         {...{
           indicatorColor,
           items: dropdownItems,
