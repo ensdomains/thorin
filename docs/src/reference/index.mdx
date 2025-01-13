@@ -1,7 +1,7 @@
 ## Install
 
-```bash
-pnpm i @ensdomains/thorin
+```sh
+pnpm i react react-dom @ensdomains/thorin
 ```
 
 ## Set Up
@@ -13,7 +13,7 @@ In this example we are adding the **lightTheme**.
 ```tsx
 import React, { useState } from 'react'
 import { ThemeProvider } from '@ensdomains/thorin'
-import 'thorin/dist/style.css'
+import '@ensdomains/thorin/dist/thorin.css'
 
 const App = () => {
   return (
@@ -31,7 +31,7 @@ To use the dark theme, import `darkTheme` and pass it to the `ThemeProvider`.
 ```tsx
 import React, { useState } from 'react'
 import { ThemeProvider, darkTheme } from '@ensdomains/thorin'
-import 'thorin/dist/style.css'
+import '@ensdomains/thorin/dist/thorin.css'
 
 const App = () => {
   return (

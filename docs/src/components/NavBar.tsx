@@ -1,6 +1,6 @@
 import { Box, MenuSVG, CrossSVG } from '@ensdomains/thorin'
 import { Link } from './Link'
-import { FigmaSVG, GithubSVG, Logo } from '~/assets'
+import { FigmaSVG, GithubSVG } from '~/assets'
 
 export const NavBar = ({
   open,
@@ -57,15 +57,21 @@ export const NavBar = ({
           </Box>
         </Box>
         <Link href="/">
-          <Box as={Logo} height="12" />
+          <Box as="a" display="flex">
+            <Box height="6" as="img" src="/ENSFull.svg" alt="ENS" />
+          </Box>
         </Link>
       </Box>
-      <Box display="flex" gap="2" alignItems="center">
+      <Box display="flex" gap="4" alignItems="center">
         <Link href="https://github.com/ensdomains/thorin">
-          <Box as={GithubSVG} color="text" wh="4" />
+          <Box color="text" wh="6">
+            <GithubSVG />
+          </Box>
         </Link>
         <Link href="https://www.figma.com/community/file/1303431204471074291/thorin">
-          <Box as={FigmaSVG} wh="4" />
+          <Box wh="6">
+            <FigmaSVG />
+          </Box>
         </Link>
         {/* TODO: Readd after fixing. Crashing docs page. */}
         {/* <Tag size="small">v1.0</Tag> */}

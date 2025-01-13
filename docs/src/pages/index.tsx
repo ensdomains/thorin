@@ -20,7 +20,7 @@ const Home = ({ mdxSource }: { mdxSource: MDXRemoteSerializeResult }) => (
           .
         </>
       )}
-      title="ENS Design System (alpha)"
+      title="ENS Design System (beta)"
     />
     <MDXRemote {...mdxSource} />
   </>

@@ -41,7 +41,7 @@ const Article = (props: BoxProps) => (
 )
 
 const Main = (props: BoxProps) => (
-  <Box {...props} as="main" paddingLeft={{ base: '0', sm: '64' }} />
+  <Box {...props} as="main" margin="center" paddingLeft={{ base: '0', sm: '64' }} />
 )
 
 export type Props = {
