@@ -8,7 +8,6 @@
     "build:components": "pnpm -F @ensdomains/thorin build",
     "clean": "pnpm m-all clean",
     "dev": "pnpm m run dev",
-    "gen:icons": "node scripts/generateIcons.js",
     "lint": "eslint -c eslint.config.mjs",
     "lint:styles": "stylelint docs/**/*.css",
     "postinstall": "husky install",
@@ -41,14 +40,12 @@
     "globals": "^15.14.0",
     "husky": "^9.1.7",
     "lint-staged": "^15.2.10",
-    "postcss-syntax": "^0.36.2",
     "react-docgen-typescript": "^2.2.2",
     "size-limit": "^11.1.6",
     "stylelint": "^16.13.0",
     "stylelint-config-recommended": "^15.0.0",
     "typescript": "5.7.2",
-    "typescript-eslint": "^8.19.1",
-    "utility-types": "^3.11.0"
+    "typescript-eslint": "^8.19.1"
   },
   "dependencies": {
     "react": "^18.3.1",
