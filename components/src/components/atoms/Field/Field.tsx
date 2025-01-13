@@ -123,7 +123,7 @@ const LabelContent = ({
   disabled,
   readOnly,
 }: {
-  ids: any
+  ids: ReturnType<typeof useFieldIds>
   label: React.ReactNode
   labelSecondary?: React.ReactNode
   required?: boolean | undefined
@@ -169,7 +169,7 @@ const LabelContent = ({
 const DescriptionBox = ({
   $inline,
   ...props
-}: React.ComponentProps<typeof Typography> & { $inline: boolean }) => (
+}: React.ComponentProps<typeof Typography> & { $inline?: boolean }) => (
   <Typography
     overflow="hidden"
     padding={$inline ? '0' : '2'}
@@ -181,7 +181,7 @@ const DescriptionBox = ({
 const ErrorBox = ({
   $inline,
   ...props
-}: React.ComponentProps<typeof Typography> & { $inline: boolean }) => (
+}: React.ComponentProps<typeof Typography> & { $inline?: boolean }) => (
   <Typography
     color="redPrimary"
     fontVariant="smallBold"
@@ -202,7 +202,7 @@ const DecorativeContent = ({
   description: FieldProps['description']
   hideLabel: FieldProps['hideLabel']
   inline: FieldProps['inline']
-  ids: any
+  ids: ReturnType<typeof useFieldIds>
   disabled?: boolean
 }) => {
   if (hideLabel) return null
@@ -223,7 +223,6 @@ const DecorativeContent = ({
         $inline={inline}
         {...ids.description}
         color={disabled ? 'greyPrimary' : 'textPrimary'}
-        colorScheme={disabled ? 'secondary' : 'primary'}
         ellipsis
         fontVariant="small"
       >
