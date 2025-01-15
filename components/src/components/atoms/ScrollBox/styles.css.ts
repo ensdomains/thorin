@@ -31,8 +31,5 @@ export const scrollBox = style({
       borderRadius: commonVars.space['3'],
       backgroundColor: 'transparent',
     },
-    '&:hover': {
-      color: modeVars.color.greyBright,
-    },
   },
 })
