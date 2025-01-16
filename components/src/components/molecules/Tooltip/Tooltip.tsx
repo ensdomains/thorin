@@ -155,28 +155,32 @@ export const Tooltip: React.FC<TooltipProps> = ({
   const child = React.Children.only(children)
   const AnchorElement = React.cloneElement(child, { ref: anchorRef })
 
-  const popover = (
-    <TooltipPopover
-      background={background}
-      mobilePlacement={mobilePlacement}
-      placement={placement}
-    >
-      {content}
-    </TooltipPopover>
-  )
+  const popover = content
+    ? (
+        <TooltipPopover
+          background={background}
+          mobilePlacement={mobilePlacement}
+          placement={placement}
+        >
+          {content}
+        </TooltipPopover>
+      )
+    : null
 
-  return (
-    <>
-      <DynamicPopover
-        anchorRef={anchorRef}
-        mobilePlacement={mobilePlacement}
-        placement={placement}
-        popover={popover}
-        {...props}
-      />
-      {AnchorElement}
-    </>
-  )
+  return popover
+    ? (
+        <>
+          <DynamicPopover
+            anchorRef={anchorRef}
+            mobilePlacement={mobilePlacement}
+            placement={placement}
+            popover={popover}
+            {...props}
+          />
+          {AnchorElement}
+        </>
+      )
+    : AnchorElement
 }
 
 Tooltip.displayName = 'Tooltip'
