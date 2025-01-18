@@ -61,12 +61,13 @@ export type RecordItemProps = BaseProps &
   NativeElementProps &
   (AsAnchorProps | AsButtonProps)
 
-const ContainerBox = ({
+const ContainerBox = React.forwardRef<HTMLAnchorElement | HTMLButtonElement, BoxProps & { $inline: boolean }>(({
   $inline,
   className,
   ...props
-}: BoxProps & { $inline: boolean }) => (
+}: BoxProps & { $inline: boolean }, ref) => (
   <Box
+    ref={ref}
     alignItems="flex-start"
     backgroundColor={{ base: 'greySurface', hover: 'greyLight' }}
     borderColor="border"
@@ -86,7 +87,7 @@ const ContainerBox = ({
     {...props}
     className={clsx(className, styles.containerBox)}
   />
-)
+))
 
 const PrefixBox = ({
   $inline,
@@ -175,7 +176,6 @@ export const RecordItem = React.forwardRef<
       children,
       ...props
     },
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     ref,
   ) => {
     const { copy, copied } = useCopied()
@@ -240,7 +240,7 @@ export const RecordItem = React.forwardRef<
           : { as: CopySVG }
 
     return (
-      <ContainerBox $inline={inline} as={asProp} {...generatedProps}>
+      <ContainerBox $inline={inline} as={asProp} {...generatedProps} ref={ref}>
         {hasPrefix && (
           <PrefixBox $inline={inline} $size={size}>
             {icon && <PrefixSVGBox as={icon} />}
