@@ -6,7 +6,7 @@ import { Box } from '../../atoms/Box/Box'
 import * as styles from './styles.css'
 import { icon } from './styles.css'
 import { MoonSVG, SunSVG } from '@/src/icons'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import { assignInlineVars } from '@vanilla-extract/dynamic'
 import type { Color } from '@/src/tokens/color'
 

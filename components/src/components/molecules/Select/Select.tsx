@@ -26,7 +26,7 @@ import { getValueForSize } from './utils/getValueForSize'
 import { getValueForTransitionState } from './utils/getValueForTransitionState'
 import { uniqueId } from '@/src/utils/uniqueId'
 import { ScrollBox } from '../../atoms'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import { assignInlineVars } from '@vanilla-extract/dynamic'
 
 const CREATE_OPTION_VALUE = 'CREATE_OPTION_VALUE'

@@ -13,7 +13,7 @@ import { Spinner } from '../Spinner/Spinner'
 import type { AsProp, BoxProps } from '../Box/Box'
 import { Box } from '../Box/Box'
 import * as styles from './Button.css'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import { assignInlineVars } from '@vanilla-extract/dynamic'
 import type { ColorStyles, Hue } from '@/src/tokens'
 

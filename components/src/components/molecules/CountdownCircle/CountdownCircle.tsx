@@ -9,7 +9,7 @@ import type { BoxProps } from '../../atoms/Box/Box'
 import { Box } from '../../atoms/Box/Box'
 import { VisuallyHidden } from '../../atoms'
 import type { Color } from '@/src/tokens/color'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import * as styles from './styles.css'
 
 const NumberBox = ({

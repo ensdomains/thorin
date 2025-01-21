@@ -8,7 +8,7 @@ import { space } from '@/src/tokens/space'
 import type { BoxProps } from '../../atoms'
 import { ScrollBox, Box } from '../../atoms'
 import * as styles from './styles.css'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import { assignInlineVars } from '@vanilla-extract/dynamic'
 
 type NativeFromProps = React.FormHTMLAttributes<HTMLFormElement>

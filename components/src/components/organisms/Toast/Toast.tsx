@@ -15,7 +15,7 @@ import type { BoxProps } from '../../atoms/Box/Box'
 import { Box } from '../../atoms/Box/Box'
 import type { Space } from '@/src/tokens'
 import * as styles from './styles.css'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 
 const CloseIcon = (props: BoxProps) => (
   <Box

@@ -8,7 +8,7 @@ import type { AsProp, BoxProps } from '../../atoms/Box/Box'
 import { Box } from '../../atoms/Box/Box'
 
 import * as styles from './styles.css'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 
 type Alignment = 'horizontal' | 'vertical'
 

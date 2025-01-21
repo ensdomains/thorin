@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import type { BoxProps } from '../Box/Box'
 import { Box } from '../Box/Box'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import * as styles from './Heading.css'
 import type { Color } from '@/src/tokens/color'
 

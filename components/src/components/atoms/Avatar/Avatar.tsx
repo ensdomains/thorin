@@ -5,7 +5,7 @@ import { iconClass, img, placeholder } from './styles.css'
 import { Box, type BoxProps } from '../Box/Box'
 import { avatar, overlay } from './styles.css'
 import { CheckSVG } from '../../../index'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 
 type NativeImgAttributes = React.ImgHTMLAttributes<HTMLImageElement>
 

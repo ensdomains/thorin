@@ -14,7 +14,7 @@ import type { BoxProps } from '../../atoms/Box/Box'
 import { Box } from '../../atoms/Box/Box'
 import { getValueForSize } from './utils/getValueForSize'
 import { CrossCircleSVG } from '@/src/icons'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 
 type NativeInputProps = React.InputHTMLAttributes<HTMLInputElement>
 

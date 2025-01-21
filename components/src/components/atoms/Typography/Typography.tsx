@@ -7,7 +7,7 @@ import { removeNullishProps } from '@/src/utils/removeNullishProps'
 import { Box, type BoxProps } from '../Box/Box'
 import type { FontVariant } from './utils/variant.css'
 import { fontVariant } from './utils/variant.css'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import type { Color } from '@/src/tokens/color'
 
 type ContainerProps = {
