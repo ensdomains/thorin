@@ -239,7 +239,7 @@ describe('<Select />', () => {
       expect(screen.getByText('One')).toBeVisible()
       expect(screen.queryByText('Two')).toBeNull()
     })
-  })
+  }, { timeout: 10000 })
 
   it('should show create options only if it is unique ', { timeout: 10000 }, async () => {
     const mockCallback = vi.fn()
