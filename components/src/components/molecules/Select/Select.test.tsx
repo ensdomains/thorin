@@ -10,7 +10,7 @@ import {
 
 import { Select } from './Select'
 
-describe('<Select />', () => {
+describe('<Select />', { timeout: 10_000 }, () => {
   afterEach(cleanup)
 
   it('renders', () => {
@@ -143,7 +143,7 @@ describe('<Select />', () => {
 
   /** Autocomplete */
 
-  it('should filter options if autocomplete is true ', { timeout: 10000 }, async () => {
+  it('should filter options if autocomplete is true ', async () => {
     const mockCallback = vi.fn()
     render(
       <div>
@@ -239,9 +239,9 @@ describe('<Select />', () => {
       expect(screen.getByText('One')).toBeVisible()
       expect(screen.queryByText('Two')).toBeNull()
     })
-  }, { timeout: 10000 })
+  })
 
-  it('should show create options only if it is unique ', { timeout: 10000 }, async () => {
+  it('should show create options only if it is unique ', async () => {
     const mockCallback = vi.fn()
     render(
       <div>
