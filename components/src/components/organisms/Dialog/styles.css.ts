@@ -76,9 +76,7 @@ export const dialogContentWidthSm = createVar()
 export const dialogContentMarginSm = createVar()
 export const dialogContentMaxWidthSm = createVar()
 
-export const dialogContent = style([sprinkles({
-  maxWidth: 'max',
-}), {
+export const dialogContent = style({
   'margin': dialogContentMargin,
   'width': dialogContentWidth,
   '@media': {
@@ -88,4 +86,4 @@ export const dialogContent = style([sprinkles({
       maxWidth: dialogContentMaxWidthSm,
     },
   },
-}])
+})
