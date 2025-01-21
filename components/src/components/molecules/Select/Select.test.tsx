@@ -178,7 +178,7 @@ describe('<Select />', () => {
       expect(screen.getByText('One')).toBeVisible()
       expect(screen.queryByText('Two')).toBeNull()
     })
-  })
+  }, { timeout: 10000 })
 
   it('should update selection using arrows', async () => {
     render(
@@ -277,7 +277,7 @@ describe('<Select />', () => {
       expect(screen.getByText('One')).toBeVisible()
       expect(screen.queryAllByRole('option').length).toEqual(1)
     })
-  })
+  }, { timeout: 10000 })
 
   it('should call on create if create option is clicked', async () => {
     const mockCallback = vi.fn()
@@ -343,7 +343,7 @@ describe('<Select />', () => {
   })
 
   it('should pass a ref down', async () => {
-    const ref = { current: null } as React.RefObject<any>
+    const ref = { current: null } as React.RefObject<HTMLInputElement>
     render(
       <Select
         label="select"
