@@ -84,6 +84,7 @@ const ScrollBoxContent = ({
     gap={gap}
     justifyContent="flex-start"
     width="full"
+    maxWidth={{ base: 'full', sm: '144' }}
   >
     {children}
   </Box>
