@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { breakpoints } from '@/src/tokens'
 
-import { actionSheeItem } from './styles.css'
+import { actionSheetItem } from './styles.css'
 
 import type { DropdownItem, DropdownItemObject } from './Dropdown'
 import type { BoxProps } from '../../atoms/Box/Box'
@@ -41,7 +41,7 @@ const ActionSheetItem = (props: BoxProps) => (
     {...props}
     alignItems="center"
     backgroundColor="backgroundPrimary"
-    className={actionSheeItem}
+    className={actionSheetItem}
     color="textPrimary"
     display="flex"
     gap="2"

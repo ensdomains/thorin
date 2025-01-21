@@ -38,7 +38,7 @@ export const menuButton = style({
   },
 })
 
-export const actionSheeItem = style({
+export const actionSheetItem = style({
   selectors: {
     '&:first-child': {
       borderTopLeftRadius: commonVars.radii.large,
