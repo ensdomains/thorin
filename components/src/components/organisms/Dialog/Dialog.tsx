@@ -44,16 +44,16 @@ const StyledCard = ({ children }: React.PropsWithChildren) => (
     className={styles.styledCard}
     alignItems="center"
     backgroundColor="backgroundPrimary"
-    borderBottomLeftRadius={{ xs: '0', sm: '3xLarge' }}
-    borderBottomRightRadius={{ xs: '0', sm: '3xLarge' }}
+    borderBottomLeftRadius={{ base: '0', sm: '3xLarge' }}
+    borderBottomRightRadius={{ base: '0', sm: '3xLarge' }}
     borderRadius="3xLarge"
     display="flex"
     flexDirection="column"
-    gap={{ xs: '4', sm: '6' }}
-    maxWidth={{ xs: 'unset', sm: '80vw' }}
-    minWidth={{ xs: 'unset', sm: '64' }}
+    gap={{ base: '4', sm: '6' }}
+    maxWidth={{ base: 'unset', sm: '80vw' }}
+    minWidth={{ base: 'unset', sm: '64' }}
     overflow="hidden"
-    padding={{ xs: '4', sm: '6' }}
+    padding={{ base: '4', sm: '6' }}
     position="relative"
     width="full"
   >
@@ -90,7 +90,7 @@ const ButtonsContainer = (props: BoxProps) => (
     {...props}
     alignItems="center"
     display="flex"
-    flexDirection={{ xs: 'column', sm: 'row' }}
+    flexDirection={{ base: 'column', sm: 'row' }}
     gap="2"
     justifyContent="stretch"
     width="full"
