@@ -57,7 +57,7 @@ export default defineConfig(({ mode }) => {
     ],
     test: {
       css: true,
-      environment: 'jsdom',
+      environment: 'happy-dom',
       globals: true,
       coverage: {
         provider: 'v8',
