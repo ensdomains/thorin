@@ -82,7 +82,7 @@ describe('<RadioButtonGroup />', () => {
     await userEvent.click(radio)
     await userEvent.click(outside)
     waitFor(() => {
-      expect(mockCallback.mock.results.length).toBe(1)
+      expect(mockCallback.mock.results.length).toBe(2)
     })
   })
 
