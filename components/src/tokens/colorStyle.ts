@@ -6,10 +6,10 @@ type ColorStyleType = 'Text' | 'Background' | 'Border' | 'Hover'
 
 type ColorStyles = `${ColorStyleBase}${ColorStyleType}`
 
-const makeColorStyles = (colors: typeof lightColors): { [key in ColorStyles]: string } => {
+const makeColorStyles = (colors: typeof lightColors, theme: 'dark' | 'light'): { [key in ColorStyles]: string } => {
   const colorStyles = PRIMARY_COLORS.flatMap((color) => {
     return [
-      [`${color}PrimaryText`, colors.backgroundPrimary],
+      [`${color}PrimaryText`, theme === 'dark' ? colors.textPrimary : colors.backgroundPrimary],
       [`${color}PrimaryBackground`, colors[`${color}Primary`]],
       [`${color}PrimaryBorder`, 'transparent'],
       [`${color}PrimaryHover`, colors[`${color}Bright`]],
@@ -38,8 +38,8 @@ const makeColorStyles = (colors: typeof lightColors): { [key in ColorStyles]: st
   return Object.fromEntries([...colorStyles, ...additionalColorStyles])
 }
 
-export const lightColorStyles = makeColorStyles(lightColors)
-export const darkColorStyles = makeColorStyles(darkColors)
+export const lightColorStyles = makeColorStyles(lightColors, 'light')
+export const darkColorStyles = makeColorStyles(darkColors, 'dark')
 
 export const colorStyles = {
   light: lightColorStyles,
