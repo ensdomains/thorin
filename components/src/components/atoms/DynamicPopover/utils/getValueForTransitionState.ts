@@ -1,20 +1,23 @@
+import type { Sprinkles } from '@/src/css/sprinkles.css'
 import type { TransitionState } from 'react-transition-state'
 
+type Properties = {
+  display: 'block'
+  visibility: 'visible' | 'hidden'
+  opacity: Sprinkles['opacity']
+  transitionProperty: 'none' | 'all'
+  pointerEvents: 'none' | 'auto'
+  topFunc: (x: number) => `${number}px`
+  leftFunc: (y: number) => `${number}px`
+}
+
 const transitionStateValues: {
-  [key in TransitionState['status']]: {
-    display: string
-    visibility: string
-    opacity: number
-    transitionProperty: string
-    pointerEvents: string
-    topFunc: (x: number) => string
-    leftFunc: (y: number) => string
-  }
+  [key in TransitionState['status']]: Properties
 } = {
   unmounted: {
     display: 'block',
     visibility: 'hidden',
-    opacity: 0,
+    opacity: '0',
     transitionProperty: 'none',
     pointerEvents: 'none',
     topFunc: (x: number) => `${x}px`,
@@ -23,7 +26,7 @@ const transitionStateValues: {
   preEnter: {
     display: 'block',
     visibility: 'visible',
-    opacity: 0,
+    opacity: '0',
     transitionProperty: 'none',
     pointerEvents: 'none',
     topFunc: (x: number) => `${x}px`,
@@ -32,7 +35,7 @@ const transitionStateValues: {
   entering: {
     display: 'block',
     visibility: 'visible',
-    opacity: 1,
+    opacity: '1',
     transitionProperty: 'all',
     pointerEvents: 'auto',
     topFunc: (x: number) => `${x}px`,
@@ -41,7 +44,7 @@ const transitionStateValues: {
   entered: {
     display: 'block',
     visibility: 'visible',
-    opacity: 1,
+    opacity: '1',
     transitionProperty: 'all',
     topFunc: (x: number) => `${x}px`,
     leftFunc: (y: number) => `${y}px`,
@@ -50,7 +53,7 @@ const transitionStateValues: {
   preExit: {
     display: 'block',
     visibility: 'visible',
-    opacity: 0,
+    opacity: '0',
     transitionProperty: 'all',
     topFunc: (x: number) => `${x}px`,
     leftFunc: (y: number) => `${y}px`,
@@ -59,7 +62,7 @@ const transitionStateValues: {
   exiting: {
     display: 'block',
     visibility: 'visible',
-    opacity: 0,
+    opacity: '0',
     transitionProperty: 'all',
     topFunc: (x: number) => `${x}px`,
     leftFunc: (y: number) => `${y}px`,
@@ -68,17 +71,17 @@ const transitionStateValues: {
   exited: {
     display: 'block',
     visibility: 'hidden',
-    opacity: 0,
+    opacity: '0',
     transitionProperty: 'none',
     topFunc: () => `0px`,
     leftFunc: () => `0px`,
     pointerEvents: 'none',
   },
-}
+} as const
 
 type Property = keyof (typeof transitionStateValues)['unmounted']
 
-export const getValueForTransitionState = (
+export const getValueForTransitionState = <T extends Property>(
   state: TransitionState['status'],
-  property: Property,
-): any => transitionStateValues[state][property]
+  property: T,
+): Properties[T] => transitionStateValues[state][property]

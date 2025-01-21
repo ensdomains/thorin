@@ -143,7 +143,7 @@ describe('<Select />', () => {
 
   /** Autocomplete */
 
-  it('should filter options if autocomplete is true ', async () => {
+  it('should filter options if autocomplete is true ', { timeout: 10000 }, async () => {
     const mockCallback = vi.fn()
     render(
       <div>
@@ -178,7 +178,7 @@ describe('<Select />', () => {
       expect(screen.getByText('One')).toBeVisible()
       expect(screen.queryByText('Two')).toBeNull()
     })
-  }, { timeout: 10000 })
+  })
 
   it('should update selection using arrows', async () => {
     render(
@@ -241,7 +241,7 @@ describe('<Select />', () => {
     })
   })
 
-  it('should show create options only if it is unique ', async () => {
+  it('should show create options only if it is unique ', { timeout: 10000 }, async () => {
     const mockCallback = vi.fn()
     render(
       <div>
@@ -277,7 +277,7 @@ describe('<Select />', () => {
       expect(screen.getByText('One')).toBeVisible()
       expect(screen.queryAllByRole('option').length).toEqual(1)
     })
-  }, { timeout: 10000 })
+  })
 
   it('should call on create if create option is clicked', async () => {
     const mockCallback = vi.fn()
