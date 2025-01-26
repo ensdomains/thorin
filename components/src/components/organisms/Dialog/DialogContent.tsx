@@ -63,8 +63,8 @@ const Container = forwardRef<
           ? '80vw'
           : `calc(80vw - 2 * ${space['6']} + 2 * ${space[$horizontalPadding]})`,
         [styles.dialogContentWidth]: $fullWidth
-          ? `width: calc(100% + 2 * ${space['4']});`
-          : `width: calc(100% + 2 * ${space[$horizontalPadding]})`,
+          ? `calc(100% + 2 * ${space['4']});`
+          : `calc(100% + 2 * ${space[$horizontalPadding]})`,
         [styles.dialogContentMaxWidthSm]: `calc(${space['128']} + 2 * ${space[$horizontalPadding]})`,
       }),
       ...style,

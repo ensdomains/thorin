@@ -11,14 +11,19 @@ import { Dialog } from '@ensdomains/thorin'
 <>
   <Button onClick={() => toggleState('dialog')}>Open Dialog</Button>
   <Dialog
-    alert="info"
     currentStep={1}
     open={getState('dialog')}
     subtitle="Dialog Subtitle"
     title="Dialog Title"
     onDismiss={() => toggleState('dialog')}
   >
-    <Typography>Dialog text content.</Typography>
+    <Dialog.Content>
+      <Typography>Dialog text content.</Typography>
+    </Dialog.Content>
+    <Dialog.Footer
+      leading={<Button colorStyle="accentSecondary">Leading</Button>}
+      trailing={<Button>Trailing</Button>}
+    />
   </Dialog>
 </>
 ```
