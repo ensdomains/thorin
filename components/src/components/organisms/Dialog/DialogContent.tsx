@@ -54,10 +54,10 @@ const Container = forwardRef<
     style={{
       ...assignInlineVars({
         [styles.dialogContentMargin]: $fullWidth
-          ? `margin: 0 -${space['4']};`
+          ? `0 -${space['4']};`
           : `0 -${space[$horizontalPadding]}`,
         [styles.dialogContentMarginSm]: $fullWidth
-          ? `margin: 0 -${space['6']}`
+          ? `0 -${space['6']}`
           : `0 -${space[$horizontalPadding]}`,
         [styles.dialogContentWidthSm]: $fullWidth
           ? '80vw'

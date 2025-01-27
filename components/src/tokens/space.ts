@@ -10,7 +10,7 @@ const negativeSpace = {
 
 export const space = {
   ...negativeSpace,
-  '0': '0',
+  '0': '0px',
   'px': '1px',
   '0.25': '0.0625rem',
   '0.5': '0.125rem',
