@@ -49,7 +49,7 @@ jobs:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           pnpm config set //registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}
-          pnpm -F @ensdomains/thorin publish --no-git-checks
+          pnpm -F @ensdomains/thorin publish --no-git-check --tag ${{ github.event.release.tag_name }}
 
       - name: Push changes
         run: git push
