@@ -1,6 +1,6 @@
 {
   "name": "@ensdomains/thorin",
-  "version": "1.0.0-beta.22",
+  "version": "1.0.0-beta.24",
   "description": "A web3 native design system",
   "type": "module",
   "module": "./dist/index.js",
