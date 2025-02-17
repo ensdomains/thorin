@@ -1,16 +1,17 @@
 import * as React from 'react'
 
-import { ThemeProvider } from 'styled-components'
-
-import { cleanup, makeMockIntersectionObserver, render, screen } from '@/test'
-import 'jest-styled-components'
-
-import { lightTheme } from '@/src/tokens'
+import {
+  cleanup,
+  getPropertyValue,
+  makeMockIntersectionObserver,
+  render,
+  screen,
+} from '@/test'
 
 import { ScrollBox } from './ScrollBox'
 
 const Component = ({ onReachedTop }: { onReachedTop?: () => void }) => (
-  <ThemeProvider theme={lightTheme}>
+  <>
     <ScrollBox
       data-testid="scroll-box"
       style={{ height: '50px' }}
@@ -30,12 +31,12 @@ const Component = ({ onReachedTop }: { onReachedTop?: () => void }) => (
       </ul>
     </ScrollBox>
     <div data-testid="test123" />
-  </ThemeProvider>
+  </>
 )
 
-const mockIntersectionObserverCls = jest.fn()
-const mockObserve = jest.fn()
-const mockDisconnect = jest.fn()
+const mockIntersectionObserverCls = vi.fn()
+const mockObserve = vi.fn()
+const mockDisconnect = vi.fn()
 
 const mockIntersectionObserver = makeMockIntersectionObserver(
   mockIntersectionObserverCls,
@@ -43,11 +44,13 @@ const mockIntersectionObserver = makeMockIntersectionObserver(
   mockDisconnect,
 )
 
-const expectLine = (e: 'top' | 'bottom', visible: boolean) =>
-  expect(screen.getByTestId(`scrollbox-${e}-line`)).toHaveAttribute(
-    `data-${e}-line`,
-    visible ? 'true' : 'false',
+const expectLine = (e: 'top' | 'bottom', visible: boolean) => {
+  const test = getPropertyValue(
+    screen.getByTestId(`scrollbox-${e}-divider`),
+    'visibility',
   )
+  expect(test).toEqual(visible ? 'visible' : 'hidden')
+}
 
 describe('<ScrollBox />', () => {
   afterEach(cleanup)
@@ -80,8 +83,8 @@ describe('<ScrollBox />', () => {
     expectLine('bottom', false)
   })
   it('should show most recent intersection if multiple updates', () => {
-    let cb: (entries: any) => void
-    mockIntersectionObserverCls.mockImplementation((callback: any) => {
+    let cb: (entries: Pick<IntersectionObserverEntry, 'isIntersecting' | 'target' | 'time'>[]) => void
+    mockIntersectionObserverCls.mockImplementation((callback: typeof cb) => {
       cb = callback
       return {
         observe: mockObserve,
@@ -94,12 +97,12 @@ describe('<ScrollBox />', () => {
       els.push(el)
       if (els.length === 2) {
         cb([
-          ...els.map((el) => ({
+          ...els.map(el => ({
             isIntersecting: false,
             target: el,
             time: 100,
           })),
-          ...els.map((el) => ({
+          ...els.map(el => ({
             isIntersecting: true,
             target: el,
             time: 1000,
@@ -115,7 +118,7 @@ describe('<ScrollBox />', () => {
   })
   it('should fire callback on intersection', () => {
     mockIntersectionObserver(true, false)
-    const onReachedTop = jest.fn()
+    const onReachedTop = vi.fn()
     render(<Component onReachedTop={onReachedTop} />)
     expect(onReachedTop).toHaveBeenCalled()
   })

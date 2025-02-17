@@ -21,7 +21,7 @@ import { Card } from '@ensdomains/thorin'
 ## Variants
 
 ```tsx live=true
-<DeleteMe>
+<Box display="flex" flexDirection="column" gap="4">
   <Card title="Heading">
     <Typography>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -38,22 +38,22 @@ import { Card } from '@ensdomains/thorin'
       Lorem ipsum dolor sit amet, consectetur adipiscing elit.
     </Typography>
   </Card>
-</DeleteMe>
+</Box>
 ```
 
 ## Divider
 
 ```tsx live=true
-<DeleteMe>
-  <Card divider title="Heading" variant="desktop">
-    <Card.Divider />
+<Box display="flex" flexDirection="column" gap="4">
+  <Card title="Heading" variant="desktop">
+    <CardDivider />
     <Typography>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit.
     </Typography>
-    <Card.Divider />
+    <CardDivider />
     <Typography>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit.
     </Typography>
   </Card>
-</DeleteMe>
+</Box>
 ```

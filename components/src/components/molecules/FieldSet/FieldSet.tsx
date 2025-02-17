@@ -1,55 +1,48 @@
 import * as React from 'react'
-import styled, { css } from 'styled-components'
 
-import { ReactNodeNoStrings } from '../../../types'
-import { Heading, Tag } from '../..'
-import { TagProps } from '../../atoms/Tag'
+import type { ReactNodeNoStrings } from '../../../types'
+import type { TagProps } from '../../atoms/Tag/Tag'
+import { Tag } from '../../atoms/Tag/Tag'
+import type { BoxProps } from '../../atoms/Box/Box'
+import { Box } from '../../atoms/Box/Box'
+import { Heading } from '../../atoms'
 
-const Container = styled.fieldset(
-  ({ theme }) => css`
-    display: flex;
-    flex-direction: column;
-    gap: ${theme.space['4']};
-  `,
+const Container = (props: BoxProps) => (
+  <Box
+    {...props}
+    as="fieldset"
+    display="flex"
+    flexDirection="column"
+    gap="4"
+  />
 )
 
-const ContainerInner = styled.div(
-  ({ theme }) => css`
-    display: flex;
-    flex-direction: column;
-    gap: ${theme.space['1']};
-    padding: 0 ${theme.space['4']};
-  `,
+const ContainerInner = ({ children }: React.PropsWithChildren) => (
+  <Box display="flex" flexDirection="column" gap="1" px="4">{children}</Box>
 )
 
-const Row = styled.div(
-  ({ theme }) => css`
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    gap: ${theme.space['3']};
-  `,
+const Row = ({ children }: React.PropsWithChildren) => (
+  <Box
+    alignItems="center"
+    display="flex"
+    flexDirection="row"
+    gap="3"
+  >
+    {children}
+  </Box>
 )
 
-const Description = styled.div(
-  ({ theme }) => css`
-    color: ${theme.colors.textSecondary};
-    font-size: ${theme.fontSizes.body};
-    line-height: ${theme.lineHeights.body};
-  `,
+const Description = ({ children }: React.PropsWithChildren) => (
+  <Box color="textSecondary" fontSize="body" lineHeight="body">{children}</Box>
 )
 
-const ChildrenContainer = styled.div(
-  ({ theme }) => css`
-    display: flex;
-    flex-direction: column;
-    gap: ${theme.space['4']};
-  `,
+const ChildrenContainer = ({ children }: React.PropsWithChildren) => (
+  <Box display="flex" flexDirection="column" gap="4">{children}</Box>
 )
 
 type NativeFieldSetProps = React.FieldsetHTMLAttributes<HTMLFieldSetElement>
 
-export type Props = {
+export type FieldSetProps = {
   children: ReactNodeNoStrings
   /** Description content */
   description?: string | React.ReactNode
@@ -68,12 +61,12 @@ export type Props = {
     | 'pending'
     | 'complete'
     | {
-        name: string
-        tone: TagProps['color']
-      }
-} & Omit<NativeFieldSetProps, 'children'>
+      name: string
+      tone: TagProps['color']
+    }
+} & Omit<NativeFieldSetProps, 'children' | 'color'>
 
-export const FieldSet = ({
+export const FieldSet: React.FC<FieldSetProps> = ({
   children,
   description,
   disabled,
@@ -82,41 +75,41 @@ export const FieldSet = ({
   name,
   status,
   ...props
-}: Props) => {
+}) => {
   let statusText: string | undefined
-  let statusTone: TagProps['color']
+  let statusTone: TagProps['colorStyle']
   switch (status) {
     case 'complete': {
       statusText = 'Complete'
-      statusTone = 'green'
+      statusTone = 'greenSecondary'
       break
     }
     case 'required':
     case 'pending': {
       statusText = status === 'pending' ? 'Pending' : 'Required'
-      statusTone = 'accent'
+      statusTone = 'accentSecondary'
       break
     }
     case 'optional': {
       statusText = 'Optional'
-      statusTone = 'grey'
+      statusTone = 'greySecondary'
       break
     }
   }
   if (typeof status === 'object') {
     statusText = status.name
-    statusTone = status.tone
+    statusTone = status.tone as TagProps['colorStyle']
   }
 
   return (
     <Container {...props} disabled={disabled} form={form} name={name}>
       <ContainerInner>
         <Row>
-          <Heading as="legend" level="2" responsive>
+          <Heading as="legend" level="2">
             {legend}
           </Heading>
           {statusTone && statusText && (
-            <Tag color={statusTone}>{statusText}</Tag>
+            <Tag colorStyle={statusTone}>{statusText}</Tag>
           )}
         </Row>
 

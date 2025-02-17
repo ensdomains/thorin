@@ -1,83 +1,76 @@
 import * as React from 'react'
-import styled, { css } from 'styled-components'
 
-import {
-  WithColorStyle,
-  getColorStyle,
-} from '@/src/types/withColorOrColorStyle'
+import { translateY } from '@/src/css/utils/common'
 
-interface ContainerProps {
-  $hover?: boolean
-  $size: 'small' | 'medium'
-  $colorStyle: NonNullable<Props['colorStyle']>
-}
+import { removeNullishProps } from '@/src/utils/removeNullishProps'
 
-const Container = styled.div<ContainerProps>(
-  ({ theme, $hover, $size, $colorStyle }) => css`
-    align-items: center;
-    display: flex;
-    border-radius: ${theme.radii['full']};
-    font-size: ${theme.fontSizes.small};
-    line-height: ${theme.lineHeights.small};
-    font-weight: ${theme.fontWeights.bold};
-    width: ${theme.space['max']};
-    padding: ${theme.space['0.5']} ${theme.space['2']};
-    background: ${getColorStyle($colorStyle, 'background')};
-    color: ${getColorStyle($colorStyle, 'text')};
-    border: 1px solid ${getColorStyle($colorStyle, 'border')};
-    cursor: default;
+import * as styles from './styles.css'
+import type { BoxProps } from '../Box/Box'
+import { Box } from '../Box/Box'
+import { clsx } from 'clsx'
+import type { Colors, ColorStyles } from '@/src/tokens'
+import { getColorStyleParts } from '@/src/utils/getColorStyleParts'
+import { match } from 'ts-pattern'
+import { assignInlineVars } from '@vanilla-extract/dynamic'
 
-    ${$size === 'small' &&
-    css`
-      font-size: ${theme.fontSizes.extraSmall};
-      line-height: ${theme.lineHeights.extraSmall};
-    `}
-
-    ${$hover &&
-    css`
-      transition-duration: ${theme.transitionDuration['150']};
-      transition-property: color, border-color, background-color;
-      transition-timing-function: ${theme.transitionTimingFunction['inOut']};
-
-      &:hover,
-      &:active {
-        transform: translateY(-1px);
-        background-color: ${getColorStyle($colorStyle, 'hover')};
-      }
-    `}
-  `,
-)
-
-type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
-
-export type Props = {
+export type TagProps = {
   /** Element type of container */
   as?: 'div' | 'span'
   /** If true, changes colors on hover */
   hover?: boolean
   /** Size of element */
   size?: 'small' | 'medium'
-} & NativeDivProps &
-  WithColorStyle
+  colorStyle?: ColorStyles
+} & Omit<BoxProps, 'size'>
 
-export const Tag = ({
+export const Tag: React.FC<TagProps> = ({
   as = 'div',
   children,
   hover,
   size = 'small',
   colorStyle = 'accentSecondary',
+  className,
+  style,
   ...props
-}: Props) => {
+}) => {
+  const [baseColor, baseTheme] = getColorStyleParts(colorStyle)
   return (
-    <Container
-      {...props}
-      $colorStyle={colorStyle}
-      $hover={hover}
-      $size={size}
+    <Box
+      alignItems="center"
       as={as}
+      backgroundColor={{
+        base: match(baseTheme)
+          .with('Primary', () => `${baseColor}Primary` as Colors)
+          .otherwise(() => `${baseColor}Surface` as Colors),
+        hover: match(baseTheme)
+          .with('Primary', (): Colors => hover ? `${baseColor}Bright` : `${baseColor}Primary`)
+          .otherwise((): Colors => hover ? `${baseColor}Light` : `${baseColor}Surface`),
+        active: match(baseTheme)
+          .with('Primary', (): Colors => `${baseColor}Bright`)
+          .otherwise((): Colors => `${baseColor}Light`),
+      }}
+      borderRadius="full"
+      color={match(baseTheme).with('Primary', (): Colors => 'textAccent').otherwise((): Colors => `${baseColor}Primary`)}
+      display="flex"
+      fontSize={size === 'small' ? 'extraSmall' : 'small'}
+      fontWeight="bold"
+      lineHeight={size === 'small' ? 'extraSmall' : 'small'}
+      px="2"
+      py="0.5"
+
+      transitionDuration={150}
+      transitionTimingFunction="inOut"
+      width="max"
+      {...removeNullishProps(props)}
+      style={{
+        ...style, ...assignInlineVars({
+          [styles.tagHover]: translateY(hover ? -1 : 0),
+        }),
+      }}
+      className={clsx(className, styles.tag)}
     >
       {children}
-    </Container>
+    </Box>
   )
 }
 

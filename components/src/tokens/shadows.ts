@@ -1,5 +1,5 @@
 export const shadows = {
-  none: 'none',
+  'none': 'none',
   '-px': 'inset 0 0 0 1px',
   '0': '0 0 0 0',
   '0.02': '0 2px 8px',

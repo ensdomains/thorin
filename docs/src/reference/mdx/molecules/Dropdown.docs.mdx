@@ -15,13 +15,13 @@ import { Dropdown } from '@ensdomains/thorin'
       label: 'Dashboard',
       onClick: () => null,
       color: 'text',
-      icon: <DotGridSVG />,
+      icon: DotGridSVG,
     },
     {
       label: 'Disconnect',
       onClick: () => null,
       color: 'red',
-      icon: <ExitSVG />,
+      icon: ExitSVG,
     },
   ]}
   label="Account"
@@ -107,7 +107,7 @@ import { Dropdown } from '@ensdomains/thorin'
 ## Align
 
 ```tsx live=true expand=true minHeight=300px
-<DeleteMe flexDirection="row" justifyContent="space-between">
+<Box display="flex" flexDirection="row" justifyContent="space-between" gap="4">
   <Dropdown
     align="left"
     items={[
@@ -128,13 +128,13 @@ import { Dropdown } from '@ensdomains/thorin'
     ]}
     label="Right"
   />
-</DeleteMe>
+</Box>
 ```
 
 ## Short Throw
 
 ```tsx live=true expand=true minHeight=300px
-<DeleteMe flexDirection="row" justifyContent="space-between">
+<Box display="flex" flexDirection="row" justifyContent="space-between" gap="4">
   <Dropdown
     align="left"
     items={[
@@ -156,14 +156,14 @@ import { Dropdown } from '@ensdomains/thorin'
     label="Short Throw"
     shortThrow
   />
-</DeleteMe>
+</Box>
 ```
 
 ## Scrollable
 
 ```tsx live=true expand=true minHeight=300px
 <Dropdown
-  height={200}
+  height={52}
   items={[
     { label: 'Text Label 1', onClick: () => null },
     { label: 'Text Label 2', onClick: () => null },
@@ -188,25 +188,25 @@ import { Dropdown } from '@ensdomains/thorin'
       label: 'None',
       onClick: () => null,
       color: 'text',
-      icon: <DotGridSVG />,
+      icon: DotGridSVG,
     },
     {
       label: 'Default',
       onClick: () => null,
       color: 'text',
-      icon: <CogSVG />,
+      icon: CogSVG,
       showIndicator: true,
     },
     {
       label: 'Custom',
       onClick: () => null,
       color: 'red',
-      icon: <ExitSVG />,
+      icon: ExitSVG,
       showIndicator: 'red',
     },
   ]}
   label="Account"
-  width={200}
+  width={52}
 />
 ```
 
@@ -221,25 +221,25 @@ import { Dropdown } from '@ensdomains/thorin'
       label: 'None',
       onClick: () => null,
       color: 'text',
-      icon: <DotGridSVG />,
+      icon: DotGridSVG,
     },
     {
       label: 'Default',
       onClick: () => null,
       color: 'text',
-      icon: <CogSVG />,
+      icon: CogSVG,
       showIndicator: true,
     },
     {
       label: 'Custom',
       onClick: () => null,
       color: 'red',
-      icon: <ExitSVG />,
+      icon: ExitSVG,
       showIndicator: 'red',
     },
   ]}
   label="Account"
-  width={200}
+  width={52}
 />
 ```
 
@@ -266,14 +266,14 @@ import { Dropdown } from '@ensdomains/thorin'
   items={[
     <Button
       key="item1"
-      prefix={<PlusSVG />}
+      prefix={PlusSVG}
       shadowless
       size="small"
       tone="accent"
     >
       Item1
     </Button>,
-    <Button key="item2" prefix={<PlusSVG />} shadowless size="small" tone="red">
+    <Button key="item2" prefix={PlusSVG} shadowless size="small" tone="red">
       Item2
     </Button>,
   ]}
@@ -290,13 +290,13 @@ import { Dropdown } from '@ensdomains/thorin'
       label: 'None',
       onClick: () => null,
       color: 'text',
-      icon: <DotGridSVG />,
+      icon: DotGridSVG,
     },
     {
       label: 'Default',
       onClick: () => null,
       color: 'text',
-      icon: <CogSVG />,
+      icon: CogSVG,
     },
   ]}
   label="Custom"

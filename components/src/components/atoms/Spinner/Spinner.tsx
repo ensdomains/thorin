@@ -1,98 +1,79 @@
 import * as React from 'react'
-import styled, { css, keyframes } from 'styled-components'
 
-import { Colors } from '@/src/tokens'
+import { VisuallyHidden } from '../VisuallyHidden/VisuallyHidden'
+import * as styles from './styles.css'
+import type { BoxProps } from '../Box/Box'
+import { Box } from '../Box/Box'
+import { clsx } from 'clsx'
+import type { Color } from '@/src/tokens/color'
 
-import { VisuallyHidden } from '../VisuallyHidden'
-
-type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 type Size = 'small' | 'medium' | 'large'
-type Props = {
+
+export type SpinnerProps = {
   /** Hidden text used for accessibilty. */
   accessibilityLabel?: string
   /** A tokens 'mode' color value */
-  color?: Colors
+  color?: Color
   size?: Size
-} & Omit<NativeDivProps, 'children' | 'color'>
+} & Omit<BoxProps, 'size'>
 
-const rotate = keyframes`
-  100% {
-    transform: rotate(1turn);
-  }
-`
+const ContainerBox = React.forwardRef<
+  HTMLElement,
+  BoxProps & { $size: Size, $color?: Color }
+>(({ $size, $color, className, ...props }, ref) => (
+  <Box
+    {...props}
+    className={clsx(className, styles.variants({ size: $size }))}
+    color={$color}
+    ref={ref}
+  />
+))
 
-const Container = styled.div<{ $size: Size; $color?: Colors }>(
-  ({ theme, $color, $size }) => css`
-    animation: ${rotate} 1.1s linear infinite;
-
-    ${$color &&
-    css`
-      color: ${theme.colors[$color]};
-    `}
-
-    ${() => {
-      switch ($size) {
-        case 'small':
-          return css`
-            height: ${theme.space['4']};
-            width: ${theme.space['4']};
-            stroke-width: ${theme.space['1']};
-          `
-        case 'medium':
-          return css`
-            height: ${theme.space['6']};
-            stroke-width: ${theme.space['1.25']};
-            width: ${theme.space['6']};
-          `
-        case 'large':
-          return css`
-            height: ${theme.space['16']};
-            stroke-width: ${theme.space['1']};
-            width: ${theme.space['16']};
-          `
-        default:
-          return ``
-      }
-    }}
-
-    svg {
-      display: block;
-      stroke: currentColor;
-      height: 100%;
-      width: 100%;
-    }
-  `,
+const SVG = () => (
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="currentColor">
+    <circle
+      cx="12"
+      cy="12"
+      fill="none"
+      r="9"
+      strokeDasharray="42"
+      strokeLinecap="round"
+    />
+    <circle
+      cx="12"
+      cy="12"
+      fill="none"
+      opacity="0.25"
+      r="9"
+      strokeLinecap="round"
+    />
+  </svg>
 )
 
-export const Spinner = React.forwardRef(
+export const Spinner = React.forwardRef<HTMLElement, SpinnerProps>(
   (
-    { accessibilityLabel, size = 'small', color = 'text', ...props }: Props,
-    ref: React.Ref<HTMLElement>,
+    { accessibilityLabel, size = 'small', color, ...props },
+    ref,
   ) => {
     return (
-      <Container $color={color} $size={size} ref={ref as any} {...props}>
+      <ContainerBox
+        {...props}
+        $color={color}
+        $size={size}
+        className={styles.animation}
+        ref={ref}
+      >
         {accessibilityLabel && (
           <VisuallyHidden>{accessibilityLabel}</VisuallyHidden>
         )}
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <circle
-            cx="12"
-            cy="12"
-            fill="none"
-            r="9"
-            strokeDasharray="42"
-            strokeLinecap="round"
-          />
-          <circle
-            cx="12"
-            cy="12"
-            fill="none"
-            opacity="0.25"
-            r="9"
-            strokeLinecap="round"
-          />
-        </svg>
-      </Container>
+        <Box
+          as={SVG}
+          display="block"
+          fill="currentColor"
+          stroke="currentColor"
+          wh="full"
+        />
+      </ContainerBox>
     )
   },
 )

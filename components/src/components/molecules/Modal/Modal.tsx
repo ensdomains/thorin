@@ -1,66 +1,79 @@
 import * as React from 'react'
-import styled, { css } from 'styled-components'
 
 import type { TransitionState } from 'react-transition-state'
 
-import { mq } from '@/src/utils/responsiveHelpers'
+import type { BoxProps } from '../../atoms/Box/Box'
+import { Box } from '../../atoms/Box/Box'
+import { getValueForMode } from './utils/getValueForMode'
+import { Backdrop } from '../Backdrop/Backdrop'
+import { clsx } from 'clsx'
+import * as styles from './styles.css'
+import { assignInlineVars } from '@vanilla-extract/dynamic'
 
-import { Backdrop } from '../..'
-
-const Container = styled.div<{
+type ContainerProps = {
   $state: TransitionState['status']
   $alignTop?: boolean
   $mobileOnly: boolean
-}>(
-  ({ theme, $state, $alignTop, $mobileOnly }) => css`
-    width: 100%;
+}
 
-    position: fixed;
-    left: 0;
-    z-index: 9999;
+const Container: React.FC<BoxProps & ContainerProps> = ({
+  $state,
+  $alignTop,
+  $mobileOnly,
+  className,
+  style,
+  ...props
+}) => {
+  const mobileMode = $alignTop ? 'mobileTop' : 'mobileBottom'
+  const desktopMode = $mobileOnly ? mobileMode : 'desktop'
+  const entered = $state === 'entered'
+  return (
+    <Box
+      {...props}
+      bottom={{
+        base: getValueForMode(mobileMode, 'bottom'),
+        sm: getValueForMode(desktopMode, 'bottom'),
+      }}
+      display="flex"
+      flexDirection="row"
+      left={{
+        base: getValueForMode(mobileMode, 'left'),
+        sm: getValueForMode(desktopMode, 'left'),
+      }}
+      opacity={entered ? '1' : '0'}
+      position="fixed"
+      top={{
+        base: getValueForMode(mobileMode, 'top'),
+        sm: getValueForMode(desktopMode, 'top'),
+      }}
 
-    ${$alignTop
-      ? css`
-          top: 0;
-        `
-      : css`
-          bottom: 0;
-        `}
+      transitionDuration={300}
+      transitionProperty="all"
+      transitionTimingFunction="popIn"
+      width={{
+        base: getValueForMode(mobileMode, 'width'),
+        sm: getValueForMode(desktopMode, 'width'),
+      }}
+      zIndex={9999}
+      className={clsx(styles.container, className)}
+      style={{
+        ...style, ...assignInlineVars({
+          [styles.transformBase]: entered
+            ? 'translateY(0px)'
+            : getValueForMode(mobileMode, 'transform'),
+          [styles.translateBase]: getValueForMode(mobileMode, 'translate'),
+          [styles.transformSm]: entered
+            ? 'translateY(0px)'
+            : getValueForMode(desktopMode, 'transform'),
+          [styles.translateSm]: getValueForMode(desktopMode, 'translate'),
+        }),
+      }}
+    />
+  )
+}
 
-    display: flex;
-    flex-direction: row;
-
-    ${mq.sm.min(css`
-      ${!$mobileOnly &&
-      css`
-        width: min-content;
-
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        bottom: initial;
-      `}
-    `)}
-
-    transition: ${theme.transitionDuration['300']} all
-      ${theme.transitionTimingFunction.popIn};
-
-    ${$state === 'entered'
-      ? css`
-          opacity: 1;
-          transform: translateY(0px);
-        `
-      : css`
-          opacity: 0;
-          transform: translateY(${$alignTop ? '-' : ''}128px);
-        `}
-  `,
-)
-
-type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
-
-type Props = {
-  children: NativeDivProps['children']
+export type ModalProps = {
+  children: React.ReactNode
   /** An element providing styling for the backdrop component. Defaults to the BackdropSurface component. */
   backdropSurface?: React.ElementType
   /** A handler for click events in the background. */
@@ -73,7 +86,7 @@ type Props = {
   renderCallback?: () => void
   /** if true, modal will remain centered to bottom of page */
   mobileOnly?: boolean
-} & NativeDivProps
+} & BoxProps
 
 export const Modal = ({
   children,
@@ -84,7 +97,7 @@ export const Modal = ({
   renderCallback,
   mobileOnly = false,
   ...props
-}: Props) => (
+}: ModalProps) => (
   <Backdrop
     open={open}
     renderCallback={renderCallback}
@@ -95,7 +108,7 @@ export const Modal = ({
       <Container
         $alignTop={alignTop}
         $mobileOnly={mobileOnly}
-        $state={state}
+        $state={state.status}
         {...props}
       >
         {children}

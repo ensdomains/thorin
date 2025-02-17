@@ -1,65 +1,38 @@
-import { MDXProviderProps } from '@mdx-js/react'
-import slugify from '@sindresorhus/slugify'
-import styled, { css } from 'styled-components'
+import type { MDXProviderProps } from '@mdx-js/react'
+import slugify from 'slugify'
 
-import { Heading, Typography, tokens } from '@ensdomains/thorin'
+import { Typography, tokens, Box, LinkSVG } from '@ensdomains/thorin'
 
-import { CodeBlock } from './CodeBlock'
+import { CodeBlock } from './CodeBlock/CodeBlock'
 import { Link } from './Link'
 import { SearchIcons } from './SearchIcons'
 import { PropsTable } from './PropsTable'
+import { Palette } from './Palette/Palette'
+import { AdditionalColors } from './AdditionalColors/AdditionalColors'
+import { Logos } from './Logos/Logos'
 
-const HoverParent = styled.a(
-  ({ theme }) => css`
-    width: ${theme.space['max']};
-    display: inline;
-  `,
-)
-
-const HoverChild = styled.div(
-  ({ theme }) => css`
-    visibility: hidden;
-    display: inline-block;
-
-    ${HoverParent}:hover & {
-      visibility: visible;
-      margin-left: ${theme.space['2']};
-      color: ${theme.colors.textTertiary};
-    }
-  `,
-)
-
-const InlineCode = styled(Typography)(
-  ({ theme }) => css`
-    color: ${theme.colors.accent};
-    font-family: ${theme.fonts['mono']};
-  `,
-)
-
-const P = styled(Typography)(
-  ({ theme }) => css`
-    color: ${theme.colors.text};
-    line-height: ${theme.lineHeights.body};
-  `,
-)
-
-const StyledLink = styled(Link)(
-  ({ theme }) => css`
-    color: ${theme.colors.accent};
-    cursor: pointer;
-    text-decoration: underline;
-    text-decoration-color: ${theme.colors.accent};
-    text-underline-offset: 0.2em;
-  `,
+const StyledLink = (props: React.ComponentProps<typeof Link>) => (
+  <Box
+    as={Link as unknown as 'a'}
+    {...props}
+    color="accent"
+    cursor="pointer"
+    // textDecoration="underline"
+    // textDecorationColor="accent"
+    // textUnderlineOffset="0.2em"
+  />
 )
 
 export const MDX: MDXProviderProps['components'] = {
   PropsTable,
   SearchIcons,
+  Palette,
+  AdditionalColors,
+  Logos,
   // Default components
   // https://mdxjs.com/table-of-components/
-  a: (props) => <StyledLink {...props} />,
-  code: (props) => <CodeBlock {...props} />,
+  a: props => <StyledLink {...props} />,
+  code: props => <CodeBlock {...props} />,
   h2: ({ children }) => {
     const id = slugify(children)
     return (
@@ -69,22 +42,38 @@ export const MDX: MDXProviderProps['components'] = {
           marginBottom: tokens.space['6'],
         }}
       >
-        <Heading color="text" id={id}>
-          <HoverParent href={`#${id}`}>
+        <Typography fontVariant="headingTwo" color="textPrimary" id={id}>
+          <Box as="a" href={`#${id}`} display="inline">
             {children}
-            <HoverChild>#</HoverChild>
-          </HoverParent>
-        </Heading>
+            <Box
+              as={LinkSVG}
+              display="inline-block"
+              marginLeft="2"
+              wh="4"
+              color="greyPrimary"
+            >
+            </Box>
+          </Box>
+        </Typography>
       </div>
     )
   },
-  inlineCode: ({ children }) => <InlineCode as="code">{children}</InlineCode>,
+  h3: ({ children }) => (
+    <Typography fontVariant="headingThree">{children}</Typography>
+  ),
+  inlineCode: ({ children }) => (
+    <Typography as="code" fontFamily="mono" color="accent">
+      {children}
+    </Typography>
+  ),
   p: ({ children }) => (
     <div style={{ margin: `${tokens.space['6']} 0` }}>
-      <P as="p">{children}</P>
+      <Typography as="p" color="text">
+        {children}
+      </Typography>
     </div>
   ),
-  pre: (props) => (
+  pre: props => (
     <div style={{ margin: `${tokens.space['6']} 0` }} {...props} />
   ),
 }

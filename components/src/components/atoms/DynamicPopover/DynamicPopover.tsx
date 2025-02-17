@@ -1,20 +1,24 @@
 import * as React from 'react'
-import styled, { css } from 'styled-components'
-import { TransitionState, useTransition } from 'react-transition-state'
+import type { TransitionState } from 'react-transition-state'
+import { useTransitionState } from 'react-transition-state'
 
-import { debounce } from 'lodash'
-
-import { mq } from '@/src/utils/responsiveHelpers'
-
-import { Portal } from '../Portal'
+import { Portal } from '../Portal/Portal'
+import type { BoxProps } from '../Box/Box'
+import { Box } from '../Box/Box'
+import { getValueForTransitionState } from './utils/getValueForTransitionState'
+import * as styles from './style.css'
+import { debounce } from '../../../utils/debounce'
+import { useBreakPoints } from '@/src/hooks/useBreakpoints'
+import type { TransitionDuration } from '@/src/tokens'
+import { assignInlineVars } from '@vanilla-extract/dynamic'
 
 export type DynamicPopoverSide = 'top' | 'right' | 'bottom' | 'left'
 
 export type DynamicPopoverAlignment = 'start' | 'center' | 'end'
 
 export type PopoverProps = React.PropsWithChildren<{
-  placement: DynamicPopoverSide
-  mobilePlacement: DynamicPopoverSide
+  placement?: DynamicPopoverSide
+  mobilePlacement?: DynamicPopoverSide
   state?: TransitionState['status']
 }>
 
@@ -23,14 +27,15 @@ export type DynamicPopoverAnimationFunc = (
   verticalClearance: number,
   side: DynamicPopoverSide,
   mobileSide: DynamicPopoverSide,
-) => { translate: string; mobileTranslate: string }
+  isDesktop: boolean,
+) => string
 
 export type DynamicPopoverButtonProps = {
   pressed?: boolean
   onClick?: React.MouseEventHandler<HTMLElement>
 }
 
-export interface DynamicPopoverProps {
+export type DynamicPopoverProps = {
   /** A react node that has includes the styling and content of the popover */
   popover: React.ReactElement<PopoverProps>
   /** The side and alignment of the popover in relation to the target */
@@ -43,18 +48,18 @@ export interface DynamicPopoverProps {
   anchorRef: React.RefObject<HTMLElement>
   /** Function that will be called when the DynamicPopover is shown */
   onShowCallback?: () => void
-  /** Width of the DynamicPopover*/
+  /** Width of the DynamicPopover */
   width?: number | string
-  /** Width of the DynamicPopover on mobile*/
+  /** Width of the DynamicPopover on mobile */
   mobileWidth?: number | string
-  /** Dynamic popover will switch sides if there is not enough room*/
+  /** Dynamic popover will switch sides if there is not enough room */
   useIdealPlacement?: boolean
   /** Add to the default gap between the popover and its target */
   additionalGap?: number
   /** Aligns the popover */
   align?: DynamicPopoverAlignment
   /** The duration of the transition */
-  transitionDuration?: number
+  transitionDuration?: TransitionDuration
   /** If this is not undefined, popover becomes externally controlled */
   isOpen?: boolean
   /** Hides the overflow of the content */
@@ -73,20 +78,20 @@ const computeIdealSide = (
 ): DynamicPopoverSide => {
   const top = referenceRect.top - floatingRect.height - padding - offset
   const left = referenceRect.left - floatingRect.width - padding - offset
-  const right =
-    window.innerWidth -
-    referenceRect.left -
-    referenceRect.width -
-    floatingRect.width -
-    padding -
-    offset
-  const bottom =
-    window.innerHeight -
-    referenceRect.top -
-    referenceRect.height -
-    floatingRect.height -
-    padding -
-    offset
+  const right
+    = window.innerWidth
+    - referenceRect.left
+    - referenceRect.width
+    - floatingRect.width
+    - padding
+    - offset
+  const bottom
+    = window.innerHeight
+    - referenceRect.top
+    - referenceRect.height
+    - floatingRect.height
+    - padding
+    - offset
 
   if (side === 'top' && top < 0 && bottom > top) return 'bottom'
   if (side === 'right' && right < 0 && left > right) return 'left'
@@ -103,13 +108,14 @@ const defaultAnimationFunc: DynamicPopoverAnimationFunc = (
   verticalClearance: number,
   side: string,
   mobileSide: string,
+  isDesktop: boolean,
 ) => {
   let translate = ''
   if (side === 'top') translate = `translate(0, -${verticalClearance}px)`
   else if (side === 'right')
     translate = `translate(${horizontalClearance}px, 0)`
   else if (side === 'bottom') translate = `translate(0, ${verticalClearance}px)`
-  else translate = `translate(-${horizontalClearance}px, 0);`
+  else translate = `translate(-${horizontalClearance}px, 0)`
 
   let mobileTranslate = ''
   if (mobileSide === 'top')
@@ -118,130 +124,88 @@ const defaultAnimationFunc: DynamicPopoverAnimationFunc = (
     mobileTranslate = `translate(${horizontalClearance}px, 0)`
   else if (mobileSide === 'bottom')
     mobileTranslate = `translate(0, ${verticalClearance}px)`
-  else mobileTranslate = `translate(-${horizontalClearance}px, 0);`
+  else mobileTranslate = `translate(-${horizontalClearance}px, 0)`
 
-  return { translate, mobileTranslate }
+  return isDesktop ? translate : mobileTranslate
 }
 
 const checkRectContainsPoint = (
   rect?: DOMRect,
-  point?: { x: number; y: number },
+  point?: { x: number, y: number },
 ) => {
   if (!rect || !point) return false
   return (
-    point.x >= rect.x &&
-    point.x <= rect.x + rect.width &&
-    point.y >= rect.y &&
-    point.y <= rect.y + rect.height
+    point.x >= rect.x
+    && point.x <= rect.x + rect.width
+    && point.y >= rect.y
+    && point.y <= rect.y + rect.height
   )
 }
 
-const makeWidth = (width: number | string) =>
-  typeof width === 'number' ? `${width}px` : width
-
-const PopoverContainer = styled.div<{
-  $state: TransitionState['status']
+type PopoverBoxProps = {
+  $state: TransitionState
   $translate: string
-  $mobileTranslate: string
   $width: number | string
   $mobileWidth: number | string
   $x: number
   $y: number
-  $isControlled: boolean
-  $transitionDuration: number
+  // $isControlled: boolean
+  $transitionDuration: TransitionDuration
   $hideOverflow: boolean | undefined
-}>(
-  ({
-    $state,
-    $translate,
-    $mobileTranslate,
-    $width,
-    $mobileWidth,
-    $x,
-    $y,
-    $isControlled,
-    $transitionDuration,
-    $hideOverflow,
-  }) => [
-    css`
-      /* stylelint-disable */
-      -webkit-backface-visibility: hidden;
-      -moz-backface-visibility: hidden;
-      -webkit-transform: translate3d(0, 0, 0);
-      -moz-transform: translate3d(0, 0, 0);
-      /* stylelint-enable */
+}
 
-      /* Default state is unmounted */
-      display: block;
-      box-sizing: border-box;
-      visibility: hidden;
-      position: absolute;
-      z-index: 99999;
-      width: ${makeWidth($mobileWidth)};
-      transform: translate3d(0, 0, 0) ${$mobileTranslate};
-      transition: none;
-      opacity: 0;
-      pointer-events: none;
-      top: 0;
-      left: 0;
-
-      ${$hideOverflow &&
-      css`
-        overflow: hidden;
-      `}
-
-      ${$state === 'preEnter' &&
-      css`
-        display: block;
-        visibility: visible;
-        top: ${$y}px;
-        left: ${$x}px;
-      `}
-
-      ${$state === 'entering' &&
-      css`
-        display: block;
-        visibility: visible;
-        opacity: 1;
-        transition: opacity ${$transitionDuration}ms ease-in-out;
-        top: ${$y}px;
-        left: ${$x}px;
-      `}
-
-      ${$state === 'entered' &&
-      css`
-        display: block;
-        visibility: visible;
-        opacity: 1;
-        transition: opacity ${$transitionDuration}ms ease-in-out;
-        top: ${$y}px;
-        left: ${$x}px;
-        pointer-events: initial;
-
-        ${$isControlled &&
-        css`
-          pointer-events: auto;
-        `}
-      `}
-
-      ${$state === 'exiting' &&
-      css`
-        display: block;
-        visibility: visible;
-        opacity: 0;
-        transition: all ${$transitionDuration}ms ease-in-out;
-        top: ${$y}px;
-        left: ${$x}px;
-      `}
-    `,
-    mq.sm.min(css`
-      width: ${makeWidth($width)};
-      transform: translate3d(0, 0, 0) ${$translate};
-    `),
-  ],
+const PopoverBox = React.forwardRef<HTMLElement, BoxProps & PopoverBoxProps>(
+  (
+    {
+      $state,
+      $translate,
+      $width,
+      $mobileWidth,
+      $x,
+      $y,
+      // $isControlled,
+      $transitionDuration,
+      $hideOverflow,
+      ...props
+    },
+    ref,
+  ) => (
+    <Box
+      {...props}
+      boxSizing="border-box"
+      className={styles.container}
+      display="block"
+      fontFamily="sans"
+      style={{
+        left: getValueForTransitionState($state.status, 'leftFunc')($x),
+        top: getValueForTransitionState($state.status, 'topFunc')($y),
+        transform: `translate3d(0,0,0) ${$translate}`,
+        ...assignInlineVars({
+          [styles.popoverBoxWidth]: typeof $width === 'string' ? $width : `${$width}px`,
+          [styles.mobileWidth]: typeof $mobileWidth === 'string' ? $mobileWidth : `${$mobileWidth}px`,
+        }),
+      }}
+      opacity={getValueForTransitionState($state.status, 'opacity')}
+      overflow={$hideOverflow ? 'hidden' : 'visible'}
+      pointerEvents={getValueForTransitionState($state.status, 'pointerEvents')}
+      position="absolute"
+      ref={ref}
+      // transform={{
+      //   base: `translate3d(0, 0, 0) ${$mobileTranslate}`,
+      //   sm: `translate3d(0, 0, 0) ${$translate}`,
+      // }}
+      transitionDuration={$transitionDuration}
+      transitionProperty={getValueForTransitionState(
+        $state.status,
+        'transitionProperty',
+      )}
+      visibility={getValueForTransitionState($state.status, 'visibility')}
+      zIndex={999999}
+    />
+  ),
 )
 
-export const DynamicPopover = ({
+export const DynamicPopover: React.FC<DynamicPopoverProps> = ({
   popover,
   placement = 'top',
   mobilePlacement = 'top',
@@ -252,16 +216,16 @@ export const DynamicPopover = ({
   mobileWidth = 150,
   useIdealPlacement = false,
   additionalGap = 0,
-  transitionDuration = 350,
+  transitionDuration = 300,
   isOpen,
   align = 'center',
   hideOverflow,
-}: DynamicPopoverProps) => {
+}) => {
   const popoverContainerRef = React.useRef<HTMLDivElement>()
 
   const isControlled = isOpen !== undefined
 
-  const [{ status: state }, toggle] = useTransition({
+  const [state, toggle] = useTransitionState({
     preEnter: true,
     exit: true,
     mountOnEnter: true,
@@ -306,15 +270,18 @@ export const DynamicPopover = ({
       if (align === 'start') {
         popoverWidth = 0
         anchorWidth = 0
-      } else if (align === 'end') {
+      }
+      else if (align === 'end') {
         popoverWidth = popoverRect.width
         anchorWidth = anchorRect.width
       }
-    } else {
+    }
+    else {
       if (align === 'start') {
         popoverHeight = 0
         anchorHeight = 0
-      } else if (align === 'end') {
+      }
+      else if (align === 'end') {
         popoverHeight = popoverRect.height
         anchorHeight = anchorRect.height
       }
@@ -368,20 +335,23 @@ export const DynamicPopover = ({
         verticalClearance: number,
         side: DynamicPopoverSide,
         mobileSide: DynamicPopoverSide,
+        isDesktop: boolean,
       ) =>
-        _animationFn(horizontalClearance, verticalClearance, side, mobileSide)
+        _animationFn(horizontalClearance, verticalClearance, side, mobileSide, isDesktop)
     }
     return (
       horizontalClearance: number,
       verticalClearance: number,
       side: DynamicPopoverSide,
       mobileSide: DynamicPopoverSide,
+      isDesktop: boolean,
     ) =>
       defaultAnimationFunc(
         horizontalClearance,
         verticalClearance,
         side,
         mobileSide,
+        isDesktop,
       )
   }, [_animationFn])
 
@@ -477,11 +447,14 @@ export const DynamicPopover = ({
     ? positionState.idealMobilePlacement
     : mobilePlacement
 
-  const { translate, mobileTranslate } = animationFn(
+  const breakpoints = useBreakPoints()
+
+  const translate = animationFn(
     positionState.horizontalClearance,
     positionState.verticalClearance,
     _placement,
     _mobilePlacement,
+    breakpoints.sm,
   )
 
   const renderCallback = React.useCallback(() => {
@@ -489,14 +462,11 @@ export const DynamicPopover = ({
     onShowCallback?.()
   }, [setPosition, onShowCallback])
 
-  if (state === 'unmounted') return null
-
   return (
     <Portal renderCallback={renderCallback}>
-      <PopoverContainer
+      <PopoverBox
         $hideOverflow={hideOverflow}
-        $isControlled={isControlled}
-        $mobileTranslate={mobileTranslate}
+        // $isControlled={isControlled}
         $mobileWidth={mobileWidth}
         $state={state}
         $transitionDuration={transitionDuration}
@@ -511,9 +481,9 @@ export const DynamicPopover = ({
         {React.cloneElement(popover, {
           placement: _placement,
           mobilePlacement: _mobilePlacement,
-          state,
+          state: state.status,
         })}
-      </PopoverContainer>
+      </PopoverBox>
     </Portal>
   )
 }

@@ -1,0 +1,4 @@
+body {
+  background-color: var(--thrn-color-background);
+  padding: var(--thrn-space-4);
+}

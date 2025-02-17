@@ -18,16 +18,11 @@ import { Typography } from '@ensdomains/thorin'
 ## Typography
 
 ```tsx live=true
-<DeleteMe>
-  <Typography fontVariant="extraLarge">Extra Large</Typography>
-  <Typography fontVariant="large">Large</Typography>
-  <Typography fontVariant="base">Base</Typography>
-  <Typography fontVariant="small">Small</Typography>
-  <Typography fontVariant="label">Label</Typography>
-  <Typography fontVariant="heading1">heading1</Typography>
-  <Typography fontVariant="heading2">heading2</Typography>
-  <Typography fontVariant="heading3">heading3</Typography>
-  <Typography fontVariant="heading4">heading4</Typography>
+<Box display="flex" flexDirection="column" gap="4">
+  <Typography fontVariant="headingOne">headingOne</Typography>
+  <Typography fontVariant="headingTwo">headingTwo</Typography>
+  <Typography fontVariant="headingThree">headingThree</Typography>
+  <Typography fontVariant="headingFour">headingFour</Typography>
   <Typography fontVariant="extraLarge">extraLarge</Typography>
   <Typography fontVariant="extraLargeBold">extraLargeBold</Typography>
   <Typography fontVariant="large">large</Typography>
@@ -38,45 +33,45 @@ import { Typography } from '@ensdomains/thorin'
   <Typography fontVariant="smallBold">smallBold</Typography>
   <Typography fontVariant="extraSmall">extraSmall</Typography>
   <Typography fontVariant="extraSmallBold">extraSmallBold</Typography>
-</DeleteMe>
+</Box>
 ```
 
 ## Weights
 
 ```tsx live=true
-<DeleteMe>
+<Box display="flex" flexDirection="column" gap="4">
   <Typography weight="extraBold">Extra Bold (830)</Typography>
   <Typography weight="bold">Bold (700)</Typography>
   <Typography weight="normal">Normal (500)</Typography>
   <Typography weight="light">Light (300)</Typography>
-</DeleteMe>
+</Box>
 ```
 
 ## Fonts
 
 ```tsx live=true
-<DeleteMe>
+<Box display="flex" flexDirection="column" gap="4">
   <Typography font="sans">Sans</Typography>
   <Typography font="mono">Mono</Typography>
-</DeleteMe>
+</Box>
 ```
 
 ## Color
 
 ```tsx live=true
-<DeleteMe style={{ color: 'blue' }}>
+<Box display="flex" flexDirection="column" style={{ color: 'blue' }} gap="4">
   <Typography color="inherit">Inherited</Typography>
   <Typography color="text">Text</Typography>
   <Typography color="accent">Accent</Typography>
   <Typography color="red">Red</Typography>
   <Typography color="green">Green</Typography>
-</DeleteMe>
+</Box>
 ```
 
 ## Ellipsis
 
 ```tsx live=true
-<div style={{ width: 64 }}>
+<div style={{ width: '100px' }}>
   <Typography ellipsis>
     The quick brown fox jumped over the lazy dogs.
   </Typography>

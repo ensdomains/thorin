@@ -1,15 +1,16 @@
 import * as React from 'react'
-import styled, { css } from 'styled-components'
 
-import { mq } from '@/src/utils/responsiveHelpers'
+import type { WithAlert } from './utils/getValueForAlert'
+import { getValueForAlert } from './utils/getValueForAlert'
+import { Typography } from '../Typography/Typography'
 
-import { WithAlert } from '../../../types'
-
-import { Typography } from '../Typography'
-
-import { AlertSVG, CrossSVG, EthSVG, UpRightArrowSVG } from '../..'
-
-type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
+import type { IconProps } from '@/src/icons'
+import { AlertSVG, CrossSVG, EthSVG, UpRightArrowSVG } from '@/src/icons'
+import type { AsProp, BoxProps } from '../Box/Box'
+import { Box } from '../Box/Box'
+import * as styles from './styles.css'
+import { clsx } from 'clsx'
+import { assignInlineVars } from '@vanilla-extract/dynamic'
 
 type IconTypes = 'filledCircle' | 'normal' | 'none'
 
@@ -18,13 +19,13 @@ type BaseProps = {
   title?: string
   as?: 'a'
   onDismiss?: () => void
-  actionIcon?: React.ReactNode
-  icon?: React.ReactNode
+  actionIcon?: React.FC
+  icon?: React.FC
   iconType?: IconTypes
-} & NativeDivProps
+} & BoxProps
 
 type WithIcon = {
-  icon?: React.ReactNode
+  icon?: React.FC
   iconType?: Omit<IconTypes, 'none'>
 }
 
@@ -50,184 +51,128 @@ type WithoutAnchor = {
   onDismiss?: () => void
 }
 
-type NonNullableAlert = NonNullable<Props['alert']>
+type NonNullableAlert = NonNullable<BannerProps['alert']>
 
-const Container = styled.div<{
+type ContainerProps = BoxProps & {
   $alert: NonNullableAlert
   $hasAction: boolean
-}>(
-  ({ theme, $alert, $hasAction }) => css`
-    position: relative;
-    background: ${theme.colors.backgroundPrimary};
-    border: 1px solid ${theme.colors.border};
-    border-radius: ${theme.radii['2xLarge']};
-    padding: ${theme.space[4]};
-    display: flex;
-    align-items: stretch;
-    gap: ${theme.space[4]};
-    width: ${theme.space.full};
-    transition: all 150ms ease-in-out;
-
-    ${mq.sm.min(
-      css`
-        padding: ${theme.space['6']};
-        gap: ${theme.space[6]};
-        align-items: center;
-      `,
-    )}
-
-    ${$hasAction &&
-    css`
-      padding-right: ${theme.space[8]};
-      &:hover {
-        transform: translateY(-1px);
-        background: ${theme.colors.greySurface};
-        ${$alert === 'error' &&
-        css`
-          background: ${theme.colors.redLight};
-        `}
-        ${$alert === 'warning' &&
-        css`
-          background: ${theme.colors.yellowLight};
-        `}
-      }
-    `}
-
-    ${$alert === 'error' &&
-    css`
-      background: ${theme.colors.redSurface};
-      border: 1px solid ${theme.colors.redPrimary};
-    `}
-
-    ${$alert === 'warning' &&
-    css`
-      background: ${theme.colors.yellowSurface};
-      border: 1px solid ${theme.colors.yellowPrimary};
-    `};
-  `,
+}
+const ContainerBox = React.forwardRef<HTMLElement, ContainerProps>(
+  ({ $alert, $hasAction, className, style, ...props }, ref) => (
+    <Box
+      alignItems={{ base: 'stretch', sm: 'center' }}
+      backgroundColor={{
+        base: getValueForAlert($alert, 'background'),
+        hover: $hasAction ? getValueForAlert($alert, 'hover') : undefined,
+      }}
+      borderColor={getValueForAlert($alert, 'border')}
+      borderRadius="2xLarge"
+      borderStyle="solid"
+      borderWidth="1x"
+      display="flex"
+      gap={{ base: '4', sm: '6' }}
+      padding={{ base: '4', sm: '6' }}
+      position="relative"
+      pr={$hasAction ? '8' : undefined}
+      ref={ref}
+      transitionDuration={150}
+      transitionProperty="all"
+      transitionTimingFunction="ease-in-out"
+      width="full"
+      {...props}
+      className={clsx(styles.containerBox, className)}
+      style={{ ...style, ...assignInlineVars({
+        [styles.containerBoxHasAction]: $hasAction ? 'translateY(-1px)' : 'translateY(0px)',
+      }) }}
+    />
+  ),
 )
 
-const Content = styled.div(
-  ({ theme }) => css`
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: ${theme.space[1]};
-  `,
+const IconBox = ({
+  $alert,
+  ...props
+}: BoxProps & { $alert: NonNullableAlert }) => (
+  <Box
+    backgroundColor={getValueForAlert($alert, 'icon')}
+    borderRadius="full"
+    color={getValueForAlert($alert, 'svg')}
+    flex={0}
+    display="flex"
+    alignItems="center"
+    justifyContent="center"
+    flexBasis={{ base: '8', sm: '10' }}
+    height={{ base: '8', sm: '10' }}
+    width={{ base: '8', sm: '10' }}
+    {...props}
+  />
 )
 
-const IconContainer = styled.div<{
-  $alert: NonNullableAlert
-  $type: Omit<IconTypes, 'none'>
-}>(
-  ({ theme, $alert, $type }) => css`
-    width: ${theme.space[8]};
-    height: ${theme.space[8]};
-    flex: 0 0 ${theme.space[8]};
+const SVGBox = ({
+  $alert,
+  as,
+}: { as: AsProp, $alert: NonNullableAlert }) => (
+  <Box
+    display="block"
+    height={{ base: '4', sm: '5' }}
+    width={{ base: '4', sm: '5' }}
+    as={as}
+    className={styles.svgBoxTransform}
+    style={assignInlineVars({
+      [styles.svgBoxTransform]: $alert === 'info' ? 'scale(1)' : 'scale(0.5)',
+    })}
+  />
+)
 
-    svg {
-      display: block;
-      width: 100%;
-      height: 100%;
+const ActionButtonBox = (props: BoxProps) => (
+  <Box
+    as="button"
+    backgroundColor="transparent"
+    padding="2"
+    position="absolute"
+    right="0"
+    top="0"
+    {...props}
+  />
+)
+
+const ActionButtonIconBox = ({
+  $alert,
+  $hasAction,
+  className,
+  style,
+  ...props
+}: BoxProps & { $alert: NonNullableAlert, $hasAction: boolean }) => (
+  <Box
+    alignItems="center"
+    backgroundColor={{
+      base: getValueForAlert($alert, 'actionIcon'),
+      hover: getValueForAlert($alert, 'actionIconHover'),
+    }}
+    borderRadius="full"
+    color={{
+      base: getValueForAlert($alert, 'actionSvg'),
+      hover: getValueForAlert($alert, 'actionSvgHover'),
+    }}
+    cursor="pointer"
+    display="flex"
+    height="5"
+    justifyContent="center"
+    transitionDuration={150}
+    transitionProperty="all"
+    transitionTimingFunction="ease-in-out"
+    width="5"
+    {...props}
+    className={
+      clsx(styles.actionButtonIconBox, className)
     }
-
-    ${mq.sm.min(css`
-      width: ${theme.space[10]};
-      height: ${theme.space[10]};
-      flex: 0 0 ${theme.space[10]};
-    `)}
-
-    ${$type === 'filledCircle' &&
-    css`
-      color: ${theme.colors.backgroundPrimary};
-      border-radius: ${theme.radii.full};
-
-      svg {
-        transform: scale(0.5);
-      }
-
-      ${$alert === 'info' &&
-      css`
-        background: ${theme.colors.text};
-      `}
-    `}
-
-    ${$alert === 'error' &&
-    css`
-      background: ${theme.colors.redPrimary};
-    `}
-
-    ${$alert === 'warning' &&
-    css`
-      background: ${theme.colors.yellowPrimary};
-    `}
-  `,
+    style={{ ...style, ...assignInlineVars({
+      [styles.actionButtonIconBoxHasAction]: $hasAction ? 'translateY(-1px)' : 'translateY(0px)',
+    }) }}
+  />
 )
 
-const ActionButtonContainer = styled.button(
-  ({ theme }) => css`
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding: ${theme.space[2]};
-  `,
-)
-
-const ActionButtonIconWrapper = styled.div<{
-  $alert: NonNullableAlert
-  $hasAction?: boolean
-}>(
-  ({ theme, $alert, $hasAction }) => css`
-    width: ${theme.space[5]};
-    height: ${theme.space[5]};
-    border-radius: ${theme.radii.full};
-    background: ${theme.colors.accentSurface};
-    color: ${theme.colors.accentPrimary};
-    transition: all 150ms ease-in-out;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    svg {
-      display: block;
-      width: ${theme.space[3]};
-      height: ${theme.space[3]};
-    }
-
-    ${$alert === 'error' &&
-    css`
-      background: ${theme.colors.backgroundPrimary};
-      color: ${theme.colors.redPrimary};
-    `}
-
-    ${$alert === 'warning' &&
-    css`
-      background: ${theme.colors.backgroundPrimary};
-      color: ${theme.colors.yellowPrimary};
-    `}
-
-    ${$hasAction &&
-    css`
-      cursor: pointer;
-      &:hover {
-        transform: translateY(-1px);
-        background: ${theme.colors.accentLight};
-        color: ${theme.colors.accentDim};
-        ${$alert === 'error' &&
-        css`
-          background: ${theme.colors.redLight};
-          color: ${theme.colors.redDim};
-        `}
-        ${$alert === 'warning' &&
-        css`
-          background: ${theme.colors.yellowLight};
-          color: ${theme.colors.yellowDim};
-        `}
-      }
-    `}
-  `,
+const ActionButtonSVGBox = (props: BoxProps) => (
+  <Box display="block" height="3" width="3" {...props} />
 )
 
 const ActionButton = ({
@@ -235,34 +180,38 @@ const ActionButton = ({
   icon,
   hasHref,
   onDismiss,
-}: Pick<Props, 'alert' | 'onDismiss'> & { hasHref: boolean } & WithIcon) => {
-  if (onDismiss)
+}: Pick<BannerProps, 'alert' | 'onDismiss'> & { hasHref: boolean } & WithIcon) => {
+  if (onDismiss) {
+    const Icon = (icon || CrossSVG)
     return (
-      <ActionButtonContainer onClick={() => onDismiss()}>
-        <ActionButtonIconWrapper $alert={alert} $hasAction>
-          {icon || <CrossSVG />}
-        </ActionButtonIconWrapper>
-      </ActionButtonContainer>
+      <ActionButtonBox onClick={() => onDismiss()}>
+        <ActionButtonIconBox $alert={alert} $hasAction>
+          <ActionButtonSVGBox as={Icon} />
+        </ActionButtonIconBox>
+      </ActionButtonBox>
     )
-  if (hasHref || icon)
+  }
+  if (hasHref || icon) {
+    const Icon = (icon || UpRightArrowSVG)
     return (
-      <ActionButtonContainer as="div">
-        <ActionButtonIconWrapper $alert={alert}>
-          {icon || <UpRightArrowSVG />}
-        </ActionButtonIconWrapper>
-      </ActionButtonContainer>
+      <ActionButtonBox as="div">
+        <ActionButtonIconBox $alert={alert} $hasAction={false}>
+          <ActionButtonSVGBox as={Icon} />
+        </ActionButtonIconBox>
+      </ActionButtonBox>
     )
+  }
   return null
 }
 
-export type Props = BaseProps &
+export type BannerProps = BaseProps &
   (WithAnchor | WithoutAnchor) &
   (WithIcon | WithoutIcon) &
   WithAlert
 
 const defaultIconType = (
   alert: NonNullableAlert,
-  icon: React.ReactNode | undefined,
+  icon?: React.FC<IconProps>,
 ): IconTypes => {
   if (alert !== 'info') return 'filledCircle'
   if (icon) return 'normal'
@@ -271,57 +220,56 @@ const defaultIconType = (
 
 export const Banner = React.forwardRef<
   HTMLDivElement,
-  React.PropsWithChildren<Props>
+  React.PropsWithChildren<BannerProps>
 >(
   (
-    {
-      title,
-      alert = 'info',
-      icon,
-      iconType,
-      as: asProp,
-      children,
-      onDismiss,
-      ...props
-    },
+    { title, alert = 'info', icon, iconType, as: asProp, children, onDismiss, ...props },
     ref,
   ) => {
-    const Icon =
-      icon ||
-      (alert && ['error', 'warning'].includes(alert) ? (
-        <AlertSVG />
-      ) : (
-        <EthSVG />
-      ))
+    const Icon
+      = icon
+      || (alert && ['error', 'warning'].includes(alert)
+        ? (
+            AlertSVG
+          )
+        : (
+            EthSVG
+          ))
 
     const hasHref = !!props.href
     const hasAction = hasHref || !!props.onClick
     const _iconType = iconType || defaultIconType(alert, icon)
 
     return (
-      <Container
+      <ContainerBox
         {...props}
         $alert={alert}
         $hasAction={hasAction}
-        as={asProp as any}
+        as={asProp}
         ref={ref}
       >
         {_iconType !== 'none' && (
-          <IconContainer $alert={alert} $type={_iconType}>
-            {Icon}
-          </IconContainer>
+          <IconBox $alert={alert}>
+            <SVGBox $alert={alert} as={Icon} />
+          </IconBox>
         )}
-        <Content>
+        <Box
+          display="flex"
+          flex={1}
+          flexDirection="column"
+          gap="1"
+          justifyContent="center"
+        >
           {title && <Typography fontVariant="largeBold">{title}</Typography>}
           <Typography>{children}</Typography>
-        </Content>
+        </Box>
         <ActionButton
           alert={alert}
           hasHref={hasHref}
           icon={props.actionIcon}
           onDismiss={onDismiss}
         />
-      </Container>
+      </ContainerBox>
     )
   },
 )

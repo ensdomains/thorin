@@ -11,14 +11,19 @@ import { Dialog } from '@ensdomains/thorin'
 <>
   <Button onClick={() => toggleState('dialog')}>Open Dialog</Button>
   <Dialog
-    alert="info"
     currentStep={1}
     open={getState('dialog')}
     subtitle="Dialog Subtitle"
     title="Dialog Title"
     onDismiss={() => toggleState('dialog')}
   >
-    <Typography>Dialog text content.</Typography>
+    <Dialog.Content>
+      <Typography>Dialog text content.</Typography>
+    </Dialog.Content>
+    <Dialog.Footer
+      leading={<Button colorStyle="accentSecondary">Leading</Button>}
+      trailing={<Button>Trailing</Button>}
+    />
   </Dialog>
 </>
 ```
@@ -30,7 +35,7 @@ import { Dialog } from '@ensdomains/thorin'
 ## Variants
 
 ```tsx live=true
-<DeleteMe flexDirection="row" flexWrap="wrap">
+<Box display="flex" flexDirection="row" flexWrap="wrap" gap="4">
   <>
     <Button onClick={() => toggleState('dialog-closable')}>
       Open Closable Dialog
@@ -74,13 +79,13 @@ import { Dialog } from '@ensdomains/thorin'
       <Typography>This is a blank dialog.</Typography>
     </Dialog>
   </>
-</DeleteMe>
+</Box>
 ```
 
 ## Steps
 
 ```tsx live=true
-<DeleteMe flexDirection="row" flexWrap="wrap">
+<Box display="flex" flexDirection="row" flexWrap="wrap" gap="4">
   <>
     <Button onClick={() => toggleState('dialog-steps-0')}>Not Started</Button>
     <Dialog
@@ -152,13 +157,13 @@ import { Dialog } from '@ensdomains/thorin'
       <Typography>Dialog text content.</Typography>
     </Dialog>
   </>
-</DeleteMe>
+</Box>
 ```
 
 ## Alerts
 
 ```tsx live=true
-<DeleteMe flexDirection="row" flexWrap="wrap">
+<Box display="flex" flexDirection="row" flexWrap="wrap" gap="4">
   <>
     <Button onClick={() => toggleState('dialog-alert-error')}>
       Error Alert
@@ -202,7 +207,7 @@ import { Dialog } from '@ensdomains/thorin'
       <Typography>Dialog text content.</Typography>
     </Dialog>
   </>
-</DeleteMe>
+</Box>
 ```
 
 ## Dialog Components

@@ -1,15 +1,11 @@
 [
   {
-    "path": "./components/dist/index.cjs.js",
-    "limit": "50 kB"
+    "path": "./components/dist/index.js",
+    "limit": "125 KB"
   },
   {
-    "path": "./components/dist/index.es.js",
-    "limit": "50 kB"
-  },
-  {
-    "path": "./components/dist/style.css",
-    "limit": "40 kB",
+    "path": "./components/dist/thorin.css",
+    "limit": "80 KB",
     "webpack": false
   }
 ]

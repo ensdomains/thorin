@@ -1,208 +1,148 @@
 import * as React from 'react'
-import styled, { css } from 'styled-components'
 
-import { AlertSVG, CrossSVG, EthSVG } from '@/src'
-import { mq } from '@/src/utils/responsiveHelpers'
+import { AlertSVG, CrossSVG, EthSVG } from '@/src/icons'
 
-import { WithAlert } from '@/src/types'
+import type { WithAlert } from '@/src/types'
 
-import { FontSize } from '@/src/tokens/typography'
+import type { FontSize } from '@/src/tokens/typography'
 
-import { Modal, Typography } from '../..'
 import { DialogContent } from './DialogContent'
 
-const IconCloseContainer = styled.button(
-  ({ theme }) => css`
-    position: absolute;
-    top: ${theme.space['2']};
-    right: ${theme.space['2']};
-    width: ${theme.space['8']};
-    height: ${theme.space['8']};
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition-property: all;
-    transition-duration: ${theme.transitionDuration['150']};
-    transition-timing-function: ${theme.transitionTimingFunction['inOut']};
-    border-radius: ${theme.radii.full};
-    background-color: transparent;
+import type { BoxProps } from '../../atoms/Box/Box'
+import { Box } from '../../atoms/Box/Box'
+import { Typography } from '../../atoms'
+import { Modal } from '../../molecules'
+import { clsx } from 'clsx'
+import * as styles from './styles.css'
 
-    &:hover {
-      background-color: ${theme.colors.greySurface};
-      transform: translateY(-1px);
-    }
-
-    svg {
-      display: block;
-      width: ${theme.space['4']};
-      height: ${theme.space['4']};
-      color: ${theme.colors.greyPrimary};
-    }
-  `,
+const CloseButton = ({ onClick }: Pick<BoxProps, 'onClick'>) => (
+  <Box
+    onClick={onClick}
+    className={styles.closeButton}
+    alignItems="center"
+    as="button"
+    backgroundColor={{ base: 'transparent', hover: 'greySurface' }}
+    borderRadius="full"
+    cursor="pointer"
+    data-testid="close-icon"
+    display="flex"
+    justifyContent="center"
+    position="absolute"
+    right="2"
+    top="2"
+    transitionDuration={150}
+    transitionProperty="all"
+    transitionTimingFunction="inOut"
+    wh="8"
+  >
+    <Box as={CrossSVG} color="greyPrimary" display="block" wh="4" />
+  </Box>
 )
 
-const StyledCard = styled.div(
-  ({ theme }) => css`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    overflow: hidden;
-    gap: ${theme.space['4']};
-    padding: ${theme.space['4']};
-    border-radius: ${theme.radii['3xLarge']};
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    background-color: ${theme.colors.background};
-    position: relative;
-    width: 100%;
-    max-height: 80vh;
-
-    ${mq.sm.min(css`
-      min-width: ${theme.space['64']};
-      max-width: 80vw;
-      border-radius: ${theme.radii['3xLarge']};
-      padding: ${theme.space['6']};
-      gap: ${theme.space['6']};
-      max-height: min(90vh, ${theme.space['144']});
-    `)}
-  `,
+const StyledCard = ({ children }: React.PropsWithChildren) => (
+  <Box
+    className={styles.styledCard}
+    alignItems="center"
+    backgroundColor="backgroundPrimary"
+    borderBottomLeftRadius={{ base: '0', sm: '3xLarge' }}
+    borderBottomRightRadius={{ base: '0', sm: '3xLarge' }}
+    borderRadius="3xLarge"
+    display="flex"
+    flexDirection="column"
+    gap={{ base: '4', sm: '6' }}
+    maxWidth={{ base: 'unset', sm: '80vw' }}
+    minWidth={{ base: 'unset', sm: '64' }}
+    overflow="hidden"
+    padding={{ base: '4', sm: '6' }}
+    position="relative"
+    width="full"
+  >
+    {children}
+  </Box>
 )
 
 type NonNullableAlert = NonNullable<WithAlert['alert']>
 
-const IconContainer = styled.div<{
-  $alert: NonNullableAlert
-}>(
-  ({ theme, $alert }) => css`
-    width: ${theme.space[8]};
-    height: ${theme.space[8]};
-    flex: 0 0 ${theme.space[8]};
-
-    svg {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-
-    ${$alert === 'error' &&
-    css`
-      background: ${theme.colors.redPrimary};
-      color: ${theme.colors.backgroundPrimary};
-      border-radius: ${theme.radii.full};
-
-      svg {
-        transform: scale(0.5);
-      }
-    `}
-
-    ${$alert === 'warning' &&
-    css`
-      background: ${theme.colors.yellowPrimary};
-      color: ${theme.colors.backgroundPrimary};
-      border-radius: ${theme.radii.full};
-
-      svg {
-        transform: scale(0.5);
-      }
-    `}
-  `,
-)
-
-const Icon = ({ alert }: { alert: NonNullableAlert }) => {
-  const isAlertIcon = !!alert && ['error', 'warning'].includes(alert)
+const Icon = ({ $alert, className, ...props }: BoxProps & { $alert: NonNullableAlert }) => {
+  const Icon = ['error', 'warning'].includes($alert) ? AlertSVG : EthSVG
   return (
-    <IconContainer $alert={alert}>
-      {isAlertIcon ? <AlertSVG /> : <EthSVG />}
-    </IconContainer>
+    <Box
+      {...props}
+      className={clsx(styles.variants({ alert: $alert }), className)}
+      borderRadius="full"
+      flexBasis="8"
+      flexGrow={0}
+      flexShrink={0}
+      wh="8"
+    >
+      <Box
+        className={styles.variants({ svgAlert: $alert })}
+        as={Icon}
+        display="block"
+        wh="full"
+      />
+    </Box>
   )
 }
 
-const Title = styled(Typography)(
-  () => css`
-    text-align: center;
-  `,
+const ButtonsContainer = (props: BoxProps) => (
+  <Box
+    {...props}
+    alignItems="center"
+    display="flex"
+    flexDirection={{ base: 'column', sm: 'row' }}
+    gap="2"
+    justifyContent="stretch"
+    width="full"
+  />
 )
 
-const SubTitle = styled(Typography)(
-  ({ theme }) => css`
-    font-size: ${theme.fontSizes.body};
-    line-height: ${theme.lineHeights.body};
-    font-weight: ${theme.fontWeights.bold};
-    color: ${theme.colors.textSecondary};
-    text-align: center;
-
-    padding: 0 ${theme.space['4']};
-    max-width: ${theme.space['72']};
-  `,
+const FooterContainer = (props: BoxProps) => (
+  <Box
+    {...props}
+    alignItems="center"
+    display="flex"
+    flexDirection="column"
+    gap="4"
+    width="full"
+  />
 )
 
-const ButtonsContainer = styled.div(
-  ({ theme }) => css`
-    display: flex;
-    align-items: center;
-    justify-content: stretch;
-    flex-direction: column;
-    gap: ${theme.space['2']};
-    width: ${theme.space.full};
-    ${mq.sm.min(css`
-      flex-direction: row;
-    `)}
-  `,
+const TitleContainer = ({ children }: React.PropsWithChildren) => (
+  <Box
+    alignItems="center"
+    display="flex"
+    flexDirection="column"
+    gap="px"
+    justifyContent="center"
+  >
+    {children}
+  </Box>
 )
 
-const FooterContainer = styled.div(
-  ({ theme }) => css`
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: ${theme.space['4']};
-  `,
-)
-
-const TitleContainer = styled.div(
-  ({ theme }) => css`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: ${theme.space['1']};
-  `,
-)
-
-const StepContainer = styled.div(
-  ({ theme }) => css`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: ${theme.space['2']};
-  `,
+const StepContainer = ({ children }: React.PropsWithChildren) => (
+  <Box
+    alignItems="center"
+    display="flex"
+    flexDirection="row"
+    gap="2"
+    justifyContent="center"
+    data-testid="step-container"
+  >
+    {children}
+  </Box>
 )
 
 type StepType = 'notStarted' | 'inProgress' | 'completed'
 
-const StepItem = styled.div<{ $type: StepType }>(
-  ({ theme, $type }) => css`
-    border-radius: ${theme.radii.full};
-    width: ${theme.space['3.5']};
-    height: ${theme.space['3.5']};
-    ${$type === 'notStarted' &&
-    css`
-      border: ${theme.borderWidths['0.5']} ${theme.borderStyles.solid}
-        ${theme.colors.border};
-    `}
-    ${$type === 'inProgress' &&
-    css`
-      border: ${theme.borderWidths['0.5']} ${theme.borderStyles.solid}
-        ${theme.colors.accent};
-    `}
-    ${$type === 'completed' &&
-    css`
-      background-color: ${theme.colors.accent};
-    `}
-  `,
+const StepItem = ({ $type, ...props }: React.PropsWithChildren<{ $type: StepType }>) => (
+  <Box
+    {...props}
+    className={styles.variants({ stepType: $type })}
+    borderRadius="full"
+    borderStyle="solid"
+    wh="3.5"
+  />
 )
 
 type TitleProps = {
@@ -235,13 +175,13 @@ type ActionableProps = {
   leading?: React.ReactNode
   center?: boolean
 } & TitleProps &
-  StepProps
+StepProps
 
 type BlankProps = {
   variant: 'blank'
 }
 
-type Props = BaseProps & (ClosableProps | ActionableProps | BlankProps)
+export type DialogProps = BaseProps & (ClosableProps | ActionableProps | BlankProps)
 
 type ModalProps = React.ComponentProps<typeof Modal>
 
@@ -253,29 +193,53 @@ const Heading = ({
 }: TitleProps & StepProps & WithAlert) => {
   return (
     <TitleContainer>
-      {alert && <Icon alert={alert} />}
-      {title &&
-        ((typeof title !== 'string' && title) || (
-          <Title fontVariant={fontVariant}>{title}</Title>
-        ))}
-      {subtitle &&
-        ((typeof subtitle !== 'string' && subtitle) || (
-          <SubTitle>{subtitle}</SubTitle>
-        ))}
+      {alert && <Icon $alert={alert} />}
+      {title
+      && ((typeof title !== 'string' && title) || (
+        <Typography fontVariant={fontVariant} textAlign="center">
+          {title}
+        </Typography>
+      ))}
+      {subtitle
+      && ((typeof subtitle !== 'string' && subtitle) || (
+        <Typography
+          color="textSecondary"
+          fontVariant="bodyBold"
+          maxWidth="72"
+          px="4"
+          textAlign="center"
+        >
+          {subtitle}
+        </Typography>
+      ))}
     </TitleContainer>
   )
 }
 
-const Footer = ({
+// const Content = ({ children }: { children?: React.ReactNode }) => {
+//   return (
+//     <Box
+//       maxHeight="60vh"
+//       maxWidth={{ base: 'viewWidth', sm: '128' }}
+//       width={{ base: 'viewWidth', sm: '80vw' }}
+//     >
+//       <ScrollBox height="full" width="full">
+//         <Box paddingRight="2">{children}</Box>
+//       </ScrollBox>
+//     </Box>
+//   )
+// }
+
+const Footer: React.FC<{
+  leading?: React.ReactNode
+  trailing: React.ReactNode
+} & StepProps> = ({
   leading,
   trailing,
   currentStep,
   stepCount,
   stepStatus,
-}: {
-  leading?: React.ReactNode
-  trailing: React.ReactNode
-} & StepProps) => {
+}) => {
   const calcStepType = React.useCallback(
     (step: number) => {
       if (step === currentStep) {
@@ -297,7 +261,7 @@ const Footer = ({
   return (
     <FooterContainer>
       {stepCount && (
-        <StepContainer data-testid="step-container">
+        <StepContainer>
           {Array.from({ length: stepCount }, (_, i) => (
             <StepItem
               $type={calcStepType(i)}
@@ -341,12 +305,6 @@ const ModalWithTitle = ({
   )
 }
 
-const CloseButton = ({ onClick }: { onClick: () => void }) => (
-  <IconCloseContainer data-testid="close-icon" onClick={onClick}>
-    <CrossSVG />
-  </IconCloseContainer>
-)
-
 export const Dialog = ({
   children,
   onDismiss,
@@ -354,7 +312,7 @@ export const Dialog = ({
   open,
   variant = 'closable',
   ...props
-}: Props) => {
+}: DialogProps) => {
   if (variant === 'actionable') {
     const {
       trailing,
@@ -393,7 +351,8 @@ export const Dialog = ({
         {onCloseOrDismiss && <CloseButton onClick={onCloseOrDismiss} />}
       </ModalWithTitle>
     )
-  } else if (variant === 'closable') {
+  }
+  else if (variant === 'closable') {
     const { alert, title, subtitle, ...closableProps } = props as ClosableProps
     const onCloseOrDismiss = onClose || onDismiss
     return (

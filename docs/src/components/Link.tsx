@@ -1,16 +1,12 @@
 import * as React from 'react'
 import NextLink from 'next/link'
 
-type NextLinkProps = Parameters<typeof NextLink>[0]
-
 type Props = {
-  as?: NextLinkProps['as']
   className?: string
   href: string
 }
 
 export const Link = ({
-  as,
   children,
   className,
   href,
@@ -32,13 +28,12 @@ export const Link = ({
   return (
     <>
       <NextLink
-        as={as}
         href={href}
         passHref
         prefetch={canPrefetch(href) ? undefined : false}
-        legacyBehavior
+        className={className}
       >
-        <a className={className}>{children}</a>
+        {children}
       </NextLink>
     </>
   )

@@ -1,11 +1,15 @@
 import * as React from 'react'
-import styled, { css } from 'styled-components'
 
-import { mq } from '@/src/utils/responsiveHelpers'
+import { forwardRef } from 'react'
 
-import { Space } from '@/src/tokens'
+import type { Space } from '@/src/tokens'
 
-import { ScrollBox } from '../..'
+import { space } from '@/src/tokens/space'
+import type { BoxProps } from '../../atoms'
+import { ScrollBox, Box } from '../../atoms'
+import * as styles from './styles.css'
+import { clsx } from 'clsx'
+import { assignInlineVars } from '@vanilla-extract/dynamic'
 
 type NativeFromProps = React.FormHTMLAttributes<HTMLFormElement>
 
@@ -33,57 +37,57 @@ type WithoutForm = {
 
 type DialogContentProps = BaseProps & (WithForm | WithoutForm)
 
-const Container = styled.div<{
-  $fullWidth?: boolean
-  $horizontalPadding: Space
-}>(
-  ({ theme, $fullWidth, $horizontalPadding }) => css`
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    gap: ${theme.space['4']};
-    max-height: 60vh;
-    max-width: 100vw;
-    overflow: hidden;
-
-    width: calc(100% + 2 * ${theme.space[$horizontalPadding]});
-    margin: 0 -${theme.space[$horizontalPadding]};
-
-    ${$fullWidth &&
-    css`
-      width: calc(100% + 2 * ${theme.space['4']});
-      margin: 0 -${theme.space['4']};
-    `}
-
-    ${mq.sm.min(css`
-      width: calc(
-        80vw - 2 * ${theme.space['6']} + 2 * ${theme.space[$horizontalPadding]}
-      );
-      max-width: calc(
-        ${theme.space['128']} + 2 * ${theme.space[$horizontalPadding]}
-      );
-
-      ${$fullWidth &&
-      css`
-        width: 80vw;
-        margin: 0 -${theme.space['6']};
-        max-width: calc(${theme.space['128']} + 2 * ${theme.space['6']});
-      `}
-    `)}
-  `,
-)
-
-const ScrollBoxContent = styled.div<{ $gap: Space }>(
-  ({ theme, $gap }) => css`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    width: ${theme.space.full};
-    gap: ${theme.space[$gap]};
-  `,
+const Container = forwardRef<
+  HTMLElement,
+  BoxProps & { $fullWidth?: boolean, $horizontalPadding: Space }
+>(({ $horizontalPadding, $fullWidth, className, style, ...props }, ref) => (
+  <Box
+    ref={ref}
+    {...props}
+    alignItems="center"
+    display="flex"
+    flex={1}
+    flexDirection="column"
+    gap="4"
+    justifyContent="flex-start"
+    className={clsx(styles.dialogContent, className)}
+    style={{
+      ...assignInlineVars({
+        [styles.dialogContentMargin]: $fullWidth
+          ? `0 -${space['4']};`
+          : `0 -${space[$horizontalPadding]}`,
+        [styles.dialogContentMarginSm]: $fullWidth
+          ? `0 -${space['6']}`
+          : `0 -${space[$horizontalPadding]}`,
+        [styles.dialogContentWidthSm]: $fullWidth
+          ? '80vw'
+          : `calc(80vw - 2 * ${space['6']} + 2 * ${space[$horizontalPadding]})`,
+        [styles.dialogContentWidth]: $fullWidth
+          ? `calc(100% + 2 * ${space['4']});`
+          : `calc(100% + 2 * ${space[$horizontalPadding]})`,
+        [styles.dialogContentMaxWidthSm]: `calc(${space['128']} + 2 * ${space[$horizontalPadding]})`,
+      }),
+      ...style,
+    }}
+    maxHeight="60vh"
+    overflow="hidden"
+  />
+))
+const ScrollBoxContent = ({
+  gap,
+  children,
+}: Pick<BoxProps, 'gap' | 'children'>) => (
+  <Box
+    alignItems="center"
+    display="flex"
+    flexDirection="column"
+    gap={gap}
+    justifyContent="flex-start"
+    width="full"
+    maxWidth={{ base: 'full', sm: '144' }}
+  >
+    {children}
+  </Box>
 )
 
 export const DialogContent = React.forwardRef<
@@ -114,7 +118,7 @@ export const DialogContent = React.forwardRef<
         {...{ target, method, action, onSubmit }}
       >
         <ScrollBox {...props} horizontalPadding={horizontalPadding}>
-          <ScrollBoxContent $gap={gap}>{children}</ScrollBoxContent>
+          <ScrollBoxContent gap={gap}>{children}</ScrollBoxContent>
         </ScrollBox>
       </Container>
     )

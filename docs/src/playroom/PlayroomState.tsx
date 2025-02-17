@@ -1,5 +1,18 @@
 import * as React from 'react'
-import curry from 'lodash/curry'
+
+const curry = <T extends (...args: any[]) => any>(func: T) => {
+  // define the number of expected arguments
+  const expectedArgs = func.length
+  const curried = (...args: any[]) => {
+    // if enough arugments has been passed return the
+    // result of the function execution, otherwise
+    // continue adding arguments to the list
+    return args.length >= expectedArgs
+      ? func(...args)
+      : (...args2: unknown[]) => curried(...args.concat(args2))
+  }
+  return curried
+}
 
 export type StateProp = {
   stateName?: string
@@ -7,14 +20,14 @@ export type StateProp = {
 
 type Store = Map<string, any>
 
-const unwrapValue = (value: any) => {
+const unwrapValue = (value: unknown) => {
   let actualValue = value
 
   if (typeof value === 'object' && value !== null && 'currentTarget' in value) {
-    const { currentTarget } = value
+    const { currentTarget } = value as { currentTarget: HTMLInputElement }
 
-    actualValue =
-      currentTarget.type === 'checkbox'
+    actualValue
+      = currentTarget.type === 'checkbox'
         ? currentTarget.checked
         : currentTarget.value
   }
@@ -22,16 +35,16 @@ const unwrapValue = (value: any) => {
 }
 
 const makeStoreConsumer = (
-  defaultState: Map<string, any>,
+  defaultState: Map<string, unknown>,
   store: Store,
   setStore: (newStore: Store) => void,
 ) => {
-  const setDefaultState = (key: string, value: any) =>
+  const setDefaultState = (key: string, value: unknown) =>
     defaultState.set(key, value)
 
   const getState = (key: string) => store.get(key) ?? defaultState.get(key)
 
-  const setState = curry((key: string, value: any) =>
+  const setState = curry((key: string, value: unknown) =>
     setStore(new Map(store.set(key, unwrapValue(value)))),
   )
 
@@ -43,7 +56,8 @@ const makeStoreConsumer = (
         store.delete(key)
       })
       setStore(new Map(store))
-    } else {
+    }
+    else {
       setStore(new Map())
     }
   }
@@ -62,7 +76,7 @@ const PlayroomStateContext = React.createContext<ReturnType<
 > | null>(null)
 
 type Props = {
-  defaultState?: Map<string, any>
+  defaultState?: Map<string, unknown>
 }
 
 export const PlayroomStateProvider = ({
@@ -71,7 +85,7 @@ export const PlayroomStateProvider = ({
 }: React.PropsWithChildren<Props>) => {
   const [fallbackDefaultState] = React.useState(() => new Map())
   const defaultState = defaultStateProp ?? fallbackDefaultState
-  const state = React.useState(new Map<string, any>())
+  const state = React.useState(() => new Map<string, unknown>())
   const storeConsumer = React.useMemo(
     () => makeStoreConsumer(defaultState, ...state),
     [state, defaultState],
@@ -90,7 +104,7 @@ export const usePlayroomStore = () => {
   return storeConsumer
 }
 
-type Callback = (...args: any[]) => void
+type Callback = (...args: unknown[]) => void
 
 const noop = () => {}
 
@@ -101,28 +115,28 @@ export const useFallbackState = <Value, Handler extends Callback>(
   defaultValue?: Value,
 ): [NonNullable<Value>, (...args: Parameters<Handler>) => void] => {
   const playroomState = usePlayroomStore()
-  const [internalStateValue, setInternalStateValue] =
-    React.useState(defaultValue)
+  const [internalStateValue, setInternalStateValue]
+    = React.useState(defaultValue)
 
-  const wrapChangeHandler =
-    (
+  const wrapChangeHandler
+    = (
       handler: Handler | typeof noop,
     ): ((...args: Parameters<Handler>) => void) =>
-    (...args) => {
-      if (value === undefined) {
-        ;(stateKey ? playroomState.setState(stateKey) : setInternalStateValue)(
-          unwrapValue(args[0]),
-        )
-      }
+      (...args) => {
+        if (value === undefined) {
+          ;(stateKey ? playroomState.setState(stateKey) : setInternalStateValue)(
+            unwrapValue(args[0]),
+          )
+        }
 
-      ;(handler || noop)(...args)
-    }
+        ;(handler || noop)(...args)
+      }
 
   const handleChange = wrapChangeHandler(onChange || noop)
 
-  const resolvedValue =
-    value ??
-    (stateKey
+  const resolvedValue
+    = value
+    ?? (stateKey
       ? playroomState.getState(stateKey) ?? defaultValue
       : internalStateValue)
 

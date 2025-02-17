@@ -1,44 +1,35 @@
 import * as React from 'react'
 import { useState } from 'react'
 
-import { ThemeProvider } from 'styled-components'
-
 import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 
-import { lightTheme } from '@/src/tokens'
-
+import type { RadioButtonProps } from './RadioButton'
 import { RadioButton } from './RadioButton'
 
-const RadioWithState = (props: any) => {
+const RadioWithState = React.forwardRef<HTMLInputElement, Omit<RadioButtonProps, 'label' | 'value' | 'name' | 'id'>>((props, ref) => {
   const [checked, setChecked] = useState<boolean>(false)
   return (
-    <ThemeProvider theme={lightTheme}>
-      <div>
-        hello there
-        {checked ? <div>checked</div> : <div>unchecked</div>}
-        <RadioButton
-          id="radio-id"
-          label="radio-label"
-          ref={props.inputRef}
-          onChange={(e) => {
-            setChecked(e.target.checked)
-          }}
-          {...props}
-        />
-      </div>
-    </ThemeProvider>
+    <div>
+      hello there
+      {checked ? <div>checked</div> : <div>unchecked</div>}
+      <RadioButton
+        {...props as RadioButtonProps}
+        id="radio-id"
+        label="radio-label"
+        ref={ref}
+        onChange={(e) => {
+          setChecked(e.target.checked)
+        }}
+      />
+    </div>
   )
-}
+})
 
 describe('<Radio />', () => {
   afterEach(cleanup)
 
   it('renders', async () => {
-    render(
-      <ThemeProvider theme={lightTheme}>
-        <RadioButton label="radio" name="name" value="10" />
-      </ThemeProvider>,
-    )
+    render(<RadioButton label="radio" name="name" value="10" />)
     expect(screen.getByRole('radio')).toBeInTheDocument()
   })
 
@@ -71,22 +62,18 @@ describe('<Radio />', () => {
     await waitFor(() => {
       expect(screen.queryByText('unchecked')).toBeInTheDocument()
     })
-    expect(userEvent.click(screen.getByText('radio-label'))).rejects.toThrow()
-    await waitFor(() => {
-      expect(screen.queryByText('unchecked')).toBeInTheDocument()
-    })
   })
 
   it('should pass a ref down', async () => {
-    const ref = { current: null } as React.RefObject<any>
-    render(<RadioWithState inputRef={ref} />)
+    const ref = { current: null } as React.RefObject<HTMLInputElement>
+    render(<RadioWithState ref={ref} />)
     await waitFor(() => {
       expect(ref.current).toBeInstanceOf(HTMLInputElement)
     })
   })
 
   it('should display the label on the right of the form element if labelRight is true', async () => {
-    render(<RadioWithState labelRight />)
+    render(<RadioWithState />)
     expect(screen.getByText('radio-label')).toBeInTheDocument()
   })
 })

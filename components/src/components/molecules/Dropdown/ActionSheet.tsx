@@ -1,59 +1,59 @@
 import * as React from 'react'
-import styled, { css } from 'styled-components'
 
-import { Colors, breakpoints } from '@/src/tokens'
+import { breakpoints } from '@/src/tokens'
 
-import { Button, Modal, Typography } from '../..'
+import { actionSheetItem } from './styles.css'
+
 import type { DropdownItem, DropdownItemObject } from './Dropdown'
+import type { BoxProps } from '../../atoms/Box/Box'
+import { Box } from '../../atoms/Box/Box'
+import { Typography, Button } from '../../atoms'
+import { Modal } from '../Modal/Modal'
 
-const ActionSheetContent = styled.div(
-  ({ theme }) => css`
-    width: 100%;
-    flex-direction: column;
-    padding: ${theme.space['2.5']};
-    gap: ${theme.space['2.5']};
-    display: flex;
-  `,
+const ActionSheetContent = React.forwardRef<HTMLElement, BoxProps>(
+  (props, ref) => (
+    <Box
+      {...props}
+      display="flex"
+      flexDirection="column"
+      gap="2.5"
+      padding="2.5"
+      ref={ref}
+      width="full"
+    />
+  ),
 )
 
-const ActionSheetOptions = styled.div(
-  ({ theme }) => css`
-    border-radius: ${theme.radii['large']};
-    width: ${theme.space['full']};
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    gap: ${theme.space.px};
-  `,
+const ActionSheetOptions = (props: BoxProps) => (
+  <Box
+    {...props}
+    borderRadius="large"
+    display="flex"
+    flexDirection="column"
+    gap="px"
+    textAlign="center"
+    width="full"
+  />
 )
 
-const ActionSheetItem = styled.div(
-  ({ theme }) => css`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: ${theme.space['2']};
-    width: 100%;
-    padding: 20px;
-    position: relative;
-    background: ${theme.colors.backgroundPrimary};
-
-    &:first-child {
-      border-top-left-radius: ${theme.radii['large']};
-      border-top-right-radius: ${theme.radii['large']};
-    }
-    &:last-child {
-      border-bottom-left-radius: ${theme.radii['large']};
-      border-bottom-right-radius: ${theme.radii['large']};
-    }
-  `,
+const ActionSheetItem = (props: BoxProps) => (
+  <Box
+    {...props}
+    alignItems="center"
+    backgroundColor="backgroundPrimary"
+    className={actionSheetItem}
+    color="textPrimary"
+    display="flex"
+    gap="2"
+    justifyContent="center"
+    padding="5"
+    position="relative"
+    width="full"
+  />
 )
 
-const ActionSheetLinkItem = styled.a<{ $color?: Colors }>(
-  ({ theme, $color = 'text' }) => css`
-    color: ${theme.colors[$color]};
-    font-weight: ${theme.fontWeights.normal};
-  `,
+const ActionSheetLinkItem = (props: BoxProps) => (
+  <Box {...props} color={props.color || 'text'} fontWeight="normal" />
 )
 
 type Props = {
@@ -63,7 +63,7 @@ type Props = {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
   DropdownChild: React.FC<{
     setIsOpen: (isOpen: boolean) => void
-    item: React.ReactElement<React.PropsWithRef<any>>
+    item: React.ReactElement<React.PropsWithRef<unknown>>
   }>
   cancelLabel?: string
 }
@@ -86,8 +86,8 @@ export const ActionSheet = React.forwardRef<HTMLDivElement, Props>(
               return DropdownChild({ item, setIsOpen })
             }
 
-            const { icon, label, onClick, value, href, color } =
-              item as DropdownItemObject
+            const { icon, label, onClick, value, href, color }
+              = item as DropdownItemObject
 
             return (
               <ActionSheetItem
@@ -97,14 +97,16 @@ export const ActionSheet = React.forwardRef<HTMLDivElement, Props>(
                   setIsOpen(false)
                 }}
               >
-                {icon}
-                {href ? (
-                  <ActionSheetLinkItem $color={color} href={href}>
-                    {label}
-                  </ActionSheetLinkItem>
-                ) : (
-                  <Typography color={color}>{label}</Typography>
-                )}
+                <Box as={icon} />
+                {href
+                  ? (
+                      <ActionSheetLinkItem color={color} href={href}>
+                        {label}
+                      </ActionSheetLinkItem>
+                    )
+                  : (
+                      <Typography color={color}>{label}</Typography>
+                    )}
               </ActionSheetItem>
             )
           })}

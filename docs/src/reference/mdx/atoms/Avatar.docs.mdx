@@ -22,7 +22,7 @@ import { Avatar } from '@ensdomains/thorin'
 The size of the avatar is controlled by the width of it's parent component.
 
 ```tsx live=true
-<DeleteMe alignItems="center" flexDirection="row" flexWrap="wrap">
+<Box display="flex" alignItems="center" flexDirection="row" flexWrap="wrap" gap="4">
   <div style={{ width: '100px' }}>
     <Avatar label="Noun 97" src={avatars.noun97} />
   </div>
@@ -35,7 +35,7 @@ The size of the avatar is controlled by the width of it's parent component.
   <div style={{ width: '25px' }}>
     <Avatar label="Noun 97" src={avatars.noun97} />
   </div>
-</DeleteMe>
+</Box>
 ```
 
 ## Placeholder
@@ -43,71 +43,69 @@ The size of the avatar is controlled by the width of it's parent component.
 The placeholder is shown if the src property is undefined or if an error occurs loading the src.
 
 ```tsx live=true
-<DeleteMe alignItems="center" flexDirection="row" flexWrap="wrap">
-  <Typography variant="label">undefined src</Typography>
-  <div style={{ width: '100px' }}>
-    <Avatar />
-  </div>
-  <Typography variant="label">broken Link</Typography>
-  <div style={{ width: '100px' }}>
-    <Avatar src="http://thisisa.com/brockenLink.jpg" />
-  </div>
-</DeleteMe>
+<Box display="flex" alignItems="center" flexDirection="row" flexWrap="wrap" gap="4">
+  <Box display="flex" alignItems="center" gap="4"> 
+    <Typography variant="label">undefined src</Typography>
+    <div style={{ width: '100px' }}>
+      <Avatar />
+    </div>
+  </Box>
+  <Box display="flex" alignItems="center" gap="4">  
+    <Typography variant="label">broken Link</Typography>
+    <div style={{ width: '100px' }}>
+      <Avatar src="http://thisisa.com/brockenLink.jpg" />
+    </div>
+  </Box>
+</Box>
 ```
 
 ## Shapes
 
 ```tsx live=true
-<DeleteMe alignItems="center" flexDirection="row" flexWrap="wrap">
+<Box display="flex" alignItems="center" flexDirection="row" flexWrap="wrap" gap="4">
   <div style={{ width: '100px' }}>
     <Avatar label="Noun 97 circle" shape="circle" src={avatars.noun97} />
   </div>
   <div style={{ width: '100px' }}>
     <Avatar label="Noun 97 square" shape="square" src={avatars.noun97} />
   </div>
-</DeleteMe>
+</Box>
 ```
 
 ## Overlay
 
 ```tsx live=true
-<DeleteMe alignItems="center" flexDirection="row" flexWrap="wrap">
-  <div style={{ width: '100px' }}>
-    <Avatar
-      label="Noun 97"
-      overlay={<div style={{ background: 'rgba(0,0,0,0.25)', zIndex: 1 }} />}
-      src={avatars.noun97}
-    />
-  </div>
-</DeleteMe>
-```
-
-## Border
-
-By default, there is a light border around the edge to define image edges on similarly colored backgrounds. This can be disabled by using the `noBorder` prop.
-
-```tsx live=true
-<DeleteMe flexDirection="row">
-  <div style={{ width: '100px' }}>
-    <Avatar
-      src={
-        mode === 'light'
-          ? 'https://images.mirror-media.xyz/publication-images/152cd86f-45ad-4f48-8971-4dd33fde5bc1.png'
-          : 'https://images.mirror-media.xyz/publication-images/5eaba6b2-b9ee-4bea-aeac-75796d53798f.jpg'
-      }
-    />
-  </div>
-  <div style={{ width: '100px' }}>
-    <Avatar
-      noBorder
-      src={
-        mode === 'light'
-          ? 'https://images.mirror-media.xyz/publication-images/152cd86f-45ad-4f48-8971-4dd33fde5bc1.png'
-          : 'https://images.mirror-media.xyz/publication-images/5eaba6b2-b9ee-4bea-aeac-75796d53798f.jpg'
-      }
-    />
-  </div>
-</DeleteMe>
+<Box display="flex" alignItems="center" flexDirection="row" flexWrap="wrap" gap="4">
+  <Avatar
+    label="Noun 97"
+    src={avatars.noun97}
+    size="10"
+  />
+  <Avatar
+    label="Noun 97"
+    checked
+    src={avatars.noun97}
+    size="10"
+  />
+  <Avatar
+    label="Noun 97"
+    src={avatars.noun97}
+    disabled
+    size="10"
+  />
+  <Avatar
+    label="Noun 97"
+    icon={CrossSVG}
+    src={avatars.noun97}
+    size="10"
+  />
+  <Avatar
+    label="Noun 97"
+    icon={PersonSVG}
+    src={avatars.noun97}
+    size="10"
+  />
+</Box>
 ```
 
 ## Disabled
@@ -115,7 +113,7 @@ By default, there is a light border around the edge to define image edges on sim
 The placeholder is shown if the src property is undefined or if an error occurs loading the src.
 
 ```tsx live=true
-<DeleteMe alignItems="center" flexDirection="row" flexWrap="wrap">
+<Box display="flex"  alignItems="center" flexDirection="row" flexWrap="wrap" gap="4">
   <Typography variant="label">Placeholder</Typography>
   <div style={{ width: '100px' }}>
     <Avatar disabled />
@@ -124,13 +122,15 @@ The placeholder is shown if the src property is undefined or if an error occurs 
   <div style={{ width: '100px' }}>
     <Avatar disabled src={avatars.noun97} />
   </div>
-</DeleteMe>
+</Box>
 ```
 
-<!-- ## next/image
+## next/image
 
 If you are using Next.js and configured [`next/image`](https://nextjs.org/docs/api-reference/next/image) appropriately, you can pass it in with the `as` prop.
 
 ```tsx live=true expand=true
+<div style={{width: "50px"}}>
 <Avatar as={NextImage} label="Noun 97" src={avatars.noun97} />
-``` -->
+</div>
+``` 

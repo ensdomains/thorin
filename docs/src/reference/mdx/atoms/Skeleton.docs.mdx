@@ -8,11 +8,11 @@ import { Skeleton } from '@ensdomains/thorin'
 ```
 
 ```tsx expand=true live=true
-<DeleteMe>
+<Box display="flex" flexDirection="column" gap="4">
   <Skeleton loading={getState('skeleton')}>Hello World</Skeleton>
   <VisuallyHidden>{setDefaultState('skeleton', true)}</VisuallyHidden>
   <Button onClick={() => toggleState('skeleton')}>Toggle</Button>
-</DeleteMe>
+</Box>
 ```
 
 ## Props
@@ -24,7 +24,7 @@ import { Skeleton } from '@ensdomains/thorin'
 The container will automatically resize to encompass wrapped content.
 
 ```tsx live=true
-<DeleteMe>
+<Box display="flex" flexDirection="column" gap="4">
   <Skeleton loading={getState('skeleton')}>
     <Typography>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
@@ -40,7 +40,7 @@ The container will automatically resize to encompass wrapped content.
   <Button size="small" onClick={() => toggleState('skeleton')}>
     Toggle Skeletons
   </Button>
-</DeleteMe>
+</Box>
 ```
 
 ## Skeleton Group
@@ -48,7 +48,7 @@ The container will automatically resize to encompass wrapped content.
 Nest inside [`SkeletonGroup`](/components/SkeletonGroup) to manage multiple skeletons with a single `loading` prop.
 
 ```tsx live=true
-<DeleteMe>
+<Box display="flex" flexDirection="column" gap="4">
   <SkeletonGroup loading={getState('skeleton')}>
     <Skeleton>
       <Heading level="1">Foo Bar Baz</Heading>
@@ -61,5 +61,5 @@ Nest inside [`SkeletonGroup`](/components/SkeletonGroup) to manage multiple skel
   <Button size="small" onClick={() => toggleState('skeleton')}>
     Toggle Skeletons
   </Button>
-</DeleteMe>
+</Box>
 ```

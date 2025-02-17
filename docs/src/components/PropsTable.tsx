@@ -1,110 +1,42 @@
 import * as React from 'react'
-import styled, { css, useTheme } from 'styled-components'
-import { PropItem } from 'react-docgen-typescript'
+import type { PropItem, PropItemType } from 'react-docgen-typescript'
 
-import { Button, Typography, VisuallyHidden, mq } from '@ensdomains/thorin'
+import {
+  Button,
+  Typography,
+  VisuallyHidden,
+  Box,
+  EyeStrikethroughSVG,
+  EyeSVG,
+} from '@ensdomains/thorin'
 
-import property from 'lodash/property'
-
-import { Link } from './Link'
+import { ScrollBox } from '@ensdomains/thorin'
+import { GithubSVG } from '~/assets'
 
 type Props = {
   sourceLink?: string
   types: Record<string, PropItem>
 }
 
-const Container = styled.div(
-  ({ theme }) => css`
-    max-width: ${theme.space['full']};
-    overflow: scroll;
-
-    ${mq.lg.min(css`
-      overflow: unset;
-    `)}
-  `,
+const TableHead = ({
+  children,
+}: React.PropsWithChildren) => (
+  <Box as="th" position="sticky">
+    <Box as="div" padding="4" textAlign="left">
+      <Typography fontVariant="bodyBold" textTransform="capitalize">
+        {children}
+      </Typography>
+    </Box>
+  </Box>
 )
 
-const TableHead = styled.th(
-  () => css`
-    position: sticky;
-    top: 0;
-  `,
+const DataCell = ({ children }: React.PropsWithChildren) => (
+  <Box as="td" borderTopWidth="1x" borderStyle="solid" borderTopColor="border" padding="4">
+    {children}
+  </Box>
 )
 
-const TableHeadLabelContainer = styled.div<{
-  $i: number
-  $headers: Array<string>
-}>(
-  ({ theme, $i, $headers }) => css`
-    text-transform: capitalize;
-    background-color: ${theme.colors.greySurface};
-    border-color: ${theme.colors.border};
-    ${$i === 0 ? `border-top-left-radius: ${theme.radii['2xLarge']};` : ``}
-    ${$i === $headers.length - 1
-      ? `border-top-right-radius: ${theme.radii['2xLarge']};`
-      : ``}
-      padding: ${theme.space['2.5']} ${theme.space['4']};
-  `,
-)
-
-const Name = styled(Typography)(
-  ({ theme }) => css`
-    color: ${theme.colors.textPrimary};
-    font-size: ${theme.fontSizes['small']};
-  `,
-)
-
-const Required = styled(Typography)(
-  ({ theme }) => css`
-    color: ${theme.colors.red};
-    font-size: ${theme.fontSizes['small']};
-  `,
-)
-
-const RawName = styled(Typography)(
-  ({ theme }) => css`
-    color: ${theme.colors.accent};
-    font-size: ${theme.fontSizes['small']};
-    font-family: ${theme.fonts['mono']};
-  `,
-)
-
-const DefaultValue = styled(Typography)(
-  ({ theme }) => css`
-    color: ${theme.colors.greyDim};
-    font-size: ${theme.fontSizes['small']};
-  `,
-)
-
-const Description = styled(Typography)(
-  ({ theme }) => css`
-    color: ${theme.colors.greyPrimary};
-    font-size: ${theme.fontSizes.small};
-  `,
-)
-
-const NoProps = styled(Typography)(
-  ({ theme }) => css`
-    color: ${theme.colors.greyPrimary};
-  `,
-)
-
-const DataCell = styled.td(
-  ({ theme }) => css`
-    padding: ${theme.space['3']} ${theme.space['4']};
-  `,
-)
-
-const FlexContainer = styled.div(
-  ({ theme }) => css`
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    gap: ${theme.space['2']};
-  `,
-)
-
-const formatPropType = (type: any): string => {
+const formatPropType = (type: PropItemType): string => {
   if (!type.raw) return type.name
   if (
     [
@@ -119,17 +51,15 @@ const formatPropType = (type: any): string => {
     return type.raw
   if (type.raw.indexOf('Ref') === 0) return type.raw
   if (type.raw.indexOf('ElementType') === 0) return type.raw
-  if (type.value) return type.value.map(property('value')).join(' | ')
+  if (type.value) return (type.value as { value: string }[]).map(x => x.value).join(' | ')
   return type.raw ?? type.name
 }
 
 export const PropsTable = ({ sourceLink, types }: Props) => {
-  const theme = useTheme()
-
   const [state, setState] = React.useState<{
     showDescriptions: boolean
   }>({
-    showDescriptions: Object.values(types).some((x) => x.description !== ''),
+    showDescriptions: Object.values(types).some(x => x.description !== ''),
   })
 
   const headers = [
@@ -147,102 +77,107 @@ export const PropsTable = ({ sourceLink, types }: Props) => {
 
   return (
     <>
-      {props.length ? (
-        <Container>
-          <table style={{ width: theme.space['full'] }}>
-            <thead>
-              <tr style={{ textAlign: 'left', background: 'none' }}>
-                {headers.map((x, i) => (
-                  <TableHead key={x}>
-                    <TableHeadLabelContainer {...{ $i: i, $headers: headers }}>
-                      <Typography color="text" fontVariant="extraSmallBold">
-                        {x}
-                      </Typography>
-                    </TableHeadLabelContainer>
-                  </TableHead>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {props.map((x) => (
-                <tr
-                  key={x.name}
-                  style={{
-                    borderBottomWidth: theme.space['px'],
-                    borderColor: theme.colors.border,
-                  }}
-                >
-                  <DataCell>
-                    <Name>
-                      {x.name}
-                      {x.required && (
-                        <Required as="span">
-                          *<VisuallyHidden>Required</VisuallyHidden>
-                        </Required>
-                      )}
-                    </Name>
-                  </DataCell>
-
-                  <DataCell>
-                    <RawName color="accent" font="mono" fontVariant="small">
-                      {formatPropType(x.type)}
-                    </RawName>
-                  </DataCell>
-
-                  <DataCell>
-                    <DefaultValue>
-                      {x.defaultValue?.value.toString() ?? '-'}
-                    </DefaultValue>
-                  </DataCell>
-
-                  {state.showDescriptions && (
-                    <DataCell>
-                      <Description>{x.description || '-'}</Description>
-                    </DataCell>
-                  )}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </Container>
-      ) : (
-        <div>
-          <NoProps>No props</NoProps>
-        </div>
-      )}
-
-      <div style={{ margin: `${theme.space['2']} 0` }}>
-        <FlexContainer>
-          {!!props.length && (
-            <div>
-              <Button
-                colorStyle="accentSecondary"
-                size="small"
-                onClick={() =>
-                  setState((x) => ({
-                    ...x,
-                    showDescriptions: !x.showDescriptions,
-                  }))
-                }
+      {props.length
+        ? (
+            <ScrollBox>
+              <Box
+                as="table"
+                width="full"
+                style={{ borderSpacing: '0' }}
+                borderWidth="1x"
+                borderStyle="solid"
+                borderColor="border"
+                borderRadius="large"
+                overflow="hidden"
               >
-                {state.showDescriptions
-                  ? 'Hide Description'
-                  : 'Show Description'}
-              </Button>
-            </div>
-          )}
+                <Box as="thead" backgroundColor="greySurface">
+                  <tr>
+                    {headers.map(x => (
+                      <TableHead key={x}>
+                        {x}
+                      </TableHead>
+                    ))}
+                  </tr>
+                </Box>
+                <tbody>
+                  {props.map(x => (
+                    <tr key={x.name}>
+                      <DataCell>
+                        <Typography as="span">{x.name}</Typography>
+                        {x.required && (
+                          <Typography as="span" color="red" fontVariant="small">
+                        &nbsp;*
+                            <VisuallyHidden>Required</VisuallyHidden>
+                          </Typography>
+                        )}
+                      </DataCell>
+                      <DataCell>
+                        <Typography
+                          color="blueActive"
+                          font="mono"
+                          fontVariant="small"
+                        >
+                          {formatPropType(x.type)}
+                        </Typography>
+                      </DataCell>
+                      <DataCell>
+                        <Typography>
+                          {x.defaultValue?.value.toString() ?? '-'}
+                        </Typography>
+                      </DataCell>
 
-          {sourceLink && (
+                      {state.showDescriptions && (
+                        <DataCell>
+                          <Typography>{x.description || '-'}</Typography>
+                        </DataCell>
+                      )}
+                    </tr>
+                  ))}
+                </tbody>
+              </Box>
+            </ScrollBox>
+          )
+        : (
             <div>
-              <Link href={sourceLink}>
-                <Button colorStyle="accentSecondary" size="small">
-                  View Source on GitHub
-                </Button>
-              </Link>
+              <Typography color="textSecondary">No props</Typography>
             </div>
           )}
-        </FlexContainer>
-      </div>
+      <Box display="flex" justifyContent="flex-end" marginTop="2">
+        {!!props.length && (
+          <div>
+            <Button
+              colorStyle="transparent"
+              color="accent"
+              size="small"
+              prefix={
+                state.showDescriptions ? EyeStrikethroughSVG : EyeSVG
+              }
+              onClick={() =>
+                setState(x => ({
+                  ...x,
+                  showDescriptions: !x.showDescriptions,
+                }))}
+            >
+              {state.showDescriptions ? 'Description' : 'Description'}
+            </Button>
+          </div>
+        )}
+
+        {sourceLink && (
+          <div>
+            <Button
+              as="a"
+              href={sourceLink}
+              colorStyle="transparent"
+              color="accent"
+              size="small"
+              prefix={() => <Box wh="3"><GithubSVG /></Box>}
+            >
+              View Source
+            </Button>
+          </div>
+        )}
+      </Box>
     </>
   )
 }

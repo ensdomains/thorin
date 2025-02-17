@@ -1,8 +1,8 @@
 import * as React from 'react'
 
-import { ReactNodeNoStrings } from '../../../types'
+import type { ReactNodeNoStrings } from '../../../types'
 import { useFieldIds } from '../../../hooks'
-import { VisuallyHidden } from '../VisuallyHidden'
+import { VisuallyHidden } from '../VisuallyHidden/VisuallyHidden'
 import { validateAccept } from './utils'
 
 type Context = {
@@ -19,7 +19,7 @@ const initialState: Context = {}
 
 type NativeInputProps = React.InputHTMLAttributes<HTMLInputElement>
 
-export type Props = {
+export type FileInputProps = {
   /** The accept attribute of input element */
   accept?: NativeInputProps['accept']
   /** The autoFocus attribute of input element */
@@ -27,7 +27,7 @@ export type Props = {
   /** A function that receives a context object and return a react element. The context object is made of the following properties droppable, focused, file, name, previewUrl, type and reset. */
   children: (context: Context) => ReactNodeNoStrings
   /** Preloads the file input file to submit. */
-  defaultValue?: { name?: string; type: string; url: string }
+  defaultValue?: { name?: string, type: string, url: string }
   /** The disabled attribute of input element. */
   disabled?: NativeInputProps['disabled']
   /** Error text or react element */
@@ -57,7 +57,7 @@ export type Props = {
   'onReset' | 'onChange' | 'onError' | 'defaultValue' | 'children' | 'type'
 >
 
-export const FileInput = React.forwardRef(
+export const FileInput = React.forwardRef<HTMLDivElement, FileInputProps>(
   (
     {
       accept,
@@ -77,8 +77,8 @@ export const FileInput = React.forwardRef(
       onFocus,
       onReset,
       ...props
-    }: Props,
-    ref: React.Ref<HTMLDivElement>,
+    },
+    ref,
   ) => {
     const defaultRef = React.useRef<HTMLInputElement>(null)
     const inputRef = (ref as React.RefObject<HTMLInputElement>) || defaultRef
@@ -95,7 +95,7 @@ export const FileInput = React.forwardRef(
         // Disallow file larger than max
         if (maxSize && file.size > maxSize * 1_000_000) {
           event?.preventDefault()
-          onError &&
+          if (onError)
             onError(
               `File is ${(file.size / 1_000_000).toFixed(
                 2,
@@ -103,13 +103,13 @@ export const FileInput = React.forwardRef(
             )
           return
         }
-        setState((x) => ({
+        setState(x => ({
           ...x,
           file,
           name: file.name,
           type: file.type,
         }))
-        onChange && onChange(file)
+        if (onChange) onChange(file)
       },
       [maxSize, onChange, onError],
     )
@@ -126,7 +126,7 @@ export const FileInput = React.forwardRef(
     const handleDragOver = React.useCallback(
       (event: React.DragEvent<HTMLLabelElement>) => {
         event.preventDefault()
-        setState((x) => ({ ...x, droppable: true }))
+        setState(x => ({ ...x, droppable: true }))
       },
       [],
     )
@@ -134,7 +134,7 @@ export const FileInput = React.forwardRef(
     const handleDragLeave = React.useCallback(
       (event: React.DragEvent<HTMLLabelElement>) => {
         event.preventDefault()
-        setState((x) => ({ ...x, droppable: false }))
+        setState(x => ({ ...x, droppable: false }))
       },
       [],
     )
@@ -142,14 +142,15 @@ export const FileInput = React.forwardRef(
     const handleDrop = React.useCallback(
       (event: React.DragEvent<HTMLLabelElement>) => {
         event.preventDefault()
-        setState((x) => ({ ...x, droppable: false }))
+        setState(x => ({ ...x, droppable: false }))
         let file: File | null
         if (event.dataTransfer.items) {
           const files = event.dataTransfer.items
           if (files?.[0].kind !== 'file') return
           file = files[0].getAsFile()
           if (!file) return
-        } else {
+        }
+        else {
           const files = event.dataTransfer.files
           if (!files?.length) return
           file = files[0]
@@ -162,35 +163,33 @@ export const FileInput = React.forwardRef(
 
     const handleFocus = React.useCallback(
       (event: React.FocusEvent<HTMLInputElement>) => {
-        setState((x) => ({ ...x, focused: true }))
-        onFocus && onFocus(event)
+        setState(x => ({ ...x, focused: true }))
+        if (onFocus) onFocus(event)
       },
       [onFocus],
     )
 
     const handleBlur = React.useCallback(
       (event: React.FocusEvent<HTMLInputElement>) => {
-        setState((x) => ({ ...x, focused: false }))
-        onBlur && onBlur(event)
+        setState(x => ({ ...x, focused: false }))
+        if (onBlur) onBlur(event)
       },
       [onBlur],
     )
 
-    /* eslint-disable react-hooks/exhaustive-deps */
     const reset = React.useCallback(
       (event: React.MouseEvent<HTMLInputElement>) => {
         event.preventDefault()
         setState(initialState)
         if (inputRef.current) inputRef.current.value = ''
-        onReset && onReset()
+        if (onReset) onReset()
       },
       // No need to add defaultValue
       [inputRef, onReset],
     )
-    /* eslint-enable react-hooks/exhaustive-deps */
 
     // Display preview for default value
-    /* eslint-disable react-hooks/exhaustive-deps */
+
     React.useEffect(() => {
       if (!defaultValue) return
       setState({
@@ -199,13 +198,12 @@ export const FileInput = React.forwardRef(
         type: defaultValue.type,
       })
     }, [])
-    /* eslint-enable react-hooks/exhaustive-deps */
 
     // Create URL for displaying media preview
     React.useEffect(() => {
       if (!state.file) return
       const previewUrl = URL.createObjectURL(state.file)
-      setState((x) => ({ ...x, previewUrl }))
+      setState(x => ({ ...x, previewUrl }))
       return () => URL.revokeObjectURL(previewUrl)
     }, [state.file])
 

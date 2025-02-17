@@ -1,11 +1,15 @@
 import * as React from 'react'
-import styled, { DefaultTheme, css } from 'styled-components'
 
-import { Field, FieldBaseProps } from '../../atoms/Field'
+import * as styles from './styles.css'
+import type { FieldBaseProps } from '../../atoms/Field/Field'
+import { Field } from '../../atoms/Field/Field'
+import type { BoxProps } from '../../atoms/Box/Box'
+import { Box } from '../../atoms/Box/Box'
+import { clsx } from 'clsx'
 
 type NativeInputProps = React.InputHTMLAttributes<HTMLInputElement>
 
-export type Props = FieldBaseProps & {
+export type SliderProps = FieldBaseProps & {
   /** The initial value. Useful for detecting changes in value. */
   defaultValue?: string | number
   /** If true, prevents user interaction. */
@@ -31,64 +35,29 @@ export type Props = FieldBaseProps & {
   /** The handler for focus events. */
   onFocus?: NativeInputProps['onFocus']
 } & Omit<
-    NativeInputProps,
-    'children' | 'value' | 'defaultValue' | 'aria-invalid' | 'type'
-  >
+  NativeInputProps,
+    'children' | 'value' | 'defaultValue' | 'aria-invalid' | 'type' | 'color' | 'height' | 'width'
+>
 
-const Container = styled.div(
-  ({ theme }) => css`
-    width: ${theme.space.full};
-  `,
+const SliderComponent = React.forwardRef<HTMLElement, BoxProps>(
+  ({ className, ...props }, ref) => (
+    <Box
+      {...props}
+      as="input"
+      backgroundColor={{ base: 'blueSurface', hover: 'blueLight' }}
+      borderRadius="full"
+      className={clsx(styles.slider, className)}
+      cursor={{ base: 'pointer', disabled: 'not-allowed' }}
+      height="1.5"
+      opacity="1"
+      ref={ref}
+      type="range"
+      width="full"
+    />
+  ),
 )
 
-const thumbCss = ({ theme }: { theme: DefaultTheme }) => css`
-  width: ${theme.space['4']};
-  height: ${theme.space['4']};
-  background: ${theme.colors.accent};
-  border-radius: ${theme.radii.full};
-  cursor: pointer;
-  transition: filter 0.15s ease-in-out;
-  filter: brightness(1);
-  &:hover {
-    filter: brightness(0.95);
-  }
-  &:active {
-    filter: brightness(0.875);
-  }
-`
-
-const SliderComponent = styled.input(
-  ({ theme, disabled }) => css`
-    appearance: none;
-    width: ${theme.space.full};
-    height: ${theme.space['1.5']};
-    background: hsla(${theme.colors.raw.accent} / 0.4);
-    border-radius: ${theme.radii.full};
-    outline: none;
-
-    &::-webkit-slider-thumb {
-      appearance: none;
-      ${thumbCss}
-    }
-
-    &::-moz-range-thumb {
-      ${thumbCss}
-    }
-
-    &:hover {
-      background: hsla(${theme.colors.raw.accent} / 0.45);
-    }
-
-    ${disabled &&
-    css`
-      opacity: 0.5;
-      filter: grayscale(100%);
-      cursor: not-allowed;
-    `}
-  `,
-)
-
-export const Slider = React.forwardRef(
+export const Slider = React.forwardRef<HTMLInputElement, SliderProps>(
   (
     {
       label,
@@ -113,8 +82,8 @@ export const Slider = React.forwardRef(
       onFocus,
       step = 'any',
       ...nativeProps
-    }: Props,
-    ref: React.Ref<HTMLInputElement>,
+    },
+    ref,
   ) => {
     const defaultRef = React.useRef<HTMLInputElement>(null)
     const inputRef = (ref as React.RefObject<HTMLInputElement>) || defaultRef
@@ -133,29 +102,27 @@ export const Slider = React.forwardRef(
           id,
         }}
       >
-        {(ids) => (
-          <Container>
-            <SliderComponent
-              ref={inputRef}
-              type="range"
-              {...{
-                ...nativeProps,
-                ...ids?.content,
-                defaultValue,
-                disabled,
-                name,
-                readOnly,
-                tabIndex,
-                value,
-                min,
-                max,
-                onChange,
-                onBlur,
-                onFocus,
-                step,
-              }}
-            />
-          </Container>
+        {ids => (
+          <SliderComponent
+            ref={inputRef}
+            type="range"
+            {...{
+              ...nativeProps,
+              ...ids?.content,
+              defaultValue,
+              disabled,
+              name,
+              readOnly,
+              tabIndex,
+              value,
+              min,
+              max,
+              onChange,
+              onBlur,
+              onFocus,
+              step,
+            }}
+          />
         )}
       </Field>
     )

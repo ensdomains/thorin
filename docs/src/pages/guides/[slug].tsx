@@ -1,23 +1,25 @@
-import {
+import type {
   GetStaticPaths,
   GetStaticProps,
   InferGetStaticPropsType,
   NextPageWithLayout,
 } from 'next'
-import fs from 'fs-extra'
-import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote'
+import fs from 'node:fs'
+import type { MDXRemoteSerializeResult } from 'next-mdx-remote'
+import { MDXRemote } from 'next-mdx-remote'
 import { serialize } from 'next-mdx-remote/serialize'
 import matter from 'gray-matter'
 
-import { Typography, tokens } from '@ensdomains/thorin'
+import { Box } from '@ensdomains/thorin'
 
-import { Props as LayoutProps, getLayout } from '~/layouts/docs'
+import type { Props as LayoutProps } from '~/layouts/docs'
+import { getLayout } from '~/layouts/docs'
 import { getGuideName, getGuidePaths } from '~/utils/fs'
 import { createGitHubLink } from '~/utils/github'
-import { Link } from '~/components'
+import { GitHubLink } from '~/components/GitHubLink'
 
 export const getStaticPaths: GetStaticPaths = async () => ({
-  paths: getGuidePaths().map((x) => ({
+  paths: getGuidePaths().map(x => ({
     params: {
       slug: getGuideName(x),
     },
@@ -27,14 +29,14 @@ export const getStaticPaths: GetStaticPaths = async () => ({
 
 type StaticProps = {
   docsLink: string
-  frontMatter: Record<string, any>
+  frontMatter: Record<string, unknown>
   source: MDXRemoteSerializeResult
 }
 
 export const getStaticProps: GetStaticProps<StaticProps> = async (context) => {
   const slug = context.params?.slug?.toString() as string
   const pathname = getGuidePaths().find(
-    (x) => getGuideName(x) === slug,
+    x => getGuideName(x) === slug,
   ) as string
   const source = fs.readFileSync(pathname)
   const { content, data } = matter(source)
@@ -61,16 +63,14 @@ const Page: NextPageWithLayout<Props> = ({ docsLink, source }: Props) => {
     <>
       <MDXRemote {...source} scope={source.scope} />
 
-      <div style={{ marginTop: tokens.space['20'] }}>
-        <Link href={docsLink}>
-          <Typography fontVariant="bodyBold">Edit on GitHub</Typography>
-        </Link>
-      </div>
+      <Box my="10">
+        <GitHubLink href={docsLink} />
+      </Box>
     </>
   )
 }
 
-Page.getLayout = (page) =>
+Page.getLayout = page =>
   getLayout({
     ...page,
     props: {

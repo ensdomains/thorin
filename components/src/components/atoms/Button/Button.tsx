@@ -1,15 +1,21 @@
 import * as React from 'react'
-import styled, { css } from 'styled-components'
 
-import { Space } from '@/src/tokens'
+import { P, match } from 'ts-pattern'
 
-import {
-  WithColorStyle,
-  getColorStyle,
-} from '@/src/types/withColorOrColorStyle'
+import { scale } from '@/src/css/utils/common'
 
-import { ReactNodeNoStrings } from '../../../types'
-import { Spinner } from '../Spinner'
+import { removeNullishProps } from '@/src/utils/removeNullishProps'
+
+import { getValueForSize } from './utils/getValueForSize'
+
+import type { ReactNodeNoStrings } from '../../../types'
+import { Spinner } from '../Spinner/Spinner'
+import type { AsProp, BoxProps } from '../Box/Box'
+import { Box } from '../Box/Box'
+import * as styles from './Button.css'
+import { clsx } from 'clsx'
+import { assignInlineVars } from '@vanilla-extract/dynamic'
+import type { ColorStyles, Hue } from '@/src/tokens'
 
 export type Size = 'small' | 'medium' | 'flexible'
 
@@ -17,29 +23,27 @@ type NativeButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement>
 type NativeAnchorProps = React.AllHTMLAttributes<HTMLAnchorElement>
 
 type BaseProps = {
-  /** An alternative element type to render the component as.*/
+  /** An alternative element type to render the component as. */
   as?: 'a'
   children: NativeButtonProps['children']
   /** If true, prevents user interaction with button. */
   disabled?: NativeButtonProps['disabled']
   /** Insert a ReactNode before the children */
-  prefix?: ReactNodeNoStrings
+  prefix?: AsProp
   /** Shows loading spinner inside button */
   loading?: boolean
   /** Constrains button to specific shape */
-  shape?: 'square' | 'rounded' | 'circle'
+  shape?: 'rectangle' | 'square' | 'rounded' | 'circle'
   /** Sets dimensions and layout  */
   size?: Size
   /** Adds ReactNode after children */
-  suffix?: ReactNodeNoStrings
+  suffix?: AsProp
   /** The zIndex attribute for button element. */
   zIndex?: string
   /** If true, sets the style to indicate "on" state. Useful for toggles switches. */
   pressed?: boolean
   /** If true, adds a box-shadow */
   shadow?: boolean
-  /** A space value for the width of the button */
-  width?: Space
   /** If true, makes inner div full width */
   fullWidthContent?: boolean
   /** When set, shows a count indicator on the button */
@@ -48,7 +52,9 @@ type BaseProps = {
   onClick?: NativeButtonProps['onClick']
   /** Show indicator that button has extra info via tooltip. */
   shouldShowTooltipIndicator?: boolean
-} & Omit<NativeButtonProps, 'prefix' | 'size'>
+  color?: Hue
+  colorStyle?: ColorStyles
+} & Omit<BoxProps, 'size' | 'prefix'>
 
 type WithAnchor = {
   /** The href attribute for the anchor element. */
@@ -65,215 +71,176 @@ type WithoutAnchor = {
   target?: never
 }
 
-interface ButtonElement {
+type ButtonBoxProps = {
   $pressed: boolean
   $shadow: boolean
-  $outlined: boolean
   $shape?: BaseProps['shape']
   $size?: BaseProps['size']
   $type?: BaseProps['type']
-  $center: boolean | undefined
-  $colorStyle: WithColorStyle['colorStyle']
+  $colorStyle: ColorStyles
+  $color?: Hue
   $hasCounter?: boolean
-  $width: BaseProps['width']
 }
-
-const ButtonElement = styled.button<ButtonElement>(
-  ({
-    theme,
-    $pressed,
-    $shadow,
-    $size,
-    $colorStyle = 'accentPrimary',
-    $shape,
-    $hasCounter,
-    $width,
-  }) => css`
-    position: relative;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: ${theme.space['2']};
-
-    transition-property: all;
-    transition-duration: ${theme.transitionDuration['150']};
-    transition-timing-function: ${theme.transitionTimingFunction['inOut']};
-    width: 100%;
-    border-radius: ${theme.radii.large};
-    font-weight: ${theme.fontWeights.bold};
-    border-width: ${theme.borderWidths.px};
-    border-style: ${theme.borderStyles.solid};
-
-    background: ${getColorStyle($colorStyle, 'background')};
-    color: ${getColorStyle($colorStyle, 'text')};
-    border-color: ${getColorStyle($colorStyle, 'border')};
-
-    /* solves sticky problem */
-    @media (hover: hover) {
-      &:hover {
-        transform: translateY(-1px);
-        background: ${getColorStyle($colorStyle, 'hover')};
+const ButtonBox = React.forwardRef<
+  HTMLButtonElement,
+  BoxProps & ButtonBoxProps
+>(
+  (
+    {
+      $pressed,
+      $shadow,
+      $shape = 'rectangle',
+      $size = 'medium',
+      $colorStyle = 'accentPrimary',
+      $hasCounter,
+      $color,
+      as,
+      className,
+      style,
+      ...props
+    },
+    ref,
+  ) => (
+    <Box
+      alignItems="center"
+      as={as ?? 'button'}
+      backgroundColor={{
+        base: $pressed ? `${$colorStyle}Hover` : `${$colorStyle}Background`,
+        hover: `${$colorStyle}Hover`,
+        disabled: `disabledBackground`,
+      }}
+      borderColor={{
+        base: `${$colorStyle}Border`,
+        disabled: `disabledBorder`,
+        hover: `${$colorStyle}Hover`,
+      }}
+      borderRadius={['circle', 'rounded'].includes($shape) ? 'full' : 'large'}
+      borderStyle="solid"
+      borderWidth="1x"
+      className={clsx(styles.buttonBox, className)}
+      style={{ ...style, ...assignInlineVars({ [styles.hasShadow]: $shadow ? '0.25 grey' : 'none' }) }}
+      color={{
+        base: $color || `${$colorStyle}Text`,
+        disabled: 'disabledText',
+      }}
+      cursor={{ base: 'pointer', disabled: 'not-allowed' }}
+      display="flex"
+      fill={`${$colorStyle}Text`}
+      fontSize={getValueForSize($size, 'fontSize')}
+      fontWeight="bold"
+      gap="2"
+      height={getValueForSize($size, 'height')}
+      justifyContent="center"
+      position="relative"
+      // px={$hasCounter ? '12' : getValueForSize($size, 'px')}
+      ref={ref}
+      transitionDuration={150}
+      transitionProperty="all"
+      transitionTimingFunction="inOut"
+      width={
+        ['square', 'circle'].includes($shape)
+          ? getValueForSize($size, 'height')
+          : 'full'
       }
-      &:active {
-        transform: translateY(0px);
-      }
-    }
-    @media (hover: none) {
-      &:active {
-        transform: translateY(-1px);
-        background: ${getColorStyle($colorStyle, 'hover')};
-      }
-    }
-
-    &:disabled {
-      cursor: not-allowed;
-      background: ${getColorStyle('disabled', 'background')};
-      transform: none;
-      color: ${getColorStyle('disabled', 'text')};
-      border-color: transparent;
-    }
-
-    ${$pressed &&
-    css`
-      background: ${getColorStyle($colorStyle, 'hover')};
-    `};
-
-    ${$shadow &&
-    css`
-      box-shadow: ${theme.shadows['0.25']} ${theme.colors.grey};
-    `};
-
-    ${$size === 'small' &&
-    css`
-      font-size: ${theme.fontSizes.small};
-      line-height: ${theme.lineHeights.small};
-      height: ${theme.space['10']};
-      padding: 0 ${theme.space['3.5']};
-      svg {
-        display: block;
-        width: ${theme.space['3']};
-        height: ${theme.space['3']};
-        color: ${getColorStyle($colorStyle, 'text')};
-      }
-    `}
-
-    ${$size === 'medium' &&
-    css`
-      font-size: ${theme.fontSizes.body};
-      line-height: ${theme.lineHeights.body};
-      height: ${theme.space['12']};
-      padding: 0 ${theme.space['4']};
-      svg {
-        display: block;
-        width: ${theme.space['4']};
-        height: ${theme.space['4']};
-        color: ${getColorStyle($colorStyle, 'text')};
-      }
-    `}
-
-    &:disabled svg {
-      color: ${getColorStyle('disabled', 'text')};
-    }
-
-    ${($shape === 'circle' || $shape === 'rounded') &&
-    css`
-      border-radius: ${theme.radii.full};
-    `}
-
-    ${($shape === 'circle' || $shape === 'square') &&
-    $size === 'small' &&
-    css`
-      width: ${theme.space['10']};
-    `}
-
-    ${($shape === 'circle' || $shape === 'square') &&
-    $size === 'medium' &&
-    css`
-      width: ${theme.space['12']};
-    `}
-
-    ${$hasCounter &&
-    css`
-      padding: 0 ${theme.space['12']};
-    `}
-
-    ${$width &&
-    css`
-      width: ${theme.space[$width]};
-    `}
-  `,
+      {...{
+        px: $hasCounter ? '12' : getValueForSize($size, 'px'),
+        ...props,
+      }}
+    />
+  ),
 )
 
-const ContentContainer = styled.div<{ $fullWidth?: boolean }>(
-  ({ $fullWidth }) => css`
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+const SVGBox = ({
+  $size,
+  ...props
+}: BoxProps & {
+  $size: 'small' | 'medium' | 'flexible'
+}) => <Box display="block" wh={getValueForSize($size, 'svgSize')} {...props} />
 
-    ${$fullWidth &&
-    css`
-      width: 100%;
-    `}
-  `,
+const ContentBox = ({
+  $fullWidth,
+  ...props
+}: BoxProps & { $fullWidth?: boolean }) => (
+  <Box
+    overflow="hidden"
+    textOverflow="ellipsis"
+    whiteSpace="nowrap"
+    width={$fullWidth ? 'full' : undefined}
+    {...props}
+  />
 )
 
-const CounterWrapper = styled.div(
-  ({ theme }) => css`
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 100%;
-    padding-right: ${theme.space[3]};
-
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    pointer-events: none;
-  `,
+const CounterBox = (props: BoxProps) => (
+  <Box
+    alignItems="center"
+    display="flex"
+    height="full"
+    justifyContent="flex-end"
+    pointerEvents="none"
+    position="absolute"
+    pr="3"
+    right="0"
+    top="0"
+    {...props}
+  />
 )
 
-const Counter = styled.div<{ $visible: boolean }>(
-  ({ theme, $visible }) => css`
-    display: flex;
-    padding: 0 ${theme.space[1]};
-    justify-content: center;
-    align-items: center;
-    border: 2px solid white;
-    border-radius: ${theme.radii.full};
-    font-size: ${theme.space[3]};
-    min-width: ${theme.space[6]};
-    height: ${theme.space[6]};
-    box-sizing: border-box;
-    transform: scale(1);
-    opacity: 1;
-    transition: all 0.3s ease-in-out;
-
-    ${!$visible &&
-    css`
-      transform: scale(0.3);
-      opacity: 0;
-    `}
-  `,
+const CounterIconBox = ({
+  $visible,
+  $colorStyle,
+  className,
+  style,
+  ...props
+}: BoxProps & {
+  $visible: boolean
+  $colorStyle: ColorStyles
+}) => (
+  <Box
+    alignItems="center"
+    borderColor={`${$colorStyle}Text`}
+    borderRadius="full"
+    borderStyle="solid"
+    borderWidth="2x"
+    boxSizing="border-box"
+    color={`${$colorStyle}Text`}
+    display="flex"
+    fontSize="extraSmall"
+    height="6"
+    justifyContent="center"
+    minWidth="6"
+    opacity={$visible ? '1' : '0'}
+    pointerEvents="none"
+    px="1"
+    transitionDuration={300}
+    transitionProperty="all"
+    transitionTimingFunction="inOut"
+    {...props}
+    className={clsx(styles.counterIconBox, className)}
+    style={{ ...style, ...assignInlineVars({
+      [styles.counterIconBoxTransform]: $visible ? scale(1) : scale(0.3),
+    }) }}
+  />
 )
 
-const TooltipIndicator = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #e9b911;
-  border-radius: 50%;
-  width: 24px;
-  height: 24px;
-  position: absolute;
-  right: -10px;
-  top: -10px;
-  color: white;
-`
+const TooltipIndicatorBox = (props: BoxProps) => (
+  <Box
+    alignItems="center"
+    backgroundColor="yellowPrimary"
+    borderRadius="full"
+    color="backgroundPrimary"
+    display="flex"
+    justifyContent="center"
+    position="absolute"
+    right="-4.5"
+    top="-4.5"
+    wh="6"
+    {...props}
+  />
+)
 
-export type Props = BaseProps & (WithoutAnchor | WithAnchor) & WithColorStyle
+export type ButtonProps = BaseProps & (WithoutAnchor | WithAnchor)
 
-export const Button = React.forwardRef(
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
       children,
@@ -293,76 +260,84 @@ export const Button = React.forwardRef(
       onClick,
       pressed = false,
       shadow = false,
-      width,
       fullWidthContent,
       count,
+      color,
       shouldShowTooltipIndicator,
       as: asProp,
       ...props
-    }: Props,
-    ref: React.Ref<HTMLButtonElement>,
+    },
+    ref,
   ) => {
     const labelContent = (
-      <ContentContainer $fullWidth={fullWidthContent}>
-        {children}
-      </ContentContainer>
+      <ContentBox $fullWidth={fullWidthContent}>{children}</ContentBox>
     )
 
     let childContent: ReactNodeNoStrings
     if (shape === 'circle' || shape === 'square') {
-      childContent = loading ? <Spinner /> : labelContent
-    } else {
-      const hasPrefix = !!prefix
-      const hasNoPrefixNoSuffix = !hasPrefix && !suffix
-      const hasSuffixNoPrefix = !hasPrefix && !!suffix
+      childContent = loading ? <Spinner data-testid="spinner" /> : labelContent
+    }
+    else {
+      const prefixOrLoading = match([loading, !!prefix, !!suffix])
+        .with([true, true, P._], () => <Spinner data-testid="spinner" />)
+        .with([true, false, false], () => <Spinner data-testid="spinner" />)
+        .with([P._, true, P._], () => <SVGBox data-testid="spinner" $size={size} as={prefix} />
+          ,
+        )
+        .otherwise(() => null)
 
-      let prefixOrLoading = prefix
-      if (loading && hasPrefix) prefixOrLoading = <Spinner />
-      else if (loading && hasNoPrefixNoSuffix) prefixOrLoading = <Spinner />
-
-      let suffixOrLoading = suffix
-      if (loading && hasSuffixNoPrefix) suffixOrLoading = <Spinner />
+      const suffixOrLoading = match([loading, !!prefix, !!suffix])
+        .with([true, false, true], () => <Spinner />)
+        .with([P._, P._, true], () => (
+          <SVGBox $size={size} as={suffix} />
+        ),
+        )
+        .otherwise(() => null)
 
       childContent = (
         <>
-          {!!prefixOrLoading && prefixOrLoading}
+          {prefixOrLoading}
           {labelContent}
-          {!!suffixOrLoading && suffixOrLoading}
+          {suffixOrLoading}
         </>
       )
     }
 
     return (
-      <ButtonElement
-        {...props}
+      <ButtonBox
+        $color={color}
         $colorStyle={colorStyle}
         $hasCounter={!!count}
         $pressed={pressed}
         $shadow={shadow}
         $shape={shape}
         $size={size}
-        $width={width}
-        as={asProp as any}
+        as={asProp}
         disabled={disabled}
         href={href}
-        position={zIndex && 'relative'}
         ref={ref}
         rel={rel}
         tabIndex={tabIndex}
         target={target}
         type={type}
+        // position={zIndex && 'relative'}
         zIndex={zIndex}
         onClick={onClick}
+        {...removeNullishProps(props)}
       >
         {shouldShowTooltipIndicator && (
-          <TooltipIndicator data-testid="tooltip-indicator">?</TooltipIndicator>
+          <TooltipIndicatorBox data-testid="tooltip-indicator">
+            ?
+          </TooltipIndicatorBox>
         )}
 
         {childContent}
-        <CounterWrapper>
-          <Counter $visible={!!count}>{count}</Counter>
-        </CounterWrapper>
-      </ButtonElement>
+        <CounterBox>
+          <CounterIconBox $colorStyle={colorStyle} $visible={!!count}>
+            {count}
+          </CounterIconBox>
+        </CounterBox>
+      </ButtonBox>
     )
   },
 )

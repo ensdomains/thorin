@@ -1,2 +1,2 @@
-export { Dialog } from './Dialog'
-export { Toast } from './Toast'
+export { Dialog, type DialogProps } from './Dialog/Dialog'
+export { Toast, type ToastProps } from './Toast/Toast'

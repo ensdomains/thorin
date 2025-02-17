@@ -10,5 +10,5 @@
     "typescript",
     "typescriptreact"
   ],
-  "eslint.packageManager": "yarn"
+  "eslint.packageManager": "pnpm"
 }

@@ -1,13 +1,14 @@
-import { RefObject, useEffect } from 'react'
+import type { RefObject } from 'react'
+import { useEffect } from 'react'
 
 export const useDocumentEvent = (
-  ref: RefObject<any>,
+  ref: RefObject<HTMLElement>,
   event: keyof DocumentEventMap,
   _callback: () => void,
   shouldCallback?: boolean,
 ) => {
-  const callback = (e: any) => {
-    if (ref.current && !ref.current.contains(e.target)) _callback()
+  const callback = (e: Event) => {
+    if (ref.current && !ref.current.contains(e.target as Node)) _callback()
   }
   useEffect(() => {
     if (shouldCallback) document.addEventListener(event, callback)
@@ -15,6 +16,5 @@ export const useDocumentEvent = (
     return () => {
       document.removeEventListener(event, callback)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shouldCallback])
 }

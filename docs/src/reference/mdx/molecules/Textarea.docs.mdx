@@ -21,16 +21,16 @@ import { Textarea } from '@ensdomains/thorin'
 ## Sizes
 
 ```tsx live=true
-<DeleteMe>
+<Box display="flex" flexDirection="column" gap="4">
   <Textarea label="Medium" placeholder="Enter text here..." size="medium" />
   <Textarea label="Small" placeholder="Enter text here..." size="small" />
-</DeleteMe>
+</Box>
 ```
 
 ## Show Dot
 
 ```tsx live=true
-<DeleteMe>
+<Box display="flex" flexDirection="column" gap="4">
   <Textarea
     description="Textarea with showDot"
     label="Placeholder"
@@ -60,13 +60,13 @@ import { Textarea } from '@ensdomains/thorin'
     showDot
     validated
   />
-</DeleteMe>
+</Box>
 ```
 
 ## Clearable
 
 ```tsx live=true
-<DeleteMe>
+<Box display="flex" flexDirection="column" gap="4">
   <Textarea
     clearable
     defaultValue="This textarea can be cleared by clicking the clear button."
@@ -79,7 +79,7 @@ import { Textarea } from '@ensdomains/thorin'
     label="Not clearable"
     placeholder="Share your story…"
   />
-</DeleteMe>
+</Box>
 ```
 
 ## Read Only

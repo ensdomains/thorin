@@ -34,7 +34,7 @@ import { Input, SearchSVG } from '@ensdomains/thorin'
 ## Error
 
 ```tsx live=true
-<DeleteMe>
+<Box display="flex" flexDirection="column" gap="4">
   <Input
     description="Default input"
     error="Error message"
@@ -102,13 +102,13 @@ import { Input, SearchSVG } from '@ensdomains/thorin'
     }
     value="Invalid input"
   />
-</DeleteMe>
+</Box>
 ```
 
 ## Affixes
 
 ```tsx live=true
-<DeleteMe>
+<Box display="flex" flexDirection="column" gap="4">
   <Input
     description="Prefix using a svg component."
     icon={<MagnifyingGlassSimpleSVG />}
@@ -127,13 +127,13 @@ import { Input, SearchSVG } from '@ensdomains/thorin'
       </>
     }
   />
-</DeleteMe>
+</Box>
 ```
 
 ## Show Dot
 
 ```tsx live=true
-<DeleteMe>
+<Box display="flex" flexDirection="column" gap="4">
   <Input
     icon={<MagnifyingGlassSimpleSVG />}
     label="Placeholder"
@@ -190,13 +190,13 @@ import { Input, SearchSVG } from '@ensdomains/thorin'
       </>
     }
   />
-</DeleteMe>
+</Box>
 ```
 
 ## Disabled
 
 ```tsx live=true
-<DeleteMe>
+<Box display="flex" flexDirection="column" gap="4">
   <Input
     description="Prefix using a svg component."
     disabled
@@ -216,13 +216,13 @@ import { Input, SearchSVG } from '@ensdomains/thorin'
       </>
     }
   />
-</DeleteMe>
+</Box>
 ```
 
 ## Clearable
 
 ```tsx live=true
-<DeleteMe>
+<Box display="flex" flexDirection="column" gap="4">
   <Input
     clearable
     label="Clearable input"
@@ -234,18 +234,18 @@ import { Input, SearchSVG } from '@ensdomains/thorin'
     label="Not clearable input"
     placeholder="Foo bar baz"
   />
-</DeleteMe>
+</Box>
 ```
 
 ## Sizes
 
 ```tsx live=true
-<DeleteMe>
+<Box display="flex" flexDirection="column" gap="4">
   <Input label="Small" placeholder="Placeholder" size="small" />
   <Input label="Medium" placeholder="Placeholder" size="medium" />
   <Input label="Large" placeholder="Placeholder" size="large" />
   <Input label="Extra Large" placeholder="Placeholder" size="extraLarge" />
-</DeleteMe>
+</Box>
 ```
 
 ## Hide Label
@@ -280,12 +280,12 @@ import { Input, SearchSVG } from '@ensdomains/thorin'
 ## Icon Width
 
 ```tsx live=true
-<DeleteMe>
+<Box display="flex" flexDirection="column" gap="4">
   <Input
     icon={<div style={{ width: '32px', height: '32px', background: 'red' }} />}
     iconWidth="8"
     label="Custom icon width"
   />
   <Input icon={<FlameSVG />} iconWidth="8" label="Custom icon width" />
-</DeleteMe>
+</Box>
 ```

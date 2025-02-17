@@ -1,0 +1,89 @@
+## Install
+
+```sh
+pnpm i react react-dom @ensdomains/thorin
+```
+
+## Set Up
+
+Wrap the root of your app in a ThemeProvider. Import **ThorinGlobalStyles** and declare it as a child of **ThemeProvider**. Import **lightTheme** or **darkTheme** and pass it to the **ThemeProvider**. Add [Satoshi](https://www.fontshare.com/fonts/satoshi) to your font stack.
+
+In this example we are adding the **lightTheme**.
+
+```tsx
+import React, { useState } from 'react'
+import { ThemeProvider } from '@ensdomains/thorin'
+import '@ensdomains/thorin/dist/thorin.css'
+
+const App = () => {
+  return (
+    <ThemeProvider theme={lightTheme}>
+      {children}
+    </ThemeProvider>
+  )
+}
+```
+
+### Dark Theme
+
+To use the dark theme, import `darkTheme` and pass it to the `ThemeProvider`.
+
+```tsx
+import React, { useState } from 'react'
+import { ThemeProvider, darkTheme } from '@ensdomains/thorin'
+import '@ensdomains/thorin/dist/thorin.css'
+
+const App = () => {
+  return (
+    <ThemeProvider theme={darkTheme}>
+      {children}
+    </ThemeProvider>
+  )
+}
+```
+
+### Custom Themes
+
+To customise the theme, you can change properties on either the `lightTheme` or `darkTheme` objects, or create an entirely new one.
+
+```tsx
+import { ThemeProvider, lightTheme } from '@ensdomains/thorin'
+
+const theme = {
+  ...lightTheme,
+  colors: {
+    ...lightTheme.colors,
+    foreground: 'rgba(255, 255, 255, 0.4)',
+  },
+}
+
+const App = () => {
+  return <ThemeProvider theme={theme}>{children}</ThemeProvider>
+}
+```
+
+## Use Components
+
+```tsx
+import { Button, LockSVG } from '@ensdomains/thorin'
+```
+
+```tsx live=true expand=true
+<Box alignItems="center" gap="4">
+  <div style={{ width: '180px' }}>
+    <Button prefix={LockSVG} variant="primary">
+      Connect Wallet
+    </Button>
+  </div>
+</Box>
+```
+
+## Component Groups
+
+Thorin is organized according to the [`Atomic Design Methodology`](https://atomicdesign.bradfrost.com/chapter-2/).
+
+**Atoms** serve as the foundational building blocks that comprise all our user interfaces. These atoms include basic HTML elements like form labels, inputs, buttons, and others that can’t be broken down any further without ceasing to be functional.
+
+**Molecules** are relatively simple groups of UI elements functioning together as a unit. For example, a form label, search input, and button can join together to create a search form molecule.
+
+**Organisms** are relatively complex UI components composed of groups of molecules and/or atoms and/or other organisms. These organisms form distinct sections of an interface.

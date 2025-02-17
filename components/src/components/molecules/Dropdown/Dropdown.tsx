@@ -1,15 +1,27 @@
 import * as React from 'react'
-import styled, { DefaultTheme, css, useTheme } from 'styled-components'
 import { P, match } from 'ts-pattern'
-import { debounce } from 'lodash'
 
-import { TransitionState } from 'react-transition-state'
+import type { TransitionState } from 'react-transition-state'
 
-import { Button, ButtonProps } from '@/src/components/atoms/Button'
-import { Colors, breakpoints } from '@/src/tokens'
+import type { ButtonProps } from '@/src/components/atoms/Button/Button'
+import { Button } from '@/src/components/atoms/Button/Button'
+import type { Colors } from '@/src/tokens'
+import { breakpoints } from '@/src/tokens'
 
-import { DownChevronSVG, DynamicPopover, ScrollBox } from '../..'
+import { modeVars } from '@/src/css/theme.css'
+
 import { ActionSheet } from './ActionSheet'
+import type { AsProp, BoxProps } from '../../atoms/Box/Box'
+import { Box } from '../../atoms/Box/Box'
+import type { PopoverProps } from '../../atoms/DynamicPopover/DynamicPopover'
+import { DynamicPopover } from '../../atoms/DynamicPopover/DynamicPopover'
+import { debounce } from '@/src/utils/debounce'
+import { DownChevronSVG } from '@/src/icons'
+import { ScrollBox } from '../../atoms/ScrollBox/ScrollBox'
+import * as styles from './styles.css'
+import { clsx } from 'clsx'
+import { assignInlineVars } from '@vanilla-extract/dynamic'
+import type { Color } from '@/src/tokens/color'
 
 type Align = 'left' | 'right'
 type LabelAlign = 'flex-start' | 'flex-end' | 'center'
@@ -19,9 +31,9 @@ export type DropdownItemObject = {
   label: string
   onClick?: (value?: string) => void
   wrapper?: (children: React.ReactNode, key: React.Key) => JSX.Element
-  icon?: React.ReactNode
+  icon?: AsProp
   value?: string
-  color?: Colors
+  color?: Color
   disabled?: boolean
   showIndicator?: boolean | Colors
   href?: string
@@ -31,7 +43,7 @@ export type DropdownItem =
   | DropdownItemObject
   | React.ReactElement<React.PropsWithRef<any>>
 
-type Props = {
+export type DropdownProps = {
   /** An optional custom dropdown button */
   children?: React.ReactNode
   /** The props passed to the button for the dropdown */
@@ -78,18 +90,18 @@ type PropsWithoutIsOpen = {
   setIsOpen?: never
 }
 
-type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
+type NativeDivProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'height' | 'width' | 'color'>
 
 type DropdownMenuProps = {
   items: DropdownItem[]
   setIsOpen: (isOpen: boolean) => void
-  width?: number | string
   shortThrow: boolean
   labelAlign?: LabelAlign
   direction: Direction
   state?: TransitionState['status']
   height?: string | number
-} & NativeDivProps
+} & NativeDivProps &
+PopoverProps
 
 type DropdownMenuContainerProps = {
   $shortThrow: boolean
@@ -97,154 +109,132 @@ type DropdownMenuContainerProps = {
   $state?: TransitionState['status']
 }
 
-type DropdownMenuInnerProps = {
-  $labelAlign?: LabelAlign
-}
-
-const DropdownMenuContainer = styled.div<DropdownMenuContainerProps>(
-  ({ theme, $shortThrow, $direction, $state }) => css`
-    padding: ${theme.space['1.5']};
-    width: 100%;
-
-    ${$direction === 'up' &&
-    css`
-      bottom: 100%;
-    `}
-
-    z-index: 0;
-    opacity: 0;
-
-    ${$state === 'entered' &&
-    css`
-      z-index: 1;
-    `}
-
-    background-color: ${theme.colors.background};
-    border-radius: ${theme.radii['2xLarge']};
-
-    border: 1px solid ${theme.colors.border};
-    transition: all 0.35s cubic-bezier(1, 0, 0.22, 1.6);
-
-    ${$direction === 'down' &&
-    css`
-      margin-top: ${theme.space['1.5']};
-    `}
-    ${$direction === 'up' &&
-    css`
-      margin-bottom: ${theme.space['1.5']};
-    `}
-    transform: translateY(
-      calc(${$direction === 'down' ? '-1' : '1'} * ${theme.space['12']})
-    );
-
-    ${$shortThrow &&
-    css`
-      transform: translateY(
-        calc(${$direction === 'down' ? '-1' : '1'} * ${theme.space['2.5']})
-      );
-    `}
-
-    ${($state === 'entering' || $state === 'entered') &&
-    css`
-      transform: translateY(0);
-      opacity: 1;
-    `}
-  `,
-)
-
-const dropdownInnerStyles = ({
-  theme,
-  $labelAlign,
-}: DropdownMenuInnerProps & { theme: DefaultTheme }) => css`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: ${theme.space['1']};
-  width: 100%;
-
-  ${$labelAlign &&
-  css`
-    & > * {
-      justify-content: ${$labelAlign};
-    }
-  `}
-`
-
-const DropdownMenuInner =
-  styled.div<DropdownMenuInnerProps>(dropdownInnerStyles)
-
-const StyledScrollBox = styled(ScrollBox)<DropdownMenuInnerProps>(
-  dropdownInnerStyles,
-  ({ theme }) => css`
-    padding-right: ${theme.space['1']};
-  `,
-)
+const DropdownMenuBox = React.forwardRef<
+  HTMLElement,
+  BoxProps & DropdownMenuContainerProps
+>(({ $shortThrow, $direction, $state, ...props }, ref) => {
+  const transformVariant = match([$state, $direction, $shortThrow])
+    .with([P.union('entering', 'entered'), P._, P._], () => 'enteringOrEntered' as const)
+    .with(
+      [P._, 'up', true],
+      () => 'upShort' as const,
+    )
+    .with(
+      [P._, 'down', true],
+      () => 'downShort' as const,
+    )
+    .with(
+      [P._, 'up', false],
+      () => 'upLong' as const,
+    )
+    .with(
+      [P._, 'down', false],
+      () => 'downLong' as const,
+    )
+    .exhaustive()
+  return (
+    <Box
+      {...props}
+      className={styles.menu({ transform: transformVariant })}
+      backgroundColor="background"
+      borderColor="border"
+      borderRadius="2xLarge"
+      borderStyle="solid"
+      borderWidth="1x"
+      bottom={$direction === 'up' ? 'full' : 'unset'}
+      marginBottom={$direction === 'up' ? '1.5' : 'unset'}
+      marginTop={$direction === 'down' ? '1.5' : 'unset'}
+      opacity="1"
+      padding="1.5"
+      ref={ref}
+      // transform={match([$state, $direction, $shortThrow])
+      //   .with([P.union('entering', 'entered'), P._, P._], () => `translateY(0)`)
+      //   .with(
+      //     [P._, 'up', true],
+      //     () => `translateY(calc(${commonVars.space['2.5']}))`,
+      //   )
+      //   .with(
+      //     [P._, 'down', true],
+      //     () => `translateY(calc(-1 * ${commonVars.space['2.5']}))`,
+      //   )
+      //   .with(
+      //     [P._, 'up', false],
+      //     () => `translateY(calc(${commonVars.space['12']}))`,
+      //   )
+      //   .with(
+      //     [P._, 'down', false],
+      //     () => `translateY(calc(-1 * ${commonVars.space['12']}))`,
+      //   )
+      //   .exhaustive()}
+      // transition="all .35s cubic-bezier(1, 0, 0.22, 1.6)"
+      width="full"
+      zIndex={1}
+    />
+  )
+})
 
 interface MenuButtonProps {
-  $color?: Colors
+  $color?: Color
+  $icon?: AsProp
   $showIndicator?: boolean | Colors
 }
 
-const MenuButton = styled.button<MenuButtonProps>(
-  ({ theme, $color, disabled, $showIndicator }) => css`
-    align-items: center;
-    cursor: pointer;
-    display: flex;
-    gap: ${theme.space['2']};
-    width: ${theme.space['full']};
-    height: ${theme.space['12']};
-    padding: ${theme.space['3']};
-    border-radius: ${theme.radii.large};
-    font-weight: ${theme.fontWeights.normal};
-    transition-duration: 0.15s;
-    transition-property: color, transform, filter;
-    transition-timing-function: ease-in-out;
-
-    &:active {
-      transform: translateY(0px);
-      filter: brightness(1);
-    }
-
-    color: ${theme.colors[$color || 'textPrimary']};
-
-    svg {
-      min-width: ${theme.space['4']};
-      width: ${theme.space['4']};
-      height: ${theme.space['4']};
-      color: ${theme.colors[$color || 'text']};
-    }
-    ${disabled &&
-    css`
-      color: ${theme.colors.textTertiary};
-      cursor: not-allowed;
-    `}
-
-    justify-content: flex-start;
-
-    &:hover {
-      background: ${theme.colors.greySurface};
-    }
-
-    ${$showIndicator &&
-    css`
-      position: relative;
-      padding-right: ${theme.space['6']};
-      &::after {
-        position: absolute;
-        content: '';
-        top: 50%;
-        right: ${theme.space['3']};
-        transform: translateY(-50%);
-        width: ${theme.space['2']};
-        height: ${theme.space['2']};
-        border-radius: ${theme.radii.full};
-        background: ${theme.colors[
-          typeof $showIndicator === 'boolean' ? 'accent' : $showIndicator
-        ]};
+const MenuButton = React.forwardRef<HTMLElement, BoxProps & MenuButtonProps>(
+  ({ $color, $icon, $showIndicator, disabled, children, className, ...props }, ref) => (
+    <Box
+      {...props}
+      alignItems="center"
+      backgroundColor={{ base: 'backgroundPrimary', hover: 'greySurface' }}
+      borderRadius="large"
+      color={
+        disabled ? 'textDisabled' : $color ? $color : 'textPrimary'
       }
-    `}
-  `,
+      cursor={disabled ? 'not-allowed' : 'pointer'}
+      display="flex"
+      className={clsx(styles.menuButton, className)}
+      fontWeight="normal"
+      gap="2"
+      height="12"
+      justifyContent="flex-start"
+      padding="3"
+      paddingRight={$showIndicator ? '6' : '3'}
+      position="relative"
+      ref={ref}
+      transitionDuration={150}
+      transitionTimingFunction="ease-in-out"
+      width="full"
+
+    >
+      {$icon
+        ? (
+            <Box
+              as={$icon}
+              color={$color || 'textPrimary'}
+              flexBasis="4"
+              flexGrow={0}
+              flexShrink={0}
+              wh="4"
+            />
+          )
+        : null}
+      {children}
+      {$showIndicator && (
+        <Box
+          backgroundColor={
+            typeof $showIndicator === 'boolean'
+              ? 'accent'
+              : $showIndicator
+          }
+          borderRadius="full"
+          position="absolute"
+          right="3"
+          top="1/2"
+          className={styles.menuButtonIndicator}
+          wh="2"
+        />
+      )}
+    </Box>
+  ),
 )
 
 const DropdownChild: React.FC<{
@@ -275,10 +265,13 @@ const DropdownMenu = React.forwardRef<HTMLDivElement, DropdownMenuProps>(
       items,
       setIsOpen,
       shortThrow,
-      labelAlign,
       direction,
       state,
       height,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      placement: _placement,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      mobilePlacement: _mobilePlacement,
       ...props
     },
     ref,
@@ -300,21 +293,16 @@ const DropdownMenu = React.forwardRef<HTMLDivElement, DropdownMenuProps>(
       } = item as DropdownItemObject
 
       const props = {
-        $hasColor: !!color,
         $color: color,
         $showIndicator: showIndicator,
+        $icon: icon,
         disabled,
         onClick: () => {
           onClick?.(value)
           setIsOpen(false)
         },
         as: href ? 'a' : 'button',
-        children: (
-          <>
-            {icon}
-            {label}
-          </>
-        ),
+        children: label,
         href,
       } as const
 
@@ -327,9 +315,9 @@ const DropdownMenu = React.forwardRef<HTMLDivElement, DropdownMenuProps>(
 
     const menuProps = React.useMemo(
       () => ({
-        $shortThrow: shortThrow,
-        $direction: direction,
-        $state: state,
+        '$shortThrow': shortThrow,
+        '$direction': direction,
+        '$state': state,
         ...props,
         'data-testid': 'dropdown-menu',
         ref,
@@ -339,49 +327,60 @@ const DropdownMenu = React.forwardRef<HTMLDivElement, DropdownMenuProps>(
 
     if (height) {
       return (
-        <DropdownMenuContainer {...menuProps}>
-          <StyledScrollBox $labelAlign={labelAlign} style={{ height }}>
+        <DropdownMenuBox {...menuProps}>
+          <ScrollBox paddingRight="1" style={{ height }}>
             {Content}
-          </StyledScrollBox>
-        </DropdownMenuContainer>
+          </ScrollBox>
+        </DropdownMenuBox>
       )
     }
 
     return (
-      <DropdownMenuContainer {...menuProps}>
-        <DropdownMenuInner $labelAlign={labelAlign}>
+      <DropdownMenuBox {...menuProps}>
+        <Box
+          alignItems="center"
+          display="flex"
+          flexDirection="column"
+          gap="1"
+          justifyContent="center"
+          width="full"
+        >
           {Content}
-        </DropdownMenuInner>
-      </DropdownMenuContainer>
+        </Box>
+      </DropdownMenuBox>
     )
   },
 )
 
-const Chevron = styled((props) => <DownChevronSVG {...props} />)<{
-  $open?: boolean
-  $direction: Direction
-}>(
-  ({ theme, $open, $direction }) => css`
-    margin-left: ${theme.space['1']};
-    width: ${theme.space['3']};
-    margin-right: ${theme.space['0.5']};
-    transition-duration: ${theme.transitionDuration['200']};
-    transition-property: all;
-    transition-timing-function: ${theme.transitionTimingFunction['inOut']};
-    transform: rotate(${$direction === 'down' ? '0deg' : '180deg'});
-    display: flex;
+const rotation = (direction: Direction, open: boolean) =>
+  match([direction, open])
+    .with(['down', false], () => 'rotate(0deg)')
+    .with(['down', true], () => 'rotate(180deg)')
+    .with(['up', false], () => 'rotate(180deg)')
+    .with(['up', true], () => 'rotate(0deg)')
+    .exhaustive()
 
-    & > svg {
-      fill: currentColor;
-    }
-    fill: currentColor;
-
-    ${$open &&
-    css`
-      transform: rotate(${$direction === 'down' ? '180deg' : '0deg'});
-    `}
-  `,
-)
+const Chevron = ({
+  $open,
+  $direction,
+  enabled,
+}: { $open?: boolean, $direction: Direction, enabled: boolean } & BoxProps) => {
+  if (!enabled) return null
+  return (
+    <Box
+      as={DownChevronSVG}
+      fill="currentColor"
+      marginLeft="1"
+      marginRight="0.5"
+      transitionDuration={200}
+      transitionProperty="all"
+      transitionTimingFunction="inOut"
+      width="3"
+      className={styles.chevron}
+      style={assignInlineVars({ [styles.chevronTransform]: rotation($direction, !!$open) })}
+    />
+  )
+}
 
 interface DropdownButtonProps {
   children?: React.ReactNode
@@ -408,52 +407,53 @@ const DropdownButton: React.FC<DropdownButtonProps> = ({
   buttonProps,
   indicatorColor,
 }): React.ReactElement<DropdownButtonProps> => {
-  const { colors } = useTheme()
   const hasIndicator = React.useMemo(
-    () => items.some((item) => 'showIndicator' in item && item.showIndicator),
+    () => items.some(item => 'showIndicator' in item && item.showIndicator),
     [items],
   )
   const buttonPropsWithIndicator = React.useMemo(
     () => ({
       ...buttonProps,
       'data-indicator': hasIndicator && !isOpen,
-      style: {
+      'style': {
         ...buttonProps?.style,
-        '--indicator-color': indicatorColor
-          ? colors[indicatorColor]
-          : colors.accent,
+        '--indicator-color':
+          modeVars.color[`$${indicatorColor}` as keyof typeof modeVars.color]
+          || modeVars.color.accent,
       },
-      className: `${buttonProps?.className} indicator-container`,
+      'className': `${buttonProps?.className} indicator-container`,
     }),
-    [buttonProps, hasIndicator, indicatorColor, colors, isOpen],
+    [buttonProps, hasIndicator, indicatorColor, isOpen],
   )
 
   return (
     <>
-      {children ? (
-        React.Children.map(children, (child) => {
-          if (!React.isValidElement(child)) return null
-          return React.cloneElement(child as any, {
-            ...buttonPropsWithIndicator,
-            zindex: '10',
-            pressed: isOpen ? 'true' : undefined,
-            onClick: () => setIsOpen((prev) => !prev),
-            ref: buttonRef,
-          })
-        })
-      ) : (
-        <Button
-          data-testid="dropdown-btn"
-          pressed={isOpen}
-          ref={buttonRef}
-          suffix={chevron && <Chevron $direction={direction} $open={isOpen} />}
-          width="fit"
-          onClick={() => setIsOpen((prev) => !prev)}
-          {...buttonPropsWithIndicator}
-        >
-          {label}
-        </Button>
-      )}
+      {children
+        ? (
+            React.Children.map(children, (child) => {
+              if (!React.isValidElement(child)) return null
+              return React.cloneElement(child as any, {
+                ...buttonPropsWithIndicator,
+                zindex: '10',
+                pressed: isOpen ? 'true' : undefined,
+                onClick: () => setIsOpen(prev => !prev),
+                ref: buttonRef,
+              })
+            })
+          )
+        : (
+            <Button
+              data-testid="dropdown-btn"
+              pressed={isOpen}
+              ref={buttonRef}
+              suffix={() => <Chevron $direction={direction} $open={isOpen} enabled={chevron} />}
+              width="fit"
+              onClick={() => setIsOpen(prev => !prev)}
+              {...buttonPropsWithIndicator}
+            >
+              {label}
+            </Button>
+          )}
     </>
   )
 }
@@ -485,9 +485,9 @@ const useClickOutside = (
   React.useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (
-        !dropdownRef.current?.contains(e.target as Node) &&
-        !buttonRef.current?.contains(e.target as Node) &&
-        !actionSheetRef.current?.contains(e.target as Node)
+        !dropdownRef.current?.contains(e.target as Node)
+        && !buttonRef.current?.contains(e.target as Node)
+        && !actionSheetRef.current?.contains(e.target as Node)
       ) {
         setIsOpen(false)
       }
@@ -495,7 +495,8 @@ const useClickOutside = (
 
     if (isOpen) {
       document.addEventListener('mousedown', handleClickOutside)
-    } else {
+    }
+    else {
       document.removeEventListener('mousedown', handleClickOutside)
     }
     return () => {
@@ -504,13 +505,14 @@ const useClickOutside = (
   }, [dropdownRef, isOpen, setIsOpen, buttonRef, actionSheetRef])
 }
 
-export const Dropdown = ({
+export const Dropdown: React.FC<DropdownProps & (PropsWithIsOpen | PropsWithoutIsOpen)> = ({
   children,
   buttonProps,
+  // eslint-disable-next-line @eslint-react/no-unstable-default-props
   items = [],
   chevron = true,
   align = 'left',
-  menuLabelAlign,
+  // menuLabelAlign,
   width = 150,
   mobileWidth = width,
   shortThrow = false,
@@ -523,7 +525,7 @@ export const Dropdown = ({
   responsive = true,
   cancelLabel = 'Cancel',
   ...props
-}: Props & (PropsWithIsOpen | PropsWithoutIsOpen)) => {
+}) => {
   const dropdownRef = React.useRef<HTMLDivElement | null>(null)
   const buttonRef = React.useRef<HTMLButtonElement | null>(null)
   const actionSheetRef = React.useRef<HTMLDivElement | null>(null)
@@ -554,7 +556,7 @@ export const Dropdown = ({
           { responsive: false, screenSize: P._ },
           {
             responsive: true,
-            screenSize: P.when((screenSize) => screenSize >= breakpoints.sm),
+            screenSize: P.when(screenSize => screenSize >= breakpoints.sm),
           },
           () => (
             <DynamicPopover
@@ -566,17 +568,17 @@ export const Dropdown = ({
               mobilePlacement={direction === 'down' ? 'bottom' : 'top'}
               mobileWidth={mobileWidth}
               placement={direction === 'down' ? 'bottom' : 'top'}
-              popover={
+              popover={(
                 <DropdownMenu
+                  {...props}
                   direction={direction}
                   items={items}
-                  labelAlign={menuLabelAlign}
+                  ref={dropdownRef}
                   setIsOpen={setIsOpen}
                   shortThrow={shortThrow}
-                  {...props}
-                  ref={dropdownRef}
+                  // labelAlign={menuLabelAlign}
                 />
-              }
+              )}
               width={width}
             />
           ),
@@ -584,7 +586,7 @@ export const Dropdown = ({
         .with(
           {
             responsive: true,
-            screenSize: P.when((screenSize) => screenSize < breakpoints.sm),
+            screenSize: P.when(screenSize => screenSize < breakpoints.sm),
           },
           () => (
             <ActionSheet

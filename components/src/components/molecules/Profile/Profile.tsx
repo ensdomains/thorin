@@ -1,17 +1,26 @@
 import * as React from 'react'
-import styled, { css, useTheme } from 'styled-components'
 
-import { Colors, Tokens } from '@/src/tokens'
+import type { Colors } from '@/src/tokens'
+
+import { brightness, translateY } from '@/src/css/utils/common'
+
+import { removeNullishProps } from '@/src/utils/removeNullishProps'
 
 import { getTestId, shortenAddress } from '../../../utils/utils'
 
-import { Typography } from '../..'
-import { Avatar, Props as AvatarProps } from '../../atoms/Avatar'
-import { Dropdown, DropdownItem } from '../Dropdown/Dropdown'
+import type { AvatarProps } from '../../atoms/Avatar/Avatar'
+import { Avatar } from '../../atoms/Avatar/Avatar'
+import type { DropdownItem } from '../Dropdown/Dropdown'
+import { Dropdown } from '../Dropdown/Dropdown'
+import type { BoxProps } from '../../atoms/Box/Box'
+import { Box } from '../../atoms/Box/Box'
+import { Typography } from '../../atoms/Typography/Typography'
+import * as styles from './styles.css'
+import { clsx } from 'clsx'
+import { assignInlineVars } from '@vanilla-extract/dynamic'
+import { commonVars } from '@/src/css/theme.css'
 
 type Size = 'small' | 'medium' | 'large'
-
-type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 
 type BaseProps = {
   /** The url of the avatar icon, or the avatar props to passthrough */
@@ -28,7 +37,7 @@ type BaseProps = {
   size?: Size
   /** The colour of the indicator */
   indicatorColor?: Colors
-} & Omit<NativeDivProps, 'children'>
+} & Omit<BoxProps, 'size'>
 
 interface ContainerProps {
   $size: Size
@@ -36,97 +45,62 @@ interface ContainerProps {
   $open: boolean
 }
 
-const calculateWidth = (space: Tokens['space'], size: Size) => {
-  if (size === 'small') return space['10']
-  if (size === 'medium') return space['45']
-  return space['80']
+const calculateWidth = (size: Size) => {
+  if (size === 'small') return '10'
+  if (size === 'medium') return '45'
+  return '80'
 }
 
-const Container = styled.div<ContainerProps>(
-  ({ theme, $size, $hasDropdown, $open }) => css`
-    align-items: center;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    gap: ${theme.space['2']};
-    border-radius: ${theme.radii['full']};
-    transition-duration: ${theme.transitionDuration['150']};
-    transition-property: color, border-color, background-color, transform,
-      filter;
-    transition-timing-function: ${theme.transitionTimingFunction['inOut']};
-    position: relative;
-    z-index: 10;
-    padding: ${theme.space['1']};
-    background-color: ${theme.colors.backgroundPrimary};
-    width: fit-content;
-
-    ${$hasDropdown &&
-    css`
-      cursor: pointer;
-      &:hover {
-        transform: translateY(-1px);
-        filter: brightness(1.05);
-      }
-    `}
-
-    ${$open &&
-    css`
-      background-color: ${theme.colors.border};
-    `}
-
-    width: ${calculateWidth(theme.space, $size)};
-
-    ${$size === 'small' &&
-    css`
-      height: ${theme.space['10']};
-      padding: 0;
-      border: none;
-    `}
-
-    ${$size === 'medium' &&
-    css`
-      height: ${theme.space['12']};
-      padding-right: ${theme.space['4']};
-    `}
-
-    ${$size === 'large' &&
-    css`
-      width: fit-content;
-      height: ${theme.space['14']};
-      max-width: ${theme.space['80']};
-      padding-right: ${theme.space['5']};
-    `}
-  `,
+const Container = React.forwardRef<HTMLElement, BoxProps & ContainerProps>(
+  ({ $size, $hasDropdown, $open, className, style, ...props }, ref) => (
+    <Box
+      alignItems="center"
+      backgroundColor={$open ? 'border' : 'backgroundPrimary'}
+      borderRadius="full"
+      cursor={$hasDropdown ? 'pointer' : 'unset'}
+      display="flex"
+      flexDirection="row"
+      gap="2"
+      justifyContent="flex-start"
+      position="relative"
+      ref={ref}
+      transitionDuration={150}
+      transitionTimingFunction="inOut"
+      zIndex={10}
+      {...props}
+      className={clsx(styles.variants({ size: $size }), className)}
+      style={{ ...style, ...assignInlineVars({ [styles.hasDropdownBrightness]: brightness($hasDropdown ? 1.05 : 1) }), [styles.hasDropdownTransform]: translateY($hasDropdown ? -1 : 0) }}
+    />
+  ),
 )
 
-const AvatarContainer = styled.div<{ $size?: 'small' | 'medium' | 'large' }>(
-  ({ theme, $size }) => css`
-    width: ${theme.space['10']};
-    flex: 0 0 ${theme.space['10']};
-    ${$size === 'large' &&
-    css`
-      width: ${theme.space['12']};
-      flex: 0 0 ${theme.space['12']};
-    `}
-  `,
+const AvatarContainer = ({ $size, ...props }: BoxProps & { $size: Size }) => (
+  <Box
+    {...props}
+    flexBasis={$size === 'large' ? '12' : '10'}
+    flexGrow={0}
+    flexShrink={0}
+    width={$size === 'large' ? '12' : '10'}
+  />
 )
 
-const ProfileInnerContainer = styled.div<{
-  $size?: 'small' | 'medium' | 'large'
-}>(
-  ({ theme, $size }) => css`
-    display: ${$size === 'small' ? 'none' : 'block'};
-    min-width: ${theme.space['none']};
-  `,
-)
+const ProfileInnerContainer = ({
+  $size,
+  ...props
+}: BoxProps & { $size: Size }) => {
+  return (
+    <Box
+      {...props}
+      data-testid="profile-inner-container"
+      display={$size === 'small' ? 'none' : 'block'}
+      flex={1}
+      minWidth="none"
+      overflow="hidden"
+    />
+  )
+}
 
-const ReducedLineText = styled(Typography)(
-  () => css`
-    line-height: initial;
-  `,
-)
-
-const ProfileInner = ({ size, avatar, address, ensName }: Props) => (
+const ProfileInner = ({ size = 'medium', avatar, address, ensName }: ProfileProps) => (
   <>
     <AvatarContainer $size={size}>
       <Avatar
@@ -135,28 +109,28 @@ const ProfileInner = ({ size, avatar, address, ensName }: Props) => (
       />
     </AvatarContainer>
     <ProfileInnerContainer $size={size}>
-      <ReducedLineText
+      <Typography
+        as="h3"
         color="text"
         data-testid="profile-title"
         ellipsis
         fontVariant={size === 'large' ? 'headingFour' : 'bodyBold'}
-        forwardedAs="h3"
       >
-        {ensName ||
-          shortenAddress(
-            address,
-            size === 'large' ? 30 : 10,
-            size === 'large' ? 10 : 5,
-            size === 'large' ? 10 : 5,
-          )}
-      </ReducedLineText>
+        {ensName
+        || shortenAddress(
+          address,
+          size === 'large' ? 30 : 10,
+          size === 'large' ? 10 : 5,
+          size === 'large' ? 10 : 5,
+        )}
+      </Typography>
     </ProfileInnerContainer>
   </>
 )
 
-type Props = BaseProps
+export type ProfileProps = BaseProps
 
-export const Profile = ({
+export const Profile: React.FC<ProfileProps> = ({
   size = 'medium',
   avatar,
   dropdownItems,
@@ -165,14 +139,13 @@ export const Profile = ({
   alignDropdown = 'left',
   indicatorColor,
   ...props
-}: Props) => {
-  const { space } = useTheme()
+}) => {
   const [isOpen, setIsOpen] = React.useState(false)
 
   if (dropdownItems) {
     return (
       <Dropdown
-        width={calculateWidth(space, size)}
+        width={commonVars.space[calculateWidth(size)]}
         {...{
           indicatorColor,
           items: dropdownItems,
@@ -183,11 +156,11 @@ export const Profile = ({
         }}
       >
         <Container
-          {...props}
           $hasDropdown
           $open={isOpen}
           $size={size}
           onClick={() => setIsOpen(!isOpen)}
+          {...removeNullishProps(props)}
         >
           <ProfileInner {...{ size, avatar, address, ensName }} />
         </Container>
@@ -197,12 +170,10 @@ export const Profile = ({
 
   return (
     <Container
-      {...{
-        ...props,
-        'data-testid': getTestId(props, 'profile'),
-      }}
       $open={isOpen}
       $size={size}
+      data-testid={getTestId(props, 'profile')}
+      {...removeNullishProps(props)}
     >
       <ProfileInner {...{ size, avatar, address, ensName }} />
     </Container>

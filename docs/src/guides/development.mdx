@@ -5,12 +5,12 @@ description: Guidelines for working on thorin
 
 ## Set Up
 
-Clone repository, install dependencies, and run the dev script to start the docs and playroom sites.
+Clone repository, install dependencies, and run the dev script to start the docs.
 
 ```bash
 gh repo clone @ensdomains/thorin
-yarn
-yarn dev
+cd thorin
+pnpm i
 ```
 
 ## Component Groups
@@ -60,14 +60,6 @@ The component snippets file should have the same name as the react component wit
 
 Add the component to the module export test located at _components/src/index.test.tsx_.
 
-## Scaffolding Components
-
-A generator script is available that will perform items 1 - 6 of [Adding Components](#adding-components). **Adding the component to the module export test must be done manually.** Access the script using:
-
-```bash
-yarn gen:component
-```
-
 ## Style Guidelines
 
 ### Components
@@ -80,18 +72,6 @@ Use **functional components** with hooks and **avoid using inline styles**.
 const Component = () => <div />
 
 Component.displayName = 'Component'
-```
-
-### Styled Components
-
-When using styled components **prefix property names with $** to avoid passing component props directly to styled components.
-
-```tsx
-const Container = styled.div<{
-  $property: string
-}>`
-  ${({ $property }) => ``}
-`
 ```
 
 ### Snippets
@@ -120,23 +100,13 @@ import { Field } from '@ensdomains/thorin'
 For updates to components to appear in files in the _docs/_ folder, you will first need to **build the components** using:
 
 ```bash
-yarn build:components
+pnpm build:components
 ```
-
-## Adding Icons
-
-Add a `.svg` file in pascal case to the `icons` folder and run:
-
-```bash
-yarn gen:icons
-```
-
-All files in the `icons` directory are automatically converted to React components and exported for use. Generated icons should follow a 24x24 bounding box.
 
 ## Test
 
 ```bash
-yarn test
+pnpm test
 ```
 
 ## Build
@@ -144,13 +114,13 @@ yarn test
 To build the comopnents in the components library use:
 
 ```bash
-yarn build:components
+pnpm build:components
 ```
 
 To build the entire project use:
 
 ```bash
-yarn build
+pnpm build
 ```
 
 ## Publishing New Versions
@@ -159,11 +129,11 @@ yarn build
 
 ## Common Issues
 
-### My component did not update in my mdx file or playroom.?
+### My component did not update in my mdx file?
 
-Update the component using `yarn build:component` and reload the page after the script has completed.
+Update the component using `pnpm build:component` and reload the page after the script has completed.
 
-### My snippet looks malformed or doesn't work in playroom
+### My snippet looks malformed
 
 Check if displayName has been added to component. If not, then you may need to conver the snippet to a string. See the [snippets section](#snippets) for more details.
 

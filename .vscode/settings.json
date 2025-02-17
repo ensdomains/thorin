@@ -1,25 +1,14 @@
 {
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",
-    "source.fixAll.stylelint": "never",
+    "source.fixAll.stylelint": "explicit",
     "source.organizeImports": "never"
   },
-  "editor.formatOnSave": true,
-  "eslint.options": {
-    "extensions": [".js", ".json", ".mdx", ".ts", ".tsx"]
-  },
-  "eslint.validate": [
-    "javascript",
-    "json",
-    "mdx",
-    "typescript",
-    "typescriptreact"
-  ],
-  "stylelint.configFile": ".stylelintrc.json",
-  "stylelint.validate": ["css", "typescriptreact"],
-  "eslint.packageManager": "yarn",
-  "[typescriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "svg.preview.background": "custom"
+  "editor.formatOnSave": false,
+  "eslint.useFlatConfig": true,
+  "stylelint.configFile": "stylelint.config.mjs",
+  "svg.preview.background": "custom",
+  "prettier.enable": false,
+  "stylelint.configBasedir": ".",
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

@@ -1,68 +1,32 @@
 import * as React from 'react'
-import styled, { css, keyframes } from 'styled-components'
 
-import { Context } from '../../molecules/SkeletonGroup'
+import classNames from 'clsx'
 
-interface ContainerProps {
-  $active?: boolean
-}
+import * as styles from './styles.css'
 
-const shine = keyframes`
-  to {
-    background-position-x: -200%;
-  }
-`
+import { SkeletonGroupContext } from '../../molecules/SkeletonGroup/SkeletonGroup'
+import type { BoxProps } from '../Box/Box'
+import { Box } from '../Box/Box'
 
-const Container = styled.div<ContainerProps>(
-  ({ theme, $active }) => css`
-    ${$active &&
-    css`
-      background: ${theme.colors.greyLight}
-        linear-gradient(
-          110deg,
-          ${theme.colors.greyLight} 8%,
-          ${theme.colors.greySurface} 18%,
-          ${theme.colors.greyLight} 33%
-        );
-      background-size: 200% 100%;
-      animation: 1.5s ${shine} infinite linear;
-      border-radius: ${theme.radii.medium};
-      width: ${theme.space.fit};
-    `}
-  `,
-)
-
-const ContainerInner = styled.span<{ $active?: boolean }>(
-  ({ $active }) => css`
-    display: block;
-    ${$active
-      ? css`
-          visibility: hidden;
-          * {
-            visibility: hidden !important;
-          }
-        `
-      : ``}
-  `,
-)
-
-type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
-
-type Props = {
-  /** An alternative element type to render the component as.*/
+export type SkeletonProps = {
+  /** An alternative element type to render the component as. */
   as?: 'span'
   /** If true, hides the content and shows the skeleton style. */
   loading?: boolean
-} & NativeDivProps
+} & BoxProps
 
-export const Skeleton = ({ as, children, loading, ...props }: Props) => {
-  const groupLoading = React.useContext(Context)
+export const Skeleton: React.FC<SkeletonProps> = ({ as, children, loading, ...props }) => {
+  const groupLoading = React.useContext(SkeletonGroupContext)
   const active = loading ?? groupLoading
 
   return (
-    <Container {...props} $active={active} as={as}>
-      <ContainerInner $active={active}>{children}</ContainerInner>
-    </Container>
+    <Box
+      {...props}
+      as={as}
+      className={classNames({ [styles.animations]: active })}
+    >
+      <Box visibility={active ? 'hidden' : 'visible'}>{children}</Box>
+    </Box>
   )
 }
 

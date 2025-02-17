@@ -1,18 +1,17 @@
 import * as React from 'react'
-import styled, { css } from 'styled-components'
 
-import {
-  WithColorStyle,
-  getColorStyle,
-} from '@/src/types/withColorOrColorStyle'
+import * as styles from './styles.css'
 
-import { Field } from '../..'
-import { FieldBaseProps } from '../../atoms/Field'
+import type { FieldBaseProps } from '../../atoms/Field/Field'
+import { Field } from '../../atoms/Field/Field'
 import { getTestId } from '../../../utils/utils'
-
+import type { BoxProps } from '../../atoms/Box/Box'
+import { Box } from '../../atoms/Box/Box'
+import type { Color } from '@/src/tokens/color'
+import { clsx } from 'clsx'
 type NativeInputProps = React.InputHTMLAttributes<HTMLInputElement>
 
-type Props = {
+export type RadioButtonProps = {
   /** A string or component that represents the input item. */
   label: React.ReactNode
   /** The name attribute for input elements. */
@@ -36,74 +35,65 @@ type Props = {
   /** The handler for blur events. */
   onBlur?: NativeInputProps['onBlur']
 } & Omit<FieldBaseProps, 'labelRight'> &
-  Omit<
-    NativeInputProps,
-    'children' | 'value' | 'defaultValue' | 'aria-invalid' | 'type' | 'role'
-  > &
-  WithColorStyle
+Omit<
+  NativeInputProps,
+  | 'children'
+  | 'value'
+  | 'defaultValue'
+  | 'aria-invalid'
+  | 'type'
+  | 'role'
+  | 'color'
+  | 'height'
+  | 'width'
+> & { color?: Color }
 
-const Input = styled.input<{
-  $colorStyle: NonNullable<Props['colorStyle']>
-}>(
-  ({ theme, $colorStyle }) => css`
-    cursor: pointer;
-    font: inherit;
-    border-radius: 50%;
-    display: grid;
-    place-content: center;
-    transition: transform 150ms ease-in-out;
-    width: ${theme.space['5']};
-    flex: 0 0 ${theme.space['5']};
-    height: ${theme.space['5']};
-    background-color: ${theme.colors.border};
-
-    &::before {
-      content: '';
-      width: ${theme.space['3']};
-      height: ${theme.space['3']};
-      border-radius: 50%;
-      transition: all 150ms ease-in-out;
-      background: ${theme.colors.border};
-      background-size: 100% 100%;
-      background-position: center;
-    }
-
-    &:checked::before {
-      background: ${getColorStyle($colorStyle, 'background')};
-    }
-
-    &:disabled {
-      cursor: not-allowed;
-    }
-
-    &:hover::before {
-      background: ${theme.colors.greyBright};
-    }
-
-    &:disabled::before {
-      background: ${theme.colors.border};
-    }
-
-    &:checked:hover::before {
-      background: ${getColorStyle($colorStyle, 'hover')};
-    }
-
-    &:disabled:checked::before,
-    &:disabled:checked:hover::before {
-      background: ${theme.colors.greyPrimary};
-    }
-
-    &:hover {
-      transform: translateY(-1px);
-    }
-
-    &:disabled:hover {
-      transform: initial;
-    }
-  `,
+const Mark = ({ $color, disabled, className, ...props }: BoxProps & { $color: Color }) => (
+  <Box
+    {...props}
+    backgroundColor={disabled ? 'greyPrimary' : $color}
+    borderRadius="full"
+    left="1/2"
+    pointerEvents="none"
+    position="absolute"
+    top="1/2"
+    transitionProperty="all"
+    transitionDuration={150}
+    transitionTimingFunction="ease-in-out"
+    wh="3"
+    className={clsx(styles.mark, className)}
+  />
 )
 
-export const RadioButton = React.forwardRef(
+const Input = React.forwardRef<HTMLElement, BoxProps & { $color: Color }>(
+  ({ $color, className, ...props }, ref) => (
+    <Box position="relative" wh="5">
+      <Box
+        {...props}
+        as="input"
+        backgroundColor="border"
+        borderRadius="full"
+        cursor={{ base: 'pointer', disabled: 'not-allowed' }}
+        display="grid"
+        flexBasis="5"
+        flexGrow={0}
+        flexShrink={0}
+        placeContent="center"
+        ref={ref}
+        role="radio"
+        className={clsx(styles.input, className)}
+        transitionProperty="all"
+        transitionDuration={150}
+        transitionTimingFunction="ease-in-out"
+        type="radio"
+        wh="5"
+      />
+      <Mark $color={$color} />
+    </Box>
+  ),
+)
+
+export const RadioButton = React.forwardRef<HTMLInputElement, RadioButtonProps>(
   (
     {
       description,
@@ -120,13 +110,13 @@ export const RadioButton = React.forwardRef(
       value,
       checked,
       width,
-      colorStyle = 'accentPrimary',
+      color = 'accent',
       onBlur,
       onChange,
       onFocus,
       ...props
-    }: Props,
-    ref: React.Ref<HTMLInputElement>,
+    },
+    ref,
   ) => {
     const defaultRef = React.useRef<HTMLInputElement>(null)
     const inputRef = (ref as React.RefObject<HTMLInputElement>) || defaultRef
@@ -147,17 +137,15 @@ export const RadioButton = React.forwardRef(
         }}
       >
         <Input
-          $colorStyle={colorStyle}
-          {...{
-            ...props,
-            'aria-invalid': error ? true : undefined,
-            'aria-selected': checked ? true : undefined,
-            'data-testid': getTestId(props, 'radio'),
-            type: 'radio',
-            role: 'radio',
-          }}
+          {...props}
+          $color={color}
+          aria-invalid={error ? true : undefined}
+          aria-selected={checked ? true : undefined}
           checked={checked}
+          className={styles.radio}
+          data-testid={getTestId(props, 'radio')}
           disabled={disabled}
+          id={id}
           name={name}
           ref={inputRef}
           tabIndex={tabIndex}

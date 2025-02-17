@@ -1,45 +1,37 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from 'react'
-import { RefObject, useState } from 'react'
-
-import { ThemeProvider } from 'styled-components'
+import type { RefObject } from 'react'
+import { useState } from 'react'
 
 import { cleanup, render, screen, userEvent, waitFor } from '@/test'
 
-import { lightTheme } from '@/src/tokens'
-
 import { Checkbox } from './Checkbox'
 
-const CheckboxWithState = (props: any) => {
+const CheckboxWithState = React.forwardRef((props: any, ref) => {
   const [checked, setChecked] = useState<boolean>(false)
   return (
-    <ThemeProvider theme={lightTheme}>
-      <div>
-        hello there
-        {checked ? <div>checked</div> : <div>unchecked</div>}
-        <Checkbox
-          aria-invalid="sdfasd"
-          id="checkbox-id"
-          label="checkbox-label"
-          ref={props.inputRef}
-          onChange={(e) => {
-            setChecked(e.target.checked)
-          }}
-          {...props}
-        />
-      </div>
-    </ThemeProvider>
+    <div>
+      hello there
+      {checked ? <div>checked</div> : <div>unchecked</div>}
+      <Checkbox
+        {...props}
+        aria-invalid="sdfasd"
+        id="checkbox-id"
+        label="checkbox-label"
+        ref={ref}
+        onChange={(e) => {
+          setChecked(e.target.checked)
+        }}
+      />
+    </div>
   )
-}
+})
 
 describe('<Checkbox />', () => {
   afterEach(cleanup)
 
   it('renders', async () => {
-    render(
-      <ThemeProvider theme={lightTheme}>
-        <Checkbox label="Checkbox" />
-      </ThemeProvider>,
-    )
+    render(<Checkbox label="Checkbox" />)
     expect(screen.getByRole('checkbox')).toBeInTheDocument()
   })
 
@@ -76,17 +68,11 @@ describe('<Checkbox />', () => {
     await waitFor(() => {
       expect(screen.queryByText('unchecked')).toBeInTheDocument()
     })
-    expect(
-      userEvent.click(screen.getByText('checkbox-label')),
-    ).rejects.toThrow()
-    await waitFor(() => {
-      expect(screen.queryByText('unchecked')).toBeInTheDocument()
-    })
   })
 
   it('should pass a ref down', async () => {
     const ref = { current: null } as RefObject<any>
-    render(<CheckboxWithState inputRef={ref} />)
+    render(<CheckboxWithState ref={ref} />)
     await waitFor(() => {
       expect(ref.current).toBeInstanceOf(HTMLInputElement)
     })

@@ -18,10 +18,10 @@ import { Tag } from '@ensdomains/thorin'
 ## Sizes
 
 ```tsx live=true
-<DeleteMe alignItems="center" flexDirection="row">
+<Box display="flex" alignItems="center" flexDirection="row" gap="4">
   <Tag size="medium">Medium</Tag>
   <Tag size="small">Small</Tag>
-</DeleteMe>
+</Box>
 ```
 
 ## Color Style
@@ -29,7 +29,7 @@ import { Tag } from '@ensdomains/thorin'
 ### Secondary
 
 ```tsx live=true
-<DeleteMe flexDirection="row" flexWrap="wrap">
+<Box display="flex" flexDirection="row" flexWrap="wrap" gap="4">
   <Tag colorStyle="blueSecondary">Blue</Tag>
   <Tag colorStyle="indigoSecondary">Indigo</Tag>
   <Tag colorStyle="purpleSecondary">Purple</Tag>
@@ -38,16 +38,14 @@ import { Tag } from '@ensdomains/thorin'
   <Tag colorStyle="orangeSecondary">Orange</Tag>
   <Tag colorStyle="yellowSecondary">Yellow</Tag>
   <Tag colorStyle="greenSecondary">Green</Tag>
-  <Tag colorStyle="tealSecondary">Teal</Tag>
   <Tag colorStyle="greySecondary">Grey</Tag>
-  <Tag colorStyle="background">Background</Tag>
-</DeleteMe>
+</Box>
 ```
 
 ### Primary
 
 ```tsx live=true
-<DeleteMe flexDirection="row" flexWrap="wrap">
+<Box display="flex" flexDirection="row" flexWrap="wrap" gap="4">
   <Tag colorStyle="bluePrimary">Blue</Tag>
   <Tag colorStyle="indigoPrimary">Indigo</Tag>
   <Tag colorStyle="purplePrimary">Purple</Tag>
@@ -56,19 +54,8 @@ import { Tag } from '@ensdomains/thorin'
   <Tag colorStyle="orangePrimary">Orange</Tag>
   <Tag colorStyle="yellowPrimary">Yellow</Tag>
   <Tag colorStyle="greenPrimary">Green</Tag>
-  <Tag colorStyle="tealPrimary">Teal</Tag>
   <Tag colorStyle="greyPrimary">Grey</Tag>
-</DeleteMe>
-```
-
-```tsx live=true
-<DeleteMe flexDirection="row" flexWrap="wrap">
-  <Tag colorStyle="blueGradient">Blue</Tag>
-  <Tag colorStyle="purpleGradient">Purple</Tag>
-  <Tag colorStyle="redGradient">Red</Tag>
-  <Tag colorStyle="greenGradient">Green</Tag>
-  <Tag colorStyle="greyGradient">Grey</Tag>
-</DeleteMe>
+</Box>
 ```
 
 ## Hover

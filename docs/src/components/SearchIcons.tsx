@@ -1,14 +1,15 @@
 import * as React from 'react'
-import styled, { css } from 'styled-components'
 
+import type { BoxProps } from '@ensdomains/thorin'
 import {
   Card,
   Input,
   MagnifyingGlassSimpleSVG,
   Typography,
-  mq,
+  Box,
 } from '@ensdomains/thorin'
 import * as Components from '@ensdomains/thorin'
+import { iconGrid } from './SearchIcons.css'
 
 const icons = Object.entries(Components)
   .filter(([k]) => k.includes('SVG'))
@@ -23,91 +24,53 @@ const initialState: State = {
   query: '',
 }
 
-const FlexContainer = styled.div(
-  ({ theme }) => css`
-    gap: ${theme.space['8']};
-
-    & > div:first-child {
-      margin-bottom: ${theme.space['8']};
-    }
-  `,
+const FlexContainer = (props: BoxProps) => (
+  <Box {...props} gap="8" display="flex" flexDirection="column" />
 )
 
-const IconGrid = styled.div(
-  ({ theme }) => css`
-    display: grid;
-    gap: ${theme.space['4']};
-    grid-template-columns: repeat(auto-fit, minmax(${theme.space['18']}, 1fr));
-    ${mq.md.min(css`
-      grid-template-columns: repeat(
-        auto-fit,
-        minmax(${theme.space['20']}, 1fr)
-      );
-    `)}
-  `,
+const IconGrid = ({ children }: { children: React.ReactNode }) => (
+  <Box
+    display="grid"
+    gap="4"
+    className={iconGrid}
+  >
+    {children}
+  </Box>
 )
 
-const IconGridInner = styled.div(
-  ({ theme }) => css`
-    max-width: ${theme.space['18']};
-
-    ${mq.md.min(css`
-      max-width: ${theme.space['20']};
-    `)}
-  `,
+const IconGridInner = (props: BoxProps) => (
+  <Box {...props} maxWidth={{ base: '18', md: '20' }} />
 )
 
-const IconGridFlex = styled.div(
-  ({ theme }) => css`
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    gap: ${theme.space['2']};
-
-    cursor: pointer;
-  `,
+const IconGridFlex = (props: BoxProps) => (
+  <Box
+    {...props}
+    display="flex"
+    alignItems="center"
+    flexDirection="column"
+    justifyContent="center"
+    gap="2"
+    cursor="pointer"
+  />
 )
 
-const ComponentContainer = styled.div(
-  ({ theme }) => css`
-    background-color: ${theme.colors.greySurface};
-    border-radius: ${theme.radii['large']};
-    color: ${theme.colors.grey};
-    padding: ${theme.space['4']};
-    width: ${theme.space['max']};
-    transition-duration: ${theme.transitionDuration['150']};
-    transition-property: box-shadow;
-    transition-timing-function: ${theme.transitionTimingFunction['inOut']};
-
-    box-shadow: ${theme.boxShadows['1']};
-
-    &:hover {
-      box-shadow: ${theme.boxShadows['1']};
-    }
-
-    &:active {
-      box-shadow: ${theme.boxShadows['0.5']};
-    }
-  `,
+const ComponentContainer = ({ children }: { children: React.ReactNode }) => (
+  <Box
+    backgroundColor="greySurface"
+    borderRadius="large"
+    color="grey"
+    padding="4"
+    width="max"
+    transitionDuration={150}
+    transitionProperty="box-shadow"
+    transitionTimingFunction="inOut"
+  >
+    {children}
+  </Box>
 )
 
-const IconNameContainer = styled.div(
-  ({ theme }) => css`
-    width: ${theme.space['14']};
-
-    ${mq.md.min(css`
-      width: ${theme.space['18']};
-    `)}
-  `,
-)
-
-const IconName = styled(Typography)(
-  ({ theme }) => css`
-    text-align: center;
-    size: ${theme.fontSizes.small};
-    color: ${theme.colors.text};
-  `,
+const IconNameContainer = (props: BoxProps) => (
+  <Box {...props} width={{ base: '14', md: '18' }} />
 )
 
 export const SearchIcons = () => {
@@ -115,43 +78,50 @@ export const SearchIcons = () => {
 
   const filteredIcons = React.useMemo(() => {
     if (!state.query?.length) return icons
-    return icons.filter((x) =>
+    return icons.filter(x =>
       x.name.toLowerCase().includes(state.query.toLowerCase()),
     )
   }, [state.query])
 
   return (
-    <Card>
-      <FlexContainer>
-        <Input
-          hideLabel
-          label="Search icons"
-          placeholder="Search icons"
-          prefix={<MagnifyingGlassSimpleSVG />}
-          value={state.query}
-          onChange={(event) =>
-            setState((x) => ({ ...x, query: event.target.value }))
-          }
-        />
+    <Box my="6">
+      <Card>
+        <FlexContainer>
+          <Input
+            hideLabel
+            label="Search icons"
+            placeholder="Search icons"
+            prefix={<MagnifyingGlassSimpleSVG width="16" />}
+            value={state.query}
+            onChange={event =>
+              setState(x => ({ ...x, query: event.target.value }))}
+          />
 
-        <IconGrid>
-          {filteredIcons.map((x) => (
-            <IconGridInner
-              key={x.name}
-              onClick={() => navigator.clipboard.writeText(x.name)}
-            >
-              <IconGridFlex>
-                <ComponentContainer>
-                  {React.createElement(x.Component as any)}
-                </ComponentContainer>
-                <IconNameContainer>
-                  <IconName ellipsis>{x.name.replace('SVG', '')}</IconName>
-                </IconNameContainer>
-              </IconGridFlex>
-            </IconGridInner>
-          ))}
-        </IconGrid>
-      </FlexContainer>
-    </Card>
+          <IconGrid>
+            {filteredIcons.map(x => (
+              <IconGridInner
+                key={x.name}
+                onClick={() => navigator.clipboard.writeText(x.name)}
+              >
+                <IconGridFlex>
+                  <ComponentContainer>
+                    {React.createElement(x.Component as React.FunctionComponent<React.SVGAttributes<SVGSVGElement>>, { height: 16, width: 16 })}
+                  </ComponentContainer>
+                  <IconNameContainer>
+                    <Typography
+                      ellipsis
+                      fontVariant="smallBold"
+                      textAlign="center"
+                    >
+                      {x.name.replace('SVG', '')}
+                    </Typography>
+                  </IconNameContainer>
+                </IconGridFlex>
+              </IconGridInner>
+            ))}
+          </IconGrid>
+        </FlexContainer>
+      </Card>
+    </Box>
   )
 }

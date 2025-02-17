@@ -1,88 +1,41 @@
 import * as React from 'react'
-import styled, { css } from 'styled-components'
 
-import { mq } from '@/src/utils/responsiveHelpers'
-import { WithColor, getColor } from '@/src/types/withColorOrColorStyle'
+import type { BoxProps } from '../Box/Box'
+import { Box } from '../Box/Box'
+import { clsx } from 'clsx'
+import * as styles from './Heading.css'
+import type { Color } from '@/src/tokens/color'
 
 interface HeadingContainerProps {
-  $textAlign?: React.CSSProperties['textAlign']
-  $textTransform: React.CSSProperties['textTransform']
+  textAlign?: React.CSSProperties['textAlign']
+  textTransform: React.CSSProperties['textTransform']
   $level: '1' | '2'
-  $responsive?: boolean
-  $color: NonNullable<WithColor['color']>
+  $color: NonNullable<Color>
 }
 
-const HeadingContainer = styled.div<HeadingContainerProps>(
-  ({ theme, $textAlign, $textTransform, $level, $responsive, $color }) => css`
-    ${$textAlign
-      ? css`
-          text-align: ${$textAlign};
-        `
-      : ``}
-    ${$textTransform
-      ? css`
-          text-transform: ${$textTransform};
-        `
-      : ``}
-
-  ${() => {
-      switch ($level) {
-        case '1':
-          return css`
-            font-size: ${theme.fontSizes.headingOne};
-            font-weight: ${theme.fontWeights.extraBold};
-            line-height: ${theme.lineHeights.headingOne};
-          `
-        case '2':
-          return css`
-            font-size: ${theme.fontSizes.headingTwo};
-            font-weight: ${theme.fontWeights.bold};
-            line-height: ${theme.lineHeights.headingTwo};
-          `
-        default:
-          return ``
-      }
-    }}
-  
-  ${() => {
-      if ($responsive) {
-        switch ($level) {
-          case '1':
-            return css`
-              font-size: ${theme.fontSizes.headingTwo};
-              line-height: ${theme.lineHeights.headingTwo};
-              ${mq.lg.min(css`
-                font-size: ${theme.fontSizes.headingOne};
-                line-height: ${theme.lineHeights.headingOne};
-              `)}
-            `
-          case '2':
-            return css`
-              font-size: ${theme.fontSizes.extraLarge};
-              line-height: ${theme.lineHeights.extraLarge};
-              ${mq.sm.min(css`
-                font-size: ${theme.fontSizes.headingTwo};
-                line-height: ${theme.lineHeights.headingTwo};
-              `)}
-            `
-          default:
-            return ``
-        }
-      }
-    }}
-
-  ${$color &&
-    css`
-      color: ${getColor($color)};
-    `}
-  
-  font-family: ${theme.fonts['sans']};
-  `,
+const ContainerBox = React.forwardRef<
+  HTMLElement,
+  BoxProps & HeadingContainerProps
+>(
+  (
+    { textAlign, textTransform, $level, $color, className, ...props },
+    ref,
+  ) => (
+    <Box
+      color={$color}
+      fontFamily="sans"
+      ref={ref}
+      textAlign={textAlign}
+      textTransform={textTransform}
+      {...props}
+      className={clsx(styles.heading({ level: $level }), className)}
+    />
+  ),
 )
 
 type NativeDivAttributes = React.HTMLAttributes<HTMLDivElement>
 
-type Props = {
+export type HeadingProps = {
   /** CSS property of textAlign */
   align?: React.CSSProperties['textAlign']
   /** JSX element to render. */
@@ -92,13 +45,12 @@ type Props = {
   id?: NativeDivAttributes['id']
   /** CSS property of text-transform */
   transform?: React.CSSProperties['textTransform']
-  /**  */
-  responsive?: boolean
   level?: '1' | '2'
-} & WithColor &
-  Omit<NativeDivAttributes, 'color'>
+  color?: Color
+} &
+Omit<NativeDivAttributes, 'color'>
 
-export const Heading = React.forwardRef(
+export const Heading = React.forwardRef<HTMLHeadingElement | HTMLLegendElement, HeadingProps>(
   (
     {
       align,
@@ -106,26 +58,24 @@ export const Heading = React.forwardRef(
       as = 'h1',
       id,
       level = '2',
-      responsive,
       transform,
       color = 'text',
       ...props
-    }: Props,
-    ref: React.ForwardedRef<HTMLDivElement>,
+    },
+    ref,
   ) => (
-    <HeadingContainer
+    <ContainerBox
       {...props}
       $color={color}
       $level={level}
-      $responsive={responsive}
-      $textAlign={align}
-      $textTransform={transform}
+      textAlign={align}
+      textTransform={transform}
       as={as}
       id={id}
       ref={ref}
     >
       {children}
-    </HeadingContainer>
+    </ContainerBox>
   ),
 )
 

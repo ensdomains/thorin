@@ -1,15 +1,14 @@
 import * as React from 'react'
-import { TransitionState, useTransition } from 'react-transition-state'
+import type { TransitionState } from 'react-transition-state'
+import { useTransitionState } from 'react-transition-state'
 
-import { Portal } from '../..'
+import { Portal } from '../../atoms/Portal/Portal'
 
-import { BackdropSurface } from '../../atoms/BackdropSurface'
+import { BackdropSurface } from '../../atoms/BackdropSurface/BackdropSurface'
 
-type Props = {
+export type BackdropProps = {
   /** A function that renders the children nodes */
-  children: (renderProps: {
-    state: TransitionState['status']
-  }) => React.ReactNode
+  children: (renderProps: { state: TransitionState }) => React.ReactNode
   /** An element that provides backdrop styling. Defaults to BackdropSurface component. */
   surface?: React.ElementType
   /** A event fired when the background is clicked. */
@@ -23,7 +22,7 @@ type Props = {
   renderCallback?: () => void
 }
 
-export const Backdrop = ({
+export const Backdrop: React.FC<BackdropProps> = ({
   children,
   surface,
   onDismiss,
@@ -31,8 +30,8 @@ export const Backdrop = ({
   className = 'modal',
   open,
   renderCallback,
-}: Props) => {
-  const [{ status: state }, toggle] = useTransition({
+}) => {
+  const [state, toggle] = useTransitionState({
     timeout: {
       enter: 50,
       exit: 300,
@@ -40,6 +39,7 @@ export const Backdrop = ({
     mountOnEnter: true,
     unmountOnExit: true,
   })
+
   const boxRef = React.useRef<HTMLDivElement | null>(null)
   const Background = surface || BackdropSurface
 
@@ -57,48 +57,50 @@ export const Backdrop = ({
       style.top = t
     }
 
-    const toggleValue = open || false
-    toggle(toggleValue)
-    if (typeof window !== 'undefined' && !noBackground && open) {
-      if (currBackdrops() === 0) {
-        setStyles(
-          `${document.body.clientWidth}px`,
-          'fixed',
-          `-${window.scrollY}px`,
-        )
-      }
-      modifyBackdrops(1)
-      return () => {
-        const top = parseFloat(style.top || '0') * -1
-        if (currBackdrops() === 1) {
-          setStyles('', '', '')
-          window.scroll({
-            top,
-          })
+    toggle(open || false)
+    if (typeof window !== 'undefined' && !noBackground) {
+      if (open) {
+        if (currBackdrops() === 0) {
+          setStyles(
+            `${document.body.clientWidth}px`,
+            'fixed',
+            `-${window.scrollY}px`,
+          )
         }
-        modifyBackdrops(-1)
-        toggle(!toggleValue)
+        modifyBackdrops(1)
+        return () => {
+          toggle(false)
+          const top = parseFloat(style.top || '0') * -1
+          if (currBackdrops() === 1) {
+            setStyles('', '', '')
+            window.scroll({
+              top,
+            })
+          }
+          modifyBackdrops(-1)
+        }
       }
     }
     return () => {
-      toggle(!toggleValue)
+      toggle(false)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, noBackground])
 
-  return state !== 'unmounted' ? (
-    <Portal className={className} renderCallback={renderCallback}>
-      {onDismiss && (
-        <Background
-          $empty={noBackground}
-          $state={state}
-          ref={boxRef}
-          onClick={dismissClick}
-        />
-      )}
-      {children({ state })}
-    </Portal>
-  ) : null
+  return state.status !== 'unmounted'
+    ? (
+        <Portal className={className} renderCallback={renderCallback}>
+          {onDismiss && (
+            <Background
+              $empty={noBackground}
+              $state={state.status}
+              ref={boxRef}
+              onClick={dismissClick}
+            />
+          )}
+          {children({ state })}
+        </Portal>
+      )
+    : null
 }
 
 Backdrop.displayName = 'Backdrop'

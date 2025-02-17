@@ -9,9 +9,9 @@ export const useCopied = () => {
   }
 
   useEffect(() => {
-    let timeout: any
+    let timeout: number
     if (copied) {
-      timeout = setTimeout(() => setCopied(false), 1500)
+      timeout = window.setTimeout(() => setCopied(false), 1500)
     }
     return () => clearTimeout(timeout)
   }, [copied])

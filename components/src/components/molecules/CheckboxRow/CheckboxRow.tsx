@@ -1,137 +1,134 @@
 import * as React from 'react'
-import styled, { css } from 'styled-components'
 
-import { Hue } from '@/src/tokens'
+import { translateY } from '@/src/css/utils/common'
+import { match, P } from 'ts-pattern'
 
-import { CheckSVG, Typography } from '../..'
+import * as styles from './styles.css'
 import { useId } from '../../../hooks/useId'
+import type { BoxProps } from '../../atoms/Box/Box'
+import { Box } from '../../atoms/Box/Box'
+import { CheckSVG } from '@/src/icons'
+import { Typography } from '../../atoms'
+import type { Colors, ColorStyles, Hue } from '@/src/tokens'
+import { getColorStyleParts } from '@/src/utils/getColorStyleParts'
+import { clsx } from 'clsx'
+import { assignInlineVars } from '@vanilla-extract/dynamic'
 
-export type Props = {
+export type CheckboxRowProps = {
   label: string
   subLabel?: string
-  color?: Hue
-} & React.InputHTMLAttributes<HTMLInputElement>
+  colorStyle?: ColorStyles
+} & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'height' | 'width' | 'color'>
 
-const Container = styled.div<{
-  $color: Hue
-}>(
-  ({ theme, $color }) => css`
-    position: relative;
-    width: 100%;
+type BaseTheme = 'Primary' | 'Secondary'
 
-    input ~ label:hover {
-      transform: translateY(-1px);
-    }
-
-    input ~ label:hover div#circle {
-      background: ${theme.colors.border};
-    }
-
-    input:checked ~ label {
-      background: ${theme.colors[`${$color}Surface`]};
-      border-color: transparent;
-    }
-
-    input:disabled ~ label {
-      cursor: not-allowed;
-    }
-
-    input:checked ~ label div#circle {
-      background: ${theme.colors[`${$color}Primary`]};
-      border-color: transparent;
-    }
-
-    input:disabled ~ label div#circle,
-    input:disabled ~ label:hover div#circle {
-      background: ${theme.colors.greySurface};
-    }
-
-    input:checked ~ label:hover div#circle {
-      background: ${theme.colors[`${$color}Bright`]};
-    }
-
-    input:disabled ~ label,
-    input:disabled ~ label:hover {
-      background: ${theme.colors.greySurface};
-      transform: initial;
-    }
-
-    input:disabled ~ label div#circle svg,
-    input:disabled ~ label:hover div#circle svg {
-      color: ${theme.colors.greySurface};
-    }
-
-    input:disabled:checked ~ label div#circle,
-    input:disabled:checked ~ label:hover div#circle {
-      background: ${theme.colors.border};
-    }
-
-    input:disabled:checked ~ label div#circle svg,
-    input:disabled:checked ~ label:hover div#circle svg {
-      color: ${theme.colors.greyPrimary};
-    }
-  `,
+const ContainerBox = ({ disabled, className, style, ...props }: BoxProps) => (
+  <Box
+    position="relative"
+    className={clsx(styles.containerBox, className)}
+    style={{ ...style, ...assignInlineVars({
+      [styles.isContainerBoxDisabled]: translateY(disabled ? 0 : -1),
+    }) }}
+    transitionProperty="transform"
+    transitionDuration={150}
+    transitionTimingFunction="ease-in-out"
+    {...props}
+    width="full"
+  />
 )
 
-const RootInput = styled.input(
-  () => css`
-    position: absolute;
-    width: 1px;
-    height: 1px;
-  `,
+const Input = React.forwardRef<HTMLElement, BoxProps>((props, ref) => (
+  <Box
+    {...props}
+    as="input"
+    position="absolute"
+    ref={ref}
+    type="checkbox"
+    wh="px"
+  />
+))
+
+const Label = ({
+  baseColor,
+  baseTheme,
+  ...props
+}: BoxProps & { baseColor?: Hue, baseTheme: BaseTheme }) => (
+  <Box
+    {...props}
+    alignItems="center"
+    as="label"
+    // backgroundColor={getValueForColorStyle($colorStyle, 'background')}
+    backgroundColor={match(baseTheme)
+      .with(P.string.includes('Secondary'), () => `${baseColor}Surface` as Colors)
+      .otherwise(() => `${baseColor}Surface` as Colors)}
+    borderColor="transparent"
+    borderRadius="large"
+    borderStyle="solid"
+    borderWidth="1x"
+    cursor="pointer"
+    display="flex"
+    gap="4"
+    padding="4"
+    transitionProperty="all"
+    transitionDuration={300}
+    transitionTimingFunction="ease-in-out"
+    wh="full"
+  />
 )
 
-const Label = styled.label(
-  ({ theme }) => css`
-    display: flex;
-    align-items: center;
-    gap: ${theme.space['4']};
-
-    width: 100%;
-    height: 100%;
-    padding: ${theme.space['4']};
-
-    border-radius: ${theme.space['2']};
-    border: 1px solid ${theme.colors.border};
-
-    cursor: pointer;
-
-    transition: all 0.3s ease-in-out;
-  `,
+const CircleFrame = (props: BoxProps) => (
+  <Box
+    {...props}
+    flexBasis="7"
+    flexGrow={0}
+    flexShrink={0}
+    position="relative"
+    wh="7"
+  />
 )
 
-const Circle = styled.div(
-  ({ theme }) => css`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    flex: 0 0 ${theme.space['7']};
-    width: ${theme.space['7']};
-    height: ${theme.space['7']};
-    border-radius: ${theme.radii.full};
-    border: 1px solid ${theme.colors.border};
-
-    transition: all 0.3s ease-in-out;
-
-    svg {
-      display: block;
-      color: ${theme.colors.backgroundPrimary};
-      width: ${theme.space['4']};
-      height: ${theme.space['4']};
-    }
-  `,
+const SVG = (props: BoxProps) => (
+  <Box {...props} display="block" fill="currentColor" wh="4" />
 )
 
-const Content = styled.div(
-  () => css`
-    display: flex;
-    flex-direction: column;
-  `,
+const Circle = ({
+  $hover,
+  baseColor,
+  baseTheme,
+  ...props
+}: BoxProps & { $hover: boolean, baseColor: Hue, baseTheme: BaseTheme }) => (
+  <Box
+    {...props}
+    alignItems="center"
+    // backgroundColor={getValueForColorStyle(
+    //   $colorStyle,
+    //   $hover ? 'iconHover' : 'icon',
+    // )}
+    backgroundColor={match(baseTheme)
+      .with(P.string.includes('Secondary'), () => `${baseColor}Light` as Colors)
+      .otherwise(() => ($hover ? `${baseColor}Bright` : `${baseColor}Primary`) as Colors)}
+    borderColor="transparent"
+    borderRadius="full"
+    borderStyle="solid"
+    borderWidth="1x"
+    // color={getValueForColorStyle($colorStyle, 'svg')}
+    color={match(baseTheme)
+      .with(P.string.includes('Secondary'), () => `${baseColor}Dim` as Colors)
+      .otherwise(() => 'textAccent')}
+    display="flex"
+    justifyContent="center"
+    position="absolute"
+    transitionProperty="all"
+    transitionDuration={300}
+    transitionTimingFunction="ease-in-out"
+    wh="full"
+  >
+    <SVG as={CheckSVG} />
+  </Box>
 )
 
-export const CheckboxRow = React.forwardRef<HTMLInputElement, Props>(
-  ({ label, subLabel, name, color = 'blue', disabled, ...props }, ref) => {
+export const CheckboxRow = React.forwardRef<HTMLInputElement, CheckboxRowProps>(
+  ({ label, subLabel, name, colorStyle = 'blue', disabled, ...props }, ref) => {
     const defaultRef = React.useRef<HTMLInputElement>(null)
     const inputRef = ref || defaultRef
 
@@ -139,21 +136,42 @@ export const CheckboxRow = React.forwardRef<HTMLInputElement, Props>(
 
     const textColor = disabled ? 'grey' : 'text'
 
+    const [baseColor, baseTheme] = getColorStyleParts(colorStyle)
+
     return (
-      <Container $color={color}>
-        <RootInput
+      <ContainerBox disabled={disabled}>
+        <Input
+          {...props}
+          className={styles.input}
           disabled={disabled}
           id={id}
           name={name}
-          type="checkbox"
-          {...props}
           ref={inputRef}
         />
-        <Label htmlFor={id} id="permissions-label">
-          <Circle id="circle">
-            <CheckSVG />
-          </Circle>
-          <Content>
+        <Label
+          baseColor={baseColor}
+          baseTheme={baseTheme}
+          className={styles.label}
+          htmlFor={id}
+          id="permissions-label"
+        >
+          <CircleFrame>
+            <Circle
+              baseColor={baseColor}
+              baseTheme={baseTheme}
+              $hover
+              className={styles.circleHover}
+              id="circle-hover"
+            />
+            <Circle
+              baseColor={baseColor}
+              baseTheme={baseTheme}
+              $hover={false}
+              className={styles.circle}
+              id="circle"
+            />
+          </CircleFrame>
+          <Box display="flex" flexDirection="column">
             <Typography color={textColor} fontVariant="bodyBold">
               {label}
             </Typography>
@@ -162,9 +180,9 @@ export const CheckboxRow = React.forwardRef<HTMLInputElement, Props>(
                 {subLabel}
               </Typography>
             )}
-          </Content>
+          </Box>
         </Label>
-      </Container>
+      </ContainerBox>
     )
   },
 )

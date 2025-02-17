@@ -1,18 +1,19 @@
 import * as React from 'react'
-import styled, { css } from 'styled-components'
 
-import {
-  WithColorStyle,
-  getColorStyle,
-} from '@/src/types/withColorOrColorStyle'
+import * as styles from './styles.css'
 
-import { Field } from '../..'
-import { FieldBaseProps } from '../../atoms/Field'
+import { Field } from '../../atoms/Field/Field'
+import type { FieldBaseProps } from '../../atoms/Field/Field'
 import { getTestId } from '../../../utils/utils'
+import type { BoxProps } from '../../atoms/Box/Box'
+import { Box } from '../../atoms/Box/Box'
+import { getColorStyleParts } from '@/src/utils/getColorStyleParts'
+import type { Colors, ColorStyles, Hue } from '@/src/tokens'
+import { match } from 'ts-pattern'
 
 type NativeInputProps = React.InputHTMLAttributes<HTMLInputElement>
 
-type Props = {
+export type CheckboxProps = {
   /** Label content */
   label: React.ReactNode
   /** The name attribute of input element. */
@@ -41,82 +42,79 @@ type Props = {
   background?: 'white' | 'grey'
   /** Set the input to readonly mode */
   readOnly?: NativeInputProps['readOnly']
+  colorStyle?: ColorStyles
 } & Omit<FieldBaseProps, 'labelRight'> &
-  Omit<
-    NativeInputProps,
-    | 'size'
-    | 'color'
-    | 'type'
-    | 'children'
-    | 'value'
-    | 'defaultValue'
-    | 'type'
-    | 'aria-invalid'
-  > &
-  WithColorStyle
-interface InputProps {
-  $colorStyle: Props['colorStyle']
-}
+Omit<
+  NativeInputProps,
+  | 'size'
+  | 'color'
+  | 'type'
+  | 'children'
+  | 'value'
+  | 'defaultValue'
+  | 'type'
+  | 'aria-invalid'
+  | 'height'
+  | 'width'
+>
 
-const Input = styled.input<InputProps>(
-  ({ theme, $colorStyle = 'accentPrimary' }) => css`
-    font: inherit;
-    display: grid;
-    position: relative;
-    place-content: center;
-    transition: transform 150ms ease-in-out, filter 150ms ease-in-out;
-    cursor: pointer;
+const SVG = (props: React.SVGProps<SVGSVGElement>) => <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}><path d="M2 12.625L10.125 20.125L22 3.875" fill="none" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" /></svg>
 
-    width: ${theme.space['5']};
-    height: ${theme.space['5']};
-    border-radius: ${theme.radii.small};
-    background-color: ${theme.colors.border};
-
-    &:checked {
-      background: ${getColorStyle($colorStyle, 'background')};
-    }
-
-    &::before {
-      content: '';
-      background: ${theme.colors.border};
-      mask-image: ${`url('data:image/svg+xml; utf8, <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 12.625L10.125 20.125L22 3.875" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" /></svg>')`};
-      mask-repeat: no-repeat;
-      width: ${theme.space['3']};
-      height: ${theme.space['3']};
-      transition: all 90ms ease-in-out;
-    }
-
-    &:hover {
-      transform: translateY(-1px);
-    }
-
-    &:hover::before,
-    &:checked::before {
-      background: ${getColorStyle($colorStyle, 'text')};
-    }
-
-    &:disabled {
-      cursor: not-allowed;
-    }
-
-    &:disabled::before,
-    &:disabled:hover::before {
-      background: ${theme.colors.border};
-    }
-
-    &:disabled:checked,
-    &:disabled:checked:hover {
-      background: ${theme.colors.border};
-    }
-
-    &:disabled:checked::before,
-    &:disabled:checked:hover::before {
-      background: ${theme.colors.greyPrimary};
-    }
-  `,
+const InputBox = React.forwardRef<HTMLElement, BoxProps & { baseColor: Hue, baseTheme: 'Primary' | 'Secondary' }>(
+  ({ baseColor, baseTheme, disabled, checked, ...props }, ref) => (
+    <Box
+      className={styles.inputBox}
+      position="relative"
+      wh="5"
+    >
+      <Box
+        as="input"
+        backgroundColor={{
+          base: 'border',
+          disabled: 'border',
+          checked: match(baseTheme)
+            .with('Secondary', () => `${baseColor}Surface` as Colors)
+            .otherwise(() => `${baseColor}Primary` as Colors),
+        }}
+        borderRadius="small"
+        checked={checked}
+        className={styles.checkbox}
+        cursor={{ base: 'pointer', disabled: 'not-allowed' }}
+        disabled={disabled}
+        display="grid"
+        fontFamily="inherit"
+        placeContent="center"
+        position="relative"
+        ref={ref}
+        transitionProperty="background-color"
+        transitionDuration={150}
+        transitionTimingFunction="ease-in-out"
+        type="checkbox"
+        wh="full"
+        {...props}
+      />
+      <Box
+        as={SVG}
+        stroke={match(baseTheme)
+          .with('Secondary', () => `${baseColor}Primary` as Colors)
+          .otherwise(() => `textAccent` as Colors)}
+        className={styles.icon}
+        left="1"
+        width="3"
+        height="3"
+        pointerEvents="none"
+        position="absolute"
+        top="1"
+        transitionProperty="stroke"
+        transitionDuration={150}
+        transitionTimingFunction="ease-in-out"
+        wh="full"
+      />
+    </Box>
+  ),
 )
 
-export const Checkbox = React.forwardRef(
+export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
   (
     {
       description,
@@ -138,11 +136,12 @@ export const Checkbox = React.forwardRef(
       onFocus,
       colorStyle = 'accentPrimary',
       ...props
-    }: Props,
-    ref: React.Ref<HTMLInputElement>,
+    },
+    ref,
   ) => {
     const defaultRef = React.useRef<HTMLInputElement>(null)
     const inputRef = (ref as React.RefObject<HTMLInputElement>) || defaultRef
+    const [baseColor, baseTheme] = getColorStyleParts(colorStyle)
 
     return (
       <Field
@@ -157,16 +156,14 @@ export const Checkbox = React.forwardRef(
         required={required}
         width={width}
       >
-        <Input
-          {...{
-            ...props,
-            'data-testid': getTestId(props, 'checkbox'),
-            'aria-invalid': error ? true : undefined,
-            type: 'checkbox',
-          }}
-          $colorStyle={colorStyle}
+        <InputBox
+          baseColor={baseColor}
+          baseTheme={baseTheme}
+          aria-invalid={error ? true : undefined}
           checked={checked}
+          data-testid={getTestId(props, 'checkbox')}
           disabled={disabled}
+          id={id}
           name={name}
           ref={inputRef}
           tabIndex={tabIndex}
@@ -174,6 +171,7 @@ export const Checkbox = React.forwardRef(
           onBlur={onBlur}
           onChange={onChange}
           onFocus={onFocus}
+          {...props}
         />
       </Field>
     )

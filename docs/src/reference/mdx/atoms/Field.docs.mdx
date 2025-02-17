@@ -8,7 +8,7 @@ import { Field } from '@ensdomains/thorin'
 ```
 
 ```tsx live=true expand=true
-<DeleteMe>
+<Box display="flex" flexDirection="column" gap="4">
   <Field description="Description" label="Label" labelSecondary="Secondary">
     <div style={{ backgroundColor: 'black', height: 20 }} />
   </Field>
@@ -20,7 +20,7 @@ import { Field } from '@ensdomains/thorin'
   >
     <div style={{ backgroundColor: 'black', width: 20, height: 20 }} />
   </Field>
-</DeleteMe>
+</Box>
 ```
 
 ## Props
@@ -30,7 +30,7 @@ import { Field } from '@ensdomains/thorin'
 ## Variants
 
 ```tsx live=true
-<DeleteMe>
+<Box display="flex" flexDirection="column" gap="4">
   <Field description="Description" label="Default Field">
     <div style={{ backgroundColor: 'black', height: 20 }} />
   </Field>
@@ -40,72 +40,72 @@ import { Field } from '@ensdomains/thorin'
   <Field description="Description" inline label="Reverse Inline Field" reverse>
     <div style={{ backgroundColor: 'black', height: 20, width: 20 }} />
   </Field>
-</DeleteMe>
+</Box>
 ```
 
 ## Required
 
 ```tsx live=true
-<DeleteMe>
+<Box display="flex" flexDirection="column" gap="4">
   <Field description="Description or help text" label="Label" required>
     <div style={{ backgroundColor: 'black', height: 20 }} />
   </Field>
   <Field description="Description or help text" inline label="Label" required>
     <div style={{ backgroundColor: 'black', height: 20, width: 20 }} />
   </Field>
-</DeleteMe>
+</Box>
 ```
 
 ## Description
 
 ```tsx live=true
-<DeleteMe>
+<Box display="flex" flexDirection="column" gap="4">
   <Field description="Description or help text" label="Label">
     <div style={{ backgroundColor: 'black', height: 20 }} />
   </Field>
   <Field description="Description or help text" inline label="Label">
     <div style={{ backgroundColor: 'black', height: 20, width: 20 }} />
   </Field>
-</DeleteMe>
+</Box>
 ```
 
 ## Error
 
 ```tsx live=true
-<DeleteMe>
+<Box display="flex" flexDirection="column" gap="4">
   <Field error="Error message" label="Label">
     <div style={{ backgroundColor: 'black', height: 20 }} />
   </Field>
   <Field error="Error message" inline label="Label">
     <div style={{ backgroundColor: 'black', height: 20, width: 20 }} />
   </Field>
-</DeleteMe>
+</Box>
 ```
 
 ## Disabled
 
 ```tsx live=true
-<DeleteMe>
+<Box display="flex" flexDirection="column" gap="4">
   <Field description="Description message" disabled label="Label">
     <div style={{ backgroundColor: 'black', height: 20 }} />
   </Field>
   <Field description="Description message" disabled inline label="Label">
     <div style={{ backgroundColor: 'black', height: 20, width: 20 }} />
   </Field>
-</DeleteMe>
+</Box>
 ```
 
 ## Hide Label
 
 ```tsx live=true
-<DeleteMe>
+<Box display="flex" flexDirection="column" gap="4">
   <Field hideLabel label="Label">
     <div style={{ backgroundColor: 'black', height: 20 }} />
   </Field>
   <Field hideLabel inline label="Label">
     <div style={{ backgroundColor: 'black', height: 20, width: 20 }} />
   </Field>
-</DeleteMe>
+</Box>
 ```
 
 ## Consume ID
@@ -113,7 +113,7 @@ import { Field } from '@ensdomains/thorin'
 The content wrapped by field sets an `id` automatically for accessibility. You can customize the behavior by using the render prop.
 
 ```tsx live=true
-<DeleteMe>
+<Box display="flex" flexDirection="column" gap="4">
   <Field label="Automatically injected">
     <div style={{ backgroundColor: 'black', height: 20 }} />
   </Field>
@@ -123,5 +123,5 @@ The content wrapped by field sets an `id` automatically for accessibility. You c
       <div style={{ backgroundColor: 'black', height: 20 }} {...ids.content} />
     )}
   </Field>
-</DeleteMe>
+</Box>
 ```

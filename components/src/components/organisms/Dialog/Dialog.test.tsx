@@ -1,27 +1,27 @@
 import * as React from 'react'
 
-import { ThemeProvider } from 'styled-components'
-
-import { cleanup, render, screen, userEvent, waitFor } from '@/test'
-
-import { lightTheme } from '@/src/tokens'
+import { cleanup, render, screen, userEvent, waitFor, act } from '@/test'
+import { vi } from 'vitest'
 
 import { Dialog } from './Dialog'
 
-window.scroll = jest.fn()
+window.scroll = vi.fn()
 
 describe('<Modal />', () => {
-  afterEach(cleanup)
+  beforeEach(() => vi.useFakeTimers({ shouldAdvanceTime: true }))
+
+  afterEach(() => {
+    vi.useRealTimers()
+    cleanup()
+  })
 
   it('renders', async () => {
     render(
-      <ThemeProvider theme={lightTheme}>
-        <Dialog open variant="blank">
-          Modal
-        </Dialog>
-      </ThemeProvider>,
+      <Dialog open variant="blank">
+        Modal
+      </Dialog>,
     )
-
+    await act(() => vi.advanceTimersByTime(1000))
     await waitFor(() => expect(screen.getByText('Modal')).toBeVisible(), {
       timeout: 300,
     })
@@ -29,11 +29,9 @@ describe('<Modal />', () => {
 
   it('should not be visible if not open', async () => {
     render(
-      <ThemeProvider theme={lightTheme}>
-        <Dialog open={false} variant="blank">
-          Modal
-        </Dialog>
-      </ThemeProvider>,
+      <Dialog open={false} variant="blank">
+        Modal
+      </Dialog>,
     )
     await waitFor(() => expect(screen.queryByText('Modal')).toBeNull(), {
       timeout: 300,
@@ -41,13 +39,11 @@ describe('<Modal />', () => {
   })
 
   it('should display close icon if callback is provided', async () => {
-    const mockCallback = jest.fn()
+    const mockCallback = vi.fn()
     render(
-      <ThemeProvider theme={lightTheme}>
-        <Dialog open variant="closable" onDismiss={mockCallback}>
-          Modal
-        </Dialog>
-      </ThemeProvider>,
+      <Dialog open variant="closable" onDismiss={mockCallback}>
+        Modal
+      </Dialog>,
     )
     await waitFor(
       () => expect(screen.getByTestId('close-icon')).toBeVisible(),
@@ -58,13 +54,11 @@ describe('<Modal />', () => {
   })
 
   it('should call callback if close icon is clicked', async () => {
-    const mockCallback = jest.fn()
+    const mockCallback = vi.fn()
     render(
-      <ThemeProvider theme={lightTheme}>
-        <Dialog open variant="closable" onDismiss={mockCallback}>
-          Modal
-        </Dialog>
-      </ThemeProvider>,
+      <Dialog open variant="closable" onDismiss={mockCallback}>
+        Modal
+      </Dialog>,
     )
 
     await userEvent.click(screen.getByTestId('close-icon'))
@@ -73,11 +67,9 @@ describe('<Modal />', () => {
 
   it('should show steps if available', async () => {
     render(
-      <ThemeProvider theme={lightTheme}>
-        <Dialog currentStep={0} open stepCount={3} variant="actionable">
-          Modal
-        </Dialog>
-      </ThemeProvider>,
+      <Dialog currentStep={0} open stepCount={3} variant="actionable">
+        Modal
+      </Dialog>,
     )
     await waitFor(
       () => expect(screen.getByTestId('step-container')).toBeVisible(),
@@ -88,11 +80,9 @@ describe('<Modal />', () => {
   })
   it('should show correct step state', async () => {
     render(
-      <ThemeProvider theme={lightTheme}>
-        <Dialog currentStep={1} open stepCount={3} variant="actionable">
-          Modal
-        </Dialog>
-      </ThemeProvider>,
+      <Dialog currentStep={1} open stepCount={3} variant="actionable">
+        Modal
+      </Dialog>,
     )
     await waitFor(
       () => expect(screen.getByTestId('step-container')).toBeVisible(),
@@ -106,17 +96,15 @@ describe('<Modal />', () => {
   })
   it('should show a custom step state', async () => {
     render(
-      <ThemeProvider theme={lightTheme}>
-        <Dialog
-          currentStep={1}
-          open
-          stepCount={3}
-          stepStatus="completed"
-          variant="actionable"
-        >
-          Modal
-        </Dialog>
-      </ThemeProvider>,
+      <Dialog
+        currentStep={1}
+        open
+        stepCount={3}
+        stepStatus="completed"
+        variant="actionable"
+      >
+        Modal
+      </Dialog>,
     )
     await waitFor(
       () => expect(screen.getByTestId('step-container')).toBeVisible(),

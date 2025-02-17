@@ -20,7 +20,7 @@ import { Banner } from '@ensdomains/thorin'
 ## Alert
 
 ```tsx live=true
-<DeleteMe>
+<Box display="flex" flexDirection="column" gap="4">
   <Banner alert="info" title="Heading">
     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
   </Banner>
@@ -30,13 +30,13 @@ import { Banner } from '@ensdomains/thorin'
   <Banner alert="error" title="Heading">
     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
   </Banner>
-</DeleteMe>
+</Box>
 ```
 
 ## onDismiss
 
 ```tsx live=true
-<DeleteMe>
+<Box display="flex" flexDirection="column" gap="4">
   <Banner alert="info" title="Heading" onDismiss={() => alert('dismissed')}>
     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
   </Banner>
@@ -46,13 +46,13 @@ import { Banner } from '@ensdomains/thorin'
   <Banner alert="error" title="Heading" onDismiss={() => alert('dismissed')}>
     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
   </Banner>
-</DeleteMe>
+</Box>
 ```
 
 ## as 'a'
 
 ```tsx live=true
-<DeleteMe>
+<Box display="flex" flexDirection="column" gap="4">
   <Banner alert="info" as="a" href="#" title="Heading">
     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
   </Banner>
@@ -62,53 +62,37 @@ import { Banner } from '@ensdomains/thorin'
   <Banner alert="error" as="a" href="#" title="Heading">
     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
   </Banner>
-</DeleteMe>
+</Box>
 ```
 
 ## Icon
 
 ```tsx live=true
-<DeleteMe>
-  <Banner alert="info" icon={<FlameSVG />} title="Heading">
+<Box display="flex" flexDirection="column" gap="4">
+  <Banner alert="info" icon={FlameSVG} title="Heading">
     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
   </Banner>
-  <Banner alert="warning" icon={<FlameSVG />} title="Heading">
+  <Banner alert="warning" icon={FlameSVG} title="Heading">
     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
   </Banner>
-  <Banner alert="error" icon={<FlameSVG />} title="Heading">
+  <Banner alert="error" icon={FlameSVG} title="Heading">
     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
   </Banner>
-</DeleteMe>
+</Box>
 ```
 
 ## Action Icon
 
 ```tsx live=true
-<DeleteMe>
-  <Banner actionIcon={<FlameSVG />} alert="info" title="Heading">
+<Box display="flex" flexDirection="column" gap="4">
+  <Banner actionIcon={FlameSVG} alert="info" title="Heading">
     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
   </Banner>
-  <Banner actionIcon={<FlameSVG />} alert="warning" title="Heading">
+  <Banner actionIcon={FlameSVG} alert="warning" title="Heading">
     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
   </Banner>
-  <Banner actionIcon={<FlameSVG />} alert="error" title="Heading">
+  <Banner actionIcon={FlameSVG} alert="error" title="Heading">
     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
   </Banner>
-</DeleteMe>
-```
-
-## Icon Type
-
-```tsx live=true
-<DeleteMe>
-  <Banner actionIcon={<FlameSVG />} iconType="none" title="Heading">
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-  </Banner>
-  <Banner actionIcon={<FlameSVG />} iconType="normal" title="Heading">
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-  </Banner>
-  <Banner actionIcon={<FlameSVG />} iconType="filledCircle" title="Heading">
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-  </Banner>
-</DeleteMe>
+</Box>
 ```

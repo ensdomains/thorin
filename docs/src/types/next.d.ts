@@ -1,8 +1,8 @@
-import * as React from 'react'
-import { NextPage } from 'next'
-import { AppProps as NextAppProps } from 'next/app'
+import type * as React from 'react'
+import type { NextPage } from 'next'
+import type { AppProps as NextAppProps } from 'next/app'
 
-import { EmptyObject } from '@ensdomains/thorin'
+import type { EmptyObject } from '@ensdomains/thorin'
 
 declare module 'next' {
   export type NextLayout<P = EmptyObject> = (

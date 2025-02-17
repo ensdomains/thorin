@@ -1,113 +1,122 @@
 import * as React from 'react'
-import styled, { css } from 'styled-components'
 
-import {
-  DynamicPopover,
+import type {
   DynamicPopoverProps,
   DynamicPopoverSide,
-  PopoverProps,
-} from '@/src/components/atoms/DynamicPopover'
-import { mq } from '@/src/utils/responsiveHelpers'
-import { Colors } from '@/src/tokens'
+  PopoverProps } from '@/src/components/atoms/DynamicPopover/DynamicPopover'
+import {
+  DynamicPopover,
+} from '@/src/components/atoms/DynamicPopover/DynamicPopover'
+import type { Colors } from '@/src/tokens'
 
-const injectedCss = (color: string) => ({
-  top: `
-    &:after {
-      display: initial;
-      content: '';
-      position: absolute;
-      bottom: -18px;
-      left: 0;
-      right: 0;
-      margin: 0 auto;
-      width: 0;
-      height: 0;
-      border: 10px solid transparent;
-      border-top-color: ${color};
-    }
-  `,
-  bottom: `
-    &:after {
-      display: initial;
-      content: '';
-      position: absolute;
-      top: -18px;
-      left: 0;
-      right: 0;
-      margin: 0 auto;
-      width: 0;
-      height: 0;
-      border: 10px solid transparent;
-      border-bottom-color: ${color};
-    }
-  `,
-  left: `
-    display: flex;
-    align-items: center;
-    &:before {
-      display: initial;
-      content: '';
-      position: absolute;
-      right: -18px;
-      width: 0;
-      height: 0;
-      border: 10px solid transparent;
-      border-left-color: ${color};
-    }
-  `,
-  right: `
-    display: flex;
-    align-items: center;
-    &:before {
-      display: initial;
-      content: '';
-      position: absolute;
-      left: -18px;
-      width: 0;
-      height: 0;
-      border: 10px solid transparent;
-      border-right-color: ${color};
-    }
-  `,
-})
+import type { BoxProps } from '../../atoms/Box/Box'
+import { Box } from '../../atoms/Box/Box'
+import { getValueForPlacement } from './utils/getValueForPlacement'
+import * as styles from './styles.css'
+import { clsx } from 'clsx'
+import type { Color } from '@/src/tokens/color'
 
-const TooltipPopoverElement = styled.div<{
-  $background: Colors
+type TooltipPopoverElementProps = {
+  $background: Color
   $placement: DynamicPopoverSide
   $mobilePlacement: DynamicPopoverSide
-}>(
-  ({ theme, $background, $placement, $mobilePlacement }) => css`
-    position: relative;
-    box-sizing: border-box;
-    filter: drop-shadow(0px 0px 1px #e8e8e8)
-      drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.2));
-    border-radius: ${theme.radii.large};
-    padding: ${theme.space['2.5']};
-    padding-left: ${theme.space['3.5']};
-    background: ${theme.colors[$background] || theme.colors.background};
+}
 
-    ${injectedCss(theme.colors[$background] || theme.colors.background)[
-      $mobilePlacement
-    ]}
-    ${mq.sm.min(css`
-      &:before {
-        display: none;
-      }
-      &:after {
-        display: none;
-      }
-      ${injectedCss(theme.colors[$background] || theme.colors.background)[
-        $placement
-      ]}
-    `)}
-  `,
+const TooltipPopoverElement = ({
+  $background = 'backgroundPrimary',
+  $placement,
+  $mobilePlacement,
+  children,
+  className,
+  ...props
+}: BoxProps & TooltipPopoverElementProps) => (
+  <Box
+    {...props}
+    backgroundColor={$background}
+    borderRadius="large"
+    boxSizing="border-box"
+    className={clsx(className, styles.popover)}
+    overflow="visible"
+    padding="2.5"
+    position="relative"
+  >
+    {children}
+    <Box
+      borderBottomColor={{
+        base: getValueForPlacement(
+          $mobilePlacement,
+          'borderBottomColorFunction',
+        )($background),
+        sm: getValueForPlacement(
+          $placement,
+          'borderBottomColorFunction',
+        )($background),
+      }}
+      borderLeftColor={{
+        base: getValueForPlacement(
+          $mobilePlacement,
+          'borderLeftColorFunction',
+        )($background),
+        sm: getValueForPlacement(
+          $placement,
+          'borderLeftColorFunction',
+        )($background),
+      }}
+      borderRightColor={{
+        base: getValueForPlacement(
+          $mobilePlacement,
+          'borderRightColorFunction',
+        )($background),
+        sm: getValueForPlacement(
+          $placement,
+          'borderRightColorFunction',
+        )($background),
+      }}
+      borderStyle="solid"
+      borderTopColor={{
+        base: getValueForPlacement(
+          $mobilePlacement,
+          'borderTopColorFunction',
+        )($background),
+        sm: getValueForPlacement(
+          $placement,
+          'borderTopColorFunction',
+        )($background),
+      }}
+      borderWidth="10x"
+      bottom={{
+        base: getValueForPlacement($mobilePlacement, 'bottom'),
+        sm: getValueForPlacement($placement, 'bottom'),
+      }}
+      display="initial"
+      height="0"
+      left={{
+        base: getValueForPlacement($mobilePlacement, 'left'),
+        sm: getValueForPlacement($placement, 'left'),
+      }}
+      margin={{
+        xs: getValueForPlacement($mobilePlacement, 'margin'),
+        sm: getValueForPlacement($placement, 'margin'),
+      }}
+      position="absolute"
+      right={{
+        base: getValueForPlacement($mobilePlacement, 'right'),
+        sm: getValueForPlacement($placement, 'right'),
+      }}
+      top={{
+        base: getValueForPlacement($mobilePlacement, 'top'),
+        sm: getValueForPlacement($placement, 'top'),
+      }}
+      width="0"
+    />
+  </Box>
 )
 
 type TooltipPopoverProps = PopoverProps & { background: Colors }
 
 const TooltipPopover = ({
-  placement,
-  mobilePlacement,
+  placement = 'top',
+  mobilePlacement = 'top',
   background,
   children,
 }: TooltipPopoverProps) => {
@@ -133,41 +142,45 @@ export interface TooltipProps
   children: React.ReactElement
 }
 
-export const Tooltip = ({
+export const Tooltip: React.FC<TooltipProps> = ({
   content,
   background = 'background',
   placement = 'top',
   mobilePlacement = 'top',
   children,
   ...props
-}: TooltipProps) => {
+}) => {
   // Setup anchor element
   const anchorRef = React.useRef<HTMLDivElement>(null)
   const child = React.Children.only(children)
   const AnchorElement = React.cloneElement(child, { ref: anchorRef })
 
-  const popover = (
-    <TooltipPopover
-      background={background}
-      mobilePlacement={mobilePlacement}
-      placement={placement}
-    >
-      {content}
-    </TooltipPopover>
-  )
+  const popover = content
+    ? (
+        <TooltipPopover
+          background={background}
+          mobilePlacement={mobilePlacement}
+          placement={placement}
+        >
+          {content}
+        </TooltipPopover>
+      )
+    : null
 
-  return (
-    <>
-      <DynamicPopover
-        anchorRef={anchorRef}
-        mobilePlacement={mobilePlacement}
-        placement={placement}
-        popover={popover}
-        {...props}
-      />
-      {AnchorElement}
-    </>
-  )
+  return popover
+    ? (
+        <>
+          <DynamicPopover
+            anchorRef={anchorRef}
+            mobilePlacement={mobilePlacement}
+            placement={placement}
+            popover={popover}
+            {...props}
+          />
+          {AnchorElement}
+        </>
+      )
+    : AnchorElement
 }
 
 Tooltip.displayName = 'Tooltip'

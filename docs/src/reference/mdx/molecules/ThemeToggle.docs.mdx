@@ -1,0 +1,54 @@
+---
+title: ThemeToggle
+description: Brief component description
+---
+
+```tsx
+import { ThemeToggle } from '@ensdomains/thorin'
+```
+
+```tsx live=true expand=true
+<ThemeToggle />
+```
+
+## Props
+
+<PropsTable sourceLink={sourceLink} types={types} />
+
+## Sizes
+
+```tsx live=true
+<Box display="flex" flexDirection="column" gap="4">
+  <ThemeToggle size="extraSmall"/>
+  <ThemeToggle size="small" />
+  <ThemeToggle size="medium" />
+</Box>
+```
+
+## Colors
+
+```tsx live=true
+<Box display="flex" flexDirection="row" flexWrap="wrap" gap="4">
+  <ThemeToggle />
+  <ThemeToggle color="blue" />
+  <ThemeToggle color="green" />
+  <ThemeToggle color="yellow" />
+  <ThemeToggle color="red" />
+  <ThemeToggle color="orange" />
+  <ThemeToggle color="indigo" />
+  <ThemeToggle color="pink" />
+  <ThemeToggle color="purple" />
+  <ThemeToggle color="grey" />
+</Box>
+```
+
+## Disabled
+
+```tsx live=true
+<Box display="flex" flexDirection="column" gap="4">
+  <ThemeToggle disabled />
+  <ThemeToggle checked disabled />
+  <ThemeToggle disabled size="small" />
+  <ThemeToggle checked disabled size="small" />
+</Box>
+```

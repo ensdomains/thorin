@@ -1,521 +1,420 @@
 import * as React from 'react'
-import styled, { css } from 'styled-components'
-import uniqueId from 'lodash/uniqueId'
 
 import { useEffect } from 'react'
 
-import { TransitionState, useTransition } from 'react-transition-state'
+import type { TransitionState } from 'react-transition-state'
+import { useTransitionState } from 'react-transition-state'
 
 import { useDocumentEvent } from '@/src/hooks/useDocumentEvent'
 
-import { Colors, Space } from '@/src/tokens'
+import type { Colors, Space } from '@/src/tokens'
 
-import { CrossCircleSVG } from '@/src'
+import { CrossCircleSVG, DownChevronSVG } from '@/src/icons'
 
-import {
-  getFontSize,
-  getFontWeight,
-  getLineHeight,
-} from '@/src/types/withTypography'
+import { statusDot } from '@/src/css/recipes/statusDot.css'
 
-import { DownChevronSVG, Field } from '../..'
+import { statusBorder } from '@/src/css/recipes/statusBorder.css'
 
-import { FieldBaseProps, State as FieldState } from '../../atoms/Field'
-import { DefaultTheme } from '../../../types/index'
+import { rotate } from '@/src/css/utils/common'
+
+import * as styles from './styles.css'
+
+import type { FieldBaseProps, State as FieldState } from '../../atoms/Field/Field'
+import { Field } from '../../atoms/Field/Field'
+import { Box, type BoxProps } from '../../atoms/Box/Box'
+import { getValueForSize } from './utils/getValueForSize'
+import { getValueForTransitionState } from './utils/getValueForTransitionState'
+import { uniqueId } from '@/src/utils/uniqueId'
+import { ScrollBox } from '../../atoms'
+import { clsx } from 'clsx'
+import { assignInlineVars } from '@vanilla-extract/dynamic'
 
 const CREATE_OPTION_VALUE = 'CREATE_OPTION_VALUE'
 
-type Size = 'small' | 'medium'
+export type Size = 'small' | 'medium'
 
-const Container = styled.div<{
+type ContainerProps = {
   $size: Size
-  $open: boolean
   $disabled: boolean
   $hasError: boolean
   $validated: boolean
   $showDot: boolean
   $readOnly: boolean
-}>(
-  ({
-    theme,
-    $size,
-    $showDot,
-    $hasError,
-    $validated,
-    $open,
-    $disabled,
-    $readOnly,
-  }) => css`
-    cursor: pointer;
-    position: relative;
+}
 
-    height: ${theme.space['12']};
-    font-size: ${theme.fontSizes.body};
-    line-height: ${theme.lineHeights.body};
-
-    :after {
-      content: '';
-      position: absolute;
-      width: ${theme.space['4']};
-      height: ${theme.space['4']};
-      border: 2px solid ${theme.colors.backgroundPrimary};
-      box-sizing: border-box;
-      border-radius: 50%;
-      right: -${theme.space['1.5']};
-      top: -${theme.space['1.5']};
-      transition: all 0.3s ease-out;
-      transform: scale(0.3);
-      opacity: 0;
-    }
-
-    ${$size === 'small' &&
-    css`
-      font-size: ${theme.fontSizes.small};
-      line-height: ${theme.lineHeights.small};
-      height: ${theme.space['10']};
-    `}
-
-    ${$showDot &&
-    !$disabled &&
-    $validated &&
-    !$open &&
-    css`
-      :after {
-        background: ${theme.colors.greenPrimary};
-        transform: scale(1);
-        opacity: 1;
-      }
-    `}
-
-    ${$showDot &&
-    !$disabled &&
-    !$hasError &&
-    $open &&
-    css`
-      :after {
-        background: ${theme.colors.bluePrimary};
-        transform: scale(1);
-        opacity: 1;
-      }
-    `}
-
-    ${$hasError &&
-    !$disabled &&
-    $showDot &&
-    css`
-      :after {
-        background: ${theme.colors.redPrimary};
-        transform: scale(1);
-        opacity: 1;
-      }
-    `}
-
-    ${$readOnly &&
-    css`
-      cursor: default;
-      pointer-events: none;
-    `}
-  `,
+const Container = React.forwardRef<HTMLElement, BoxProps & ContainerProps>(
+  (
+    { $size, $showDot, $hasError, $validated, $disabled, $readOnly, ...props },
+    ref,
+  ) => (
+    <Box
+      {...props}
+      className={statusDot({
+        error: $hasError,
+        validated: $validated,
+        show: $showDot && !$disabled,
+      })}
+      cursor="pointer"
+      fontSize={getValueForSize($size, 'fontSize')}
+      height={getValueForSize($size, 'height')}
+      lineHeight={getValueForSize($size, 'lineHeight')}
+      pointerEvents={$readOnly ? 'none' : 'all'}
+      position="relative"
+      ref={ref}
+    />
+  ),
 )
 
-const SelectContainer = styled.div<{
-  $open: boolean
+type SelectContainerProps = {
   $hasError: boolean
   $disabled: boolean
   $size: Size
-  $ids: FieldState
-}>(
-  ({ theme, $open, $hasError, $disabled, $size, $ids }) => css`
-    flex: 1;
-    display: flex;
-    align-items: center;
-    height: 100%;
-    gap: ${theme.space['2']};
-    padding-left: ${theme.space['4']};
-    background: ${theme.colors.backgroundPrimary};
+  $readOnly: boolean
+}
 
-    overflow: hidden;
-    border: 1px solid ${theme.colors.border};
-    border-radius: ${theme.radii.large};
-
-    svg {
-      display: block;
-    }
-
-    ${$open &&
-    css`
-      border-color: ${theme.colors.bluePrimary};
-    `}
-
-    ${$hasError &&
-    css`
-      border-color: ${theme.colors.redPrimary};
-      label {
-        color: ${theme.colors.redPrimary};
-      }
-    `}
-
-    ${$size === 'small' &&
-    css`
-      padding-left: ${theme.space['3.5']};
-    `}
-
-    ${$disabled &&
-    css`
-      background: ${theme.colors.greyLight};
-      color: ${theme.colors.greyPrimary};
-      cursor: not-allowed;
-    `}
-
-    input#${$ids?.content.id} ~ button#chevron svg {
-      color: ${theme.colors.textPrimary};
-    }
-
-    input#${$ids?.content.id}:placeholder-shown ~ button#chevron {
-      svg {
-        color: ${theme.colors.greyPrimary};
-      }
-    }
-
-    input#${$ids?.content.id}:disabled ~ button#chevron {
-      svg {
-        color: ${theme.colors.greyPrimary};
-      }
-    }
-
-    input#${$ids?.content.id}:disabled ~ * {
-      color: ${theme.colors.greyPrimary};
-      background: ${theme.colors.greyLight};
-      cursor: not-allowed;
-    }
-  `,
+const SelectContainer = ({
+  $hasError,
+  $disabled,
+  $readOnly,
+  $size,
+  ...props
+}: BoxProps & SelectContainerProps) => (
+  <Box
+    {...props}
+    alignItems="center"
+    backgroundColor="backgroundPrimary"
+    borderColor="border"
+    borderRadius="large"
+    borderStyle="solid"
+    borderWidth="1x"
+    className={statusBorder({
+      error: $hasError,
+      readonly: $readOnly,
+      disabled: $disabled,
+    })}
+    cursor="pointer"
+    display="flex"
+    flex={1}
+    gap="2"
+    height="full"
+    overflow="hidden"
+    paddingLeft={getValueForSize($size, 'outerPadding')}
+  />
 )
 
-const RootInput = styled.input(
-  () => css`
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    appearance: none;
-    visibility: hidden;
-  `,
+const RootInput = React.forwardRef<HTMLInputElement, BoxProps>(({ className, ...props }, ref) => (
+  <Box
+    {...props}
+    className={clsx(styles.rootInput, className)}
+    as="input"
+    overflow="hidden"
+    position="absolute"
+    ref={ref}
+    visibility="hidden"
+    wh="px"
+  />
+))
+
+const SelectLabel = (props: BoxProps) => (
+  <Box
+    {...props}
+    flex={1}
+    overflow="hidden"
+    textOverflow="ellipsis"
+    whiteSpace="nowrap"
+  />
 )
 
-const SelectLabel = styled.div(
-  () => css`
-    flex: 1;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-  `,
+type SelectLabelWithPrefixProps = {
+  option: SelectOptionProps
+}
+const SelectLabelWithPrefix = ({
+  option,
+  ...props
+}: BoxProps & SelectLabelWithPrefixProps) =>
+  option
+    ? (
+        <>
+          {React.isValidElement(option.prefix) && (
+            <Box display="block" height="4" width="4">
+              {option.prefix}
+            </Box>
+          )}
+          <SelectLabel {...props}>
+            {option.node ? option.node : option.label || option.value}
+          </SelectLabel>
+        </>
+      )
+    : null
+
+const SelectInput = React.forwardRef<HTMLInputElement, BoxProps>((props, ref) => (
+  <Box
+    {...props}
+    as="input"
+    backgroundColor="transparent"
+    className={styles.input}
+    color="textPrimary"
+    flex={1}
+    height="full"
+    paddingRight="0"
+    ref={ref}
+  />
+))
+
+const SelectActionButton = ({
+  $size,
+  $disabled,
+  ...props
+}: BoxProps & { $size: Size, $disabled: boolean }) => (
+  <Box
+    {...props}
+    alignItems="center"
+    as="button"
+    color="greyPrimary"
+    cursor={$disabled ? 'not-allowed' : 'pointer'}
+    display="flex"
+    height="full"
+    justifyContent="flex-end"
+    margin="0"
+    padding="0"
+    paddingLeft="2"
+    paddingRight={getValueForSize($size, 'outerPadding')}
+  >
+    <Box
+      as={CrossCircleSVG}
+      display="block"
+      wh={getValueForSize($size, 'iconWidth')}
+    />
+  </Box>
 )
 
-const PlaceholderLabel = styled(SelectLabel)(
-  ({ theme }) => css`
-    color: ${theme.colors.greyPrimary};
-    pointer-events: none;
-  `,
-)
-
-const SelectInput = styled.input(
-  ({ theme }) => css`
-    flex: 1;
-    background: transparent;
-    padding-right: 0;
-    height: 100%;
-    color: ${theme.colors.textPrimary};
-
-    &::placeholder {
-      color: ${theme.colors.greyPrimary};
-    }
-  `,
-)
-
-const SelectActionButton = styled.button<{ $size: Size }>(
-  ({ theme, $size }) => css`
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    padding-right: ${theme.space['4']};
-    padding-left: ${theme.space['2']};
-
-    svg {
-      display: block;
-      width: ${$size === 'small' ? theme.space['3'] : theme.space['4']};
-      path {
-        color: ${theme.colors.greyPrimary};
-      }
-    }
-
-    ${$size === 'small' &&
-    css`
-      padding-right: ${theme.space['3.5']};
-    `}
-  `,
-)
-
-const ToggleMenuButton = styled(SelectActionButton)<{
+const ToggleMenuButton = ({
+  $open,
+  $direction,
+  $size,
+  $disabled,
+  ...props
+}: BoxProps & {
+  $size: Size
   $open: boolean
-  $direction?: Direction
-}>(
-  ({ theme, $open, $direction }) => css`
-    display: flex;
-    cursor: pointer;
+  $direction: Direction
+  $disabled: boolean
+}) => {
+  const baseRotation = $direction === 'up' ? 180 : 0
+  const openRotation = baseRotation === 180 ? 0 : 180
+  const rotation = $open ? openRotation : baseRotation
+  return (
+    <Box
+      {...props}
+      alignItems="center"
+      as="button"
+      color="greyPrimary"
+      cursor={$disabled ? 'not-allowed' : 'pointer'}
+      display="flex"
+      height="full"
+      justifyContent="flex-end"
+      margin="0"
+      padding="0"
+      paddingLeft="2"
+      paddingRight={getValueForSize($size, 'outerPadding')}
+    >
+      <Box
+        as={DownChevronSVG}
+        display="block"
+        fill="currentColor"
+        className={styles.toggleMenuButton}
+        style={assignInlineVars({
+          [styles.toggleMenuButtonRotation]: rotate(rotation),
+        })}
+        transitionDuration={200}
+        transitionProperty="all"
+        transitionTimingFunction="inOut"
+        wh={getValueForSize($size, 'iconWidth')}
+      />
+    </Box>
+  )
+}
 
-    svg {
-      fill: currentColor;
-      transform: ${$direction === 'up' ? 'rotate(180deg)' : 'rotate(0deg)'};
-      transition-duration: ${theme.transitionDuration['200']};
-      transition-property: all;
-      transition-timing-function: ${theme.transitionTimingFunction['inOut']};
-    }
-    fill: currentColor;
-
-    ${$open &&
-    css`
-      svg {
-        transform: ${$direction === 'up' ? 'rotate(0deg)' : 'rotate(180deg)'};
-      }
-    `}
-  `,
-)
-
-const SelectOptionContainer = styled.div<{
-  $state?: TransitionState['status']
+type SelectOptionContainerProps = {
+  $state?: TransitionState['status'] | 'default'
   $direction?: Direction
   $rows?: number
   $size?: Size
   $align?: 'left' | 'right'
-}>(
-  ({ theme, $state, $direction, $rows, $size, $align }) => css`
-    display: ${$state === 'exited' ? 'none' : 'block'};
-    position: absolute;
-    visibility: hidden;
-    opacity: 0;
-    overflow: hidden;
-
-    border: 1px solid ${theme.colors.border};
-    padding: ${theme.space['2']};
-    min-width: ${theme.space['full']};
-    ${$align === 'right'
-      ? css`
-          right: 0;
-        `
-      : css`
-          left: 0;
-        `}
-    border-radius: ${theme.radii['2xLarge']};
-    background: ${theme.colors.background};
-    transition: all 0.3s cubic-bezier(1, 0, 0.22, 1.6), z-index 0.3s linear;
-
-    font-size: ${theme.fontSizes.body};
-    line-height: ${theme.lineHeights.body};
-
-    ${$size === 'small' &&
-    css`
-      font-size: ${theme.fontSizes.small};
-    `}
-
-    ${$state === 'entered'
-      ? css`
-          z-index: 20;
-          visibility: visible;
-          top: ${$direction === 'up'
-            ? `auto`
-            : `calc(100% + ${theme.space['2']})`};
-          bottom: ${$direction === 'up'
-            ? `calc(100% + ${theme.space['2']})`
-            : 'auto'};
-          opacity: 1;
-        `
-      : css`
-          z-index: 1;
-          visibility: hidden;
-          top: ${$direction === 'up'
-            ? `auto`
-            : `calc(100% - ${theme.space['12']})`};
-          bottom: ${$direction === 'up'
-            ? `calc(100% - ${theme.space['12']})`
-            : 'auto'};
-          opacity: 0;
-        `}
-
-    ${$rows &&
-    css`
-      padding-right: ${theme.space['1']};
-    `}
-  `,
+}
+const SelectOptionContainer = ({
+  $state = 'default',
+  $direction = 'down',
+  // $rows,
+  $size = 'medium',
+  $align,
+  className,
+  style,
+  ...props
+}: BoxProps & SelectOptionContainerProps) => (
+  <Box
+    {...props}
+    backgroundColor="backgroundPrimary"
+    borderColor="border"
+    borderRadius="2xLarge"
+    borderStyle="solid"
+    borderWidth="1x"
+    display={$state === 'exited' ? 'none' : 'block'}
+    fontSize={getValueForSize($size, 'fontSize')}
+    left={$align === 'left' ? '0' : 'unset'}
+    lineHeight="body"
+    minWidth="full"
+    opacity={getValueForTransitionState($state, 'opacity', $direction)}
+    overflow="hidden"
+    padding="2"
+    position="absolute"
+    right={$align === 'right' ? '0' : 'unset'}
+    visibility={getValueForTransitionState($state, 'visibility', $direction)}
+    zIndex={getValueForTransitionState($state, 'zIndex', $direction)}
+    className={clsx(styles.selectOptionContainer, className)}
+    style={{ ...style, ...assignInlineVars({
+      [styles.selectOptionContainerTop]: getValueForTransitionState($state, 'top', $direction),
+      [styles.selectOptionContainerBottom]: getValueForTransitionState($state, 'bottom', $direction),
+    }) }}
+  />
 )
 
-const getMaxHeight = (theme: DefaultTheme, $rows: number, $size: Size) => {
-  if ($size === 'small') return `calc(${theme.space['9']} * ${$rows})`
-  return `calc(${theme.space['11']} * ${$rows})`
-}
-
-const SelectOptionList = styled.div<{
+type SelectOptionListProps = {
   $rows?: number
   $direction: Direction
   $size: Size
-}>(
-  ({ theme, $rows, $direction, $size }) => css`
-    display: flex;
-    flex-direction: ${$direction === 'up' ? 'column-reverse' : 'column'};
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: ${theme.space['1']};
-    overflow-y: ${$rows ? 'scroll' : 'hidden'};
-    overflow-x: hidden;
-    width: 100%;
-    height: 100%;
-    ${$rows &&
-    css`
-      max-height: ${getMaxHeight(theme, $rows, $size)};
-      border-color: hsla(${theme.colors.raw.greyActive} / 0.05);
-      transition: border-color 0.15s ease-in-out;
-      padding-right: ${theme.space['1']};
+}
 
-      /* stylelint-disable-next-line selector-pseudo-element-no-unknown */
-      &::-webkit-scrollbar-track {
-        background-color: transparent;
-      }
+const SelectOptionList = ({
+  $rows,
+  $direction,
+  $size = 'medium',
+  children,
+  style,
+  className,
+  ...props
+}: BoxProps & SelectOptionListProps) => {
+  if ($rows) {
+    return (
+      <ScrollBox
+        {...props}
+        display="flex"
+        flexDirection={$direction === 'up' ? 'column-reverse' : 'column'}
+        hideDividers
+        paddingRight="1"
+        width="full"
+        className={clsx(styles.selectOptionList, className)}
+        style={{ ...style, ...assignInlineVars({
+          [styles.selectOptionListSize]: getValueForSize($size, 'maxHeightFunc')($rows),
+        }) }}
+      >
+        {children}
+      </ScrollBox>
+    )
+  }
+  return (
+    <Box
+      {...props}
+      alignItems="flex-start"
+      display="flex"
+      flexDirection={$direction === 'up' ? 'column-reverse' : 'column'}
+      gap="1"
+      justifyContent="space-between"
+      overflow="hidden"
+      wh="full"
+    >
+      {children}
+    </Box>
+  )
+}
 
-      &::-webkit-scrollbar {
-        width: ${theme.space['1.5']};
-        background-color: transparent;
-      }
-
-      &::-webkit-scrollbar-thumb {
-        border: none;
-        border-radius: ${theme.radii.full};
-        border-right-style: inset;
-        border-right-width: calc(100vw + 100vh);
-        border-color: inherit;
-      }
-
-      &::-webkit-scrollbar-button {
-        display: none;
-      }
-
-      &:hover {
-        border-color: hsla(${theme.colors.raw.greyActive} / 0.2);
-      }
-    `};
-  `,
-)
-
-const SelectOption = styled.button<{
+type SelectOptionRowProps = {
   $selected?: boolean
   $color?: Colors
   $highlighted?: boolean
   $size: Size
-}>(
-  ({ theme, $selected, $highlighted, $color, $size }) => css`
-    align-items: center;
-    cursor: pointer;
-    display: flex;
-    gap: ${theme.space['2']};
-    width: ${theme.space['full']};
-    height: ${theme.space['11']};
-    flex: 0 0 ${theme.space['11']};
-    padding: 0 ${theme.space['3']};
-    justify-content: flex-start;
-    transition-duration: ${theme.transitionDuration['150']};
-    transition-property: all;
-    transition-timing-function: ${theme.transitionTimingFunction['inOut']};
-    border-radius: ${theme.radii.large};
-    white-space: nowrap;
-    color: ${theme.colors.textPrimary};
-    font-size: ${getFontSize('body')};
-    font-weight: ${getFontWeight('body')};
-    line-height: ${getLineHeight('body')};
-    text-align: left;
+  option: SelectOptionProps
+}
+const SelectOptionRow = ({
+  $selected,
+  $highlighted,
+  $color,
+  $size,
+  option,
+  ...props
+}: BoxProps & SelectOptionRowProps) => {
+  return (
+    <Box
+      {...props}
+      alignItems="center"
+      as="button"
+      backgroundColor={{
+        base: $selected
+          ? 'greyLight'
+          : $highlighted
+            ? 'greySurface'
+            : 'transparent',
+        disabled: 'transparent',
+      }}
+      borderRadius="large"
+      color={{ base: $color || 'textPrimary', disabled: 'greyPrimary' }}
+      cursor={{ base: 'pointer', disabled: 'not-allowed' }}
+      display="flex"
+      flexBasis={getValueForSize($size, 'rowHeight')}
+      flexGrow={0}
+      flexShrink={0}
+      fontSize={getValueForSize($size, 'fontSize')}
+      fontWeight="normal"
+      height={getValueForSize($size, 'rowHeight')}
+      justifyContent="flex-start"
+      lineHeight={getValueForSize($size, 'lineHeight')}
+      px="3"
+      textAlign="left"
+      transitionDuration={150}
+      transitionProperty="all"
+      transitionTimingFunction="inOut"
+      whiteSpace="nowrap"
+      width="full"
+    >
+      <SelectLabelWithPrefix option={option} />
+    </Box>
+  )
+}
 
-    svg {
-      display: block;
-      width: ${theme.space['4']};
-      height: ${theme.space['4']};
-      color: ${theme.colors.textPrimary};
-    }
-
-    ${$color &&
-    css`
-      color: ${theme.colors[$color]};
-      svg {
-        color: ${theme.colors[$color]};
-      }
-    `}
-
-    &:disabled {
-      color: ${theme.colors.greyPrimary};
-      cursor: not-allowed;
-
-      &:hover {
-        background-color: transparent;
-      }
-
-      svg {
-        color: ${theme.colors.greyPrimary};
-      }
-    }
-
-    ${$highlighted &&
-    css`
-      background-color: ${theme.colors.greySurface};
-    `}
-
-    ${$selected &&
-    css`
-      background-color: ${theme.colors.greyLight};
-    `}
-
-    ${$size === 'small' &&
-    css`
-      height: ${theme.space['9']};
-      flex: 0 0 ${theme.space['9']};
-      font-size: ${getFontSize('small')};
-      font-weight: ${getFontWeight('small')};
-      line-height: ${getLineHeight('small')};
-    `}
-  `,
-)
-
-const NoResultsContainer = styled.div(
-  ({ theme }) => css`
-    align-items: center;
-    display: flex;
-    gap: ${theme.space['3']};
-    width: ${theme.space['full']};
-    height: ${theme.space['9']};
-    padding: 0 ${theme.space['2']};
-    justify-content: flex-start;
-    transition-duration: ${theme.transitionDuration['150']};
-    transition-property: all;
-    transition-timing-function: ${theme.transitionTimingFunction['inOut']};
-    border-radius: ${theme.radii['medium']};
-    margin: ${theme.space['0.5']} 0;
-    font-style: italic;
-    white-space: nowrap;
-  `,
+const NoResultsContainer = (props: BoxProps) => (
+  <Box
+    {...props}
+    alignItems="center"
+    borderRadius="medium"
+    display="flex"
+    fontStyle="italic"
+    gap="3"
+    height="9"
+    justifyContent="flex-start"
+    my="0.5"
+    px="2"
+    transitionDuration={150}
+    transitionProperty="all"
+    transitionTimingFunction="inOut"
+    whiteSpace="nowrap"
+    width="full"
+  />
 )
 
 // Helper function for filtering options
-const createOptionsReducer =
-  (searchTerm: string) =>
-  (
-    results: { options: SelectOptionProps[]; exactMatch: boolean },
-    option: SelectOptionProps,
-  ) => {
-    if (option.label) {
-      const label = option.label.trim().toLowerCase()
-      if (label.indexOf(searchTerm) !== -1) results.options.push(option)
-      if (label === searchTerm) results.exactMatch = true
+const createOptionsReducer
+  = (searchTerm: string) =>
+    (
+      results: { options: SelectOptionProps[], exactMatch: boolean },
+      option: SelectOptionProps,
+    ) => {
+      if (option.label) {
+        const label = option.label.trim().toLowerCase()
+        if (label.indexOf(searchTerm) !== -1) results.options.push(option)
+        if (label === searchTerm) results.exactMatch = true
+      }
+      return results
     }
-    return results
-  }
 
 enum ReservedKeys {
   ArrowUp = 'ArrowUp',
@@ -534,7 +433,7 @@ export type SelectOptionProps = {
   color?: Colors
 }
 
-type Direction = 'up' | 'down'
+export type Direction = 'up' | 'down'
 
 type NativeDivProps = React.HTMLAttributes<HTMLDivElement>
 
@@ -554,7 +453,7 @@ export type SelectProps = {
   /** The string or component to prefix the value in the create value option. */
   createablePrefix?: string
   /** The handler for change events. */
-  onChange?: NativeSelectProps['onChange']
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
   /** The tabindex attribute for  */
   tabIndex?: NativeSelectProps['tabIndex']
   /** The handler for focus events. */
@@ -574,9 +473,9 @@ export type SelectProps = {
   /** Preset size spacing settings */
   size?: Size
   /** Overide the padding setting of the element */
-  padding?: Space | { outer?: Space; inner?: Space }
+  padding?: Space | { outer?: Space, inner?: Space }
   /** The size attribute for input element. Useful for controlling input size in flexboxes. */
-  inputSize?: number | { max?: number; min?: number }
+  inputSize?: number | { max?: number, min?: number }
   /** If true, show a border around the select component **/
   showBorder?: boolean
   /** If the option list is wider than the select, which  */
@@ -587,24 +486,26 @@ export type SelectProps = {
   validated?: boolean
   /** If true, sets the select component into read only mode */
   readOnly?: boolean
-} & FieldBaseProps &
-  Omit<
-    NativeDivProps,
-    | 'children'
-    | 'id'
-    | 'onChange'
-    | 'tabIndex'
-    | 'onFocus'
-    | 'onBlur'
-    | 'aria-controls'
-    | 'aria-expanded'
-    | 'role'
-    | 'aria-haspopup'
-    | 'aria-invalid'
-    | 'onClick'
-    | 'onKeyDown'
-  > &
-  Pick<NativeSelectProps, 'placeholder'>
+} & FieldBaseProps & Pick<React.InputHTMLAttributes<HTMLInputElement>, 'placeholder'> &
+Omit<
+  NativeDivProps,
+  | 'children'
+  | 'id'
+  | 'onChange'
+  | 'tabIndex'
+  | 'onFocus'
+  | 'onBlur'
+  | 'aria-controls'
+  | 'aria-expanded'
+  | 'role'
+  | 'aria-haspopup'
+  | 'aria-invalid'
+  | 'onClick'
+  | 'onKeyDown'
+  | 'color'
+  | 'height'
+  | 'width'
+>
 
 const getPadding = (
   key: 'outer' | 'inner',
@@ -624,11 +525,11 @@ const getSize = (
   return size?.[key] || fallback
 }
 
-export const Select = React.forwardRef(
+export const Select = React.forwardRef<HTMLInputElement, SelectProps>(
   (
     {
       description,
-      disabled,
+      disabled = false,
       autocomplete = false,
       createable = false,
       createablePrefix = 'Add ',
@@ -660,8 +561,8 @@ export const Select = React.forwardRef(
       validated,
       showDot = false,
       ...props
-    }: SelectProps,
-    ref: React.Ref<HTMLInputElement>,
+    },
+    ref,
   ) => {
     const defaultRef = React.useRef<HTMLInputElement>(null)
     const inputRef = (ref as React.RefObject<HTMLInputElement>) || defaultRef
@@ -674,28 +575,26 @@ export const Select = React.forwardRef(
     const isCreateable = createable && queryValue !== ''
     const isAutocomplete = createable || autocomplete
 
-    const [id] = React.useState(_id || uniqueId())
+    const [id] = React.useState(() => _id || uniqueId())
 
     // Internal tracker of value
     const [value, setValue] = React.useState<SelectProps['value']>('')
     React.useEffect(() => {
       if (_value !== value && _value !== undefined) setValue(_value)
-      return () => {
-        setValue('')
-      }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [_value])
 
-    const selectedOption = options?.find((o) => o.value === value) || null
+    const selectedOption = options?.find(o => o.value === value) || null
 
-    const changeSelectedOption = (option?: SelectOptionProps, event?: any) => {
+    const changeSelectedOption = (option?: SelectOptionProps, event?: React.SyntheticEvent<HTMLElement>) => {
       if (option?.disabled) return
       if (option?.value === CREATE_OPTION_VALUE) {
-        onCreate && onCreate(queryValue)
-      } else if (option?.value) {
+        onCreate?.(queryValue)
+      }
+      else if (option?.value) {
         setValue(option?.value)
         if (event) {
           const nativeEvent = event.nativeEvent || event
+          // @ts-expect-error use of Function.constructor
           const clonedEvent = new nativeEvent.constructor(
             nativeEvent.type,
             nativeEvent,
@@ -713,7 +612,7 @@ export const Select = React.forwardRef(
               },
             },
           })
-          onChange && onChange(clonedEvent)
+          onChange?.(clonedEvent)
         }
       }
     }
@@ -734,7 +633,7 @@ export const Select = React.forwardRef(
         ...(isCreateable && !exactMatch
           ? [
               {
-                label: `${createablePrefix}"${queryValue}"`,
+                label: `${createablePrefix}"{queryValue}"`,
                 value: CREATE_OPTION_VALUE,
               },
             ]
@@ -747,9 +646,9 @@ export const Select = React.forwardRef(
       (index: number) => {
         const option = visibleOptions[index]
         if (
-          option &&
-          !option.disabled &&
-          option.value !== CREATE_OPTION_VALUE
+          option
+          && !option.disabled
+          && option.value !== CREATE_OPTION_VALUE
         ) {
           setHighlightedIndex(index)
           setInputValue(option.label || '')
@@ -775,9 +674,9 @@ export const Select = React.forwardRef(
       } while (visibleOptions[nextIndex])
     }
 
-    const selectHighlightedIndex = (event: any) => {
+    const selectHighlightedIndex = (event: React.KeyboardEvent<HTMLDivElement> | React.KeyboardEvent<HTMLInputElement>) => {
       const option = visibleOptions[highlightedIndex]
-      option && changeSelectedOption(option, event)
+      if (option) changeSelectedOption(option, event)
       handleReset()
     }
 
@@ -794,7 +693,7 @@ export const Select = React.forwardRef(
       maxInputSize,
     )
 
-    const [{ status: state }, toggle] = useTransition({
+    const [state, toggle] = useTransitionState({
       timeout: {
         enter: 0,
         exit: 300,
@@ -802,18 +701,13 @@ export const Select = React.forwardRef(
       preEnter: true,
     })
 
-    React.useEffect(() => {
-      const toggleValue = isOpen || false
-      toggle(toggleValue)
-      return () => {
-        toggle(!toggleValue)
-      }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => {
+      toggle(isOpen)
     }, [isOpen])
 
     useEffect(() => {
-      if (!menuOpen && state === 'unmounted') handleReset()
-    }, [menuOpen, state])
+      if (!menuOpen && state.status === 'unmounted') handleReset()
+    }, [menuOpen, state.status])
 
     const defaultPadding = size === 'small' ? '3' : '4'
     const innerPadding = getPadding('inner', defaultPadding, paddingProp)
@@ -879,13 +773,13 @@ export const Select = React.forwardRef(
       changeHighlightIndex(-1)
     }
 
-    const handleOptionClick =
-      (option: SelectOptionProps) =>
-      (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.stopPropagation()
-        changeSelectedOption(option, e)
-        setMenuOpen(false)
-      }
+    const handleOptionClick
+      = (option: SelectOptionProps) =>
+        (e: React.MouseEvent<HTMLButtonElement>) => {
+          e.stopPropagation()
+          changeSelectedOption(option, e)
+          setMenuOpen(false)
+        }
 
     const handleOptionMouseover = (e: React.MouseEvent<HTMLButtonElement>) => {
       const index = Number(e.currentTarget.getAttribute('data-option-index'))
@@ -900,14 +794,16 @@ export const Select = React.forwardRef(
     }: {
       option: SelectOptionProps | null
     }) =>
-      option ? (
-        <>
-          {option.prefix && <div>{option.prefix}</div>}
-          <SelectLabel {...props}>
-            {option.node ? option.node : option.label || option.value}
-          </SelectLabel>
-        </>
-      ) : null
+      option
+        ? (
+            <>
+              {option.prefix && <div>{option.prefix}</div>}
+              <SelectLabel {...props}>
+                {option.node ? option.node : option.label || option.value}
+              </SelectLabel>
+            </>
+          )
+        : null
 
     return (
       <Field
@@ -933,13 +829,12 @@ export const Select = React.forwardRef(
               'aria-haspopup': 'listbox',
               'aria-invalid': error ? true : undefined,
               'data-testid': 'select-container',
-              role: 'combobox',
-              onClick: handleSelectContainerClick,
-              onKeyDown: handleKeydown,
+              'role': 'combobox',
+              'onClick': handleSelectContainerClick,
+              'onKeyDown': handleKeydown,
             }}
             $disabled={!!disabled}
             $hasError={!!error}
-            $open={isOpen}
             $readOnly={readOnly}
             $showDot={showDot}
             $size={size}
@@ -953,8 +848,7 @@ export const Select = React.forwardRef(
             <SelectContainer
               $disabled={!!disabled}
               $hasError={!!error}
-              $ids={ids}
-              $open={isOpen}
+              $readOnly={readOnly}
               $size={size}
             >
               <RootInput
@@ -970,68 +864,80 @@ export const Select = React.forwardRef(
                 tabIndex={-1}
                 value={value}
                 onChange={(e) => {
-                  const newValue = e.target.value
-                  const option = options?.find((o) => o.value === newValue)
+                  const newValue = (e.target as HTMLInputElement).value
+                  const option = options?.find(o => o.value === newValue)
                   if (option) {
                     setValue(option.value)
-                    onChange && onChange(e)
+                    onChange?.(e as React.ChangeEvent<HTMLInputElement>)
                   }
                 }}
                 onFocus={() => {
+                  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
                   searchInputRef.current
                     ? searchInputRef.current.focus()
                     : displayRef.current?.focus()
                 }}
               />
-              {isAutocomplete && isOpen ? (
-                <SelectInput
-                  autoCapitalize="none"
-                  autoComplete="off"
-                  autoFocus
-                  data-testid="select-input"
-                  placeholder={selectedOption?.label || placeholder}
-                  ref={searchInputRef}
-                  size={inputSize}
-                  spellCheck="false"
-                  style={{ flex: '1', height: '100%' }}
-                  value={inputValue}
-                  onChange={handleInputChange}
-                  onKeyDown={(e) =>
-                    handleKeydown(e as React.KeyboardEvent<HTMLInputElement>)
-                  }
-                />
-              ) : selectedOption ? (
-                <OptionElement data-testid="selected" option={selectedOption} />
-              ) : (
-                <PlaceholderLabel>{placeholder}</PlaceholderLabel>
-              )}
-              {showClearButton ? (
-                <SelectActionButton
-                  $size={size}
-                  type="button"
-                  onClick={handleInputClear}
-                >
-                  <CrossCircleSVG />
-                </SelectActionButton>
-              ) : !readOnly ? (
-                <ToggleMenuButton
-                  $direction={direction}
-                  $open={isOpen}
-                  $size={size}
-                  id="chevron"
-                  type="button"
-                  onClick={() => setMenuOpen(!menuOpen)}
-                >
-                  <DownChevronSVG />
-                </ToggleMenuButton>
-              ) : null}
+              {isAutocomplete && isOpen
+                ? (
+                    <SelectInput
+                      autoCapitalize="none"
+                      autoComplete="off"
+                      autoFocus
+                      data-testid="select-input"
+                      placeholder={selectedOption?.label || placeholder}
+                      ref={searchInputRef}
+                      size={inputSize}
+                      spellCheck="false"
+                      style={{ flex: '1', height: '100%' }}
+                      value={inputValue}
+                      onChange={handleInputChange}
+                      onKeyDown={e =>
+                        handleKeydown(e as React.KeyboardEvent<HTMLInputElement>)}
+                    />
+                  )
+                : selectedOption
+                  ? (
+                      <OptionElement data-testid="selected" option={selectedOption} />
+                    )
+                  : (
+                      <SelectLabel color="greyPrimary" pointerEvents="none">
+                        {placeholder}
+                      </SelectLabel>
+                    )}
+              {showClearButton
+                ? (
+                    <SelectActionButton
+                      $disabled={disabled}
+                      $size={size}
+                      type="button"
+                      onClick={handleInputClear}
+                    >
+                      <CrossCircleSVG />
+                    </SelectActionButton>
+                  )
+                : !readOnly
+                    ? (
+                        <ToggleMenuButton
+                          $direction={direction}
+                          $disabled={disabled}
+                          $open={isOpen}
+                          $size={size}
+                          id="chevron"
+                          type="button"
+                          onClick={() => setMenuOpen(!menuOpen)}
+                        >
+                          <DownChevronSVG />
+                        </ToggleMenuButton>
+                      )
+                    : null}
             </SelectContainer>
             <SelectOptionContainer
               $align={align}
               $direction={direction}
               $rows={rows}
               $size={size}
-              $state={state}
+              $state={state.status}
               id={`listbox-${id}`}
               role="listbox"
               tabIndex={-1}
@@ -1046,11 +952,11 @@ export const Select = React.forwardRef(
                   <NoResultsContainer>{emptyListMessage}</NoResultsContainer>
                 )}
                 {visibleOptions.map((option, index) => (
-                  <SelectOption
+                  <SelectOptionRow
                     {...{
                       $selected: option?.value === value,
                       $highlighted: index === highlightedIndex,
-                      $gap: innerPadding,
+                      gap: innerPadding,
                       $color: option.color,
                       $size: size,
                     }}
@@ -1058,13 +964,12 @@ export const Select = React.forwardRef(
                     data-testid={`select-option-${option.value}`}
                     disabled={option.disabled}
                     key={option.value}
+                    option={option}
                     role="option"
                     type="button"
                     onClick={handleOptionClick(option)}
                     onMouseOver={handleOptionMouseover}
-                  >
-                    <OptionElement option={option} />
-                  </SelectOption>
+                  />
                 ))}
               </SelectOptionList>
             </SelectOptionContainer>

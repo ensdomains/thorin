@@ -1,197 +1,156 @@
 import * as React from 'react'
-import styled, { css } from 'styled-components'
+
+import classNames, { clsx } from 'clsx'
 
 import { createSyntheticEvent } from '@/src/utils/createSyntheticEvent'
 
-import { CrossCircleSVG, Field } from '../..'
-import { FieldBaseProps } from '../../atoms/Field'
+import { statusDot } from '@/src/css/recipes/statusDot.css'
 
-const Container = styled.div<{
+import { statusBorder } from '@/src/css/recipes/statusBorder.css'
+
+import * as styles from './styles.css'
+
+import type { FieldBaseProps } from '../../atoms/Field/Field'
+import { Field } from '../../atoms/Field/Field'
+import type { AsProp, BoxProps } from '../../atoms/Box/Box'
+import { Box } from '../../atoms/Box/Box'
+import { getValueForSize } from './utils/getValueForSize'
+import { CrossCircleSVG } from '@/src/icons'
+
+export type Size = TextareaProps['size']
+
+type ContainerProps = {
   $validated?: boolean
   $error?: boolean
   $showDot?: boolean
   $disabled?: boolean
-  $alwaysShowAction?: boolean
-}>(
-  ({
-    theme,
-    $error,
-    $validated,
-    $showDot,
-    $alwaysShowAction,
-    $disabled,
-  }) => css`
-    position: relative;
-    background-color: ${theme.colors.backgroundSecondary};
-    border-radius: ${theme.radii.large};
-    color: ${theme.colors.text};
-    display: flex;
-    transition-duration: ${theme.transitionDuration['150']};
-    transition-property: color, border-color, background-color;
-    transition-timing-function: ${theme.transitionTimingFunction['inOut']};
-
-    :after {
-      content: '';
-      position: absolute;
-      width: ${theme.space['4']};
-      height: ${theme.space['4']};
-      border: 2px solid ${theme.colors.backgroundPrimary};
-      right: -${theme.space['1.5']};
-      top: -${theme.space['1.5']};
-      border-radius: ${theme.radii.full};
-      transition: all 0.3s ease-in-out;
-      transform: scale(0.3);
-      opacity: 0;
-    }
-
-    ${$showDot &&
-    !$disabled &&
-    $error &&
-    css`
-      &:after {
-        background-color: ${theme.colors.redPrimary};
-        transform: scale(1);
-        opacity: 1;
-      }
-    `}
-
-    ${$showDot &&
-    !$disabled &&
-    $validated &&
-    !$error &&
-    css`
-      &:after {
-        background-color: ${theme.colors.greenPrimary};
-        transform: scale(1);
-        opacity: 1;
-      }
-    `}
-
-    ${$showDot &&
-    !$error &&
-    css`
-      &:focus-within::after {
-        background-color: ${theme.colors.bluePrimary};
-        transform: scale(1);
-        opacity: 1;
-      }
-    `}
-
-    textarea:disabled ~ button {
-      opacity: 0;
-      transform: scale(0.8);
-    }
-
-    ${!$alwaysShowAction &&
-    css`
-      textarea:placeholder-shown ~ button {
-        opacity: 0;
-        transform: scale(0.8);
-      }
-    `}
-  `,
+}
+const Container = ({
+  $error,
+  $validated,
+  $showDot,
+  $disabled,
+  className,
+  ...props
+}: BoxProps & ContainerProps) => (
+  <Box
+    {...props}
+    backgroundColor="backgroundSecondary"
+    borderRadius="large"
+    className={clsx(styles.container, statusDot({
+      error: $error,
+      validated: $validated,
+      show: $showDot && !$disabled,
+    }), className)}
+    color="text"
+    display="flex"
+    position="relative"
+    transitionDuration={150}
+    transitionTimingFunction="inOut"
+  />
 )
 
-const TextArea = styled.textarea<{
+type TextAreaProps = {
   $error?: boolean
-  $validated?: boolean
-  $showDot?: boolean
-  $size: Props['size']
+  $size: TextareaProps['size']
   $hasAction?: boolean
-}>(
-  ({ theme, $size, $hasAction, $error }) => css`
-    position: relative;
-    color: ${theme.colors.textPrimary};
-    background-color: ${theme.colors.backgroundPrimary};
-    border-color: ${theme.colors.border};
-    border-width: 1px;
-    border-style: solid;
-
-    display: flex;
-    font-family: ${theme.fonts['sans']};
-    font-size: ${theme.fontSizes.body};
-    font-weight: ${theme.fontWeights.normal};
-    min-height: ${theme.space['14']};
-    padding: ${theme.space['3.5']}
-      ${$hasAction ? theme.space['10'] : theme.space['4']} ${theme.space['3.5']}
-      ${theme.space['4']};
-    width: ${theme.space['full']};
-    border-radius: ${theme.radii.large};
-    overflow: hidden;
-    resize: none;
-    outline: none;
-    transition: all 0.3s ease-in-out;
-
-    &::placeholder {
-      color: ${theme.colors.greyPrimary};
-    }
-
-    &:disabled {
-      color: ${theme.colors.greyPrimary};
-      background: ${theme.colors.greyLight};
-    }
-
-    ${$size === 'small' &&
-    css`
-      font-size: ${theme.fontSizes.small};
-      line-height: ${theme.lineHeights.small};
-      padding: ${theme.space['2.5']}
-        ${$hasAction ? theme.space['9'] : theme.space['3.5']}
-        ${theme.space['2.5']} ${theme.space['3.5']};
-    `}
-
-    ${$error &&
-    css`
-      border-color: ${theme.colors.redPrimary};
-      color: ${theme.colors.redPrimary};
-    `}
-
-    ${!$error &&
-    css`
-      &:focus-within {
-        border-color: ${theme.colors.bluePrimary};
-      }
-    `}
-
-    &:read-only {
-      border-color: ${theme.colors.border};
-      cursor: default;
-    }
-  `,
+  $alwaysShowAction?: boolean
+}
+const TextArea = React.forwardRef<HTMLTextAreaElement, BoxProps & TextAreaProps>(
+  (
+    {
+      $size = 'medium',
+      $hasAction,
+      $error,
+      $alwaysShowAction,
+      readOnly,
+      disabled,
+      ...props
+    },
+    ref,
+  ) => (
+    <Box
+      {...props}
+      as="textarea"
+      backgroundColor={{ base: 'backgroundPrimary', disabled: 'greyLight' }}
+      borderColor="border"
+      borderRadius="large"
+      borderStyle="solid"
+      borderWidth="1x"
+      className={classNames(
+        styles.textarea({ showAction: $alwaysShowAction }),
+        statusBorder({
+          error: $error,
+          readonly: readOnly,
+          disabled: disabled,
+        }),
+      )}
+      color={{ base: 'textPrimary', disabled: 'greyPrimary' }}
+      disabled={disabled}
+      display="flex"
+      fontSize={getValueForSize($size, 'fontSize')}
+      fontWeight="normal"
+      fontFamily="inherit"
+      lineHeight={getValueForSize($size, 'fontSize')}
+      minHeight="14"
+      outline="none"
+      overflow="hidden"
+      paddingLeft={getValueForSize($size, 'paddingX')}
+      paddingRight={getValueForSize(
+        $size,
+        $hasAction ? 'paddingAction' : 'paddingX',
+      )}
+      position="relative"
+      py={getValueForSize($size, 'paddingY')}
+      readOnly={readOnly}
+      ref={ref}
+      resize="none"
+      transitionProperty="all"
+      transitionDuration={300}
+      transitionTimingFunction="ease-in-out"
+      width="full"
+    />
+  ),
 )
 
-const ActionButton = styled.button<{ $size: Props['size'] }>(
-  ({ theme, $size }) => css`
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: ${$size === 'small' ? theme.space[10] : theme.space[12]};
-    height: ${$size === 'small' ? theme.space[10] : theme.space[12]};
-    transition: all 0.1s ease-in-out;
-    cursor: pointer;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    svg {
-      display: block;
-      width: ${$size === 'small' ? theme.space[3] : theme.space[4]};
-      height: ${$size === 'small' ? theme.space[3] : theme.space[4]};
-      color: ${theme.colors.greyPrimary};
-      transition: all 0.1s ease-in-out;
-    }
-
-    &:hover svg {
-      color: ${theme.colors.greyBright};
-      transform: translateY(-1px);
-    }
-  `,
-)
+const ActionButton = ({
+  $size = 'medium',
+  $icon = CrossCircleSVG, className,
+  ...props
+}: BoxProps & { $size: Size, $icon?: AsProp }) => {
+  return (
+    <Box
+      {...props}
+      alignItems="center"
+      as="button"
+      color={{ base: 'greyPrimary', hover: 'greyBright' }}
+      cursor="pointer"
+      display="flex"
+      justifyContent="center"
+      position="absolute"
+      right="0"
+      top="0"
+      transitionDuration={100}
+      transitionProperty="all"
+      transitionTimingFunction="ease-in-out"
+      type="button"
+      wh={getValueForSize($size, 'actionSize')}
+      className={clsx(styles.actionButton, className)}
+    >
+      <Box
+        as={$icon}
+        transitionProperty="all"
+        transitionDuration={100}
+        transitionTimingFunction="ease-in-out"
+        wh={getValueForSize($size, 'iconSize')}
+      />
+    </Box>
+  )
+}
 
 type NativeTextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement>
 
-type Props = Omit<FieldBaseProps, 'inline'> & {
+export type TextareaProps = Omit<FieldBaseProps, 'inline'> & {
   /** If true, the input will automatically correct words it marks as spelling errors. */
   autoCorrect?: NativeTextareaProps['autoCorrect']
   /** If true, the component will attempt to get focus after it is rendered. */
@@ -227,7 +186,7 @@ type Props = Omit<FieldBaseProps, 'inline'> & {
   /** If true, shows a status dot of the current state of validation */
   showDot?: boolean
   /** A replacement icon for the action button */
-  actionIcon?: React.ReactNode
+  actionIcon?: AsProp
   /** If true, will show the action button even when there is not input */
   alwaysShowAction?: boolean
   /** A custom handler that replaces the clear handler */
@@ -239,11 +198,11 @@ type Props = Omit<FieldBaseProps, 'inline'> & {
   /** The handler for focus events. */
   onFocus?: NativeTextareaProps['onFocus']
 } & Omit<
-    NativeTextareaProps,
-    'children' | 'value' | 'defaultValue' | 'aria-invalid'
-  >
+  NativeTextareaProps,
+    'children' | 'value' | 'defaultValue' | 'aria-invalid' | 'color'
+>
 
-export const Textarea = React.forwardRef(
+export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
   (
     {
       autoCorrect,
@@ -277,8 +236,8 @@ export const Textarea = React.forwardRef(
       onBlur,
       onFocus,
       ...props
-    }: Props,
-    ref: React.Ref<HTMLTextAreaElement>,
+    },
+    ref,
   ) => {
     const defaultRef = React.useRef<HTMLInputElement>(null)
     const inputRef = (ref as React.RefObject<HTMLTextAreaElement>) || defaultRef
@@ -321,6 +280,7 @@ export const Textarea = React.forwardRef(
       handleClickClear()
     }
 
+    const showAction = alwaysShowAction || clearable || onClickAction
     return (
       <Field
         description={description}
@@ -334,9 +294,8 @@ export const Textarea = React.forwardRef(
         required={required}
         width={width}
       >
-        {(ids) => (
+        {ids => (
           <Container
-            $alwaysShowAction={alwaysShowAction}
             $disabled={disabled}
             $error={!!error}
             $showDot={showDot}
@@ -350,9 +309,7 @@ export const Textarea = React.forwardRef(
               }}
               $error={hasError}
               $hasAction={hasAction}
-              $showDot={showDot}
               $size={size}
-              $validated={validated}
               autoCorrect={autoCorrect}
               autoFocus={autoFocus}
               defaultValue={defaultValue}
@@ -370,14 +327,13 @@ export const Textarea = React.forwardRef(
               onChange={onChange}
               onFocus={onFocus}
             />
-            {(clearable || onClickAction) && (
+            {showAction && (
               <ActionButton
+                $icon={actionIcon}
                 $size={size}
                 type="button"
                 onClick={handleClickAction}
-              >
-                {actionIcon || <CrossCircleSVG />}
-              </ActionButton>
+              />
             )}
           </Container>
         )}

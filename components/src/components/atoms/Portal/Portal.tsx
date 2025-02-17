@@ -1,7 +1,7 @@
 import * as React from 'react'
-import * as ReactDOM from 'react-dom'
+import { createPortal } from 'react-dom'
 
-type Props = {
+export type PortalProps = {
   /** The classname attribute of the container element */
   className?: string
   /** The element tag of the container element */
@@ -11,12 +11,12 @@ type Props = {
   renderCallback?: () => void
 }
 
-export const Portal: React.FC<Props> = ({
+export const Portal: React.FC<PortalProps> = ({
   children,
   className,
   el = 'div',
   renderCallback,
-}: Props) => {
+}) => {
   const [container] = React.useState(document.createElement(el))
 
   if (className) container.classList.add(className)
@@ -27,10 +27,9 @@ export const Portal: React.FC<Props> = ({
     return () => {
       document.body.removeChild(container)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [renderCallback])
 
-  return ReactDOM.createPortal(children, container)
+  return createPortal(children, container)
 }
 
 Portal.displayName = 'Portal'
