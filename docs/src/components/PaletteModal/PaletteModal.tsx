@@ -107,8 +107,8 @@ export const PaletteModal = ({
             </RecordItem>
             {shadeRawColor && (
               <>
-                <RecordItem keyLabel="HEX" value={RGBtoHex(shadeRawColor)}>
-                  {RGBtoHex(shadeRawColor)}
+                <RecordItem keyLabel="HEX" value={RGBtoHex(shadeRawColor)[0]}>
+                  {RGBtoHex(shadeRawColor)[0]}
                 </RecordItem>
                 <RecordItem keyLabel="RGB" value={shadeRawColor}>
                   {shadeRawColor}

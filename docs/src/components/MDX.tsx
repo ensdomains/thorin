@@ -10,6 +10,7 @@ import { PropsTable } from './PropsTable'
 import { Palette } from './Palette/Palette'
 import { AdditionalColors } from './AdditionalColors/AdditionalColors'
 import { Logos } from './Logos/Logos'
+import { ThemingControls } from './ThemingControls'
 
 const StyledLink = (props: React.ComponentProps<typeof Link>) => (
   <Box
@@ -29,6 +30,7 @@ export const MDX: MDXProviderProps['components'] = {
   Palette,
   AdditionalColors,
   Logos,
+  ThemingControls,
   // Default components
   // https://mdxjs.com/table-of-components/
   a: props => <StyledLink {...props} />,
