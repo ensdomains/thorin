@@ -4,7 +4,7 @@ const withVanillaExtract = createVanillaExtractPlugin({ identifiers: 'short' })
 import { readdirSync } from 'node:fs'
 
 const getComponentPaths = category =>
-  readdirSync(`./src/reference/mdx/${category}`)
+  readdirSync(path.join(import.meta.dirname, `./src/reference/mdx/${category}`))
     .map((x) => {
       const name = path.basename(x, '.docs.mdx')
       const route = `/components/${category}/${name}`
