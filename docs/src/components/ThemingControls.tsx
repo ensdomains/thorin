@@ -1,7 +1,7 @@
 import type { DependencyList, EffectCallback } from 'react'
 import { useEffect, useRef, useState } from 'react'
 import { RGBtoHex } from '~/utils/color'
-import type { Mode } from '@ensdomains/thorin'
+import type { Mode, Radii } from '@ensdomains/thorin'
 import { Box, Button, modeVars, Tag, Toggle, Typography, useTheme, Input } from '@ensdomains/thorin'
 import * as styles from './ThemingControls.css'
 import { useIsMounted } from '~/utils/isMounted'
@@ -79,6 +79,34 @@ const FontInput = ({ name, mode }: { name: Font, mode: Mode }) => {
   )
 }
 
+const BorderRadiusInput = ({ mode, name }: { mode: Mode, name: Radii }) => {
+  const normalizedName = name.replace('.', '_')
+
+  const [radius, setRadius] = useState(() => {
+    const radius = getThemeValue(`--thrn-radii-${normalizedName}`)
+    return radius
+  })
+
+  useDidUpdateEffect(() => {
+    if (radius) setThemeValue(`--thrn-radii-${normalizedName}`, radius, mode)
+  }, [radius])
+
+  return (
+    <Input
+      onChange={(e) => {
+        setRadius((e.currentTarget as HTMLInputElement).value)
+      }}
+      label={name}
+      width="full"
+      type="text"
+      name={`borderRadius-${name}`}
+      id={`borderRadius-${name}`}
+      value={radius}
+    />
+
+  )
+}
+
 const thorinColorKeyToCssKey = (key: string) => `--thrn-color-${key}`
 
 const skipKeys = ['Gradient', 'initial', 'inherit', 'transparent', 'white', 'black', 'Border', 'none', 'currentColor', 'unset']
@@ -108,6 +136,25 @@ export const ThemingControls = () => {
             ))}
           </div>
         </Box>
+        {mounted && (
+          <Box gap="8" display="flex" flexDirection="column">
+            <Typography as="h2" fontVariant="headingTwo">Border Radius</Typography>
+            <BorderRadiusInput mode={mode} name="input" />
+            <BorderRadiusInput mode={mode} name="card" />
+            <BorderRadiusInput mode={mode} name="checkbox" />
+            <BorderRadiusInput mode={mode} name="extraSmall" />
+            <BorderRadiusInput mode={mode} name="small" />
+            <BorderRadiusInput mode={mode} name="medium" />
+            <BorderRadiusInput mode={mode} name="large" />
+            <BorderRadiusInput mode={mode} name="almostExtraLarge" />
+            <BorderRadiusInput mode={mode} name="extraLarge" />
+            <BorderRadiusInput mode={mode} name="2xLarge" />
+            <BorderRadiusInput mode={mode} name="2.5xLarge" />
+            <BorderRadiusInput mode={mode} name="3xLarge" />
+            <BorderRadiusInput mode={mode} name="4xLarge" />
+            <BorderRadiusInput mode={mode} name="full" />
+          </Box>
+        )}
       </Box>
 
       <Box className={styles.overlay} position="sticky" height="max" top="28" right="8" display="flex" flexDirection="column" gap="4" padding="4">
