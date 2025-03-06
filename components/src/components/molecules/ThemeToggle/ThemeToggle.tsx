@@ -1,134 +1,87 @@
 import * as React from 'react'
-
-import { useId } from '../../../hooks/useId'
-import type { BoxProps } from '../../atoms/Box/Box'
-import { Box } from '../../atoms/Box/Box'
+import { CheckCircleSVG, MoonSVG, SunSVG } from '@/src/icons'
 import * as styles from './styles.css'
-import { icon } from './styles.css'
-import { MoonSVG, SunSVG } from '@/src/icons'
-import { clsx } from 'clsx'
-import { assignInlineVars } from '@vanilla-extract/dynamic'
-import type { Color } from '@/src/tokens/color'
+import { Typography, useTheme } from '@/src'
+import { useLocalStorage } from '@/src/hooks/useLocalStorage'
 
-type Size = 'extraSmall' | 'small' | 'medium'
+export type ThemeToggleProps = Partial<{
+  labels: {
+    light: string
+    dark: string
+    system: string
+  }
+}>
 
-type Mode = 'light' | 'dark'
+export const ThemeToggle = ({ labels }: ThemeToggleProps) => {
+  const { setMode, mode } = useTheme()
+  const [usingSystemTheme, setUsingSystemTheme] = useLocalStorage<'false' | 'true'>('usingSystemTheme', 'false')
 
-export type ThemeToggleProps = {
-  size?: Size
-  color?: Color
-  mode?: Mode
-} & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'height' | 'width'>
+  React.useEffect(() => {
+    if (usingSystemTheme === 'true') {
+      const darkQuery = window.matchMedia('(prefers-color-scheme: dark)')
+      document.documentElement.setAttribute('data-theme', darkQuery.matches ? 'dark' : 'light')
+      const listener = (event: MediaQueryListEvent) => {
+        document.documentElement.setAttribute('data-theme', event.matches ? 'dark' : 'light')
+      }
+      darkQuery.addEventListener('change', listener)
+      return () => darkQuery.removeEventListener('change', listener)
+    }
+  }, [usingSystemTheme])
 
-const Container = (props: BoxProps) => (
-  <Box
-    {...props}
-    height="fit"
-    position="relative"
-    width="fit"
-  />
-)
+  return (
 
-const Label = ({
-  $size,
-  $mode,
-  className,
-  style,
-  ...props
-}: BoxProps & { $size: Size, $mode: Mode }) => (
-  <Box
-    {...props}
-    className={clsx(styles.variants({ knob: $size }), styles.label, className)}
-    alignItems="center"
-    as="label"
-    color="textAccent"
-    cursor="pointer"
-    display="flex"
-    fontSize="small"
-    fontWeight={$size === 'extraSmall' ? 'normal' : 'bold'}
-    justifyContent="center"
-    left="1/2"
-    pointerEvents="none"
-    position="absolute"
-    top="1/2"
-    style={{ ...style, ...assignInlineVars({ [styles.labelTransform]: $mode === 'dark' ? 'translateX(-50%)' : 'translateX(50%)' }) }}
-  />
-)
+    <div className={styles.container}>
+      <div
+        className={styles.themeItem}
+        onClick={() => {
+          setMode('light')
 
-const Checkbox = React.forwardRef<HTMLElement, BoxProps & { $size: Size }>(
-  ({ $size, className, ...props }, ref) => (
-    <Box
-      {...props}
-      className={clsx(styles.variants({ size: $size }), className)}
-      alignItems="center"
-      as="input"
-      backgroundColor="greySurface"
-      borderRadius="full"
-      cursor={{ base: 'pointer', disabled: 'not-allowed' }}
-      display="flex"
-      justifyContent="center"
-      position="relative"
-      ref={ref}
-      type="checkbox"
-    />
-  ),
-)
+          setUsingSystemTheme('false')
+        }}
+      >
+        <div>
+          <CheckCircleSVG
+            className={styles.checkIcon}
+            style={{ display: mode === 'light' && usingSystemTheme === 'false' ? 'block' : 'none' }}
+          />
+          <Typography>{labels?.light ?? 'Light'}</Typography>
+        </div>
+        <SunSVG height={16} width={16} />
+      </div>
+      <div
+        className={styles.themeItem}
+        onClick={() => {
+          setMode('dark')
 
-const Slider = ({
-  $size,
-  $color,
-  className,
-  ...props
-}: BoxProps & { $size: Size, $color: Color }) => (
-  <Box
-    {...props}
-    className={clsx(styles.variants({ knob: $size }), styles.slider, className)}
-    backgroundColor={$color}
-    borderRadius="full"
-    display="block"
-    left="1/2"
-    pointerEvents="none"
-    position="absolute"
-    top="1/2"
-  />
-)
-
-export const ThemeToggle = React.forwardRef<HTMLInputElement, ThemeToggleProps>(
-  ({ size = 'medium', color = 'accent', disabled, ...props }, ref) => {
-    const id = useId()
-    return (
-      <Container>
-        <Checkbox
-          className={styles.checkbox}
-          disabled={disabled}
-          id={id}
-          ref={ref}
-          type="checkbox"
-          {...props}
-          $size={size}
-        />
-        <Slider $color={color} $size={size} />
-        <Label
-          $mode="dark"
-          $size={size}
-          className={styles.labelEth}
-          htmlFor={id}
-          id="dark"
-        >
-          <MoonSVG className={icon} />
-        </Label>
-        <Label
-          $mode="light"
-          $size={size}
-          className={styles.labelFiat}
-          htmlFor={id}
-          id="light"
-        >
-          <SunSVG className={icon} />
-        </Label>
-      </Container>
-    )
-  },
-)
+          setUsingSystemTheme('false')
+        }}
+      >
+        <div>
+          <CheckCircleSVG
+            className={styles.checkIcon}
+            style={{ display: mode === 'dark' && usingSystemTheme === 'false' ? 'block' : 'none' }}
+          />
+          <Typography>{labels?.dark ?? 'Dark'}</Typography>
+        </div>
+        <MoonSVG height={16} width={16} />
+      </div>
+      <div
+        className={styles.themeItem}
+        onClick={() => {
+          setUsingSystemTheme('true')
+        }}
+      >
+        <div>
+          <CheckCircleSVG
+            className={styles.checkIcon}
+            style={{ display: usingSystemTheme === 'true' ? 'block' : 'none' }}
+          />
+          <Typography>{labels?.system ?? 'System'}</Typography>
+        </div>
+        <MoonSVG height={16} width={16} />
+      </div>
+    </div>
+  )
+}
 
 ThemeToggle.displayName = 'ThemeToggle'
