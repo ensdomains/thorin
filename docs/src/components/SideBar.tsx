@@ -2,14 +2,13 @@ import type {
   BoxProps } from '@ensdomains/thorin'
 import {
   Box,
-  Field,
   ThemeToggle,
   StarSVG,
   BrushSVG,
   GridSVG,
   Typography,
   ScrollBox,
-  useTheme,
+  MoonSVG,
 } from '@ensdomains/thorin'
 import { Link } from './Link'
 import { type PropsWithChildren } from 'react'
@@ -40,10 +39,11 @@ const NavLink = ({
 )
 
 const Heading = ({
-  children,
+  children, icon,
   ...props
 }: BoxProps & { icon: React.ReactElement }) => (
   <Box {...props} display="flex" gap="2" alignItems="center" height="9">
+    {icon}
     <Typography fontVariant="bodyBold" color="textSecondary">
       {children}
     </Typography>
@@ -61,7 +61,6 @@ const Divider = () => (
 
 export const SideBar = ({ open, links }: { open: boolean, links: Links }) => {
   const router = useRouter()
-  const { setMode, mode } = useTheme()
 
   return (
     <Box
@@ -82,30 +81,13 @@ export const SideBar = ({ open, links }: { open: boolean, links: Links }) => {
     >
       <ScrollBox width="full" hideDividers>
         <Box padding="4" display="flex" flexDirection="column" gap="4">
+          <Heading icon={<MoonSVG height={16} width={16} />}>Theme</Heading>
           {typeof window !== 'undefined' && (
-            <Field
-              label={(
-                <Box height="6.5" display="flex" alignItems="center">
-                  {mode === 'light' ? 'Light Theme' : 'Dark Theme'}
-                </Box>
-              )}
-              inline
-            >
-              <ThemeToggle
-                size="extraSmall"
-                checked={mode === 'light'}
-                onChange={(e) => {
-                  const newValue = e.target.checked ? 'light' : 'dark'
-                  if (newValue !== mode) {
-                    setMode(newValue)
-                  }
-                }}
-              />
-            </Field>
+            <ThemeToggle />
           )}
           <Divider />
           <Box>
-            <Heading icon={<StarSVG />}>Getting Started</Heading>
+            <Heading icon={<StarSVG height={16} width={16} />}>Getting Started</Heading>
             <NavLink href="/" active={router.asPath === '/'}>
               Start Here
             </NavLink>
@@ -118,7 +100,7 @@ export const SideBar = ({ open, links }: { open: boolean, links: Links }) => {
           </Box>
           <Divider />
           <Box>
-            <Heading icon={<BrushSVG />}>Style</Heading>
+            <Heading icon={<BrushSVG height={16} width={16} />}>Style</Heading>
             <NavLink
               href="/guides/logo"
               active={router.asPath === '/guides/logo'}
@@ -140,7 +122,7 @@ export const SideBar = ({ open, links }: { open: boolean, links: Links }) => {
           </Box>
           <Divider />
           <Box>
-            <Heading icon={<GridSVG />}>Components</Heading>
+            <Heading icon={<GridSVG height={16} width={16} />}>Components</Heading>
             {links.map(({ name, links }) => (
               <div key={name}>
                 <Typography
