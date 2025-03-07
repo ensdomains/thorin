@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { CheckCircleSVG, MoonSVG, SunSVG } from '@/src/icons'
+import { CheckCircleSVG, MoonSVG, SunSVG, ThemeSVG } from '@/src/icons'
 import * as styles from './styles.css'
 import { Typography, useTheme } from '@/src'
 import { useLocalStorage } from '@/src/hooks/useLocalStorage'
@@ -72,7 +72,7 @@ export const ThemeToggle = ({ labels }: ThemeToggleProps) => {
         }}
       >
         <div>
-          <CheckCircleSVG
+          <ThemeSVG
             className={styles.checkIcon}
             style={{ display: usingSystemTheme === 'true' ? 'block' : 'none' }}
           />
