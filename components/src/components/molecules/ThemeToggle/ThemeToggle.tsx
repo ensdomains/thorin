@@ -72,13 +72,13 @@ export const ThemeToggle = ({ labels }: ThemeToggleProps) => {
         }}
       >
         <div>
-          <ThemeSVG
+          <CheckCircleSVG
             className={styles.checkIcon}
             style={{ display: usingSystemTheme === 'true' ? 'block' : 'none' }}
           />
           <Typography>{labels?.system ?? 'System'}</Typography>
         </div>
-        <MoonSVG height={16} width={16} />
+        <ThemeSVG height={16} width={16} />
       </button>
     </div>
   )
