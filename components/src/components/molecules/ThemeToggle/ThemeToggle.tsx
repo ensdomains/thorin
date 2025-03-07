@@ -31,7 +31,7 @@ export const ThemeToggle = ({ labels }: ThemeToggleProps) => {
   return (
 
     <div className={styles.container}>
-      <div
+      <button
         className={styles.themeItem}
         onClick={() => {
           setMode('light')
@@ -47,8 +47,8 @@ export const ThemeToggle = ({ labels }: ThemeToggleProps) => {
           <Typography>{labels?.light ?? 'Light'}</Typography>
         </div>
         <SunSVG height={16} width={16} />
-      </div>
-      <div
+      </button>
+      <button
         className={styles.themeItem}
         onClick={() => {
           setMode('dark')
@@ -64,8 +64,8 @@ export const ThemeToggle = ({ labels }: ThemeToggleProps) => {
           <Typography>{labels?.dark ?? 'Dark'}</Typography>
         </div>
         <MoonSVG height={16} width={16} />
-      </div>
-      <div
+      </button>
+      <button
         className={styles.themeItem}
         onClick={() => {
           setUsingSystemTheme('true')
@@ -79,7 +79,7 @@ export const ThemeToggle = ({ labels }: ThemeToggleProps) => {
           <Typography>{labels?.system ?? 'System'}</Typography>
         </div>
         <MoonSVG height={16} width={16} />
-      </div>
+      </button>
     </div>
   )
 }
