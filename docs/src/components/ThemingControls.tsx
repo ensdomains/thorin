@@ -1,11 +1,12 @@
 import type { DependencyList, EffectCallback } from 'react'
 import { useEffect, useRef, useState } from 'react'
 import { RGBtoHex } from '~/utils/color'
-import type { Mode, Radii } from '@ensdomains/thorin'
+import type { Mode, Radii, Space } from '@ensdomains/thorin'
 import { Box, Button, modeVars, Tag, Toggle, Typography, useTheme, Input } from '@ensdomains/thorin'
 import * as styles from './ThemingControls.css'
 import { useIsMounted } from '~/utils/isMounted'
 import type { Font } from '@/dist/types/tokens/typography'
+import { commonVars } from '@ensdomains/thorin'
 
 const setThemeValue = (token: string, value: string, mode: Mode) => {
   document.querySelector<HTMLHtmlElement>(`html[data-theme="${mode}"]`)!.style.setProperty(token, value)
@@ -83,8 +84,7 @@ const BorderRadiusInput = ({ mode, name }: { mode: Mode, name: Radii }) => {
   const normalizedName = name.replace('.', '_')
 
   const [radius, setRadius] = useState(() => {
-    const radius = getThemeValue(`--thrn-radii-${normalizedName}`)
-    return radius
+    return getThemeValue(`--thrn-radii-${normalizedName}`)
   })
 
   useDidUpdateEffect(() => {
@@ -103,7 +103,33 @@ const BorderRadiusInput = ({ mode, name }: { mode: Mode, name: Radii }) => {
       id={`borderRadius-${name}`}
       value={radius}
     />
+  )
+}
 
+const SpacingInput = ({ name, mode, defaultValue }: { name: Space, mode: Mode, defaultValue: string }) => {
+  const normalizedName = name.replace('.', '_')
+
+  const [space, setSpace] = useState(() => {
+    return getThemeValue(`--thrn-space-${normalizedName}`)
+  })
+
+  useDidUpdateEffect(() => {
+    if (space) setThemeValue(`--thrn-space-${normalizedName}`, space, mode)
+  }, [space])
+
+  return (
+    <Input
+      defaultValue={defaultValue}
+      onChange={(e) => {
+        setSpace((e.currentTarget as HTMLInputElement).value)
+      }}
+      label={name}
+      width="full"
+      type="text"
+      name={`space-${name}`}
+      id={`space-${name}`}
+      value={space}
+    />
   )
 }
 
@@ -153,6 +179,14 @@ export const ThemingControls = () => {
             <BorderRadiusInput mode={mode} name="3xLarge" />
             <BorderRadiusInput mode={mode} name="4xLarge" />
             <BorderRadiusInput mode={mode} name="full" />
+          </Box>
+        )}
+        {mounted && (
+          <Box gap="8" display="flex" flexDirection="column">
+            <Typography as="h2" fontVariant="headingTwo">Spacing</Typography>
+            {Object.entries(commonVars.space).filter(([k]) => !['initial', 'unset', 'none'].includes(k)).map(([k, v]) => (
+              <SpacingInput defaultValue={v} key={k} mode={mode} name={k as Space} />
+            ))}
           </Box>
         )}
       </Box>
