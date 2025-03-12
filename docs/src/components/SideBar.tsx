@@ -119,6 +119,12 @@ export const SideBar = ({ open, links }: { open: boolean, links: Links }) => {
             >
               Icons
             </NavLink>
+            <NavLink
+              href="/guides/theming"
+              active={router.asPath === '/guides/theming'}
+            >
+              Theming
+            </NavLink>
           </Box>
           <Divider />
           <Box>
