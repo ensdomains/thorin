@@ -26,6 +26,9 @@ export const ThemeToggle = ({ labels }: ThemeToggleProps) => {
       darkQuery.addEventListener('change', listener)
       return () => darkQuery.removeEventListener('change', listener)
     }
+    else if (usingSystemTheme === 'false') {
+      document.documentElement.setAttribute('data-theme', mode)
+    }
   }, [usingSystemTheme])
 
   return (
