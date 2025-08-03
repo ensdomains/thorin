@@ -323,7 +323,7 @@ export const TouchToast = ({
 export const Toast: React.FC<ToastProps> = ({
   onClose,
   open,
-  msToShow = 8000000,
+  msToShow = 8000,
   variant = 'desktop',
   ...props
 }) => {

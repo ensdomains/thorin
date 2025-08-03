@@ -2,6 +2,7 @@ import * as React from 'react'
 
 import {
   cleanup,
+  fireEvent,
   render,
   screen,
   userEvent,
@@ -110,8 +111,9 @@ describe('<Select />', { timeout: 10_000 }, () => {
         onChange={mockCallback}
       />,
     )
-    await userEvent.click(screen.getByTestId('select-container'))
-    await userEvent.click(screen.getByText('Two'))
+    // NOTE: Using fireEvent instead of userEvent to bypass pointer-events: none on SelectLabel
+    fireEvent.click(screen.getByTestId('select-container'))
+    fireEvent.click(screen.getByText('Two'))
     expect(screen.getAllByText('Two').length).toEqual(1)
   })
 
