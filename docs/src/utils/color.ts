@@ -2,14 +2,16 @@
 export const RGBtoRGBA = (color: string, opacity = 1): string =>
   color.replace('rgb(', 'rgba(').replace(')', `, ${opacity})`)
 
-const colorToRgb = (color: string): [number, number, number] => {
-  const [_, r, g, b] = (color.match(/(\d+),\s*(\d+),\s*(\d+)/)!).map(x => Number.parseInt(x))
-  return [r, g, b]
+const colorToRgb = (color: string): [number, number, number, boolean] => {
+  const match = color.match(/(\d+),\s*(\d+),\s*(\d+)/)
+  if (!match) return [0, 0, 0, false]
+  const [_, r, g, b] = (match).map(x => Number.parseInt(x))
+  return [r, g, b, true]
 }
 
-export const RGBtoHex = (color: string): string => {
-  const [r, g, b] = colorToRgb(color)
-  return `#${(+r).toString(16).padStart(2, '0')}${(+g).toString(16).padStart(2, '0')}${(+b).toString(16).padStart(2, '0')}`
+export const RGBtoHex = (color: string): [string, boolean] => {
+  const [r, g, b, isRgb] = colorToRgb(color)
+  return [`#${(+r).toString(16).padStart(2, '0')}${(+g).toString(16).padStart(2, '0')}${(+b).toString(16).padStart(2, '0')}`, isRgb]
 }
 
 export const RGBToHSL = (color: string): string => {

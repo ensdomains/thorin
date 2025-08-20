@@ -13,7 +13,6 @@
     "@ensdomains/thorin": "workspace:*",
     "@reach/skip-nav": "^0.18.0",
     "@vanilla-extract/dynamic": "^2.1.2",
-    "@vanilla-extract/next-plugin": "^2.4.8",
     "copy-to-clipboard": "^3.3.1",
     "gray-matter": "^4.0.3",
     "next": "15.1.4",
@@ -34,6 +33,7 @@
     "@types/react-dom": "^18.2.13",
     "@types/webpack-env": "^1.18.5",
     "@vanilla-extract/css": "^1.13.0",
+    "@vanilla-extract/next-plugin": "^2.4.10",
     "react-docgen-typescript": "^2.1.1",
     "typescript": "^5.7.2"
   }
