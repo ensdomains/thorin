@@ -122,6 +122,7 @@ const SelectLabel = (props: BoxProps) => (
     overflow="hidden"
     textOverflow="ellipsis"
     whiteSpace="nowrap"
+    pointerEvents="none"
   />
 )
 
@@ -901,7 +902,7 @@ export const Select = React.forwardRef<HTMLInputElement, SelectProps>(
                       <OptionElement data-testid="selected" option={selectedOption} />
                     )
                   : (
-                      <SelectLabel color="greyPrimary" pointerEvents="none">
+                      <SelectLabel color="greyPrimary">
                         {placeholder}
                       </SelectLabel>
                     )}
