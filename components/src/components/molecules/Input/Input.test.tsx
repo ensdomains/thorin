@@ -29,6 +29,20 @@ describe('<Input />', () => {
     })
   })
 
+  describe('[type=number]', () => {
+    it('renders a number input', () => {
+      render(<Input label="Amount" type="number" />)
+      expect(screen.getByRole('spinbutton')).toHaveAttribute('type', 'number')
+    })
+  })
+
+  describe('[type=date]', () => {
+    it('renders a date input', () => {
+      render(<Input label="Birthday" type="date" />)
+      expect(screen.getByLabelText(/birthday/i)).toHaveAttribute('type', 'date')
+    })
+  })
+
   it('should pass a ref down', async () => {
     const ref = { current: null } as React.RefObject<HTMLInputElement>
     render(
