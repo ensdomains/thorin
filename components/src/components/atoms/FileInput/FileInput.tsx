@@ -125,22 +125,25 @@ export const FileInput = React.forwardRef<HTMLDivElement, FileInputProps>(
 
     const handleDragOver = React.useCallback(
       (event: React.DragEvent<HTMLLabelElement>) => {
+        if (disabled) return
         event.preventDefault()
         setState(x => ({ ...x, droppable: true }))
       },
-      [],
+      [disabled],
     )
 
     const handleDragLeave = React.useCallback(
       (event: React.DragEvent<HTMLLabelElement>) => {
+        if (disabled) return
         event.preventDefault()
         setState(x => ({ ...x, droppable: false }))
       },
-      [],
+      [disabled],
     )
 
     const handleDrop = React.useCallback(
       (event: React.DragEvent<HTMLLabelElement>) => {
+        if (disabled) return
         event.preventDefault()
         setState(x => ({ ...x, droppable: false }))
         let file: File | null
@@ -158,7 +161,7 @@ export const FileInput = React.forwardRef<HTMLDivElement, FileInputProps>(
         if (!validateAccept(file.type, accept)) return
         handleFile(file, event)
       },
-      [handleFile, accept],
+      [handleFile, accept, disabled],
     )
 
     const handleFocus = React.useCallback(
