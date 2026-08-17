@@ -109,6 +109,14 @@ type WithTypeText = {
   maxLength?: NativeInputProps['maxLength']
 }
 
+type WithTypeNumber = {
+  type?: 'number'
+}
+
+type WithTypeDate = {
+  type?: 'date'
+}
+
 type WithTypeDateTimeLocal = {
   type?: 'datetime-local'
 }
@@ -311,7 +319,14 @@ const InnerContainer = ({
   />
 )
 
-export type InputProps = BaseProps & (WithTypeEmail | WithTypeText | WithTypeDateTimeLocal)
+export type InputProps = BaseProps &
+  (
+    | WithTypeEmail
+    | WithTypeText
+    | WithTypeNumber
+    | WithTypeDate
+    | WithTypeDateTimeLocal
+  )
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   (
